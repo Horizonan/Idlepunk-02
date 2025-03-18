@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 
 export default function TutorialSystem({ 
@@ -26,7 +25,7 @@ export default function TutorialSystem({
 
   useEffect(() => {
     let timeout;
-    
+
     if (tutorialStage < 7 && (
       (tutorialStage === 0) ||
       (tutorialStage === 1 && junk >= 100) ||
@@ -50,6 +49,7 @@ export default function TutorialSystem({
   }, [junk, hasUpgrade, passiveIncome, hasHelper, hasCrafting, isSurgeActive, tutorialStage]);
 
   if (!isVisible) return null;
+  if (tutorialStage === null || tutorialStage === undefined) return null;
 
   return (
     <div className="tutorial-message">

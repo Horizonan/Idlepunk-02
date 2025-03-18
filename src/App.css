@@ -29,11 +29,16 @@ button {
   cursor: pointer;
   transition: background-color 0.3s, border-color 0.3s, color 0.3s;
   box-shadow: 0 0 8px #9400D3;
+  border-radius: 5px;
+  margin: 10px;
+  z-index: 100;
+}
 
 .tutorial-message {
   position: fixed;
-  top: 120px;
+  top: 50%;
   right: 20px;
+  transform: translateY(-50%);
   z-index: 9999;
   animation: fadeInRight 0.5s ease-out;
   width: 400px;
@@ -42,6 +47,8 @@ button {
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(148, 0, 211, 0.5);
   padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .cogfather-message {
@@ -49,6 +56,8 @@ button {
   grid-template-columns: auto 1fr;
   gap: 20px;
   align-items: center;
+  margin: 0;
+  width: 100%;
 }
 
 @keyframes fadeInRight {
@@ -83,11 +92,6 @@ button {
     opacity: 1;
     transform: translate(-50%, 0);
   }
-}
-
-  border-radius: 5px;
-  margin: 10px;
-  z-index: 100;
 }
 
 button:hover {
