@@ -12,6 +12,7 @@ import NewsContainer from './components/NewsContainer';
 import TrashSurge from './components/TrashSurge';
 import Notifications from './components/Notifications';
 import UnlockedItems from './components/UnlockedItems';
+import TutorialSystem from './components/TutorialSystem';
 
 export default function App() {
   const [showCheatMenu, setShowCheatMenu] = useState(false);

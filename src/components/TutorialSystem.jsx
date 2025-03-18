@@ -43,7 +43,7 @@ export default function TutorialSystem({
     }
   }, [junk, hasUpgrade, passiveIncome, hasHelper, hasCrafting, isSurgeActive]);
 
-  if (!isVisible) return null;
+  if (!isVisible) return null;l;
 
   return (
     <div className="tutorial-message">
