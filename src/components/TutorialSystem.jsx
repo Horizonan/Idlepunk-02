@@ -38,24 +38,30 @@ export default function TutorialSystem({
   useEffect(() => {
     let timeout;
 
-    if (tutorialStage < 7 && (
-      (tutorialStage === 0) ||
-      (tutorialStage === 1 && junk >= 100) ||
-      (tutorialStage === 2 && hasUpgrade) ||
-      (tutorialStage === 3 && passiveIncome > 0) ||
-      (tutorialStage === 4 && hasHelper) ||
-      (tutorialStage === 5 && hasCrafting) ||
-      (tutorialStage === 6 && isSurgeActive)
-    )) {
-      setMessage(tutorialMessages[tutorialStage]);
-      setTask(tutorialTasks[tutorialStage]);
-      setIsVisible(true);
-      
-      if (tutorialStage > 0) {
-        timeout = setTimeout(() => {
-          setIsVisible(false);
-          onTutorialProgress();
-        }, 5000);
+    if (tutorialStage < 7) {
+      const goalCompleted = (
+        (tutorialStage === 0) ||
+        (tutorialStage === 1 && junk >= 100) ||
+        (tutorialStage === 2 && hasUpgrade) ||
+        (tutorialStage === 3 && passiveIncome > 0) ||
+        (tutorialStage === 4 && hasHelper) ||
+        (tutorialStage === 5 && hasCrafting) ||
+        (tutorialStage === 6 && isSurgeActive)
+      );
+
+      if (goalCompleted) {
+        setMessage(tutorialMessages[tutorialStage]);
+        setTask(tutorialTasks[tutorialStage]);
+        setIsVisible(true);
+        
+        if (tutorialStage > 0) {
+          timeout = setTimeout(() => {
+            setIsVisible(false);
+            onTutorialProgress();
+          }, 5000);
+        }
+      } else {
+        setIsVisible(false);
       }
     }
 
@@ -70,7 +76,7 @@ export default function TutorialSystem({
   return (
     <div className="tutorial-message">
       <div className="cogfather-message">
-        <img src="/src/NPCs/cogfather.png" alt="Cogfather" className="cogfather-avatar" />
+        <img src="/src/Icons/NPCs/Cogfather.jfif" alt="Cogfather" className="cogfather-avatar" />
         <div className="message-content">
           <div className="message-text">{message}</div>
           <div className="task-text">{task}</div>
