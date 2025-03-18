@@ -34,13 +34,12 @@ export default function NewsContainer({ isSurgeActive }) {
       if (stage > 0 && stage <= cogfatherTips.length) {
         const tip = `Cogfather's Tip: ${cogfatherTips[stage - 1]}`;
         setDefaultNews(prev => [...prev, tip]);
-        setCurrentNewsIndex(defaultNews.length); // Show the new tip immediately
       }
     };
 
     window.addEventListener('tutorialProgress', handleTutorialProgress);
     return () => window.removeEventListener('tutorialProgress', handleTutorialProgress);
-  }, [defaultNews.length]);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
