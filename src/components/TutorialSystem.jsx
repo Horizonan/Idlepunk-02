@@ -25,7 +25,9 @@ export default function TutorialSystem({
   };
 
   useEffect(() => {
-    if (
+    let timeout;
+    
+    if (tutorialStage < 7 && (
       (tutorialStage === 0) ||
       (tutorialStage === 1 && junk >= 100) ||
       (tutorialStage === 2 && hasUpgrade) ||
@@ -33,17 +35,21 @@ export default function TutorialSystem({
       (tutorialStage === 4 && hasHelper) ||
       (tutorialStage === 5 && hasCrafting) ||
       (tutorialStage === 6 && isSurgeActive)
-    ) {
+    )) {
       setMessage(tutorialMessages[tutorialStage]);
       setIsVisible(true);
-      setTimeout(() => {
+      timeout = setTimeout(() => {
         setIsVisible(false);
         onTutorialProgress();
       }, 5000);
     }
-  }, [junk, hasUpgrade, passiveIncome, hasHelper, hasCrafting, isSurgeActive]);
 
-  if (!isVisible) return null;l;
+    return () => {
+      if (timeout) clearTimeout(timeout);
+    };
+  }, [junk, hasUpgrade, passiveIncome, hasHelper, hasCrafting, isSurgeActive, tutorialStage]);
+
+  if (!isVisible) return null;
 
   return (
     <div className="tutorial-message">
