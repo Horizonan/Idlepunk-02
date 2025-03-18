@@ -205,8 +205,12 @@ export default function App() {
           onClose={() => setShowAchievements(false)}
         />
       )}
-      <MenuButtons onStoreSelect={setActiveStore} />
-      {activeStore === 'store' && (
+      <div className={`burger-menu ${activeStore ? 'open' : ''}`} onClick={() => setActiveStore(activeStore ? null : 'store')}>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div className={`sidebar ${activeStore ? 'open' : ''}`}>
         <Store 
           credits={junk}
           itemCosts={itemCosts}
@@ -216,16 +220,12 @@ export default function App() {
           onBuyCart={handleBuyCart}
           onBack={() => setActiveStore(null)}
         />
-      )}
-      {activeStore === 'electrostore' && (
         <ElectroStore 
           credits={credits}
           onBuySolderingIron={handleBuySolderingIron}
           onBuyMultimeter={handleBuyMultimeter}
           onBack={() => setActiveStore(null)}
         />
-      )}
-      {activeStore === 'credstore' && (
         <CredStore
           junk={junk}
           onSellJunk={(rate) => {
@@ -237,7 +237,7 @@ export default function App() {
           }}
           onBack={() => setActiveStore(null)}
         />
-      )}
+      </div>
       <Clicker 
         collectJunk={collectJunk} 
         collectTronics={collectTronics}
