@@ -20,14 +20,6 @@ export default function NewsContainer({ isSurgeActive }) {
   }, [defaultNews.length]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentNewsIndex((prev) => (prev + 1) % defaultNews.length);
-    }, 20000);
-
-    return () => clearInterval(interval);
-  }, [defaultNews.length]);
-
-  useEffect(() => {
     const handleTutorialProgress = (event) => {
       const stage = event.detail.stage;
       const cogfatherTips = [
@@ -42,16 +34,25 @@ export default function NewsContainer({ isSurgeActive }) {
       if (stage > 0 && stage <= cogfatherTips.length) {
         const tip = `Cogfather's Tip: ${cogfatherTips[stage - 1]}`;
         setDefaultNews(prev => [...prev, tip]);
+        setCurrentNewsIndex(defaultNews.length); // Show the new tip immediately
       }
     };
 
     window.addEventListener('tutorialProgress', handleTutorialProgress);
     return () => window.removeEventListener('tutorialProgress', handleTutorialProgress);
-  }, []);
+  }, [defaultNews.length]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentNewsIndex((prev) => (prev + 1) % defaultNews.length);
+    }, 12000);
+
+    return () => clearInterval(interval);
+  }, [defaultNews.length]);
 
   const displayMessage = isSurgeActive 
     ? "⚡ TRASH SURGE: Junk overflow detected — grab it while it lasts!"
-    : defaultNews[currentNewsIndex];
+    : defaultNews[currentNewsIndex % defaultNews.length];
 
   return (
     <div className="news-bar">
