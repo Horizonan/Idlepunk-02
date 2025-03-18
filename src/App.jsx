@@ -3,6 +3,7 @@ import './App.css';
 import Clicker from './components/Clicker';
 import Store from './components/Store';
 import ElectroStore from './components/ElectroStore';
+import CredStore from './components/CredStore';
 import Inventory from './components/Inventory';
 import MenuButtons from './components/MenuButtons';
 import NewsContainer from './components/NewsContainer';
@@ -114,6 +115,19 @@ export default function App() {
           credits={credits}
           onBuySolderingIron={handleBuySolderingIron}
           onBuyMultimeter={handleBuyMultimeter}
+          onBack={() => setActiveStore(null)}
+        />
+      )}
+      {activeStore === 'credstore' && (
+        <CredStore
+          junk={junk}
+          onSellJunk={(rate) => {
+            if (junk >= rate) {
+              setJunk(prev => prev - rate);
+              setCredits(prev => prev + 1);
+              setNotifications(prev => [...prev, `Sold ${rate} junk for 1 credit!`]);
+            }
+          }}
           onBack={() => setActiveStore(null)}
         />
       )}
