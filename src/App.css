@@ -1,21 +1,15 @@
 main {
 }
-html {
-  height: 100%;
-  width: 100%;
-  background-image: url('/Folders/BackgroundImage/Background1.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  font-family: 'Poppins', sans-serif;
-  color: #00FF00;
-}
-
-body {
+html, body {
+  height: 100vh;
   margin: 0;
   padding: 0;
   color: #00FF00;
-  background-color: #1a1a1a;
-  position: relative;
+  font-family: 'Poppins', sans-serif;
+  background: #1a1a1a url('/Folders/BackgroundImage/Background1.png') no-repeat center center fixed;
+  background-size: cover;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 #buySolderingIron, .exchange, #visitExchange, #buyShoppingCart, #buyHobo, #buyTrashPicker {
