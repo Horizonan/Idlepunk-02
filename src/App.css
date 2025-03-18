@@ -40,6 +40,13 @@ button:hover {
   border-color: #00FF00;
 }
 
+button.active {
+  background-color: #9400D3;
+  color: #222;
+  border-color: #00FF00;
+  box-shadow: 0 0 15px #9400D3;
+}
+
 button.locked {
   background-color: #800000;
   cursor: not-allowed;
