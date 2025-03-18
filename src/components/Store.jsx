@@ -3,9 +3,10 @@ import React from 'react';
 
 export default function Store({ credits, junk, onBuyTrashBag, onBuyPicker, onBuyCart, onBack }) {
   const items = [
-    { name: 'Trash Bag', cost: 50, action: onBuyTrashBag },
-    { name: 'Trash Picker', cost: 150, action: onBuyPicker },
-    { name: 'Shopping Cart', cost: 500, action: onBuyCart }
+    { name: 'Scrap Bag', cost: 10, description: '+1 Junk/Click, +10% Kosten pro Kauf', action: onBuyTrashBag },
+    { name: 'Trash Picker', cost: 100, description: '+3 Junk/Click, +10% Kosten', action: onBuyPicker },
+    { name: 'Streetrat', cost: 100, description: '+1 Junk/sec, +15% Kosten', action: onBuyStreetrat },
+    { name: 'Shopping Cart', cost: 500, description: '+5 Junk/sec, +15% Kosten', action: onBuyCart }
   ];
 
   return (
