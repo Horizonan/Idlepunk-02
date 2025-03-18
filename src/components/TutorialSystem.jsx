@@ -57,6 +57,6 @@ export default function TutorialSystem({
         <div className="cogfather-avatar">👨‍🔧</div>
         <div className="message-text">{message}</div>
       </div>
-    </div>iv>
+    </div>
   );
 }
