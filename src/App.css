@@ -138,6 +138,29 @@ button.locked {
 
 
 
+.store-item {
+  position: relative;
+  display: inline-block;
+}
+
+.store-item:hover .item-info {
+  display: block;
+}
+
+.item-info {
+  display: none;
+  position: absolute;
+  background: rgba(26, 26, 26, 0.95);
+  border: 1px solid #9400D3;
+  padding: 10px;
+  border-radius: 4px;
+  width: 200px;
+  left: 105%;
+  top: 0;
+  z-index: 100;
+  color: #00FF00;
+}
+
 .store-items {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
