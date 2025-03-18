@@ -14,11 +14,11 @@ import UnlockedItems from './components/UnlockedItems';
 export default function App() {
   const [showCheatMenu, setShowCheatMenu] = useState(false);
   const [credits, setCredits] = useState(() => Number(localStorage.getItem('credits')) || 0);
-  const [junk, setJunk] = useState(() => Number(localStorage.getItem('junk')) || 1300);
+  const [junk, setJunk] = useState(() => Number(localStorage.getItem('junk')) || 0);
 
   useEffect(() => {
     const handleKeyPress = (e) => {
-      if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+      if (e.shiftKey && e.key === 'H') {
         setShowCheatMenu(prev => !prev);
       }
     };
