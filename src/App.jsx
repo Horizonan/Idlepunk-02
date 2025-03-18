@@ -11,14 +11,14 @@ import Notifications from './components/Notifications';
 import UnlockedItems from './components/UnlockedItems';
 
 export default function App() {
-  const [credits, setCredits] = useState(0);
-  const [junk, setJunk] = useState(1300);
-  const [electronicsUnlock, setElectronicsUnlock] = useState(false);
+  const [credits, setCredits] = useState(() => Number(localStorage.getItem('credits')) || 0);
+  const [junk, setJunk] = useState(() => Number(localStorage.getItem('junk')) || 1300);
+  const [electronicsUnlock, setElectronicsUnlock] = useState(() => localStorage.getItem('electronicsUnlock') === 'true');
   const [notifications, setNotifications] = useState([]);
   const [activeStore, setActiveStore] = useState(null);
-  const [clickMultiplier, setClickMultiplier] = useState(1);
-  const [passiveIncome, setPassiveIncome] = useState(0);
-  const [itemCosts, setItemCosts] = useState({
+  const [clickMultiplier, setClickMultiplier] = useState(() => Number(localStorage.getItem('clickMultiplier')) || 1);
+  const [passiveIncome, setPassiveIncome] = useState(() => Number(localStorage.getItem('passiveIncome')) || 0);
+  const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem('itemCosts')) || {
     trashBag: 10,
     trashPicker: 100,
     streetrat: 100,
@@ -31,6 +31,15 @@ export default function App() {
     }, 1000);
     return () => clearInterval(interval);
   }, [passiveIncome]);
+
+  useEffect(() => {
+    localStorage.setItem('credits', credits);
+    localStorage.setItem('junk', junk);
+    localStorage.setItem('electronicsUnlock', electronicsUnlock);
+    localStorage.setItem('clickMultiplier', clickMultiplier);
+    localStorage.setItem('passiveIncome', passiveIncome);
+    localStorage.setItem('itemCosts', JSON.stringify(itemCosts));
+  }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts]);
 
   const collectJunk = () => {
     setJunk(prev => prev + clickMultiplier);
