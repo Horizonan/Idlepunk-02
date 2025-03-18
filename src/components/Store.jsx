@@ -13,7 +13,6 @@ export default function Store({ credits, itemCosts, onBuyTrashBag, onBuyPicker, 
     <div className="store-container">
       <h2>Junk Store</h2>
       <div className="store-items">
-        <button className="store-item back-button" onClick={onBack}>← Back to Menu</button>
         {items.map((item) => (
           <button
             key={item.name}

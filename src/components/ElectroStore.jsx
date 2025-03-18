@@ -11,7 +11,6 @@ export default function ElectroStore({ credits, onBuySolderingIron, onBuyMultime
     <div className="store-container">
       <h2>Electronics Store</h2>
       <div className="store-items">
-        <button className="store-item back-button" onClick={onBack}>← Back to Menu</button>
         {items.map((item) => (
           <button
             key={item.name}

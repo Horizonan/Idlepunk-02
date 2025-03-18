@@ -127,18 +127,7 @@ button.locked {
   margin-bottom: 20px;
 }
 
-.back-button {
-  width: 100%;
-  margin-bottom: 10px;
-  font-size: 16px;
-  background-color: #333 !important;
-  color: #00FF00 !important;
-  border: 2px solid #9400D3 !important;
-}
 
-.back-button:hover {
-  background-color: #444 !important;
-}
 
 .store-items {
   display: grid;
