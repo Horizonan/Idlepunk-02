@@ -50,3 +50,29 @@ button.locked {
   background-color: #800000;
   cursor: not-allowed;
 }
+
+.news-bar {
+  display: flex;
+  align-items: center;
+  background-color: #1a1a1a;
+  border-bottom: 2px solid #9400D3;
+  padding: 8px 0;
+}
+
+.news-label {
+  color: #9400D3;
+  font-weight: bold;
+  padding: 0 20px;
+  border-right: 2px solid #9400D3;
+}
+
+.news-content {
+  color: #00FF00;
+  padding: 0 20px;
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
