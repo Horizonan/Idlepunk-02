@@ -171,6 +171,62 @@ button.locked {
   z-index: 1000;
 }
 
+.achievements-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(26, 26, 26, 0.95);
+  border: 2px solid #9400D3;
+  border-radius: 8px;
+  padding: 20px;
+  z-index: 1000;
+  max-width: 500px;
+  width: 90%;
+}
+
+.achievements-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.achievement {
+  background: rgba(34, 34, 34, 0.9);
+  border: 1px solid #9400D3;
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 4px;
+  opacity: 0.7;
+}
+
+.achievement.unlocked {
+  opacity: 1;
+  border: 1px solid #00FF00;
+}
+
+.achievement h3 {
+  color: #9400D3;
+  margin: 0 0 10px 0;
+}
+
+.flavor-text {
+  color: #888;
+  font-style: italic;
+  margin: 5px 0;
+}
+
+.requirement {
+  color: #00FF00;
+  margin: 5px 0;
+}
+
+.reward {
+  color: #FF00FF;
+  margin: 5px 0;
+}
+
 .notifications-header {
   display: flex;
   justify-content: space-between;

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import Clicker from './components/Clicker';
+import Achievements from './components/Achievements';
 import CheatMenu from './components/CheatMenu';
 import Store from './components/Store';
 import ElectroStore from './components/ElectroStore';
@@ -13,8 +14,28 @@ import UnlockedItems from './components/UnlockedItems';
 
 export default function App() {
   const [showCheatMenu, setShowCheatMenu] = useState(false);
+  const [showAchievements, setShowAchievements] = useState(false);
   const [credits, setCredits] = useState(() => Number(localStorage.getItem('credits')) || 0);
   const [junk, setJunk] = useState(() => Number(localStorage.getItem('junk')) || 0);
+  const [clickCount, setClickCount] = useState(() => Number(localStorage.getItem('clickCount')) || 0);
+  const [achievements, setAchievements] = useState(() => JSON.parse(localStorage.getItem('achievements')) || [
+    {
+      title: "Junkie Starter",
+      requirement: "Collect 1,000 Junk",
+      reward: "+500 Junk",
+      flavorText: "Now you're hoarding like a real scavver.",
+      unlocked: false,
+      checked: false
+    },
+    {
+      title: "The First Clicks",
+      requirement: "Click 500 times",
+      reward: "+5% Click Power",
+      flavorText: "That mouse is starting to look worn...",
+      unlocked: false,
+      checked: false
+    }
+  ]);
 
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -71,8 +92,48 @@ export default function App() {
     localStorage.setItem('itemCosts', JSON.stringify(itemCosts));
   }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts]);
 
+  const checkAchievements = () => {
+    setAchievements(prev => {
+      const newAchievements = [...prev];
+      let rewardGiven = false;
+
+      // Check Junkie Starter
+      if (!newAchievements[0].unlocked && junk >= 1000) {
+        newAchievements[0].unlocked = true;
+        if (!newAchievements[0].checked) {
+          setJunk(prev => prev + 500);
+          setNotifications(prev => [...prev, "Achievement Unlocked: Junkie Starter!"]);
+          newAchievements[0].checked = true;
+          rewardGiven = true;
+        }
+      }
+
+      // Check The First Clicks
+      if (!newAchievements[1].unlocked && clickCount >= 500) {
+        newAchievements[1].unlocked = true;
+        if (!newAchievements[1].checked) {
+          setClickMultiplier(prev => prev * 1.05);
+          setNotifications(prev => [...prev, "Achievement Unlocked: The First Clicks!"]);
+          newAchievements[1].checked = true;
+          rewardGiven = true;
+        }
+      }
+
+      if (rewardGiven) {
+        localStorage.setItem('achievements', JSON.stringify(newAchievements));
+      }
+      return newAchievements;
+    });
+  };
+
   const collectJunk = () => {
     setJunk(prev => prev + clickMultiplier);
+    setClickCount(prev => {
+      const newCount = prev + 1;
+      localStorage.setItem('clickCount', newCount);
+      return newCount;
+    });
+    checkAchievements();
   };
 
   const collectTronics = () => {
@@ -136,7 +197,14 @@ export default function App() {
       <div className="stats">
         <p>Money: {credits.toFixed(2)}C</p>
         <p>Junk: {junk}</p>
+        <button onClick={() => setShowAchievements(true)}>Achievements</button>
       </div>
+      {showAchievements && (
+        <Achievements 
+          achievements={achievements}
+          onClose={() => setShowAchievements(false)}
+        />
+      )}
       <MenuButtons onStoreSelect={setActiveStore} />
       {activeStore === 'store' && (
         <Store 
