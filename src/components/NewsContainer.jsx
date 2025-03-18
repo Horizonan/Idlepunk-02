@@ -11,9 +11,18 @@ export default function NewsContainer({ isSurgeActive }) {
   ]);
 
   useEffect(() => {
+    const handleNextNews = () => {
+      setCurrentNewsIndex((prev) => (prev + 1) % defaultNews.length);
+    };
+    
+    window.addEventListener('nextNews', handleNextNews);
+    return () => window.removeEventListener('nextNews', handleNextNews);
+  }, [defaultNews.length]);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       setCurrentNewsIndex((prev) => (prev + 1) % defaultNews.length);
-    }, 20000);
+    }, 12000);
 
     return () => clearInterval(interval);
   }, [defaultNews.length]);

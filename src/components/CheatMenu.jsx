@@ -24,6 +24,7 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
           </button>
         </div>
         <button onClick={() => window.dispatchEvent(new CustomEvent('triggerSurge'))}>Trigger Surge</button>
+        <button onClick={() => window.dispatchEvent(new CustomEvent('nextNews'))}>Next News</button>
         <button onClick={() => {
           localStorage.clear();
           onReset('all');
