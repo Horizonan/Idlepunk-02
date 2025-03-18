@@ -9,6 +9,7 @@ import CredStore from './components/CredStore';
 import Inventory from './components/Inventory';
 import MenuButtons from './components/MenuButtons';
 import NewsContainer from './components/NewsContainer';
+import TrashSurge from './components/TrashSurge';
 import Notifications from './components/Notifications';
 import UnlockedItems from './components/UnlockedItems';
 
@@ -74,6 +75,20 @@ export default function App() {
   const [notifications, setNotifications] = useState([]);
   const [activeStore, setActiveStore] = useState(null);
   const [clickMultiplier, setClickMultiplier] = useState(() => Number(localStorage.getItem('clickMultiplier')) || 1);
+  const [isSurgeActive, setIsSurgeActive] = useState(false);
+
+  useEffect(() => {
+    const startSurge = () => {
+      setIsSurgeActive(true);
+      setTimeout(() => setIsSurgeActive(false), 30000);
+    };
+
+    const interval = setInterval(() => {
+      if (Math.random() < 0.5) startSurge();
+    }, 240000 + Math.random() * 240000);
+
+    return () => clearInterval(interval);
+  }, []);
   const [passiveIncome, setPassiveIncome] = useState(() => Number(localStorage.getItem('passiveIncome')) || 0);
   const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem('itemCosts')) || {
     trashBag: 10,
@@ -133,7 +148,8 @@ export default function App() {
   };
 
   const collectJunk = () => {
-    setJunk(prev => prev + clickMultiplier);
+    const surgeMultiplier = isSurgeActive ? 2 : 1;
+    setJunk(prev => prev + (clickMultiplier * surgeMultiplier));
     setClickCount(prev => {
       const newCount = prev + 1;
       localStorage.setItem('clickCount', newCount);
@@ -200,6 +216,7 @@ export default function App() {
   return (
     <main>
       <NewsContainer />
+      <TrashSurge isActive={isSurgeActive} />
       <div className="stats">
         <p>Money: {credits.toFixed(2)}C</p>
         <p>Junk: {junk}</p>

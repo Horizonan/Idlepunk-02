@@ -11,6 +11,7 @@ export default function CheatMenu({ onReset, onAddJunk, onClose }) {
         <button onClick={() => onReset('junk')}>Reset Junk</button>
         <button onClick={() => onReset('credits')}>Reset Credits</button>
         <button onClick={() => onReset('all')}>Reset Everything</button>
+        <button onClick={() => window.dispatchEvent(new CustomEvent('triggerSurge'))}>Trigger Surge</button>
         <button onClick={() => {
           localStorage.clear();
           onReset('all');
