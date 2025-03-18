@@ -160,6 +160,39 @@ button.locked {
   cursor: not-allowed;
 }
 
+.notifications-container {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(26, 26, 26, 0.9);
+  border: 2px solid #9400D3;
+  border-radius: 8px;
+  max-width: 300px;
+  z-index: 1000;
+}
+
+.notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #9400D3;
+}
+
+.notifications-header button {
+  padding: 4px 8px;
+  font-size: 12px;
+  margin: 0;
+}
+
+.notifications-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.notification {
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
