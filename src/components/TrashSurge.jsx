@@ -13,7 +13,7 @@ export default function TrashSurge({ isActive }) {
 
   return isActive && (
     <div className="surge-banner">
-      ⚡ TRASH SURGE ACTIVE!
+      ⚡ TRASH SURGE ACTIVE! ({Math.ceil((Date.now() - window.surgeStartTime) / 1000)} / 5s)
     </div>
   );
 }

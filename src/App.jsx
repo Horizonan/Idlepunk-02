@@ -79,8 +79,9 @@ export default function App() {
 
   useEffect(() => {
     const startSurge = () => {
+      window.surgeStartTime = Date.now();
       setIsSurgeActive(true);
-      setTimeout(() => setIsSurgeActive(false), 30000);
+      setTimeout(() => setIsSurgeActive(false), 5000);
     };
 
     const handleTriggerSurge = () => startSurge();
