@@ -173,15 +173,16 @@ button.locked {
 
 .achievements-container {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background: rgba(26, 26, 26, 0.95);
   border: 2px solid #9400D3;
   border-radius: 8px;
   padding: 20px;
   z-index: 1000;
-  max-width: 300px;
-  width: auto;
+  max-width: 500px;
+  width: 90%;
 }
 
 .burger-menu {
@@ -190,6 +191,13 @@ button.locked {
   left: 20px;
   z-index: 1000;
   cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.burger-menu:hover,
+.burger-menu.open {
+  opacity: 1;
 }
 
 .burger-menu div {
