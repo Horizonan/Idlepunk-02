@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 
 export default function TutorialSystem({ 
@@ -12,6 +13,7 @@ export default function TutorialSystem({
 }) {
   const [message, setMessage] = useState('');
   const [isVisible, setIsVisible] = useState(false);
+  const [task, setTask] = useState('');
 
   const tutorialMessages = {
     0: "Click the junk, kid. Scrap doesn't collect itself.",
@@ -21,6 +23,16 @@ export default function TutorialSystem({
     4: "Look at you, hiring help already. Streetrat's got your back… kinda.",
     5: "You got more junk than sense. Time to start makin' things.",
     6: "Whoa! You feel that surge? The pile's gone wild!"
+  };
+
+  const tutorialTasks = {
+    0: "Task: Click on the junk pile to collect some scrap",
+    1: "Task: Visit the store and buy your first upgrade",
+    2: "Task: Keep collecting and upgrading your tools",
+    3: "Task: Purchase something that generates passive income",
+    4: "Task: Hire your first helper to collect junk for you",
+    5: "Task: Start crafting items from your collected junk",
+    6: "Task: Take advantage of the surge to collect extra junk"
   };
 
   useEffect(() => {
@@ -36,11 +48,15 @@ export default function TutorialSystem({
       (tutorialStage === 6 && isSurgeActive)
     )) {
       setMessage(tutorialMessages[tutorialStage]);
+      setTask(tutorialTasks[tutorialStage]);
       setIsVisible(true);
-      timeout = setTimeout(() => {
-        setIsVisible(false);
-        onTutorialProgress();
-      }, 5000);
+      
+      if (tutorialStage > 0) {
+        timeout = setTimeout(() => {
+          setIsVisible(false);
+          onTutorialProgress();
+        }, 5000);
+      }
     }
 
     return () => {
@@ -54,8 +70,22 @@ export default function TutorialSystem({
   return (
     <div className="tutorial-message">
       <div className="cogfather-message">
-        <div className="cogfather-avatar">👨‍🔧</div>
-        <div className="message-text">{message}</div>
+        <img src="/src/NPCs/cogfather.png" alt="Cogfather" className="cogfather-avatar" />
+        <div className="message-content">
+          <div className="message-text">{message}</div>
+          <div className="task-text">{task}</div>
+          {tutorialStage === 0 && (
+            <button 
+              onClick={() => {
+                setIsVisible(false);
+                onTutorialProgress();
+              }}
+              className="tutorial-close-btn"
+            >
+              Got it!
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
