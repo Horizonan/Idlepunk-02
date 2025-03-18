@@ -1,2 +1,52 @@
 main {
 }
+html {
+  height: 100%;
+  width: 100%;
+  background-image: url('/Folders/BackgroundImage/Background1.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: 'Poppins', sans-serif;
+  color: #00FF00;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: #00FF00;
+  background-color: #1a1a1a;
+  position: relative;
+}
+
+#buySolderingIron, .exchange, #visitExchange, #buyShoppingCart, #buyHobo, #buyTrashPicker {
+  display: none;
+}
+
+.content, .menus {
+  margin-top: 60px;
+}
+
+button {
+  background-color: #222;
+  border: 2px solid #9400D3;
+  color: #00FF00;
+  padding: 12px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+  box-shadow: 0 0 8px #9400D3;
+  border-radius: 5px;
+  margin: 10px;
+  z-index: 100;
+}
+
+button:hover {
+  background-color: #9400D3;
+  color: #222;
+  border-color: #00FF00;
+}
+
+button.locked {
+  background-color: #800000;
+  cursor: not-allowed;
+}
