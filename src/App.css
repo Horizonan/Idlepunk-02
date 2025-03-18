@@ -219,18 +219,12 @@ button.locked {
   color: #00FF00;
   padding: 0 20px;
   white-space: nowrap;
-  position: absolute;
-  width: 100%;
-  transition: transform 12s linear;
+  animation: slide 12s linear infinite;
 }
 
-.news-content.slide-out {
-  transform: translateX(-100%);
-}
-
-.news-content.slide-in {
-  transform: translateX(100%);
-  animation: slideIn 12s linear forwards;
+@keyframes slide {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
 }
 
 @keyframes slideIn {
