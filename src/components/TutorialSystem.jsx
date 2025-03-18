@@ -55,6 +55,10 @@ export default function TutorialSystem({
         setIsVisible(true);
         
         if (tutorialStage > 0) {
+          window.dispatchEvent(new CustomEvent('tutorialProgress', { 
+            detail: { stage: tutorialStage } 
+          }));
+          
           timeout = setTimeout(() => {
             setIsVisible(false);
             onTutorialProgress();
