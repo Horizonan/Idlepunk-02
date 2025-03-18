@@ -190,6 +190,34 @@ button.locked {
   overflow-y: auto;
 }
 
+.cheat-menu {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(26, 26, 26, 0.95);
+  border: 2px solid #FF0000;
+  border-radius: 8px;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.cheat-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cheat-menu button {
+  background-color: #FF0000;
+  border-color: #800000;
+}
+
+.cheat-menu button:hover {
+  background-color: #800000;
+  border-color: #FF0000;
+}
+
 .notification {
 }
 

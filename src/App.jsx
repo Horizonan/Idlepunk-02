@@ -11,8 +11,37 @@ import Notifications from './components/Notifications';
 import UnlockedItems from './components/UnlockedItems';
 
 export default function App() {
+  const [showCheatMenu, setShowCheatMenu] = useState(false);
   const [credits, setCredits] = useState(() => Number(localStorage.getItem('credits')) || 0);
   const [junk, setJunk] = useState(() => Number(localStorage.getItem('junk')) || 1300);
+
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+        setShowCheatMenu(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, []);
+
+  const handleReset = (type) => {
+    switch(type) {
+      case 'junk':
+        setJunk(1300);
+        break;
+      case 'credits':
+        setCredits(0);
+        break;
+      case 'all':
+        setJunk(1300);
+        setCredits(0);
+        setClickMultiplier(1);
+        setPassiveIncome(0);
+        setElectronicsUnlock(false);
+        break;
+    }
+  };
   const [electronicsUnlock, setElectronicsUnlock] = useState(() => localStorage.getItem('electronicsUnlock') === 'true');
   const [notifications, setNotifications] = useState([]);
   const [activeStore, setActiveStore] = useState(null);
@@ -146,6 +175,13 @@ export default function App() {
         electronicsUnlock={electronicsUnlock}
       />
       <Notifications notifications={notifications} />
+      {showCheatMenu && (
+        <CheatMenu
+          onReset={handleReset}
+          onAddJunk={(amount) => setJunk(prev => prev + amount)}
+          onClose={() => setShowCheatMenu(false)}
+        />
+      )}
     </main>
   );
 }
