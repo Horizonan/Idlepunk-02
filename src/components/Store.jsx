@@ -10,9 +10,9 @@ export default function Store({ credits, junk, onBuyTrashBag, onBuyPicker, onBuy
 
   return (
     <div className="store-container">
-      <button className="back-button" onClick={onBack}>← Back</button>
       <h2>Junk Store</h2>
       <div className="store-items">
+        <button className="store-item back-button" onClick={onBack}>← Back to Menu</button>
         {items.map((item) => (
           <button
             key={item.name}
