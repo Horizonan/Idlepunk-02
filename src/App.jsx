@@ -58,6 +58,7 @@ export default function App() {
           onBuyTrashBag={handleBuyTrashBag}
           onBuyPicker={handleBuyPicker}
           onBuyCart={handleBuyCart}
+          onBack={() => setActiveStore(null)}
         />
       )}
       {activeStore === 'electrostore' && (
@@ -65,6 +66,7 @@ export default function App() {
           credits={credits}
           onBuySolderingIron={handleBuySolderingIron}
           onBuyMultimeter={handleBuyMultimeter}
+          onBack={() => setActiveStore(null)}
         />
       )}
       <Clicker 

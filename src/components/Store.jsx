@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-export default function Store({ credits, junk, onBuyTrashBag, onBuyPicker, onBuyCart }) {
+export default function Store({ credits, junk, onBuyTrashBag, onBuyPicker, onBuyCart, onBack }) {
   const items = [
     { name: 'Trash Bag', cost: 50, action: onBuyTrashBag },
     { name: 'Trash Picker', cost: 150, action: onBuyPicker },
@@ -10,6 +10,7 @@ export default function Store({ credits, junk, onBuyTrashBag, onBuyPicker, onBuy
 
   return (
     <div className="store-container">
+      <button className="back-button" onClick={onBack}>← Back</button>
       <h2>Junk Store</h2>
       <div className="store-items">
         {items.map((item) => (

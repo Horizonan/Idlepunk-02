@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-export default function ElectroStore({ credits, onBuySolderingIron, onBuyMultimeter }) {
+export default function ElectroStore({ credits, onBuySolderingIron, onBuyMultimeter, onBack }) {
   const items = [
     { name: 'Soldering Iron', cost: 1000, action: onBuySolderingIron },
     { name: 'Multimeter', cost: 2000, action: onBuyMultimeter }
@@ -9,6 +9,7 @@ export default function ElectroStore({ credits, onBuySolderingIron, onBuyMultime
 
   return (
     <div className="store-container">
+      <button className="back-button" onClick={onBack}>← Back</button>
       <h2>Electronics Store</h2>
       <div className="store-items">
         {items.map((item) => (
