@@ -22,15 +22,19 @@ export default function NewsContainer({ isSurgeActive }) {
   useEffect(() => {
     const handleTutorialProgress = (event) => {
       const stage = event.detail.stage;
-      const cogfatherTip = getCogfatherTip(stage);
-      if (cogfatherTip) {
-        const tip = `Cogfather's Tip: ${cogfatherTip}`;
-        setDefaultNews(prev => {
-          if (!prev.includes(tip)) {
-            return [...prev, tip];
-          }
-          return prev;
-        });
+      const tips = {
+        1: "If it's buzzing, it's working. If it's sparking, it's improving.",
+        2: "Efficiency is just laziness with better marketing.",
+        3: "One man's trash is my entire business model.",
+        4: "Automation isn't cheating. It's evolution.",
+        5: "Upgrade or stagnate. That's the law of the junkpile.",
+        6: "I once bartered a working toaster for a seat on a hoverbus. Worth it."
+      };
+      
+      if (stage > 0 && stage <= 6) {
+        const tip = `Cogfather's Tip: ${tips[stage]}`;
+        setDefaultNews(prev => [...prev, tip]);
+        setCurrentNewsIndex(prev => prev + 1);
       }
     };
 
