@@ -1,12 +1,12 @@
 
 import React from 'react';
 
-export default function Store({ credits, junk, onBuyTrashBag, onBuyPicker, onBuyCart, onBack }) {
+export default function Store({ credits, itemCosts, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBack }) {
   const items = [
-    { name: 'Scrap Bag', cost: 10, description: '+1 Junk/Click, +10% Kosten pro Kauf', action: onBuyTrashBag },
-    { name: 'Trash Picker', cost: 100, description: '+3 Junk/Click, +10% Kosten', action: onBuyPicker },
-    { name: 'Streetrat', cost: 100, description: '+1 Junk/sec, +15% Kosten', action: onBuyStreetrat },
-    { name: 'Shopping Cart', cost: 500, description: '+5 Junk/sec, +15% Kosten', action: onBuyCart }
+    { name: 'Scrap Bag', cost: itemCosts.trashBag, description: '+1 Junk/Click, +10% Kosten pro Kauf', action: onBuyTrashBag },
+    { name: 'Trash Picker', cost: itemCosts.trashPicker, description: '+3 Junk/Click, +10% Kosten', action: onBuyPicker },
+    { name: 'Streetrat', cost: itemCosts.streetrat, description: '+1 Junk/sec, +15% Kosten', action: onBuyStreetrat },
+    { name: 'Shopping Cart', cost: itemCosts.cart, description: '+5 Junk/sec, +15% Kosten', action: onBuyCart }
   ];
 
   return (

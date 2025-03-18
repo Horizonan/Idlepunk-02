@@ -100,8 +100,8 @@ export default function App() {
       <MenuButtons onStoreSelect={setActiveStore} />
       {activeStore === 'store' && (
         <Store 
-          credits={credits}
-          junk={junk}
+          credits={junk}
+          itemCosts={itemCosts}
           onBuyTrashBag={handleBuyTrashBag}
           onBuyPicker={handleBuyPicker}
           onBuyStreetrat={handleBuyStreetrat}
