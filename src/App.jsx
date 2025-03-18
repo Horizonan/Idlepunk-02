@@ -83,11 +83,17 @@ export default function App() {
       setTimeout(() => setIsSurgeActive(false), 30000);
     };
 
+    const handleTriggerSurge = () => startSurge();
+    window.addEventListener('triggerSurge', handleTriggerSurge);
+
     const interval = setInterval(() => {
       if (Math.random() < 0.5) startSurge();
     }, 240000 + Math.random() * 240000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('triggerSurge', handleTriggerSurge);
+    };
   }, []);
   const [passiveIncome, setPassiveIncome] = useState(() => Number(localStorage.getItem('passiveIncome')) || 0);
   const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem('itemCosts')) || {

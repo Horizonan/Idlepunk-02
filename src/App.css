@@ -196,7 +196,7 @@ button.locked {
   z-index: 1000;
 }
 
-.surge-active #trashClicker {
+.surge-active button {
   animation: surge-glow 1s infinite alternate;
   filter: brightness(1.5);
 }
