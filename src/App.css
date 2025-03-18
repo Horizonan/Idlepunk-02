@@ -209,7 +209,7 @@ button.locked {
 .sidebar {
   position: fixed;
   left: -300px;
-  top: 100px;
+  bottom: 250px;
   height: auto;
   width: 300px;
   background: rgba(26, 26, 26, 0.95);
