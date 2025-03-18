@@ -13,11 +13,7 @@ export default function CheatMenu({ onReset, onAddJunk, onClose }) {
         <button onClick={() => onReset('all')}>Reset Everything</button>
         <button onClick={() => {
           localStorage.clear();
-          setJunk(0);
-          setCredits(0);
-          setClickMultiplier(1);
-          setPassiveIncome(0);
-          setElectronicsUnlock(false);
+          onReset('all');
           window.location.reload();
         }} style={{backgroundColor: '#800000'}}>Delete Save</button>
         <button onClick={onClose}>Close</button>

@@ -61,6 +61,12 @@ export default function App() {
         setClickMultiplier(1);
         setPassiveIncome(0);
         setElectronicsUnlock(false);
+        setItemCosts({
+          trashBag: 10,
+          trashPicker: 100,
+          streetrat: 100,
+          cart: 500
+        });
         break;
     }
   };
