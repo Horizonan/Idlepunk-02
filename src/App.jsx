@@ -50,8 +50,8 @@ export default function App() {
   };
 
   const handleBuyTrashBag = () => {
-    if (credits >= itemCosts.trashBag) {
-      setCredits(prev => prev - itemCosts.trashBag);
+    if (junk >= itemCosts.trashBag) {
+      setJunk(prev => prev - itemCosts.trashBag);
       setNotifications(prev => [...prev, "Scrap Bag gekauft!"]);
       setClickMultiplier(prev => prev + 1);
       setItemCosts(prev => ({...prev, trashBag: Math.floor(prev.trashBag * 1.1)}));
@@ -59,8 +59,8 @@ export default function App() {
   };
 
   const handleBuyPicker = () => {
-    if (credits >= itemCosts.trashPicker) {
-      setCredits(prev => prev - itemCosts.trashPicker);
+    if (junk >= itemCosts.trashPicker) {
+      setJunk(prev => prev - itemCosts.trashPicker);
       setNotifications(prev => [...prev, "Trash Picker gekauft!"]);
       setClickMultiplier(prev => prev + 3);
       setItemCosts(prev => ({...prev, trashPicker: Math.floor(prev.trashPicker * 1.1)}));
@@ -68,8 +68,8 @@ export default function App() {
   };
 
   const handleBuyStreetrat = () => {
-    if (credits >= itemCosts.streetrat) {
-      setCredits(prev => prev - itemCosts.streetrat);
+    if (junk >= itemCosts.streetrat) {
+      setJunk(prev => prev - itemCosts.streetrat);
       setNotifications(prev => [...prev, "Streetrat angeheuert!"]);
       setPassiveIncome(prev => prev + 1);
       setItemCosts(prev => ({...prev, streetrat: Math.floor(prev.streetrat * 1.15)}));
@@ -77,8 +77,8 @@ export default function App() {
   };
 
   const handleBuyCart = () => {
-    if (credits >= itemCosts.cart) {
-      setCredits(prev => prev - itemCosts.cart);
+    if (junk >= itemCosts.cart) {
+      setJunk(prev => prev - itemCosts.cart);
       setNotifications(prev => [...prev, "Shopping Cart gekauft!"]);
       setPassiveIncome(prev => prev + 5);
       setItemCosts(prev => ({...prev, cart: Math.floor(prev.cart * 1.15)}));

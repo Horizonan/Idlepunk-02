@@ -21,7 +21,7 @@ export default function Store({ credits, itemCosts, onBuyTrashBag, onBuyPicker, 
             disabled={credits < item.cost}
             className="store-item"
           >
-            Buy {item.name} ({item.cost}C)
+            Buy {item.name} ({item.cost} Junk)
           </button>
         ))}
       </div>
