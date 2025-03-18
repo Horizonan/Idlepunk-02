@@ -76,6 +76,9 @@ export default function App() {
   const [activeStore, setActiveStore] = useState(null);
   const [clickMultiplier, setClickMultiplier] = useState(() => Number(localStorage.getItem('clickMultiplier')) || 1);
   const [isSurgeActive, setIsSurgeActive] = useState(false);
+const [tutorialStage, setTutorialStage] = useState(() => Number(localStorage.getItem('tutorialStage')) || 0);
+const [hasUpgrade, setHasUpgrade] = useState(false);
+const [hasHelper, setHasHelper] = useState(false);
 
   useEffect(() => {
     const startSurge = () => {
@@ -184,6 +187,7 @@ export default function App() {
       setNotifications(prev => [...prev, "Scrap Bag gekauft!"]);
       setClickMultiplier(prev => prev + 1);
       setItemCosts(prev => ({...prev, trashBag: Math.floor(prev.trashBag * 1.1)}));
+      setHasUpgrade(true);
     }
   };
 
@@ -202,6 +206,7 @@ export default function App() {
       setNotifications(prev => [...prev, "Streetrat angeheuert!"]);
       setPassiveIncome(prev => prev + 1);
       setItemCosts(prev => ({...prev, streetrat: Math.floor(prev.streetrat * 1.15)}));
+      setHasHelper(true);
     }
   };
 
@@ -220,8 +225,22 @@ export default function App() {
   };
   const handleBuyMultimeter = () => buyItem(2000, "Bought a Multimeter!");
 
+  useEffect(() => {
+    localStorage.setItem('tutorialStage', tutorialStage);
+  }, [tutorialStage]);
+
   return (
     <main>
+      <TutorialSystem
+        junk={junk}
+        hasUpgrade={hasUpgrade}
+        passiveIncome={passiveIncome}
+        hasHelper={hasHelper}
+        hasCrafting={false}
+        isSurgeActive={isSurgeActive}
+        tutorialStage={tutorialStage}
+        onTutorialProgress={() => setTutorialStage(prev => prev + 1)}
+      />
       <NewsContainer isSurgeActive={isSurgeActive} />
       <TrashSurge isActive={isSurgeActive} />
       <div className="stats">
