@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import Clicker from './components/Clicker';
+import CheatMenu from './components/CheatMenu';
 import Store from './components/Store';
 import ElectroStore from './components/ElectroStore';
 import CredStore from './components/CredStore';
@@ -176,12 +177,13 @@ export default function App() {
       />
       <Notifications notifications={notifications} />
       {showCheatMenu && (
-        <CheatMenu
+        <CheatMenu 
           onReset={handleReset}
           onAddJunk={(amount) => setJunk(prev => prev + amount)}
           onClose={() => setShowCheatMenu(false)}
         />
       )}
+      <Notifications notifications={notifications} />
     </main>
   );
 }
