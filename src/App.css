@@ -204,13 +204,21 @@ button.locked {
   position: fixed;
   left: -300px;
   top: 0;
-  height: 100vh;
+  height: auto;
   width: 300px;
   background: rgba(26, 26, 26, 0.95);
   border-right: 2px solid #9400D3;
   transition: 0.3s;
   z-index: 999;
   padding: 60px 20px 20px;
+}
+
+.store-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 998;
 }
 
 .sidebar.open {
