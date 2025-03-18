@@ -1,6 +1,5 @@
 
 import './App.css'
-import Header from "./components/Header"
 import Inventory from "./components/Inventory"
 import MenuButtons from "./components/MenuButtons"
 import NewsTicker from "./components/NewsTicker"
