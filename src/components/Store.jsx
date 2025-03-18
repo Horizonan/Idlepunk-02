@@ -38,20 +38,19 @@ export default function Store({ credits, itemCosts, onBuyTrashBag, onBuyPicker, 
       <h2>Junk Store</h2>
       <div className="store-items">
         {items.map((item) => (
-          <div key={item.name} className="store-item">
-            <button
-              onClick={item.action}
-              disabled={credits < item.cost}
-              className="store-item"
-            >
-              Buy {item.name} ({item.cost} Junk)
-            </button>
+          <button
+            key={item.name}
+            onClick={item.action}
+            disabled={credits < item.cost}
+            className="store-item"
+          >
+            Buy {item.name} ({item.cost} Junk)
             <div className="item-info">
               <strong>{item.name}</strong>
               <p>{item.description}</p>
               <p>{item.info}</p>
             </div>
-          </div>
+          </button>
         ))}
       </div>
     </div>
