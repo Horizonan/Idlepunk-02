@@ -1,0 +1,305 @@
+html {
+  height: 100%;
+  width: 100%;
+  background-image: url('/Folders/BackgroundImage/Background1.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: 'Poppins', sans-serif;
+  color: #00FF00; /* Neon green text */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: #00FF00; /* Default neon green for text */
+  background-color: #1a1a1a; /* Dark background */
+  position: relative;
+}
+
+
+/* Hide not unlocked Buttons pt2 */
+#buySolderingIron, .exchange, #visitExchange, #buyShoppingCart, #buyHobo, #buyTrashPicker{
+  display: none;
+}
+
+
+/* Add margin to avoid overlap with fixed-position news bar */
+.content, .menus {
+  margin-top: 60px; /* Adjust this value based on the height of your news bar */
+}
+
+/* Buttons */
+button {
+  background-color: #222; /* Dark background for button */
+  border: 2px solid #9400D3; /* Neon purple border */
+  color: #00FF00; /* Neon green text */
+  padding: 12px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+  box-shadow: 0 0 8px #9400D3;
+  border-radius: 5px;
+  margin: 10px;
+  z-index: 100; /* Ensure buttons are on top */
+}
+
+button:hover {
+  background-color: #9400D3;
+  color: #222;
+  border-color: #00FF00;
+}
+
+button.locked {
+  background-color: #800000; /* Dark red */
+  cursor: not-allowed;
+}
+
+/* Counter Display */
+#counterDisplay {
+  font-size: 24px;
+  margin-top: 20px;
+  animation: cyberpunkGlow 1s infinite;
+}
+
+@keyframes cyberpunkGlow {
+  0%, 100% {
+    text-shadow: 0 0 5px #00FF00, 0 0 10px #00FF00, 0 0 20px #00FF00;
+    color: #fff;
+  }
+  50% {
+    text-shadow: 0 0 15px #00FF00, 0 0 30px #00FF00, 0 0 45px #00FF00;
+    color: #00FF00;
+  }
+}
+
+/* News Container */
+.news-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  font-size: 16px;
+  background: rgba(34, 34, 34, 0.95); /* Semi-transparent dark background */
+  color: #00FF00; /* Neon green text */
+  padding: 10px 32px;
+  box-shadow: 0 4px 40px -8px rgb(148, 0, 211); /* Neon purple shadow */
+  border-bottom: 2px solid #9400D3; /* Neon purple border */
+  display: flex;
+  overflow: hidden;
+  z-index: 200; /* Ensure news container is on top */
+}
+
+.news-container .news-heading {
+  font-weight: bold;
+  color: #9400D3; /* Neon purple for heading */
+  padding-right: 20px;
+  margin-right: 20px;
+  border-right: 1px solid #00FF00; /* Neon green border */
+}
+
+.news-container .news {
+  position: relative;
+  width: 100%;
+}
+
+.news-container .news-single {
+  color: #00FF00;
+  text-decoration: none;
+  font-weight: normal;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: all 0.4s ease;
+}
+
+.news-container .news-single.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Inventory Container */
+.inventory {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: rgba(26, 26, 26, 0.8); /* Semi-transparent dark background */
+  padding: 10px;
+  color: #00FF00;
+  border-top: 2px solid #9400D3; /* Neon purple border */
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+  z-index: 100; /* Ensure inventory is on top */
+}
+
+/* Clickers */
+#clickers {
+  display: flex;
+  justify-content: center;
+  gap: 2px; /* Add some space between the clickers */
+}
+
+#trashClicker, #tricClicker {
+  width: 150px;
+  margin-left: 4%;
+  margin-bottom: 2%;
+  border: 2px solid #9400D3; /* Neon purple border */
+  box-shadow: 0 0 15px #9400D3;
+  transition: width 0.3s, box-shadow 0.3s;
+  z-index: 100; /* Ensure clickers are on top */
+}
+
+#trashClicker:hover, #tricClicker:hover {
+  width: 200px;
+  box-shadow: 0 0 25px #9400D3;
+  cursor: pointer;
+}
+
+#tricClicker, #electroStore {
+  display: none; /* Initially hidden */
+}
+
+/* Store and Skills sections */
+.store, .upgradeSkills, .unlockedItems, .credits {
+  display: none;
+}
+
+.sellButton {
+  background-color: #222;
+  border: 2px solid #9400D3;
+  color: #00FF00;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+  box-shadow: 0 0 8px #9400D3;
+  border-radius: 5px;
+  margin: 5px;
+  z-index: 100; /* Ensure sell buttons are on top */
+}
+
+.sellButton:hover {
+  background-color: #9400D3;
+  color: #222;
+  border-color: #00FF00;
+}
+
+.return {
+  background-color: #222;
+  border: 2px solid #9400D3;
+  color: #00FF00;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+  box-shadow: 0 0 8px #9400D3;
+  border-radius: 5px;
+  margin: 5px;
+  z-index: 100; /* Ensure return buttons are on top */
+}
+
+.return:hover {
+  background-color: #9400D3;
+  color: #222;
+  border-color: #00FF00;
+}
+
+/* Scrollable Unlocked Items */
+.unlockedItems {
+  max-height: 200px; /* Adjust based on design */
+  overflow-y: auto; /* Enable vertical scroll */
+  background-color: rgba(26, 26, 26, 0.9);
+  padding: 10px;
+  border: 2px solid #9400D3; /* Neon purple border */
+  box-shadow: 0 0 8px #9400D3;
+  margin-top: 20px;
+}
+
+.unlockedItems h3 {
+  margin-top: 0;
+}
+
+.unlockedItems ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.unlockedItems ul li {
+  padding: 10px;
+  margin: 5px 0;
+  border-bottom: 2px solid #9400D3;
+  color: #00FF00;
+  font-weight: bold;
+  background-color: rgba(34, 34, 34, 0.9);
+  box-shadow: 0 0 10px #9400D3;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.unlockedItems ul li:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #9400D3;
+}
+
+
+
+
+/* Notification Styling for achievements */
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #00FF00;
+  padding: 10px 20px;
+  border: 2px solid #9400D3; /* Neon purple border */
+  box-shadow: 0 0 10px #9400D3;
+  z-index: 300; /* Ensure notifications are on top */
+  border-radius: 5px;
+}
+
+
+/* Style for the Scrap Skill Training Button */
+
+.upgradeSkills{
+  margin-left: 10px;
+  padding-top: 10px;
+}
+
+#trainScrapSkill {
+  background-color: #222; /* Dark background for button */
+  border: 2px solid #9400D3; /* Neon purple border */
+  color: #00FF00; /* Neon green text */
+  padding: 12px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 0 8px #9400D3;
+  border-radius: 5px;
+  margin: 10px 0; /* Adding top and bottom margin */
+  z-index: 100; /* Ensure buttons are on top */
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+#trainScrapSkill:disabled {
+  cursor: not-allowed;
+  background-color: #800000; /* Dark red */
+}
+#trainScrapSkill:hover:not(:disabled) {
+  background-color: #9400D3;
+  color: #222;
+  border-color: #00FF00;
+}
+/* Style for the progress container */
+#progressContainer {
+  width: 100%; 
+  background-color: rgba(34, 34, 34, 0.95); /* Semi-transparent dark background */
+  border: 2px solid #9400D3; /* Neon purple border */
+  border-radius: 5px; 
+  box-shadow: 0 0 8px #9400D3;
+  margin: 10px 0; /* Adding vertical margin for spacing */
+  height: 20px;
+  display: flex;
+}
+#progressBar {
+  width: 0%; 
+  height: 100%; 
+  background-color: #00FF00; /* Neon green */
+  border-radius: 3px;
+}

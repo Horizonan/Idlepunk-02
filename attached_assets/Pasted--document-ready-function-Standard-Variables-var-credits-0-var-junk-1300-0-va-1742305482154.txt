@@ -1,0 +1,644 @@
+$(document).ready(function() {
+
+  // Standard Variables
+  var credits = 0;
+  var junk = 1300.0;
+  var junkPerClick = 1;
+  var price;
+
+  // TrashBag
+  var counterTrashBag = 1;
+  var counterTrashBagBuy = 0;
+  var priceTrashBag = 10;
+
+  // TrashPicker
+  var trashPickerMulti = 1;
+  var counterTrashPicker = 0;
+  var trashTimerClick = 0;
+  var priceTrashPicker = 100;;
+
+  // Streetrat
+  var streetratMulti = 1;
+  var counterStreetRatBuy = 0;
+  var priceStreetRat = 100;
+
+  //Shopping Cart
+  var shoppingCartMulti = 1;
+  var counterShoppingCart = 0;
+  var priceShoppingCart = 500;
+
+  //Soldering Iron for making Junk into electronics
+  var solderingIronMulti = 1;
+  var counterSolderingIron = 0;
+  var priceSolderingIron = 1000;
+
+  // junkPerSecond
+  var junkPerSec = 1;
+  var junkWorth = 0.01;
+
+  //Tronics Variables
+  var tronics = 0;
+  var tronicsMulti = 1;
+  var tronicsPerSec = 0;
+  var tronicsWorth = 0.1;
+
+  //Crafting
+  var improvedTrashBagPurchased = false;
+
+  // Check if available
+  var electronicsUnlock = false;
+
+  //Upgrade Skills
+  var inProgress = false;
+  var timeJunkIncrease = 20;
+
+  //Milestones
+  var achieve1000 = true;
+  var achieve10000 = true;
+  var achieveTronics = true;
+  var achieveCredits = true;
+
+  // News Variables
+  const newsSingleAll = document.querySelectorAll('.news-container .news-single');
+  let currentNewsActive = 0;
+  let totalNews = newsSingleAll.length;
+  let newsDuration = 8000;
+
+  // change News Function adding active to single unactive elements in the list
+  const removeAllActive = () => {
+    newsSingleAll.forEach(n => {
+      n.classList.remove("active");
+    })
+  }
+
+  const changeNews = () => {
+    if (currentNewsActive >= totalNews - 1) {
+      currentNewsActive = 0;
+    } else {
+      currentNewsActive += 1;
+    }
+
+    removeAllActive();
+    newsSingleAll[currentNewsActive].classList.add("active");
+  }
+
+  setInterval(() => {
+    changeNews();
+  }, newsDuration)
+
+  // Highly sophisticated money +1
+  setInterval(function updateMyGame() {
+    junk += junkPerSec;
+    junk = Math.round(junk * 100) / 100;
+    $("#junk").text("Junk: " + junk);
+  }, 1000);
+
+  // Collect Junk
+  $("#trashClicker").click(function() {
+    changeInventory(junk);
+
+    // change Image of the trash Clicker to make it more dynamic
+    var changeImage = trashClicker.src = '/Folders/MainIcons/TrashButton.png';
+    var originalImage = trashClicker.src = '/Folders/MainIcons/TrashButtonBig.png';
+    $("#trashClicker").attr("src", changeImage);
+    setTimeout(function() {
+      $("#trashClicker").attr("src", originalImage);
+      junk += junkPerClick;
+    }, 2000 - trashTimerClick);
+
+  });
+
+  //Collect Electronics
+  $("#tricClicker").click(function() {
+    tronics += 0.001;
+    tronics = Math.round(tronics * 1000) / 1000; // Round to three decimal places
+    $("#electronics").text("Tronics: " + tronics.toFixed(3));
+  });
+
+  // Buy Scrap Bag
+  $("#buyScrapBag").click(function() {
+    price = 10 * counterTrashBag.toFixed(2);
+    junk = buyItem("ScrapBag", price, junk);
+  });
+
+  // Buy Streetrat
+  $("#buyHobo").click(function() {
+    price = 100 * streetratMulti
+    junk = buyItem("streetRat", price, junk);
+  });
+
+  // Buy TrashPicker
+  $("#buyTrashPicker").click(function() {
+    price = 100 * trashPickerMulti
+    junk = buyItem("TrashPicker", price, junk);
+  });
+
+  // Buy Shopping Cart
+  $("#buyShoppingCart").click(function() {
+    price = 500 * shoppingCartMulti
+    junk = buyItem("ShoppingCart", price, junk);
+  });
+
+  // Buy Soldering Iron
+  $("#buySolderingIron").click(function() {
+    price = 1000 * solderingIronMulti
+    junk = buyItem("solderingIron", price, junk);
+  });
+
+  // Bind Restart Button
+  $("#restartAllBtn").click(function() {
+    if (confirm("Are you sure you want to restart?")) {
+      restartAll()
+    }
+  });
+
+  $("#cheatBtn").click(function() {
+    junk += 1000;
+  })
+
+  // Visit Store
+  $("#visitStore").click(function() {
+    menu = switchMenu("store");
+  });
+
+  // Visit Stats
+  $("#visitStats").click(function() {
+    menu = switchMenu("upgradeSkills");
+  });
+
+  //Visit Exchange
+  $("#visitExchange").click(function() {
+    menu = switchMenu("exchange");
+  });
+
+  //Visit CredStore
+  $("#credStore").click(function() {
+    menu = switchMenu("credits");
+  });
+
+  // Change Menu
+  $(".return").click(function() {
+    menu = switchMenu("main");
+  });
+
+  // Exchange 1 Trash
+  $("#exchangeTrash").click(function() {
+    junk -= 1;
+    credits += junkWorth;
+
+    $("#credits").text("Money: " + credits.toFixed(2) + " C")
+
+  });
+
+  // Exchange 10 Trash
+  $("#exchange10Trash").click(function() {
+    junk -= 10;
+    credits += junkWorth * 10;
+
+    $("#credits").text("Money: " + credits.toFixed(2) + " C")
+
+  });
+
+  // Exchange all Trash
+  $("#exchangeAllTrash").click(function() {
+    let result = window.confirm("Do you really want to exchange all your trash?");
+
+    if (result == true) {
+      credits += junk * junkWorth;
+      junk = 0;
+
+      $("#credits").text("Money: " + credits.toFixed(2) + " C")
+    } else {
+      alert("No Trash Exchanged")
+    }
+  });
+
+  // Shows money and Junk owned
+  function changeInventory(junk) {
+    $("#credits").text("Money: " + credits.toFixed(2) + " C");
+
+    if (junk == 1) {
+      $("#junk").text("Junk: " + junk);
+    } else {
+      $("#junk").text("Junk: " + junk);
+    }
+  }
+
+  // Change menu
+  function switchMenu(menu) {
+    $(".menus").children().css("display", "none");
+
+    if (menu != "visitStats") {
+      $(".upgradeSkills").css("display", "none");
+    }
+
+    if (menu != "exchange") {
+      $(".exchange").css("display", "none");
+    }
+
+    if (menu != "credits") {
+      $(".credits").css("display", "none");
+    }
+
+    if (electronicsUnlock == false) {
+      $(".tronics").css("display", "none");
+    }
+
+    $("." + menu).css("display", "block")
+    return menu;
+  }
+
+  // Buy Item Scrap Bag
+  function buyItem(item, price, junk) {
+
+    // Check if Item is ScrapBag and Price is higher than junk
+    if (item == "ScrapBag" && price <= junk) {
+      junk -= price.toFixed(2);
+      counterTrashBag = counterTrashBag * 1.5;
+      counterTrashBagBuy += 1;
+      junkPerClick += 1;
+      priceTrashBag = (price * 1.5).toFixed(2);
+
+      // Display the unlocked items screen
+      $(".unlockedItems").css("display", "block")
+
+      // Display new Price
+      $("#buyScrapBag").text("Buy Bag for Trash (" + priceTrashBag + "T)(+1)")
+
+      if (counterTrashBagBuy == 10) {
+        $("#buyScrapBag").css("display", "none")
+      }
+
+      // Display counter for unlocked Items
+      if (counterTrashBagBuy > 1) {
+        $("#item1").text("Scrap Bag x" + counterTrashBagBuy);
+      } else {
+        $("#item1").text("Scrap Bag");
+        $("#item1").css("display", "block");
+      }
+
+      // Ensure Trash Picker button is shown when 1 Scrap Bag is bought
+      if (counterTrashBagBuy >= 1) {
+        $("#buyTrashPicker").css("display", "inline-block");
+        $("#buyHobo").css("display", "inline-block");
+      }
+
+      // Change junk and display confirmation text
+      changeInventory(junk);
+      alert("Bought a Bag for your Scraps");
+      return junk;
+
+      // ----------------------------------------------//
+      // Buy Trash Picker Item
+    } else if (item == "TrashPicker" && price <= junk) {
+      junk -= price;
+      trashPickerMulti = trashPickerMulti * 1.5;
+      counterTrashPicker += 1;
+      junkPerClick += 3;
+      priceTrashPicker = (price * 1.5).toFixed(2);
+
+      // Display new Price
+      $("#buyTrashPicker").text("Buy Trashpicker (" + priceTrashPicker + "T)(+3)")
+
+      // Display counter for unlocked Items
+      if (counterTrashPicker > 1) {
+        $("#item2").text("Scrap Picker x" + counterTrashPicker);
+      } else {
+        $("#item2").css("display", "block");
+        $("#item2").append("Scrap Picker");
+      }
+
+      // Alert Player that they bought Trash Picker
+      changeInventory(junk.toFixed(2));
+      alert("Bought a Picker for picking Scrap");
+      return junk;
+    } else if (item == "streetRat" && price <= junk) {
+      junk -= price;
+      streetratMulti = streetratMulti * 1.5;
+      counterStreetRatBuy += 1;
+      junkPerSec += 1;
+      priceStreetRat = (price * 1.5).toFixed(2);
+
+      // Display new Price
+      $("#buyHobo").text("Pay Streetrat (" + priceStreetRat + "T)(+1/s)")
+
+      // Display counter for unlocked Items
+      if (counterStreetRatBuy > 1) {
+        $("#item3").text("Streetrat x" + counterStreetRatBuy);
+      } else {
+        $("#item3").append("Streetrat");
+        $("#item3").css("display", "block");
+      }
+
+      // Display new Item
+      if (counterStreetRatBuy == 1) {
+        $("#buyShoppingCart").css("display", "inline-block");
+      }
+
+      // Alert Player that they bought Streetrat
+      changeInventory(junk);
+      alert("Bought an Old Man collecting Trash");
+      return junk;
+    } else if (item == "ShoppingCart" && price <= junk) {
+      junk -= price;
+      shoppingCartMulti = shoppingCartMulti * 1.5;
+      counterShoppingCart += 1;
+      junkPerClick += 5;
+      priceShoppingCart = (price * 1.5).toFixed(2);
+
+      // Display new Price
+      $(`#buyShoppingCart`).text("Buy Shopping Cart (" + priceShoppingCart + "T)(+5)");
+
+      // Display counter for unlocked Items
+      if (counterShoppingCart > 1) {
+        $("#item4").text("Shopping Cart x" + counterShoppingCart);
+      } else {
+        $("#item4").append("Shopping Cart");
+        $("#item4").css("display", "block");
+      }
+
+
+      //Display new Item
+      if (counterShoppingCart == 1) {
+        $("#buySolderingIron").css("display", "inline-block");
+      }
+
+      // Alert Player that they bought Streetrat
+      changeInventory(junk);
+      alert("Bought a Shopping Cart for Collecting");
+      return junk;
+    } else if (item == "solderingIron" && price <= junk) {
+      junk -= price;
+      solderingIronMulti *= 1.5;
+      counterSolderingIron += 1;
+      priceSolderingIron = (price * 1.5).toFixed(2);
+
+      //Unlocks electronics
+      if (counterSolderingIron == 1) {
+        electronicsUnlock = true;
+        $(`#tricClicker`).css("display", "inline-block");
+      }
+
+      // Display new Price
+      $(`#buySolderingIron`).text("Buy Soldering Iron (" + priceSolderingIron + "T)(+5)");
+
+      // Display counter for unlocked Items
+      if (counterSolderingIron > 1) {
+        $("#item5").text("Soldering Iron x" + counterSolderingIron);
+      } else {
+        $("#item5").append("Soldering Iron");
+        $("#item5").css("display", "inline-block");
+      }
+
+
+      //Display new Item
+      if (counterShoppingCart == 1) {
+        $("#visitExchange").css("display", "inline-block");
+      }
+
+      // Alert Player that they bought Soldering Iron
+      changeInventory(junk);
+      alert("Bought a Soldering Iron for Soldering");
+      return junk;
+    }
+    // Else tell player that he doesn't have enough money
+    else {
+      alert("You don't have enough money to buy this item");
+      junk = junk;
+      return junk;
+    }
+  }
+
+
+  // Handler for scrap skill training button
+  $("#trainScrapSkill").on("click", function() {
+    if (!inProgress) {
+      inProgress = true;
+      $("#trainScrapSkill").attr('disabled', 'disabled');
+      $("#progressContainer").css("display", "block");
+      var progress = 0;
+      var interval = setInterval(function() {
+        progress += 1;
+        $("#progressBar").css("width", progress + "%");
+        if (progress >= 100) {
+          clearInterval(interval);
+          junkPerClick *= 1.1; // Increase scrap per click by 1.1
+          timeJunkIncrease *= 1.5; // decrease of speed every time bar fills up
+          $("#trainScrapSkill").attr('disabled', false);
+          $("#progressContainer").css("display", "none");
+          $("#progressBar").css("width", "0%");
+          showNotification("Scrap Skill Training Complete");
+          inProgress = false;
+        }
+      }, timeJunkIncrease); // Adjust the speed of the fill-up as needed
+    }
+  });
+
+  // Save Progress
+  function saveProgress() {
+    const gameState = {
+      credits,
+      junk,
+      counterTrashBag,
+      counterTrashBagBuy,
+      trashPickerMulti,
+      counterTrashPicker,
+      streetratMulti,
+      counterStreetRatBuy,
+      counterShoppingCart,
+      counterSolderingIron,
+      junkPerSec,
+      achieve1000,
+      achieve10000,
+      achieveTronics,
+      achieveCredits,
+      priceTrashBag,
+      priceTrashPicker,
+      priceStreetRat,
+      priceShoppingCart,
+      priceSolderingIron,
+      timeJunkIncrease,
+      electronicsUnlock,
+      tronics
+    };
+    localStorage.setItem("gameState", JSON.stringify(gameState));
+  }
+
+  // Load Progress
+  function loadProgress() {
+    const savedState = JSON.parse(localStorage.getItem("gameState"));
+    if (savedState) {
+      credits = savedState.credits;
+      junk = savedState.junk;
+      counterTrashBag = savedState.counterTrashBag;
+      counterTrashBagBuy = savedState.counterTrashBagBuy;
+      trashPickerMulti = savedState.trashPickerMulti;
+      counterTrashPicker = savedState.counterTrashPicker;
+      streetratMulti = savedState.streetratMulti;
+      counterStreetRatBuy = savedState.counterStreetRatBuy;
+      counterShoppingCart = savedState.counterShoppingCart;
+      junkPerSec = savedState.junkPerSec;
+      achieve1000 = savedState.achieve1000;
+      achieve10000 = savedState.achieve10000;
+      achieveTronics = savedState.achieveTronics;
+      achieveCredits = savedState.achieveCredits;
+      priceTrashBag = savedState.priceTrashBag;
+      priceTrashPicker = savedState.priceTrashPicker;
+      priceStreetRat = savedState.priceStreetRat;
+      priceShoppingCart = savedState.priceShoppingCart;
+      priceSolderingIron = savedState.priceSolderingIron;
+      timeJunkIncrease = savedState.timeJunkIncrease;
+      electronicsUnlock = savedState.electronicsUnlock;
+      counterSolderingIron = savedState.counterSolderingIron;
+      tronics = savedState.tronics;
+
+      //Update UI
+      $("#buyScrapBag").text("Buy Bag for Trash (" + priceTrashBag + "T)(+1)");
+      $("#buyTrashPicker").text("Buy Trashpicker (" + priceTrashPicker + "T)(+3)");
+      $("#buyHobo").text("Pay Streetrat (" + priceStreetRat + "T)(+1/s)");
+      $(`#buyShoppingCart`).text("Buy Shopping Cart (" + priceShoppingCart + "T)(+5)");
+      $(`#buySolderingIron`).text("Buy Soldering Iron (" + priceSolderingIron + "T)(+5)");
+
+      if (counterStreetRatBuy >= 1) {
+        $("#buyShoppingCart").css("display", "inline-block");
+      }
+      if (counterTrashBagBuy >= 1) {
+        $("#buyTrashPicker").css("display", "inline-block");
+        $("#buyHobo").css("display", "inline-block");
+      }
+      if (counterShoppingCart >= 1) {
+        $("#buySolderingIron").css("display", "inline-block");
+      }
+
+      if (counterSolderingIron >= 1) {
+        electronicsUnlock = true;
+        $(`#tricClicker`).css("display", "inline-block");
+        $(`#electronics`).css("display", "block");
+      }
+
+      //Update Inventory
+      $("#electronics").text("Tronics: " + tronics.toFixed(3));
+
+
+      //Update Unlocked Items
+
+      if (counterTrashBagBuy > 1) {
+        $("#item1").text("Scrap Bag x" + counterTrashBagBuy + " |");
+      } else {
+        $("#item1").text("Scrap Bag |");
+        $("#item1").css("display", "block");
+        $(".unlockedItems").css("display", "block");
+      }
+
+      changeInventory(junk);
+      alert("Game progress loaded!");
+    }
+  }
+
+  // Auto-save Interval
+  setInterval(saveProgress, 30000);
+
+  // Bind Save and Load Buttons
+  $("#saveProgressBtn").click(saveProgress);
+  $("#loadProgressBtn").click(loadProgress);
+
+  // Upgrade Stat function
+  $("#trainScrapSkill").on("click", function() {
+    $("#trainScrapSkill").attr('disabled', 'disabled');
+    fillAgain();
+  });
+
+  function fillAgain() {
+    // Placeholder for future functionality
+  }
+
+  // Attempt to load progress when the game starts
+  loadProgress();
+
+  // Restart All
+  function restartAll() {
+    credits = 0;
+    junk = 0;
+    junkPerClick = 1;
+    counterTrashBag = 1;
+    counterTrashBagBuy = 0;
+    trashPickerMulti = 1;
+    counterTrashPicker = 0;
+    streetratMulti = 1;
+    counterStreetRatBuy = 0;
+    junkPerSec = 0;
+    shoppingCartMulti = 1;
+    counterShoppingCart = 0;
+    achieve1000 = true;
+    acheive10000 = true;
+    achieveTronics = true;
+    achieveCredits = true;
+    priceTrashBag = 10;
+    priceTrashPicker = 100;
+    priceStreetRat = 100;
+    priceShoppingCart = 500;
+    priceSolderingIron = 1000;
+    counterSolderingIron = 0;
+    tronics = 0;
+    electronicsUnlock = false;
+
+
+
+    // Reset Inventory Display
+    changeInventory(junk);
+    // Reset Buy Buttons Text
+    $("#buyScrapBag").text("Buy Bag for Trash (10T)(+1)");
+    $("#buyTrashPicker").text("Buy Trashpicker (100T)(+3)");
+    $("#buyHobo").text("Pay Streetrat (100T)(+1/s)");
+    $("#buyShoppingCart").text("Buy Shopping Cart (500T)(+5)");
+    $(`#buySolderingIron`).text("Buy Soldering Iron (" + priceSolderingIron + "T)(+5)");
+    $("#buyShoppingCart").css("display", "none");
+    $("#buySolderingIron").css("display", "none");
+    // Hide/Show appropriate elements
+    $(".unlockedItems").css("display", "none");
+    $(".tronics").css("display", "none");
+    $("#item1").text("").css("display", "none");
+    $("#item2").text("").css("display", "none");
+    $("#item3").text("").css("display", "none");
+    $("#item4").text("").css("display", "none");
+    $("#buyTrashPicker").css("display", "none");
+    $("#buyHobo").css("display", "none");
+    alert("Game has been restarted!");
+    saveProgress(); // Save the reset state
+  }
+
+  // show Milestones as unlocked
+  function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.innerText = message;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+      if (notification) {
+        notification.remove();
+      }
+    }, 3000); // Display for 3 seconds
+  }
+
+  setInterval(function updateMyGame() {
+    junk += junkPerSec;
+    $("#junk").text("Junk: " + junk);
+
+
+    // Check for milestones
+    if (junk >= 1000 && achieve1000) {
+      showNotification("Congratulations! You have collected 1000 Junk!");
+      achieve1000 = false;
+    }
+
+    // Check 10k Junk
+    if (junk >= 10000 && achieve10000) {
+      showNotification("Congratulations! You have collected 10000 Junk!");
+      achieve10000 = false;
+    }
+
+    // Add more milestones as needed
+  }, 1000);
+
+});

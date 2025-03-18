@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="Idlepunk 2077" content="width=device-width">
+  <title>IdlePunks 2077</title>
+  <link rel="stylesheet" href="style.css?<?php echo time(); ?>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/cjs/react.production.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="script.js"></script>
+</head>
+
+<body>
+
+  <div class="news-container">
+    <div class="news-heading">News</div>
+
+    <div class="news">
+      <a href="#" class="news-single active" class="preOldMan">
+        You have no one that loves you in this world
+      </a>
+
+      <a href="#" class="news-single" class="preTronics">
+        Do you love playing in the trash?
+      </a>
+
+      <a href="#" class="news-single" class="preTronics">
+        Virtual cat cafes explode in popularity, causing a shortage of actual catnip.
+      </a>
+
+      <a href="#" class="news-single" class="preTronics">
+        Pizza delivery drones under fire for "accidental" toppings.
+      </a>
+
+      <a href="#" class="news-single" class="preTronics">
+        Illegal street racing league using jetpacks gains massive underground following.
+      </a>
+
+      <a href="#" class="news-single" class="preTronics">
+        New flavor of energy drink promises to give you "cybernetic superpowers"
+      </a>
+    </div>
+  </div>
+
+
+  <!-- Main Menu  -->
+  <div class="content">
+    <div class="menus">
+      <div class="main">
+
+        <button id="visitStore">Visit Store</button>
+        <button id="electroStore">Visit ElectroShop</button>
+        <button id="credStore">Visit CredStore</button>
+        <button id="visitStats">Upgrade Stats</button>
+        <button id="visitExchange">Craft Items</button>
+      </div>
+
+      <div class="main" id="clickers">
+        <img class="tronics" id="tricClicker" src="/Folders/MainIcons/electricIcon.png" />
+        </img>
+
+        <img class="main" id="trashClicker" src="/Folders/MainIcons/TrashButtonBig.png" /></img>
+      </div>
+
+
+      <!-- Store Items  -->
+      <div class="store">
+        <div class="sellButtons">
+          <!-- Buy Scrap Bag Button  -->
+          <button class="sellButton" id="buyScrapBag">Buy Bag for Trash (10T)(+1)</button>
+          <button class="sellButton" id="buyTrashPicker">Buy Trashpicker (100T)(+3)</button>
+          <!-- Buy Hobo to help you  -->
+          <button class="sellButton" id="buyHobo">Pay Streetrat (100T)(+1/s)</button>
+          <button class="sellButton" id="buyShoppingCart">Buy Shopping Cart (500T)(+5)</button>
+          <button class="sellButton" id="buySolderingIron">Buy Soldering Iron (1000T) </button>
+          <!-- Exchange Trash Buttons  -->
+          <button id="exchangeTrash">Exchange Trash</button>
+          <button id="exchange10Trash">Exchange 10 Trash</button>
+          <button id="exchangeAllTrash">Exchange all Trash</button>
+          <button class="return"> Return </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Upgrade Skills  -->
+    <div class="skills">
+      <div class="upgradeSkills">
+        <input type="button" class="upgradeSkills" id="trainScrapSkill" value="Level Scrap Collection">
+        <div id="progressContainer" style="display: none;">
+          <div id="progressBar" style="width: 0%; height: 20px; background-color: green;"></div>
+        </div>
+        <button class="return"> Return </button>
+      </div>
+    </div>
+
+
+     <!-- Upgrade Visit Credstore -->
+      <div class="credits">
+        <div class="credStore">
+          <button class="credStore" id="buyTrashHandImplant">Buy Bag for Trash (10T)(+1)</button>
+          <button class="return"> Return </button>
+        </div>
+      </div>
+
+
+
+    <!-- exchange trash  -->
+    <div class="exchange">
+      <div class="visitExchange">
+        <!-- Create Loading Button that trains skills  -->
+        <button id="solderElectronics"> Solder Electronics (50T)</button>
+        <button class="craftButton" id="buyImprovedTrashBag">Craft Improved Trash Bag (50T)(+2 Junk/Click)</button>
+        <button class="return" id="returnExchange""> Return </button>
+      </div>
+
+    </div>
+  </div>
+    
+    <!-- Inventory and Coin Managment  -->
+    <div class=" inventory">
+          <p id="credits">Money: 0C</p>
+          <p id="junk">Junk: 0</p>
+          <p class="tronics" id="electronics">Tronics: 0</p>
+          <button id="saveProgressBtn">Save Progress</button>
+          <button id="loadProgressBtn">Load Progress</button>
+          <button id="restartAllBtn">Restart All</button> <!-- New Restart All Button -->
+
+          <button id="cheatBtn">Cheat: +1000 Junk</button>
+      </div>
+
+      <div class="stats">
+
+      </div>
+    </div>
+
+    <!-- Show all unlocked Items when bought  -->
+    <div class="unlockedItems">
+      <h3 id="unlockedHeader">Unlocked Items</h3>
+      <li id="item1"></li>
+      <li id="item2"></li>
+      <li id="item3"></li>
+      <li id="item4"></li>
+    </div>
+
+  </div>
+
+
+</body>
+
+</html>
