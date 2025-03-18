@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import Clicker from './components/Clicker';
+import Store from './components/Store';
+import ElectroStore from './components/ElectroStore';
 import Inventory from './components/Inventory';
 import MenuButtons from './components/MenuButtons';
 import NewsContainer from './components/NewsContainer';
@@ -49,6 +51,22 @@ export default function App() {
         <p>Junk: {junk}</p>
       </div>
       <MenuButtons onStoreSelect={setActiveStore} />
+      {activeStore === 'store' && (
+        <Store 
+          credits={credits}
+          junk={junk}
+          onBuyTrashBag={handleBuyTrashBag}
+          onBuyPicker={handleBuyPicker}
+          onBuyCart={handleBuyCart}
+        />
+      )}
+      {activeStore === 'electrostore' && (
+        <ElectroStore 
+          credits={credits}
+          onBuySolderingIron={handleBuySolderingIron}
+          onBuyMultimeter={handleBuyMultimeter}
+        />
+      )}
       <Clicker 
         collectJunk={collectJunk} 
         collectTronics={collectTronics}
