@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-export default function CheatMenu({ onReset, onAddJunk, onClose }) {
+export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial, onNextTutorial }) {
   return (
     <div className="cheat-menu">
       <h2>Cheat Menu</h2>
