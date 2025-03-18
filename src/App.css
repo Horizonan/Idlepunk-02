@@ -209,10 +209,25 @@ button.locked {
   border-right: 2px solid #9400D3;
 }
 
+.news-content-wrapper {
+  overflow: hidden;
+  flex: 1;
+}
+
 .news-content {
   color: #00FF00;
   padding: 0 20px;
-  animation: fadeIn 0.5s ease-in;
+  transition: transform 0.5s ease-out;
+  white-space: nowrap;
+}
+
+.news-content.slide-out {
+  transform: translateX(-100%);
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
 }
 
 .store-container {
