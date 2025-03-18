@@ -4,7 +4,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
       {electronicsUnlock && (
         <img src="/Folders/MainIcons/electricIcon.png" alt="Electro Clicker" onClick={collectTronics} className="tronics" />
       )}
-      <img src="/Folders/MainIcons/TrashButtonBig.png" alt="Trash Clicker" id="trashClicker" onClick={collectJunk} />
+      <img src="/src/Icons/TrashButtonBig.png" alt="Trash Clicker" id="trashClicker" onClick={collectJunk} />
     </div>
   );
 }
