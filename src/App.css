@@ -51,6 +51,28 @@ button.locked {
   cursor: not-allowed;
 }
 
+#clickers {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+#trashClicker {
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+#trashClicker:hover {
+  transform: scale(1.1);
+}
+
+#trashClicker:active {
+  transform: scale(0.95);
+}
+
 .news-bar {
   display: flex;
   align-items: center;
