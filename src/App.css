@@ -81,6 +81,23 @@ button.locked {
   padding: 8px 0;
 }
 
+.stats {
+  text-align: center;
+  padding: 10px;
+  background-color: rgba(26, 26, 26, 0.8);
+  border-bottom: 2px solid #9400D3;
+}
+
+.stats p {
+  margin: 5px 0;
+  font-size: 1.2em;
+  color: #00FF00;
+}
+
+.main {
+  margin-top: 20px;
+}
+
 .news-label {
   color: #9400D3;
   font-weight: bold;

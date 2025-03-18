@@ -27,15 +27,17 @@ export default function App() {
   return (
     <main>
       <NewsContainer />
+      <div className="stats">
+        <p>Money: {credits.toFixed(2)}C</p>
+        <p>Junk: {junk}</p>
+      </div>
+      <MenuButtons />
       <Clicker 
         collectJunk={collectJunk} 
         collectTronics={collectTronics}
         electronicsUnlock={electronicsUnlock}
       />
-      <Inventory credits={credits} junk={junk} />
-      <MenuButtons />
       <Notifications notifications={notifications} />
-      <UnlockedItems />
     </main>
   );
 }
