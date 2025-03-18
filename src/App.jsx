@@ -197,8 +197,8 @@ export default function App() {
       <div className="stats">
         <p>Money: {credits.toFixed(2)}C</p>
         <p>Junk: {junk}</p>
-        <button onClick={() => setShowAchievements(true)}>Achievements</button>
       </div>
+      <button className="achievements-btn" onClick={() => setShowAchievements(true)}>Achievements</button>
       {showAchievements && (
         <Achievements 
           achievements={achievements}
