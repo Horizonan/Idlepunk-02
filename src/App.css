@@ -112,6 +112,41 @@ button.locked {
   animation: fadeIn 0.5s ease-in;
 }
 
+.store-container {
+  background: rgba(26, 26, 26, 0.9);
+  padding: 20px;
+  border: 2px solid #9400D3;
+  margin: 20px auto;
+  max-width: 600px;
+  border-radius: 8px;
+}
+
+.store-container h2 {
+  color: #9400D3;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.store-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.store-item {
+  background: #222;
+  color: #00FF00;
+  border: 2px solid #9400D3;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.store-item:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

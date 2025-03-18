@@ -13,6 +13,7 @@ export default function App() {
   const [junk, setJunk] = useState(1300);
   const [electronicsUnlock, setElectronicsUnlock] = useState(false);
   const [notifications, setNotifications] = useState([]);
+  const [activeStore, setActiveStore] = useState(null);
 
   const collectJunk = () => {
     setJunk(prev => prev + 1);
@@ -23,6 +24,22 @@ export default function App() {
       setCredits(prev => prev + 1);
     }
   };
+
+  const buyItem = (cost, message) => {
+    if (credits >= cost) {
+      setCredits(prev => prev - cost);
+      setNotifications(prev => [...prev, message]);
+    }
+  };
+
+  const handleBuyTrashBag = () => buyItem(50, "Bought a Trash Bag!");
+  const handleBuyPicker = () => buyItem(150, "Bought a Trash Picker!");
+  const handleBuyCart = () => buyItem(500, "Bought a Shopping Cart!");
+  const handleBuySolderingIron = () => {
+    buyItem(1000, "Bought a Soldering Iron!");
+    setElectronicsUnlock(true);
+  };
+  const handleBuyMultimeter = () => buyItem(2000, "Bought a Multimeter!");
 
   return (
     <main>
