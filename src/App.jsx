@@ -48,7 +48,7 @@ export default function App() {
         <p>Money: {credits.toFixed(2)}C</p>
         <p>Junk: {junk}</p>
       </div>
-      <MenuButtons />
+      <MenuButtons onStoreSelect={setActiveStore} />
       <Clicker 
         collectJunk={collectJunk} 
         collectTronics={collectTronics}
