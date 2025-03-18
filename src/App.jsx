@@ -50,13 +50,13 @@ export default function App() {
   const handleReset = (type) => {
     switch(type) {
       case 'junk':
-        setJunk(1300);
+        setJunk(0);
         break;
       case 'credits':
         setCredits(0);
         break;
       case 'all':
-        setJunk(1300);
+        setJunk(0);
         setCredits(0);
         setClickMultiplier(1);
         setPassiveIncome(0);
