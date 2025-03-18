@@ -13,12 +13,12 @@ export default function CheatMenu({ onReset, onAddJunk, onClose }) {
         <button onClick={() => onReset('all')}>Reset Everything</button>
         <div style={{ display: 'flex', gap: '10px' }}>
           <button 
-            onClick={() => localStorage.setItem('tutorialStage', '0')} 
+            onClick={onResetTutorial}
             style={{ flex: 1, padding: '8px', fontSize: '14px' }}>
             Reset Tutorial
           </button>
           <button 
-            onClick={() => localStorage.setItem('tutorialStage', String(Number(localStorage.getItem('tutorialStage') || 0) + 1))} 
+            onClick={onNextTutorial}
             style={{ flex: 1, padding: '8px', fontSize: '14px' }}>
             Next Tutorial
           </button>

@@ -308,6 +308,8 @@ const [hasHelper, setHasHelper] = useState(false);
           onReset={handleReset}
           onAddJunk={(amount) => setJunk(prev => prev + amount)}
           onClose={() => setShowCheatMenu(false)}
+          onResetTutorial={() => setTutorialStage(0)}
+          onNextTutorial={() => setTutorialStage(prev => prev + 1)}
         />
       )}
       <Notifications notifications={notifications} />
