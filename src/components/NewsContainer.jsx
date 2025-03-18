@@ -22,20 +22,29 @@ export default function NewsContainer({ isSurgeActive }) {
   useEffect(() => {
     const handleTutorialProgress = (event) => {
       const stage = event.detail.stage;
-      const cogfatherTips = [
-        "If it's buzzing, it's working. If it's sparking, it's improving.",
-        "Efficiency is just laziness with better marketing.",
-        "One man's trash is my entire business model.",
-        "Automation isn't cheating. It's evolution.",
-        "Upgrade or stagnate. That's the law of the junkpile.",
-        "I once bartered a working toaster for a seat on a hoverbus. Worth it."
-      ];
-      
-      if (stage > 0 && stage <= cogfatherTips.length) {
-        const tip = `Cogfather's Tip: ${cogfatherTips[stage - 1]}`;
-        setDefaultNews(prev => [...prev, tip]);
+      const cogfatherTip = getCogfatherTip(stage);
+      if (cogfatherTip) {
+        const tip = `Cogfather's Tip: ${cogfatherTip}`;
+        setDefaultNews(prev => {
+          if (!prev.includes(tip)) {
+            return [...prev, tip];
+          }
+          return prev;
+        });
       }
     };
+
+    function getCogfatherTip(stage) {
+      const tips = {
+        1: "If it's buzzing, it's working. If it's sparking, it's improving.",
+        2: "Efficiency is just laziness with better marketing.",
+        3: "One man's trash is my entire business model.",
+        4: "Automation isn't cheating. It's evolution.",
+        5: "Upgrade or stagnate. That's the law of the junkpile.",
+        6: "I once bartered a working toaster for a seat on a hoverbus. Worth it."
+      };
+      return tips[stage];
+    }
 
     window.addEventListener('tutorialProgress', handleTutorialProgress);
     return () => window.removeEventListener('tutorialProgress', handleTutorialProgress);
