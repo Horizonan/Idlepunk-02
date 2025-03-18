@@ -212,17 +212,25 @@ button.locked {
 .news-content-wrapper {
   overflow: hidden;
   flex: 1;
+  position: relative;
 }
 
 .news-content {
   color: #00FF00;
   padding: 0 20px;
-  transition: transform 0.5s ease-out;
   white-space: nowrap;
+  position: absolute;
+  width: 100%;
+  transition: transform 12s linear;
 }
 
 .news-content.slide-out {
   transform: translateX(-100%);
+}
+
+.news-content.slide-in {
+  transform: translateX(100%);
+  animation: slideIn 12s linear forwards;
 }
 
 @keyframes slideIn {

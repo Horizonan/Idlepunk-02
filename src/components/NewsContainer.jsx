@@ -34,6 +34,13 @@ export default function NewsContainer({ isSurgeActive }) {
         <div className={`news-content ${isSliding ? 'slide-out' : ''}`}>
           {displayMessage}
         </div>
+        {isSliding && (
+          <div className="news-content slide-in">
+            {isSurgeActive 
+              ? "⚡ TRASH SURGE: Junk overflow detected — grab it while it lasts!"
+              : defaultNews[(currentNewsIndex + 1) % defaultNews.length]}
+          </div>
+        )}
       </div>
     </div>
   );
