@@ -13,7 +13,7 @@ export default function NewsContainer() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentNewsIndex((prev) => (prev + 1) % news.length);
-    }, 3000);
+    }, 12000);
 
     return () => clearInterval(interval);
   }, []);
