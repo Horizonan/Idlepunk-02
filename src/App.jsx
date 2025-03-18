@@ -221,7 +221,7 @@ export default function App() {
 
   return (
     <main>
-      <NewsContainer />
+      <NewsContainer isSurgeActive={isSurgeActive} />
       <TrashSurge isActive={isSurgeActive} />
       <div className="stats">
         <p>Money: {credits.toFixed(2)}C</p>

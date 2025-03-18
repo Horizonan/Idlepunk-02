@@ -1,9 +1,9 @@
 
 import { useState, useEffect } from 'react';
 
-export default function NewsContainer() {
+export default function NewsContainer({ isSurgeActive }) {
   const [currentNewsIndex, setCurrentNewsIndex] = useState(0);
-  const news = [
+  const defaultNews = [
     "Do you love playing in the trash?",
     "You have no one that loves you in this world",
     "Virtual cat cafes explode in popularity",
@@ -18,10 +18,14 @@ export default function NewsContainer() {
     return () => clearInterval(interval);
   }, []);
 
+  const displayMessage = isSurgeActive 
+    ? "⚡ TRASH SURGE: Junk overflow detected — grab it while it lasts!"
+    : defaultNews[currentNewsIndex];
+
   return (
     <div className="news-bar">
       <div className="news-label">News</div>
-      <div className="news-content">{news[currentNewsIndex]}</div>
+      <div className="news-content">{displayMessage}</div>
     </div>
   );
 }

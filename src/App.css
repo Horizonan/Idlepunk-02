@@ -183,7 +183,7 @@ button.locked {
 
 .surge-banner {
   position: fixed;
-  top: 120px;
+  top: 180px;
   left: 50%;
   transform: translateX(-50%);
   background: rgba(0, 255, 0, 0.2);
