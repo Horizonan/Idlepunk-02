@@ -50,15 +50,17 @@ export default function Achievements({ achievements, onClose }) {
         position: 'fixed',
         left: position.x,
         top: position.y,
-        cursor: isDragging ? 'grabbing' : 'grab',
         userSelect: 'none'
       }}
-      onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
     >
-      <div className="achievements-header">
+      <div 
+        className="achievements-header"
+        style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+        onMouseDown={handleMouseDown}
+      >
         <h2>Achievements</h2>
         <button onClick={onClose}>Close</button>
       </div>
