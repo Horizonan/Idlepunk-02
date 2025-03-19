@@ -659,6 +659,7 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
           ...prev,
           [cheatName]: !prev[cheatName]
         }))}
+        onClose={() => setShowCheatMenu(false)}
       />
     </main>
   );

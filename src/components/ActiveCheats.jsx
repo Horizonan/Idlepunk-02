@@ -53,7 +53,7 @@ export default function ActiveCheats({ cheats, onToggleCheat }) {
     >
       <div className="cheat-handle" onMouseDown={handleMouseDown}>
         Active Cheats
-        <button className="close-btn" onClick={onClose}>×</button>
+        {onClose && <button className="close-btn" onClick={onClose}>×</button>}
       </div>
       <div className="cheat-list">
         {Object.entries(cheats).map(([cheatName, isActive]) => (
