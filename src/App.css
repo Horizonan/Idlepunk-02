@@ -98,6 +98,7 @@ button {
   right: 30px;
   top: 200px;
   z-index: 1000;
+  touch-action: none;
 }
 
 .quest-log-toggle {
