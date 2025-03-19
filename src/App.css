@@ -80,7 +80,7 @@ button {
 
 .quest-log {
   position: fixed;
-  right: 20px;
+  right: 30px;
   top: 200px;
   z-index: 1000;
 }
@@ -90,6 +90,7 @@ button {
   min-width: 120px;
   padding: 8px 16px;
   margin: 0;
+  right: 20px;
 }
 
 .quest-log.open {
