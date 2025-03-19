@@ -567,44 +567,6 @@ button.locked {
   top: 120px;
   right: 20px;
   z-index: 900;
-  background: rgba(26, 26, 26, 0.95);
-  border: 2px solid #9400D3;
-  border-radius: 8px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 200px;
-}
-
-.button-container button {
-  width: 100%;
-  margin: 0;
-  padding: 8px 16px;
-  font-size: 14px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.button-container.collapsed {
-  width: auto;
-  padding: 0;
-  background: none;
-  border: none;
-}
-
-.button-container.collapsed button:not(.menu-toggle) {
-  display: none;
-}
-
-.menu-toggle {
-  background-color: #222;
-  border: 2px solid #9400D3;
-  width: 40px !important;
-  height: 40px;
-  padding: 5px !important;
-  align-self: flex-end;
 }
 
 
