@@ -15,8 +15,10 @@ import Notifications from './components/Notifications';
 import UnlockedItems from './components/UnlockedItems';
 import TutorialSystem from './components/TutorialSystem';
 import QuestLog from './components/QuestLog';
+import SlotMachine from './components/SlotMachine';
 
 export default function App() {
+  const [showSlotMachine, setShowSlotMachine] = useState(false);
   const [showCheatMenu, setShowCheatMenu] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
   const [credits, setCredits] = useState(() => Number(localStorage.getItem('credits')) || 0);
@@ -284,7 +286,14 @@ const [hasHelper, setHasHelper] = useState(false);
       <div className="button-container">
         <button className="achievements-btn" onClick={() => setShowAchievements(true)}>Achievements</button>
         <button className="quest-log-toggle" onClick={() => setShowQuestLog(prev => !prev)}>Quest Log</button>
-        <button className="slot-machine-btn" onClick={() => console.log('Slot machine clicked')}>Slot Machine</button>
+        <button className="slot-machine-btn" onClick={() => setShowSlotMachine(true)}>Slot Machine</button>
+        {showSlotMachine && (
+          <SlotMachine
+            junk={junk}
+            onSpin={(cost) => setJunk(prev => prev - cost)}
+            onClose={() => setShowSlotMachine(false)}
+          />
+        )}
       </div>
       {showAchievements && (
         <Achievements 
