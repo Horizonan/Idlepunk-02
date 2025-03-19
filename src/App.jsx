@@ -329,7 +329,6 @@ const [hasHelper, setHasHelper] = useState(false);
           onClose={() => setShowSlotMachine(false)}
         />
       )}
-      </div>
       {showAchievements && (
         <Achievements 
           achievements={achievements}
