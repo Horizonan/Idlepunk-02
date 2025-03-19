@@ -128,7 +128,8 @@ export default function App() {
           junkMagnet: 1500,
           clickEnhancer: 2500,
           urbanRecycler: 3000,
-          autoClicker: 5000 
+          autoClicker: 5000,
+          scrapDrone: 7500
         });
         setAutoClicks(0);
         setAchievements(prevAchievements => 
