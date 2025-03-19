@@ -6,6 +6,7 @@ import CheatMenu from './components/CheatMenu';
 import Store from './components/Store';
 import ElectroStore from './components/ElectroStore';
 import CredStore from './components/CredStore';
+import AutomationStore from './components/AutomationStore';
 import Inventory from './components/Inventory';
 import MenuButtons from './components/MenuButtons';
 import NewsContainer from './components/NewsContainer';
@@ -307,6 +308,12 @@ const [hasHelper, setHasHelper] = useState(false);
           credits={credits}
           onBuySolderingIron={handleBuySolderingIron}
           onBuyMultimeter={handleBuyMultimeter}
+          onBack={() => setActiveStore(null)}
+        />
+      )}
+      {activeStore === 'automation' && (
+        <AutomationStore
+          credits={credits}
           onBack={() => setActiveStore(null)}
         />
       )}
