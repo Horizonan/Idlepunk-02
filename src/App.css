@@ -190,6 +190,45 @@ button {
   background: #7B00AD;
 }
 
+.settings-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(26, 26, 26, 0.95);
+  border: 2px solid #9400D3;
+  border-radius: 8px;
+  padding: 20px;
+  z-index: 1000;
+  min-width: 300px;
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.settings-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.setting-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #00FF00;
+}
+
+.setting-option input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
 .tutorial-buttons {
   display: flex;
   gap: 10px;

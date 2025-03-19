@@ -22,6 +22,8 @@ export default function App() {
   const [showSlotMachine, setShowSlotMachine] = useState(false);
   const [showCheatMenu, setShowCheatMenu] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [showClickEnhancerUI, setShowClickEnhancerUI] = useState(true);
   const [credits, setCredits] = useState(() => Number(localStorage.getItem('credits')) || 0);
   const [junk, setJunk] = useState(() => Number(localStorage.getItem('junk')) || 0);
   const [clickCount, setClickCount] = useState(() => Number(localStorage.getItem('clickCount')) || 0);
@@ -51,19 +53,19 @@ export default function App() {
         setShowCheatMenu(prev => !prev);
       }
     };
-    
+
     const handleSlotForceTriple = () => {
       if (window.spinSlotMachine) window.spinSlotMachine(true, false);
     };
-    
+
     const handleSlotForceDouble = () => {
       if (window.spinSlotMachine) window.spinSlotMachine(false, true);
     };
-    
+
     window.addEventListener('keydown', handleKeyPress);
     window.addEventListener('slotForceTriple', handleSlotForceTriple);
     window.addEventListener('slotForceDouble', handleSlotForceDouble);
-    
+
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
       window.removeEventListener('slotForceTriple', handleSlotForceTriple);
@@ -308,6 +310,7 @@ const [hasHelper, setHasHelper] = useState(false);
         <button className="achievements-btn" onClick={() => setShowAchievements(true)}>Achievements</button>
         <button className="quest-log-toggle" onClick={() => setShowQuestLog(prev => !prev)}>Quest Log</button>
         <button className="slot-machine-btn" onClick={() => setShowSlotMachine(true)}>Slot Machine</button>
+        <button className="settings-btn" onClick={() => setShowSettings(true)}>Settings</button> {/* Added settings button */}
         {showSlotMachine && (
           <SlotMachine
             junk={junk}
@@ -406,7 +409,7 @@ const [hasHelper, setHasHelper] = useState(false);
         collectTronics={collectTronics}
         electronicsUnlock={electronicsUnlock}
       />
-      {clickEnhancerLevel > 0 && <ClickEnhancerEffect />}
+      {showClickEnhancerUI && clickEnhancerLevel > 0 && <ClickEnhancerEffect />} {/*Conditional rendering of ClickEnhancerEffect */}
       <Notifications notifications={notifications} />
       {showCheatMenu && (
         <CheatMenu 
@@ -416,6 +419,16 @@ const [hasHelper, setHasHelper] = useState(false);
           onResetTutorial={() => setTutorialStage(0)}
           onNextTutorial={() => setTutorialStage(prev => prev + 1)}
         />
+      )}
+      {showSettings && (
+        <div className="settings-menu">
+          <h2>Settings</h2>
+          <label>
+            <input type="checkbox" checked={showClickEnhancerUI} onChange={() => setShowClickEnhancerUI(prev => !prev)} />
+            Show Click Enhancer UI
+          </label>
+          <button onClick={() => setShowSettings(false)}>Close</button>
+        </div>
       )}
       <Notifications notifications={notifications} />
     </main>
