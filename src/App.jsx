@@ -71,6 +71,13 @@ export default function App() {
   const [autoClicks, setAutoClicks] = useState(0); // Added state for auto clicks
 
   useEffect(() => {
+    if (activeCheatsList['Force Triple Win']) {
+      window.dispatchEvent(new CustomEvent('slotForceTriple'));
+    }
+    if (activeCheatsList['Force Double Win']) {
+      window.dispatchEvent(new CustomEvent('slotForceDouble'));
+    }
+
     const handleKeyPress = (e) => {
       if (e.shiftKey && e.key === 'H') {
         setShowCheatMenu(prev => !prev);
@@ -182,7 +189,9 @@ const [hasHelper, setHasHelper] = useState(false);
   const [craftingInventory, setCraftingInventory] = useState(() => JSON.parse(localStorage.getItem('craftingInventory')) || {});
   const [hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge] = useState(false);
   const [activeCheatsList, setActiveCheatsList] = useState(() => ({
-    'Guaranteed Capacitor': false
+    'Guaranteed Capacitor': false,
+    'Force Triple Win': false,
+    'Force Double Win': false
   }));
 const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem('itemCosts')) || {
     trashBag: 10,

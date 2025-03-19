@@ -15,8 +15,6 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
         <button onClick={onNextTutorial}>Next Tutorial</button>
         <button onClick={() => window.dispatchEvent(new CustomEvent('triggerSurge'))}>Trigger Surge</button>
         <button onClick={() => window.dispatchEvent(new CustomEvent('nextNews'))}>Next News</button>
-        <button onClick={() => window.dispatchEvent(new CustomEvent('slotForceTriple'))}>Force Triple Win</button>
-        <button onClick={() => window.dispatchEvent(new CustomEvent('slotForceDouble'))}>Force Double Win</button>
         <button onClick={() => onReset('all')} className="full-width">Reset Everything</button>
         <button onClick={() => {
           const defaultAchievements = [
