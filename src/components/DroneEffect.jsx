@@ -10,6 +10,21 @@ export default function DroneEffect({ numDrones }) {
   );
 
   useEffect(() => {
+    setPositions(prevPositions => {
+      const newLength = Math.min(Number(localStorage.getItem('maxVisibleDrones')) || 10, numDrones);
+      if (newLength > prevPositions.length) {
+        return [...prevPositions, ...Array(newLength - prevPositions.length).fill().map(() => ({
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          targetX: Math.random() * window.innerWidth,
+          targetY: Math.random() * window.innerHeight
+        }))];
+      }
+      return prevPositions.slice(0, newLength);
+    });
+  }, [numDrones]);
+
+  useEffect(() => {
     const drones = Array(maxVisibleDrones).fill().map(() => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
