@@ -179,7 +179,8 @@ const [hasHelper, setHasHelper] = useState(false);
     junkMagnet: 1500,
     urbanRecycler: 3000,
     autoClicker: 5000,
-    clickEnhancer: 2500
+    clickEnhancer: 2500,
+    scrapDrone: 7500
   });
 
   const [ownedItems, setOwnedItems] = useState(() => JSON.parse(localStorage.getItem('ownedItems')) || {
@@ -343,6 +344,23 @@ const [hasHelper, setHasHelper] = useState(false);
     }
   };
 
+  const handleBuyScrapDrone = () => {
+    if (junk >= itemCosts.scrapDrone) {
+      setJunk(prev => prev - itemCosts.scrapDrone);
+      setNotifications(prev => [...prev, "Scrap Drone Deployed – +25 JPS"]);
+      setPassiveIncome(prev => prev + 25);
+      setItemCosts(prev => ({...prev, scrapDrone: Math.floor(prev.scrapDrone * 1.15)}));
+      setOwnedItems(prev => ({...prev, scrapDrone: (prev.scrapDrone || 0) + 1}));
+      
+      if (!ownedItems.scrapDrone) {
+        window.dispatchEvent(new CustomEvent('nextNews', { 
+          detail: { message: "Cogfather: You've got drones now? Look at you, corporate overlord in the making." }
+        }));
+        setDefaultNews(prev => [...prev, "Automated helper deployed. Don't expect it to take breaks."]);
+      }
+    }
+  };
+
   const handleBuySolderingIron = () => {
     buyItem(1000, "Bought a Soldering Iron!");
     setElectronicsUnlock(true);
@@ -423,6 +441,8 @@ const [hasHelper, setHasHelper] = useState(false);
           onBuyCart={handleBuyCart}
           onBuyJunkMagnet={handleBuyJunkMagnet}
           onBuyUrbanRecycler={handleBuyUrbanRecycler}
+          onBuyScrapDrone={handleBuyScrapDrone}
+          passiveIncome={passiveIncome}
           onBuyClickEnhancer={() => {
             if (junk >= itemCosts.clickEnhancer) {
               setJunk(prev => prev - itemCosts.clickEnhancer);
