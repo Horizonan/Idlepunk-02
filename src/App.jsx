@@ -132,8 +132,10 @@ const [hasHelper, setHasHelper] = useState(false);
     localStorage.setItem('clickMultiplier', clickMultiplier);
     localStorage.setItem('passiveIncome', passiveIncome);
     localStorage.setItem('itemCosts', JSON.stringify(itemCosts));
-    localStorage.setItem('autoClicks', autoClicks); //Persist autoClicks
-  }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts, autoClicks]);
+    localStorage.setItem('autoClicks', autoClicks);
+    localStorage.setItem('clickCount', clickCount);
+    localStorage.setItem('achievements', JSON.stringify(achievements));
+  }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts, autoClicks, clickCount, achievements]);
 
   const checkAchievements = () => {
     setAchievements(prev => {
