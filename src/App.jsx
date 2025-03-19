@@ -71,13 +71,23 @@ export default function App() {
   const [autoClicks, setAutoClicks] = useState(0); // Added state for auto clicks
 
   useEffect(() => {
-    if (activeCheatsList['Force Triple Win']) {
-      window.dispatchEvent(new CustomEvent('slotForceTriple'));
-    }
-    if (activeCheatsList['Force Double Win']) {
-      window.dispatchEvent(new CustomEvent('slotForceDouble'));
-    }
+    const handleForceWin = () => {
+      if (showSlotMachine) {
+        if (window.spinSlotMachine) {
+          if (activeCheatsList['Force Triple Win']) {
+            window.spinSlotMachine(true, false);
+          } else if (activeCheatsList['Force Double Win']) {
+            window.spinSlotMachine(false, true);
+          }
+        }
+      }
+    };
 
+    // Check for force win on mount and when activeCheatsList changes
+    handleForceWin();
+
+    const interval = setInterval(handleForceWin, 100);
+    
     const handleKeyPress = (e) => {
       if (e.shiftKey && e.key === 'H') {
         setShowCheatMenu(prev => !prev);
@@ -101,8 +111,9 @@ export default function App() {
       window.removeEventListener('keydown', handleKeyPress);
       window.removeEventListener('slotForceTriple', handleSlotForceTriple);
       window.removeEventListener('slotForceDouble', handleSlotForceDouble);
+      clearInterval(interval);
     };
-  }, []);
+  }, [activeCheatsList, showSlotMachine]);
 
   const handleReset = (type) => {
     switch(type) {
