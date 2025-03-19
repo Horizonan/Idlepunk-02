@@ -71,19 +71,12 @@ export default function App() {
   const [autoClicks, setAutoClicks] = useState(0); // Added state for auto clicks
 
   useEffect(() => {
-    // Update spinSlotMachine function based on active cheats
-    window.spinSlotMachine = (forceTriple = activeCheatsList['Force Triple Win'], forceDouble = activeCheatsList['Force Double Win']) => {
-      if (showSlotMachine) {
-        const symbol = ['💰', '🗑️', '⚡', '🔧', '🎲'][Math.floor(Math.random() * 5)];
-        if (forceTriple) {
-          return [symbol, symbol, symbol];
-        } else if (forceDouble) {
-          const differentSymbol = ['💰', '🗑️', '⚡', '🔧', '🎲'].filter(s => s !== symbol)[Math.floor(Math.random() * 4)];
-          return [symbol, symbol, differentSymbol];
-        }
-      }
-      return null;
-    };
+    if (activeCheatsList['Force Triple Win']) {
+      window.dispatchEvent(new CustomEvent('slotForceTriple'));
+    }
+    if (activeCheatsList['Force Double Win']) {
+      window.dispatchEvent(new CustomEvent('slotForceDouble'));
+    }
 
     const handleKeyPress = (e) => {
       if (e.shiftKey && e.key === 'H') {

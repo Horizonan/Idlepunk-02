@@ -8,7 +8,7 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
   
   const symbols = ['💰', '🗑️', '⚡', '🔧', '🎲'];
   
-  const spin = () => {
+  const spin = (forceTriple = false, forceDouble = false) => {
     if (junk < spinCost) return;
     
     setSpinning(true);
@@ -16,10 +16,13 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
     
     setTimeout(() => {
       let newSlots;
-      const forcedResult = window.spinSlotMachine && window.spinSlotMachine();
-      
-      if (forcedResult) {
-        newSlots = forcedResult;
+      if (forceTriple) {
+        const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+        newSlots = [symbol, symbol, symbol];
+      } else if (forceDouble) {
+        const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+        const differentSymbol = symbols.filter(s => s !== symbol)[Math.floor(Math.random() * (symbols.length - 1))];
+        newSlots = [symbol, symbol, differentSymbol];
       } else {
         newSlots = Array(3).fill(0).map(() => 
           symbols[Math.floor(Math.random() * symbols.length)]
