@@ -593,15 +593,12 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
         <CheatMenu 
           onReset={handleReset}
           onAddJunk={(amount) => setJunk(prev => prev + amount)}
-          onClose={() => {
-            setShowCheatMenu(false);
-            setShowActiveCheats(false);
-          }}
+          onClose={() => setShowCheatMenu(false)}
           onResetTutorial={() => setTutorialStage(0)}
           onNextTutorial={() => setTutorialStage(prev => prev + 1)}
         />
       )}
-      {(showCheatMenu || showActiveCheats) && (
+      {showActiveCheats && (
         <ActiveCheats
           cheats={activeCheatsList}
           onToggleCheat={(cheatName) => setActiveCheatsList(prev => ({
