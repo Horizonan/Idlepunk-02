@@ -115,6 +115,7 @@ export default function App() {
         setJunk(0);
         setCredits(0);
         setClickCount(0);
+        localStorage.setItem('clickCount', '0');
         setClickMultiplier(1);
         setPassiveIncome(0);
         setElectronicsUnlock(false);
@@ -353,8 +354,8 @@ const [hasHelper, setHasHelper] = useState(false);
       <TrashSurge isActive={isSurgeActive} />
       <div className="stats">
         <p>Money: {credits.toFixed(2)}C</p>
-        <p>Junk: {Math.floor(junk)}</p>
-        <p>Junk/sec: {Math.floor(passiveIncome + (autoClicks * clickMultiplier))}</p>
+        <p>Junk: {Math.floor(junk).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
+        <p>Junk/sec: {Math.floor(passiveIncome + (autoClicks * clickMultiplier)).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
       </div>
       <Menu onStoreSelect={(type) => {
         switch(type) {
