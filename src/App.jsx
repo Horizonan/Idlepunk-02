@@ -26,9 +26,9 @@ export default function App() {
   const [showSettings, setShowSettings] = useState(false);
   const [showQuestLog, setShowQuestLog] = useState(false);
   const [showClickEnhancerUI, setShowClickEnhancerUI] = useState(true);
-  const [credits, setCredits] = useState(() => Math.floor(Number(localStorage.getItem('credits')) || 0));
-  const [junk, setJunk] = useState(() => Math.floor(Number(localStorage.getItem('junk')) || 0));
-  const [clickCount, setClickCount] = useState(() => Math.floor(Number(localStorage.getItem('clickCount')) || 0));
+  const [credits, setCredits] = useState(() => Number(localStorage.getItem('credits')) || 0);
+  const [junk, setJunk] = useState(() => Number(localStorage.getItem('junk')) || 0);
+  const [clickCount, setClickCount] = useState(() => Number(localStorage.getItem('clickCount')) || 0);
   const defaultAchievements = [
     {
       title: "Junkie Starter",
@@ -114,7 +114,6 @@ export default function App() {
       case 'all':
         setJunk(0);
         setCredits(0);
-        setClickCount(0);
         setClickMultiplier(1);
         setPassiveIncome(0);
         setElectronicsUnlock(false);
@@ -353,8 +352,8 @@ const [hasHelper, setHasHelper] = useState(false);
       <TrashSurge isActive={isSurgeActive} />
       <div className="stats">
         <p>Money: {credits.toFixed(2)}C</p>
-        <p>Junk: {Math.floor(junk)}</p>
-        <p>Junk/sec: {Math.floor(passiveIncome + (autoClicks * clickMultiplier))}</p>
+        <p>Junk: {junk}</p>
+        <p>Junk/sec: {(passiveIncome + (autoClicks * clickMultiplier)).toFixed(1)}</p>
       </div>
       <Menu onStoreSelect={(type) => {
         switch(type) {
@@ -451,15 +450,6 @@ const [hasHelper, setHasHelper] = useState(false);
           onBack={() => setActiveStore(null)}
         />
       )}
-      <Inventory 
-        credits={credits}
-        junk={junk}
-        tronics={0}
-        electronicsUnlock={electronicsUnlock}
-        autoClicks={autoClicks}
-        clickMultiplier={clickMultiplier}
-        onCheat={() => setJunk(prev => prev + 1000)}
-      />
       {activeStore === 'credstore' && (
         <CredStore
           junk={junk}
