@@ -90,8 +90,9 @@ export default function App() {
           streetrat: 100,
           cart: 500,
           junkMagnet: 1500,
+          clickEnhancer: 2500,
           urbanRecycler: 3000,
-          autoClicker: 5000 // Added autoClicker cost
+          autoClicker: 5000 
         });
         setAutoClicks(0); //Reset autoclicks
         break;
