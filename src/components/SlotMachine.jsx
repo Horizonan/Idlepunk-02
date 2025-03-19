@@ -8,16 +8,26 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
   
   const symbols = ['💰', '🗑️', '⚡', '🔧', '🎲'];
   
-  const spin = () => {
+  const spin = (forceTriple = false, forceDouble = false) => {
     if (junk < spinCost) return;
     
     setSpinning(true);
     onSpin(spinCost);
     
     setTimeout(() => {
-      const newSlots = Array(3).fill(0).map(() => 
-        symbols[Math.floor(Math.random() * symbols.length)]
-      );
+      let newSlots;
+      if (forceTriple) {
+        const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+        newSlots = [symbol, symbol, symbol];
+      } else if (forceDouble) {
+        const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+        const differentSymbol = symbols.filter(s => s !== symbol)[Math.floor(Math.random() * (symbols.length - 1))];
+        newSlots = [symbol, symbol, differentSymbol];
+      } else {
+        newSlots = Array(3).fill(0).map(() => 
+          symbols[Math.floor(Math.random() * symbols.length)]
+        );
+      }
       
       // Set the slots first
       setSlots(newSlots);
@@ -50,6 +60,9 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
     }, 1000);
   };
 
+  // Make spin function globally accessible for cheats
+  window.spinSlotMachine = (forceTriple, forceDouble) => spin(forceTriple, forceDouble);
+  
   return (
     <div className="slot-machine-container">
       <div className="slot-machine-header">

@@ -50,8 +50,24 @@ export default function App() {
         setShowCheatMenu(prev => !prev);
       }
     };
+    
+    const handleSlotForceTriple = () => {
+      if (window.spinSlotMachine) window.spinSlotMachine(true, false);
+    };
+    
+    const handleSlotForceDouble = () => {
+      if (window.spinSlotMachine) window.spinSlotMachine(false, true);
+    };
+    
     window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
+    window.addEventListener('slotForceTriple', handleSlotForceTriple);
+    window.addEventListener('slotForceDouble', handleSlotForceDouble);
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+      window.removeEventListener('slotForceTriple', handleSlotForceTriple);
+      window.removeEventListener('slotForceDouble', handleSlotForceDouble);
+    };
   }, []);
 
   const handleReset = (type) => {
