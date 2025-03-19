@@ -306,12 +306,23 @@ const [hasHelper, setHasHelper] = useState(false);
         <p>Junk: {junk}</p>
         <p>Junk/sec: {(passiveIncome + (autoClicks * clickMultiplier)).toFixed(1)}</p>
       </div>
-      <div className="button-container">
-        <button className="achievements-btn" onClick={() => setShowAchievements(true)}>Achievements</button>
-        <button className="quest-log-toggle" onClick={() => setShowQuestLog(prev => !prev)}>Quest Log</button>
-        <button className="slot-machine-btn" onClick={() => setShowSlotMachine(true)}>Slot Machine</button>
-        <button className="settings-btn" onClick={() => setShowSettings(true)}>Settings</button> {/* Added settings button */}
-        {showSlotMachine && (
+      <Menu onStoreSelect={(type) => {
+        switch(type) {
+          case 'achievements':
+            setShowAchievements(true);
+            break;
+          case 'questLog':
+            setShowQuestLog(prev => !prev);
+            break;
+          case 'slotMachine':
+            setShowSlotMachine(true);
+            break;
+          case 'settings':
+            setShowSettings(true);
+            break;
+        }
+      }} />
+      {showSlotMachine && (
           <SlotMachine
             junk={junk}
             onSpin={(cost) => setJunk(prev => prev - cost)}

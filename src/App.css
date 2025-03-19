@@ -562,11 +562,61 @@ button.locked {
   min-height: 300px;
 }
 
-.button-container {
+.menu-container {
   position: fixed;
   top: 120px;
   right: 20px;
   z-index: 900;
+  background: rgba(26, 26, 26, 0.95);
+  border: 2px solid #9400D3;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 200px;
+}
+
+.menu-container.collapsed {
+  width: auto;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+.menu-container.collapsed .menu-buttons {
+  display: none;
+}
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menu-button {
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  margin: 0;
+  background: #222;
+  border: 1px solid #9400D3;
+  color: #00FF00;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.menu-button:hover {
+  background: #9400D3;
+  color: #222;
+}
+
+.menu-toggle {
+  align-self: flex-end;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  margin: 0;
 }
 
 
