@@ -32,27 +32,28 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
       // Set the slots first
       setSlots(newSlots);
       
+      // Calculate winnings immediately
+      let winnings = 0;
+      if (newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2]) {
+        winnings = 1000; // Jackpot for all 3 matching
+      } else if (newSlots[0] === newSlots[1] || newSlots[1] === newSlots[2]) {
+        winnings = 200; // Small win for 2 matching
+      }
+      
+      if (winnings > 0) {
+        // Play win sound immediately
+        const audio = new Audio(newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2] 
+          ? '/src/sounds/casino_winning.wav' 
+          : 'https://assets.mixkit.co/active_storage/sfx/2019/casino-notification-sound.wav');
+        audio.play();
+      }
+      
       // Short delay before showing results
       setTimeout(() => {
         setSpinning(false);
         
-        // Calculate winnings
-        let winnings = 0;
-        if (newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2]) {
-          winnings = 1000; // Jackpot for all 3 matching
-        } else if (newSlots[0] === newSlots[1] || newSlots[1] === newSlots[2]) {
-          winnings = 200; // Small win for 2 matching
-        }
-        
         if (winnings > 0) {
           onSpin(-winnings); // Negative cost means player wins
-          
-          // Play win sound - big win for 3 matches, regular win sound for 2 matches
-          const audio = new Audio(newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2] 
-            ? '/src/sounds/casino_winning.wav' 
-            : 'https://assets.mixkit.co/active_storage/sfx/2019/casino-notification-sound.wav');
-          audio.play();
-          
           // Show win popup
           alert(`Congratulations! You won ${winnings} Junk!`);
         }
