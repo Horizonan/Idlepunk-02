@@ -31,9 +31,8 @@ export default function NewsContainer({ isSurgeActive }) {
         6: "I once bartered a working toaster for a seat on a hoverbus. Worth it."
       };
       
-      if (stage > 0 && stage <= 6) {
-        const tip = `Cogfather's Tip: ${tips[stage]}`;
-        setDefaultNews(prev => [...prev, tip]);
+      if (stage > 0 && stage <= 6 && event.detail.tip) {
+        setDefaultNews(prev => [...prev, event.detail.tip]);
         setCurrentNewsIndex(prev => prev + 1);
       }
     };

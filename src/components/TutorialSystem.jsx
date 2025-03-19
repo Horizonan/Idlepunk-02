@@ -55,8 +55,20 @@ export default function TutorialSystem({
         setIsVisible(true);
         
         if (tutorialStage > 0) {
+          const tips = {
+            1: "If it's buzzing, it's working. If it's sparking, it's improving.",
+            2: "Efficiency is just laziness with better marketing.",
+            3: "One man's trash is my entire business model.",
+            4: "Automation isn't cheating. It's evolution.",
+            5: "Upgrade or stagnate. That's the law of the junkpile.",
+            6: "I once bartered a working toaster for a seat on a hoverbus. Worth it."
+          };
+          
           window.dispatchEvent(new CustomEvent('tutorialProgress', { 
-            detail: { stage: tutorialStage } 
+            detail: { 
+              stage: tutorialStage,
+              tip: `Cogfather's Tip: ${tips[tutorialStage]}`
+            } 
           }));
           
           timeout = setTimeout(() => {
