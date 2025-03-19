@@ -395,7 +395,7 @@ button.locked {
   padding: 20px;
   border: 2px solid #9400D3;
   margin: 20px auto;
-  max-width: 800px;
+  max-width: 600px;
   border-radius: 8px;
 }
 
@@ -405,52 +405,15 @@ button.locked {
   margin-bottom: 20px;
 }
 
-.store-sections-wrapper {
-  display: flex;
-  gap: 20px;
-}
 
-.store-section {
-  flex: 1;
-  padding: 15px;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
-  border: 1px solid #9400D3;
-}
-
-.store-section h3 {
-  color: #9400D3;
-  text-align: center;
-  margin-bottom: 15px;
-  padding-bottom: 5px;
-  border-bottom: 1px solid #9400D3;
-}
-
-.owned {
-  color: #8af;
-  font-size: 0.9em;
-  margin-top: 5px;
-}
-
-.store-items {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 10px;
-}
 
 .store-item {
-  background: #222;
-  color: #00FF00;
-  border: 2px solid #9400D3;
-  padding: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative; /* Added for item-info positioning */
+  position: relative;
+  display: inline-block;
 }
 
-.store-item:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.store-item:hover .item-info {
+  display: block;
 }
 
 .item-info {
@@ -467,10 +430,25 @@ button.locked {
   color: #00FF00;
 }
 
-.store-item:hover .item-info {
-  display: block;
+.store-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
 }
 
+.store-item {
+  background: #222;
+  color: #00FF00;
+  border: 2px solid #9400D3;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.store-item:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
 .surge-banner {
   position: fixed;
@@ -844,18 +822,4 @@ button.locked {
 
 .achievements-list .achievement:last-child {
   margin-bottom: 0;
-}
-
-/* Added sections for Click and Per Second items */
-.store-section.click-items {
-  margin-bottom: 20px;
-}
-
-.store-section.per-second-items {
-  margin-bottom: 20px;
-}
-
-/* Example of how to display owned count (replace with your actual data handling) */
-.store-item .owned {
-  display: block; /* Makes sure this is visible */
 }
