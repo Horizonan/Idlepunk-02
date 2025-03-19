@@ -105,7 +105,9 @@ const [hasHelper, setHasHelper] = useState(false);
     trashBag: 10,
     trashPicker: 100,
     streetrat: 100,
-    cart: 500
+    cart: 500,
+    junkMagnet: 1500,
+    urbanRecycler: 3000
   });
 
   useEffect(() => {
@@ -220,6 +222,24 @@ const [hasHelper, setHasHelper] = useState(false);
     }
   };
 
+  const handleBuyJunkMagnet = () => {
+    if (junk >= itemCosts.junkMagnet) {
+      setJunk(prev => prev - itemCosts.junkMagnet);
+      setNotifications(prev => [...prev, "Junk Magnet gekauft!"]);
+      setPassiveIncome(prev => prev + 10);
+      setItemCosts(prev => ({...prev, junkMagnet: Math.floor(prev.junkMagnet * 1.15)}));
+    }
+  };
+
+  const handleBuyUrbanRecycler = () => {
+    if (junk >= itemCosts.urbanRecycler) {
+      setJunk(prev => prev - itemCosts.urbanRecycler);
+      setNotifications(prev => [...prev, "Urban Recycler gekauft!"]);
+      setPassiveIncome(prev => prev + 20);
+      setItemCosts(prev => ({...prev, urbanRecycler: Math.floor(prev.urbanRecycler * 1.15)}));
+    }
+  };
+
   const handleBuySolderingIron = () => {
     buyItem(1000, "Bought a Soldering Iron!");
     setElectronicsUnlock(true);
@@ -273,6 +293,8 @@ const [hasHelper, setHasHelper] = useState(false);
           onBuyPicker={handleBuyPicker}
           onBuyStreetrat={handleBuyStreetrat}
           onBuyCart={handleBuyCart}
+          onBuyJunkMagnet={handleBuyJunkMagnet}
+          onBuyUrbanRecycler={handleBuyUrbanRecycler}
           onBack={() => setActiveStore(null)}
         />
       )}

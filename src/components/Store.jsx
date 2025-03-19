@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-export default function Store({ credits, itemCosts, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBack }) {
+export default function Store({ credits, itemCosts, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBack }) {
   const items = [
     { 
       name: 'Scrap Bag', 
@@ -30,6 +30,20 @@ export default function Store({ credits, itemCosts, onBuyTrashBag, onBuyPicker, 
       description: '+5 Junk/sec, +15% Cost', 
       info: 'Large capacity cart that greatly increases automatic collection',
       action: onBuyCart 
+    },
+    { 
+      name: 'Junk Magnet', 
+      cost: itemCosts.junkMagnet || 1500, 
+      description: '+10 Junk/sec, +15% Cost', 
+      info: 'A powerful magnet that attracts junk from all directions',
+      action: onBuyJunkMagnet 
+    },
+    { 
+      name: 'Urban Recycler', 
+      cost: itemCosts.urbanRecycler || 3000, 
+      description: '+20 Junk/sec, +15% Cost', 
+      info: 'Advanced automated system that scans and collects valuable junk',
+      action: onBuyUrbanRecycler 
     }
   ];
 
