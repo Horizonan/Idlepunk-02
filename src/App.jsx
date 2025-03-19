@@ -45,6 +45,14 @@ export default function App() {
       flavorText: "That mouse is starting to look worn...",
       unlocked: false,
       checked: false
+    },
+    {
+      title: "Greasy Milestone",
+      requirement: "Reach 10 Junk/sec",
+      reward: "+1 Auto Click/sec",
+      flavorText: "The gears are turning smoothly now.",
+      unlocked: false,
+      checked: false
     }
   ]);
   const [autoClicks, setAutoClicks] = useState(0); // Added state for auto clicks
@@ -188,6 +196,17 @@ const [hasHelper, setHasHelper] = useState(false);
           setClickMultiplier(prev => prev * 1.05);
           setNotifications(prev => [...prev, "Achievement Unlocked: The First Clicks!"]);
           newAchievements[1].checked = true;
+          rewardGiven = true;
+        }
+      }
+
+      // Check Greasy Milestone
+      if (!newAchievements[2].unlocked && (passiveIncome + (autoClicks * clickMultiplier)) >= 10) {
+        newAchievements[2].unlocked = true;
+        if (!newAchievements[2].checked) {
+          setAutoClicks(prev => prev + 1);
+          setNotifications(prev => [...prev, "Achievement Unlocked: Greasy Milestone!"]);
+          newAchievements[2].checked = true;
           rewardGiven = true;
         }
       }
