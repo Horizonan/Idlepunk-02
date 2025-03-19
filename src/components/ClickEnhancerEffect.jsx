@@ -1,45 +1,46 @@
 
 import React, { useEffect, useState } from 'react';
 
-export default function ClickEnhancerEffect({ level }) {
-  const [positions, setPositions] = useState(Array(level).fill().map(() => ({ x: 0, y: 0 })));
-  const [isClicking, setIsClicking] = useState(Array(level).fill(false));
+export default function ClickEnhancerEffect({ level = 1 }) {
+  const maxEnhancers = Number(localStorage.getItem('maxClickEnhancers')) || 3;
+  const numEnhancers = Math.min(level || 1, maxEnhancers);
+  const [positions, setPositions] = useState(Array(numEnhancers).fill().map(() => ({ x: 0, y: 0 })));
+  const [isClicking, setIsClicking] = useState(Array(numEnhancers).fill(false));
 
   useEffect(() => {
     const clickerElement = document.getElementById('trashClicker');
     if (clickerElement) {
       const rect = clickerElement.getBoundingClientRect();
-      const centerX = rect.x + (rect.width / 2) - 16; // Subtract half of icon width (32px/2)
-      const centerY = rect.y + (rect.height / 2) - 16; // Subtract half of icon height (32px/2)
-      setPositions({
+      const centerX = rect.x + (rect.width / 2) - 16;
+      const centerY = rect.y + (rect.height / 2) - 16;
+      
+      setPositions(Array(numEnhancers).fill().map(() => ({
         x: centerX,
         y: centerY
-      });
+      })));
     }
 
     const moveInterval = setInterval(() => {
       const clickerElement = document.getElementById('trashClicker');
       if (clickerElement) {
         const rect = clickerElement.getBoundingClientRect();
-        setPositions({
+        setPositions(Array(numEnhancers).fill().map(() => ({
           x: rect.x + Math.random() * rect.width,
           y: rect.y + Math.random() * rect.height
-        });
+        })));
       }
     }, 2000);
 
     const clickInterval = setInterval(() => {
-      if (Math.random() < 0.3) {
-        setIsClicking(true);
-        setTimeout(() => setIsClicking(false), 1000);
-      }
+      setIsClicking(prev => prev.map(() => Math.random() < 0.3));
+      setTimeout(() => setIsClicking(prev => prev.map(() => false)), 1000);
     }, 3000);
 
     return () => {
       clearInterval(moveInterval);
       clearInterval(clickInterval);
     };
-  }, []);
+  }, [numEnhancers]);
 
   return (
     <>
