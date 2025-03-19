@@ -53,6 +53,14 @@ export default function App() {
       flavorText: "The gears are turning smoothly now.",
       unlocked: false,
       checked: false
+    },
+    {
+      title: "Greasy Milestone",
+      requirement: "Reach 10 Junk/sec",
+      reward: "+1 Auto Click/sec",
+      flavorText: "The gears are turning smoothly now.",
+      unlocked: false,
+      checked: false
     }
   ]);
   const [autoClicks, setAutoClicks] = useState(0); // Added state for auto clicks
