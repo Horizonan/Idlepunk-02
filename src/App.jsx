@@ -29,8 +29,7 @@ export default function App() {
   const [credits, setCredits] = useState(() => Number(localStorage.getItem('credits')) || 0);
   const [junk, setJunk] = useState(() => Number(localStorage.getItem('junk')) || 0);
   const [clickCount, setClickCount] = useState(() => Number(localStorage.getItem('clickCount')) || 0);
-  const [achievements, setAchievements] = useState(() => {
-    const loadedAchievements = JSON.parse(localStorage.getItem('achievements')) || [
+  const defaultAchievements = [
     {
       title: "Junkie Starter",
       requirement: "Collect 1,000 Junk",
@@ -56,8 +55,16 @@ export default function App() {
       checked: false
     }
   ];
+
+  const [achievements, setAchievements] = useState(() => {
+    const stored = localStorage.getItem('achievements');
+    if (!stored) {
+      localStorage.setItem('achievements', JSON.stringify(defaultAchievements));
+      return defaultAchievements;
+    }
+    const loadedAchievements = JSON.parse(stored);
     console.log('Loaded achievements:', loadedAchievements);
-    return loadedAchievements;
+    return loadedAchievements.length === defaultAchievements.length ? loadedAchievements : defaultAchievements;
   });
   const [autoClicks, setAutoClicks] = useState(0); // Added state for auto clicks
 
