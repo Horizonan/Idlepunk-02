@@ -120,10 +120,10 @@ const [hasHelper, setHasHelper] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setJunk(prev => prev + passiveIncome + autoClicks); // Added autoClicks to passive income
+      setJunk(prev => prev + passiveIncome + (autoClicks * clickMultiplier)); // Auto clicks use click multiplier
     }, 1000);
     return () => clearInterval(interval);
-  }, [passiveIncome, autoClicks]);
+  }, [passiveIncome, autoClicks, clickMultiplier]);
 
   useEffect(() => {
     localStorage.setItem('credits', credits);
