@@ -7,19 +7,19 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
   const basicMaterials = [
     {
       name: 'Wires',
-      cost: 250,
+      cost: 25000,
       description: 'Basic conductive material',
       type: 'basic'
     },
     {
       name: 'Metal Plates',
-      cost: 500,
+      cost: 50000,
       description: 'Sturdy metal sheets',
       type: 'basic'
     },
     {
       name: 'Gear Bits',
-      cost: 300,
+      cost: 30000,
       description: 'Mechanical components',
       type: 'basic'
     }
