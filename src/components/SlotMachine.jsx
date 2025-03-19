@@ -37,8 +37,10 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
         if (winnings > 0) {
           onSpin(-winnings); // Negative cost means player wins
           
-          // Play win sound
-          const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2019/casino-notification-sound.wav');
+          // Play win sound - big win for 3 matches, regular win sound for 2 matches
+          const audio = new Audio(newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2] 
+            ? '/src/sounds/casino_winning.wav' 
+            : 'https://assets.mixkit.co/active_storage/sfx/2019/casino-notification-sound.wav');
           audio.play();
           
           // Show win popup
