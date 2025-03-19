@@ -1,10 +1,17 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function QuestLog({ tutorialStage }) {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState(() => {
+    const saved = localStorage.getItem('questLogPosition');
+    return saved ? JSON.parse(saved) : { x: 0, y: 0 };
+  });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    localStorage.setItem('questLogPosition', JSON.stringify(position));
+  }, [position]);
 
   const handleMouseDown = (e) => {
     setIsDragging(true);
