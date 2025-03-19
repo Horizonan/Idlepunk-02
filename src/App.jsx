@@ -24,6 +24,7 @@ export default function App() {
   const [showCheatMenu, setShowCheatMenu] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showQuestLog, setShowQuestLog] = useState(false);
   const [showClickEnhancerUI, setShowClickEnhancerUI] = useState(true);
   const [credits, setCredits] = useState(() => Number(localStorage.getItem('credits')) || 0);
   const [junk, setJunk] = useState(() => Number(localStorage.getItem('junk')) || 0);
@@ -289,7 +290,7 @@ const [hasHelper, setHasHelper] = useState(false);
 
   return (
     <main>
-      <QuestLog tutorialStage={tutorialStage} />
+      {showQuestLog && <QuestLog tutorialStage={tutorialStage} />}
       <TutorialSystem
         junk={junk}
         hasUpgrade={hasUpgrade}

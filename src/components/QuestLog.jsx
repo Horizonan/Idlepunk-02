@@ -2,8 +2,6 @@
 import React, { useState } from 'react';
 
 export default function QuestLog({ tutorialStage }) {
-  const [isOpen, setIsOpen] = useState(false);
-  
   const quests = [
     { id: 1, title: "First Steps", task: "Click on the junk pile to collect some scrap" },
     { id: 2, title: "Shopping Time", task: "Visit the store and buy your first upgrade" },
@@ -15,11 +13,7 @@ export default function QuestLog({ tutorialStage }) {
   ];
 
   return (
-    <div className={`quest-log ${isOpen ? 'open' : ''}`}>
-      <button className="quest-log-toggle" onClick={() => setIsOpen(!isOpen)}>
-        {isOpen ? 'Close Quests' : 'Quest Log'}
-      </button>
-      {isOpen && (
+    <div className="quest-log open">
         <div className="quest-log-content">
           <h3>Quest Log</h3>
           <div className="quest-list">
