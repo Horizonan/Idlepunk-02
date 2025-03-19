@@ -17,6 +17,7 @@ import TutorialSystem from './components/TutorialSystem';
 import QuestLog from './components/QuestLog';
 import SlotMachine from './components/SlotMachine';
 import ClickEnhancerEffect from './components/ClickEnhancerEffect';
+import Menu from './components/Menu';
 
 export default function App() {
   const [showSlotMachine, setShowSlotMachine] = useState(false);
