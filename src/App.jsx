@@ -282,6 +282,7 @@ const [hasHelper, setHasHelper] = useState(false);
         <p>Junk/sec: {(passiveIncome + (autoClicks * clickMultiplier)).toFixed(1)}</p>
       </div>
       <button className="achievements-btn" onClick={() => setShowAchievements(true)}>Achievements</button>
+      <button className="slot-machine-btn" onClick={() => console.log('Slot machine clicked')}>Slot Machine</button>
       {showAchievements && (
         <Achievements 
           achievements={achievements}
