@@ -422,7 +422,7 @@ const [hasHelper, setHasHelper] = useState(false);
         collectTronics={collectTronics}
         electronicsUnlock={electronicsUnlock}
       />
-      {showClickEnhancerUI && clickEnhancerLevel > 0 && <ClickEnhancerEffect />} {/*Conditional rendering of ClickEnhancerEffect */}
+      {showClickEnhancerUI && clickEnhancerLevel > 0 && <ClickEnhancerEffect level={clickEnhancerLevel} />}
       <Notifications notifications={notifications} />
       {showCheatMenu && (
         <CheatMenu 
