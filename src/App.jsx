@@ -277,7 +277,7 @@ const [hasHelper, setHasHelper] = useState(false);
       <div className="stats">
         <p>Money: {credits.toFixed(2)}C</p>
         <p>Junk: {junk}</p>
-        <p>Auto Clicks/sec: {autoClicks}</p> {/* Display auto clicks/sec */}
+        <p>Junk/sec: {(passiveIncome + (autoClicks * clickMultiplier)).toFixed(1)}</p>
       </div>
       <button className="achievements-btn" onClick={() => setShowAchievements(true)}>Achievements</button>
       {showAchievements && (
