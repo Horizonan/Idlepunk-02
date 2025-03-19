@@ -15,11 +15,11 @@ export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onB
         >
           <div className="item-header">
             <span>Auto Clicker Bot</span>
-            <span className="cost">{itemCosts.autoClicker} Junk</span>
+            <span className="cost"> ({itemCosts.autoClicker} Junk)</span>
           </div>
           <div className="item-info">
             <img src="/src/Icons/robot.png" alt="Auto Clicker" className="item-icon" />
-            <p>+1 Auto Click/sec</p>
+            <p>+1 Automatic Click per second (generates Junk automatically as if clicked by the player)</p> 
           </div>
         </button>
       </div>
