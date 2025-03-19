@@ -17,6 +17,7 @@ import TutorialSystem from './components/TutorialSystem';
 import QuestLog from './components/QuestLog';
 import SlotMachine from './components/SlotMachine';
 import ClickEnhancerEffect from './components/ClickEnhancerEffect';
+import DroneEffect from './components/DroneEffect';
 import Menu from './components/Menu';
 
 export default function App() {
@@ -509,6 +510,7 @@ const [hasHelper, setHasHelper] = useState(false);
         electronicsUnlock={electronicsUnlock}
       />
       {showClickEnhancerUI && clickEnhancerLevel > 0 && <ClickEnhancerEffect level={clickEnhancerLevel} />}
+      {ownedItems.scrapDrone > 0 && <DroneEffect numDrones={ownedItems.scrapDrone} />}
       <Notifications notifications={notifications} />
       {showCheatMenu && (
         <CheatMenu 
