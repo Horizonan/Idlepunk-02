@@ -51,7 +51,10 @@ export default function ActiveCheats({ cheats, onToggleCheat }) {
         cursor: isDragging ? 'grabbing' : 'grab'
       }}
     >
-      <div className="cheat-handle" onMouseDown={handleMouseDown}>Active Cheats</div>
+      <div className="cheat-handle" onMouseDown={handleMouseDown}>
+        Active Cheats
+        <button className="close-btn" onClick={onClose}>×</button>
+      </div>
       <div className="cheat-list">
         {Object.entries(cheats).map(([cheatName, isActive]) => (
           <div key={cheatName} className="cheat-item">
