@@ -1,3 +1,13 @@
+
+.uncraftable {
+  opacity: 0.7;
+  cursor: default !important;
+}
+
+.uncraftable:hover {
+  transform: none !important;
+}
+
 @keyframes clickAnimation {
   0% {
     transform: scale(1);

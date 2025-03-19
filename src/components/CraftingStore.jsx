@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 
 export default function CraftingStore({ junk, onCraft, craftingInventory, onBack }) {
@@ -22,6 +21,13 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       cost: 30000,
       description: 'Mechanical components',
       type: 'basic'
+    },
+    {
+      name: 'Capacitor',
+      cost: 100000,
+      description: 'Energy storage device',
+      type: 'basic',
+      uncraftable: true
     }
   ];
 
@@ -58,9 +64,9 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
             {basicMaterials.map((item) => (
               <button
                 key={item.name}
-                onClick={() => onCraft(item)}
-                disabled={!canCraft(item)}
-                className="store-item"
+                onClick={() => !item.uncraftable && onCraft(item)}
+                disabled={item.uncraftable || !canCraft(item)}
+                className={`store-item ${item.uncraftable ? 'uncraftable' : ''}`}
               >
                 <div className="item-header">
                   <strong>{item.name}</strong>
