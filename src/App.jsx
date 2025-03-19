@@ -588,23 +588,23 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
       {ownedItems.scrapDrone > 0 && <DroneEffect numDrones={ownedItems.scrapDrone} />}
       <Notifications notifications={notifications} />
       {showCheatMenu && (
-        <>
-          <CheatMenu 
-            onReset={handleReset}
-            onAddJunk={(amount) => setJunk(prev => prev + amount)}
-            onClose={() => setShowCheatMenu(false)}
-            onResetTutorial={() => setTutorialStage(0)}
-            onNextTutorial={() => setTutorialStage(prev => prev + 1)}
-          />
-          <ActiveCheats
-            cheats={activeCheatsList}
-            onToggleCheat={(cheatName) => setActiveCheatsList(prev => ({
-              ...prev,
-              [cheatName]: !prev[cheatName]
-            }))}
-            onClose={() => setShowCheatMenu(false)}
-          />
-        </>
+        <CheatMenu 
+          onReset={handleReset}
+          onAddJunk={(amount) => setJunk(prev => prev + amount)}
+          onClose={() => setShowCheatMenu(false)}
+          onResetTutorial={() => setTutorialStage(0)}
+          onNextTutorial={() => setTutorialStage(prev => prev + 1)}
+        />
+      )}
+      {showCheatMenu && (
+        <ActiveCheats
+          cheats={activeCheatsList}
+          onToggleCheat={(cheatName) => setActiveCheatsList(prev => ({
+            ...prev,
+            [cheatName]: !prev[cheatName]
+          }))}
+          onClose={() => setShowCheatMenu(false)}
+        />
       )}
       {showSettings && (
         <div className="store-container settings-menu">
