@@ -78,6 +78,66 @@ button {
   font-style: italic;
 }
 
+.quest-log {
+  position: fixed;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.95);
+  border: 2px solid #9400D3;
+  border-radius: 10px;
+  padding: 15px;
+  width: 300px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.quest-log h3 {
+  color: #00FF00;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.quest-item {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.quest-item.completed {
+  border-color: #00FF00;
+  opacity: 0.7;
+}
+
+.quest-item.active {
+  border-color: #9400D3;
+  box-shadow: 0 0 10px rgba(148, 0, 211, 0.3);
+}
+
+.quest-title {
+  color: #00FF00;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.quest-task {
+  font-size: 0.9em;
+  color: #00FF00;
+  opacity: 0.8;
+}
+
+.quest-item.completed .quest-title::before {
+  content: "✓ ";
+  color: #00FF00;
+}
+
+.quest-item.active .quest-title::before {
+  content: "➤ ";
+  color: #9400D3;
+}
+
 .tutorial-close-btn {
   align-self: flex-end;
   margin-top: 15px;

@@ -13,6 +13,7 @@ import TrashSurge from './components/TrashSurge';
 import Notifications from './components/Notifications';
 import UnlockedItems from './components/UnlockedItems';
 import TutorialSystem from './components/TutorialSystem';
+import QuestLog from './components/QuestLog';
 
 export default function App() {
   const [showCheatMenu, setShowCheatMenu] = useState(false);
@@ -252,6 +253,7 @@ const [hasHelper, setHasHelper] = useState(false);
 
   return (
     <main>
+      <QuestLog tutorialStage={tutorialStage} />
       <TutorialSystem
         junk={junk}
         hasUpgrade={hasUpgrade}
