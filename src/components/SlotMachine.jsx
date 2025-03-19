@@ -18,27 +18,33 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
       const newSlots = Array(3).fill(0).map(() => 
         symbols[Math.floor(Math.random() * symbols.length)]
       );
+      
+      // Set the slots first
       setSlots(newSlots);
-      setSpinning(false);
       
-      // Calculate winnings
-      let winnings = 0;
-      if (newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2]) {
-        winnings = 1000; // Jackpot for all 3 matching
-      } else if (newSlots[0] === newSlots[1] || newSlots[1] === newSlots[2]) {
-        winnings = 200; // Small win for 2 matching
-      }
-      
-      if (winnings > 0) {
-        onSpin(-winnings); // Negative cost means player wins
+      // Short delay before showing results
+      setTimeout(() => {
+        setSpinning(false);
         
-        // Play win sound
-        const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2019/casino-notification-sound.wav');
-        audio.play();
+        // Calculate winnings
+        let winnings = 0;
+        if (newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2]) {
+          winnings = 1000; // Jackpot for all 3 matching
+        } else if (newSlots[0] === newSlots[1] || newSlots[1] === newSlots[2]) {
+          winnings = 200; // Small win for 2 matching
+        }
         
-        // Show win popup
-        alert(`Congratulations! You won ${winnings} Junk!`);
-      }
+        if (winnings > 0) {
+          onSpin(-winnings); // Negative cost means player wins
+          
+          // Play win sound
+          const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2019/casino-notification-sound.wav');
+          audio.play();
+          
+          // Show win popup
+          alert(`Congratulations! You won ${winnings} Junk!`);
+        }
+      }, 100);
     }, 1000);
   };
 
