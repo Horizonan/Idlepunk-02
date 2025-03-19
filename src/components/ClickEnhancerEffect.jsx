@@ -11,7 +11,7 @@ export default function ClickEnhancerEffect({ level }) {
       const rect = clickerElement.getBoundingClientRect();
       const centerX = rect.x + (rect.width / 2) - 16; // Subtract half of icon width (32px/2)
       const centerY = rect.y + (rect.height / 2) - 16; // Subtract half of icon height (32px/2)
-      setPosition({
+      setPositions({
         x: centerX,
         y: centerY
       });
@@ -21,7 +21,7 @@ export default function ClickEnhancerEffect({ level }) {
       const clickerElement = document.getElementById('trashClicker');
       if (clickerElement) {
         const rect = clickerElement.getBoundingClientRect();
-        setPosition({
+        setPositions({
           x: rect.x + Math.random() * rect.width,
           y: rect.y + Math.random() * rect.height
         });
