@@ -16,6 +16,7 @@ import UnlockedItems from './components/UnlockedItems';
 import TutorialSystem from './components/TutorialSystem';
 import QuestLog from './components/QuestLog';
 import SlotMachine from './components/SlotMachine';
+import ClickEnhancerEffect from './components/ClickEnhancerEffect';
 
 export default function App() {
   const [showSlotMachine, setShowSlotMachine] = useState(false);
@@ -405,6 +406,7 @@ const [hasHelper, setHasHelper] = useState(false);
         collectTronics={collectTronics}
         electronicsUnlock={electronicsUnlock}
       />
+      {clickEnhancerLevel > 0 && <ClickEnhancerEffect />}
       <Notifications notifications={notifications} />
       {showCheatMenu && (
         <CheatMenu 
