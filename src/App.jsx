@@ -40,6 +40,7 @@ export default function App() {
       checked: false
     }
   ]);
+  const [autoClicks, setAutoClicks] = useState(0); // Added state for auto clicks
 
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -71,8 +72,10 @@ export default function App() {
           streetrat: 100,
           cart: 500,
           junkMagnet: 1500,
-          urbanRecycler: 3000
+          urbanRecycler: 3000,
+          autoClicker: 5000 // Added autoClicker cost
         });
+        setAutoClicks(0); //Reset autoclicks
         break;
     }
   };
@@ -111,15 +114,16 @@ const [hasHelper, setHasHelper] = useState(false);
     streetrat: 100,
     cart: 500,
     junkMagnet: 1500,
-    urbanRecycler: 3000
+    urbanRecycler: 3000,
+    autoClicker: 5000 // Added autoClicker cost
   });
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setJunk(prev => prev + passiveIncome);
+      setJunk(prev => prev + passiveIncome + autoClicks); // Added autoClicks to passive income
     }, 1000);
     return () => clearInterval(interval);
-  }, [passiveIncome]);
+  }, [passiveIncome, autoClicks]);
 
   useEffect(() => {
     localStorage.setItem('credits', credits);
@@ -128,7 +132,8 @@ const [hasHelper, setHasHelper] = useState(false);
     localStorage.setItem('clickMultiplier', clickMultiplier);
     localStorage.setItem('passiveIncome', passiveIncome);
     localStorage.setItem('itemCosts', JSON.stringify(itemCosts));
-  }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts]);
+    localStorage.setItem('autoClicks', autoClicks); //Persist autoClicks
+  }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts, autoClicks]);
 
   const checkAchievements = () => {
     setAchievements(prev => {
@@ -272,6 +277,7 @@ const [hasHelper, setHasHelper] = useState(false);
       <div className="stats">
         <p>Money: {credits.toFixed(2)}C</p>
         <p>Junk: {junk}</p>
+        <p>Auto Clicks/sec: {autoClicks}</p> {/* Display auto clicks/sec */}
       </div>
       <button className="achievements-btn" onClick={() => setShowAchievements(true)}>Achievements</button>
       {showAchievements && (
@@ -313,7 +319,19 @@ const [hasHelper, setHasHelper] = useState(false);
       )}
       {activeStore === 'automation' && (
         <AutomationStore
-          credits={credits}
+          junk={junk}
+          itemCosts={itemCosts}
+          onBuyAutoClicker={() => {
+            if (junk >= itemCosts.autoClicker) {
+              setJunk(prev => prev - itemCosts.autoClicker);
+              setAutoClicks(prev => prev + 1);
+              setItemCosts(prev => ({...prev, autoClicker: Math.floor(prev.autoClicker * 1.15)}));
+              setNotifications(prev => [...prev, "Auto Clicker Bot purchased!"]);
+              window.dispatchEvent(new CustomEvent('nextNews', { 
+                detail: { message: "Cogfather whispers: 'Sit back, kid. Let the bots handle it from here.'" }
+              }));
+            }
+          }}
           onBack={() => setActiveStore(null)}
         />
       )}
