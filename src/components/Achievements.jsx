@@ -4,7 +4,15 @@ import React, { useState, useEffect } from 'react';
 export default function Achievements({ achievements, onClose }) {
   const [position, setPosition] = useState(() => {
     const saved = localStorage.getItem('achievementsPosition');
-    return saved ? JSON.parse(saved) : { x: 20, y: 20 };
+    if (saved) return JSON.parse(saved);
+    
+    // Center on screen by default
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    return {
+      x: (screenWidth - 400) / 2, // 400 is the approximate width of the achievements menu
+      y: (screenHeight - 500) / 2 // 500 is the approximate height of the achievements menu
+    };
   });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
