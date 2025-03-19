@@ -8,4 +8,3 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
     </div>
   );
 }
-

@@ -6,8 +6,9 @@ export default function ClickEnhancerEffect() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    console.log('ClickEnhancerEffect mounted');
     const interval = setInterval(() => {
-      if (Math.random() < 0.1) { // 10% chance to appear
+      if (Math.random() < 0.1) {
         const clickerElement = document.getElementById('trashClicker');
         if (clickerElement) {
           const rect = clickerElement.getBoundingClientRect();
@@ -28,7 +29,7 @@ export default function ClickEnhancerEffect() {
 
   return (
     <img
-      src="/Icons/Upgrades/clickenhancer.png"
+      src="./Icons/Upgrades/clickenhancer.png"
       alt="Click Enhancer"
       style={{
         position: 'fixed',
@@ -37,7 +38,8 @@ export default function ClickEnhancerEffect() {
         width: '32px',
         height: '32px',
         pointerEvents: 'none',
-        animation: 'clickAnimation 1s forwards'
+        animation: 'clickAnimation 1s forwards',
+        zIndex: 1000
       }}
     />
   );
