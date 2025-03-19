@@ -19,6 +19,7 @@ import SlotMachine from './components/SlotMachine';
 import ClickEnhancerEffect from './components/ClickEnhancerEffect';
 import DroneEffect from './components/DroneEffect';
 import Menu from './components/Menu';
+import CraftingStore from './components/CraftingStore';
 
 export default function App() {
   const [showSlotMachine, setShowSlotMachine] = useState(false);
@@ -173,7 +174,8 @@ const [hasHelper, setHasHelper] = useState(false);
     };
   }, []);
   const [passiveIncome, setPassiveIncome] = useState(() => Number(localStorage.getItem('passiveIncome')) || 0);
-  const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem('itemCosts')) || {
+  const [craftingInventory, setCraftingInventory] = useState(() => JSON.parse(localStorage.getItem('craftingInventory')) || {});
+const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem('itemCosts')) || {
     trashBag: 10,
     trashPicker: 100,
     streetrat: 100,
@@ -214,6 +216,7 @@ const [hasHelper, setHasHelper] = useState(false);
     localStorage.setItem('achievements', JSON.stringify(achievements));
     localStorage.setItem('clickEnhancerLevel', clickEnhancerLevel);
     localStorage.setItem('ownedItems', JSON.stringify(ownedItems));
+  localStorage.setItem('craftingInventory', JSON.stringify(craftingInventory));
   }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts, autoClicks, clickCount, achievements, ownedItems, clickEnhancerLevel]);
 
   const checkAchievements = () => {
@@ -488,6 +491,40 @@ const [hasHelper, setHasHelper] = useState(false);
               window.dispatchEvent(new CustomEvent('nextNews', { 
                 detail: { message: "Cogfather whispers: 'Sit back, kid. Let the bots handle it from here.'" }
               }));
+            }
+          }}
+          onBack={() => setActiveStore(null)}
+        />
+      )}
+      {activeStore === 'craft' && (
+        <CraftingStore
+          junk={junk}
+          craftingInventory={craftingInventory}
+          onCraft={(item) => {
+            if (item.type === 'basic') {
+              if (junk >= item.cost) {
+                setJunk(prev => prev - item.cost);
+                setCraftingInventory(prev => ({
+                  ...prev,
+                  [item.name]: (prev[item.name] || 0) + 1
+                }));
+                setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
+              }
+            } else {
+              const canCraft = Object.entries(item.requirements).every(
+                ([mat, count]) => (craftingInventory[mat] || 0) >= count
+              );
+              if (canCraft) {
+                setCraftingInventory(prev => {
+                  const newInventory = { ...prev };
+                  Object.entries(item.requirements).forEach(([mat, count]) => {
+                    newInventory[mat] -= count;
+                  });
+                  newInventory[item.name] = (newInventory[item.name] || 0) + 1;
+                  return newInventory;
+                });
+                setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
+              }
             }
           }}
           onBack={() => setActiveStore(null)}
