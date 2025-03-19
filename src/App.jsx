@@ -653,14 +653,6 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
         </div>
       )}
       <Notifications notifications={notifications} />
-      <ActiveCheats
-        cheats={activeCheatsList}
-        onToggleCheat={(cheatName) => setActiveCheatsList(prev => ({
-          ...prev,
-          [cheatName]: !prev[cheatName]
-        }))}
-        onClose={() => setShowCheatMenu(false)}
-      />
     </main>
   );
 }

@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 
-export default function ActiveCheats({ cheats, onToggleCheat }) {
+export default function ActiveCheats({ cheats, onToggleCheat, onClose }) {
   const [position, setPosition] = useState({ x: 20, y: 20 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
