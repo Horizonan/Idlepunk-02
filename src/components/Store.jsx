@@ -44,7 +44,7 @@ export default function Store({ credits, itemCosts, onBuyTrashBag, onBuyPicker, 
       description: '+20 Junk/sec, +15% Cost', 
       info: 'Advanced automated system that scans and collects valuable junk',
       action: onBuyUrbanRecycler
-      action: onBuyUrbanRecycler 
+      
     }
   ];
 
