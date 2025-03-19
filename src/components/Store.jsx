@@ -56,22 +56,93 @@ export default function Store({ credits, itemCosts, onBuyTrashBag, onBuyPicker, 
   return (
     <div className="store-container">
       <h2>Junk Store</h2>
-      <div className="store-items">
-        {items.map((item) => (
+      
+      <div className="store-section">
+        <h3>Click Power</h3>
+        <div className="store-items">
           <button
-            key={item.name}
-            onClick={item.action}
-            disabled={credits < item.cost}
+            onClick={onBuyTrashBag}
+            disabled={credits < itemCosts.trashBag}
             className="store-item"
           >
-            Buy {item.name} ({item.cost} Junk)
+            Buy Scrap Bag ({itemCosts.trashBag} Junk)
             <div className="item-info">
-              <strong>{item.name}</strong>
-              <p>{item.description}</p>
-              <p>{item.info}</p>
+              <strong>Scrap Bag</strong>
+              <p>+1 Junk per click</p>
+              <p className="owned">Owned: {Math.log1p(itemCosts.trashBag / 10).toFixed(0)}</p>
             </div>
           </button>
-        ))}
+          
+          <button
+            onClick={onBuyPicker}
+            disabled={credits < itemCosts.trashPicker}
+            className="store-item"
+          >
+            Buy Trash Picker ({itemCosts.trashPicker} Junk)
+            <div className="item-info">
+              <strong>Trash Picker</strong>
+              <p>+3 Junk per click</p>
+              <p className="owned">Owned: {Math.log1p(itemCosts.trashPicker / 100).toFixed(0)}</p>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <div className="store-section">
+        <h3>Junk Per Second</h3>
+        <div className="store-items">
+          <button
+            onClick={onBuyStreetrat}
+            disabled={credits < itemCosts.streetrat}
+            className="store-item"
+          >
+            Buy Streetrat ({itemCosts.streetrat} Junk)
+            <div className="item-info">
+              <strong>Streetrat</strong>
+              <p>+1 Junk per second</p>
+              <p className="owned">Owned: {Math.log1p(itemCosts.streetrat / 100).toFixed(0)}</p>
+            </div>
+          </button>
+
+          <button
+            onClick={onBuyCart}
+            disabled={credits < itemCosts.cart}
+            className="store-item"
+          >
+            Buy Shopping Cart ({itemCosts.cart} Junk)
+            <div className="item-info">
+              <strong>Shopping Cart</strong>
+              <p>+5 Junk per second</p>
+              <p className="owned">Owned: {Math.log1p(itemCosts.cart / 500).toFixed(0)}</p>
+            </div>
+          </button>
+
+          <button
+            onClick={onBuyJunkMagnet}
+            disabled={credits < itemCosts.junkMagnet}
+            className="store-item"
+          >
+            Buy Junk Magnet ({itemCosts.junkMagnet} Junk)
+            <div className="item-info">
+              <strong>Junk Magnet</strong>
+              <p>+10 Junk per second</p>
+              <p className="owned">Owned: {Math.log1p(itemCosts.junkMagnet / 1500).toFixed(0)}</p>
+            </div>
+          </button>
+
+          <button
+            onClick={onBuyUrbanRecycler}
+            disabled={credits < itemCosts.urbanRecycler}
+            className="store-item"
+          >
+            Buy Urban Recycler ({itemCosts.urbanRecycler} Junk)
+            <div className="item-info">
+              <strong>Urban Recycler</strong>
+              <p>+20 Junk per second</p>
+              <p className="owned">Owned: {Math.log1p(itemCosts.urbanRecycler / 3000).toFixed(0)}</p>
+            </div>
+          </button>
+        </div>
       </div>
     </div>
   );
