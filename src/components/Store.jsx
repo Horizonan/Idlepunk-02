@@ -77,7 +77,7 @@ export default function Store({ credits, itemCosts, onBuyTrashBag, onBuyPicker, 
         {items.map((item) => (
           <button
             key={item.name}
-            onClick={() => {item.action(); updateOwnedItems(item.name)}} 
+            onClick={item.action}
             disabled={credits < item.cost || (item.unlockCondition && !item.unlockCondition)}
             className="store-item"
           >
