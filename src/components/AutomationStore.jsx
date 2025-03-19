@@ -19,11 +19,7 @@ export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onB
           </div>
           <div className="item-info">
             <img src="/src/Icons/robot.png" alt="Auto Clicker" className="item-icon" />
-            <div className="item-description">
-              <p>Effect: +1 Auto Click/sec</p>
-              <p className="item-note">Generates Junk automatically as if clicked by the player</p>
-              <p className="item-note">Cost increases by 15% per purchase</p>
-            </div>
+            <p>+1 Auto Click/sec</p>
           </div>
         </button>
       </div>
