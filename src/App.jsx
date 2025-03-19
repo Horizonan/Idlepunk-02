@@ -158,7 +158,11 @@ const [hasHelper, setHasHelper] = useState(false);
     const startSurge = () => {
       window.surgeStartTime = Date.now();
       setIsSurgeActive(true);
-      setTimeout(() => setIsSurgeActive(false), 5000);
+      setHasFoundCapacitorThisSurge(false);
+      setTimeout(() => {
+        setIsSurgeActive(false);
+        setHasFoundCapacitorThisSurge(false);
+      }, 5000);
     };
 
     const handleTriggerSurge = () => startSurge();
@@ -175,6 +179,7 @@ const [hasHelper, setHasHelper] = useState(false);
   }, []);
   const [passiveIncome, setPassiveIncome] = useState(() => Number(localStorage.getItem('passiveIncome')) || 0);
   const [craftingInventory, setCraftingInventory] = useState(() => JSON.parse(localStorage.getItem('craftingInventory')) || {});
+  const [hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge] = useState(false);
 const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem('itemCosts')) || {
     trashBag: 10,
     trashPicker: 100,
@@ -284,6 +289,16 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
         'Scrap Core': (prev['Scrap Core'] || 0) + 1
       }));
       setNotifications(prev => [...prev, 'Found a Scrap Core!']);
+    }
+    
+    // Check for capacitor during surge
+    if (isSurgeActive && !hasFoundCapacitorThisSurge && Math.random() < 0.01) { // 1% chance during surge
+      setCraftingInventory(prev => ({
+        ...prev,
+        'Capacitor': (prev['Capacitor'] || 0) + 1
+      }));
+      setHasFoundCapacitorThisSurge(true);
+      setNotifications(prev => [...prev, 'Found a Capacitor from the surge!']);
     }
 
     setClickCount(prev => {
