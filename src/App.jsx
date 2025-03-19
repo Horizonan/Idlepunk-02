@@ -102,7 +102,7 @@ export default function App() {
       window.removeEventListener('slotForceTriple', handleSlotForceTriple);
       window.removeEventListener('slotForceDouble', handleSlotForceDouble);
     };
-  }, [activeCheatsList, showSlotMachine]);
+  }, []);
 
   const handleReset = (type) => {
     switch(type) {
@@ -285,7 +285,7 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
   const collectJunk = () => {
     const surgeMultiplier = isSurgeActive ? 2 : 1;
     setJunk(prev => prev + (clickMultiplier * surgeMultiplier));
-
+    
     // Random material finding
     const random = Math.random();
     if (random < 0.0001) { // 0.01% chance for basic materials
@@ -303,7 +303,7 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
       }));
       setNotifications(prev => [...prev, 'Found a Scrap Core!']);
     }
-
+    
     // Check for capacitor during surge
     if (isSurgeActive && !hasFoundCapacitorThisSurge && (activeCheatsList['Guaranteed Capacitor'] || Math.random() < 0.01)) {
       setCraftingInventory(prev => ({
@@ -404,7 +404,7 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
       setPassiveIncome(prev => prev + 25);
       setItemCosts(prev => ({...prev, scrapDrone: Math.floor(prev.scrapDrone * 1.15)}));
       setOwnedItems(prev => ({...prev, scrapDrone: (prev.scrapDrone || 0) + 1}));
-
+      
       if (!ownedItems.scrapDrone) {
         window.dispatchEvent(new CustomEvent('nextNews', { 
           detail: { message: "Cogfather: You've got drones now? Look at you, corporate overlord in the making." }
