@@ -452,6 +452,7 @@ const [hasHelper, setHasHelper] = useState(false);
               setClickMultiplier(prev => prev + 10);
               setClickEnhancerLevel(prev => prev + 1);
               setItemCosts(prev => ({...prev, clickEnhancer: Math.floor(prev.clickEnhancer * 1.1)}));
+              setOwnedItems(prev => ({...prev, clickEnhancer: (prev.clickEnhancer || 0) + 1}));
               setNotifications(prev => [...prev, "Click Enhancer purchased!"]);
               if (clickEnhancerLevel === 0) {
                 setNotifications(prev => [...prev, "Finger strength increasing! Bet you never thought clicking would become your day job."]);
