@@ -10,6 +10,7 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
         <button onClick={() => onAddJunk(10000)}>Add 10000 Junk</button>
         <button onClick={() => onReset('junk')}>Reset Junk</button>
         <button onClick={() => onReset('credits')}>Reset Credits</button>
+        <button onClick={() => onReset('achievements')}>Reset Achievements</button>
         <button onClick={onResetTutorial}>Reset Tutorial</button>
         <button onClick={onNextTutorial}>Next Tutorial</button>
         <button onClick={() => window.dispatchEvent(new CustomEvent('triggerSurge'))}>Trigger Surge</button>

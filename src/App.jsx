@@ -91,6 +91,15 @@ export default function App() {
       case 'credits':
         setCredits(0);
         break;
+      case 'achievements':
+        setAchievements(prevAchievements => 
+          prevAchievements.map(achievement => ({
+            ...achievement,
+            unlocked: false,
+            checked: false
+          }))
+        );
+        break;
       case 'all':
         setJunk(0);
         setCredits(0);
@@ -108,7 +117,14 @@ export default function App() {
           urbanRecycler: 3000,
           autoClicker: 5000 
         });
-        setAutoClicks(0); //Reset autoclicks
+        setAutoClicks(0);
+        setAchievements(prevAchievements => 
+          prevAchievements.map(achievement => ({
+            ...achievement,
+            unlocked: false,
+            checked: false
+          }))
+        );
         break;
     }
   };
