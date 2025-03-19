@@ -81,7 +81,7 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
       </div>
       <p>Cost per spin: {spinCost} Junk</p>
       <button 
-        onClick={spin} 
+        onClick={() => spin(false, false)} 
         disabled={spinning || junk < spinCost}
       >
         {spinning ? 'Spinning...' : 'Spin!'}
