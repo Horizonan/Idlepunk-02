@@ -89,6 +89,7 @@ export default function App() {
         setClickMultiplier(1);
         setPassiveIncome(0);
         setElectronicsUnlock(false);
+        setClickEnhancerLevel(0);
         setItemCosts({
           trashBag: 10,
           trashPicker: 100,
