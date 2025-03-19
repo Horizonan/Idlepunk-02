@@ -8,6 +8,40 @@
   transform: none !important;
 }
 
+.active-cheats {
+  background: rgba(26, 26, 26, 0.95);
+  border: 2px solid #FF0000;
+  border-radius: 8px;
+  padding: 10px;
+  z-index: 1000;
+  min-width: 200px;
+}
+
+.cheat-handle {
+  background: #FF0000;
+  padding: 5px;
+  margin: -10px -10px 10px -10px;
+  border-radius: 6px 6px 0 0;
+  text-align: center;
+  cursor: grab;
+}
+
+.cheat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.cheat-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.cheat-item input[type="checkbox"] {
+  margin-right: 8px;
+}
+
 @keyframes clickAnimation {
   0% {
     transform: scale(1);

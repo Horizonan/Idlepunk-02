@@ -7,12 +7,10 @@ import Store from './components/Store';
 import ElectroStore from './components/ElectroStore';
 import CredStore from './components/CredStore';
 import AutomationStore from './components/AutomationStore';
-import Inventory from './components/Inventory';
 import MenuButtons from './components/MenuButtons';
 import NewsContainer from './components/NewsContainer';
 import TrashSurge from './components/TrashSurge';
 import Notifications from './components/Notifications';
-import UnlockedItems from './components/UnlockedItems';
 import TutorialSystem from './components/TutorialSystem';
 import QuestLog from './components/QuestLog';
 import SlotMachine from './components/SlotMachine';
@@ -20,6 +18,7 @@ import ClickEnhancerEffect from './components/ClickEnhancerEffect';
 import DroneEffect from './components/DroneEffect';
 import Menu from './components/Menu';
 import CraftingStore from './components/CraftingStore';
+import ActiveCheats from './components/ActiveCheats';
 
 export default function App() {
   const [showSlotMachine, setShowSlotMachine] = useState(false);
@@ -180,6 +179,9 @@ const [hasHelper, setHasHelper] = useState(false);
   const [passiveIncome, setPassiveIncome] = useState(() => Number(localStorage.getItem('passiveIncome')) || 0);
   const [craftingInventory, setCraftingInventory] = useState(() => JSON.parse(localStorage.getItem('craftingInventory')) || {});
   const [hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge] = useState(false);
+  const [activeCheatsList, setActiveCheatsList] = useState(() => ({
+    'Guaranteed Capacitor': false
+  }));
 const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem('itemCosts')) || {
     trashBag: 10,
     trashPicker: 100,
@@ -292,7 +294,7 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
     }
     
     // Check for capacitor during surge
-    if (isSurgeActive && !hasFoundCapacitorThisSurge && Math.random() < 0.01) { // 1% chance during surge
+    if (isSurgeActive && !hasFoundCapacitorThisSurge && (activeCheatsList['Guaranteed Capacitor'] || Math.random() < 0.01)) {
       setCraftingInventory(prev => ({
         ...prev,
         'Capacitor': (prev['Capacitor'] || 0) + 1
@@ -641,6 +643,13 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
         </div>
       )}
       <Notifications notifications={notifications} />
+      <ActiveCheats
+        cheats={activeCheatsList}
+        onToggleCheat={(cheatName) => setActiveCheatsList(prev => ({
+          ...prev,
+          [cheatName]: !prev[cheatName]
+        }))}
+      />
     </main>
   );
 }
