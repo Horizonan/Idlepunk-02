@@ -448,6 +448,16 @@ const [hasHelper, setHasHelper] = useState(false);
                 onChange={() => setShowClickEnhancerUI(prev => !prev)}
               />
             </label>
+            <label className="setting-option">
+              <span>Max Click Enhancers</span>
+              <input
+                type="number"
+                min="1"
+                max="10"
+                value={localStorage.getItem('maxClickEnhancers') || 3}
+                onChange={(e) => localStorage.setItem('maxClickEnhancers', e.target.value)}
+              />
+            </label>
           </div>
         </div>
       )}
