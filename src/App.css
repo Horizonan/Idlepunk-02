@@ -511,11 +511,23 @@ button.locked {
   min-height: 300px;
 }
 
-.achievements-btn {
+.button-container {
   position: fixed;
   top: 120px;
   right: 20px;
   z-index: 900;
+  background: rgba(26, 26, 26, 0.9);
+  border: 2px solid #9400D3;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.achievements-btn, .quest-log-toggle, .slot-machine-btn {
+  margin: 0;
+  width: 100%;
 }
 
 .sidebar.open {
