@@ -41,7 +41,7 @@ export default function TutorialSystem({
     if (tutorialStage < 7) {
       const goalCompleted = (
         (tutorialStage === 0) ||
-        (tutorialStage === 1 && junk >= 100) ||
+        (tutorialStage === 1 && junk >= 10) ||
         (tutorialStage === 2 && hasUpgrade) ||
         (tutorialStage === 3 && passiveIncome > 0) ||
         (tutorialStage === 4 && hasHelper) ||
@@ -96,17 +96,28 @@ export default function TutorialSystem({
         <div className="message-content">
           <div className="message-text">{message}</div>
           <div className="task-text">{task}</div>
-          {tutorialStage === 0 && (
+          <div className="tutorial-buttons">
+            {tutorialStage > 0 && (
+              <button 
+                onClick={() => {
+                  setIsVisible(false);
+                  onTutorialProgress(tutorialStage - 1);
+                }}
+                className="tutorial-nav-btn"
+              >
+                Previous
+              </button>
+            )}
             <button 
               onClick={() => {
                 setIsVisible(false);
-                onTutorialProgress();
+                onTutorialProgress(tutorialStage + 1);
               }}
-              className="tutorial-close-btn"
+              className="tutorial-nav-btn"
             >
-              Got it!
+              Next
             </button>
-          )}
+          </div>
         </div>
       </div>
     </div>

@@ -260,7 +260,7 @@ const [hasHelper, setHasHelper] = useState(false);
         hasCrafting={false}
         isSurgeActive={isSurgeActive}
         tutorialStage={tutorialStage}
-        onTutorialProgress={() => setTutorialStage(prev => prev + 1)}
+        onTutorialProgress={(stage) => setTutorialStage(stage)}
       />
       <NewsContainer isSurgeActive={isSurgeActive} />
       <TrashSurge isActive={isSurgeActive} />
