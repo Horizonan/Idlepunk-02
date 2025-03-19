@@ -2,10 +2,17 @@
 import React, { useState, useEffect } from 'react';
 
 export default function DroneEffect({ numDrones }) {
+  const showDrones = localStorage.getItem('showDrones') !== 'false';
+  const maxVisibleDrones = Math.min(
+    Number(localStorage.getItem('maxVisibleDrones')) || 10,
+    numDrones
+  );
   const [positions, setPositions] = useState([]);
 
+  if (!showDrones) return null;
+
   useEffect(() => {
-    const drones = Array(numDrones).fill().map(() => ({
+    const drones = Array(maxVisibleDrones).fill().map(() => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
       targetX: Math.random() * window.innerWidth,

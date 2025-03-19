@@ -547,6 +547,24 @@ const [hasHelper, setHasHelper] = useState(false);
                 onChange={(e) => localStorage.setItem('maxClickEnhancers', e.target.value)}
               />
             </label>
+            <label className="setting-option">
+              <span>Show Drones</span>
+              <input
+                type="checkbox"
+                checked={localStorage.getItem('showDrones') !== 'false'}
+                onChange={(e) => localStorage.setItem('showDrones', e.target.checked)}
+              />
+            </label>
+            <label className="setting-option">
+              <span>Max Visible Drones</span>
+              <input
+                type="number"
+                min="1"
+                max="20"
+                value={localStorage.getItem('maxVisibleDrones') || 10}
+                onChange={(e) => localStorage.setItem('maxVisibleDrones', e.target.value)}
+              />
+            </label>
           </div>
         </div>
       )}
