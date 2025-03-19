@@ -28,7 +28,7 @@ export default function ClickEnhancerEffect() {
 
   return (
     <img
-      src="/src/Icons/Upgrades/clickenhancer.png"
+      src="/Icons/Upgrades/clickenhancer.png"
       alt="Click Enhancer"
       style={{
         position: 'fixed',
