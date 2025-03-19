@@ -421,13 +421,21 @@ const [hasHelper, setHasHelper] = useState(false);
         />
       )}
       {showSettings && (
-        <div className="settings-menu">
-          <h2>Settings</h2>
-          <label>
-            <input type="checkbox" checked={showClickEnhancerUI} onChange={() => setShowClickEnhancerUI(prev => !prev)} />
-            Show Click Enhancer UI
-          </label>
-          <button onClick={() => setShowSettings(false)}>Close</button>
+        <div className="store-container settings-menu">
+          <div className="settings-header">
+            <h2>Settings</h2>
+            <button onClick={() => setShowSettings(false)}>Close</button>
+          </div>
+          <div className="settings-options">
+            <label className="setting-option">
+              <span>Show Click Enhancer Effect</span>
+              <input
+                type="checkbox"
+                checked={showClickEnhancerUI}
+                onChange={() => setShowClickEnhancerUI(prev => !prev)}
+              />
+            </label>
+          </div>
         </div>
       )}
       <Notifications notifications={notifications} />

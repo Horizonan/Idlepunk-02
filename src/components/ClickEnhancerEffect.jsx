@@ -6,7 +6,15 @@ export default function ClickEnhancerEffect() {
   const [isClicking, setIsClicking] = useState(false);
 
   useEffect(() => {
-    console.log('ClickEnhancerEffect mounted');
+    const clickerElement = document.getElementById('trashClicker');
+    if (clickerElement) {
+      const rect = clickerElement.getBoundingClientRect();
+      setPosition({
+        x: rect.x + rect.width / 2,
+        y: rect.y + rect.height / 2
+      });
+    }
+
     const moveInterval = setInterval(() => {
       const clickerElement = document.getElementById('trashClicker');
       if (clickerElement) {
