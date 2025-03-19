@@ -46,6 +46,7 @@ export default function App() {
     }
   ]);
   const [autoClicks, setAutoClicks] = useState(0); // Added state for auto clicks
+  const [menuCollapsed, setMenuCollapsed] = useState(false); // Added state for menu collapse
 
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -306,19 +307,22 @@ const [hasHelper, setHasHelper] = useState(false);
         <p>Junk: {junk}</p>
         <p>Junk/sec: {(passiveIncome + (autoClicks * clickMultiplier)).toFixed(1)}</p>
       </div>
-      <div className="button-container">
+      <div className={`button-container ${menuCollapsed ? 'collapsed' : ''}`}>
+        <button className="menu-toggle" onClick={() => setMenuCollapsed(prev => !prev)}>
+          {menuCollapsed ? '≡' : '×'}
+        </button>
         <button className="achievements-btn" onClick={() => setShowAchievements(true)}>Achievements</button>
         <button className="quest-log-toggle" onClick={() => setShowQuestLog(prev => !prev)}>Quest Log</button>
         <button className="slot-machine-btn" onClick={() => setShowSlotMachine(true)}>Slot Machine</button>
-        <button className="settings-btn" onClick={() => setShowSettings(true)}>Settings</button> {/* Added settings button */}
-        {showSlotMachine && (
-          <SlotMachine
-            junk={junk}
-            onSpin={(cost) => setJunk(prev => prev - cost)}
-            onClose={() => setShowSlotMachine(false)}
-          />
-        )}
+        <button className="settings-btn" onClick={() => setShowSettings(true)}>Settings</button>
       </div>
+      {showSlotMachine && (
+        <SlotMachine
+          junk={junk}
+          onSpin={(cost) => setJunk(prev => prev - cost)}
+          onClose={() => setShowSlotMachine(false)}
+        />
+      )}
       {showAchievements && (
         <Achievements 
           achievements={achievements}

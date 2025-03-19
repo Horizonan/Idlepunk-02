@@ -567,6 +567,38 @@ button.locked {
   top: 120px;
   right: 20px;
   z-index: 900;
+  background: rgba(26, 26, 26, 0.95);
+  border: 2px solid #9400D3;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 200px;
+}
+
+.button-container button {
+  width: 100%;
+  margin: 0;
+}
+
+.button-container.collapsed {
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+.button-container.collapsed button:not(.menu-toggle) {
+  display: none;
+}
+
+.menu-toggle {
+  background-color: #222;
+  border: 2px solid #9400D3;
+  width: 40px !important;
+  height: 40px;
+  padding: 5px !important;
+  align-self: flex-end;
 }
 
 
