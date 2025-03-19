@@ -23,6 +23,7 @@ import ActiveCheats from './components/ActiveCheats';
 export default function App() {
   const [showSlotMachine, setShowSlotMachine] = useState(false);
   const [showCheatMenu, setShowCheatMenu] = useState(false);
+  const [showActiveCheats, setShowActiveCheats] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showQuestLog, setShowQuestLog] = useState(false);
@@ -73,6 +74,7 @@ export default function App() {
     const handleKeyPress = (e) => {
       if (e.shiftKey && e.key === 'H') {
         setShowCheatMenu(prev => !prev);
+        setShowActiveCheats(prev => !prev);
       }
     };
 
@@ -591,19 +593,22 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
         <CheatMenu 
           onReset={handleReset}
           onAddJunk={(amount) => setJunk(prev => prev + amount)}
-          onClose={() => setShowCheatMenu(false)}
+          onClose={() => {
+            setShowCheatMenu(false);
+            setShowActiveCheats(false);
+          }}
           onResetTutorial={() => setTutorialStage(0)}
           onNextTutorial={() => setTutorialStage(prev => prev + 1)}
         />
       )}
-      {showCheatMenu && (
+      {(showCheatMenu || showActiveCheats) && (
         <ActiveCheats
           cheats={activeCheatsList}
           onToggleCheat={(cheatName) => setActiveCheatsList(prev => ({
             ...prev,
             [cheatName]: !prev[cheatName]
           }))}
-          onClose={() => setShowCheatMenu(false)}
+          onClose={() => setShowActiveCheats(false)}
         />
       )}
       {showSettings && (
