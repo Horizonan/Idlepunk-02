@@ -101,6 +101,7 @@ export default function App() {
   const [notifications, setNotifications] = useState([]);
   const [activeStore, setActiveStore] = useState(null);
   const [clickMultiplier, setClickMultiplier] = useState(() => Number(localStorage.getItem('clickMultiplier')) || 1);
+  const [clickEnhancerLevel, setClickEnhancerLevel] = useState(() => Number(localStorage.getItem('clickEnhancerLevel')) || 0);
   const [isSurgeActive, setIsSurgeActive] = useState(false);
 const [tutorialStage, setTutorialStage] = useState(() => Number(localStorage.getItem('tutorialStage')) || 0);
 const [hasUpgrade, setHasUpgrade] = useState(false);
@@ -133,7 +134,8 @@ const [hasHelper, setHasHelper] = useState(false);
     cart: 500,
     junkMagnet: 1500,
     urbanRecycler: 3000,
-    autoClicker: 5000 // Added autoClicker cost
+    autoClicker: 5000,
+    clickEnhancer: 2500
   });
 
   useEffect(() => {
@@ -153,6 +155,7 @@ const [hasHelper, setHasHelper] = useState(false);
     localStorage.setItem('autoClicks', autoClicks);
     localStorage.setItem('clickCount', clickCount);
     localStorage.setItem('achievements', JSON.stringify(achievements));
+    localStorage.setItem('clickEnhancerLevel', clickEnhancerLevel);
   }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts, autoClicks, clickCount, achievements]);
 
   const checkAchievements = () => {
@@ -337,6 +340,23 @@ const [hasHelper, setHasHelper] = useState(false);
           onBuyCart={handleBuyCart}
           onBuyJunkMagnet={handleBuyJunkMagnet}
           onBuyUrbanRecycler={handleBuyUrbanRecycler}
+          onBuyClickEnhancer={() => {
+            if (junk >= itemCosts.clickEnhancer) {
+              setJunk(prev => prev - itemCosts.clickEnhancer);
+              setClickMultiplier(prev => prev + 10);
+              setClickEnhancerLevel(prev => prev + 1);
+              setItemCosts(prev => ({...prev, clickEnhancer: Math.floor(prev.clickEnhancer * 1.1)}));
+              setNotifications(prev => [...prev, "Click Enhancer purchased!"]);
+              if (clickEnhancerLevel === 0) {
+                setNotifications(prev => [...prev, "Finger strength increasing! Bet you never thought clicking would become your day job."]);
+                window.dispatchEvent(new CustomEvent('nextNews', { 
+                  detail: { message: "Cogfather nods approvingly: 'Clicks mean business. Keep 'em coming.'" }
+                }));
+              }
+            }
+          }}
+          clickCount={clickCount}
+          purchasedUpgrades={Object.values(itemCosts).filter(cost => cost > 0).length}
           onBack={() => setActiveStore(null)}
         />
       )}

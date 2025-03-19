@@ -1,5 +1,6 @@
 
-export default function Store({ credits, itemCosts, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBack }) {
+export default function Store({ credits, itemCosts, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBuyClickEnhancer, clickCount, purchasedUpgrades, onBack }) {
+  const showClickEnhancer = purchasedUpgrades >= 3 || clickCount >= 1000;
   const items = [
     { 
       name: 'Scrap Bag', 
@@ -36,6 +37,13 @@ export default function Store({ credits, itemCosts, onBuyTrashBag, onBuyPicker, 
       info: 'A powerful magnet that attracts junk from all directions',
       action: onBuyJunkMagnet 
     },
+    ...(showClickEnhancer ? [{
+      name: 'Click Enhancer I',
+      cost: itemCosts.clickEnhancer,
+      description: '+10 Junk/Click, +10% Cost',
+      info: 'Enhances your clicking power significantly',
+      action: onBuyClickEnhancer
+    }] : []),
     { 
       name: 'Urban Recycler', 
       cost: itemCosts.urbanRecycler, 
