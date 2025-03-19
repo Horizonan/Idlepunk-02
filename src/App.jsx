@@ -182,6 +182,16 @@ const [hasHelper, setHasHelper] = useState(false);
     clickEnhancer: 2500
   });
 
+  const [ownedItems, setOwnedItems] = useState(() => JSON.parse(localStorage.getItem('ownedItems')) || {
+    trashBag: 0,
+    trashPicker: 0,
+    streetrat: 0,
+    cart: 0,
+    junkMagnet: 0,
+    urbanRecycler: 0,
+    clickEnhancer: 0
+  });
+
   useEffect(() => {
     const interval = setInterval(() => {
       setJunk(prev => prev + passiveIncome + (autoClicks * clickMultiplier)); // Auto clicks use click multiplier
@@ -277,6 +287,7 @@ const [hasHelper, setHasHelper] = useState(false);
       setNotifications(prev => [...prev, "Scrap Bag gekauft!"]);
       setClickMultiplier(prev => prev + 1);
       setItemCosts(prev => ({...prev, trashBag: Math.floor(prev.trashBag * 1.1)}));
+      setOwnedItems(prev => ({...prev, trashBag: prev.trashBag + 1}));
       setHasUpgrade(true);
     }
   };
@@ -287,6 +298,7 @@ const [hasHelper, setHasHelper] = useState(false);
       setNotifications(prev => [...prev, "Trash Picker gekauft!"]);
       setClickMultiplier(prev => prev + 3);
       setItemCosts(prev => ({...prev, trashPicker: Math.floor(prev.trashPicker * 1.1)}));
+      setOwnedItems(prev => ({...prev, trashPicker: prev.trashPicker + 1}));
     }
   };
 
@@ -296,6 +308,7 @@ const [hasHelper, setHasHelper] = useState(false);
       setNotifications(prev => [...prev, "Streetrat angeheuert!"]);
       setPassiveIncome(prev => prev + 1);
       setItemCosts(prev => ({...prev, streetrat: Math.floor(prev.streetrat * 1.15)}));
+      setOwnedItems(prev => ({...prev, streetrat: prev.streetrat + 1}));
       setHasHelper(true);
     }
   };
@@ -306,6 +319,7 @@ const [hasHelper, setHasHelper] = useState(false);
       setNotifications(prev => [...prev, "Shopping Cart gekauft!"]);
       setPassiveIncome(prev => prev + 5);
       setItemCosts(prev => ({...prev, cart: Math.floor(prev.cart * 1.15)}));
+      setOwnedItems(prev => ({...prev, cart: prev.cart + 1}));
     }
   };
 
@@ -315,6 +329,7 @@ const [hasHelper, setHasHelper] = useState(false);
       setNotifications(prev => [...prev, "Junk Magnet gekauft!"]);
       setPassiveIncome(prev => prev + 10);
       setItemCosts(prev => ({...prev, junkMagnet: Math.floor(prev.junkMagnet * 1.15)}));
+      setOwnedItems(prev => ({...prev, junkMagnet: prev.junkMagnet + 1}));
     }
   };
 
@@ -324,6 +339,7 @@ const [hasHelper, setHasHelper] = useState(false);
       setNotifications(prev => [...prev, "Urban Recycler gekauft!"]);
       setPassiveIncome(prev => prev + 20);
       setItemCosts(prev => ({...prev, urbanRecycler: Math.floor(prev.urbanRecycler * 1.15)}));
+      setOwnedItems(prev => ({...prev, urbanRecycler: prev.urbanRecycler + 1}));
     }
   };
 
@@ -400,6 +416,7 @@ const [hasHelper, setHasHelper] = useState(false);
         <Store 
           credits={junk}
           itemCosts={itemCosts}
+          ownedItems={ownedItems}
           onBuyTrashBag={handleBuyTrashBag}
           onBuyPicker={handleBuyPicker}
           onBuyStreetrat={handleBuyStreetrat}
