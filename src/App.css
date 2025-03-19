@@ -360,7 +360,10 @@ button.locked {
 }
 
 .item-info {
-  display: none;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
   position: absolute;
   background: rgba(26, 26, 26, 0.95);
   border: 1px solid #9400D3;
@@ -371,6 +374,20 @@ button.locked {
   top: 0;
   z-index: 100;
   color: #00FF00;
+}
+
+.item-description {
+  text-align: left;
+}
+
+.item-description p {
+  margin: 5px 0;
+  color: #00FF00;
+}
+
+.item-note {
+  font-size: 0.85em;
+  opacity: 0.8;
 }
 
 .store-items {
