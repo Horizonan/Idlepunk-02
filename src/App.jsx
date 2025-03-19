@@ -267,6 +267,25 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
   const collectJunk = () => {
     const surgeMultiplier = isSurgeActive ? 2 : 1;
     setJunk(prev => prev + (clickMultiplier * surgeMultiplier));
+    
+    // Random material finding
+    const random = Math.random();
+    if (random < 0.0001) { // 0.01% chance for basic materials
+      const materials = ['Wires', 'Metal Plates', 'Gear Bits'];
+      const randomMaterial = materials[Math.floor(Math.random() * materials.length)];
+      setCraftingInventory(prev => ({
+        ...prev,
+        [randomMaterial]: (prev[randomMaterial] || 0) + 1
+      }));
+      setNotifications(prev => [...prev, `Found a ${randomMaterial}!`]);
+    } else if (random < 0.00001) { // 0.001% chance for power core
+      setCraftingInventory(prev => ({
+        ...prev,
+        'Scrap Core': (prev['Scrap Core'] || 0) + 1
+      }));
+      setNotifications(prev => [...prev, 'Found a Scrap Core!']);
+    }
+
     setClickCount(prev => {
       const newCount = prev + 1;
       localStorage.setItem('clickCount', newCount);

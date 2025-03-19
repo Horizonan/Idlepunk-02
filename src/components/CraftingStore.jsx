@@ -32,6 +32,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
         'Metal Plates': 3,
         'Wires': 2
       },
+      cost: 250000,
       description: 'A basic power core made from scrap',
       type: 'crafted'
     }
