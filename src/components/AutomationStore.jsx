@@ -15,7 +15,7 @@ export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onB
         >
           <div className="item-header">
             <span>Auto Clicker Bot</span>
-            <span className="cost">{itemCosts.autoClicker || 5000} Junk</span>
+            <span className="cost">{itemCosts.autoClicker} Junk</span>
           </div>
           <div className="item-info">
             <img src="/src/Icons/robot.png" alt="Auto Clicker" className="item-icon" />
