@@ -323,9 +323,12 @@ const [hasHelper, setHasHelper] = useState(false);
         }
       }} />
       {showSlotMachine && (
-          <SlotMachine
-            junk={junk}
-            onSpin={(cost) => setJunk(prev => prev - cost)}
+        <SlotMachine
+          junk={junk}
+          onSpin={(cost) => setJunk(prev => prev - cost)}
+          onClose={() => setShowSlotMachine(false)}
+        />
+      )}
             onClose={() => setShowSlotMachine(false)}
           />
         )}
