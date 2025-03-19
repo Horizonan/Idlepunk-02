@@ -23,10 +23,9 @@ export default function Achievements({ achievements, onClose }) {
 
   const handleMouseDown = (e) => {
     setIsDragging(true);
-    const rect = e.currentTarget.getBoundingClientRect();
     setDragOffset({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
+      x: e.clientX - position.x,
+      y: e.clientY - position.y
     });
   };
 
