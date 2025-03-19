@@ -69,6 +69,13 @@ export default function App() {
     return loadedAchievements.length === defaultAchievements.length ? loadedAchievements : defaultAchievements;
   });
   const [autoClicks, setAutoClicks] = useState(0); // Added state for auto clicks
+  const [craftingInventory, setCraftingInventory] = useState(() => JSON.parse(localStorage.getItem('craftingInventory')) || {});
+  const [hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge] = useState(false);
+  const [activeCheatsList, setActiveCheatsList] = useState(() => ({
+    'Guaranteed Capacitor': false,
+    'Force Triple Win': false,
+    'Force Double Win': false
+  }));
 
   useEffect(() => {
     const handleForceWin = () => {
