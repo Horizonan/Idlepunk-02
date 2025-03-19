@@ -70,12 +70,19 @@ export default function App() {
   });
   const [autoClicks, setAutoClicks] = useState(0); // Added state for auto clicks
 
+  const [activeCheatsList, setActiveCheatsList] = useState(() => ({
+    'Guaranteed Capacitor': false,
+    'Force Triple Win': false,
+    'Force Double Win': false
+  }));
+
   useEffect(() => {
-    if (activeCheatsList['Force Triple Win']) {
-      window.dispatchEvent(new CustomEvent('slotForceTriple'));
-    }
-    if (activeCheatsList['Force Double Win']) {
-      window.dispatchEvent(new CustomEvent('slotForceDouble'));
+    if (showSlotMachine && window.spinSlotMachine) {
+      if (activeCheatsList['Force Triple Win']) {
+        window.spinSlotMachine(true, false);
+      } else if (activeCheatsList['Force Double Win']) {
+        window.spinSlotMachine(false, true);
+      }
     }
 
     const handleKeyPress = (e) => {
@@ -102,7 +109,7 @@ export default function App() {
       window.removeEventListener('slotForceTriple', handleSlotForceTriple);
       window.removeEventListener('slotForceDouble', handleSlotForceDouble);
     };
-  }, []);
+  }, [activeCheatsList, showSlotMachine]);
 
   const handleReset = (type) => {
     switch(type) {
