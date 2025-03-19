@@ -9,12 +9,13 @@ export default function Achievements({ achievements, onClose }) {
         <button onClick={onClose}>Close</button>
       </div>
       <div className="achievements-list">
-        {achievements.map((achievement) => (
-          <div key={achievement.title} className={`achievement ${achievement.unlocked ? 'unlocked' : ''}`}>
+        {achievements.map((achievement, index) => (
+          <div key={index} className={`achievement ${achievement.unlocked ? 'unlocked' : ''}`}>
             <h3>{achievement.title}</h3>
             <p className="flavor-text">"{achievement.flavorText}"</p>
             <p className="requirement">Requirement: {achievement.requirement}</p>
             <p className="reward">Reward: {achievement.reward}</p>
+            <p className="status">{achievement.unlocked ? '✓ Completed' : '⋯ In Progress'}</p>
           </div>
         ))}
       </div>

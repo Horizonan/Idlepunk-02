@@ -658,6 +658,7 @@ button.locked {
 .achievement.unlocked {
   opacity: 1;
   border: 1px solid #00FF00;
+  background: rgba(0, 255, 0, 0.1);
 }
 
 .achievement h3 {
