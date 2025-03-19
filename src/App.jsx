@@ -213,7 +213,8 @@ const [hasHelper, setHasHelper] = useState(false);
     localStorage.setItem('clickCount', clickCount);
     localStorage.setItem('achievements', JSON.stringify(achievements));
     localStorage.setItem('clickEnhancerLevel', clickEnhancerLevel);
-  }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts, autoClicks, clickCount, achievements]);
+    localStorage.setItem('ownedItems', JSON.stringify(ownedItems));
+  }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts, autoClicks, clickCount, achievements, ownedItems, clickEnhancerLevel]);
 
   const checkAchievements = () => {
     setAchievements(prev => {
