@@ -451,6 +451,15 @@ const [hasHelper, setHasHelper] = useState(false);
           onBack={() => setActiveStore(null)}
         />
       )}
+      <Inventory 
+        credits={credits}
+        junk={junk}
+        tronics={0}
+        electronicsUnlock={electronicsUnlock}
+        autoClicks={autoClicks}
+        clickMultiplier={clickMultiplier}
+        onCheat={() => setJunk(prev => prev + 1000)}
+      />
       {activeStore === 'credstore' && (
         <CredStore
           junk={junk}
