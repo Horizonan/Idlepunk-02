@@ -54,8 +54,10 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
         
         if (winnings > 0) {
           onSpin(-winnings); // Negative cost means player wins
-          // Show win popup
-          alert(`Congratulations! You won ${winnings} Junk!`);
+          // Play win sound and show popup after a short delay
+          setTimeout(() => {
+            alert(`Congratulations! You won ${winnings} Junk!`);
+          }, 100);
         }
       }, 100);
     }, 1000);
