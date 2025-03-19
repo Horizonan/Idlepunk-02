@@ -68,7 +68,9 @@ export default function App() {
           trashBag: 10,
           trashPicker: 100,
           streetrat: 100,
-          cart: 500
+          cart: 500,
+          junkMagnet: 1500,
+          urbanRecycler: 3000
         });
         break;
     }

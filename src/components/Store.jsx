@@ -31,14 +31,14 @@ export default function Store({ credits, itemCosts, onBuyTrashBag, onBuyPicker, 
     },
     { 
       name: 'Junk Magnet', 
-      cost: itemCosts.junkMagnet || 1500, 
+      cost: itemCosts.junkMagnet, 
       description: '+10 Junk/sec, +15% Cost', 
       info: 'A powerful magnet that attracts junk from all directions',
       action: onBuyJunkMagnet 
     },
     { 
       name: 'Urban Recycler', 
-      cost: itemCosts.urbanRecycler || 3000, 
+      cost: itemCosts.urbanRecycler, 
       description: '+20 Junk/sec, +15% Cost', 
       info: 'Advanced automated system that scans and collects valuable junk',
       action: onBuyUrbanRecycler 
