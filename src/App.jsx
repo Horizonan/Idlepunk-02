@@ -18,7 +18,6 @@ import ClickEnhancerEffect from './components/ClickEnhancerEffect';
 import DroneEffect from './components/DroneEffect';
 import Menu from './components/Menu';
 import CraftingStore from './components/CraftingStore';
-import Marketplace from './components/Marketplace';
 import ActiveCheats from './components/ActiveCheats';
 import FlyingCrystal from './components/FlyingCrystal';
 
@@ -735,9 +734,6 @@ export default function App() {
           }}
           onBack={() => setActiveStore(null)}
         />
-      )}
-      {activeStore === 'marketplace' && (
-        <Marketplace onClose={() => setActiveStore(null)} />
       )}
       {activeStore === 'inventory' && showInventory && (
         <ItemInventory
