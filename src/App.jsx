@@ -221,7 +221,14 @@ export default function App() {
   const [tutorialStage, setTutorialStage] = useState(() => Number(localStorage.getItem('tutorialStage')) || 0);
   const [hasUpgrade, setHasUpgrade] = useState(false);
   const [hasHelper, setHasHelper] = useState(false);
-  const [showInventory, setShowInventory] = useState(false); // Added state for inventory visibility
+  const [showInventory, setShowInventory] = useState(false);
+  
+  // Close store when opening other menus
+  useEffect(() => {
+    if (showSlotMachine || showAchievements || showSettings || showQuestLog) {
+      setActiveStore(null);
+    }
+  }, [showSlotMachine, showAchievements, showSettings, showQuestLog]);
 
   useEffect(() => {
     const crystalInterval = setInterval(() => {
