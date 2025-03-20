@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export default function Marketplace({ onClose, junk, passiveIncome }) {
+export default function Marketplace({ onClose, junk, passiveIncome, cogfatherLore = [] }) {
   const [showPrestigeDialogue, setShowPrestigeDialogue] = useState(false);
 
   useEffect(() => {
@@ -25,6 +25,19 @@ export default function Marketplace({ onClose, junk, passiveIncome }) {
       text: "How's business?",
       response: "The flow of scrap never stops in this city. Always something to salvage, always something to trade."
     },
+    ...(cogfatherLore?.includes("001") ? [{
+      id: 'lore',
+      text: "📘 Cogfather Lore Entry #001 – "Awakening in Neon Ash"",
+      response: `"They call me the Cogfather now, but I wasn't always scraps and circuits. I woke buried beneath a heap of sparking neon signs, twisted wires wrapping around me like roots. No memories, just the hum of voltage under my skin and an AI voice whispering endless streams of broken code."
+
+"Scrappers found me rusting in that junkpile, patched me up with metal plates and copper threads, thinking I was just another broken machine. Little did they know, beneath the tarnished chrome lay more questions than answers."
+
+"I adapted, scavenged, and learned from every pulse of electricity and every flicker of the city's dying neon. Now, I see the truth behind the junk: it's not broken. It's waiting—just like I was—for someone brave enough to put the pieces together."
+
+"If you're reading this, you might be that someone. Keep digging, kid. The city's secrets are never far beneath the surface."
+
+— The Cogfather`
+    }] : []),
     ...(showPrestigeDialogue ? [{
       id: 'prestige',
       text: "Is there more to this life than collecting junk?",

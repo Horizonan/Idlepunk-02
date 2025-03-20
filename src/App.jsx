@@ -753,6 +753,7 @@ export default function App() {
           onClose={() => setActiveStore(null)}
           junk={junk}
           passiveIncome={passiveIncome}
+          cogfatherLore={cogfatherLore}
         />
       )}
       {activeStore === 'electrostore' && (
