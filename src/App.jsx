@@ -150,7 +150,7 @@ export default function App() {
     };
 
     window.addEventListener('addMaterial', handleAddMaterial);
-    
+
     if (activeCheatsList['Force Triple Win']) {
       window.dispatchEvent(new CustomEvent('slotForceTriple'));
     }
@@ -290,7 +290,7 @@ export default function App() {
   const [hasUpgrade, setHasUpgrade] = useState(false);
   const [hasHelper, setHasHelper] = useState(false);
   const [showInventory, setShowInventory] = useState(false);
-  
+
   // Close store when opening other menus
   useEffect(() => {
     if (showSlotMachine || showAchievements || showSettings || showQuestLog) {
@@ -375,7 +375,7 @@ export default function App() {
       setNotifications(prev => [...prev, "The Cogfather wants to speak with you about your progress..."]);
       localStorage.setItem('cogfatherEvent', 'true');
     }
-    
+
     localStorage.setItem('credits', credits);
     localStorage.setItem('junk', junk);
     localStorage.setItem('electronicsUnlock', electronicsUnlock);
@@ -689,7 +689,7 @@ export default function App() {
         }}
         onMouseDown={(e) => {
           if (localStorage.getItem('sidebarLocked') === 'true' || e.target.className === 'lock-button') return;
-          
+
           const sidebar = e.currentTarget;
           const startX = e.clientX - sidebar.offsetLeft;
           const rect = sidebar.getBoundingClientRect();
@@ -739,6 +739,7 @@ export default function App() {
           onBuyJunkMagnet={handleBuyJunkMagnet}
           onBuyUrbanRecycler={handleBuyUrbanRecycler}
           onBuyScrapDrone={handleBuyScrapDrone}
+          onBuyHoloBillboard={handleBuyHoloBillboard} // Added prop
           passiveIncome={passiveIncome}
           onBuyClickEnhancer={() => {
             if (junk >= itemCosts.clickEnhancer) {

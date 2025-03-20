@@ -35,6 +35,15 @@ export default function Store({ credits, itemCosts, onBuyTrashBag, onBuyPicker, 
   }
 
   const passiveItems = [
+    {
+      name: 'Holo Billboard',
+      cost: itemCosts.holoBillboard || 15000,
+      description: '+10% global Junk/sec boost',
+      info: 'A massive holographic display that attracts more scrappers to your territory',
+      action: onBuyHoloBillboard,
+      purchasedCount: ownedItems.holoBillboard || 0,
+      hidden: !(passiveIncome >= 50 || (ownedItems.scrapDrone && ownedItems.scrapDrone > 0))
+    },
     { 
       name: 'Streetrat', 
       cost: itemCosts.streetrat, 
