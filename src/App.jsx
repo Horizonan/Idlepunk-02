@@ -124,11 +124,17 @@ export default function App() {
       return defaultAchievements;
     }
     const loadedAchievements = JSON.parse(stored);
-    console.log('Loaded achievements:', loadedAchievements);
-    // Merge existing achievements with any new ones from defaultAchievements
+    // Merge existing achievements with any new ones from defaultAchievements, preserving unlocked/checked states
     const mergedAchievements = defaultAchievements.map(defaultAchievement => {
       const existingAchievement = loadedAchievements.find(a => a.title === defaultAchievement.title);
-      return existingAchievement || defaultAchievement;
+      if (existingAchievement) {
+        return {
+          ...defaultAchievement,
+          unlocked: existingAchievement.unlocked,
+          checked: existingAchievement.checked
+        };
+      }
+      return defaultAchievement;
     });
     return mergedAchievements;
   });
