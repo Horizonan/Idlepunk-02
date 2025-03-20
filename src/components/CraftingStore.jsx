@@ -51,6 +51,18 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       description: 'Increases click power by 25%',
       type: 'crafted',
       onetime: true
+    },
+    {
+      name: 'Surge Capacitor Module',
+      requirements: {
+        'Capacitor': 2,
+        'Scrap Core': 1,
+        'Metal Plates': 2
+      },
+      cost: 500000,
+      description: 'Increases Trash Surge duration from 5s → 10s',
+      type: 'crafted',
+      onetime: true
     }
   ];
 

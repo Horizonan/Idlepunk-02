@@ -167,10 +167,11 @@ const [hasHelper, setHasHelper] = useState(false);
       window.surgeStartTime = Date.now();
       setIsSurgeActive(true);
       setHasFoundCapacitorThisSurge(false);
+      const surgeDuration = craftingInventory['Surge Capacitor Module'] ? 10000 : 5000;
       setTimeout(() => {
         setIsSurgeActive(false);
         setHasFoundCapacitorThisSurge(false);
-      }, 5000);
+      }, surgeDuration);
     };
 
     const handleTriggerSurge = () => startSurge();
