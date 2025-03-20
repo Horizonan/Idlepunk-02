@@ -655,6 +655,10 @@ button.locked {
   margin: 10px 0;
 }
 
+.sidebar::after {
+  margin-top: 20px;
+}
+
 .store-container {
   position: fixed;
   top: 50%;
