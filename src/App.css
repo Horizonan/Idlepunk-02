@@ -615,7 +615,11 @@ button.locked {
   left: 20px;
   z-index: 1000;
   cursor: pointer;
-  transition: transform 0.3s;
+  transition: transform 0.3s, top 0.3s;
+}
+
+.burger-menu.inventory-unlocked {
+  top: 200px;
 }
 
 .burger-menu:hover {
