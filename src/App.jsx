@@ -562,6 +562,7 @@ export default function App() {
       />
       <NewsContainer isSurgeActive={isSurgeActive} />
       <TrashSurge isActive={isSurgeActive} />
+      <SurgeTimer visible={achievements[4].unlocked} />
       {showCrystal && (
         <FlyingCrystal
           onCollect={() => {
