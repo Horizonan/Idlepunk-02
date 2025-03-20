@@ -580,6 +580,24 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
                   setAutoClicks(prev => Math.floor(prev * 1.25));
                   setNotifications(prev => [...prev, "Auto Click efficiency increased by 25%!"]);
                 }
+                if (item.name === 'Compression Pack') {
+                  setPassiveIncome(prev => Math.floor(prev * 1.25));
+                  setNotifications(prev => [...prev, "Passive income increased by 25%!"]);
+                }
+                if (item.name === 'Reinforced Backpack') {
+                  setItemCosts(prev => {
+                    const newCosts = { ...prev };
+                    Object.keys(newCosts).forEach(key => {
+                      if (key !== 'clickEnhancer') { // Don't affect click enhancer scaling
+                        const currentScaling = key === 'streetrat' || key === 'cart' || key === 'junkMagnet' || key === 'urbanRecycler' || key === 'scrapDrone' ? 1.15 : 1.1;
+                        const newScaling = currentScaling - 0.01;
+                        localStorage.setItem(`${key}Scaling`, newScaling.toString());
+                      }
+                    });
+                    return newCosts;
+                  });
+                  setNotifications(prev => [...prev, "Cost scaling reduced by 1%!"]);
+                }
                 setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
               }
             }

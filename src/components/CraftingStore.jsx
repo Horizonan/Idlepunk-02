@@ -64,6 +64,29 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       onetime: true
     },
     {
+      name: 'Compression Pack',
+      requirements: {
+        'Scrap Core': 2,
+        'Wires': 3
+      },
+      cost: 350000,
+      description: 'Increases Junk/sec by 25%',
+      type: 'crafted',
+      onetime: true
+    },
+    {
+      name: 'Reinforced Backpack',
+      requirements: {
+        'Metal Plates': 3,
+        'Scrap Core': 2,
+        'Gear Bits': 2
+      },
+      cost: 400000,
+      description: 'Reduces cost scaling by 1% permanently',
+      type: 'crafted',
+      onetime: true
+    },
+    {
       name: 'Surge Capacitor Module',
       requirements: {
         'Capacitor': 2,
