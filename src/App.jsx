@@ -453,9 +453,9 @@ export default function App() {
   }, [tutorialStage]);
 
   useEffect(() => {
-    // Check if any item has been crafted and set showInventory accordingly.
-    const hasCrafted = Object.values(craftingInventory).some(count => count > 0);
-    setShowInventory(hasCrafted);
+    const onetimeItems = ['Click Rig Mk I', 'Auto Toolkit', 'Compression Pack', 'Reinforced Backpack', 'Surge Capacitor Module'];
+    const hasCraftedOneTime = onetimeItems.some(item => (craftingInventory[item] || 0) > 0);
+    setShowInventory(hasCraftedOneTime);
   }, [craftingInventory]);
 
 
@@ -514,9 +514,12 @@ export default function App() {
         <div></div>
       </div>
       <div className={`sidebar ${activeStore ? 'open' : ''}`}>
-        <MenuButtons onStoreSelect={(store) => {
-          setActiveStore(store);
-        }} />
+        <MenuButtons 
+          onStoreSelect={(store) => {
+            setActiveStore(store);
+          }}
+          showInventory={showInventory}
+        />
       </div>
       {activeStore === 'store' && (
         <Store 
