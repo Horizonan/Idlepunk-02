@@ -19,6 +19,7 @@ import DroneEffect from './components/DroneEffect';
 import Menu from './components/Menu';
 import CraftingStore from './components/CraftingStore';
 import ActiveCheats from './components/ActiveCheats';
+import FlyingCrystal from './components/FlyingCrystal';
 
 function ItemInventory({ craftingInventory, onBack }) {
   return (
