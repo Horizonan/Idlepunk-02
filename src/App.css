@@ -490,10 +490,15 @@ button.locked {
   left: 50%;
   transform: translate(-50%, -50%);
   color: #ff00ff;
-  font-size: 2em;
+  font-size: 1.5em;
   font-weight: bold;
   text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff;
   animation: neon-pulse 2s ease-in-out infinite;
+  width: 90%;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .neon-flicker {
