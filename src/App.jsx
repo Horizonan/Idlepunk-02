@@ -120,7 +120,12 @@ export default function App() {
       if (window.spinSlotMachine) window.spinSlotMachine(false, true);
     };
 
+    const handleShowCrystal = () => {
+      setShowCrystal(true);
+    };
+
     window.addEventListener('keydown', handleKeyPress);
+    window.addEventListener('showCrystal', handleShowCrystal);
     window.addEventListener('slotForceTriple', handleSlotForceTriple);
     window.addEventListener('slotForceDouble', handleSlotForceDouble);
 
@@ -128,6 +133,7 @@ export default function App() {
       window.removeEventListener('keydown', handleKeyPress);
       window.removeEventListener('slotForceTriple', handleSlotForceTriple);
       window.removeEventListener('slotForceDouble', handleSlotForceDouble);
+      window.removeEventListener('showCrystal', handleShowCrystal);
       window.removeEventListener('addMaterial', handleAddMaterial);
     };
   }, []);
