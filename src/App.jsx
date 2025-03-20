@@ -181,6 +181,8 @@ export default function App() {
         localStorage.removeItem('craftedItems');
         localStorage.removeItem('craftingInventory');
         setShowInventory(false);
+        setOwnedItems(prev => ({...prev, scrapDrone: 0}));
+        localStorage.setItem('ownedItems', JSON.stringify({...ownedItems, scrapDrone: 0}));
         setAchievements(prevAchievements => 
           prevAchievements.map(achievement => ({
             ...achievement,
