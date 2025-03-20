@@ -1,7 +1,14 @@
+import React, { useState, useEffect } from 'react';
 
-import React, { useState } from 'react';
+export default function Marketplace({ onClose, junk, passiveIncome }) {
+  const [showPrestigeDialogue, setShowPrestigeDialogue] = useState(false);
 
-export default function Marketplace({ onClose }) {
+  useEffect(() => {
+    if (passiveIncome >= 100 || junk >= 1000000) {
+      setShowPrestigeDialogue(true);
+    }
+  }, [passiveIncome, junk]);
+
   const dialogueOptions = [
     {
       id: 'crystal',
@@ -16,8 +23,13 @@ export default function Marketplace({ onClose }) {
     {
       id: 'business',
       text: "How's business?",
-      response: "The flow of scrap never stops in this city. Always something new to salvage, always something to trade."
-    }
+      response: "The flow of scrap never stops in this city. Always something to salvage, always something to trade."
+    },
+    ...(showPrestigeDialogue ? [{
+      id: 'prestige',
+      text: "Is there more to this life than collecting junk?",
+      response: "You've scraped the surface, kid… but there's a bigger circuit to plug into. Come back stronger — I'll be waiting."
+    }] : [])
   ];
 
   const [selectedResponse, setSelectedResponse] = useState(null);

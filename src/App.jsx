@@ -640,7 +640,11 @@ export default function App() {
         />
       )}
       {activeStore === 'marketplace' && (
-        <Marketplace onClose={() => setActiveStore(null)} />
+        <Marketplace 
+          onClose={() => setActiveStore(null)}
+          junk={junk}
+          passiveIncome={passiveIncome}
+        />
       )}
       {activeStore === 'electrostore' && (
         <ElectroStore 
