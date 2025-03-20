@@ -36,6 +36,17 @@ function ItemInventory({ craftingInventory, onBack }) {
   );
 }
 
+function SurgeTimer({ visible }) {
+  if (!visible) return null;
+  const nextSurgeTime = Math.max(0, 240000 + Math.random() * 240000 - (Date.now() - (window.lastSurgeTime || 0)));
+  const seconds = Math.floor(nextSurgeTime / 1000);
+  return (
+    <div className="timer">
+      <p>Next surge in: {seconds} seconds</p>
+    </div>
+  );
+}
+
 
 export default function App() {
   const [showSlotMachine, setShowSlotMachine] = useState(false);
@@ -370,8 +381,8 @@ export default function App() {
         }
       }
 
-      // Check UI Breaker
-      if (!newAchievements[4].unlocked && isSurgeActive) {
+      // Check UI Breaker -  UI Breaker achievement should unlock only AFTER the surge is complete.
+      if (!newAchievements[4].unlocked && isSurgeActive === false && window.lastSurgeTime) { //Added check for window.lastSurgeTime
         newAchievements[4].unlocked = true;
         if (!newAchievements[4].checked) {
           setNotifications(prev => [...prev, "Achievement Unlocked: UI Breaker!"]);
@@ -777,7 +788,7 @@ export default function App() {
                   });
                   setNotifications(prev => [...prev, "Cost scaling reduced by 1%!"]);
                 }
-                setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
+                setNotifications(prev => [...prev,`Crafted ${item.name}!`]);
               }
             }
           }}
@@ -881,13 +892,6 @@ export default function App() {
           Prestige
         </button>
       )}
-      <div className="timer">
-        {window.lastSurgeTime ? (
-          <p>Next surge in: {Math.max(0, 240000 + Math.random() * 240000 - (Date.now() - window.lastSurgeTime)) / 1000} seconds</p>
-        ) : (
-          <p>Next surge soon!</p>
-        )}
-      </div>
     </main>
   );
 }
