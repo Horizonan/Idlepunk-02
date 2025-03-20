@@ -63,16 +63,29 @@ export default function Achievements({ achievements, onClose }) {
         <h2>Achievements</h2>
         <button onClick={onClose}>Close</button>
       </div>
-      <div className="achievements-list">
-        {achievements.map((achievement, index) => (
-          <div key={index} className={`achievement ${achievement.unlocked ? 'unlocked' : ''}`}>
-            <h3>{achievement.title}</h3>
-            <p className="flavor-text">"{achievement.flavorText}"</p>
-            <p className="requirement">Requirement: {achievement.requirement}</p>
-            <p className="reward">Reward: {achievement.reward}</p>
-            <p className="status">{achievement.unlocked ? '✓ Completed' : '⋯ In Progress'}</p>
+      <div className="achievements-tabs">
+        <div className="achievements-list">
+          <h3>Progress</h3>
+          {achievements.map((achievement, index) => (
+            <div key={index} className={`achievement ${achievement.unlocked ? 'unlocked' : ''}`}>
+              <h3>{achievement.title}</h3>
+              <p className="flavor-text">"{achievement.flavorText}"</p>
+              <p className="requirement">Requirement: {achievement.requirement}</p>
+              <p className="reward">Reward: {achievement.reward}</p>
+              <p className="status">{achievement.unlocked ? '✓ Completed' : '⋯ In Progress'}</p>
+            </div>
+          ))}
+        </div>
+        <div className="achievements-badges">
+          <h3>Badges</h3>
+          <div className="badges-grid">
+            {achievements.filter(a => a.unlocked && a.badge).map((achievement, index) => (
+              <div key={index} className="badge" title={achievement.title}>
+                {achievement.badge}
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );
