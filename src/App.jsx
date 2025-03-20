@@ -74,6 +74,24 @@ export default function App() {
       flavorText: "The gears are turning smoothly now.",
       unlocked: false,
       checked: false
+    },
+    {
+      title: "The First Horde",
+      requirement: "Accumulate 10,000 Junk",
+      reward: "+10% JPS (30s)",
+      flavorText: "Your pile of junk is becoming impressive...",
+      unlocked: false,
+      checked: false,
+      badge: "🗑️"
+    },
+    {
+      title: "UI Breaker",
+      requirement: "Your First Trash Surge",
+      reward: "Cosmetic Badge",
+      flavorText: "The system can't handle your power!",
+      unlocked: false,
+      checked: false,
+      badge: "⚡"
     }
   ];
 
@@ -331,6 +349,28 @@ export default function App() {
           setAutoClicks(prev => prev + 1);
           setNotifications(prev => [...prev, "Achievement Unlocked: Greasy Milestone!"]);
           newAchievements[2].checked = true;
+          rewardGiven = true;
+        }
+      }
+
+      // Check The First Horde
+      if (!newAchievements[3].unlocked && junk >= 10000) {
+        newAchievements[3].unlocked = true;
+        if (!newAchievements[3].checked) {
+          setPassiveIncome(prev => prev * 1.1);
+          setTimeout(() => setPassiveIncome(prev => prev / 1.1), 30000);
+          setNotifications(prev => [...prev, "Achievement Unlocked: The First Horde!"]);
+          newAchievements[3].checked = true;
+          rewardGiven = true;
+        }
+      }
+
+      // Check UI Breaker
+      if (!newAchievements[4].unlocked && surgeActive) {
+        newAchievements[4].unlocked = true;
+        if (!newAchievements[4].checked) {
+          setNotifications(prev => [...prev, "Achievement Unlocked: UI Breaker!"]);
+          newAchievements[4].checked = true;
           rewardGiven = true;
         }
       }
