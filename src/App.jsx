@@ -277,6 +277,12 @@ export default function App() {
   }, [passiveIncome, autoClicks, clickMultiplier]);
 
   useEffect(() => {
+    const totalPassiveIncome = passiveIncome + (autoClicks * clickMultiplier);
+    if ((totalPassiveIncome >= 100 || junk >= 1000000) && !localStorage.getItem('cogfatherEvent')) {
+      setNotifications(prev => [...prev, "The Cogfather wants to speak with you about your progress..."]);
+      localStorage.setItem('cogfatherEvent', 'true');
+    }
+    
     localStorage.setItem('credits', credits);
     localStorage.setItem('junk', junk);
     localStorage.setItem('electronicsUnlock', electronicsUnlock);
