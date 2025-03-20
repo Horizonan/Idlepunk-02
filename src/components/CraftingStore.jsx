@@ -53,6 +53,17 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       onetime: true
     },
     {
+      name: 'Auto Toolkit',
+      requirements: {
+        'Metal Plates': 3,
+        'Gear Bits': 2
+      },
+      cost: 300000,
+      description: 'Increases Auto Click efficiency by 25%',
+      type: 'crafted',
+      onetime: true
+    },
+    {
       name: 'Surge Capacitor Module',
       requirements: {
         'Capacitor': 2,
@@ -61,17 +72,6 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       },
       cost: 500000,
       description: 'Increases Trash Surge duration from 5s → 10s',
-      type: 'crafted',
-      onetime: true
-    },
-    {
-      name: 'Auto Toolkit',
-      requirements: {
-        'Metal Plates': 3,
-        'Gear Bits': 2
-      },
-      cost: 300000,
-      description: 'Increases Auto Click efficiency by 25%',
       type: 'crafted',
       onetime: true
     }
