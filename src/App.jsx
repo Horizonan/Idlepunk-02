@@ -624,6 +624,43 @@ export default function App() {
   }, [craftingInventory]);
 
 
+  const handleBuyCyberCollector = () => {
+    if (junk >= itemCosts.cyberCollector) {
+      setJunk(prev => prev - itemCosts.cyberCollector);
+      setNotifications(prev => [...prev, "Cyber Collector deployed – +50 JPS"]);
+      setPassiveIncome(prev => prev + 50);
+      setItemCosts(prev => ({...prev, cyberCollector: Math.floor(prev.cyberCollector * 1.15)}));
+      setOwnedItems(prev => ({...prev, cyberCollector: (prev.cyberCollector || 0) + 1}));
+
+      if (!ownedItems.cyberCollector) {
+        window.dispatchEvent(new CustomEvent('nextNews', { 
+          detail: { message: "Cogfather: Cybernetic collection, eh? Now you're scrapping smarter, not harder." }
+        }));
+        setDefaultNews(prev => [...prev, "Cyber Collectors spotted in the junkyards. Efficiency just got upgraded!"]);
+      }
+    }
+  };
+
+  const handleBuyClickEnhancer = () => {
+    if (junk >= itemCosts.clickEnhancer) {
+      setJunk(prev => prev - itemCosts.clickEnhancer);
+      setClickMultiplier(prev => prev + 10);
+      setClickEnhancerLevel(prev => prev + 1);
+      setItemCosts(prev => ({...prev, clickEnhancer: Math.floor(prev.clickEnhancer * 1.1)}));
+      setOwnedItems(prev => ({...prev, clickEnhancer: (prev.clickEnhancer || 0) + 1}));
+      setNotifications(prev => [...prev, "Click Enhancer purchased!"]);
+      if (clickEnhancerLevel === 0) {
+        setNotifications(prev => [...prev, "Finger strength increasing! Bet you never thought clicking would become your day job."]);
+        window.dispatchEvent(new CustomEvent('nextNews', { 
+          detail: { message: "Cogfather nods approvingly: 'Clicks mean business. Keep 'em coming.'" }
+        }));
+      }
+    }
+  };
+
+  const purchasedUpgrades = Object.values(itemCosts).filter(cost => cost > 0).length;
+
+
   return (
     <main>
       {showQuestLog && <QuestLog tutorialStage={tutorialStage} />}
@@ -759,41 +796,11 @@ export default function App() {
           onBuyUrbanRecycler={handleBuyUrbanRecycler}
           onBuyScrapDrone={handleBuyScrapDrone}
           onBuyHoloBillboard={handleBuyHoloBillboard}
-          onBuyCyberCollector={() => {
-            if (junk >= itemCosts.cyberCollector) {
-              setJunk(prev => prev - itemCosts.cyberCollector);
-              setNotifications(prev => [...prev, "Cyber Collector deployed – +50 JPS"]);
-              setPassiveIncome(prev => prev + 50);
-              setItemCosts(prev => ({...prev, cyberCollector: Math.floor(prev.cyberCollector * 1.15)}));
-              setOwnedItems(prev => ({...prev, cyberCollector: (prev.cyberCollector || 0) + 1}));
-
-              if (!ownedItems.cyberCollector) {
-                window.dispatchEvent(new CustomEvent('nextNews', { 
-                  detail: { message: "Cogfather: Cybernetic collection, eh? Now you're scrapping smarter, not harder." }
-                }));
-                setDefaultNews(prev => [...prev, "Cyber Collectors spotted in the junkyards. Efficiency just got upgraded!"]);
-              }
-            }
-          }}
+          onBuyCyberCollector={handleBuyCyberCollector}
           passiveIncome={passiveIncome}
-          onBuyClickEnhancer={() => {
-            if (junk >= itemCosts.clickEnhancer) {
-              setJunk(prev => prev - itemCosts.clickEnhancer);
-              setClickMultiplier(prev => prev + 10);
-              setClickEnhancerLevel(prev => prev + 1);
-              setItemCosts(prev => ({...prev, clickEnhancer: Math.floor(prev.clickEnhancer * 1.1)}));
-              setOwnedItems(prev => ({...prev, clickEnhancer: (prev.clickEnhancer || 0) + 1}));
-              setNotifications(prev => [...prev, "Click Enhancer purchased!"]);
-              if (clickEnhancerLevel === 0) {
-                setNotifications(prev => [...prev, "Finger strength increasing! Bet you never thought clicking would become your day job."]);
-                window.dispatchEvent(new CustomEvent('nextNews', { 
-                  detail: { message: "Cogfather nods approvingly: 'Clicks mean business. Keep 'em coming.'" }
-                }));
-              }
-            }
-          }}
+          onBuyClickEnhancer={handleBuyClickEnhancer}
           clickCount={clickCount}
-          purchasedUpgrades={Object.values(itemCosts).filter(cost => cost > 0).length}
+          purchasedUpgrades={purchasedUpgrades}
           onBack={() => setActiveStore(null)}
         />
       )}
