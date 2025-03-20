@@ -86,6 +86,16 @@ export default function App() {
   const [autoClicks, setAutoClicks] = useState(0); // Added state for auto clicks
 
   useEffect(() => {
+    const handleAddMaterial = (e) => {
+      const { material, amount } = e.detail;
+      setCraftingInventory(prev => ({
+        ...prev,
+        [material]: (prev[material] || 0) + amount
+      }));
+    };
+
+    window.addEventListener('addMaterial', handleAddMaterial);
+    
     if (activeCheatsList['Force Triple Win']) {
       window.dispatchEvent(new CustomEvent('slotForceTriple'));
     }
@@ -116,6 +126,7 @@ export default function App() {
       window.removeEventListener('keydown', handleKeyPress);
       window.removeEventListener('slotForceTriple', handleSlotForceTriple);
       window.removeEventListener('slotForceDouble', handleSlotForceDouble);
+      window.removeEventListener('addMaterial', handleAddMaterial);
     };
   }, []);
 

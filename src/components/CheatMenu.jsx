@@ -8,6 +8,15 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
       <div className="cheat-buttons">
         <button onClick={() => onAddJunk(1000)}>Add 1000 Junk</button>
         <button onClick={() => onAddJunk(10000)}>Add 10000 Junk</button>
+        <button onClick={() => onAddJunk(100000)}>Add 100k Junk</button>
+        <button onClick={() => {
+          const materials = ['Wires', 'Metal Plates', 'Gear Bits'];
+          materials.forEach(material => {
+            window.dispatchEvent(new CustomEvent('addMaterial', { 
+              detail: { material, amount: 10 }
+            }));
+          });
+        }}>Add Basic Materials</button>
         <button onClick={() => onReset('junk')}>Reset Junk</button>
         <button onClick={() => onReset('credits')}>Reset Credits</button>
         <button onClick={() => onReset('achievements')}>Reset Achievements</button>
