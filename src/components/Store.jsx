@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, onBuyCyberCollector, clickCount, purchasedUpgrades, onBack, passiveIncome, onBuyClickEnhancer }) {
+export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, clickCount, purchasedUpgrades, onBack, passiveIncome, onBuyClickEnhancer }) {
   const showClickEnhancer = purchasedUpgrades >= 3 || clickCount >= 1000;
 
   const clickItems = [
@@ -73,26 +73,16 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
       info: 'Autonomous drone that scans the area for valuable junk',
       action: onBuyScrapDrone,
       purchasedCount: ownedItems.scrapDrone || 0 
-    },
-    { 
-      name: 'Cyber Collector',
-      cost: itemCosts.cyberCollector || 30000,
-      description: '+50 Junk/sec, +15% Cost', 
-      info: 'Advanced cybernetic collection system that optimizes junk gathering',
-      action: onBuyCyberCollector,
-      purchasedCount: ownedItems.cyberCollector || 0,
-      hidden: !(purchasedUpgrades >= 10)
-    },
-    {
+    },{
       name: 'Holo Billboard',
-      cost: itemCosts.holoBillboard || 15000,
+        cost: itemCosts.holoBillboard || 15000,
         description: '+10% global Junk/sec boost',
         info: 'A massive holographic display that attracts more scrappers to your territory',
         action: onBuyHoloBillboard,
         purchasedCount: ownedItems.holoBillboard || 0,
         hidden: !(passiveIncome >= 50 || (ownedItems.scrapDrone && ownedItems.scrapDrone > 0))
       }
-
+    
   ];
 
   return (
