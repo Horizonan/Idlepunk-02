@@ -80,7 +80,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
               >
                 <div className="item-header">
                   <strong>{item.name}</strong>
-                  <span className="cost">({item.cost} Junk)</span>
+                  {item.cost && <span className="cost">({item.cost} Junk)</span>}
                 </div>
                 <div className="item-info">
                   <p>{item.description}</p>
