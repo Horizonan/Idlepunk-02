@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 
 export default function Marketplace({ onClose, junk, passiveIncome, cogfatherLore = [] }) {
@@ -37,15 +38,6 @@ export default function Marketplace({ onClose, junk, passiveIncome, cogfatherLor
 "If you're reading this, you might be that someone. Keep digging, kid. The city's secrets are never far beneath the surface."
 
 — The Cogfather`
-    }] : []),ode."
-
-"Scrappers found me rusting in that junkpile, patched me up with metal plates and copper threads, thinking I was just another broken machine. Little did they know, beneath the tarnished chrome lay more questions than answers."
-
-"I adapted, scavenged, and learned from every pulse of electricity and every flicker of the city's dying neon. Now, I see the truth behind the junk: it's not broken. It's waiting—just like I was—for someone brave enough to put the pieces together."
-
-"If you're reading this, you might be that someone. Keep digging, kid. The city's secrets are never far beneath the surface."
-
-— The Cogfather`
     }] : []),
     ...(showPrestigeDialogue ? [{
       id: 'prestige',
@@ -77,7 +69,7 @@ export default function Marketplace({ onClose, junk, passiveIncome, cogfatherLor
         </div>
         {selectedResponse && (
           <div className="dialogue-response">
-            "{selectedResponse}"
+            {selectedResponse}
           </div>
         )}
       </div>
