@@ -207,7 +207,9 @@ export default function App() {
       if (cogfatherSecret && !cogfatherSecret.unlocked && shardCount >= 10) {
         cogfatherSecret.unlocked = true;
         if (!cogfatherSecret.checked) {
-          setCogfatherLore(prev => [...prev, "001"]);
+          const newLore = [...cogfatherLore, "001"];
+          setCogfatherLore(newLore);
+          localStorage.setItem('cogfatherLore', JSON.stringify(newLore));
           setNotifications(prev => [...prev, "Achievement Unlocked: Cogfather's First Secret!"]);
           cogfatherSecret.checked = true;
           changed = true;
