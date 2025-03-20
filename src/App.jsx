@@ -168,6 +168,8 @@ export default function App() {
           scrapDrone: 7500
         });
         setAutoClicks(0);
+        setCraftingInventory({});
+        localStorage.removeItem('craftingInventory');
         setAchievements(prevAchievements => 
           prevAchievements.map(achievement => ({
             ...achievement,
