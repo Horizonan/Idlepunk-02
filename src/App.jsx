@@ -832,6 +832,11 @@ export default function App() {
         </div>
       )}
       <Notifications notifications={notifications} />
+      {(passiveIncome >= 100 || junk >= 1000000) && (
+        <button className="prestige-button locked">
+          Prestige
+        </button>
+      )}
     </main>
   );
 }

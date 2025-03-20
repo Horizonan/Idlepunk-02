@@ -1078,3 +1078,32 @@ button.locked {
   background-color: rgba(148, 0, 211, 0.6);
   color: #e0e0e0;
 }
+
+.prestige-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+  border: 2px solid #9400D3;
+  color: #00FF00;
+  padding: 15px 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(148, 0, 211, 0.3);
+  cursor: not-allowed;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.prestige-button.locked::before {
+  content: "🔒";
+  font-size: 1.2em;
+}
+
+.prestige-button:hover {
+  transform: none;
+  background: linear-gradient(45deg, #2a2a2a, #3a3a3a);
+}
