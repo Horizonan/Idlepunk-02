@@ -18,6 +18,27 @@ export default function HoloBillboard({ ownedItems }) {
     "Powered by Junk. Fueled by Regret."
   ];
 
+  const [fontSize, setFontSize] = useState(24);
+
+  const adjustTextSize = () => {
+    const billboard = document.querySelector('.holo-billboard');
+    const textElement = document.querySelector('.neon-sign');
+    if (!billboard || !textElement) return;
+
+    const maxWidth = billboard.offsetWidth * 0.9;
+    const maxHeight = billboard.offsetHeight * 0.8;
+    
+    let size = 24;
+    textElement.style.fontSize = `${size}px`;
+    
+    while ((textElement.scrollWidth > maxWidth || textElement.scrollHeight > maxHeight) && size > 8) {
+      size--;
+      textElement.style.fontSize = `${size}px`;
+    }
+    
+    setFontSize(size);
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentText(current => (current + 1) % flavorText.length);
@@ -26,9 +47,16 @@ export default function HoloBillboard({ ownedItems }) {
     return () => clearInterval(interval);
   }, []);
 
-  if (!ownedItems.holoBillboard) return null;
+  useEffect(() => {
+    adjustTextSize();
+  }, [currentText]);
 
-  const [billboardWidth, setBillboardWidth] = useState(300);
+  useEffect(() => {
+    window.addEventListener('resize', adjustTextSize);
+    return () => window.removeEventListener('resize', adjustTextSize);
+  }, []);
+
+  if (!ownedItems.holoBillboard) return null;
   
   useEffect(() => {
     const updateWidth = () => {

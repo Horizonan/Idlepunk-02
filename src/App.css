@@ -496,7 +496,12 @@ button.locked {
   width: 90%;
   text-align: center;
   white-space: nowrap;
-  font-size: min(1.5em, calc(100% + 8 * (300px - var(--billboard-width)) / 100));
+  max-width: 90%;
+  max-height: 80%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .neon-flicker {
