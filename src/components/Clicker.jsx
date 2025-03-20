@@ -21,14 +21,13 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
         >
           Trash Clicker
         </button>
-        {electronicsUnlock && (
-          <button 
-            onClick={() => setActiveClicker('electronics')}
-            className={`clicker-select ${activeClicker === 'electronics' ? 'active' : ''}`}
-          >
-            Electronics Clicker
-          </button>
-        )}
+        <button 
+          onClick={() => electronicsUnlock && setActiveClicker('electronics')}
+          className={`clicker-select ${activeClicker === 'electronics' ? 'active' : ''}`}
+          disabled={!electronicsUnlock}
+        >
+          Electronics Clicker
+        </button>
       </div>
     </div>
   );
