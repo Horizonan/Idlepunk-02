@@ -6,6 +6,7 @@ export default function Menu({ onStoreSelect }) {
   
   const buttons = [
     { id: 'achievements', label: 'Achievements' },
+    { id: 'marketplace', label: 'Marketplace' },
     { id: 'questLog', label: 'Quest Log' },
     { id: 'slotMachine', label: 'Slot Machine' },
     { id: 'settings', label: 'Settings' }

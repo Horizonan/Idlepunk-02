@@ -18,6 +18,7 @@ import ClickEnhancerEffect from './components/ClickEnhancerEffect';
 import DroneEffect from './components/DroneEffect';
 import Menu from './components/Menu';
 import CraftingStore from './components/CraftingStore';
+import Marketplace from './components/Marketplace';
 import ActiveCheats from './components/ActiveCheats';
 import FlyingCrystal from './components/FlyingCrystal';
 
@@ -523,6 +524,9 @@ export default function App() {
       </div>
       <Menu onStoreSelect={(type) => {
         switch(type) {
+          case 'marketplace':
+            setActiveStore('marketplace');
+            break;
           case 'achievements':
             setShowAchievements(true);
             break;
@@ -634,6 +638,9 @@ export default function App() {
           purchasedUpgrades={Object.values(itemCosts).filter(cost => cost > 0).length}
           onBack={() => setActiveStore(null)}
         />
+      )}
+      {activeStore === 'marketplace' && (
+        <Marketplace onClose={() => setActiveStore(null)} />
       )}
       {activeStore === 'electrostore' && (
         <ElectroStore 
