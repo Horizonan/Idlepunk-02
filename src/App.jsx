@@ -36,17 +36,6 @@ function ItemInventory({ craftingInventory, onBack }) {
   );
 }
 
-function SurgeTimer({ visible }) {
-  if (!visible) return null;
-  const nextSurgeTime = Math.max(0, 240000 + Math.random() * 240000 - (Date.now() - (window.lastSurgeTime || 0)));
-  const seconds = Math.floor(nextSurgeTime / 1000);
-  return (
-    <div className="timer">
-      <p>Next surge in: {seconds} seconds</p>
-    </div>
-  );
-}
-
 
 export default function App() {
   const [showSlotMachine, setShowSlotMachine] = useState(false);
@@ -128,7 +117,7 @@ export default function App() {
     };
 
     window.addEventListener('addMaterial', handleAddMaterial);
-
+    
     if (activeCheatsList['Force Triple Win']) {
       window.dispatchEvent(new CustomEvent('slotForceTriple'));
     }
@@ -247,13 +236,8 @@ export default function App() {
   useEffect(() => {
     const startSurge = () => {
       window.surgeStartTime = Date.now();
-      window.lastSurgeTime = Date.now();
       setIsSurgeActive(true);
       setHasFoundCapacitorThisSurge(false);
-
-      // Check UI Breaker achievement
-      checkAchievements();
-
       const surgeDuration = craftingInventory['Surge Capacitor Module'] ? 10000 : 5000;
       setTimeout(() => {
         setIsSurgeActive(false);
@@ -316,7 +300,7 @@ export default function App() {
       setNotifications(prev => [...prev, "The Cogfather wants to speak with you about your progress..."]);
       localStorage.setItem('cogfatherEvent', 'true');
     }
-
+    
     localStorage.setItem('credits', credits);
     localStorage.setItem('junk', junk);
     localStorage.setItem('electronicsUnlock', electronicsUnlock);
@@ -381,8 +365,8 @@ export default function App() {
         }
       }
 
-      // Check UI Breaker -  UI Breaker achievement should unlock only AFTER the surge is complete.
-      if (!newAchievements[4].unlocked && isSurgeActive === false && window.lastSurgeTime) { //Added check for window.lastSurgeTime
+      // Check UI Breaker
+      if (!newAchievements[4].unlocked && surgeActive) {
         newAchievements[4].unlocked = true;
         if (!newAchievements[4].checked) {
           setNotifications(prev => [...prev, "Achievement Unlocked: UI Breaker!"]);
@@ -562,7 +546,6 @@ export default function App() {
       />
       <NewsContainer isSurgeActive={isSurgeActive} />
       <TrashSurge isActive={isSurgeActive} />
-      <SurgeTimer visible={achievements[4].unlocked} />
       {showCrystal && (
         <FlyingCrystal
           onCollect={() => {
@@ -630,7 +613,7 @@ export default function App() {
         }}
         onMouseDown={(e) => {
           if (localStorage.getItem('sidebarLocked') === 'true' || e.target.className === 'lock-button') return;
-
+          
           const sidebar = e.currentTarget;
           const startX = e.clientX - sidebar.offsetLeft;
           const rect = sidebar.getBoundingClientRect();
@@ -789,7 +772,7 @@ export default function App() {
                   });
                   setNotifications(prev => [...prev, "Cost scaling reduced by 1%!"]);
                 }
-                setNotifications(prev => [...prev,`Crafted ${item.name}!`]);
+                setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
               }
             }
           }}
@@ -809,7 +792,8 @@ export default function App() {
           onBack={() => setActiveStore(null)}
         />
       )}
-      {activeStore === 'inventory' && showInventory && (<ItemInventory
+      {activeStore === 'inventory' && showInventory && (
+        <ItemInventory
           craftingInventory={craftingInventory}
           onBack={() => setActiveStore(null)}
         />

@@ -1161,22 +1161,3 @@ button.locked {
   font-size: 0.9em;
   pointer-events: none;
 }
-
-.surge-timer {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.9);
-  color: #00FF00;
-  padding: 10px 20px;
-  border-radius: 4px 4px 0 0;
-  border: 1px solid #9400D3;
-  border-bottom: none;
-  font-size: 1em;
-  z-index: 9999;
-  font-family: monospace;
-  text-align: center;
-  min-width: 200px;
-  box-shadow: 0 0 10px rgba(148, 0, 211, 0.3);
-}
