@@ -1025,6 +1025,35 @@ button.locked {
 .notification {
 }
 
+.marketplace .npc-container {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.dialogue-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.dialogue-button {
+  text-align: left;
+  padding: 10px 15px;
+}
+
+.dialogue-response {
+  color: #9400D3;
+  font-style: italic;
+  margin: 20px 0;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  border-left: 3px solid #9400D3;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

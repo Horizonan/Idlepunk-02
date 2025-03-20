@@ -7,6 +7,7 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
 
   return (
     <div className="main">
+      <button onClick={() => onStoreSelect('marketplace')}>Marketplace</button>
       <button onClick={() => onStoreSelect('store')}>Visit Store</button>
       {automationUnlocked && (
         <button onClick={() => onStoreSelect('automation')}>Automation Store</button>
