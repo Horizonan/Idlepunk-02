@@ -433,7 +433,7 @@ export default function App() {
       }
 
       // Check UI Breaker
-      if (!newAchievements[4].unlocked && surgeActive) {
+      if (!newAchievements[4].unlocked && isSurgeActive) {
         newAchievements[4].unlocked = true;
         if (!newAchievements[4].checked) {
           setNotifications(prev => [...prev, "Achievement Unlocked: UI Breaker!"]);
