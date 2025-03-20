@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, clickCount, purchasedUpgrades, onBack, passiveIncome }) {
+export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, clickCount, purchasedUpgrades, onBack, passiveIncome, onBuyClickEnhancer }) {
   const showClickEnhancer = purchasedUpgrades >= 3 || clickCount >= 1000;
 
   const clickItems = [
@@ -34,15 +34,6 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
   }
 
   const passiveItems = [
-    {
-      name: 'Holo Billboard',
-      cost: itemCosts.holoBillboard || 15000,
-      description: '+10% global Junk/sec boost',
-      info: 'A massive holographic display that attracts more scrappers to your territory',
-      action: onBuyHoloBillboard,
-      purchasedCount: ownedItems.holoBillboard || 0,
-      hidden: !(passiveIncome >= 50 || (ownedItems.scrapDrone && ownedItems.scrapDrone > 0))
-    },
     { 
       name: 'Streetrat', 
       cost: itemCosts.streetrat, 
@@ -82,7 +73,16 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
       info: 'Autonomous drone that scans the area for valuable junk',
       action: onBuyScrapDrone,
       purchasedCount: ownedItems.scrapDrone || 0 
-    }
+    },{
+      name: 'Holo Billboard',
+        cost: itemCosts.holoBillboard || 15000,
+        description: '+10% global Junk/sec boost',
+        info: 'A massive holographic display that attracts more scrappers to your territory',
+        action: onBuyHoloBillboard,
+        purchasedCount: ownedItems.holoBillboard || 0,
+        hidden: !(passiveIncome >= 50 || (ownedItems.scrapDrone && ownedItems.scrapDrone > 0))
+      }
+    
   ];
 
   return (
