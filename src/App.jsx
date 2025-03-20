@@ -560,7 +560,7 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
             } else {
               const canCraft = Object.entries(item.requirements).every(
                 ([mat, count]) => (craftingInventory[mat] || 0) >= count
-              );
+              ) && (!item.onetime || !(craftingInventory[item.name] || 0)) && junk >= (item.cost || 0);
               if (canCraft) {
                 setCraftingInventory(prev => {
                   const newInventory = { ...prev };
@@ -570,6 +570,11 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
                   newInventory[item.name] = (newInventory[item.name] || 0) + 1;
                   return newInventory;
                 });
+                if (item.cost) setJunk(prev => prev - item.cost);
+                if (item.name === 'Click Rig Mk I') {
+                  setClickMultiplier(prev => prev * 1.25);
+                  setNotifications(prev => [...prev, "Click power increased by 25%!"]);
+                }
                 setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
               }
             }

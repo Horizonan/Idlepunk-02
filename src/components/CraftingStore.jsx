@@ -24,7 +24,6 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
     },
     {
       name: 'Capacitor',
-      cost: 100000,
       description: 'Energy storage device',
       type: 'basic',
       uncraftable: true
@@ -41,6 +40,17 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       cost: 250000,
       description: 'A basic power core made from scrap',
       type: 'crafted'
+    },
+    {
+      name: 'Click Rig Mk I',
+      requirements: {
+        'Wires': 4,
+        'Gear Bits': 2
+      },
+      cost: 250000,
+      description: 'Increases click power by 25%',
+      type: 'crafted',
+      onetime: true
     }
   ];
 
