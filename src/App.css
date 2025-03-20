@@ -634,7 +634,8 @@ button.locked {
   position: fixed;
   left: -300px;
   top: 250px;
-  height: auto;
+  min-height: 200px;
+  max-height: 80vh;
   width: 300px;
   background: rgba(26, 26, 26, 0.95);
   border: 2px solid #9400D3;
@@ -645,6 +646,9 @@ button.locked {
   opacity: 0;
   visibility: hidden;
   cursor: move;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 }
 
 .sidebar.locked {
