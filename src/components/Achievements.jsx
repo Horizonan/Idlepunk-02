@@ -86,7 +86,13 @@ export default function Achievements({ achievements, onClose }) {
         </div>
         {showBadges && ( // Added conditional rendering for badges
           <div className="achievements-badges">
-            <h3>Badges</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h3>Badges</h3>
+              <button 
+                onClick={() => setShowBadges(false)}
+                style={{ padding: '4px 8px', fontSize: '12px' }}
+              >Hide</button>
+            </div>
             <div className="badges-grid">
               {achievements.filter(a => a.unlocked && a.badge).map((achievement, index) => (
                 <div key={index} className="badge" title={achievement.title}>
