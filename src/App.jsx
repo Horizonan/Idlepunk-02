@@ -553,7 +553,48 @@ export default function App() {
         <div></div>
         <div></div>
       </div>
-      <div className={`sidebar ${activeStore ? 'open' : ''}`}>
+      <div 
+        className={`sidebar ${activeStore ? 'open' : ''} ${localStorage.getItem('sidebarLocked') === 'true' ? 'locked' : ''}`}
+        style={{
+          left: activeStore ? (localStorage.getItem('sidebarLeft') || '0px') : '-300px',
+          bottom: activeStore ? (localStorage.getItem('sidebarBottom') || '250px') : '250px'
+        }}
+        onMouseDown={(e) => {
+          if (localStorage.getItem('sidebarLocked') === 'true' || e.target.className === 'lock-button') return;
+          
+          const sidebar = e.currentTarget;
+          const startX = e.clientX - sidebar.offsetLeft;
+          const startY = e.clientY - (window.innerHeight - sidebar.offsetTop - sidebar.offsetHeight);
+
+          const handleMouseMove = (e) => {
+            const newLeft = e.clientX - startX;
+            const newBottom = window.innerHeight - e.clientY - (window.innerHeight - sidebar.offsetHeight - startY);
+            
+            sidebar.style.left = `${newLeft}px`;
+            sidebar.style.bottom = `${newBottom}px`;
+          };
+
+          const handleMouseUp = () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+            localStorage.setItem('sidebarLeft', sidebar.style.left);
+            localStorage.setItem('sidebarBottom', sidebar.style.bottom);
+          };
+
+          document.addEventListener('mousemove', handleMouseMove);
+          document.addEventListener('mouseup', handleMouseUp);
+        }}
+      >
+        <button 
+          className="lock-button"
+          onClick={() => {
+            const isLocked = localStorage.getItem('sidebarLocked') === 'true';
+            localStorage.setItem('sidebarLocked', !isLocked);
+            document.querySelector('.sidebar').classList.toggle('locked');
+          }}
+        >
+          {localStorage.getItem('sidebarLocked') === 'true' ? '🔒' : '🔓'}
+        </button>
         <MenuButtons 
           onStoreSelect={(store) => {
             setActiveStore(store);

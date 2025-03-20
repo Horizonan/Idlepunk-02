@@ -639,11 +639,36 @@ button.locked {
   background: rgba(26, 26, 26, 0.95);
   border: 2px solid #9400D3;
   border-radius: 0 8px 8px 0;
-  transition: 0.3s;
+  transition: opacity 0.3s, visibility 0.3s;
   z-index: 999;
   padding: 20px;
   opacity: 0;
   visibility: hidden;
+  cursor: move;
+}
+
+.sidebar.locked {
+  cursor: default;
+}
+
+.lock-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #9400D3;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 20px;
+  margin: 0;
+  box-shadow: none;
+}
+
+.lock-button:hover {
+  color: #00FF00;
+  background: none;
+  border: none;
 }
 
 .sidebar::before,
