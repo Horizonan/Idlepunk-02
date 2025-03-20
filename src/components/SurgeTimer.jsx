@@ -12,11 +12,12 @@ export default function SurgeTimer({ visible }) {
       setNextSurge(Math.floor(timeLeft / 1000));
     };
 
+    updateTimer(); // Initial update
     const timer = setInterval(updateTimer, 1000);
     return () => clearInterval(timer);
   }, []);
 
-  if (!visible || !nextSurge) return null;
+  if (!visible || nextSurge === null) return null;
 
   return (
     <div className="surge-timer">
