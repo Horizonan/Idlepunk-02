@@ -514,8 +514,8 @@ button.locked {
 @keyframes flicker {
   0%, 100% { opacity: 0; }
   50% { opacity: 0.1; }
-}e;
 }
+
 
 @keyframes slide {
   0% { transform: translateX(100%); }
