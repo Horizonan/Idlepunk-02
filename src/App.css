@@ -630,10 +630,6 @@ button.locked {
   transition: 0.4s;
 }
 
-.burger-menu.inventory-unlocked div {
-  margin: 8px 0;
-}
-
 .sidebar {
   position: fixed;
   left: -300px;
