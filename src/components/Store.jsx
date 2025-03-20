@@ -75,8 +75,14 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
       purchasedCount: ownedItems.scrapDrone || 0 
     },
     { 
-      name: 'Cyber Collector', 
-      cost: itemCosts.cyberCollector || 30000, 
+      name: 'Cyber Collector',
+      cost: itemCosts.cyberCollector || 30000,
+      description: '+50 Junk/sec, +15% Cost',
+      info: 'Advanced cybernetic collection system that optimizes junk gathering',
+      action: onBuyCyberCollector,
+      purchasedCount: ownedItems.cyberCollector || 0,
+      hidden: !(purchasedUpgrades >= 10)
+    }, 
       description: '+50 Junk/sec, +15% Cost', 
       info: 'Advanced cybernetic collection system that optimizes junk gathering',
       action: onBuyCyberCollector,
