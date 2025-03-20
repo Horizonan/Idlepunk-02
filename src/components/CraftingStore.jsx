@@ -139,7 +139,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
         <div>
           <h3 style={{ color: '#9400D3', textAlign: 'center' }}>Craftable Items</h3>
           <div className="store-items">
-            {craftableItems.map((item) => (
+            {craftableItems.filter(item => !item.onetime || !craftingInventory[item.name]).map((item) => (
               <button
                 key={item.name}
                 onClick={() => onCraft(item)}

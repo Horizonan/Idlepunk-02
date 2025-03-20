@@ -20,6 +20,21 @@ import Menu from './components/Menu';
 import CraftingStore from './components/CraftingStore';
 import ActiveCheats from './components/ActiveCheats';
 
+function ItemInventory({ craftingInventory, onBack }) {
+  return (
+    <div className="store-container">
+      <h2>Item Inventory</h2>
+      <ul>
+        {Object.entries(craftingInventory).map(([item, count]) => (
+          <li key={item}>{item}: {count}</li>
+        ))}
+      </ul>
+      <button onClick={onBack}>Back</button>
+    </div>
+  );
+}
+
+
 export default function App() {
   const [showSlotMachine, setShowSlotMachine] = useState(false);
   const [showCheatMenu, setShowCheatMenu] = useState(false);
@@ -158,9 +173,10 @@ export default function App() {
   const [clickMultiplier, setClickMultiplier] = useState(() => Number(localStorage.getItem('clickMultiplier')) || 1);
   const [clickEnhancerLevel, setClickEnhancerLevel] = useState(() => Number(localStorage.getItem('clickEnhancerLevel')) || 0);
   const [isSurgeActive, setIsSurgeActive] = useState(false);
-const [tutorialStage, setTutorialStage] = useState(() => Number(localStorage.getItem('tutorialStage')) || 0);
-const [hasUpgrade, setHasUpgrade] = useState(false);
-const [hasHelper, setHasHelper] = useState(false);
+  const [tutorialStage, setTutorialStage] = useState(() => Number(localStorage.getItem('tutorialStage')) || 0);
+  const [hasUpgrade, setHasUpgrade] = useState(false);
+  const [hasHelper, setHasHelper] = useState(false);
+  const [showInventory, setShowInventory] = useState(false); // Added state for inventory visibility
 
   useEffect(() => {
     const startSurge = () => {
@@ -194,7 +210,7 @@ const [hasHelper, setHasHelper] = useState(false);
     'Force Triple Win': false,
     'Force Double Win': false
   }));
-const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem('itemCosts')) || {
+  const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem('itemCosts')) || {
     trashBag: 10,
     trashPicker: 100,
     streetrat: 100,
@@ -235,7 +251,7 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
     localStorage.setItem('achievements', JSON.stringify(achievements));
     localStorage.setItem('clickEnhancerLevel', clickEnhancerLevel);
     localStorage.setItem('ownedItems', JSON.stringify(ownedItems));
-  localStorage.setItem('craftingInventory', JSON.stringify(craftingInventory));
+    localStorage.setItem('craftingInventory', JSON.stringify(craftingInventory));
   }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts, autoClicks, clickCount, achievements, ownedItems, clickEnhancerLevel]);
 
   const checkAchievements = () => {
@@ -286,7 +302,7 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
   const collectJunk = () => {
     const surgeMultiplier = isSurgeActive ? 2 : 1;
     setJunk(prev => prev + (clickMultiplier * surgeMultiplier));
-    
+
     // Random material finding
     const random = Math.random();
     if (random < 0.0001) { // 0.01% chance for basic materials
@@ -304,7 +320,7 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
       }));
       setNotifications(prev => [...prev, 'Found a Scrap Core!']);
     }
-    
+
     // Check for capacitor during surge
     if (isSurgeActive && !hasFoundCapacitorThisSurge && (activeCheatsList['Guaranteed Capacitor'] || Math.random() < 0.01)) {
       setCraftingInventory(prev => ({
@@ -405,7 +421,7 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
       setPassiveIncome(prev => prev + 25);
       setItemCosts(prev => ({...prev, scrapDrone: Math.floor(prev.scrapDrone * 1.15)}));
       setOwnedItems(prev => ({...prev, scrapDrone: (prev.scrapDrone || 0) + 1}));
-      
+
       if (!ownedItems.scrapDrone) {
         window.dispatchEvent(new CustomEvent('nextNews', { 
           detail: { message: "Cogfather: You've got drones now? Look at you, corporate overlord in the making." }
@@ -424,6 +440,13 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
   useEffect(() => {
     localStorage.setItem('tutorialStage', tutorialStage);
   }, [tutorialStage]);
+
+  useEffect(() => {
+    // Check if any item has been crafted and set showInventory accordingly.
+    const hasCrafted = Object.values(craftingInventory).some(count => count > 0);
+    setShowInventory(hasCrafted);
+  }, [craftingInventory]);
+
 
   return (
     <main>
@@ -615,6 +638,12 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
               setNotifications(prev => [...prev, `Sold ${rate} junk for 1 credit!`]);
             }
           }}
+          onBack={() => setActiveStore(null)}
+        />
+      )}
+      {activeStore === 'inventory' && showInventory && (
+        <ItemInventory
+          craftingInventory={craftingInventory}
           onBack={() => setActiveStore(null)}
         />
       )}
