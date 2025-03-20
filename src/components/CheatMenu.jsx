@@ -28,6 +28,13 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
           const event = new CustomEvent('showCrystal');
           window.dispatchEvent(event);
         }}>Trigger Crystal</button>
+        <button onClick={() => onAddJunk(1000000)}>Add 1M Junk</button>
+        <button onClick={() => {
+          const stored = localStorage.getItem('electroShards') || '0';
+          const current = parseInt(stored);
+          localStorage.setItem('electroShards', current + 10);
+          window.location.reload();
+        }}>Add 10 Crystals</button>
         <button onClick={() => onReset('all')} className="full-width">Reset Everything</button>
         <button onClick={() => {
           const defaultAchievements = [
