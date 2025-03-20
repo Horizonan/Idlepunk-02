@@ -548,36 +548,7 @@ export default function App() {
           onClose={() => setShowAchievements(false)}
         />
       )}
-      <div 
-        className={`burger-menu ${activeStore ? 'open' : ''}`} 
-        onClick={() => setActiveStore(activeStore ? null : 'store')}
-        style={{
-          top: `${localStorage.getItem('burgerMenuTop') || '140'}px`,
-          left: `${localStorage.getItem('burgerMenuLeft') || '20'}px`
-        }}
-        onMouseDown={(e) => {
-          const el = e.currentTarget;
-          const initialX = e.clientX - el.offsetLeft;
-          const initialY = e.clientY - el.offsetTop;
-          
-          const onMouseMove = (e) => {
-            const newLeft = e.clientX - initialX;
-            const newTop = e.clientY - initialY;
-            el.style.left = `${newLeft}px`;
-            el.style.top = `${newTop}px`;
-          };
-          
-          const onMouseUp = () => {
-            document.removeEventListener('mousemove', onMouseMove);
-            document.removeEventListener('mouseup', onMouseUp);
-            localStorage.setItem('burgerMenuLeft', el.style.left);
-            localStorage.setItem('burgerMenuTop', el.style.top);
-          };
-          
-          document.addEventListener('mousemove', onMouseMove);
-          document.addEventListener('mouseup', onMouseUp);
-        }}
-      >
+      <div className={`burger-menu ${activeStore ? 'open' : ''}`} onClick={() => setActiveStore(activeStore ? null : 'store')}>
         <div></div>
         <div></div>
         <div></div>
