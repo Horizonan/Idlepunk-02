@@ -611,11 +611,12 @@ button.locked {
 
 .burger-menu {
   position: fixed;
-  top: 140px;
-  left: 20px;
   z-index: 1000;
-  cursor: pointer;
-  transition: transform 0.3s;
+  cursor: move;
+  user-select: none;
+  padding: 10px;
+  background: rgba(26, 26, 26, 0.3);
+  border-radius: 4px;
 }
 
 .burger-menu:hover {
