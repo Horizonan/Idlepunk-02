@@ -589,6 +589,22 @@ export default function App() {
     }
   };
 
+  const handleBuyHoloBillboard = () => {
+    if (junk >= (itemCosts.holoBillboard || 15000)) {
+      setJunk(prev => prev - (itemCosts.holoBillboard || 15000));
+      setNotifications(prev => [...prev, "Holo Billboard Online – City scrappers stare in awe (+10% Junk/sec globally)!"]);
+      setPassiveIncome(prev => prev * 1.1);
+      setItemCosts(prev => ({...prev, holoBillboard: Math.floor((prev.holoBillboard || 15000) * 1.2)}));
+      setOwnedItems(prev => ({...prev, holoBillboard: (prev.holoBillboard || 0) + 1}));
+
+      if (!ownedItems.holoBillboard) {
+        window.dispatchEvent(new CustomEvent('nextNews', { 
+          detail: { message: "Cogfather nods approvingly: 'Advertising your junk empire now? Ambitious, kid. I like it.'" }
+        }));
+      }
+    }
+  };
+
   const handleBuySolderingIron = () => {
     buyItem(1000, "Bought a Soldering Iron!");
     setElectronicsUnlock(true);
