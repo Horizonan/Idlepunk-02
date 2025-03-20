@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 
 export default function Achievements({ achievements, onClose }) {
   const [position, setPosition] = useState(() => {
     const saved = localStorage.getItem('achievementsPosition');
     if (saved) return JSON.parse(saved);
-    
+
     // Center on screen by default
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
@@ -16,6 +15,7 @@ export default function Achievements({ achievements, onClose }) {
   });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [showBadges, setShowBadges] = useState(true); // Added state for badges toggle
 
   useEffect(() => {
     localStorage.setItem('achievementsPosition', JSON.stringify(position));
@@ -61,7 +61,15 @@ export default function Achievements({ achievements, onClose }) {
         onMouseDown={handleMouseDown}
       >
         <h2>Achievements</h2>
-        <button onClick={onClose}>Close</button>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          {!showBadges && (
+            <button 
+              onClick={() => setShowBadges(true)}
+              style={{ padding: '4px 8px', fontSize: '12px' }}
+            >Show Badges</button>
+          )}
+          <button onClick={onClose}>Close</button>
+        </div>
       </div>
       <div className="achievements-tabs">
         <div className="achievements-list">
@@ -76,16 +84,18 @@ export default function Achievements({ achievements, onClose }) {
             </div>
           ))}
         </div>
-        <div className="achievements-badges">
-          <h3>Badges</h3>
-          <div className="badges-grid">
-            {achievements.filter(a => a.unlocked && a.badge).map((achievement, index) => (
-              <div key={index} className="badge" title={achievement.title}>
-                {achievement.badge}
-              </div>
-            ))}
+        {showBadges && ( // Added conditional rendering for badges
+          <div className="achievements-badges">
+            <h3>Badges</h3>
+            <div className="badges-grid">
+              {achievements.filter(a => a.unlocked && a.badge).map((achievement, index) => (
+                <div key={index} className="badge" title={achievement.title}>
+                  {achievement.badge}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
