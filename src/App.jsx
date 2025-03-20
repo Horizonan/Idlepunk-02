@@ -797,8 +797,7 @@ export default function App() {
           onBack={() => setActiveStore(null)}
         />
       )}
-      {activeStore === 'inventory' && showInventory && (
-        <ItemInventory
+      {activeStore === 'inventory' && showInventory && (<ItemInventory
           craftingInventory={craftingInventory}
           onBack={() => setActiveStore(null)}
         />
