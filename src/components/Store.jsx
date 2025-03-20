@@ -1,9 +1,8 @@
-
 import React from 'react';
 
-export default function Store({ credits, itemCosts, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBuyClickEnhancer, onBuyScrapDrone, clickCount, purchasedUpgrades, onBack, ownedItems, passiveIncome }) {
+export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, clickCount, purchasedUpgrades, onBack, passiveIncome }) {
   const showClickEnhancer = purchasedUpgrades >= 3 || clickCount >= 1000;
-  
+
   const clickItems = [
     { 
       name: 'Scrap Bag', 
