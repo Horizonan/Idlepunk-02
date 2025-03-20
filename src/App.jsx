@@ -548,7 +548,7 @@ export default function App() {
           onClose={() => setShowAchievements(false)}
         />
       )}
-      <div className={`burger-menu ${activeStore ? 'open' : ''} ${showInventory ? 'inventory-unlocked' : ''}`} onClick={() => setActiveStore(activeStore ? null : 'store')}>
+      <div className={`burger-menu ${activeStore ? 'open' : ''}`} onClick={() => setActiveStore(activeStore ? null : 'store')}>
         <div></div>
         <div></div>
         <div></div>
