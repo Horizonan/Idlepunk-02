@@ -125,7 +125,12 @@ export default function App() {
     }
     const loadedAchievements = JSON.parse(stored);
     console.log('Loaded achievements:', loadedAchievements);
-    return loadedAchievements.length === defaultAchievements.length ? loadedAchievements : defaultAchievements;
+    // Merge existing achievements with any new ones from defaultAchievements
+    const mergedAchievements = defaultAchievements.map(defaultAchievement => {
+      const existingAchievement = loadedAchievements.find(a => a.title === defaultAchievement.title);
+      return existingAchievement || defaultAchievement;
+    });
+    return mergedAchievements;
   });
   const [autoClicks, setAutoClicks] = useState(0); // Added state for auto clicks
 
