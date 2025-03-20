@@ -36,10 +36,7 @@ export default function ItemInventory({ craftingInventory, onBack }) {
 
   return (
     <div className="store-container inventory-container">
-      <div className="inventory-header">
-        <h2>Item Inventory</h2>
-        <div className="inventory-subtitle">Your Crafted Equipment</div>
-      </div>
+      <h2 className="inventory-header">Item Inventory</h2>
       <div className="inventory-grid">
         {craftedItems.map(([name]) => (
           <div key={name} className="inventory-item">
