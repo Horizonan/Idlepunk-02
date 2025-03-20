@@ -25,6 +25,11 @@ export default function DroneEffect({ numDrones }) {
   }, [numDrones]);
 
   useEffect(() => {
+    if (numDrones === 0) {
+      setPositions([]);
+      return;
+    }
+    
     const drones = Array(maxVisibleDrones).fill().map(() => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,

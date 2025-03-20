@@ -455,6 +455,7 @@ export default function App() {
       setPassiveIncome(prev => prev + 25);
       setItemCosts(prev => ({...prev, scrapDrone: Math.floor(prev.scrapDrone * 1.15)}));
       setOwnedItems(prev => ({...prev, scrapDrone: (prev.scrapDrone || 0) + 1}));
+        localStorage.setItem('ownedItems', JSON.stringify({...ownedItems, scrapDrone: (ownedItems.scrapDrone || 0) + 1}));
 
       if (!ownedItems.scrapDrone) {
         window.dispatchEvent(new CustomEvent('nextNews', { 
