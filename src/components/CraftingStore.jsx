@@ -106,6 +106,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                 <div className="item-info">
                   <p>{item.description}</p>
                   <p>Requirements:</p>
+                  {item.cost && <p>- Junk: {item.cost}</p>}
                   {Object.entries(item.requirements).map(([mat, count]) => (
                     <p key={mat}>- {mat}: {count} ({craftingInventory[mat] || 0} owned)</p>
                   ))}
