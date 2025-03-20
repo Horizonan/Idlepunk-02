@@ -117,7 +117,7 @@ export default function App() {
     };
 
     window.addEventListener('addMaterial', handleAddMaterial);
-    
+
     if (activeCheatsList['Force Triple Win']) {
       window.dispatchEvent(new CustomEvent('slotForceTriple'));
     }
@@ -236,8 +236,17 @@ export default function App() {
   useEffect(() => {
     const startSurge = () => {
       window.surgeStartTime = Date.now();
+      window.lastSurgeTime = Date.now();
       setIsSurgeActive(true);
       setHasFoundCapacitorThisSurge(false);
+
+      // Set UI Breaker achievement
+      setAchievements(prev => prev.map(achievement => 
+        achievement.title === "UI Breaker" 
+          ? { ...achievement, unlocked: true }
+          : achievement
+      ));
+
       const surgeDuration = craftingInventory['Surge Capacitor Module'] ? 10000 : 5000;
       setTimeout(() => {
         setIsSurgeActive(false);
@@ -300,7 +309,7 @@ export default function App() {
       setNotifications(prev => [...prev, "The Cogfather wants to speak with you about your progress..."]);
       localStorage.setItem('cogfatherEvent', 'true');
     }
-    
+
     localStorage.setItem('credits', credits);
     localStorage.setItem('junk', junk);
     localStorage.setItem('electronicsUnlock', electronicsUnlock);
@@ -366,7 +375,7 @@ export default function App() {
       }
 
       // Check UI Breaker
-      if (!newAchievements[4].unlocked && surgeActive) {
+      if (!newAchievements[4].unlocked && isSurgeActive) {
         newAchievements[4].unlocked = true;
         if (!newAchievements[4].checked) {
           setNotifications(prev => [...prev, "Achievement Unlocked: UI Breaker!"]);
@@ -613,7 +622,7 @@ export default function App() {
         }}
         onMouseDown={(e) => {
           if (localStorage.getItem('sidebarLocked') === 'true' || e.target.className === 'lock-button') return;
-          
+
           const sidebar = e.currentTarget;
           const startX = e.clientX - sidebar.offsetLeft;
           const rect = sidebar.getBoundingClientRect();
@@ -787,7 +796,7 @@ export default function App() {
               setJunk(prev => prev - rate);
               setCredits(prev => prev + 1);
               setNotifications(prev => [...prev, `Sold ${rate} junk for 1 credit!`]);
-            }
+            }            }
           }}
           onBack={() => setActiveStore(null)}
         />
@@ -877,6 +886,13 @@ export default function App() {
           Prestige
         </button>
       )}
+      <div className="timer">
+        {window.lastSurgeTime ? (
+          <p>Next surge in: {Math.max(0, 240000 + Math.random() * 240000 - (Date.now() - window.lastSurgeTime)) / 1000} seconds</p>
+        ) : (
+          <p>Next surge soon!</p>
+        )}
+      </div>
     </main>
   );
 }
