@@ -7,21 +7,29 @@ export default function SurgeTimer({ visible }) {
   useEffect(() => {
     const updateTimer = () => {
       const now = Date.now();
-      const nextPossibleSurge = window.lastSurgeTime ? window.lastSurgeTime + 240000 : now + 240000;
-      const timeLeft = Math.max(0, nextPossibleSurge - now);
-      setNextSurge(Math.floor(timeLeft / 1000));
+      const lastSurge = window.lastSurgeTime || now;
+      const baseDelay = 240000; // 4 minutes
+      const randomDelay = Math.random() * 240000; // Up to 4 more minutes
+      const nextSurgeTime = lastSurge + baseDelay + randomDelay;
+      const timeLeft = Math.max(0, nextSurgeTime - now);
+      const seconds = Math.floor(timeLeft / 1000);
+      setNextSurge(seconds);
     };
 
-    updateTimer(); // Initial update
     const timer = setInterval(updateTimer, 1000);
+    updateTimer(); // Initial update
+    
     return () => clearInterval(timer);
   }, []);
 
   if (!visible || nextSurge === null) return null;
 
+  const minutes = Math.floor(nextSurge / 60);
+  const seconds = nextSurge % 60;
+
   return (
     <div className="surge-timer">
-      Next possible surge in: {Math.floor(nextSurge / 60)}:{String(nextSurge % 60).padStart(2, '0')}
+      Next surge in: {minutes}:{seconds.toString().padStart(2, '0')}
     </div>
   );
 }

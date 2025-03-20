@@ -1174,7 +1174,7 @@ button.locked {
   border: 1px solid #9400D3;
   border-bottom: none;
   font-size: 1em;
-  z-index: 1000;
+  z-index: 9999;
   font-family: monospace;
   text-align: center;
   min-width: 200px;
