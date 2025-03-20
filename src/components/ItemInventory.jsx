@@ -1,5 +1,6 @@
 
 import React from 'react';
+import '../App.css';
 
 export default function ItemInventory({ craftingInventory, onBack }) {
   const itemDetails = {
@@ -40,7 +41,7 @@ export default function ItemInventory({ craftingInventory, onBack }) {
         <div className="inventory-subtitle">Your Crafted Equipment</div>
       </div>
       <div className="inventory-grid">
-        {craftedItems.map(([name, count]) => (
+        {craftedItems.map(([name]) => (
           <div key={name} className="inventory-item">
             <div className="item-icon">{itemDetails[name].icon}</div>
             <div className="item-content">
