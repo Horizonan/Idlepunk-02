@@ -240,12 +240,8 @@ export default function App() {
       setIsSurgeActive(true);
       setHasFoundCapacitorThisSurge(false);
 
-      // Set UI Breaker achievement
-      setAchievements(prev => prev.map(achievement => 
-        achievement.title === "UI Breaker" 
-          ? { ...achievement, unlocked: true }
-          : achievement
-      ));
+      // Check UI Breaker achievement
+      checkAchievements();
 
       const surgeDuration = craftingInventory['Surge Capacitor Module'] ? 10000 : 5000;
       setTimeout(() => {
