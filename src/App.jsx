@@ -568,18 +568,14 @@ export default function App() {
           const startY = e.clientY - rect.top;
 
           const handleMouseMove = (e) => {
-            const newLeft = e.clientX - startX;
             const newTop = e.clientY - startY;
-            
-            sidebar.style.left = `${newLeft}px`;
             sidebar.style.top = `${newTop}px`;
           };
 
           const handleMouseUp = () => {
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
-            localStorage.setItem('sidebarLeft', sidebar.style.left);
-            localStorage.setItem('sidebarBottom', sidebar.style.bottom);
+            localStorage.setItem('sidebarTop', sidebar.style.top);
           };
 
           document.addEventListener('mousemove', handleMouseMove);
