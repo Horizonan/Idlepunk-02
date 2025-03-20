@@ -41,7 +41,7 @@ export default function App() {
   const [showSlotMachine, setShowSlotMachine] = useState(false);
   const [showCheatMenu, setShowCheatMenu] = useState(false);
   const [showCrystal, setShowCrystal] = useState(false);
-  const [crystalShards, setCrystalShards] = useState(() => Number(localStorage.getItem('crystalShards')) || 0);
+  const [electroShards, setElectroShards] = useState(() => Number(localStorage.getItem('electroShards')) || 0);
   const [showActiveCheats, setShowActiveCheats] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -179,6 +179,39 @@ export default function App() {
       window.removeEventListener('addMaterial', handleAddMaterial);
     };
   }, []);
+
+  const checkElectroMilestones = (shardCount) => {
+    setAchievements(prev => {
+      const newAchievements = [...prev];
+      let changed = false;
+
+      // Check Circuit Pulse Mastery
+      const circuitPulse = newAchievements.find(a => a.title === "Circuit Pulse Mastery");
+      if (circuitPulse && !circuitPulse.unlocked && shardCount >= 5) {
+        circuitPulse.unlocked = true;
+        if (!circuitPulse.checked) {
+          setPassiveIncome(prev => prev * 1.02);
+          setNotifications(prev => [...prev, "Achievement Unlocked: Circuit Pulse Mastery!"]);
+          circuitPulse.checked = true;
+          changed = true;
+        }
+      }
+
+      // Check Cogfather's First Secret
+      const cogfatherSecret = newAchievements.find(a => a.title === "Cogfather's First Secret");
+      if (cogfatherSecret && !cogfatherSecret.unlocked && shardCount >= 10) {
+        cogfatherSecret.unlocked = true;
+        if (!cogfatherSecret.checked) {
+          setCogfatherLore(prev => [...prev, "001"]);
+          setNotifications(prev => [...prev, "Achievement Unlocked: Cogfather's First Secret!"]);
+          cogfatherSecret.checked = true;
+          changed = true;
+        }
+      }
+
+      return changed ? newAchievements : prev;
+    });
+  };
 
   const handleReset = (type) => {
     switch(type) {
@@ -579,9 +612,10 @@ export default function App() {
         <FlyingCrystal
           onCollect={() => {
             setShowCrystal(false);
-            setCrystalShards(prev => {
+            setElectroShards(prev => {
               const newValue = prev + 1;
-              localStorage.setItem('crystalShards', newValue);
+              localStorage.setItem('electroShards', newValue);
+              checkElectroMilestones(newValue);
               return newValue;
             });
             setNotifications(prev => [...prev, "Crystal shard collected!"]);
@@ -594,7 +628,7 @@ export default function App() {
         <p>Junk: {Math.floor(junk).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
         <p>Junk/sec: {Math.floor(passiveIncome + (autoClicks * clickMultiplier)).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
         <p className="crystal-shards" title="Requires advanced knowledge to operate. Unlocks after ascension.">
-          Crystal Shards: {crystalShards}
+          Electro Shards: {electroShards}
         </p>
       </div>
       <Menu onStoreSelect={(type) => {
