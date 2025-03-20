@@ -427,6 +427,15 @@ button.locked {
   border: 1px solid #9400D3;
 }
 
+.crystal-shards {
+  cursor: help;
+}
+
+@keyframes float {
+  from { transform: translateY(-5px); }
+  to { transform: translateY(5px); }
+}
+
 .main {
   display: flex;
   flex-direction: column;

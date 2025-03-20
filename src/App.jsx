@@ -38,6 +38,8 @@ function ItemInventory({ craftingInventory, onBack }) {
 export default function App() {
   const [showSlotMachine, setShowSlotMachine] = useState(false);
   const [showCheatMenu, setShowCheatMenu] = useState(false);
+  const [showCrystal, setShowCrystal] = useState(false);
+  const [crystalShards, setCrystalShards] = useState(() => Number(localStorage.getItem('crystalShards')) || 0);
   const [showActiveCheats, setShowActiveCheats] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -192,6 +194,16 @@ export default function App() {
   const [hasUpgrade, setHasUpgrade] = useState(false);
   const [hasHelper, setHasHelper] = useState(false);
   const [showInventory, setShowInventory] = useState(false); // Added state for inventory visibility
+
+  useEffect(() => {
+    const crystalInterval = setInterval(() => {
+      if (Math.random() < 0.5) {
+        setShowCrystal(true);
+      }
+    }, 900000 + Math.random() * 900000); // Random between 15-30 minutes
+
+    return () => clearInterval(crystalInterval);
+  }, []);
 
   useEffect(() => {
     const startSurge = () => {
@@ -478,10 +490,27 @@ export default function App() {
       />
       <NewsContainer isSurgeActive={isSurgeActive} />
       <TrashSurge isActive={isSurgeActive} />
+      {showCrystal && (
+        <FlyingCrystal
+          onCollect={() => {
+            setShowCrystal(false);
+            setCrystalShards(prev => {
+              const newValue = prev + 1;
+              localStorage.setItem('crystalShards', newValue);
+              return newValue;
+            });
+            setNotifications(prev => [...prev, "Crystal shard collected!"]);
+          }}
+          onDisappear={() => setShowCrystal(false)}
+        />
+      )}
       <div className="stats">
         <p>Money: {credits.toFixed(2)}C</p>
         <p>Junk: {Math.floor(junk).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
         <p>Junk/sec: {Math.floor(passiveIncome + (autoClicks * clickMultiplier)).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
+        <p className="crystal-shards" title="Crystal Shards - Feature coming soon!">
+          Crystal Shards: {crystalShards}
+        </p>
       </div>
       <Menu onStoreSelect={(type) => {
         switch(type) {
