@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, clickCount, purchasedUpgrades, onBack, passiveIncome, onBuyClickEnhancer, onBuyCyberCollector }) {
@@ -35,69 +34,69 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
   }
 
   const passiveItems = [
-    {
-      name: 'Streetrat',
-      cost: itemCosts.streetrat,
-      description: '+1 Junk/sec, +15% Cost',
-      info: 'Hires a local kid to gather junk for you',
+    { 
+      name: 'Streetrat', 
+      cost: itemCosts.streetrat, 
+      description: '+1 Junk/sec, +15% Cost', 
+      info: 'Hire a local to automatically collect junk for you',
       action: onBuyStreetrat,
-      purchasedCount: ownedItems.streetrat || 0
+      purchasedCount: ownedItems.streetrat || 0 
     },
-    {
-      name: 'Shopping Cart',
-      cost: itemCosts.cart,
-      description: '+2 Junk/sec, +15% Cost',
-      info: 'Classic junk transport, doubles as mobile storage',
+    { 
+      name: 'Shopping Cart', 
+      cost: itemCosts.cart, 
+      description: '+5 Junk/sec, +15% Cost', 
+      info: 'Large capacity cart that greatly increases automatic collection',
       action: onBuyCart,
-      purchasedCount: ownedItems.cart || 0
+      purchasedCount: ownedItems.cart || 0 
     },
-    {
-      name: 'Junk Magnet',
-      cost: itemCosts.junkMagnet,
-      description: '+5 Junk/sec, +15% Cost',
-      info: 'Electromagnetic device that attracts metallic junk',
+    { 
+      name: 'Junk Magnet', 
+      cost: itemCosts.junkMagnet, 
+      description: '+10 Junk/sec, +15% Cost', 
+      info: 'Electromagnetic device that attracts valuable junk automatically',
       action: onBuyJunkMagnet,
-      purchasedCount: ownedItems.junkMagnet || 0
+      purchasedCount: ownedItems.junkMagnet || 0 
     },
-    {
-      name: 'Urban Recycler',
-      cost: itemCosts.urbanRecycler,
-      description: '+10 Junk/sec, +15% Cost',
+    { 
+      name: 'Urban Recycler', 
+      cost: itemCosts.urbanRecycler, 
+      description: '+20 Junk/sec, +15% Cost', 
       info: 'Automated system that processes urban waste into valuable junk',
       action: onBuyUrbanRecycler,
-      purchasedCount: ownedItems.urbanRecycler || 0
+      purchasedCount: ownedItems.urbanRecycler || 0 
     },
-    {
-      name: 'Scrap Drone',
-      cost: itemCosts.scrapDrone,
-      description: '+20 Junk/sec, +15% Cost',
+    { 
+      name: 'Scrap Drone', 
+      cost: itemCosts.scrapDrone, 
+      description: '+25 Junk/sec, +15% Cost', 
       info: 'Autonomous drone that scans the area for valuable junk',
       action: onBuyScrapDrone,
-      purchasedCount: ownedItems.scrapDrone || 0
+      purchasedCount: ownedItems.scrapDrone || 0 
     },
-    {
-      name: 'Cyber Collector',
-      cost: itemCosts.cyberCollector || 30000,
-      description: '+50 Junk/sec, +15% Cost',
+    { 
+      name: 'Cyber Collector', 
+      cost: itemCosts.cyberCollector || 30000, 
+      description: '+50 Junk/sec, +15% Cost', 
       info: 'Advanced cybernetic collection system that optimizes junk gathering',
       action: onBuyCyberCollector,
       purchasedCount: ownedItems.cyberCollector || 0,
       hidden: !(purchasedUpgrades >= 10)
-    },
-    {
+    },{
       name: 'Holo Billboard',
-      cost: itemCosts.holoBillboard || 15000,
-      description: '+10% global Junk/sec boost',
-      info: 'A massive holographic display that attracts more scrappers to your territory',
-      action: onBuyHoloBillboard,
-      purchasedCount: ownedItems.holoBillboard || 0,
-      hidden: !(passiveIncome >= 50 || (ownedItems.scrapDrone && ownedItems.scrapDrone > 0))
-    }
+        cost: itemCosts.holoBillboard || 15000,
+        description: '+10% global Junk/sec boost',
+        info: 'A massive holographic display that attracts more scrappers to your territory',
+        action: onBuyHoloBillboard,
+        purchasedCount: ownedItems.holoBillboard || 0,
+        hidden: !(passiveIncome >= 50 || (ownedItems.scrapDrone && ownedItems.scrapDrone > 0))
+      }
+    
   ];
 
   return (
     <div className="store-container">
-      <h2>Store</h2>
+      <h2>Junk Store</h2>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
         <div>
           <h3 style={{ color: '#9400D3', textAlign: 'center' }}>Click Upgrades</h3>
@@ -106,7 +105,7 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
               <button
                 key={item.name}
                 onClick={item.action}
-                disabled={junk < (item.cost || 0)}
+                disabled={credits < item.cost}
                 className="store-item"
               >
                 <div className="item-header">
@@ -115,6 +114,7 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
                 </div>
                 <div className="item-info">
                   <p>{item.description}</p>
+                  <p>{item.info}</p>
                   <p className="owned">Owned: {item.purchasedCount}</p>
                 </div>
               </button>
@@ -122,13 +122,13 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
           </div>
         </div>
         <div>
-          <h3 style={{ color: '#9400D3', textAlign: 'center' }}>Passive Income</h3>
+          <h3 style={{ color: '#9400D3', textAlign: 'center' }}>Passive Upgrades</h3>
           <div className="store-items">
-            {passiveItems.filter(item => !item.hidden).map((item) => (
+            {passiveItems.map((item) => (
               <button
                 key={item.name}
                 onClick={item.action}
-                disabled={junk < (item.cost || 0)}
+                disabled={credits < item.cost}
                 className="store-item"
               >
                 <div className="item-header">
@@ -137,6 +137,7 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
                 </div>
                 <div className="item-info">
                   <p>{item.description}</p>
+                  <p>{item.info}</p>
                   <p className="owned">Owned: {item.purchasedCount}</p>
                 </div>
               </button>
