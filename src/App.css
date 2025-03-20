@@ -82,7 +82,7 @@ html, body {
   padding: 0;
   color: #00FF00;
   font-family: 'Poppins', sans-serif;
-  background: #1a1a1a url('/Folders/BackgroundImage/Background1.png') no-repeat center center fixed;
+  background: #1a1a1a url('../Folders/BackgroundImage/Background1.png') no-repeat center center fixed;
   background-size: cover;
   min-height: 100vh;
   overflow-x: hidden;

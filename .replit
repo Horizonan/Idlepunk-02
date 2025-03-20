@@ -37,3 +37,6 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "npm run dev -- --host 0.0.0.0 --open false"
+[[deployment.rewrites]]
+from = "/*"
+to = "/index.html"
