@@ -73,6 +73,15 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
       info: 'Autonomous drone that scans the area for valuable junk',
       action: onBuyScrapDrone,
       purchasedCount: ownedItems.scrapDrone || 0 
+    },
+    { 
+      name: 'Cyber Collector', 
+      cost: itemCosts.cyberCollector || 30000, 
+      description: '+50 Junk/sec, +15% Cost', 
+      info: 'Advanced cybernetic collection system that optimizes junk gathering',
+      action: onBuyCyberCollector,
+      purchasedCount: ownedItems.cyberCollector || 0,
+      hidden: !(purchasedUpgrades >= 10)
     },{
       name: 'Holo Billboard',
         cost: itemCosts.holoBillboard || 15000,

@@ -350,7 +350,8 @@ export default function App() {
     urbanRecycler: 3000,
     autoClicker: 5000,
     clickEnhancer: 2500,
-    scrapDrone: 7500
+    scrapDrone: 7500,
+    cyberCollector: 30000
   });
 
   const [ownedItems, setOwnedItems] = useState(() => JSON.parse(localStorage.getItem('ownedItems')) || {
@@ -757,7 +758,23 @@ export default function App() {
           onBuyJunkMagnet={handleBuyJunkMagnet}
           onBuyUrbanRecycler={handleBuyUrbanRecycler}
           onBuyScrapDrone={handleBuyScrapDrone}
-          onBuyHoloBillboard={handleBuyHoloBillboard} // Added prop
+          onBuyHoloBillboard={handleBuyHoloBillboard}
+          onBuyCyberCollector={() => {
+            if (junk >= itemCosts.cyberCollector) {
+              setJunk(prev => prev - itemCosts.cyberCollector);
+              setNotifications(prev => [...prev, "Cyber Collector deployed – +50 JPS"]);
+              setPassiveIncome(prev => prev + 50);
+              setItemCosts(prev => ({...prev, cyberCollector: Math.floor(prev.cyberCollector * 1.15)}));
+              setOwnedItems(prev => ({...prev, cyberCollector: (prev.cyberCollector || 0) + 1}));
+
+              if (!ownedItems.cyberCollector) {
+                window.dispatchEvent(new CustomEvent('nextNews', { 
+                  detail: { message: "Cogfather: Cybernetic collection, eh? Now you're scrapping smarter, not harder." }
+                }));
+                setDefaultNews(prev => [...prev, "Cyber Collectors spotted in the junkyards. Efficiency just got upgraded!"]);
+              }
+            }
+          }}
           passiveIncome={passiveIncome}
           onBuyClickEnhancer={() => {
             if (junk >= itemCosts.clickEnhancer) {
