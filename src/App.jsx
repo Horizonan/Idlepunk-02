@@ -169,7 +169,9 @@ export default function App() {
         });
         setAutoClicks(0);
         setCraftingInventory({});
+        localStorage.removeItem('craftedItems');
         localStorage.removeItem('craftingInventory');
+        setShowInventory(false);
         setAchievements(prevAchievements => 
           prevAchievements.map(achievement => ({
             ...achievement,
