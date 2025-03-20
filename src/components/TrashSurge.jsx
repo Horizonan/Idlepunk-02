@@ -11,9 +11,10 @@ export default function TrashSurge({ isActive }) {
     return () => document.body.classList.remove('surge-active');
   }, [isActive]);
 
+  const surgeDuration = 5;
   return isActive && (
     <div className="surge-banner">
-      ⚡ TRASH SURGE ACTIVE! ({Math.ceil((Date.now() - window.surgeStartTime) / 1000)} / 5s)
+      ⚡ TRASH SURGE ACTIVE! ({Math.ceil((Date.now() - window.surgeStartTime) / 1000)} / {surgeDuration}s)
     </div>
   );
 }
