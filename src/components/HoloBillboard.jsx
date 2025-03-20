@@ -28,6 +28,22 @@ export default function HoloBillboard({ ownedItems }) {
 
   if (!ownedItems.holoBillboard) return null;
 
+  const [billboardWidth, setBillboardWidth] = useState(300);
+  
+  useEffect(() => {
+    const updateWidth = () => {
+      const billboard = document.querySelector('.holo-billboard');
+      if (billboard) {
+        setBillboardWidth(billboard.offsetWidth);
+        document.documentElement.style.setProperty('--billboard-width', `${billboard.offsetWidth}px`);
+      }
+    };
+    
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
+
   return (
     <div className="holo-billboard">
       <div className="neon-sign">{flavorText[currentText]}</div>
