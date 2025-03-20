@@ -432,8 +432,9 @@ button.locked {
 }
 
 @keyframes float {
-  from { transform: translateY(-5px); }
-  to { transform: translateY(5px); }
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
 }
 
 .main {
@@ -471,7 +472,7 @@ button.locked {
 
 .holo-billboard {
   position: fixed;
-  top: 20%;
+  bottom: 10%;
   right: 5%;
   width: 300px;
   height: 100px;
@@ -480,7 +481,7 @@ button.locked {
   border-radius: 10px;
   box-shadow: 0 0 20px #ff00ff;
   z-index: 1;
-  animation: float 3s ease-in-out infinite;
+  animation: float 4s ease-in-out infinite;
 }
 
 .neon-sign {
@@ -1075,9 +1076,7 @@ button.locked {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-}
-
-.slot-display {
+}.slot-display {
   display: flex;
   gap: 10px;
   justify-content: center;
