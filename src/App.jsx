@@ -21,6 +21,7 @@ import CraftingStore from './components/CraftingStore';
 import Marketplace from './components/Marketplace';
 import ActiveCheats from './components/ActiveCheats';
 import FlyingCrystal from './components/FlyingCrystal';
+import HoloBillboard from './components/HoloBillboard';
 
 function ItemInventory({ craftingInventory, onBack }) {
   return (
@@ -637,6 +638,7 @@ export default function App() {
       />
       <NewsContainer isSurgeActive={isSurgeActive} />
       <TrashSurge isActive={isSurgeActive} />
+      <HoloBillboard ownedItems={ownedItems} />
       {showCrystal && (
         <FlyingCrystal
           onCollect={() => {
