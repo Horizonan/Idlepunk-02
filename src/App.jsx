@@ -796,7 +796,7 @@ export default function App() {
               setJunk(prev => prev - rate);
               setCredits(prev => prev + 1);
               setNotifications(prev => [...prev, `Sold ${rate} junk for 1 credit!`]);
-            }            }
+            }
           }}
           onBack={() => setActiveStore(null)}
         />
