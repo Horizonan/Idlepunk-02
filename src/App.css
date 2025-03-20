@@ -925,6 +925,18 @@ button.locked {
   margin: 0 0 10px 0;
 }
 
+.electro-title {
+  color: #00ffff;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  margin: 20px 0 10px 0;
+  padding-top: 20px;
+  border-top: 1px solid #00ffff;
+}
+
+.achievements-section {
+  margin-bottom: 20px;
+}
+
 .flavor-text {
   color: #888;
   font-style: italic;

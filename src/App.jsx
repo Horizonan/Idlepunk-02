@@ -50,6 +50,7 @@ export default function App() {
   const [credits, setCredits] = useState(() => Math.floor(Number(localStorage.getItem('credits')) || 0));
   const [junk, setJunk] = useState(() => Math.floor(Number(localStorage.getItem('junk')) || 0));
   const [clickCount, setClickCount] = useState(() => Math.floor(Number(localStorage.getItem('clickCount')) || 0));
+  const [cogfatherLore, setCogfatherLore] = useState(() => JSON.parse(localStorage.getItem('cogfatherLore')) || []);
   const defaultAchievements = [
     {
       title: "Junkie Starter",
@@ -58,6 +59,27 @@ export default function App() {
       flavorText: "Now you're hoarding like a real scavver.",
       unlocked: false,
       checked: false
+    },
+    {
+      title: "Circuit Pulse Mastery",
+      requirement: "Collect 5 Electro Shards",
+      reward: "+2% global JPS",
+      flavorText: "The shards sing with electric potential.",
+      unlocked: false,
+      checked: false,
+      category: "electroShard",
+      shardRequirement: 5
+    },
+    {
+      title: "Cogfather's First Secret",
+      requirement: "Collect 10 Electro Shards",
+      reward: "Unlock Cogfather's Lore Entry #001",
+      flavorText: "The truth lies in fragments of crystal and code.",
+      unlocked: false,
+      checked: false,
+      category: "electroShard",
+      shardRequirement: 10,
+      loreUnlock: "001"
     },
     {
       title: "The First Clicks",
