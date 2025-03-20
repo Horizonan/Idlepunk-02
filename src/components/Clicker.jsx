@@ -23,7 +23,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
         </button>
         <button 
           onClick={() => electronicsUnlock && setActiveClicker('electronics')}
-          className={`clicker-select ${activeClicker === 'electronics' ? 'active' : ''}`}
+          className={`clicker-select ${activeClicker === 'electronics' ? 'active' : ''} ${!electronicsUnlock ? 'locked' : ''}`}
           disabled={!electronicsUnlock}
         >
           Electronics Clicker

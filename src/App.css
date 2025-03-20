@@ -547,13 +547,27 @@ button.locked {
 }
 
 .surge-active button {
-  animation: surge-glow 1s infinite alternate;
-  filter: brightness(1.5);
+  animation: surge-glow 1.5s infinite alternate;
+  filter: brightness(1.2);
 }
 
 @keyframes surge-glow {
-  from { filter: brightness(1.2) drop-shadow(0 0 5px #00ff00); }
-  to { filter: brightness(1.5) drop-shadow(0 0 15px #00ff00); }
+  from { filter: brightness(1.1) drop-shadow(0 0 3px #00ff00); }
+  to { filter: brightness(1.2) drop-shadow(0 0 8px #00ff00); }
+}
+
+.clicker-select.locked {
+  opacity: 0.6;
+  cursor: not-allowed;
+  border-color: #444;
+  color: #666;
+}
+
+.clicker-select.locked::after {
+  content: '(Requires Prestige)';
+  font-size: 0.8em;
+  margin-left: 5px;
+  color: #ff4444;
 }
 
 @keyframes pulse {
