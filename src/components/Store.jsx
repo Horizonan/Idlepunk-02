@@ -79,12 +79,14 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
       cost: itemCosts.cyberCollector || 30000, 
       description: '+50 Junk/sec, +15% Cost', 
       info: 'Advanced cybernetic collection system that optimizes junk gathering',
+      cost: itemCosts.cyberCollector || 30000,
       action: onBuyCyberCollector,
       purchasedCount: ownedItems.cyberCollector || 0,
       hidden: !(purchasedUpgrades >= 10)
-    },{
+    },
+    {
       name: 'Holo Billboard',
-        cost: itemCosts.holoBillboard || 15000,
+      cost: itemCosts.holoBillboard || 15000,
         description: '+10% global Junk/sec boost',
         info: 'A massive holographic display that attracts more scrappers to your territory',
         action: onBuyHoloBillboard,
