@@ -1107,3 +1107,19 @@ button.locked {
   transform: none;
   background: linear-gradient(45deg, #2a2a2a, #3a3a3a);
 }
+
+.prestige-button:hover::after {
+  content: "System not yet stable enough to reboot. Keep grinding.";
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: #00FF00;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #9400D3;
+  white-space: nowrap;
+  font-size: 0.9em;
+  pointer-events: none;
+}
