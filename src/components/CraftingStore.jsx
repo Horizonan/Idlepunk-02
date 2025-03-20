@@ -63,6 +63,17 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       description: 'Increases Trash Surge duration from 5s → 10s',
       type: 'crafted',
       onetime: true
+    },
+    {
+      name: 'Auto Toolkit',
+      requirements: {
+        'Metal Plates': 3,
+        'Gear Bits': 2
+      },
+      cost: 300000,
+      description: 'Increases Auto Click efficiency by 25%',
+      type: 'crafted',
+      onetime: true
     }
   ];
 

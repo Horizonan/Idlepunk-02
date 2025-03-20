@@ -576,6 +576,10 @@ const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem
                   setClickMultiplier(prev => prev * 1.25);
                   setNotifications(prev => [...prev, "Click power increased by 25%!"]);
                 }
+                if (item.name === 'Auto Toolkit') {
+                  setAutoClicks(prev => Math.floor(prev * 1.25));
+                  setNotifications(prev => [...prev, "Auto Click efficiency increased by 25%!"]);
+                }
                 setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
               }
             }
