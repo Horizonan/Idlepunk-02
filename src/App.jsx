@@ -564,14 +564,15 @@ export default function App() {
           
           const sidebar = e.currentTarget;
           const startX = e.clientX - sidebar.offsetLeft;
-          const startY = e.clientY - (window.innerHeight - sidebar.offsetTop - sidebar.offsetHeight);
+          const rect = sidebar.getBoundingClientRect();
+          const startY = e.clientY - rect.top;
 
           const handleMouseMove = (e) => {
             const newLeft = e.clientX - startX;
-            const newBottom = window.innerHeight - e.clientY - (window.innerHeight - sidebar.offsetHeight - startY);
+            const newTop = e.clientY - startY;
             
             sidebar.style.left = `${newLeft}px`;
-            sidebar.style.bottom = `${newBottom}px`;
+            sidebar.style.top = `${newTop}px`;
           };
 
           const handleMouseUp = () => {
