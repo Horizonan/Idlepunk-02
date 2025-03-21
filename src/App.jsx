@@ -397,6 +397,7 @@ export default function App() {
     if (totalPassiveIncome >= 100 && !localStorage.getItem('cogfatherEvent')) {
       setNotifications(prev => [...prev, "The Cogfather wants to speak with you about your progress..."]);
       localStorage.setItem('cogfatherEvent', 'true');
+      localStorage.setItem('ascensionUnlocked', 'true');
     }
 
     localStorage.setItem('credits', credits);
