@@ -321,6 +321,7 @@ export default function App() {
       window.surgeStartTime = Date.now();
       setIsSurgeActive(true);
       setHasFoundCapacitorThisSurge(false);
+      localStorage.setItem('hadFirstSurge', 'true');
       const surgeDuration = craftingInventory['Surge Capacitor Module'] ? 10000 : 5000;
       setTimeout(() => {
         setIsSurgeActive(false);
@@ -535,7 +536,8 @@ export default function App() {
       }
 
       // Check Greasy Milestone
-      if (!newAchievements[2].unlocked && (passiveIncome + (autoClicks * clickMultiplier)) >= 10) {
+      const totalIncome = Math.floor(passiveIncome + (autoClicks * clickMultiplier));
+      if (!newAchievements[2].unlocked && totalIncome >= 10) {
         newAchievements[2].unlocked = true;
         if (!newAchievements[2].checked) {
           setAutoClicks(prev => prev + 1);
@@ -558,7 +560,7 @@ export default function App() {
       }
 
       // Check UI Breaker
-      if (!newAchievements[4].unlocked && isSurgeActive) {
+      if (!newAchievements[4].unlocked && (isSurgeActive || localStorage.getItem('hadFirstSurge') === 'true')) {
         newAchievements[4].unlocked = true;
         if (!newAchievements[4].checked) {
           setNotifications(prev => [...prev, "Achievement Unlocked: UI Breaker!"]);
