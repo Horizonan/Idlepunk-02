@@ -340,6 +340,11 @@ export default function App() {
       setTimeout(() => {
         setIsSurgeActive(false);
         setHasFoundCapacitorThisSurge(false);
+        setSurgeCount(prev => {
+          const newCount = prev + 1;
+          localStorage.setItem('surgeCount', newCount);
+          return newCount;
+        });
       }, surgeDuration);
     };
 
@@ -358,6 +363,7 @@ export default function App() {
   const [passiveIncome, setPassiveIncome] = useState(() => Number(localStorage.getItem('passiveIncome')) || 0);
   const [craftingInventory, setCraftingInventory] = useState(() => JSON.parse(localStorage.getItem('craftingInventory')) || {});
   const [hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge] = useState(false);
+  const [surgeCount, setSurgeCount] = useState(() => Number(localStorage.getItem('surgeCount')) || 0);
   const [activeCheatsList, setActiveCheatsList] = useState(() => ({
     'Guaranteed Capacitor': false,
     'Force Triple Win': false,
@@ -487,7 +493,8 @@ export default function App() {
       { title: "First Steps", condition: clickCount > 0, stage: 0 },
       { title: "Shopping Time", condition: hasAnyUpgrade, stage: 1 },
       { title: "Tool Master", condition: clickMultiplier > 1, stage: 2 },
-      { title: "Passive Income", condition: totalPassiveIncome > 0, stage: 3 }
+      { title: "Passive Income", condition: totalPassiveIncome > 0, stage: 3 },
+      { title: "Surge Overflow", condition: surgeCount >= 3, stage: 7 }
     ];
 
     questChecks.forEach(quest => {
