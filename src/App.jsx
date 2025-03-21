@@ -23,8 +23,10 @@ import ActiveCheats from './components/ActiveCheats';
 import FlyingCrystal from './components/FlyingCrystal';
 import HoloBillboard from './components/HoloBillboard';
 import ItemInventory from './components/ItemInventory';
+import Changelog from './components/Changelog';
 
 export default function App() {
+  const [showChangelog, setShowChangelog] = useState(false);
   const [showSlotMachine, setShowSlotMachine] = useState(false);
   const [showCheatMenu, setShowCheatMenu] = useState(false);
   const [showCrystal, setShowCrystal] = useState(false);
@@ -799,6 +801,9 @@ export default function App() {
           case 'settings':
             setShowSettings(true);
             break;
+          case 'changelog':
+            setShowChangelog(true);
+            break;
         }
       }} />
       {showSlotMachine && (
@@ -1043,6 +1048,9 @@ export default function App() {
           }))}
           onClose={() => setShowActiveCheats(false)}
         />
+      )}
+      {showChangelog && (
+        <Changelog onClose={() => setShowChangelog(false)} />
       )}
       {showSettings && (
         <div className="store-container settings-menu">
