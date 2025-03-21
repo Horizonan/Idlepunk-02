@@ -81,7 +81,7 @@ export default function Achievements({ achievements, onClose }) {
         <div className="achievements-list">
           <h3>Progress</h3>
           <div className="achievements-section">
-            {achievements.filter(a => !a.category).map((achievement, index) => (
+            {achievements.map((achievement, index) => (
               <div key={index} className={`achievement ${achievement.unlocked ? 'unlocked' : ''}`}>
                 <h3>{achievement.title}</h3>
                 <p className="flavor-text">"{achievement.flavorText}"</p>
