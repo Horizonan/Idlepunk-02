@@ -2,10 +2,10 @@ import { useState, useRef, useEffect } from 'react';
 
 export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial, onNextTutorial }) {
   const [openCategories, setOpenCategories] = useState({
-    resources: true,
-    events: true,
-    tutorial: true,
-    reset: true
+    resources: false,
+    events: false,
+    tutorial: false,
+    reset: false
   });
 
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -62,7 +62,7 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
         left: position.x,
         top: position.y,
         cursor: isDragging ? 'grabbing' : 'default',
-        width: '300px', // Increased width
+        width: '350px', // Increased width
         height: 'auto', // Allow height to adjust
         padding: '10px'
       }}
