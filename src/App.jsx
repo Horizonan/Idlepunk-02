@@ -488,68 +488,65 @@ export default function App() {
   };
 
   const checkAchievements = () => {
-    console.log("Checking achievements...");
     setAchievements(prev => {
-      const newAchievements = prev.map(achievement => ({...achievement}));
-      let changed = false;
-
-      // Define achievement conditions and rewards
-      const achievementChecks = {
-        "Junkie Starter": {
-          condition: () => junk >= 1000,
-          reward: () => {
-            setJunk(j => j + 500);
-            return "Achievement Unlocked: Junkie Starter!";
-          }
-        },
-        "The First Clicks": {
-          condition: () => clickCount >= 500,
-          reward: () => {
-            setClickMultiplier(prev => prev * 1.05);
-            return "Achievement Unlocked: The First Clicks!";
-          }
-        },
-        "Greasy Milestone": {
-          condition: () => (passiveIncome + (autoClicks * clickMultiplier)) >= 10,
-          reward: () => {
-            setAutoClicks(prev => prev + 1);
-            return "Achievement Unlocked: Greasy Milestone!";
-          }
-        },
-        "The First Hoard": {
-          condition: () => junk >= 10000,
-          reward: () => {
-            setPassiveIncome(prev => prev * 1.1);
-            setTimeout(() => setPassiveIncome(prev => prev / 1.1), 30000);
-            return "Achievement Unlocked: The First Hoard!";
-          }
-        },
-        "UI Breaker": {
-          condition: () => isSurgeActive || localStorage.getItem('hadFirstSurge') === 'true',
-          reward: () => "Achievement Unlocked: UI Breaker!"
-        }
-      };
+      const newAchievements = [...prev];
+      let anyChanged = false;
 
       // Check each achievement independently
       newAchievements.forEach(achievement => {
-        const check = achievementChecks[achievement.title];
-        if (check && !achievement.unlocked && check.condition()) {
-          console.log(`Unlocking: ${achievement.title}`);
+        if (achievement.unlocked) return; // Skip if already unlocked
+
+        let shouldUnlock = false;
+        let reward = null;
+
+        switch (achievement.title) {
+          case "Junkie Starter":
+            if (junk >= 1000) {
+              shouldUnlock = true;
+              reward = () => setJunk(j => j + 500);
+            }
+            break;
+          case "The First Clicks":
+            if (clickCount >= 500) {
+              shouldUnlock = true;
+              reward = () => setClickMultiplier(prev => prev * 1.05);
+            }
+            break;
+          case "Greasy Milestone":
+            if ((passiveIncome + (autoClicks * clickMultiplier)) >= 10) {
+              shouldUnlock = true;
+              reward = () => setAutoClicks(prev => prev + 1);
+            }
+            break;
+          case "The First Hoard":
+            if (junk >= 10000) {
+              shouldUnlock = true;
+              reward = () => {
+                setPassiveIncome(prev => prev * 1.1);
+                setTimeout(() => setPassiveIncome(prev => prev / 1.1), 30000);
+              };
+            }
+            break;
+          case "UI Breaker":
+            if (isSurgeActive || localStorage.getItem('hadFirstSurge') === 'true') {
+              shouldUnlock = true;
+            }
+            break;
+        }
+
+        if (shouldUnlock && !achievement.checked) {
           achievement.unlocked = true;
-          if (!achievement.checked) {
-            const message = check.reward();
-            setNotifications(prev => [...prev, message]);
-            achievement.checked = true;
-            changed = true;
-          }
+          achievement.checked = true;
+          anyChanged = true;
+          setNotifications(prev => [...prev, `Achievement Unlocked: ${achievement.title}!`]);
+          if (reward) reward();
         }
       });
 
-      if (changed) {
+      if (anyChanged) {
         localStorage.setItem('achievements', JSON.stringify(newAchievements));
-        return newAchievements;
       }
-      return prev;
+      return anyChanged ? newAchievements : prev;
     });
   };
 
