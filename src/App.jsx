@@ -1027,6 +1027,11 @@ export default function App() {
             <button onClick={() => setShowSettings(false)}>Close</button>
           </div>
           <div className="settings-options">
+            <div className="stats-section">
+              <h3>Stats</h3>
+              <p>Total Clicks: {clickCount.toLocaleString()}</p>
+              <p>Average JPS: {Math.floor(passiveIncome + (autoClicks * clickMultiplier)).toLocaleString()}</p>
+            </div>
             <label className="setting-option">
               <span>Show Click Enhancer Effect</span>
               <input

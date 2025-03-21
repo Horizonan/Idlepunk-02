@@ -293,9 +293,25 @@ button {
 }
 
 .settings-options {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+  padding: 20px;
+}
+
+.stats-section {
+  background: rgba(148, 0, 211, 0.1);
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #9400D3;
+}
+
+.stats-section h3 {
+  margin: 0 0 10px 0;
+  color: #9400D3;
+}
+
+.stats-section p {
+  margin: 5px 0;
+  color: #00FF00;
 }
 
 .reset-section {
@@ -1134,7 +1150,8 @@ button.locked {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-}.slot-display {
+}
+.slot-display {
   display: flex;
   gap: 10px;
   justify-content: center;
