@@ -28,11 +28,33 @@ export default function ItemInventory({ craftingInventory, onBack }) {
       description: 'Power surge enhancement device',
       effect: 'Increases Trash Surge duration from 5s → 10s',
       icon: '⚡'
+    },
+    'Stabilized Capacitor': {
+      description: 'A perfectly stabilized energy storage unit',
+      effect: 'Required for advanced crafting',
+      icon: '🔋'
+    },
+    'Voltage Node': {
+      description: 'Crystallized electrical potential',
+      effect: 'Required for advanced crafting',
+      icon: '⚡'
+    },
+    'Synthcore Fragment': {
+      description: 'Piece of a mysterious power source',
+      effect: 'Required for advanced crafting',
+      icon: '💠'
     }
   };
 
   const craftedItems = Object.entries(craftingInventory)
-    .filter(([name]) => itemDetails[name]);
+    .filter(([name]) => itemDetails[name] && !isSpecialMaterial(name));
+
+  const specialMaterials = Object.entries(craftingInventory)
+    .filter(([name]) => isSpecialMaterial(name));
+
+  function isSpecialMaterial(name) {
+    return ['Stabilized Capacitor', 'Voltage Node', 'Synthcore Fragment'].includes(name);
+  }
 
   return (
     <div className="store-container inventory-container">
@@ -52,6 +74,27 @@ export default function ItemInventory({ craftingInventory, onBack }) {
           </div>
         ))}
       </div>
+      
+      {specialMaterials.length > 0 && (
+        <>
+          <div className="inventory-header">
+            <h2 className="electro-title">Special Materials</h2>
+            <div className="inventory-subtitle">Ascension Components</div>
+          </div>
+          <div className="inventory-grid">
+            {specialMaterials.map(([name]) => (
+              <div key={name} className="inventory-item">
+                <div className="item-icon">{itemDetails[name].icon}</div>
+                <div className="item-content">
+                  <div className="item-name">{name}</div>
+                  <div className="item-description">{itemDetails[name].description}</div>
+                  <div className="item-effect">{itemDetails[name].effect}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
       <button onClick={onBack} className="back-button">Back</button>
     </div>
   );
