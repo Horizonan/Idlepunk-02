@@ -1346,11 +1346,26 @@ button.locked {
 .cheat-menu button {
   background-color: #FF0000;
   border-color: #800000;
+  width: calc(100% - 10px);
+  margin: 5px;
+  padding: 8px 15px;
+  font-size: 14px;
 }
 
 .cheat-menu button:hover {
   background-color: #800000;
   border-color: #FF0000;
+}
+
+.cheat-menu .category-content {
+  padding: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cheat-menu .category-header {
+  width: calc(100% - 10px);
+  margin: 5px;
 }
 
 .changelog-menu {
