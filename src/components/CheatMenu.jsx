@@ -99,6 +99,11 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
                 localStorage.setItem('electroShards', current + 10);
                 window.location.reload();
               }}>Add 10 Crystals</button>
+              <button onClick={() => {
+                localStorage.setItem('surgeCount', '3');
+                localStorage.setItem('hadFirstSurge', 'true');
+                window.location.reload();
+              }}>Set to 3 Surges</button>
             </div>
           )}
         </div>
