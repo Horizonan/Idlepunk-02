@@ -424,10 +424,14 @@ export default function App() {
     // Check for skipped quests
     questChecks.forEach(quest => {
       if (quest.condition && tutorialStage > quest.stage) {
-        setNotifications(prev => [
-          ...prev,
-          `Quest Synced: ${quest.title} auto-completed.`
-        ]);
+        const questSyncKey = `quest_sync_${quest.title}`;
+        if (!localStorage.getItem(questSyncKey)) {
+          localStorage.setItem(questSyncKey, 'true');
+          setNotifications(prev => [
+            ...prev,
+            `Quest Synced: ${quest.title} auto-completed.`
+          ]);
+        }
       }
     });
 
