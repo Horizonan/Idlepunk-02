@@ -62,7 +62,7 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
         left: position.x,
         top: position.y,
         cursor: isDragging ? 'grabbing' : 'default',
-        width: '350px', // Increased width
+        width: '500px', // Increased width
         height: 'auto', // Allow height to adjust
         padding: '10px'
       }}
