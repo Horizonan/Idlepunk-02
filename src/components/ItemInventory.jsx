@@ -1,6 +1,5 @@
 
 import React from 'react';
-import '../App.css';
 
 export default function ItemInventory({ craftingInventory, onBack }) {
   const itemDetails = {
@@ -51,18 +50,18 @@ export default function ItemInventory({ craftingInventory, onBack }) {
     },
     'Stabilized Capacitor': {
       description: 'A perfectly stabilized energy storage unit',
-      effect: 'Required for advanced crafting',
+      effect: 'Required for advanced tech progression',
       icon: '🔋'
     },
     'Voltage Node': {
-      description: 'Crystallized electrical potential',
-      effect: 'Required for advanced crafting',
+      description: 'High-powered energy distributor',
+      effect: 'Required for network upgrades',
       icon: '⚡'
     },
     'Synthcore Fragment': {
-      description: 'Piece of a mysterious power source',
-      effect: 'Required for advanced crafting',
-      icon: '💠'
+      description: 'Mysterious technological artifact',
+      effect: 'Purpose unknown',
+      icon: '💎'
     }
   };
 
@@ -90,11 +89,11 @@ export default function ItemInventory({ craftingInventory, onBack }) {
         <div className="inventory-grid">
           {items.map(([name, count]) => (
             <div key={name} className={`inventory-item ${specialClass}`}>
-              <div className="item-icon">{itemDetails[name].icon}</div>
+              <div className="item-icon">{itemDetails[name]?.icon || '❓'}</div>
               <div className="item-content">
                 <div className="item-name">{name} x{count}</div>
-                <div className="item-description">{itemDetails[name].description}</div>
-                <div className="item-effect">{itemDetails[name].effect}</div>
+                <div className="item-description">{itemDetails[name]?.description || 'Unknown item'}</div>
+                <div className="item-effect">{itemDetails[name]?.effect || 'No effect'}</div>
               </div>
             </div>
           ))}
