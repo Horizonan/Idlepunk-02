@@ -62,6 +62,12 @@ export default function Achievements({ achievements, onClose }) {
       >
         <h2>Achievements</h2>
         <div style={{ display: 'flex', gap: '10px' }}>
+          <button 
+            onClick={() => window.dispatchEvent(new CustomEvent('validateAchievements'))}
+            style={{ padding: '4px 8px', fontSize: '12px', backgroundColor: '#4a4a4a' }}
+          >
+            Validate Achievements
+          </button>
           {!showBadges && (
             <button 
               onClick={() => setShowBadges(true)}
@@ -85,7 +91,7 @@ export default function Achievements({ achievements, onClose }) {
               </div>
             ))}
           </div>
-          
+
           <h3 className="electro-title">Electro Shard Milestones</h3>
           <div className="achievements-section">
             {achievements.filter(a => a.category === 'electroShard').map((achievement, index) => (

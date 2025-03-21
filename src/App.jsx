@@ -150,7 +150,13 @@ export default function App() {
       }));
     };
 
+    const handleValidateAchievements = () => {
+      validateQuestsAndAchievements();
+      setNotifications(prev => [...prev, "Achievements validated!"]);
+    };
+
     window.addEventListener('addMaterial', handleAddMaterial);
+    window.addEventListener('validateAchievements', handleValidateAchievements);
 
     if (activeCheatsList['Force Triple Win']) {
       window.dispatchEvent(new CustomEvent('slotForceTriple'));
@@ -189,6 +195,7 @@ export default function App() {
       window.removeEventListener('slotForceDouble', handleSlotForceDouble);
       window.removeEventListener('showCrystal', handleShowCrystal);
       window.removeEventListener('addMaterial', handleAddMaterial);
+      window.removeEventListener('validateAchievements', handleValidateAchievements);
     };
   }, []);
 
