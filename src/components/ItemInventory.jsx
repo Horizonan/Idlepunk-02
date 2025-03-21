@@ -4,6 +4,26 @@ import '../App.css';
 
 export default function ItemInventory({ craftingInventory, onBack }) {
   const itemDetails = {
+    'Wires': {
+      description: 'Basic conductive material',
+      effect: 'Used in basic crafting',
+      icon: '🔌'
+    },
+    'Metal Plates': {
+      description: 'Sturdy metal sheets',
+      effect: 'Used in basic crafting',
+      icon: '🛡️'
+    },
+    'Gear Bits': {
+      description: 'Mechanical components',
+      effect: 'Used in basic crafting',
+      icon: '⚙️'
+    },
+    'Scrap Core': {
+      description: 'A basic power core made from scrap',
+      effect: 'Used in advanced crafting',
+      icon: '💠'
+    },
     'Click Rig Mk I': {
       description: 'Advanced clicking mechanism',
       effect: 'Increases click power by 25%',
@@ -46,54 +66,49 @@ export default function ItemInventory({ craftingInventory, onBack }) {
     }
   };
 
+  const basicItems = ['Wires', 'Metal Plates', 'Gear Bits', 'Scrap Core'];
   const specialItems = ['Stabilized Capacitor', 'Voltage Node', 'Synthcore Fragment'];
   
+  const basicMaterials = Object.entries(craftingInventory)
+    .filter(([name]) => basicItems.includes(name));
+
   const craftedItems = Object.entries(craftingInventory)
-    .filter(([name]) => itemDetails[name] && !specialItems.includes(name));
+    .filter(([name]) => itemDetails[name] && !basicItems.includes(name) && !specialItems.includes(name));
 
   const specialMaterials = Object.entries(craftingInventory)
     .filter(([name]) => specialItems.includes(name));
 
-  return (
-    <div className="store-container">
-      <div className="inventory-header">
-        <h2>Item Inventory</h2>
-        <div className="inventory-subtitle">Your Crafted Equipment</div>
-      </div>
-      <div className="inventory-grid">
-        {craftedItems.map(([name, count]) => (
-          <div key={name} className="inventory-item">
-            <div className="item-icon">{itemDetails[name].icon}</div>
-            <div className="item-content">
-              <div className="item-name">{name} x{count}</div>
-              <div className="item-description">{itemDetails[name].description}</div>
-              <div className="item-effect">{itemDetails[name].effect}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-      
-      {specialMaterials.length > 0 && (
-        <>
-          <div className="inventory-header">
-            <h2 className="electro-title">Special Materials</h2>
-            <div className="inventory-subtitle">Ascension Components</div>
-          </div>
-          <div className="inventory-grid">
-            {specialMaterials.map(([name, count]) => (
-              <div key={name} className="inventory-item">
-                <div className="item-icon">{itemDetails[name].icon}</div>
-                <div className="item-content">
-                  <div className="item-name">{name} x{count}</div>
-                  <div className="item-description">{itemDetails[name].description}</div>
-                  <div className="item-effect">{itemDetails[name].effect}</div>
-                </div>
+  const renderInventorySection = (items, title, subtitle, specialClass = '') => {
+    if (items.length === 0) return null;
+    
+    return (
+      <>
+        <div className={`inventory-header ${specialClass}`}>
+          <h2>{title}</h2>
+          <div className="inventory-subtitle">{subtitle}</div>
+        </div>
+        <div className="inventory-grid">
+          {items.map(([name, count]) => (
+            <div key={name} className={`inventory-item ${specialClass}`}>
+              <div className="item-icon">{itemDetails[name].icon}</div>
+              <div className="item-content">
+                <div className="item-name">{name} x{count}</div>
+                <div className="item-description">{itemDetails[name].description}</div>
+                <div className="item-effect">{itemDetails[name].effect}</div>
               </div>
-            ))}
-          </div>
-        </>
-      )}
-      <button onClick={onBack}>Back</button>
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  };
+
+  return (
+    <div className="store-container inventory-container">
+      {renderInventorySection(basicMaterials, 'Basic Materials', 'Components & Resources', 'basic-materials')}
+      {renderInventorySection(craftedItems, 'Crafted Equipment', 'Enhanced Gear', 'crafted-items')}
+      {renderInventorySection(specialMaterials, 'Special Materials', 'Ascension Components', 'special-materials')}
+      <button onClick={onBack} className="back-button">Back</button>
     </div>
   );
 }

@@ -974,6 +974,11 @@ button.locked {
   margin-bottom: 30px;
 }
 
+.inventory-container {
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
 .inventory-item {
   background: rgba(34, 34, 34, 0.95);
   border: 2px solid #9400D3;
@@ -982,6 +987,61 @@ button.locked {
   display: flex;
   align-items: flex-start;
   gap: 15px;
+  transition: all 0.3s ease;
+}
+
+.inventory-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(148, 0, 211, 0.3);
+}
+
+.basic-materials .inventory-item {
+  border-color: #00FFFF;
+}
+
+.crafted-items .inventory-item {
+  border-color: #FF00FF;
+}
+
+.special-materials .inventory-item {
+  border-color: #FFD700;
+  background: rgba(34, 34, 34, 0.98);
+}
+
+.basic-materials .inventory-header h2 {
+  color: #00FFFF;
+}
+
+.crafted-items .inventory-header h2 {
+  color: #FF00FF;
+}
+
+.special-materials .inventory-header h2 {
+  color: #FFD700;
+}
+
+.item-icon {
+  font-size: 2em;
+  padding: 15px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.3);
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.basic-materials .item-icon {
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+.crafted-items .item-icon {
+  box-shadow: 0 0 10px rgba(255, 0, 255, 0.2);
+}
+
+.special-materials .item-icon {
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
 }
 
 .inventory-header {
