@@ -520,6 +520,7 @@ export default function App() {
 
       // Check The First Hoard
       if (!newAchievements[3].unlocked && Math.floor(junk) >= 10000) {
+        console.log("Working Hoard");
         newAchievements[3].unlocked = true;
         if (!newAchievements[3].checked) {
           setPassiveIncome(prev => prev * 1.1);
