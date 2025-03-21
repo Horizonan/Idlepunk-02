@@ -391,7 +391,49 @@ export default function App() {
     localStorage.setItem('craftingInventory', JSON.stringify(craftingInventory));
   }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts, autoClicks, clickCount, achievements, ownedItems, clickEnhancerLevel]);
 
+  const validateQuestsAndAchievements = () => {
+    // Variables for condition checking
+    const totalPassiveIncome = passiveIncome + (autoClicks * clickMultiplier);
+    const hasAnyHelper = ownedItems.streetrat > 0;
+    const hasAnyUpgrade = ownedItems.trashBag > 0 || ownedItems.trashPicker > 0;
+
+    // Previous quests that might have been skipped
+    const questChecks = [
+      {
+        title: "First Steps",
+        condition: clickCount > 0,
+        stage: 0
+      },
+      {
+        title: "Shopping Time",
+        condition: hasAnyUpgrade,
+        stage: 1
+      },
+      {
+        title: "Tool Master",
+        condition: clickMultiplier > 1,
+        stage: 2
+      },
+      {
+        title: "Passive Income",
+        condition: totalPassiveIncome > 0,
+        stage: 3
+      }
+    ];
+
+    // Check for skipped quests
+    questChecks.forEach(quest => {
+      if (quest.condition && tutorialStage > quest.stage) {
+        setNotifications(prev => [
+          ...prev,
+          `Quest Synced: ${quest.title} auto-completed.`
+        ]);
+      }
+    });
+  };
+
   const checkAchievements = () => {
+    validateQuestsAndAchievements();
     setAchievements(prev => {
       const newAchievements = [...prev];
       let rewardGiven = false;
@@ -614,7 +656,13 @@ export default function App() {
 
   useEffect(() => {
     localStorage.setItem('tutorialStage', tutorialStage);
+    validateQuestsAndAchievements();
   }, [tutorialStage]);
+
+  // Validate on major game events
+  useEffect(() => {
+    validateQuestsAndAchievements();
+  }, [passiveIncome, ownedItems.streetrat, clickMultiplier]);
 
   useEffect(() => {
     const onetimeItems = ['Click Rig Mk I', 'Auto Toolkit', 'Compression Pack', 'Reinforced Backpack', 'Surge Capacitor Module'];
