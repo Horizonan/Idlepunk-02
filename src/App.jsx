@@ -488,17 +488,57 @@ export default function App() {
       const newAchievements = prev.map(achievement => ({...achievement}));
       let changed = false;
 
-      // Check each achievement independently
-      if (!newAchievements[0].unlocked && junk >= 1000) {
-        console.log("Unlocking: Junkie Starter");
-        newAchievements[0].unlocked = true;
-        if (!newAchievements[0].checked) {
-          setJunk(junk => junk + 500);
-          setNotifications(prev => [...prev, "Achievement Unlocked: Junkie Starter!"]);
-          newAchievements[0].checked = true;
-          changed = true;
+      // Define achievement conditions and rewards
+      const achievementChecks = {
+        "Junkie Starter": {
+          condition: () => junk >= 1000,
+          reward: () => {
+            setJunk(j => j + 500);
+            return "Achievement Unlocked: Junkie Starter!";
+          }
+        },
+        "The First Clicks": {
+          condition: () => clickCount >= 500,
+          reward: () => {
+            setClickMultiplier(prev => prev * 1.05);
+            return "Achievement Unlocked: The First Clicks!";
+          }
+        },
+        "Greasy Milestone": {
+          condition: () => (passiveIncome + (autoClicks * clickMultiplier)) >= 10,
+          reward: () => {
+            setAutoClicks(prev => prev + 1);
+            return "Achievement Unlocked: Greasy Milestone!";
+          }
+        },
+        "The First Hoard": {
+          condition: () => junk >= 10000,
+          reward: () => {
+            setPassiveIncome(prev => prev * 1.1);
+            setTimeout(() => setPassiveIncome(prev => prev / 1.1), 30000);
+            return "Achievement Unlocked: The First Hoard!";
+          }
+        },
+        "UI Breaker": {
+          condition: () => isSurgeActive || localStorage.getItem('hadFirstSurge') === 'true',
+          reward: () => "Achievement Unlocked: UI Breaker!"
         }
-      }
+      };
+
+      // Check each achievement independently
+      newAchievements.forEach(achievement => {
+        const check = achievementChecks[achievement.title];
+        if (check && !achievement.unlocked && check.condition()) {
+          console.log(`Unlocking: ${achievement.title}`);
+          achievement.unlocked = true;
+          if (!achievement.checked) {
+            const message = check.reward();
+            setNotifications(prev => [...prev, message]);
+            achievement.checked = true;
+            changed = true;
+          }
+        }
+      });
 
       if (!newAchievements[3].unlocked && clickCount >= 500) {
         console.log("Unlocking: The First Clicks");
@@ -543,60 +583,13 @@ export default function App() {
           changed = true;
         }
       }
-      if (!newAchievements[0].unlocked && junk >= 1000) {
-        newAchievements[0].unlocked = true;
-        if (!newAchievements[0].checked) {
-          setJunk(prev => prev + 500);
-          setNotifications(prev => [...prev, "Achievement Unlocked: Junkie Starter!"]);
-          newAchievements[0].checked = true;
-          changed = true;
-        }
+      if (changed) {
+        localStorage.setItem('achievements', JSON.stringify(newAchievements));
+        return newAchievements;
       }
-
-      // Check The First Clicks
-      if (!newAchievements[1].unlocked && clickCount >= 500) {
-        newAchievements[1].unlocked = true;
-        if (!newAchievements[1].checked) {
-          setClickMultiplier(prev => prev * 1.05);
-          setNotifications(prev => [...prev, "Achievement Unlocked: The First Clicks!"]);
-          newAchievements[1].checked = true;
-          changed = true;
-        }
-      }
-
-      // Check Greasy Milestone
-      const totalIncome = passiveIncome + (autoClicks * clickMultiplier);
-      if (!newAchievements[2].unlocked && totalIncome >= 10) {
-        newAchievements[2].unlocked = true;
-        if (!newAchievements[2].checked) {
-          setAutoClicks(prev => prev + 1);
-          setNotifications(prev => [...prev, "Achievement Unlocked: Greasy Milestone!"]);
-          newAchievements[2].checked = true;
-          changed = true;
-        }
-      }
-
-      // Check The First Hoard
-      if (!newAchievements[3].unlocked && junk >= 10000) {
-        newAchievements[3].unlocked = true;
-        if (!newAchievements[3].checked) {
-          setPassiveIncome(prev => prev * 1.1);
-          setTimeout(() => setPassiveIncome(prev => prev / 1.1), 30000);
-          setNotifications(prev => [...prev, "Achievement Unlocked: The First Hoard!"]);
-          newAchievements[3].checked = true;
-          changed = true;
-        }
-      }
-
-      // Check UI Breaker
-      if (!newAchievements[4].unlocked && (isSurgeActive || localStorage.getItem('hadFirstSurge') === 'true')) {
-        newAchievements[4].unlocked = true;
-        if (!newAchievements[4].checked) {
-          setNotifications(prev => [...prev, "Achievement Unlocked: UI Breaker!"]);
-          newAchievements[4].checked = true;
-          changed = true;
-        }
-      }
+      return prev;
+    });
+  };
 
       if (changed) {
         localStorage.setItem('achievements', JSON.stringify(newAchievements));
