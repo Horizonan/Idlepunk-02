@@ -589,10 +589,6 @@ export default function App() {
       }
       return prev;
     });
-  };
-
-      if (changed) {
-        localStorage.setItem('achievements', JSON.stringify(newAchievements));
         return newAchievements;
       }
       return prev;
