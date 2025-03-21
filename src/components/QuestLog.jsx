@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 
-export default function QuestLog({ tutorialStage }) {
+export default function QuestLog({ tutorialStage, onClose }) {
+  const [showQuestLog, setShowQuestLog] = useState(true);
   const [position, setPosition] = useState(() => {
     const saved = localStorage.getItem('questLogPosition');
     return saved ? JSON.parse(saved) : { x: 0, y: 0 };
@@ -62,7 +63,7 @@ export default function QuestLog({ tutorialStage }) {
       <div className="quest-log-content">
         <div className="quest-header">
           <h3>Quest Log</h3>
-          <button className="close-button" onClick={() => setShowQuestLog(false)}>×</button>
+          <button className="close-button" onClick={onClose}>×</button>
         </div>
         <div className="quest-list">
           {quests.map((quest) => (

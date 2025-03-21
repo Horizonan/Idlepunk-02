@@ -673,7 +673,7 @@ export default function App() {
 
   return (
     <main>
-      {showQuestLog && <QuestLog tutorialStage={tutorialStage} />}
+      {showQuestLog && <QuestLog tutorialStage={tutorialStage} onClose={() => setShowQuestLog(false)} />}
       <TutorialSystem
         junk={junk}
         hasUpgrade={hasUpgrade}
