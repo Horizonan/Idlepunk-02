@@ -1283,7 +1283,7 @@ button.locked {
   padding: 8px;
   background: #222;
   border: 1px solid #00FF00;
-  color: #00FF00;
+  color: white;
   cursor: pointer;
 }
 
