@@ -67,7 +67,7 @@ export default function ItemInventory({ craftingInventory, onBack }) {
 
   const basicItems = ['Wires', 'Metal Plates', 'Gear Bits', 'Scrap Core'];
   const specialItems = ['Stabilized Capacitor', 'Voltage Node', 'Synthcore Fragment'];
-  
+
   const basicMaterials = Object.entries(craftingInventory)
     .filter(([name]) => basicItems.includes(name));
 
@@ -79,7 +79,7 @@ export default function ItemInventory({ craftingInventory, onBack }) {
 
   const renderInventorySection = (items, title, subtitle, specialClass = '') => {
     if (items.length === 0) return null;
-    
+
     return (
       <>
         <div className={`inventory-header ${specialClass}`}>
