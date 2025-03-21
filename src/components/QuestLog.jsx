@@ -3,12 +3,29 @@ import React, { useState, useEffect } from 'react';
 
 export default function QuestLog({ tutorialStage, onClose }) {
   const [showQuestLog, setShowQuestLog] = useState(true);
+  const [selectedQuestLine, setSelectedQuestLine] = useState('progression');
   const [position, setPosition] = useState(() => {
     const saved = localStorage.getItem('questLogPosition');
     return saved ? JSON.parse(saved) : { x: 0, y: 0 };
   });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+
+  const questLines = {
+    progression: [
+      { id: 1, title: "First Steps", task: "Click on the junk pile to collect some scrap" },
+      { id: 2, title: "Shopping Time", task: "Visit the store and buy your first upgrade" },
+      { id: 3, title: "Tool Master", task: "Keep collecting and upgrading your tools" },
+      { id: 4, title: "Passive Income", task: "Purchase something that generates passive income" },
+      { id: 5, title: "Crafting Begin", task: "Start crafting items from your collected junk" },
+      { id: 6, title: "Surge Rider", task: "Take advantage of the surge to collect extra junk" }
+    ],
+    ascension: [
+      { id: 7, title: "Power Surge", task: "Reach 100 Junk per second" },
+      { id: 8, title: "Crystal Hunter", task: "Collect your first Electro Shard" },
+      { id: 9, title: "System Reboot", task: "Prepare for your first prestige" }
+    ]
+  };
 
   useEffect(() => {
     localStorage.setItem('questLogPosition', JSON.stringify(position));
@@ -36,15 +53,6 @@ export default function QuestLog({ tutorialStage, onClose }) {
     setIsDragging(false);
   };
 
-  const quests = [
-    { id: 1, title: "First Steps", task: "Click on the junk pile to collect some scrap" },
-    { id: 2, title: "Shopping Time", task: "Visit the store and buy your first upgrade" },
-    { id: 3, title: "Tool Master", task: "Keep collecting and upgrading your tools" },
-    { id: 4, title: "Passive Income", task: "Purchase something that generates passive income" },
-    { id: 5, title: "Crafting Begin", task: "Start crafting items from your collected junk" },
-    { id: 6, title: "Surge Rider", task: "Take advantage of the surge to collect extra junk" }
-  ];
-
   return (
     <div 
       className="quest-log open"
@@ -65,8 +73,22 @@ export default function QuestLog({ tutorialStage, onClose }) {
           <h3>Quest Log</h3>
           <button className="close-button" onClick={onClose}>×</button>
         </div>
+        <div className="quest-tabs">
+          <button 
+            className={`quest-tab ${selectedQuestLine === 'progression' ? 'active' : ''}`}
+            onClick={() => setSelectedQuestLine('progression')}
+          >
+            Early Progression
+          </button>
+          <button 
+            className={`quest-tab ${selectedQuestLine === 'ascension' ? 'active' : ''}`}
+            onClick={() => setSelectedQuestLine('ascension')}
+          >
+            Ascension Protocol
+          </button>
+        </div>
         <div className="quest-list">
-          {quests.map((quest) => (
+          {questLines[selectedQuestLine].map((quest) => (
             <div 
               key={quest.id} 
               className={`quest-item ${

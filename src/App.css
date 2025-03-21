@@ -187,6 +187,35 @@ button {
   overflow-y: auto;
 }
 
+.quest-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #9400D3;
+  padding-bottom: 10px;
+}
+
+.quest-tab {
+  background: #222;
+  border: 1px solid #9400D3;
+  color: #00FF00;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 0;
+  font-size: 0.9em;
+}
+
+.quest-tab:hover {
+  background: rgba(148, 0, 211, 0.2);
+}
+
+.quest-tab.active {
+  background: #9400D3;
+  color: #222;
+}
+
 .quest-header {
   display: flex;
   justify-content: space-between;
