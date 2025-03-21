@@ -219,6 +219,7 @@ export default function App() {
       // Check Cogfather's First Secret
       const cogfatherSecret = newAchievements.find(a => a.title === "Cogfather's First Secret");
       if (cogfatherSecret && !cogfatherSecret.unlocked && shardCount >= 10) {
+        console.log(`Cogfather unlocked`);
         cogfatherSecret.unlocked = true;
         if (!cogfatherSecret.checked) {
           const newLore = [...cogfatherLore, "001"];
