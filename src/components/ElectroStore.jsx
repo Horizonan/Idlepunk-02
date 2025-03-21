@@ -9,7 +9,10 @@ export default function ElectroStore({ credits, onBuySolderingIron, onBuyMultime
 
   return (
     <div className="store-container">
-      <h2>Electronics Store</h2>
+      <div className="store-header">
+        <h2>Electronics Store</h2>
+        <button onClick={onBack}>Close</button>
+      </div>
       <div className="store-items">
         {items.map((item) => (
           <button
