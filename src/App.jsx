@@ -1055,6 +1055,7 @@ export default function App() {
               <h3>Stats</h3>
               <p>Total Clicks: {clickCount.toLocaleString()}</p>
               <p>Average JPS: {Math.floor(passiveIncome + (autoClicks * clickMultiplier)).toLocaleString()}</p>
+              <p>Trash Surges Completed: {surgeCount.toLocaleString()}</p>
             </div>
             <label className="setting-option">
               <span>Show Click Enhancer Effect</span>
