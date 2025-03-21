@@ -69,7 +69,7 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
     >
       <div className="cheat-header" onMouseDown={handleMouseDown}>
         Cheat Menu
-        <button onClick={onClose}>×</button>
+        <button id="cheatMenuClose" onClick={onClose}>×</button>
       </div>
       <div className="cheat-categories">
         <div className="cheat-category">

@@ -1319,6 +1319,10 @@ button.locked {
   border-radius: 0 0 5px 5px;
 }
 
+#cheatMenuClose{
+  width: 10%;
+}
+
 .category-content button {
   width: 100%;
 }
