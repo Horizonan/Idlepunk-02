@@ -1321,21 +1321,38 @@ button.locked {
 }
 
 .cyber-slot {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   background: rgba(148, 0, 211, 0.1);
   border: 2px solid #666;
   border-radius: 50%;
-  cursor: not-allowed;
+  pointer-events: all;
   transition: all 0.3s ease;
+  position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .cyber-slot:hover {
-  border-color: #ff0000;
-  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+  border-color: #9400D3;
+  box-shadow: 0 0 15px rgba(148, 0, 211, 0.5);
+}
+
+.cyber-slot:hover::before {
+  content: "Not enough ascension energy in system, cannot boot up...";
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #9400D3;
+  font-size: 12px;
+  white-space: nowrap;
+  color: #ff0000;
+  z-index: 100;
 }
 
 .slot-label {
