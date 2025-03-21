@@ -487,7 +487,8 @@ export default function App() {
       { title: "Shopping Time", condition: hasAnyUpgrade, stage: 1 },
       { title: "Tool Master", condition: clickMultiplier > 1, stage: 2 },
       { title: "Passive Income", condition: totalPassiveIncome > 0, stage: 3 },
-      { title: "Surge Overflow", condition: surgeCount >= 3, stage: 7 }
+      { title: "Surge Overflow", condition: surgeCount >= 3, stage: 7 },
+      { title: "The Circuit Speaks", condition: electroShards >= 5, stage: 8 }
     ];
 
     questChecks.forEach(quest => {
@@ -497,7 +498,7 @@ export default function App() {
           localStorage.setItem(questSyncKey, 'true');
           setTutorialStage(quest.stage + 1);
           setNotifications(prev => [...prev, `Quest Completed: ${quest.title}`]);
-          
+
           // Special handling for Surge Overflow quest
           if (quest.title === "Surge Overflow") {
             setCraftingInventory(prev => ({
@@ -505,6 +506,13 @@ export default function App() {
               'Stabilized Capacitor': (prev['Stabilized Capacitor'] || 0) + 1
             }));
             setNotifications(prev => [...prev, "Received: 1x Stabilized Capacitor"]);
+          }
+          if (quest.title === "The Circuit Speaks") {
+            setCraftingInventory(prev => ({
+              ...prev,
+              'Voltage Node': (prev['Voltage Node'] || 0) + 1
+            }));
+            setNotifications(prev => [...prev, "Received: 1x Voltage Node"]);
           }
         }
       }
@@ -792,7 +800,7 @@ export default function App() {
           case 'achievements':
             setShowAchievements(true);
             break;
-          case 'questLog':
+          case'questLog':
             setShowQuestLog(prev => !prev);
             break;
           case 'slotMachine':
