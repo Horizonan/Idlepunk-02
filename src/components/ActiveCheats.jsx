@@ -2,43 +2,62 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 export default function ActiveCheats({ cheats, onToggleCheat, onClose }) {
-  const [position, setPosition] = useState({ x: 20, y: 20 });
+  const [position, setPosition] = useState(() => {
+    const stored = localStorage.getItem('activeCheatsPosition');
+    return stored ? JSON.parse(stored) : { x: 20, y: 20 };
+  });
   const [isDragging, setIsDragging] = useState(false);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const containerRef = useRef(null);
+  const dragStartRef = useRef({ x: 0, y: 0, pos: { x: 0, y: 0 } });
 
   const handleMouseDown = (e) => {
+    if (e.target.className === 'close-btn') return;
     setIsDragging(true);
-    const rect = containerRef.current.getBoundingClientRect();
-    setDragOffset({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
-    });
-  };
-
-  const handleMouseMove = (e) => {
-    if (isDragging) {
-      setPosition({
-        x: e.clientX - dragOffset.x,
-        y: e.clientY - dragOffset.y
-      });
-    }
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
+    dragStartRef.current = {
+      x: e.clientX,
+      y: e.clientY,
+      pos: { ...position }
+    };
   };
 
   useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!isDragging) return;
+      
+      const dx = e.clientX - dragStartRef.current.x;
+      const dy = e.clientY - dragStartRef.current.y;
+      
+      const newPosition = {
+        x: dragStartRef.current.pos.x + dx,
+        y: dragStartRef.current.pos.y + dy
+      };
+      
+      setPosition(newPosition);
+    };
+
+    const handleMouseUp = () => {
+      if (isDragging) {
+        setIsDragging(false);
+        localStorage.setItem('activeCheatsPosition', JSON.stringify(position));
+      }
+    };
+
     if (isDragging) {
       window.addEventListener('mousemove', handleMouseMove);
       window.addEventListener('mouseup', handleMouseUp);
     }
+
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDragging]);
+  }, [isDragging, position]);
+
+  useEffect(() => {
+    return () => {
+      localStorage.setItem('activeCheatsPosition', JSON.stringify(position));
+    };
+  }, [position]);
 
   return (
     <div

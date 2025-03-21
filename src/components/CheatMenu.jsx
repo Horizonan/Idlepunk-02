@@ -17,15 +17,22 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
     if (storedPosition) {
       setPosition(JSON.parse(storedPosition));
     }
+  }, []);
 
+  useEffect(() => {
     const handleMouseUp = () => {
       setIsDragging(false);
-      localStorage.setItem('cheatMenuPosition', JSON.stringify(position));
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        const newPosition = { x: rect.left, y: rect.top };
+        setPosition(newPosition);
+        localStorage.setItem('cheatMenuPosition', JSON.stringify(newPosition));
+      }
     };
 
     window.addEventListener('mouseup', handleMouseUp);
     return () => window.removeEventListener('mouseup', handleMouseUp);
-  }, []); // Remove position from dependency array
+  }, [isDragging]);
 
 
   const toggleCategory = (category) => {
