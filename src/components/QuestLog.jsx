@@ -81,12 +81,14 @@ export default function QuestLog({ tutorialStage, onClose }) {
           >
             Early Progression
           </button>
-          <button 
-            className={`quest-tab ${selectedQuestLine === 'ascension' ? 'active' : ''}`}
-            onClick={() => setSelectedQuestLine('ascension')}
-          >
-            Ascension Protocol
-          </button>
+          {localStorage.getItem('cogfatherEvent') === 'true' && (
+            <button 
+              className={`quest-tab ${selectedQuestLine === 'ascension' ? 'active' : ''}`}
+              onClick={() => setSelectedQuestLine('ascension')}
+            >
+              Ascension Protocol
+            </button>
+          )}
         </div>
         <div className="quest-list">
           {questLines[selectedQuestLine].map((quest) => (
@@ -99,8 +101,7 @@ export default function QuestLog({ tutorialStage, onClose }) {
             >
               <div className="quest-title">{quest.title}</div>
               <div className="quest-task">{quest.task}</div>
-              {quest.reward && <div className="quest-reward">Reward: {quest.reward}</div>}>
-              <div className="quest-task">{quest.task}</div>
+              {quest.reward && <div className="quest-reward">Reward: {quest.reward}</div>}
             </div>
           ))}
         </div>
