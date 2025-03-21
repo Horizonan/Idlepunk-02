@@ -81,7 +81,7 @@ export default function QuestLog({ tutorialStage, onClose }) {
           >
             Early Progression
           </button>
-          {localStorage.getItem('cogfatherEvent') === 'true' && (
+          {localStorage.getItem('ascensionQuestUnlocked') === 'true' && (
             <button 
               className={`quest-tab ${selectedQuestLine === 'ascension' ? 'active' : ''}`}
               onClick={() => setSelectedQuestLine('ascension')}
