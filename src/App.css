@@ -1321,15 +1321,16 @@ button.locked {
 }
 
 .cyber-slot {
-  position: absolute;
   width: 40px;
   height: 40px;
-  transform: translate(-50%, -50%);
   background: rgba(148, 0, 211, 0.1);
   border: 2px solid #666;
   border-radius: 50%;
+  cursor: not-allowed;
   transition: all 0.3s ease;
-  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cyber-slot:hover {
