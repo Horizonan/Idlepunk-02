@@ -498,11 +498,21 @@ export default function App() {
     ];
 
     questChecks.forEach(quest => {
-      if (quest.condition && tutorialStage > quest.stage) {
+      if (quest.condition && tutorialStage <= quest.stage) {
         const questSyncKey = `quest_sync_${quest.title}`;
         if (!localStorage.getItem(questSyncKey)) {
           localStorage.setItem(questSyncKey, 'true');
-          setNotifications(prev => [...prev, `Quest Synced: ${quest.title}`]);
+          setTutorialStage(quest.stage + 1);
+          setNotifications(prev => [...prev, `Quest Completed: ${quest.title}`]);
+          
+          // Special handling for Surge Overflow quest
+          if (quest.title === "Surge Overflow") {
+            setCraftingInventory(prev => ({
+              ...prev,
+              'Stabilized Capacitor': (prev['Stabilized Capacitor'] || 0) + 1
+            }));
+            setNotifications(prev => [...prev, "Received: 1x Stabilized Capacitor"]);
+          }
         }
       }
     });
