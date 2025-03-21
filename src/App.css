@@ -32,16 +32,31 @@
   background: none;
   border: none;
   color: white;
-  font-size: 20px;
+  font-size: 16px;
   cursor: pointer;
-  padding: 0 5px;
+  padding: 0;
   margin: 0;
   box-shadow: none;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .cheat-handle .close-btn:hover {
   color: #ddd;
   background: none;
+}
+
+.cheat-handle {
+  position: relative;
+}
+
+.cheat-menu button,
+.cheat-category,
+.category-content,
+.cheat-menu {
+  color: white;
 }
 
 .cheat-list {
