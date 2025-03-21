@@ -384,6 +384,11 @@ export default function App() {
     return () => clearInterval(interval);
   }, [passiveIncome, autoClicks, clickMultiplier]);
 
+  // Save special resources whenever craftingInventory changes
+  useEffect(() => {
+    localStorage.setItem('craftingInventory', JSON.stringify(craftingInventory));
+  }, [craftingInventory]);
+
   useEffect(() => {
     const totalPassiveIncome = passiveIncome + (autoClicks * clickMultiplier);
     if ((totalPassiveIncome >= 100 || junk >= 1000000) && !localStorage.getItem('cogfatherEvent')) {
