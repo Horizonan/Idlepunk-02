@@ -487,6 +487,7 @@ export default function App() {
       { title: "Shopping Time", condition: hasAnyUpgrade, stage: 1 },
       { title: "Tool Master", condition: clickMultiplier > 1, stage: 2 },
       { title: "Passive Income", condition: totalPassiveIncome > 0, stage: 3 },
+      { title: "The Circuit Speaks", condition: electroShards >= 5, stage: 4 },
       { title: "Surge Overflow", condition: surgeCount >= 3, stage: 7 }
     ];
 
