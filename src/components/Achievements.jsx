@@ -81,10 +81,11 @@ export default function Achievements({ achievements, onClose }) {
         <div className="achievements-list">
           <h3>Progress</h3>
           <div className="achievements-section">
-            {achievements.map((achievement, index) => {
+            {achievements.map((achievement) => {
               if (achievement.category) return null;
+              console.log(`Rendering achievement: ${achievement.title}, Unlocked: ${achievement.unlocked}`);
               return (
-                <div key={achievement.title} className={`achievement ${achievement.unlocked ? 'unlocked' : ''}`}>
+                <div key={achievement.title} className={`achievement ${achievement.unlocked ? 'unlocked' : ''}`} data-achievement-id={achievement.title}>
                   <h3>{achievement.title}</h3>
                   <p className="flavor-text">"{achievement.flavorText}"</p>
                   <p className="requirement">Requirement: {achievement.requirement}</p>
