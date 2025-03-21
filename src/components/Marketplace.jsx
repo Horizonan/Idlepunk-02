@@ -42,11 +42,7 @@ export default function Marketplace({ onClose, junk, passiveIncome, cogfatherLor
     ...(showPrestigeDialogue ? [{
       id: 'prestige',
       text: "Is there more to this life than collecting junk?",
-      response: "You've scraped the surface, kid… but there's a bigger circuit to plug into. I'll update your quest log with new information. Come back stronger — I'll be waiting.",
-      onSelect: () => {
-        localStorage.setItem('ascensionUnlocked', 'true');
-        window.dispatchEvent(new CustomEvent('questLogUpdate'));
-      }
+      response: "You've scraped the surface, kid… but there's a bigger circuit to plug into. I'll update your quest log with new information. Come back stronger — I'll be waiting."
     }] : [])
   ];
 

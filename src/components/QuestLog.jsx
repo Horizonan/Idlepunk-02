@@ -30,13 +30,6 @@ export default function QuestLog({ tutorialStage, onClose }) {
 
   useEffect(() => {
     localStorage.setItem('questLogPosition', JSON.stringify(position));
-    
-    const handleQuestLogUpdate = () => {
-      setSelectedQuestLine('ascension');
-    };
-    
-    window.addEventListener('questLogUpdate', handleQuestLogUpdate);
-    return () => window.removeEventListener('questLogUpdate', handleQuestLogUpdate);
   }, [position]);
 
   const handleMouseDown = (e) => {
@@ -88,7 +81,7 @@ export default function QuestLog({ tutorialStage, onClose }) {
           >
             Early Progression
           </button>
-          {localStorage.getItem('ascensionUnlocked') === 'true' && (
+          {localStorage.getItem('cogfatherEvent') === 'true' && (
             <button 
               className={`quest-tab ${selectedQuestLine === 'ascension' ? 'active' : ''}`}
               onClick={() => setSelectedQuestLine('ascension')}
