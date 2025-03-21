@@ -1295,3 +1295,65 @@ button.locked {
   pointer-events: none;
   width: max-content;
 }
+
+.cybernetics-container {
+  min-height: 600px;
+}
+
+.human-diagram {
+  position: relative;
+  width: 400px;
+  height: 500px;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+.human-outline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('/Icons/human-outline.png') center center no-repeat;
+  background-size: contain;
+  opacity: 0.3;
+}
+
+.cyber-slot {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  transform: translate(-50%, -50%);
+  background: rgba(148, 0, 211, 0.1);
+  border: 2px solid #666;
+  border-radius: 50%;
+  cursor: not-allowed;
+  transition: all 0.3s ease;
+}
+
+.cyber-slot:hover {
+  border-color: #ff0000;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+.slot-label {
+  position: absolute;
+  width: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -25px;
+  text-align: center;
+  font-size: 12px;
+  color: #9400D3;
+  pointer-events: none;
+}
+
+.cyber-slot::before {
+  content: '🔒';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+}

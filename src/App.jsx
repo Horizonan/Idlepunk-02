@@ -37,6 +37,41 @@ function ItemInventory({ craftingInventory, onBack }) {
   );
 }
 
+function CyberneticsUpgrade({ onClose }) {
+  const [cybernetics, setCybernetics] = useState({
+    head: { count: 0, max: 1 },
+    heart: { count: 0, max: 1 },
+    body: { count: 0, max: 2 },
+    arms: { count: 0, max: 2 },
+    legs: { count: 0, max: 2 },
+  });
+
+  const upgradeCybernetic = (part) => {
+    if (cybernetics[part].count < cybernetics[part].max) {
+      setCybernetics(prev => ({
+        ...prev,
+        [part]: { ...prev[part], count: prev[part].count + 1 }
+      }));
+    }
+  };
+
+  return (
+    <div className="store-container">
+      <h2>Cybernetic Enhancements</h2>
+      <div className="cybernetics-grid">
+        {Object.entries(cybernetics).map(([part, data]) => (
+          <div key={part} className="cybernetics-item">
+            <h3>{part.charAt(0).toUpperCase() + part.slice(1)}</h3>
+            <p>Installed: {data.count}/{data.max}</p>
+            <button onClick={() => upgradeCybernetic(part)} disabled={data.count >= data.max}>Upgrade</button>
+          </div>
+        ))}
+      </div>
+      <button onClick={onClose}>Close</button>
+    </div>
+  );
+}
+
 
 export default function App() {
   const [showSlotMachine, setShowSlotMachine] = useState(false);
@@ -791,6 +826,9 @@ export default function App() {
           case 'settings':
             setShowSettings(true);
             break;
+          case 'stats':
+            setActiveStore('stats');
+            break;
         }
       }} />
       {showSlotMachine && (
@@ -1008,6 +1046,9 @@ export default function App() {
           craftingInventory={craftingInventory}
           onBack={() => setActiveStore(null)}
         />
+      )}
+      {activeStore === 'stats' && (
+        <CyberneticsUpgrade onClose={() => setActiveStore(null)} />
       )}
       <Clicker 
         collectJunk={collectJunk} 
