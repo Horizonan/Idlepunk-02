@@ -22,21 +22,7 @@ import Marketplace from './components/Marketplace';
 import ActiveCheats from './components/ActiveCheats';
 import FlyingCrystal from './components/FlyingCrystal';
 import HoloBillboard from './components/HoloBillboard';
-
-function ItemInventory({ craftingInventory, onBack }) {
-  return (
-    <div className="store-container">
-      <h2>Item Inventory</h2>
-      <ul>
-        {Object.entries(craftingInventory).map(([item, count]) => (
-          <li key={item}>{item}: {count}</li>
-        ))}
-      </ul>
-      <button onClick={onBack}>Back</button>
-    </div>
-  );
-}
-
+import ItemInventory from './components/ItemInventory';
 
 export default function App() {
   const [showSlotMachine, setShowSlotMachine] = useState(false);
