@@ -303,7 +303,8 @@ export default function App() {
   };
   const [electronicsUnlock, setElectronicsUnlock] = useState(() => localStorage.getItem('electronicsUnlock') === 'true');
   const [notifications, setNotifications] = useState([]);
-  const [activeStore, setActiveStore] = useState(null);
+  const [activeStore, setActiveStore] = useState(() => localStorage.getItem('activeStore') || null);
+  const [menuOpen, setMenuOpen] = useState(() => localStorage.getItem('menuOpen') !== 'false');
   const [clickMultiplier, setClickMultiplier] = useState(() => Number(localStorage.getItem('clickMultiplier')) || 1);
   const [clickEnhancerLevel, setClickEnhancerLevel] = useState(() => Number(localStorage.getItem('clickEnhancerLevel')) || 0);
   const [isSurgeActive, setIsSurgeActive] = useState(false);
@@ -805,15 +806,18 @@ export default function App() {
           onClose={() => setShowAchievements(false)}
         />
       )}
-      <div className={`burger-menu ${activeStore ? 'open' : ''}`} onClick={() => setActiveStore(activeStore ? null : 'store')}>
+      <div className={`burger-menu ${menuOpen ? 'open' : ''}`} onClick={() => {
+        setMenuOpen(!menuOpen);
+        localStorage.setItem('menuOpen', !menuOpen);
+      }}>
         <div></div>
         <div></div>
         <div></div>
       </div>
       <div 
-        className={`sidebar ${activeStore ? 'open' : ''} ${localStorage.getItem('sidebarLocked') === 'true' ? 'locked' : ''}`}
+        className={`sidebar ${menuOpen ? 'open' : ''} ${localStorage.getItem('sidebarLocked') === 'true' ? 'locked' : ''}`}
         style={{
-          left: activeStore ? (localStorage.getItem('sidebarLeft') || '0px') : '-300px',
+          left: menuOpen ? (localStorage.getItem('sidebarLeft') || '0px') : '-300px',
           bottom: activeStore ? (localStorage.getItem('sidebarBottom') || '250px') : '250px'
         }}
         onMouseDown={(e) => {
