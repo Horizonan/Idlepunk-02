@@ -81,15 +81,18 @@ export default function Achievements({ achievements, onClose }) {
         <div className="achievements-list">
           <h3>Progress</h3>
           <div className="achievements-section">
-            {achievements.filter(a => !a.category).map((achievement, index) => (
-              <div key={index} className={`achievement ${achievement.unlocked ? 'unlocked' : ''}`}>
-                <h3>{achievement.title}</h3>
-                <p className="flavor-text">"{achievement.flavorText}"</p>
-                <p className="requirement">Requirement: {achievement.requirement}</p>
-                <p className="reward">Reward: {achievement.reward}</p>
-                <p className="status">{achievement.unlocked ? '✓ Completed' : '⋯ In Progress'}</p>
-              </div>
-            ))}
+            {achievements.map((achievement, index) => {
+              if (achievement.category) return null;
+              return (
+                <div key={achievement.title} className={`achievement ${achievement.unlocked ? 'unlocked' : ''}`}>
+                  <h3>{achievement.title}</h3>
+                  <p className="flavor-text">"{achievement.flavorText}"</p>
+                  <p className="requirement">Requirement: {achievement.requirement}</p>
+                  <p className="reward">Reward: {achievement.reward}</p>
+                  <p className="status">{achievement.unlocked ? '✓ Completed' : '⋯ In Progress'}</p>
+                </div>
+              );
+            })}
           </div>
 
           <h3 className="electro-title">Electro Shard Milestones</h3>
