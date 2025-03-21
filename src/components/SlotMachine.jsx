@@ -1,91 +1,156 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
-export default function SlotMachine({ junk, onSpin, onClose }) {
+export default function SlotMachine({ onClose, credits, setCredits }) {
+  const [position, setPosition] = useState(() => {
+    const saved = localStorage.getItem('slotMachinePosition');
+    return saved ? JSON.parse(saved) : { x: window.innerWidth / 2 - 200, y: window.innerHeight / 2 - 150 };
+  });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const containerRef = useRef(null);
   const [spinning, setSpinning] = useState(false);
-  const [slots, setSlots] = useState(['?', '?', '?']);
-  const spinCost = 100;
-  
-  const symbols = ['💰', '🗑️', '⚡', '🔧', '🎲'];
-  
-  const spin = (forceTriple = false, forceDouble = false) => {
-    if (junk < spinCost) return;
-    
-    setSpinning(true);
-    onSpin(spinCost);
-    
-    setTimeout(() => {
-      let newSlots;
-      if (forceTriple) {
-        const symbol = symbols[Math.floor(Math.random() * symbols.length)];
-        newSlots = [symbol, symbol, symbol];
-      } else if (forceDouble) {
-        const symbol = symbols[Math.floor(Math.random() * symbols.length)];
-        const differentSymbol = symbols.filter(s => s !== symbol)[Math.floor(Math.random() * (symbols.length - 1))];
-        newSlots = [symbol, symbol, differentSymbol];
-      } else {
-        newSlots = Array(3).fill(0).map(() => 
-          symbols[Math.floor(Math.random() * symbols.length)]
-        );
-      }
-      
-      // Set the slots first
-      setSlots(newSlots);
-      
-      // Calculate winnings immediately
-      let winnings = 0;
-      if (newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2]) {
-        winnings = 1000; // Jackpot for all 3 matching
-      } else if (newSlots[0] === newSlots[1] || newSlots[1] === newSlots[2]) {
-        winnings = 200; // Small win for 2 matching
-      }
-      
-      if (winnings > 0) {
-        // Play win sound immediately
-        const audio = new Audio(newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2] 
-          ? '/src/sounds/casino_winning.wav' 
-          : 'https://assets.mixkit.co/active_storage/sfx/2019/casino-notification-sound.wav');
-        audio.play();
-      }
-      
-      // Short delay before showing results
-      setTimeout(() => {
-        setSpinning(false);
-        
-        if (winnings > 0) {
-          onSpin(-winnings); // Negative cost means player wins
-          // Play win sound and show popup after a short delay
-          setTimeout(() => {
-            alert(`Congratulations! You won ${winnings} Junk!`);
-          }, 100);
-        }
-      }, 100);
-    }, 1000);
+  const [result, setResult] = useState(['?', '?', '?']);
+  const symbols = ['💎', '💰', '⚡', '🎲'];
+  const betAmount = 50;
+
+  useEffect(() => {
+    localStorage.setItem('slotMachinePosition', JSON.stringify(position));
+  }, [position]);
+
+  const handleMouseDown = (e) => {
+    if (e.target.tagName === 'BUTTON') return;
+    setIsDragging(true);
+    const rect = containerRef.current.getBoundingClientRect();
+    setDragOffset({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    });
   };
 
-  // Make spin function globally accessible for cheats
-  window.spinSlotMachine = (forceTriple, forceDouble) => spin(forceTriple, forceDouble);
-  
+  const handleMouseMove = (e) => {
+    if (isDragging) {
+      setPosition({
+        x: e.clientX - dragOffset.x,
+        y: e.clientY - dragOffset.y
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+    }
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging]);
+
+  const spin = () => {
+    if (credits < betAmount) return;
+    setCredits(prevCredits => prevCredits - betAmount);
+    setSpinning(true);
+    setResult(['?', '?', '?']);
+
+    const spinDuration = 2000;
+    const intervalDuration = 100;
+    let spinsRemaining = spinDuration / intervalDuration;
+    
+    const spinInterval = setInterval(() => {
+      setResult(symbols.map(() => symbols[Math.floor(Math.random() * symbols.length)]));
+      spinsRemaining--;
+      
+      if (spinsRemaining <= 0) {
+        clearInterval(spinInterval);
+        const finalResult = symbols.map(() => symbols[Math.floor(Math.random() * symbols.length)]);
+        setResult(finalResult);
+        setSpinning(false);
+        
+        // Calculate winnings
+        const uniqueSymbols = new Set(finalResult);
+        if (uniqueSymbols.size === 1) {
+          // Jackpot - all symbols match
+          setCredits(prevCredits => prevCredits + betAmount * 10);
+        } else if (uniqueSymbols.size === 2) {
+          // Two matching symbols
+          setCredits(prevCredits => prevCredits + betAmount * 2);
+        }
+      }
+    }, intervalDuration);
+  };
+
   return (
-    <div className="slot-machine-container">
-      <div className="slot-machine-header">
-        <h2>Junk Slots</h2>
-        <button onClick={onClose}>Close</button>
+    <div
+      ref={containerRef}
+      style={{
+        position: 'fixed',
+        left: position.x,
+        top: position.y,
+        background: 'rgba(26, 26, 26, 0.95)',
+        border: '2px solid #9400D3',
+        borderRadius: '8px',
+        padding: '20px',
+        width: '400px',
+        cursor: isDragging ? 'grabbing' : 'grab',
+        userSelect: 'none',
+        zIndex: 1000
+      }}
+      onMouseDown={handleMouseDown}
+    >
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <h2 style={{ margin: 0 }}>Slot Machine</h2>
+        <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'white', fontSize: '20px', cursor: 'pointer' }}>×</button>
       </div>
-      <div className="slot-display">
-        {slots.map((symbol, index) => (
-          <div key={index} className={`slot ${spinning ? 'spinning' : ''}`}>
+      
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        gap: '20px', 
+        fontSize: '40px', 
+        margin: '20px 0',
+        background: '#222',
+        padding: '20px',
+        borderRadius: '4px'
+      }}>
+        {result.map((symbol, index) => (
+          <div key={index} style={{ 
+            width: '60px', 
+            height: '60px', 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            background: '#333',
+            borderRadius: '4px'
+          }}>
             {symbol}
           </div>
         ))}
       </div>
-      <p>Cost per spin: {spinCost} Junk</p>
-      <button 
-        onClick={() => spin(false, false)} 
-        disabled={spinning || junk < spinCost}
-      >
-        {spinning ? 'Spinning...' : 'Spin!'}
-      </button>
+      
+      <div style={{ textAlign: 'center' }}>
+        <p>Bet Amount: {betAmount} credits</p>
+        <button 
+          onClick={spin} 
+          disabled={spinning || credits < betAmount}
+          style={{
+            padding: '10px 20px',
+            fontSize: '18px',
+            background: spinning ? '#444' : '#9400D3',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: spinning ? 'not-allowed' : 'pointer'
+          }}
+        >
+          {spinning ? 'Spinning...' : 'Spin!'}
+        </button>
+      </div>
     </div>
   );
 }
