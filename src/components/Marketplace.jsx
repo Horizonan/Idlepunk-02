@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export default function Marketplace({ onClose, junk, passiveIncome, cogfatherLore = [] }) {
+export default function Marketplace({ onClose, junk, passiveIncome, cogfatherLore = [], setShowQuestLog }) {
   const [showPrestigeDialogue, setShowPrestigeDialogue] = useState(false);
 
   useEffect(() => {
@@ -43,8 +43,9 @@ export default function Marketplace({ onClose, junk, passiveIncome, cogfatherLor
       text: "Is there more to this life than collecting junk?",
       response: "You've scraped the surface, kid… but there's a bigger circuit to plug into. I'll update your quest log with new information. Come back stronger — I'll be waiting.",
       onSelect: () => {
-        localStorage.setItem('ascensionQuestUnlocked', 'true');
-        window.dispatchEvent(new CustomEvent('ascensionQuestUnlocked'));
+        localStorage.setItem('ascensionUnlocked', 'true');
+        setShowQuestLog(true);
+        window.location.reload();
       }
     }] : [])
   ];
