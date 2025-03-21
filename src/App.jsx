@@ -545,7 +545,7 @@ export default function App() {
         }
       }
 
-      if (rewardGiven) {
+      if (changed) {
         localStorage.setItem('achievements', JSON.stringify(newAchievements));
       }
       return newAchievements;
