@@ -278,6 +278,13 @@ button {
   opacity: 0.8;
 }
 
+.quest-reward {
+  font-size: 0.8em;
+  color: #ff00ff;
+  margin-top: 5px;
+  font-style: italic;
+}
+
 .quest-item.completed .quest-title::before {
   content: "✓ ";
   color: #00FF00;

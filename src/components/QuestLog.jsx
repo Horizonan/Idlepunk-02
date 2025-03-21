@@ -21,9 +21,10 @@ export default function QuestLog({ tutorialStage, onClose }) {
       { id: 6, title: "Surge Rider", task: "Take advantage of the surge to collect extra junk" }
     ],
     ascension: [
-      { id: 7, title: "Power Surge", task: "Reach 100 Junk per second" },
-      { id: 8, title: "Crystal Hunter", task: "Collect your first Electro Shard" },
-      { id: 9, title: "System Reboot", task: "Prepare for your first prestige" }
+      { id: 7, title: "Surge Overflow", task: "Trigger 3 Trash Surges", reward: "1x Stabilized Capacitor" },
+      { id: 8, title: "The Circuit Speaks", task: "Collect 5 Electro Shards", reward: "Voltage Node" },
+      { id: 9, title: "Whispers in the Scrap", task: "Collect 10 Lore Logs or reach 7.5M Junk", reward: "Synthcore Fragment" },
+      { id: 10, title: "Forge the Future", task: "Craft the Prestige Crystal", reward: "Unlocks Ascension" }
     ]
   };
 
@@ -97,6 +98,8 @@ export default function QuestLog({ tutorialStage, onClose }) {
               }`}
             >
               <div className="quest-title">{quest.title}</div>
+              <div className="quest-task">{quest.task}</div>
+              {quest.reward && <div className="quest-reward">Reward: {quest.reward}</div>}>
               <div className="quest-task">{quest.task}</div>
             </div>
           ))}
