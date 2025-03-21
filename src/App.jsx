@@ -529,7 +529,7 @@ export default function App() {
         }
       }
     });
-  };
+  
 
   const checkAchievements = () => {
     setAchievements(prev => {
