@@ -971,6 +971,34 @@ export default function App() {
                 className="reset-button" 
                 onClick={() => {
                   if (window.confirm('Are you sure you want to reset all progress? This cannot be undone!')) {
+                    const defaultAchievements = [
+                      {
+                        title: "Junkie Starter",
+                        requirement: "Collect 1,000 Junk",
+                        reward: "+500 Junk",
+                        flavorText: "Now you're hoarding like a real scavver.",
+                        unlocked: false,
+                        checked: false
+                      },
+                      {
+                        title: "The First Clicks",
+                        requirement: "Click 500 times",
+                        reward: "+5% Click Power",
+                        flavorText: "That mouse is starting to look worn...",
+                        unlocked: false,
+                        checked: false
+                      },
+                      {
+                        title: "Greasy Milestone",
+                        requirement: "Reach 10 Junk/sec",
+                        reward: "+1 Auto Click/sec",
+                        flavorText: "The gears are turning smoothly now.",
+                        unlocked: false,
+                        checked: false
+                      }
+                    ];
+                    localStorage.clear();
+                    localStorage.setItem('achievements', JSON.stringify(defaultAchievements));
                     onReset('all');
                     setShowSettings(false);
                     setNotifications(prev => [...prev, "Game progress has been reset!"]);
