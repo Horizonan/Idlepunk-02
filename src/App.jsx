@@ -679,7 +679,7 @@ export default function App() {
         hasUpgrade={hasUpgrade}
         passiveIncome={passiveIncome}
         hasHelper={hasHelper}
-        hasCrafting={false}
+        hasCrafting={Object.values(craftingInventory).some(count => count > 0)}
         isSurgeActive={isSurgeActive}
         tutorialStage={tutorialStage}
         onTutorialProgress={(stage) => setTutorialStage(stage)}
