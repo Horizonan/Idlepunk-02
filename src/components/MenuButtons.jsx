@@ -9,7 +9,7 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
     <div className="main">
       <button onClick={() => onStoreSelect('store')}>Visit Store</button>
       {automationUnlocked && (
-        <button onClick={() => onStoreSelect('automation')}>Automation Store</button>
+        <button onClick={() => onStoreSelect('automation')}>Visit Automation</button>
       )}
       <button onClick={() => onStoreSelect('electrostore')}>Visit ElectroShop</button>
       <button onClick={() => onStoreSelect('credstore')}>Visit CredStore</button>
