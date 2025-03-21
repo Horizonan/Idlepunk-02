@@ -46,15 +46,13 @@ export default function ItemInventory({ craftingInventory, onBack }) {
     }
   };
 
+  const specialItems = ['Stabilized Capacitor', 'Voltage Node', 'Synthcore Fragment'];
+  
   const craftedItems = Object.entries(craftingInventory)
-    .filter(([name]) => itemDetails[name] && !isSpecialMaterial(name));
+    .filter(([name]) => itemDetails[name] && !specialItems.includes(name));
 
   const specialMaterials = Object.entries(craftingInventory)
-    .filter(([name]) => isSpecialMaterial(name));
-
-  function isSpecialMaterial(name) {
-    return ['Stabilized Capacitor', 'Voltage Node', 'Synthcore Fragment'].includes(name);
-  }
+    .filter(([name]) => specialItems.includes(name));
 
   return (
     <div className="store-container inventory-container">
@@ -63,11 +61,11 @@ export default function ItemInventory({ craftingInventory, onBack }) {
         <div className="inventory-subtitle">Your Crafted Equipment</div>
       </div>
       <div className="inventory-grid">
-        {craftedItems.map(([name]) => (
+        {craftedItems.map(([name, count]) => (
           <div key={name} className="inventory-item">
             <div className="item-icon">{itemDetails[name].icon}</div>
             <div className="item-content">
-              <div className="item-name">{name}</div>
+              <div className="item-name">{name} x{count}</div>
               <div className="item-description">{itemDetails[name].description}</div>
               <div className="item-effect">{itemDetails[name].effect}</div>
             </div>
@@ -82,11 +80,11 @@ export default function ItemInventory({ craftingInventory, onBack }) {
             <div className="inventory-subtitle">Ascension Components</div>
           </div>
           <div className="inventory-grid">
-            {specialMaterials.map(([name]) => (
+            {specialMaterials.map(([name, count]) => (
               <div key={name} className="inventory-item">
                 <div className="item-icon">{itemDetails[name].icon}</div>
                 <div className="item-content">
-                  <div className="item-name">{name}</div>
+                  <div className="item-name">{name} x{count}</div>
                   <div className="item-description">{itemDetails[name].description}</div>
                   <div className="item-effect">{itemDetails[name].effect}</div>
                 </div>
@@ -95,7 +93,7 @@ export default function ItemInventory({ craftingInventory, onBack }) {
           </div>
         </>
       )}
-      <button onClick={onBack} className="back-button">Back</button>
+      <button onClick={onBack}>Back</button>
     </div>
   );
 }
