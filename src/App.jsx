@@ -452,8 +452,11 @@ export default function App() {
         }
       }
 
-      localStorage.setItem('achievements', JSON.stringify(newAchievements));
-      return newAchievements;
+      if (changed) {
+        localStorage.setItem('achievements', JSON.stringify(newAchievements));
+        return [...newAchievements];
+      }
+      return prev;
     });
 
     // Quest validation
@@ -479,10 +482,11 @@ export default function App() {
   };
 
   const checkAchievements = () => {
-    validateQuestsAndAchievements();
     setAchievements(prev => {
       const newAchievements = [...prev];
-      let rewardGiven = false;
+
+      // Check each achievement independently and return early if no changes
+      let changed = false;
 
       // Check Junkie Starter
       if (!newAchievements[0].unlocked && junk >= 1000) {
@@ -491,7 +495,7 @@ export default function App() {
           setJunk(prev => prev + 500);
           setNotifications(prev => [...prev, "Achievement Unlocked: Junkie Starter!"]);
           newAchievements[0].checked = true;
-          rewardGiven = true;
+          changed = true;
         }
       }
 
@@ -502,32 +506,31 @@ export default function App() {
           setClickMultiplier(prev => prev * 1.05);
           setNotifications(prev => [...prev, "Achievement Unlocked: The First Clicks!"]);
           newAchievements[1].checked = true;
-          rewardGiven = true;
+          changed = true;
         }
       }
 
       // Check Greasy Milestone
-      const totalIncome = Math.floor(passiveIncome + (autoClicks * clickMultiplier));
+      const totalIncome = passiveIncome + (autoClicks * clickMultiplier);
       if (!newAchievements[2].unlocked && totalIncome >= 10) {
         newAchievements[2].unlocked = true;
         if (!newAchievements[2].checked) {
           setAutoClicks(prev => prev + 1);
           setNotifications(prev => [...prev, "Achievement Unlocked: Greasy Milestone!"]);
           newAchievements[2].checked = true;
-          rewardGiven = true;
+          changed = true;
         }
       }
 
       // Check The First Hoard
-      if (!newAchievements[3].unlocked && Math.floor(junk) >= 10000) {
-        console.log("Working Hoard");
+      if (!newAchievements[3].unlocked && junk >= 10000) {
         newAchievements[3].unlocked = true;
         if (!newAchievements[3].checked) {
           setPassiveIncome(prev => prev * 1.1);
           setTimeout(() => setPassiveIncome(prev => prev / 1.1), 30000);
           setNotifications(prev => [...prev, "Achievement Unlocked: The First Hoard!"]);
           newAchievements[3].checked = true;
-          rewardGiven = true;
+          changed = true;
         }
       }
 
@@ -537,7 +540,7 @@ export default function App() {
         if (!newAchievements[4].checked) {
           setNotifications(prev => [...prev, "Achievement Unlocked: UI Breaker!"]);
           newAchievements[4].checked = true;
-          rewardGiven = true;
+          changed = true;
         }
       }
 
