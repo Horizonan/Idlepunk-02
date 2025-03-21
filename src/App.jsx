@@ -484,9 +484,7 @@ export default function App() {
 
   const checkAchievements = () => {
     setAchievements(prev => {
-      const newAchievements = [...prev];
-
-      // Check each achievement independently and return early if no changes
+      const newAchievements = prev.map(achievement => ({...achievement}));
       let changed = false;
 
       // Check Junkie Starter
@@ -547,8 +545,9 @@ export default function App() {
 
       if (changed) {
         localStorage.setItem('achievements', JSON.stringify(newAchievements));
+        return newAchievements;
       }
-      return newAchievements;
+      return prev;
     });
   };
 
