@@ -1,5 +1,4 @@
-
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial, onNextTutorial }) {
   const [openCategories, setOpenCategories] = useState({
@@ -9,6 +8,26 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
     reset: true
   });
 
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const storedPosition = localStorage.getItem('cheatMenuPosition');
+    if (storedPosition) {
+      setPosition(JSON.parse(storedPosition));
+    }
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+      localStorage.setItem('cheatMenuPosition', JSON.stringify(position));
+    };
+
+    window.addEventListener('mouseup', handleMouseUp);
+    return () => window.removeEventListener('mouseup', handleMouseUp);
+  }, [position]);
+
+
   const toggleCategory = (category) => {
     setOpenCategories(prev => ({
       ...prev,
@@ -16,9 +35,35 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
     }));
   };
 
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    const handleMouseMove = (e) => {
+      setPosition({
+        x: e.clientX - 150, // Adjust offset as needed
+        y: e.clientY - 30,  // Adjust offset as needed
+      });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', () => window.removeEventListener('mousemove', handleMouseMove));
+  };
+
   return (
-    <div className="cheat-menu">
-      <h2>Cheat Menu</h2>
+    <div 
+      ref={containerRef}
+      className="cheat-menu"
+      style={{
+        left: position.x,
+        top: position.y,
+        cursor: isDragging ? 'grabbing' : 'default',
+        width: '300px', // Increased width
+        height: 'auto', // Allow height to adjust
+        padding: '10px'
+      }}
+    >
+      <div className="cheat-header" onMouseDown={handleMouseDown}>
+        Cheat Menu
+        <button onClick={onClose}>×</button>
+      </div>
       <div className="cheat-categories">
         <div className="cheat-category">
           <button 
@@ -102,7 +147,6 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
           )}
         </div>
       </div>
-      <button onClick={onClose} className="close-btn">Close</button>
     </div>
   );
 }
