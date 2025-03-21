@@ -405,6 +405,7 @@ export default function App() {
     // Validate achievements independently
     setAchievements(prev => {
       const newAchievements = [...prev];
+      let changed = false;
       
       // Each achievement is checked independently
       if (!newAchievements[0].unlocked && Math.floor(junk) >= 1000) {
