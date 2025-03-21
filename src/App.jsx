@@ -218,10 +218,11 @@ export default function App() {
 
       // Check Cogfather's First Secret
       const cogfatherSecret = newAchievements.find(a => a.title === "Cogfather's First Secret");
-      if (cogfatherSecret && !cogfatherSecret.unlocked && shardCount >= cogfatherSecret.shardRequirement) {
+      if (cogfatherSecret && !cogfatherSecret.unlocked && shardCount >= 10) {
+        console.log(`Cogfather unlocked`);
         cogfatherSecret.unlocked = true;
         if (!cogfatherSecret.checked) {
-          const newLore = [...cogfatherLore, cogfatherSecret.loreUnlock];
+          const newLore = [...cogfatherLore, "001"];
           setCogfatherLore(newLore);
           localStorage.setItem('cogfatherLore', JSON.stringify(newLore));
           setNotifications(prev => [...prev, "Achievement Unlocked: Cogfather's First Secret!"]);
@@ -407,25 +408,23 @@ export default function App() {
       const newAchievements = [...prev];
       let changed = false;
 
-      // Find achievements by title to ensure correct validation
-      const junkieStarter = newAchievements.find(a => a.title === "Junkie Starter");
-      if (junkieStarter && !junkieStarter.unlocked && Math.floor(junk) >= 1000) {
-        junkieStarter.unlocked = true;
-        if (!junkieStarter.checked) {
+      // Each achievement is checked independently
+      if (!newAchievements[0].unlocked && Math.floor(junk) >= 1000) {
+        newAchievements[0].unlocked = true;
+        if (!newAchievements[0].checked) {
           setJunk(prev => prev + 500);
           setNotifications(prev => [...prev, "Achievement Unlocked: Junkie Starter!"]);
-          junkieStarter.checked = true;
+          newAchievements[0].checked = true;
           changed = true;
         }
       }
 
-      const firstClicks = newAchievements.find(a => a.title === "The First Clicks");
-      if (firstClicks && !firstClicks.unlocked && clickCount >= 500) {
-        firstClicks.unlocked = true;
-        if (!firstClicks.checked) {
+      if (!newAchievements[1].unlocked && clickCount >= 500) {
+        newAchievements[1].unlocked = true;
+        if (!newAchievements[1].checked) {
           setClickMultiplier(prev => prev * 1.05);
           setNotifications(prev => [...prev, "Achievement Unlocked: The First Clicks!"]);
-          firstClicks.checked = true;
+          newAchievements[1].checked = true;
           changed = true;
         }
       }
