@@ -8,10 +8,10 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
     <div className="main" id="clickers">
       <div>
         {activeClicker === 'electronics' && electronicsUnlock && (
-          <img src="/src/Icons/electroClicker/electronic-waste.png" alt="Electro Clicker" onClick={collectTronics} className="tronics" />
+          <img src="Icons/electroClicker/electronic-waste.png" alt="Electro Clicker" onClick={collectTronics} className="tronics" />
         )}
         {activeClicker === 'trash' && (
-          <img src="/src/Icons/TrashButtonBig.png" alt="Trash Clicker" id="trashClicker" onClick={collectJunk} />
+          <img src="Icons/TrashButtonBig.png" alt="Trash Clicker" id="trashClicker" onClick={collectJunk} />
         )}
       </div>
       <div className="clicker-buttons">

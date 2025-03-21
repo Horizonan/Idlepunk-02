@@ -47,7 +47,7 @@ export default function ClickEnhancerEffect({ level = 1 }) {
       {positions.map((pos, index) => (
         <img
           key={index}
-          src="/src/Icons/Upgrades/clickenhancer.png"
+          src="Icons/Upgrades/clickenhancer.png"
           alt={`Click Enhancer ${index + 1}`}
           style={{
             position: 'fixed',

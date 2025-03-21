@@ -92,7 +92,7 @@ export default function TutorialSystem({
   return (
     <div className="tutorial-message">
       <div className="cogfather-message">
-        <img src="/src/Icons/NPCs/Cogfather.jfif" alt="Cogfather" className="cogfather-avatar" />
+        <img src="Icons/NPCs/Cogfather.jfif" alt="Cogfather" className="cogfather-avatar" />
         <div className="message-content">
           <div className="message-text">{message}</div>
           <div className="task-text">{task}</div>

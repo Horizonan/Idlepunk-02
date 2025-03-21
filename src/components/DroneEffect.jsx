@@ -62,7 +62,7 @@ export default function DroneEffect({ numDrones }) {
       {positions.map((pos, index) => (
         <img
           key={index}
-          src="/src/Icons/Upgrades/drone.png"
+          src="/Icons/Upgrades/drone.png"
           alt={`Scrap Drone ${index + 1}`}
           style={{
             position: 'fixed',

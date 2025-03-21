@@ -24,7 +24,7 @@ export default function FlyingCrystal({ onCollect, onDisappear }) {
 
   return (
     <img
-      src="/src/Icons/electroClicker/crystals.png"
+      src="Icons/electroClicker/crystals.png"
       alt="Crystal"
       onClick={onCollect}
       style={{
