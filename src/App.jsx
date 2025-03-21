@@ -964,6 +964,23 @@ export default function App() {
                 onChange={(e) => localStorage.setItem('maxVisibleDrones', e.target.value)}
               />
             </label>
+            <div className="reset-section">
+              <h3>Reset Progress</h3>
+              <p className="reset-warning">Warning: This will permanently delete all your progress!</p>
+              <button 
+                className="reset-button" 
+                onClick={() => {
+                  if (window.confirm('Are you sure you want to reset all progress? This cannot be undone!')) {
+                    onReset('all');
+                    setShowSettings(false);
+                    setNotifications(prev => [...prev, "Game progress has been reset!"]);
+                    window.location.reload();
+                  }
+                }}
+              >
+                Reset All Progress
+              </button>
+            </div>
           </div>
         </div>
       )}
