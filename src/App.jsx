@@ -99,7 +99,7 @@ export default function App() {
       checked: false
     },
     {
-      title: "The First Horde",
+      title: "The First Hoard",
       requirement: "Accumulate 10,000 Junk",
       reward: "+10% JPS (30s)",
       flavorText: "Your pile of junk is becoming impressive...",
@@ -538,13 +538,13 @@ export default function App() {
         }
       }
 
-      // Check The First Horde
-      if (!newAchievements[3].unlocked && junk >= 10000) {
+      // Check The First Hoard
+      if (!newAchievements[3].unlocked && Math.floor(junk) >= 10000) {
         newAchievements[3].unlocked = true;
         if (!newAchievements[3].checked) {
           setPassiveIncome(prev => prev * 1.1);
           setTimeout(() => setPassiveIncome(prev => prev / 1.1), 30000);
-          setNotifications(prev => [...prev, "Achievement Unlocked: The First Horde!"]);
+          setNotifications(prev => [...prev, "Achievement Unlocked: The First Hoard!"]);
           newAchievements[3].checked = true;
           rewardGiven = true;
         }
