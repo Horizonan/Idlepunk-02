@@ -400,110 +400,81 @@ export default function App() {
   }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts, autoClicks, clickCount, achievements, ownedItems, clickEnhancerLevel]);
 
   const validateQuestsAndAchievements = () => {
-    // Variables for condition checking
-    const totalPassiveIncome = passiveIncome + (autoClicks * clickMultiplier);
+    const totalPassiveIncome = Math.floor(passiveIncome + (autoClicks * clickMultiplier));
+    
+    // Validate achievements independently
+    setAchievements(prev => {
+      const newAchievements = [...prev];
+      
+      // Each achievement is checked independently
+      if (!newAchievements[0].unlocked && Math.floor(junk) >= 1000) {
+        newAchievements[0].unlocked = true;
+        if (!newAchievements[0].checked) {
+          setJunk(prev => prev + 500);
+          setNotifications(prev => [...prev, "Achievement Unlocked: Junkie Starter!"]);
+          newAchievements[0].checked = true;
+        }
+      }
+
+      if (!newAchievements[1].unlocked && clickCount >= 500) {
+        newAchievements[1].unlocked = true;
+        if (!newAchievements[1].checked) {
+          setClickMultiplier(prev => prev * 1.05);
+          setNotifications(prev => [...prev, "Achievement Unlocked: The First Clicks!"]);
+          newAchievements[1].checked = true;
+        }
+      }
+
+      if (!newAchievements[2].unlocked && totalPassiveIncome >= 10) {
+        newAchievements[2].unlocked = true;
+        if (!newAchievements[2].checked) {
+          setAutoClicks(prev => prev + 1);
+          setNotifications(prev => [...prev, "Achievement Unlocked: Greasy Milestone!"]);
+          newAchievements[2].checked = true;
+        }
+      }
+
+      if (!newAchievements[3].unlocked && Math.floor(junk) >= 10000) {
+        newAchievements[3].unlocked = true;
+        if (!newAchievements[3].checked) {
+          setPassiveIncome(prev => prev * 1.1);
+          setTimeout(() => setPassiveIncome(prev => prev / 1.1), 30000);
+          setNotifications(prev => [...prev, "Achievement Unlocked: The First Hoard!"]);
+          newAchievements[3].checked = true;
+        }
+      }
+
+      if (!newAchievements[4].unlocked && (isSurgeActive || localStorage.getItem('hadFirstSurge') === 'true')) {
+        newAchievements[4].unlocked = true;
+        if (!newAchievements[4].checked) {
+          setNotifications(prev => [...prev, "Achievement Unlocked: UI Breaker!"]);
+          newAchievements[4].checked = true;
+        }
+      }
+
+      localStorage.setItem('achievements', JSON.stringify(newAchievements));
+      return newAchievements;
+    });
+
+    // Quest validation
     const hasAnyHelper = ownedItems.streetrat > 0;
     const hasAnyUpgrade = ownedItems.trashBag > 0 || ownedItems.trashPicker > 0;
 
-    // Previous quests that might have been skipped
     const questChecks = [
-      {
-        title: "First Steps",
-        condition: clickCount > 0,
-        stage: 0
-      },
-      {
-        title: "Shopping Time",
-        condition: hasAnyUpgrade,
-        stage: 1
-      },
-      {
-        title: "Tool Master",
-        condition: clickMultiplier > 1,
-        stage: 2
-      },
-      {
-        title: "Passive Income",
-        condition: totalPassiveIncome > 0,
-        stage: 3
-      }
+      { title: "First Steps", condition: clickCount > 0, stage: 0 },
+      { title: "Shopping Time", condition: hasAnyUpgrade, stage: 1 },
+      { title: "Tool Master", condition: clickMultiplier > 1, stage: 2 },
+      { title: "Passive Income", condition: totalPassiveIncome > 0, stage: 3 }
     ];
 
-    // Check for skipped quests
     questChecks.forEach(quest => {
       if (quest.condition && tutorialStage > quest.stage) {
         const questSyncKey = `quest_sync_${quest.title}`;
         if (!localStorage.getItem(questSyncKey)) {
           localStorage.setItem(questSyncKey, 'true');
-          setNotifications(prev => [
-            ...prev,
-            `Quest Synced: ${quest.title} auto-completed.`
-          ]);
+          setNotifications(prev => [...prev, `Quest Synced: ${quest.title}`]);
         }
       }
-    });
-
-    // Validate achievements
-    setAchievements(prev => {
-      const newAchievements = [...prev];
-      let changed = false;
-
-      // Junkie Starter
-      if (!newAchievements[0].unlocked && junk >= 1000) {
-        newAchievements[0].unlocked = true;
-        if (!newAchievements[0].checked) {
-          setJunk(prev => prev + 500);
-          setNotifications(prev => [...prev, "Achievement Synced: Junkie Starter!"]);
-          newAchievements[0].checked = true;
-          changed = true;
-        }
-      }
-
-      // The First Clicks
-      if (!newAchievements[1].unlocked && clickCount >= 500) {
-        newAchievements[1].unlocked = true;
-        if (!newAchievements[1].checked) {
-          setClickMultiplier(prev => prev * 1.05);
-          setNotifications(prev => [...prev, "Achievement Synced: The First Clicks!"]);
-          newAchievements[1].checked = true;
-          changed = true;
-        }
-      }
-
-      // Greasy Milestone
-      if (!newAchievements[2].unlocked && totalPassiveIncome >= 10) {
-        newAchievements[2].unlocked = true;
-        if (!newAchievements[2].checked) {
-          setAutoClicks(prev => prev + 1);
-          setNotifications(prev => [...prev, "Achievement Synced: Greasy Milestone!"]);
-          newAchievements[2].checked = true;
-          changed = true;
-        }
-      }
-
-      // The First Horde
-      if (!newAchievements[3].unlocked && junk >= 10000) {
-        newAchievements[3].unlocked = true;
-        if (!newAchievements[3].checked) {
-          setPassiveIncome(prev => prev * 1.1);
-          setTimeout(() => setPassiveIncome(prev => prev / 1.1), 30000);
-          setNotifications(prev => [...prev, "Achievement Synced: The First Horde!"]);
-          newAchievements[3].checked = true;
-          changed = true;
-        }
-      }
-
-      // UI Breaker
-      if (!newAchievements[4].unlocked && isSurgeActive) {
-        newAchievements[4].unlocked = true;
-        if (!newAchievements[4].checked) {
-          setNotifications(prev => [...prev, "Achievement Synced: UI Breaker!"]);
-          newAchievements[4].checked = true;
-          changed = true;
-        }
-      }
-
-      return changed ? newAchievements : prev;
     });
   };
 
