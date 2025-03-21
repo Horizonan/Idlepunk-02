@@ -502,15 +502,14 @@ export default function App() {
 
     questChecks.forEach(quest => {
       if (quest.condition && tutorialStage <= quest.stage) {
-      const questSyncKey = `quest_sync_${circuitSpeaksQuest.title}`;
-      if (!localStorage.getItem(questSyncKey)) {
-        localStorage.setItem(questSyncKey, 'true');
-        setTutorialStage(circuitSpeaksQuest.stage + 1);
-        setNotifications(prev => [...prev, `Quest Completed: ${circuitSpeaksQuest.title}`]);
+        const questSyncKey = `quest_sync_${quest.title}`;
+        if (!localStorage.getItem(questSyncKey)) {
+          localStorage.setItem(questSyncKey, 'true');
+          setTutorialStage(quest.stage + 1);
+          setNotifications(prev => [...prev, `Quest Completed: ${quest.title}`]);
+        }
       }
-    }
-
-    questChecks.forEach(quest => {
+    });
       if (quest.condition && tutorialStage <= quest.stage) {
         const questSyncKey = `quest_sync_${quest.title}`;
         if (!localStorage.getItem(questSyncKey)) {
