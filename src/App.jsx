@@ -401,12 +401,12 @@ export default function App() {
 
   const validateQuestsAndAchievements = () => {
     const totalPassiveIncome = Math.floor(passiveIncome + (autoClicks * clickMultiplier));
-    
+
     // Validate achievements independently
     setAchievements(prev => {
       const newAchievements = [...prev];
       let changed = false;
-      
+
       // Each achievement is checked independently
       if (!newAchievements[0].unlocked && Math.floor(junk) >= 1000) {
         newAchievements[0].unlocked = true;
@@ -414,6 +414,7 @@ export default function App() {
           setJunk(prev => prev + 500);
           setNotifications(prev => [...prev, "Achievement Unlocked: Junkie Starter!"]);
           newAchievements[0].checked = true;
+          changed = true;
         }
       }
 
@@ -423,6 +424,7 @@ export default function App() {
           setClickMultiplier(prev => prev * 1.05);
           setNotifications(prev => [...prev, "Achievement Unlocked: The First Clicks!"]);
           newAchievements[1].checked = true;
+          changed = true;
         }
       }
 
@@ -432,6 +434,7 @@ export default function App() {
           setAutoClicks(prev => prev + 1);
           setNotifications(prev => [...prev, "Achievement Unlocked: Greasy Milestone!"]);
           newAchievements[2].checked = true;
+          changed = true;
         }
       }
 
@@ -442,6 +445,7 @@ export default function App() {
           setTimeout(() => setPassiveIncome(prev => prev / 1.1), 30000);
           setNotifications(prev => [...prev, "Achievement Unlocked: The First Hoard!"]);
           newAchievements[3].checked = true;
+          changed = true;
         }
       }
 
@@ -450,6 +454,7 @@ export default function App() {
         if (!newAchievements[4].checked) {
           setNotifications(prev => [...prev, "Achievement Unlocked: UI Breaker!"]);
           newAchievements[4].checked = true;
+          changed = true;
         }
       }
 
@@ -540,55 +545,8 @@ export default function App() {
         }
       });
 
-      if (!newAchievements[3].unlocked && clickCount >= 500) {
-        console.log("Unlocking: The First Clicks");
-        newAchievements[3].unlocked = true;
-        if (!newAchievements[3].checked) {
-          setClickMultiplier(prev => prev * 1.05);
-          setNotifications(prev => [...prev, "Achievement Unlocked: The First Clicks!"]);
-          newAchievements[3].checked = true;
-          changed = true;
-        }
-      }
-
-      if (!newAchievements[4].unlocked && (passiveIncome + (autoClicks * clickMultiplier)) >= 10) {
-        console.log("Unlocking: Greasy Milestone");
-        newAchievements[4].unlocked = true;
-        if (!newAchievements[4].checked) {
-          setAutoClicks(prev => prev + 1);
-          setNotifications(prev => [...prev, "Achievement Unlocked: Greasy Milestone!"]);
-          newAchievements[4].checked = true;
-          changed = true;
-        }
-      }
-
-      if (!newAchievements[5].unlocked && junk >= 10000) {
-        console.log("Unlocking: The First Hoard");
-        newAchievements[5].unlocked = true;
-        if (!newAchievements[5].checked) {
-          setPassiveIncome(prev => prev * 1.1);
-          setTimeout(() => setPassiveIncome(prev => prev / 1.1), 30000);
-          setNotifications(prev => [...prev, "Achievement Unlocked: The First Hoard!"]);
-          newAchievements[5].checked = true;
-          changed = true;
-        }
-      }
-
-      if (!newAchievements[6].unlocked && (isSurgeActive || localStorage.getItem('hadFirstSurge') === 'true')) {
-        console.log("Unlocking: UI Breaker");
-        newAchievements[6].unlocked = true;
-        if (!newAchievements[6].checked) {
-          setNotifications(prev => [...prev, "Achievement Unlocked: UI Breaker!"]);
-          newAchievements[6].checked = true;
-          changed = true;
-        }
-      }
       if (changed) {
         localStorage.setItem('achievements', JSON.stringify(newAchievements));
-        return newAchievements;
-      }
-      return prev;
-    });
         return newAchievements;
       }
       return prev;
@@ -849,7 +807,7 @@ export default function App() {
           bottom: activeStore ? (localStorage.getItem('sidebarBottom') || '250px') : '250px'
         }}
         onMouseDown={(e) => {
-          if (localStorage.getItem('sidebarLocked') === 'true' || e.target.className === 'lock-button') return;
+          if (localStorage.getItem('sidebarLocked') === 'true' ||e.target.className === 'lock-button') return;
 
           const sidebar = e.currentTarget;
           const startX = e.clientX - sidebar.offsetLeft;
