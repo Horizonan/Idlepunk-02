@@ -491,6 +491,17 @@ export default function App() {
       { title: "Surge Overflow", condition: surgeCount >= 3, stage: 7 }
     ];
 
+    // Check for electroShards quest separately to ensure retroactive validation
+    const circuitSpeaksQuest = questChecks.find(q => q.title === "The Circuit Speaks");
+    if (circuitSpeaksQuest && circuitSpeaksQuest.condition && tutorialStage <= circuitSpeaksQuest.stage) {
+      const questSyncKey = `quest_sync_${circuitSpeaksQuest.title}`;
+      if (!localStorage.getItem(questSyncKey)) {
+        localStorage.setItem(questSyncKey, 'true');
+        setTutorialStage(circuitSpeaksQuest.stage + 1);
+        setNotifications(prev => [...prev, `Quest Completed: ${circuitSpeaksQuest.title}`]);
+      }
+    }
+
     questChecks.forEach(quest => {
       if (quest.condition && tutorialStage <= quest.stage) {
         const questSyncKey = `quest_sync_${quest.title}`;
