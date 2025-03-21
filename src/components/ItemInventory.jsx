@@ -55,7 +55,7 @@ export default function ItemInventory({ craftingInventory, onBack }) {
     .filter(([name]) => specialItems.includes(name));
 
   return (
-    <div className="store-container inventory-container">
+    <div className="store-container">
       <div className="inventory-header">
         <h2>Item Inventory</h2>
         <div className="inventory-subtitle">Your Crafted Equipment</div>
