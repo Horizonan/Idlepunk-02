@@ -11,7 +11,6 @@ export default function ElectroStore({ credits, onBuySolderingIron, onBuyMultime
     <div className="store-container">
       <div className="store-header">
         <h2>Electronics Store</h2>
-        <button onClick={onBack}>Close</button>
       </div>
       <div className="store-items">
         {items.map((item) => (
@@ -25,6 +24,7 @@ export default function ElectroStore({ credits, onBuySolderingIron, onBuyMultime
           </button>
         ))}
       </div>
+      <button onClick={onBack}>Back</button>
     </div>
   );
 }
