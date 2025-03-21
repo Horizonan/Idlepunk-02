@@ -1328,8 +1328,8 @@ button.locked {
   background: rgba(148, 0, 211, 0.1);
   border: 2px solid #666;
   border-radius: 50%;
-  cursor: not-allowed;
   transition: all 0.3s ease;
+  pointer-events: none;
 }
 
 .cyber-slot:hover {
@@ -1347,6 +1347,47 @@ button.locked {
   font-size: 12px;
   color: #9400D3;
   pointer-events: none;
+}
+
+/* Specific slot positions */
+.cyber-slot.head {
+  top: 10%;
+  left: 50%;
+}
+
+.cyber-slot.heart {
+  top: 30%;
+  left: 50%;
+}
+
+.cyber-slot.bodyUpper {
+  top: 40%;
+  left: 50%;
+}
+
+.cyber-slot.bodyLower {
+  top: 50%;
+  left: 50%;
+}
+
+.cyber-slot.leftArm {
+  top: 35%;
+  left: 25%;
+}
+
+.cyber-slot.rightArm {
+  top: 35%;
+  left: 75%;
+}
+
+.cyber-slot.leftLeg {
+  top: 75%;
+  left: 40%;
+}
+
+.cyber-slot.rightLeg {
+  top: 75%;
+  left: 60%;
 }
 
 .cyber-slot::before {
