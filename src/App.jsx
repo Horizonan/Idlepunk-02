@@ -999,7 +999,7 @@ export default function App() {
                     ];
                     localStorage.clear();
                     localStorage.setItem('achievements', JSON.stringify(defaultAchievements));
-                    onReset('all');
+                    handleReset('all');
                     window.location.reload();
                   }
                 }}
