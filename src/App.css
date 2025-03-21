@@ -1284,8 +1284,7 @@ button.locked {
   content: "System not yet stable enough to reboot. Keep grinding.";
   position: absolute;
   bottom: 120%;
-  left: 50%;
-  transform: translateX(-50%);
+  right: 0;
   background: rgba(0, 0, 0, 0.9);
   color: #00FF00;
   padding: 10px;
@@ -1294,4 +1293,5 @@ button.locked {
   white-space: nowrap;
   font-size: 0.9em;
   pointer-events: none;
+  width: max-content;
 }
