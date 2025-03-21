@@ -40,9 +40,8 @@ export default function QuestLog({ tutorialStage }) {
     { id: 2, title: "Shopping Time", task: "Visit the store and buy your first upgrade" },
     { id: 3, title: "Tool Master", task: "Keep collecting and upgrading your tools" },
     { id: 4, title: "Passive Income", task: "Purchase something that generates passive income" },
-    { id: 5, title: "Helping Hand", task: "Hire your first helper to collect junk for you" },
-    { id: 6, title: "Crafting Begin", task: "Start crafting items from your collected junk" },
-    { id: 7, title: "Surge Rider", task: "Take advantage of the surge to collect extra junk" }
+    { id: 5, title: "Crafting Begin", task: "Start crafting items from your collected junk" },
+    { id: 6, title: "Surge Rider", task: "Take advantage of the surge to collect extra junk" }
   ];
 
   return (
@@ -61,7 +60,10 @@ export default function QuestLog({ tutorialStage }) {
       onMouseLeave={handleMouseUp}
     >
       <div className="quest-log-content">
-        <h3>Quest Log</h3>
+        <div className="quest-header">
+          <h3>Quest Log</h3>
+          <button className="close-button" onClick={() => setShowQuestLog(false)}>×</button>
+        </div>
         <div className="quest-list">
           {quests.map((quest) => (
             <div 
