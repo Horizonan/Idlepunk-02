@@ -482,16 +482,6 @@ export default function App() {
     const hasAnyHelper = ownedItems.streetrat > 0;
     const hasAnyUpgrade = ownedItems.trashBag > 0 || ownedItems.trashPicker > 0;
 
-    // Check The Circuit Speaks quest first independently
-    if (electroShards >= 5) {
-      const questSyncKey = 'quest_sync_The Circuit Speaks';
-      if (!localStorage.getItem(questSyncKey)) {
-        localStorage.setItem(questSyncKey, 'true');
-        setTutorialStage(4);
-        setNotifications(prev => [...prev, 'Quest Completed: The Circuit Speaks']);
-      }
-    }
-
     const questChecks = [
       { title: "First Steps", condition: clickCount > 0, stage: 0 },
       { title: "Shopping Time", condition: hasAnyUpgrade, stage: 1 },
@@ -501,15 +491,6 @@ export default function App() {
     ];
 
     questChecks.forEach(quest => {
-      if (quest.condition && tutorialStage <= quest.stage) {
-        const questSyncKey = `quest_sync_${quest.title}`;
-        if (!localStorage.getItem(questSyncKey)) {
-          localStorage.setItem(questSyncKey, 'true');
-          setTutorialStage(quest.stage + 1);
-          setNotifications(prev => [...prev, `Quest Completed: ${quest.title}`]);
-        }
-      }
-    });
       if (quest.condition && tutorialStage <= quest.stage) {
         const questSyncKey = `quest_sync_${quest.title}`;
         if (!localStorage.getItem(questSyncKey)) {
@@ -528,7 +509,7 @@ export default function App() {
         }
       }
     });
-  
+  };
 
   const checkAchievements = () => {
     setAchievements(prev => {
