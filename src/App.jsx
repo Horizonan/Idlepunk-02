@@ -270,15 +270,27 @@ export default function App() {
           clickEnhancer: 2500,
           urbanRecycler: 3000,
           autoClicker: 5000,
-          scrapDrone: 7500
+          scrapDrone: 7500,
+          holoBillboard: 15000
         });
         setAutoClicks(0);
         setCraftingInventory({});
         localStorage.removeItem('craftedItems');
         localStorage.removeItem('craftingInventory');
         setShowInventory(false);
-        setOwnedItems(prev => ({...prev, scrapDrone: 0}));
-        localStorage.setItem('ownedItems', JSON.stringify({...ownedItems, scrapDrone: 0}));
+        const resetOwnedItems = {
+          trashBag: 0,
+          trashPicker: 0,
+          streetrat: 0,
+          cart: 0,
+          junkMagnet: 0,
+          urbanRecycler: 0,
+          clickEnhancer: 0,
+          scrapDrone: 0,
+          holoBillboard: 0
+        };
+        setOwnedItems(resetOwnedItems);
+        localStorage.setItem('ownedItems', JSON.stringify(resetOwnedItems));
         setAchievements(prevAchievements => 
           prevAchievements.map(achievement => ({
             ...achievement,
