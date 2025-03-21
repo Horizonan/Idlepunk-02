@@ -430,6 +430,69 @@ export default function App() {
         ]);
       }
     });
+
+    // Validate achievements
+    setAchievements(prev => {
+      const newAchievements = [...prev];
+      let changed = false;
+
+      // Junkie Starter
+      if (!newAchievements[0].unlocked && junk >= 1000) {
+        newAchievements[0].unlocked = true;
+        if (!newAchievements[0].checked) {
+          setJunk(prev => prev + 500);
+          setNotifications(prev => [...prev, "Achievement Synced: Junkie Starter!"]);
+          newAchievements[0].checked = true;
+          changed = true;
+        }
+      }
+
+      // The First Clicks
+      if (!newAchievements[1].unlocked && clickCount >= 500) {
+        newAchievements[1].unlocked = true;
+        if (!newAchievements[1].checked) {
+          setClickMultiplier(prev => prev * 1.05);
+          setNotifications(prev => [...prev, "Achievement Synced: The First Clicks!"]);
+          newAchievements[1].checked = true;
+          changed = true;
+        }
+      }
+
+      // Greasy Milestone
+      if (!newAchievements[2].unlocked && totalPassiveIncome >= 10) {
+        newAchievements[2].unlocked = true;
+        if (!newAchievements[2].checked) {
+          setAutoClicks(prev => prev + 1);
+          setNotifications(prev => [...prev, "Achievement Synced: Greasy Milestone!"]);
+          newAchievements[2].checked = true;
+          changed = true;
+        }
+      }
+
+      // The First Horde
+      if (!newAchievements[3].unlocked && junk >= 10000) {
+        newAchievements[3].unlocked = true;
+        if (!newAchievements[3].checked) {
+          setPassiveIncome(prev => prev * 1.1);
+          setTimeout(() => setPassiveIncome(prev => prev / 1.1), 30000);
+          setNotifications(prev => [...prev, "Achievement Synced: The First Horde!"]);
+          newAchievements[3].checked = true;
+          changed = true;
+        }
+      }
+
+      // UI Breaker
+      if (!newAchievements[4].unlocked && isSurgeActive) {
+        newAchievements[4].unlocked = true;
+        if (!newAchievements[4].checked) {
+          setNotifications(prev => [...prev, "Achievement Synced: UI Breaker!"]);
+          newAchievements[4].checked = true;
+          changed = true;
+        }
+      }
+
+      return changed ? newAchievements : prev;
+    });
   };
 
   const checkAchievements = () => {
