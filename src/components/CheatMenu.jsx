@@ -25,7 +25,7 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
 
     window.addEventListener('mouseup', handleMouseUp);
     return () => window.removeEventListener('mouseup', handleMouseUp);
-  }, [position]);
+  }, []); // Remove position from dependency array
 
 
   const toggleCategory = (category) => {
