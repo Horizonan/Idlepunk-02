@@ -1,10 +1,58 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 export default function SlotMachine({ junk, onSpin, onClose }) {
   const [spinning, setSpinning] = useState(false);
   const [slots, setSlots] = useState(['?', '?', '?']);
   const spinCost = 100;
+  const containerRef = useRef(null);
+  
+  const [position, setPosition] = useState(() => {
+    const saved = localStorage.getItem('slotMachinePosition');
+    return saved ? JSON.parse(saved) : { x: 100, y: 100 };
+  });
+  
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    localStorage.setItem('slotMachinePosition', JSON.stringify(position));
+  }, [position]);
+
+  const handleMouseDown = (e) => {
+    if (e.target.classList.contains('slot-machine-header')) {
+      setIsDragging(true);
+      const rect = containerRef.current.getBoundingClientRect();
+      setDragOffset({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      });
+    }
+  };
+
+  const handleMouseMove = (e) => {
+    if (isDragging) {
+      setPosition({
+        x: e.clientX - dragOffset.x,
+        y: e.clientY - dragOffset.y
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+    }
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging]);
   
   const symbols = ['💰', '🗑️', '⚡', '🔧', '🎲'];
   
@@ -29,32 +77,27 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
         );
       }
       
-      // Set the slots first
       setSlots(newSlots);
       
-      // Calculate winnings immediately
       let winnings = 0;
       if (newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2]) {
-        winnings = 1000; // Jackpot for all 3 matching
+        winnings = 1000;
       } else if (newSlots[0] === newSlots[1] || newSlots[1] === newSlots[2]) {
-        winnings = 200; // Small win for 2 matching
+        winnings = 200;
       }
       
       if (winnings > 0) {
-        // Play win sound immediately
         const audio = new Audio(newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2] 
           ? '/src/sounds/casino_winning.wav' 
           : 'https://assets.mixkit.co/active_storage/sfx/2019/casino-notification-sound.wav');
         audio.play();
       }
       
-      // Short delay before showing results
       setTimeout(() => {
         setSpinning(false);
         
         if (winnings > 0) {
-          onSpin(-winnings); // Negative cost means player wins
-          // Play win sound and show popup after a short delay
+          onSpin(-winnings);
           setTimeout(() => {
             alert(`Congratulations! You won ${winnings} Junk!`);
           }, 100);
@@ -63,28 +106,46 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
     }, 1000);
   };
 
-  // Make spin function globally accessible for cheats
   window.spinSlotMachine = (forceTriple, forceDouble) => spin(forceTriple, forceDouble);
   
   return (
-    <div className="slot-machine-container">
-      <div className="slot-machine-header">
+    <div 
+      ref={containerRef}
+      className="slot-machine-container"
+      style={{
+        position: 'fixed',
+        left: position.x,
+        top: position.y,
+        cursor: isDragging ? 'grabbing' : 'auto',
+        transform: 'none',
+        minWidth: '350px'
+      }}
+    >
+      <div 
+        className="slot-machine-header"
+        style={{ cursor: 'grab' }}
+        onMouseDown={handleMouseDown}
+      >
         <h2>Junk Slots</h2>
         <button onClick={onClose}>Close</button>
       </div>
-      <div className="slot-display">
+      <div className="slot-display" style={{ padding: '20px 0' }}>
         {slots.map((symbol, index) => (
-          <div key={index} className={`slot ${spinning ? 'spinning' : ''}`}>
+          <div 
+            key={index} 
+            className={`slot ${spinning ? 'spinning' : ''}`}
+            style={{ width: '80px', height: '80px', fontSize: '2.5em' }}
+          >
             {symbol}
           </div>
         ))}
       </div>
-      <p>Cost per spin: {spinCost} Junk</p>
       <button 
-        onClick={() => spin(false, false)} 
+        onClick={() => spin()} 
         disabled={spinning || junk < spinCost}
+        style={{ width: '80%', margin: '10px auto', display: 'block' }}
       >
-        {spinning ? 'Spinning...' : 'Spin!'}
+        Spin ({spinCost} Junk)
       </button>
     </div>
   );
