@@ -23,7 +23,8 @@ export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onB
           </div>
           <div className="item-info">
             <img src="/Icons/robot.png" alt="Auto Clicker" className="item-icon" />
-            <p>+1 Automatic Click per second (generates Junk automatically as if clicked by the player)</p> 
+            <p>+1 Automatic Click per second (generates Junk automatically as if clicked by the player)</p>
+            <p>Owned: {Math.floor(autoClicks)}</p>
           </div>
         </button>
 
