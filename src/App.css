@@ -892,6 +892,12 @@ button.locked {
 
 .store-header h2 {
   margin: 0;
+  flex: 1;
+  text-align: center;
+}
+
+.back-button {
+  display: none;
 }
 
 .menu-container {

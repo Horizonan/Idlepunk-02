@@ -1,7 +1,6 @@
-
 import React from 'react';
 
-export default function ItemInventory({ craftingInventory, onBack }) {
+export default function ItemInventory({ craftingInventory, onClose }) {
   const itemDetails = {
     'Wires': {
       description: 'Basic conductive material',
@@ -104,10 +103,13 @@ export default function ItemInventory({ craftingInventory, onBack }) {
 
   return (
     <div className="store-container inventory-container">
+      <div className="store-header">
+        <h2 style={{textAlign: 'center'}}>Item Inventory</h2>
+        <button onClick={onClose} className="close-button">Close</button>
+      </div>
       {renderInventorySection(basicMaterials, 'Basic Materials', 'Components & Resources', 'basic-materials')}
       {renderInventorySection(craftedItems, 'Crafted Equipment', 'Enhanced Gear', 'crafted-items')}
       {renderInventorySection(specialMaterials, 'Special Materials', 'Ascension Components', 'special-materials')}
-      <button onClick={onBack} className="back-button">Back</button>
     </div>
   );
 }

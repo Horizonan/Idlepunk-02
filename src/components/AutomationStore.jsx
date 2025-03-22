@@ -1,13 +1,14 @@
-
 import React from 'react';
 
 export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onBack }) {
   const canAfford = junk >= (itemCosts.autoClicker || 5000);
-  
+
   return (
     <div className="store-container">
-      <h2>Automation Store</h2>
-      <button onClick={onBack}>Close</button>
+      <div className="store-header">
+        <h2>Automation Store</h2>
+        <button onClick={onBack}>Close</button>
+      </div>
       <div className="store-items">
         <button 
           className={`store-item ${!canAfford ? 'disabled' : ''}`}
@@ -24,7 +25,6 @@ export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onB
           </div>
         </button>
       </div>
-      <button onClick={onBack}>Back</button>
     </div>
   );
 }
