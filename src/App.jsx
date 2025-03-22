@@ -1120,6 +1120,7 @@ export default function App() {
           onClose={() => setShowCheatMenu(false)}
           onResetTutorial={() => setTutorialStage(0)}
           onNextTutorial={() => setTutorialStage(prev => prev + 1)}
+          setShowTrashBonus={setShowTrashBonus}
         />
       )}
       {showActiveCheats && (

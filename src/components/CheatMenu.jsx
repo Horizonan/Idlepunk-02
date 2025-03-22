@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
-export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial, onNextTutorial }) {
+export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial, onNextTutorial, setShowTrashBonus }) {
   const [openCategories, setOpenCategories] = useState({
     resources: false,
     events: false,
@@ -123,6 +123,9 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
                 const event = new CustomEvent('showCrystal');
                 window.dispatchEvent(event);
               }}>Trigger Crystal</button>
+              <button onClick={() => {
+                setShowTrashBonus(true);
+              }}>Trigger Trash</button>
             </div>
           )}
         </div>
