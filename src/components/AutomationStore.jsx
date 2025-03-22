@@ -40,7 +40,7 @@ export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onB
           </div>
           <div className="item-info">
             <img src="/Icons/Upgrades/clickerV2.png" alt="Auto Clicker v2.0" className="item-icon" />
-            <p>+2 Automatic Clicks per second (Requires 1 Auto Clicker Bot to upgrade)</p>
+            <p>+2 Automatic Clicks per second (Consumes 1 Auto Clicker Bot)</p>
           </div>
         </button>
       </div>
