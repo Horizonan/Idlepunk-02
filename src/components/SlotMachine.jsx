@@ -118,9 +118,15 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
         top: position.y,
         cursor: isDragging ? 'grabbing' : 'auto',
         transform: 'none',
-        minWidth: '350px'
+        minWidth: '350px',
+        position: 'relative'
       }}
     >
+      {winAmount > 0 && (
+        <div className="win-popup-internal">
+          Win! +{winAmount} Junk
+        </div>
+      )}
       <div 
         className="slot-machine-header"
         style={{ cursor: 'grab' }}
