@@ -1238,6 +1238,12 @@ export default function App() {
               <p>Average JPS: {Math.floor(passiveIncome + (autoClicks * clickMultiplier)).toLocaleString()}</p>
               <p>Trash Surges Completed: {surgeCount.toLocaleString()}</p>
             </div>
+            {preservedHelper && (
+              <div className="stats-section">
+                <h3>Energy Shielded Helpers</h3>
+                <p>{preservedHelper} (Protected from Ascension)</p>
+              </div>
+            )}
             <label className="setting-option">
               <span>Show Click Enhancer Effect</span>
               <input
