@@ -1100,6 +1100,7 @@ export default function App() {
         <CredStore
           junk={junk}
           credits={credits}
+          autoClicks={autoClicks}
           onSellJunk={(rate) => {
             if (junk >= rate) {
               const creditsToAdd = rate === baseRate ? 1 : rate === baseRate * 10 ? 10 : 100;
