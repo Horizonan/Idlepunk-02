@@ -252,15 +252,14 @@ button {
 }
 
 .close-button {
-  background: none;
-  border: none;
+  background: #222;
+  border: 1px solid #9400D3;
   color: #00FF00;
-  font-size: 24px;
-  padding: 0;
+  font-size: 14px;
+  padding: 5px 15px;
   margin: 0;
   cursor: pointer;
-  width: 30px;
-  height: 30px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
