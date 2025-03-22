@@ -15,7 +15,7 @@ export default function Menu({ onStoreSelect }) {
   return (
     <div className={`menu-container ${showMenu ? '' : 'collapsed'}`}>
       <button className="menu-toggle" onClick={() => setShowMenu(prev => !prev)}>
-        {showMenu ? '×' : '≡'}
+        {showMenu ? 'Close' : '≡'}
       </button>
       <div className="menu-buttons">
         {buttons.map(button => (
