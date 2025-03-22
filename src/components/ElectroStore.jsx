@@ -25,7 +25,6 @@ export default function ElectroStore({ credits, onBuySolderingIron, onBuyMultime
           </button>
         ))}
       </div>
-      <button onClick={onBack}>Back</button>
     </div>
   );
 }

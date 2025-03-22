@@ -7,6 +7,7 @@ export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onB
   return (
     <div className="store-container">
       <h2>Automation Store</h2>
+      <button onClick={onBack}>Close</button>
       <div className="store-items">
         <button 
           className={`store-item ${!canAfford ? 'disabled' : ''}`}

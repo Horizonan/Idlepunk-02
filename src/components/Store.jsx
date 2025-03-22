@@ -139,7 +139,7 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
           </div>
         </div>
       </div>
-      <button onClick={onBack} style={{ marginTop: '20px' }}>Back</button>
+      
     </div>
   );
 }
