@@ -1414,6 +1414,9 @@ button.locked {
 .changelog-menu {
   max-width: 800px;
   margin: 20px auto;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .changelog-header {
@@ -1425,9 +1428,11 @@ button.locked {
 }
 
 .changelog-content {
-  max-height: 70vh;
+  flex: 1;
   overflow-y: auto;
-  padding: 15px 0;
+  padding: 15px;
+  margin-right: -15px;
+  padding-right: 30px;
 }
 
 .changelog-section {
