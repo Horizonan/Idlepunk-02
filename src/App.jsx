@@ -509,6 +509,21 @@ export default function App() {
           }));
           setNotifications(prev => [...prev, "The circuit's secrets are revealed. Received: 1x Voltage Node"]);
         }
+      },
+      {
+        title: "Whispers in the Scrap",
+        condition: (cogfatherLore.length >= 10 || junk >= 7500000),
+        stage: 9,
+        onComplete: () => {
+          setCraftingInventory(prev => ({
+            ...prev,
+            'Synthcore Fragment': (prev['Synthcore Fragment'] || 0) + 1
+          }));
+          window.dispatchEvent(new CustomEvent('nextNews', { 
+            detail: { message: "A strange resonance echoes from your scrap..." }
+          }));
+          setNotifications(prev => [...prev, "The whispers grow stronger. Received: 1x Synthcore Fragment"]);
+        }
       }
     ];
 
