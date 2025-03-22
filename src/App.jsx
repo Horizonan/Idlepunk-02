@@ -1118,6 +1118,20 @@ export default function App() {
               setTimeout(() => setShowBeacon(false), 3000);
             }
           }}
+          craftingInventory={craftingInventory}
+          onBuyHoverDrone={() => {
+            if (credits >= 20 && !craftingInventory['Hover Drone']) {
+              setCredits(prev => prev - 20);
+              setCraftingInventory(prev => ({
+                ...prev,
+                'Hover Drone': 1
+              }));
+              setNotifications(prev => [...prev, "Hover Drone Addon purchased! Floating trash will last longer."]);
+              window.dispatchEvent(new CustomEvent('nextNews', { 
+                detail: { message: "A new drone takes to the skies, extending the life of your floating opportunities." }
+              }));
+            }
+          }}
           onBack={() => setActiveStore(null)}
         />
       )}

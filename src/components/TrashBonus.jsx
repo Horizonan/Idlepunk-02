@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 
 export default function TrashBonus({ onCollect, onDisappear, passiveIncome }) {
@@ -15,9 +14,11 @@ export default function TrashBonus({ onCollect, onDisappear, passiveIncome }) {
       }));
     }, 50);
 
+    const hasHoverDrone = JSON.parse(localStorage.getItem('craftingInventory') || '{}')['Hover Drone'];
+    const duration = hasHoverDrone ? 20000 : 15000;
     const disappearTimeout = setTimeout(() => {
       onDisappear();
-    }, 20000);
+    }, duration);
 
     return () => {
       clearInterval(moveInterval);

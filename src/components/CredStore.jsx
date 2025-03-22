@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-export default function CredStore({ junk, onSellJunk, onBack, credits, onBuyBeacon }) {
+export default function CredStore({ junk, onSellJunk, onBack, credits, onBuyBeacon, craftingInventory, onBuyHoverDrone }) {
   const baseRate = 100000; // 100,000 junk = 1 credit
   const formatAmount = (amount) => {
     if (amount >= 1000000) {
@@ -79,6 +79,21 @@ export default function CredStore({ junk, onSellJunk, onBack, credits, onBuyBeac
             A mysterious device that creates an electromagnetic field,
             attracting Electro Shards more frequently. Stack up to 10 beacons
             for a maximum 10% reduction in spawn time.
+          </div>
+        </button>
+        <button
+          onClick={() => onBuyHoverDrone()}
+          disabled={credits < 20 || craftingInventory['Hover Drone']}
+          className="store-item"
+        >
+          <div className="item-header">
+            <strong>🚁 Hover Drone Addon</strong>
+          </div>
+          <div>20 Credits</div>
+          <div className="item-info">
+            Floating Trash lasts +5s longer before disappearing
+            A sleek aerial companion that helps extend the lifespan
+            of floating trash bonuses. One-time purchase.
           </div>
         </button>
       </div>
