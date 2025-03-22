@@ -1156,12 +1156,9 @@ export default function App() {
                 'Ascension Reclaimer': (prev['Ascension Reclaimer'] || 0) + 1
               }));
 
+              // Only select from automation store items
               const automationHelpers = [
-                'Auto Clicker Bot',
-                'Click Rig Mk I',
-                'Auto Toolkit',
-                'Compression Pack',
-                'Scrap Drone'
+                'Auto Clicker Bot'
               ];
 
               const randomHelper = automationHelpers[Math.floor(Math.random() * automationHelpers.length)];
