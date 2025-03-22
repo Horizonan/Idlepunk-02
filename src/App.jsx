@@ -33,6 +33,8 @@ export default function App() {
   const [showCrystal, setShowCrystal] = useState(false);
   const [showTrashBonus, setShowTrashBonus] = useState(false);
   const [electroShards, setElectroShards] = useState(() => Number(localStorage.getItem('electroShards')) || 0);
+  const [beaconCount, setBeaconCount] = useState(() => Number(localStorage.getItem('beaconCount')) || 0);
+  const [showBeacon, setShowBeacon] = useState(false);
   const [showActiveCheats, setShowActiveCheats] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -321,11 +323,14 @@ export default function App() {
   }, [showSlotMachine, showAchievements, showSettings, showQuestLog]);
 
   useEffect(() => {
+    const beaconMultiplier = Math.pow(0.9, beaconCount); // 10% reduction per beacon
     const crystalInterval = setInterval(() => {
       if (Math.random() < 0.5) {
         setShowCrystal(true);
+        setShowBeacon(true);
+        setTimeout(() => setShowBeacon(false), 3000);
       }
-    }, 900000 + Math.random() * 900000); // Random between 15-30 minutes
+    }, (900000 + Math.random() * 900000) * beaconMultiplier); // Reduced by beacon effect
 
     const spawnTrashBonus = () => {
       setShowTrashBonus(true);
@@ -1089,6 +1094,7 @@ export default function App() {
       {activeStore === 'credstore' && (
         <CredStore
           junk={junk}
+          credits={credits}
           onSellJunk={(rate) => {
             if (junk >= rate) {
               setJunk(prev => prev - rate);
@@ -1096,8 +1102,26 @@ export default function App() {
               setNotifications(prev => [...prev, `Sold ${rate} junk for 1 credit!`]);
             }
           }}
+          onBuyBeacon={() => {
+            if (credits >= 25) {
+              setCredits(prev => prev - 25);
+              setBeaconCount(prev => {
+                const newCount = prev + 1;
+                localStorage.setItem('beaconCount', newCount);
+                return newCount;
+              });
+              setNotifications(prev => [...prev, "Electro Shard Beacon purchased! Crystal spawn time reduced by 10%"]);
+              setShowBeacon(true);
+              setTimeout(() => setShowBeacon(false), 3000);
+            }
+          }}
           onBack={() => setActiveStore(null)}
         />
+      )}
+      {showBeacon && (
+        <div className="shard-beacon">
+          <div className="beacon-glow"></div>
+        </div>
       )}
       {activeStore === 'inventory' && showInventory && (
         <ItemInventory

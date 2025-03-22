@@ -1,9 +1,8 @@
 
 import React from 'react';
 
-export default function CredStore({ junk, onSellJunk, onBack }) {
+export default function CredStore({ junk, onSellJunk, onBack, credits, onBuyBeacon }) {
   const baseRate = 100000; // 100,000 junk = 1 credit
-
   const formatAmount = (amount) => {
     if (amount >= 1000000) {
       return `${(amount / 1000000)} mil`;
@@ -17,7 +16,6 @@ export default function CredStore({ junk, onSellJunk, onBack }) {
     <div className="store-container">
       <div className="store-header">
         <h2>Credit Exchange</h2>
-        <button onClick={onBack}>Close</button>
       </div>
       <div className="store-items">
         <button
@@ -51,6 +49,18 @@ export default function CredStore({ junk, onSellJunk, onBack }) {
             <strong>💲 Mass Exchange (100x)</strong>
           </div>
           <div>Sell {formatAmount(baseRate * 100)} Junk for 100 Credits</div>
+        </button>
+
+        <button
+          onClick={() => onBuyBeacon()}
+          disabled={credits < 25}
+          className="store-item"
+        >
+          <div className="item-header">
+            <strong>⚡ Electro Shard Beacon</strong>
+          </div>
+          <div>Reduces Electro Shard spawn cooldown by 10%</div>
+          <div>Cost: 25 Credits</div>
         </button>
       </div>
       <button onClick={onBack}>Back</button>
