@@ -224,6 +224,15 @@ export default function App() {
     });
   };
 
+  const checkShardMilestones = (shardCount) => {
+    // Check for 3 shard milestone
+    if (shardCount === 3) {
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: "Cogfather: The circuit is almost loud enough to listen to." }
+      }));
+    }
+  };
+
   const handleReset = (type) => {
     switch(type) {
       case 'junk':
@@ -489,7 +498,18 @@ export default function App() {
       { title: "Tool Master", condition: clickMultiplier > 1, stage: 2 },
       { title: "Passive Income", condition: totalPassiveIncome > 0, stage: 3 },
       { title: "Surge Overflow", condition: surgeCount >= 3, stage: 7 },
-      { title: "The Circuit Speaks", condition: electroShards >= 5, stage: 8 }
+      { 
+        title: "The Circuit Speaks", 
+        condition: electroShards >= 5, 
+        stage: 8,
+        onComplete: () => {
+          setCraftingInventory(prev => ({
+            ...prev,
+            'Voltage Node': (prev['Voltage Node'] || 0) + 1
+          }));
+          setNotifications(prev => [...prev, "The circuit's secrets are revealed. Received: 1x Voltage Node"]);
+        }
+      }
     ];
 
     questChecks.forEach(quest => {
@@ -778,6 +798,7 @@ export default function App() {
               const newValue = prev + 1;
               localStorage.setItem('electroShards', newValue);
               checkElectroMilestones(newValue);
+              checkShardMilestones(newValue);
               return newValue;
             });
             setNotifications(prev => [...prev, "Crystal shard collected!"]);
