@@ -3,6 +3,12 @@ import React, { useState } from 'react';
 export default function CraftingStore({ junk, onCraft, craftingInventory, onBack }) {
   const [selectedTab, setSelectedTab] = useState('basic');
 
+  const tabs = [
+    { id: 'basic', label: 'Basic Materials' },
+    { id: 'items', label: 'Craftable Items' },
+    { id: 'mysterious', label: 'Mysterious', unlockCondition: () => craftingInventory['Synthcore Fragment'] > 0 }
+  ];
+
   const basicMaterials = [
     {
       name: 'Wires',
@@ -116,11 +122,78 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
         <h2>Crafting Station</h2>
         <button onClick={onBack}>Close</button>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-        <div>
-          <h3 style={{ color: '#9400D3', textAlign: 'center' }}>Basic Materials</h3>
-          <div className="store-items">
-            {basicMaterials.map((item) => (
+      <div className="crafting-tabs">
+        {tabs.map(tab => (
+          tab.unlockCondition ? 
+            tab.unlockCondition() && (
+              <button 
+                key={tab.id}
+                className={`tab-button ${selectedTab === tab.id ? 'active' : ''}`}
+                onClick={() => setSelectedTab(tab.id)}
+              >
+                {tab.label}
+              </button>
+            ) : (
+              <button 
+                key={tab.id}
+                className={`tab-button ${selectedTab === tab.id ? 'active' : ''}`}
+                onClick={() => setSelectedTab(tab.id)}
+              >
+                {tab.label}
+              </button>
+            )
+        ))}
+      </div>
+      <div className="crafting-content">
+        {selectedTab === 'basic' && (
+          <div className="crafting-section">
+
+        {selectedTab === 'mysterious' && (
+          <div className="crafting-section">
+            <h3>Mysterious Items</h3>
+            <div className="store-items">
+              <button
+                onClick={() => onCraft({
+                  name: 'Prestige Crystal',
+                  requirements: {
+                    'Stabilized Capacitor': 1,
+                    'Voltage Node': 1,
+                    'Synthcore Fragment': 1
+                  },
+                  cost: 10000000,
+                  description: 'A mysterious crystal pulsing with otherworldly power',
+                  type: 'mysterious',
+                  icon: '💎'
+                })}
+                disabled={!canCraft({
+                  requirements: {
+                    'Stabilized Capacitor': 1,
+                    'Voltage Node': 1,
+                    'Synthcore Fragment': 1
+                  },
+                  cost: 10000000
+                })}
+                className="store-item mysterious"
+              >
+                <div className="item-header">
+                  <strong>💎 Prestige Crystal</strong>
+                </div>
+                <div className="item-info">
+                  <p>A mysterious crystal pulsing with otherworldly power</p>
+                  <p>Requirements:</p>
+                  <p>- Junk: 10,000,000</p>
+                  <p>- Stabilized Capacitor: 1 ({craftingInventory['Stabilized Capacitor'] || 0} owned)</p>
+                  <p>- Voltage Node: 1 ({craftingInventory['Voltage Node'] || 0} owned)</p>
+                  <p>- Synthcore Fragment: 1 ({craftingInventory['Synthcore Fragment'] || 0} owned)</p>
+                </div>
+              </button>
+            </div>
+          </div>
+        )}
+
+            <h3>Basic Materials</h3>
+            <div className="store-items">
+              {basicMaterials.map((item) => (
               <button
                 key={item.name}
                 onClick={() => !item.uncraftable && onCraft(item)}
@@ -139,10 +212,11 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
             ))}
           </div>
         </div>
-        <div>
-          <h3 style={{ color: '#9400D3', textAlign: 'center' }}>Craftable Items</h3>
-          <div className="store-items">
-            {craftableItems.filter(item => !item.onetime || !craftingInventory[item.name]).map((item) => (
+        {selectedTab === 'items' && (
+          <div className="crafting-section">
+            <h3>Craftable Items</h3>
+            <div className="store-items">
+              {craftableItems.filter(item => !item.onetime || !craftingInventory[item.name]).map((item) => (
               <button
                 key={item.name}
                 onClick={() => onCraft(item)}
