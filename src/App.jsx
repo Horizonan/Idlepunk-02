@@ -1083,17 +1083,6 @@ export default function App() {
               />
             </label>
             <label className="setting-option">
-              <span>Show News Ticker</span>
-              <input
-                type="checkbox"
-                checked={showNewsTicker}
-                onChange={(e) => {
-                  setShowNewsTicker(e.target.checked);
-                  localStorage.setItem('showNewsTicker', e.target.checked);
-                }}
-              />
-            </label>
-            <label className="setting-option">
               <span>Max Click Enhancers</span>
               <input
                 type="number"
@@ -1119,6 +1108,17 @@ export default function App() {
                 max="20"
                 value={localStorage.getItem('maxVisibleDrones') || 10}
                 onChange={(e) => localStorage.setItem('maxVisibleDrones', e.target.value)}
+              />
+            </label>
+            <label className="setting-option">
+              <span>Show News Ticker</span>
+              <input
+                type="checkbox"
+                checked={showNewsTicker}
+                onChange={(e) => {
+                  setShowNewsTicker(e.target.checked);
+                  localStorage.setItem('showNewsTicker', e.target.checked);
+                }}
               />
             </label>
             <div className="reset-section">
