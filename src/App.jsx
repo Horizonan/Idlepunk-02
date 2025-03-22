@@ -27,6 +27,7 @@ import ItemInventory from './components/ItemInventory';
 import Changelog from './components/Changelog';
 
 export default function App() {
+  const baseRate = 100000; // 100,000 junk = 1 credit
   const [showChangelog, setShowChangelog] = useState(false);
   const [showSlotMachine, setShowSlotMachine] = useState(false);
   const [showCheatMenu, setShowCheatMenu] = useState(false);
