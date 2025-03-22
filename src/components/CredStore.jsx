@@ -18,44 +18,6 @@ export default function CredStore({ junk, onSellJunk, onBack, credits, onBuyBeac
         <h2>Credit Exchange</h2>
       </div>
       <div className="store-items">
-        <button
-          onClick={() => onSellJunk(baseRate)}
-          disabled={junk < baseRate}
-          className="store-item"
-        >
-          <div className="item-header">
-            <strong>💲 Basic Exchange</strong>
-          </div>
-          <div>Sell {formatAmount(baseRate)} Junk for 1 Credit</div>
-        </button>
-
-        <button
-          onClick={() => onSellJunk(baseRate * 10)}
-          disabled={junk < baseRate * 10}
-          className="store-item"
-        >
-          <div className="item-header">
-            <strong>💲 Bulk Exchange (10x)</strong>
-          </div>
-          <div>Sell {formatAmount(baseRate * 10)} Junk for 10 Credits</div>
-        </button>
-
-        <button
-          onClick={() => onBuyBeacon()}
-          disabled={credits < 25}
-          className="store-item"
-        >
-          <div className="item-header">
-            <strong>⚡ Electro Shard Beacon</strong>
-          </div>
-          <div>Reduces Electro Shard spawn cooldown by 1% (Max 10)</div>
-          <div>Cost: 25 Credits</div>
-          <div className="item-info">
-            A mysterious device that creates an electromagnetic field,
-            attracting Electro Shards more frequently. Stack up to 10 beacons
-            for a maximum 10% reduction in spawn time.
-          </div>
-        </button>
       <button
           onClick={() => onSellJunk(baseRate)}
           disabled={junk < baseRate}
@@ -98,6 +60,22 @@ export default function CredStore({ junk, onSellJunk, onBack, credits, onBuyBeac
           <div className="item-info">
             The ultimate exchange option for serious junk collectors.
             Perfect for large-scale operations.
+          </div>
+        </button>
+        <button
+          onClick={() => onBuyBeacon()}
+          disabled={credits < 25}
+          className="store-item"
+        >
+          <div className="item-header">
+            <strong>⚡ Electro Shard Beacon</strong>
+          </div>
+          <div>Reduces Electro Shard spawn cooldown by 1% (Max 10)</div>
+          <div>Cost: 25 Credits</div>
+          <div className="item-info">
+            A mysterious device that creates an electromagnetic field,
+            attracting Electro Shards more frequently. Stack up to 10 beacons
+            for a maximum 10% reduction in spawn time.
           </div>
         </button>
       </div>
