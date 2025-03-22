@@ -538,6 +538,18 @@ export default function App() {
           }));
           setNotifications(prev => [...prev, "The whispers grow stronger. Received: 1x Synthcore Fragment"]);
         }
+      },
+      {
+        title: "Forge the Future",
+        condition: craftingInventory['Prestige Crystal'] >= 1,
+        stage: 10,
+        onComplete: () => {
+          localStorage.setItem('prestigeUnlocked', 'true');
+          setNotifications(prev => [...prev, "The Prestige System has been unlocked!"]);
+          window.dispatchEvent(new CustomEvent('nextNews', { 
+            detail: { message: "Cogfather: The crystal's power flows through the system. You're ready for what comes next." }
+          }));
+        }
       }
     ];
 
@@ -1216,8 +1228,16 @@ export default function App() {
         </div>
       )}
       <Notifications notifications={notifications} />
-      {(localStorage.getItem('prestigeUnlocked') === 'true' || passiveIncome >= 100 || junk >= 1000000) && (
-        <button className="prestige-button locked">
+      {(craftingInventory['Prestige Crystal'] >= 1) && (
+        <button 
+          className={`prestige-button ${localStorage.getItem('prestigeUnlocked') !== 'true' ? 'locked' : ''}`}
+          onClick={() => {
+            if (localStorage.getItem('prestigeUnlocked') === 'true') {
+              // Prestige functionality will be implemented later
+              setNotifications(prev => [...prev, "Prestige system coming soon!"]);
+            }
+          }}
+        >
           Prestige
         </button>
       )}
