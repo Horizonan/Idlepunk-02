@@ -30,7 +30,10 @@ export default function CredStore({ junk, onSellJunk, onBack, credits, onBuyBeac
         </button>
 
         <button
-          onClick={() => onSellJunk(baseRate * 10)}
+          onClick={() => {
+            onSellJunk(baseRate * 10);
+            onSellJunk(baseRate * 9);
+          }}
           disabled={junk < baseRate * 10}
           className="store-item"
         >
@@ -41,7 +44,10 @@ export default function CredStore({ junk, onSellJunk, onBack, credits, onBuyBeac
         </button>
 
         <button
-          onClick={() => onSellJunk(baseRate * 100)}
+          onClick={() => {
+            onSellJunk(baseRate * 100);
+            onSellJunk(baseRate * 99);
+          }}
           disabled={junk < baseRate * 100}
           className="store-item"
         >
