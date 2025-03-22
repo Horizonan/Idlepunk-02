@@ -112,7 +112,10 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
 
   return (
     <div className="store-container">
-      <h2>Crafting Station</h2>
+      <div className="store-header">
+        <h2>Crafting Station</h2>
+        <button onClick={onBack}>Close</button>
+      </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
         <div>
           <h3 style={{ color: '#9400D3', textAlign: 'center' }}>Basic Materials</h3>
@@ -163,7 +166,6 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
           </div>
         </div>
       </div>
-      <button onClick={onBack} style={{ marginTop: '20px' }}>Back</button>
-    </div>
+      </div>
   );
 }
