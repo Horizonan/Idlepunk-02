@@ -639,7 +639,7 @@ export default function App() {
   const handleBuyTrashBag = () => {
     if (junk >= itemCosts.trashBag) {
       setJunk(prev => prev - itemCosts.trashBag);
-      setNotifications(prev => [...prev, "Scrap Bag gekauft!"]);
+      setNotifications(prev => [...prev, "Scrap Bag purchased!"]);
       setClickMultiplier(prev => prev + 1);
       setItemCosts(prev => ({...prev, trashBag: Math.floor(prev.trashBag * 1.1)}));
       setOwnedItems(prev => ({...prev, trashBag: prev.trashBag + 1}));
@@ -650,7 +650,7 @@ export default function App() {
   const handleBuyPicker = () => {
     if (junk >= itemCosts.trashPicker) {
       setJunk(prev => prev - itemCosts.trashPicker);
-      setNotifications(prev => [...prev, "Trash Picker gekauft!"]);
+      setNotifications(prev => [...prev, "Trash Picker purchased!"]);
       setClickMultiplier(prev => prev + 3);
       setItemCosts(prev => ({...prev, trashPicker: Math.floor(prev.trashPicker * 1.1)}));
       setOwnedItems(prev => ({...prev, trashPicker: prev.trashPicker + 1}));
@@ -660,7 +660,7 @@ export default function App() {
   const handleBuyStreetrat = () => {
     if (junk >= itemCosts.streetrat) {
       setJunk(prev => prev - itemCosts.streetrat);
-      setNotifications(prev => [...prev, "Streetrat angeheuert!"]);
+      setNotifications(prev => [...prev, "Streetrat hired!"]);
       setPassiveIncome(prev => prev + 1);
       setItemCosts(prev => ({...prev, streetrat: Math.floor(prev.streetrat * 1.15)}));
       setOwnedItems(prev => ({...prev, streetrat: prev.streetrat + 1}));
@@ -671,7 +671,7 @@ export default function App() {
   const handleBuyCart = () => {
     if (junk >= itemCosts.cart) {
       setJunk(prev => prev - itemCosts.cart);
-      setNotifications(prev => [...prev, "Shopping Cart gekauft!"]);
+      setNotifications(prev => [...prev, "Shopping Cart purchased!"]);
       setPassiveIncome(prev => prev + 5);
       setItemCosts(prev => ({...prev, cart: Math.floor(prev.cart * 1.15)}));
       setOwnedItems(prev => ({...prev, cart: prev.cart + 1}));
@@ -681,7 +681,7 @@ export default function App() {
   const handleBuyJunkMagnet = () => {
     if (junk >= itemCosts.junkMagnet) {
       setJunk(prev => prev - itemCosts.junkMagnet);
-      setNotifications(prev => [...prev, "Junk Magnet gekauft!"]);
+      setNotifications(prev => [...prev, "Junk Magnet purchased!"]);
       setPassiveIncome(prev => prev + 10);
       setItemCosts(prev => ({...prev, junkMagnet: Math.floor(prev.junkMagnet * 1.15)}));
       setOwnedItems(prev => ({...prev, junkMagnet: prev.junkMagnet + 1}));
@@ -691,7 +691,7 @@ export default function App() {
   const handleBuyUrbanRecycler = () => {
     if (junk >= itemCosts.urbanRecycler) {
       setJunk(prev => prev - itemCosts.urbanRecycler);
-      setNotifications(prev => [...prev, "Urban Recycler gekauft!"]);
+      setNotifications(prev => [...prev, "Urban Recycler purchased!"]);
       setPassiveIncome(prev => prev + 20);
       setItemCosts(prev => ({...prev, urbanRecycler: Math.floor(prev.urbanRecycler * 1.15)}));
       setOwnedItems(prev => ({...prev, urbanRecycler: prev.urbanRecycler + 1}));
