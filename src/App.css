@@ -591,7 +591,15 @@ button.locked {
   color: #00FF00;
   padding: 0 20px;
   white-space: nowrap;
-  animation: slide 20s linear;
+  display: inline-block;
+  animation: slide 30s linear infinite;
+  min-width: 100%;
+  will-change: transform;
+}
+
+@keyframes slide {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-150%); }
 }
 
 .holo-billboard {
@@ -649,11 +657,6 @@ button.locked {
   50% { opacity: 0.1; }
 }
 
-
-@keyframes slide {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
-}
 
 @keyframes slideIn {
   from { transform: translateX(100%); }
