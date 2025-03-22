@@ -1133,6 +1133,19 @@ export default function App() {
               }));
             }
           }}
+          onBuyBooster={() => {
+            if (credits >= 60 && !craftingInventory['Crafting Booster Unit']) {
+              setCredits(prev => prev - 60);
+              setCraftingInventory(prev => ({
+                ...prev,
+                'Crafting Booster Unit': 1
+              }));
+              setNotifications(prev => [...prev, "Crafting Booster Unit purchased! Basic crafting costs reduced by 10%"]);
+              window.dispatchEvent(new CustomEvent('nextNews', { 
+                detail: { message: "Your crafting operations just got more efficient!" }
+              }));
+            }
+          }}
           onBack={() => setActiveStore(null)}
         />
       )}

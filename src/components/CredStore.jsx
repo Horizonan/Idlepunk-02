@@ -82,6 +82,21 @@ export default function CredStore({ junk, onSellJunk, onBack, credits, onBuyBeac
           </div>
         </button>
         <button
+          onClick={() => onBuyBooster()}
+          disabled={credits < 60 || craftingInventory['Crafting Booster Unit']}
+          className="store-item"
+        >
+          <div className="item-header">
+            <strong><span className="icon">🔧</span> Crafting Booster Unit</strong>
+            <span>60 Credits</span>
+          </div>
+          <div className="item-info">
+            -10% crafting costs on basic recipes
+            An efficient processing unit that optimizes
+            your crafting operations. One-time purchase.
+          </div>
+        </button>
+        <button
           onClick={() => onBuyHoverDrone()}
           disabled={credits < 20 || craftingInventory['Hover Drone']}
           className="store-item"

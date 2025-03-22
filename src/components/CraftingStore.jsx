@@ -124,7 +124,8 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
 
   const canCraft = (item) => {
     if (item.type === 'basic') {
-      return junk >= item.cost;
+      const cost = craftingInventory['Crafting Booster Unit'] ? Math.floor(item.cost * 0.9) : item.cost;
+      return junk >= cost;
     } else {
       return Object.entries(item.requirements).every(
         ([mat, count]) => (craftingInventory[mat] || 0) >= count
