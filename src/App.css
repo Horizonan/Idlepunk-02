@@ -591,7 +591,8 @@ button.locked {
   color: #00FF00;
   padding: 0 20px;
   white-space: nowrap;
-  animation: slide 20s linear;
+  animation: slide 20s linear, fade-out 1s ease-out 19s forwards;
+  opacity: 1;
 }
 
 .holo-billboard {
@@ -1074,7 +1075,7 @@ button.locked {
 
 .special-materials .inventory-item {
   border-color: #FFD700;
-  background: rgba(34, 34, 34, 0.98);
+  background: rgba(34,34, 34, 0.98);
 }
 
 .basic-materials .inventory-header h2 {
@@ -1808,4 +1809,13 @@ button.locked {
 
 .store-item .icon {
   font-size: 1.2em;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
