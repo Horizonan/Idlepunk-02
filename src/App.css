@@ -679,7 +679,20 @@ button.locked {
 
 .store-item {
   position: relative;
-  display: inline-block;
+  display: flex;
+  background: #222;
+  color: #00FF00;
+  border: 2px solid #9400D3;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.store-item .item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .store-item:hover .item-info {
@@ -688,33 +701,26 @@ button.locked {
 
 .item-info {
   display: none;
-  position: absolute;
+  position: fixed;
   background: rgba(26, 26, 26, 0.95);
   border: 1px solid #9400D3;
   padding: 10px;
   border-radius: 4px;
   width: 200px;
-  right: calc(100% + 10px);
+  right: auto;
+  left: 0;
   top: 0;
   z-index: 1100;
   color: #00FF00;
   pointer-events: none;
   box-shadow: 0 0 10px rgba(148, 0, 211, 0.3);
+  transform: translateX(-100%) translateY(-25%);
 }
 
 .store-items {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 10px;
-}
-
-.store-item {
-  background: #222;
-  color: #00FF00;
-  border: 2px solid #9400D3;
-  padding: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
 }
 
 .store-item:disabled {
