@@ -36,6 +36,7 @@ export default function App() {
   const [showSettings, setShowSettings] = useState(false);
   const [showQuestLog, setShowQuestLog] = useState(false);
   const [showClickEnhancerUI, setShowClickEnhancerUI] = useState(true);
+  const [showNewsTicker, setShowNewsTicker] = useState(() => localStorage.getItem('showNewsTicker') !== 'false');
   const [credits, setCredits] = useState(() => Math.floor(Number(localStorage.getItem('credits')) || 0));
   const [junk, setJunk] = useState(() => Math.floor(Number(localStorage.getItem('junk')) || 0));
   const [clickCount, setClickCount] = useState(() => Math.floor(Number(localStorage.getItem('clickCount')) || 0));
@@ -766,7 +767,7 @@ export default function App() {
         tutorialStage={tutorialStage}
         onTutorialProgress={(stage) => setTutorialStage(stage)}
       />
-      <NewsContainer isSurgeActive={isSurgeActive} />
+      {showNewsTicker && <NewsContainer isSurgeActive={isSurgeActive} />}
       <TrashSurge isActive={isSurgeActive} />
       <HoloBillboard ownedItems={ownedItems} />
       {showCrystal && (
@@ -1079,6 +1080,17 @@ export default function App() {
                 type="checkbox"
                 checked={showClickEnhancerUI}
                 onChange={() => setShowClickEnhancerUI(prev => !prev)}
+              />
+            </label>
+            <label className="setting-option">
+              <span>Show News Ticker</span>
+              <input
+                type="checkbox"
+                checked={showNewsTicker}
+                onChange={(e) => {
+                  setShowNewsTicker(e.target.checked);
+                  localStorage.setItem('showNewsTicker', e.target.checked);
+                }}
               />
             </label>
             <label className="setting-option">
