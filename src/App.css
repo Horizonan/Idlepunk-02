@@ -978,9 +978,12 @@ button.locked {
 }
 
 .inventory-container {
-  max-width: 1200px;
   width: 90%;
+  max-width: 1200px;
   margin: 20px auto;
+  height: 80vh;
+  overflow-y: auto;
+  padding: 20px;
 }
 
 .inventory-header {
@@ -999,15 +1002,10 @@ button.locked {
 
 .inventory-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 15px;
   margin-bottom: 20px;
-  padding: 10px;
-}
-
-.inventory-container {
-  max-width: 1200px;
-  margin: 20px auto;
+  width: 100%;
 }
 
 .inventory-item {
@@ -1089,9 +1087,10 @@ button.locked {
 
 .inventory-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  margin-bottom: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+  width: 100%;
 }
 
 .inventory-item {
