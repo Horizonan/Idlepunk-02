@@ -877,9 +877,21 @@ button.locked {
 
 .store-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-bottom: 20px;
+  position: relative;
+}
+
+.store-header button {
+  position: absolute;
+  right: 0;
+  margin: 0;
+  padding: 8px 16px;
+}
+
+.store-header h2 {
+  margin: 0;
 }
 
 .menu-container {

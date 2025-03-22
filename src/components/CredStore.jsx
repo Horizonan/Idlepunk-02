@@ -8,6 +8,7 @@ export default function CredStore({ junk, onSellJunk, onBack }) {
     <div className="store-container">
       <div className="store-header">
         <h2>Credit Exchange</h2>
+        <button onClick={onBack}>Close</button>
       </div>
       <div className="store-items">
         <button

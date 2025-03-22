@@ -87,7 +87,10 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
 
   return (
     <div className="store-container">
-      <h2>Junk Store</h2>
+      <div className="store-header">
+        <h2>Junk Store</h2>
+        <button onClick={onBack}>Close</button>
+      </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
         <div>
           <h3 style={{ color: '#9400D3', textAlign: 'center' }}>Click Upgrades</h3>
