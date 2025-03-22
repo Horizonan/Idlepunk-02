@@ -403,6 +403,9 @@ export default function App() {
 
   useEffect(() => {
     const totalPassiveIncome = passiveIncome + (autoClicks * clickMultiplier);
+    if ((totalPassiveIncome >= 100 || junk >= 1000000)) {
+      localStorage.setItem('prestigeUnlocked', 'true');
+    }
     if ((totalPassiveIncome >= 100 || junk >= 1000000) && !localStorage.getItem('cogfatherEvent')) {
       setNotifications(prev => [...prev, "The Cogfather wants to speak with you about your progress..."]);
       localStorage.setItem('cogfatherEvent', 'true');
@@ -1202,7 +1205,7 @@ export default function App() {
         </div>
       )}
       <Notifications notifications={notifications} />
-      {(passiveIncome >= 100 || junk >= 1000000) && (
+      {(localStorage.getItem('prestigeUnlocked') === 'true' || passiveIncome >= 100 || junk >= 1000000) && (
         <button className="prestige-button locked">
           Prestige
         </button>

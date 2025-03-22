@@ -6,8 +6,15 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
   const tabs = [
     { id: 'basic', label: 'Basic Materials' },
     { id: 'items', label: 'Craftable Items' },
-    { id: 'mysterious', label: 'Mysterious', unlockCondition: () => craftingInventory['Synthcore Fragment'] >= 1 }
+    { id: 'mysterious', label: 'Mysterious', unlockCondition: () => localStorage.getItem('mysteriousUnlocked') === 'true' || craftingInventory['Synthcore Fragment'] >= 1 }
   ];
+
+  // Set mysterious tab as unlocked if condition met
+  React.useEffect(() => {
+    if (craftingInventory['Synthcore Fragment'] >= 1) {
+      localStorage.setItem('mysteriousUnlocked', 'true');
+    }
+  }, [craftingInventory]);
 
   const basicMaterials = [
     {
