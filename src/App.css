@@ -1503,13 +1503,16 @@ button.locked {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(0, 255, 0, 0.2);
-  border: 2px solid #00FF00;
+  background: rgba(26, 26, 26, 0.95);
+  border: 2px solid #9400D3;
   border-radius: 8px;
   padding: 20px;
   text-align: center;
   animation: fadeIn 0.3s ease-in;
   z-index: 1100;
+  color: #00FF00;
+  font-weight: bold;
+  box-shadow: 0 0 15px rgba(148, 0, 211, 0.3);
 }
 
 @keyframes fadeIn {
