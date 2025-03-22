@@ -875,6 +875,13 @@ button.locked {
   min-height: 300px;
 }
 
+.store-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 .menu-container {
   position: fixed;
   top: 120px;
