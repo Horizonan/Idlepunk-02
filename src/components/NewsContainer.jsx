@@ -54,11 +54,25 @@ export default function NewsContainer({ isSurgeActive }) {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const updateNews = () => {
       setCurrentNewsIndex((prev) => (prev + 1) % defaultNews.length);
-    }, 12000);
+    };
 
-    return () => clearInterval(interval);
+    const interval = setInterval(updateNews, 12000);
+    const animationEndHandler = () => updateNews();
+    
+    const newsContent = document.querySelector('.news-content');
+    if (newsContent) {
+      newsContent.addEventListener('animationend', animationEndHandler);
+    }
+
+    return () => {
+      clearInterval(interval);
+      const newsContent = document.querySelector('.news-content');
+      if (newsContent) {
+        newsContent.removeEventListener('animationend', animationEndHandler);
+      }
+    };
   }, [defaultNews.length]);
 
   const displayMessage = isSurgeActive 

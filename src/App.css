@@ -591,7 +591,7 @@ button.locked {
   color: #00FF00;
   padding: 0 20px;
   white-space: nowrap;
-  animation: slide 20s linear infinite;
+  animation: slide 12s linear;
 }
 
 .holo-billboard {
