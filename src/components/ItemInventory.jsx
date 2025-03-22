@@ -104,8 +104,8 @@ export default function ItemInventory({ craftingInventory, onClose }) {
   return (
     <div className="store-container inventory-container">
       <div className="store-header">
-        <h2 style={{textAlign: 'center'}}>Item Inventory</h2>
-        <button onClick={onClose} className="close-button">Close</button>
+        <h2>Item Inventory</h2>
+        <button onClick={onClose}>Close</button>
       </div>
       {renderInventorySection(basicMaterials, 'Basic Materials', 'Components & Resources', 'basic-materials')}
       {renderInventorySection(craftedItems, 'Crafted Equipment', 'Enhanced Gear', 'crafted-items')}
