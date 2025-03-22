@@ -15,7 +15,7 @@ export default function TrashBonus({ onCollect, onDisappear, passiveIncome }) {
     }, 50);
 
     const hasHoverDrone = JSON.parse(localStorage.getItem('craftingInventory') || '{}')['Hover Drone'];
-    const duration = hasHoverDrone ? 20000 : 15000;
+    const duration = hasHoverDrone ? 25000 : 20000;
     const disappearTimeout = setTimeout(() => {
       onDisappear();
     }, duration);

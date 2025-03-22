@@ -16,6 +16,7 @@ import QuestLog from './components/QuestLog';
 import SlotMachine from './components/SlotMachine';
 import ClickEnhancerEffect from './components/ClickEnhancerEffect';
 import DroneEffect from './components/DroneEffect';
+import HoverDroneEffect from './components/HoverDroneEffect';
 import Menu from './components/Menu';
 import CraftingStore from './components/CraftingStore';
 import Marketplace from './components/Marketplace';
@@ -1158,6 +1159,7 @@ export default function App() {
       />
       {showClickEnhancerUI && clickEnhancerLevel > 0 && <ClickEnhancerEffect level={clickEnhancerLevel} />}
       {ownedItems.scrapDrone > 0 && <DroneEffect numDrones={ownedItems.scrapDrone} />}
+      {craftingInventory['Hover Drone'] && <HoverDroneEffect />}
       <Notifications notifications={notifications} />
       {showCheatMenu && (
         <CheatMenu 
