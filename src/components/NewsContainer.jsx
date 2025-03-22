@@ -82,7 +82,7 @@ export default function NewsContainer({ isSurgeActive }) {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentNewsIndex((prev) => (prev + 1) % defaultNews.length);
-    }, 12000);
+    }, 20000);
 
     return () => clearInterval(interval);
   }, [defaultNews.length]);
