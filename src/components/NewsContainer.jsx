@@ -54,11 +54,21 @@ export default function NewsContainer({ isSurgeActive }) {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const updateNews = () => {
       setCurrentNewsIndex((prev) => (prev + 1) % defaultNews.length);
-    }, 12000);
+    };
 
-    return () => clearInterval(interval);
+    const newsContent = document.querySelector('.news-content');
+    if (newsContent) {
+      newsContent.addEventListener('animationend', updateNews);
+    }
+
+    return () => {
+      const newsContent = document.querySelector('.news-content');
+      if (newsContent) {
+        newsContent.removeEventListener('animationend', updateNews);
+      }
+    };
   }, [defaultNews.length]);
 
   const displayMessage = isSurgeActive 
