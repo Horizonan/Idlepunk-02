@@ -1234,7 +1234,7 @@ export default function App() {
           onClick={() => {
             if (localStorage.getItem('prestigeUnlocked') === 'true') {
               // Prestige functionality will be implemented later
-              setNotifications(prev => [...prev, "Prestige system coming soon!"]);
+              setNotifications(prev => [...prev, "Prestige system not yet implemented"]);
             }
           }}
         >

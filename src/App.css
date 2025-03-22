@@ -1607,7 +1607,7 @@ button.locked {
 }
 
 .prestige-button:hover::after {
-  content: "System not yet stable enough to reboot. Keep grinding.";
+  content: "Powered up and ready to Enhance";
   position: absolute;
   bottom: 120%;
   right: 0;
