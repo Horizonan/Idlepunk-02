@@ -1097,9 +1097,10 @@ export default function App() {
           credits={credits}
           onSellJunk={(rate) => {
             if (junk >= rate) {
+              const creditsToAdd = rate === baseRate ? 1 : rate === baseRate * 10 ? 10 : 100;
               setJunk(prev => prev - rate);
-              setCredits(prev => prev + 1);
-              setNotifications(prev => [...prev, `Sold ${rate} junk for 1 credit!`]);
+              setCredits(prev => prev + creditsToAdd);
+              setNotifications(prev => [...prev, `Sold ${rate} junk for ${creditsToAdd} credits!`]);
             }
           }}
           onBuyBeacon={() => {
