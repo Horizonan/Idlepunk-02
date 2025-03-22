@@ -113,13 +113,13 @@ export default function CredStore({ junk, onSellJunk, onBack, credits, onBuyBeac
         </button>
 
         <button 
-          className={`store-item ${credits < 90 || (craftingInventory['Ascension Reclaimer'] || 0) >= 2 ? 'uncraftable' : ''}`}
+          className={`store-item ${credits < 90 || (craftingInventory['Ascension Reclaimer'] || 0) >= 2 || autoClicks === 0 ? 'uncraftable' : ''}`}
           onClick={() => {
-            if (credits >= 90 && (craftingInventory['Ascension Reclaimer'] || 0) < 2) {
+            if (credits >= 90 && (craftingInventory['Ascension Reclaimer'] || 0) < 2 && autoClicks > 0) {
               onBuyReclaimer();
             }
           }}
-          disabled={credits < 90 || (craftingInventory['Ascension Reclaimer'] || 0) >= 2}
+          disabled={credits < 90 || (craftingInventory['Ascension Reclaimer'] || 0) >= 2 || autoClicks === 0}
         >
           <div className="item-header">
             <strong><span className="icon">🛡️</span> Ascension Reclaimer</strong>

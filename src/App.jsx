@@ -1149,6 +1149,13 @@ export default function App() {
             }
           }}
           onBuyReclaimer={() => {
+            const hasAutoClickerBot = autoClicks > 0; // Check if user has any Auto Clicker Bots
+
+            if (!hasAutoClickerBot) {
+              setNotifications(prev => [...prev, "You need to own at least one automation helper to use the Ascension Reclaimer!"]);
+              return;
+            }
+
             if (credits >= 90 && (craftingInventory['Ascension Reclaimer'] || 0) < 2) {
               setCredits(prev => prev - 90);
               setCraftingInventory(prev => ({
