@@ -15,8 +15,19 @@ export default function NewsContainer({ isSurgeActive }) {
       setCurrentNewsIndex((prev) => (prev + 1) % defaultNews.length);
     };
     
+    const newsContent = document.querySelector('.news-content');
+    if (newsContent) {
+      newsContent.addEventListener('animationend', handleNextNews);
+    }
+    
     window.addEventListener('nextNews', handleNextNews);
-    return () => window.removeEventListener('nextNews', handleNextNews);
+    return () => {
+      window.removeEventListener('nextNews', handleNextNews);
+      const newsContent = document.querySelector('.news-content');
+      if (newsContent) {
+        newsContent.removeEventListener('animationend', handleNextNews);
+      }
+    };
   }, [defaultNews.length]);
 
   useEffect(() => {
@@ -69,7 +80,7 @@ export default function NewsContainer({ isSurgeActive }) {
     <div className="news-bar">
       <div className="news-label">News</div>
       <div className="news-content-wrapper">
-        <div className="news-content">
+        <div key={currentNewsIndex} className="news-content">
           {displayMessage}
         </div>
       </div>
