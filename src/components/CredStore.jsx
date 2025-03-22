@@ -4,6 +4,15 @@ import React from 'react';
 export default function CredStore({ junk, onSellJunk, onBack }) {
   const baseRate = 100000; // 100,000 junk = 1 credit
 
+  const formatAmount = (amount) => {
+    if (amount >= 1000000) {
+      return `${(amount / 1000000)} mil`;
+    } else if (amount >= 1000) {
+      return `${(amount / 1000)}k`;
+    }
+    return amount;
+  };
+
   return (
     <div className="store-container">
       <div className="store-header">
@@ -19,7 +28,7 @@ export default function CredStore({ junk, onSellJunk, onBack }) {
           <div className="item-header">
             <strong>💲 Basic Exchange</strong>
           </div>
-          <div>Sell {baseRate.toLocaleString()} Junk for 1 Credit</div>
+          <div>Sell {formatAmount(baseRate)} Junk for 1 Credit</div>
         </button>
 
         <button
@@ -30,7 +39,7 @@ export default function CredStore({ junk, onSellJunk, onBack }) {
           <div className="item-header">
             <strong>💲 Bulk Exchange (10x)</strong>
           </div>
-          <div>Sell {(baseRate * 10).toLocaleString()} Junk for 10 Credits</div>
+          <div>Sell {formatAmount(baseRate * 10)} Junk for 10 Credits</div>
         </button>
 
         <button
@@ -41,7 +50,7 @@ export default function CredStore({ junk, onSellJunk, onBack }) {
           <div className="item-header">
             <strong>💲 Mass Exchange (100x)</strong>
           </div>
-          <div>Sell {(baseRate * 100).toLocaleString()} Junk for 100 Credits</div>
+          <div>Sell {formatAmount(baseRate * 100)} Junk for 100 Credits</div>
         </button>
       </div>
       <button onClick={onBack}>Back</button>
