@@ -41,17 +41,6 @@ export default function CredStore({ junk, onSellJunk, onBack, credits, onBuyBeac
         </button>
 
         <button
-          onClick={() => onSellJunk(baseRate * 100)}
-          disabled={junk < baseRate * 100}
-          className="store-item"
-        >
-          <div className="item-header">
-            <strong>💲 Mass Exchange (100x)</strong>
-          </div>
-          <div>Sell {formatAmount(baseRate * 100)} Junk for 100 Credits</div>
-        </button>
-
-        <button
           onClick={() => onBuyBeacon()}
           disabled={credits < 25}
           className="store-item"
