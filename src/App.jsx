@@ -520,6 +520,11 @@ export default function App() {
           setTutorialStage(quest.stage + 1);
           setNotifications(prev => [...prev, `Quest Completed: ${quest.title}`]);
 
+          // Call completion handler if it exists
+          if (quest.onComplete) {
+            quest.onComplete();
+          }
+
           // Special handling for Surge Overflow quest
           if (quest.title === "Surge Overflow") {
             setCraftingInventory(prev => ({
@@ -527,13 +532,6 @@ export default function App() {
               'Stabilized Capacitor': (prev['Stabilized Capacitor'] || 0) + 1
             }));
             setNotifications(prev => [...prev, "Received: 1x Stabilized Capacitor"]);
-          }
-          if (quest.title === "The Circuit Speaks") {
-            setCraftingInventory(prev => ({
-              ...prev,
-              'Voltage Node': (prev['Voltage Node'] || 0) + 1
-            }));
-            setNotifications(prev => [...prev, "Received: 1x Voltage Node"]);
           }
         }
       }
