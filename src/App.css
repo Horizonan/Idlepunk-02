@@ -944,17 +944,8 @@ button.locked {
 }
 
 .menu-button:hover {
-  background: rgba(148, 0, 211, 0.6);
-}
-
-.menu-button.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  background: rgba(50, 50, 50, 0.3);
-}
-
-.menu-button.disabled:hover {
-  background: rgba(50, 50, 50, 0.3);
+  background: #9400D3;
+  color: #222;
 }
 
 .menu-toggle {

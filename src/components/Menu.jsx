@@ -9,13 +9,7 @@ export default function Menu({ onStoreSelect }) {
     { id: 'questLog', label: 'Quest Log' },
     { id: 'slotMachine', label: 'Slot Machine' },
     { id: 'settings', label: 'Settings' },
-    { id: 'changelog', label: 'Changelog' },
-    { 
-      id: 'electrostore', 
-      label: 'Electro Shop 🔒',
-      disabled: true,
-      tooltip: 'Unlock after prestige'
-    }
+    { id: 'changelog', label: 'Changelog' }
   ];
 
   return (
@@ -27,10 +21,8 @@ export default function Menu({ onStoreSelect }) {
         {buttons.map(button => (
           <button
             key={button.id}
-            className={`menu-button ${button.id}-btn ${button.disabled ? 'disabled' : ''}`}
-            onClick={() => !button.disabled && onStoreSelect(button.id)}
-            title={button.tooltip}
-            disabled={button.disabled}>
+            className={`menu-button ${button.id}-btn`}
+            onClick={() => onStoreSelect(button.id)}>
             {button.label}
           </button>
         ))}
