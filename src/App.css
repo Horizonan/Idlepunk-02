@@ -694,10 +694,12 @@ button.locked {
   padding: 10px;
   border-radius: 4px;
   width: 200px;
-  right: 105%;
-  top: 0;
-  z-index: 1002;
+  left: -220px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1010;
   color: #00FF00;
+  pointer-events: none;
 }
 
 .store-items {
