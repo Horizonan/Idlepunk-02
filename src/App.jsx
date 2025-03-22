@@ -134,7 +134,7 @@ export default function App() {
     });
     return mergedAchievements;
   });
-  const [autoClicks, setAutoClicks] = useState(0); // Added state for auto clicks
+  const [autoClicks, setAutoClicks] = useState(() => Number(localStorage.getItem('autoClicks')) || 0);
   const [preservedHelper, setPreservedHelper] = useState(null); //New state for preserved helper
 
   useEffect(() => {
