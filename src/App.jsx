@@ -324,8 +324,8 @@ export default function App() {
   }, [showSlotMachine, showAchievements, showSettings, showQuestLog]);
 
   useEffect(() => {
-    const beaconCount = Math.min(10, beaconCount); // Cap at 10 beacons
-  const beaconMultiplier = Math.pow(0.99, beaconCount); // 1% reduction per beacon
+    const maxBeacons = Math.min(10, beaconCount); // Cap at 10 beacons
+    const beaconMultiplier = Math.pow(0.99, maxBeacons); // 1% reduction per beacon
     const crystalInterval = setInterval(() => {
       if (Math.random() < 0.5) {
         setShowCrystal(true);
