@@ -500,7 +500,18 @@ export default function App() {
       { title: "Shopping Time", condition: hasAnyUpgrade, stage: 1 },
       { title: "Tool Master", condition: clickMultiplier > 1, stage: 2 },
       { title: "Passive Income", condition: totalPassiveIncome > 0, stage: 3 },
-      { title: "Surge Overflow", condition: surgeCount >= 3, stage: 7 },
+      { 
+        title: "Surge Overflow", 
+        condition: surgeCount >= 3, 
+        stage: 7,
+        onComplete: () => {
+          setCraftingInventory(prev => ({
+            ...prev,
+            'Stabilized Capacitor': (prev['Stabilized Capacitor'] || 0) + 1
+          }));
+          setNotifications(prev => [...prev, "Received: 1x Stabilized Capacitor"]);
+        }
+      },
       { 
         title: "The Circuit Speaks", 
         condition: electroShards >= 5, 
