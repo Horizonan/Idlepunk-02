@@ -11,7 +11,13 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
       {automationUnlocked && (
         <button onClick={() => onStoreSelect('automation')}>Visit Automation</button>
       )}
-      <button onClick={() => onStoreSelect('electrostore')}>Visit ElectroShop</button>
+      <button 
+        onClick={() => onStoreSelect('electrostore')}
+        className={!localStorage.getItem('hasPrestiged') ? 'locked-store' : ''}
+        disabled={!localStorage.getItem('hasPrestiged')}
+      >
+        Visit ElectroShop 🔒
+      </button>
       <button onClick={() => onStoreSelect('credstore')}>Visit CredStore</button>
       <button onClick={() => onStoreSelect('stats')}>Upgrade Stats</button>
       <button onClick={() => onStoreSelect('craft')}>Craft Items</button>
