@@ -72,7 +72,7 @@ export default function QuestLog({ tutorialStage, onClose }) {
       <div className="quest-log-content">
         <div className="quest-header">
           <h3>Quest Log</h3>
-          <button className="close-button" onClick={onClose}>×</button>
+          <button className="close-button" onClick={onClose}>x</button>
         </div>
         <div className="quest-tabs">
           <button 
