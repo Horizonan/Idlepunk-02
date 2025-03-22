@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 
 export default function SlotMachine({ junk, onSpin, onClose }) {
@@ -6,12 +5,12 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
   const [slots, setSlots] = useState(['?', '?', '?']);
   const spinCost = 100;
   const containerRef = useRef(null);
-  
+
   const [position, setPosition] = useState(() => {
     const saved = localStorage.getItem('slotMachinePosition');
     return saved ? JSON.parse(saved) : { x: 100, y: 100 };
   });
-  
+
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
 
@@ -53,15 +52,15 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
       window.removeEventListener('mouseup', handleMouseUp);
     };
   }, [isDragging]);
-  
+
   const symbols = ['💰', '🗑️', '⚡', '🔧', '🎲'];
-  
+
   const spin = (forceTriple = false, forceDouble = false) => {
     if (junk < spinCost) return;
-    
+
     setSpinning(true);
     onSpin(spinCost);
-    
+
     setTimeout(() => {
       let newSlots;
       if (forceTriple) {
@@ -76,38 +75,45 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
           symbols[Math.floor(Math.random() * symbols.length)]
         );
       }
-      
+
       setSlots(newSlots);
-      
+
       let winnings = 0;
       if (newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2]) {
         winnings = 1000;
       } else if (newSlots[0] === newSlots[1] || newSlots[1] === newSlots[2]) {
         winnings = 200;
       }
-      
+
       if (winnings > 0) {
         const audio = new Audio(newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2] 
           ? '/src/sounds/casino_winning.wav' 
           : 'https://assets.mixkit.co/active_storage/sfx/2019/casino-notification-sound.wav');
         audio.play();
       }
-      
+
       setTimeout(() => {
         setSpinning(false);
-        
+
         if (winnings > 0) {
           onSpin(-winnings);
+          const winPopup = document.createElement('div');
+          winPopup.className = 'win-popup';
+          winPopup.textContent = `Congratulations! You won ${winnings} Junk!`;
+          containerRef.current.appendChild(winPopup);
+
           setTimeout(() => {
-            alert(`Congratulations! You won ${winnings} Junk!`);
-          }, 100);
+            if (containerRef.current && containerRef.current.contains(winPopup)) {
+              containerRef.current.removeChild(winPopup);
+            }
+          }, 2000);
         }
       }, 100);
     }, 1000);
   };
 
   window.spinSlotMachine = (forceTriple, forceDouble) => spin(forceTriple, forceDouble);
-  
+
   return (
     <div 
       ref={containerRef}

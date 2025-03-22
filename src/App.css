@@ -1499,7 +1499,7 @@ button.locked {
 }
 
 .win-popup {
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -1510,6 +1510,11 @@ button.locked {
   text-align: center;
   animation: fadeIn 0.3s ease-in;
   z-index: 1100;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .notification {
