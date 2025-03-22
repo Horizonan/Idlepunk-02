@@ -119,6 +119,7 @@ export default function CredStore({ credits, junk, onSellJunk, onBuyBeacon, craf
             }
           }}
           disabled={credits < 90 || (craftingInventory['Ascension Reclaimer'] || 0) >= 2 || autoClicks === 0}
+          title={autoClicks === 0 ? "You need to own at least one automation helper to use the Ascension Reclaimer!" : ""}
         >
           <div className="item-header">
             <strong><span className="icon">🛡️</span> Ascension Reclaimer</strong>
