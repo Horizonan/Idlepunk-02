@@ -22,6 +22,7 @@ import Marketplace from './components/Marketplace';
 import ActiveCheats from './components/ActiveCheats';
 import FlyingCrystal from './components/FlyingCrystal';
 import HoloBillboard from './components/HoloBillboard';
+import TrashBonus from './components/TrashBonus';
 import ItemInventory from './components/ItemInventory';
 import Changelog from './components/Changelog';
 
@@ -30,6 +31,7 @@ export default function App() {
   const [showSlotMachine, setShowSlotMachine] = useState(false);
   const [showCheatMenu, setShowCheatMenu] = useState(false);
   const [showCrystal, setShowCrystal] = useState(false);
+  const [showTrashBonus, setShowTrashBonus] = useState(false);
   const [electroShards, setElectroShards] = useState(() => Number(localStorage.getItem('electroShards')) || 0);
   const [showActiveCheats, setShowActiveCheats] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
@@ -325,7 +327,19 @@ export default function App() {
       }
     }, 900000 + Math.random() * 900000); // Random between 15-30 minutes
 
-    return () => clearInterval(crystalInterval);
+    const spawnTrashBonus = () => {
+      setShowTrashBonus(true);
+      const nextSpawnTime = 120000 + Math.random() * 360000; // Random between 2-8 minutes
+      setTimeout(spawnTrashBonus, nextSpawnTime);
+    };
+
+    const initialSpawnTime = 120000 + Math.random() * 360000;
+    const trashBonusTimer = setTimeout(spawnTrashBonus, initialSpawnTime);
+
+    return () => {
+      clearInterval(crystalInterval);
+      clearTimeout(trashBonusTimer);
+    };
   }, []);
 
   useEffect(() => {
@@ -1228,6 +1242,21 @@ export default function App() {
         </div>
       )}
       <Notifications notifications={notifications} />
+      {showTrashBonus && (
+        <TrashBonus
+          passiveIncome={passiveIncome}
+          onCollect={() => {
+            const bonus = Math.floor((passiveIncome + (autoClicks * clickMultiplier)) * 11.87);
+            setJunk(prev => prev + bonus);
+            setShowTrashBonus(false);
+            setNotifications(prev => [...prev, `Collected ${bonus.toLocaleString()} bonus junk!`]);
+          }}
+          onDisappear={() => {
+            setShowTrashBonus(false);
+            setNotifications(prev => [...prev, "Trash bonus crashed and disappeared!"]);
+          }}
+        />
+      )}
       {(craftingInventory['Prestige Crystal'] >= 1) && (
         <button 
           className={`prestige-button ${localStorage.getItem('prestigeUnlocked') !== 'true' ? 'locked' : ''}`}

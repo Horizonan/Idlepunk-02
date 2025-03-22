@@ -1,0 +1,46 @@
+
+import React, { useState, useEffect } from 'react';
+
+export default function TrashBonus({ onCollect, onDisappear, passiveIncome }) {
+  const [position, setPosition] = useState({ 
+    x: Math.random() * (window.innerWidth - 64),
+    y: Math.random() * (window.innerHeight - 64)
+  });
+
+  useEffect(() => {
+    const moveInterval = setInterval(() => {
+      setPosition(prev => ({
+        x: Math.max(0, Math.min(window.innerWidth - 64, prev.x + (Math.random() - 0.5) * 100)),
+        y: Math.max(0, Math.min(window.innerHeight - 64, prev.y + (Math.random() - 0.5) * 100))
+      }));
+    }, 100);
+
+    const disappearTimeout = setTimeout(() => {
+      onDisappear();
+    }, 20000);
+
+    return () => {
+      clearInterval(moveInterval);
+      clearTimeout(disappearTimeout);
+    };
+  }, []);
+
+  return (
+    <img
+      src="trashClicker"
+      alt="Trash Bonus"
+      onClick={onCollect}
+      style={{
+        position: 'fixed',
+        left: position.x,
+        top: position.y,
+        width: '64px',
+        height: '64px',
+        cursor: 'pointer',
+        filter: 'drop-shadow(0 0 10px #00FF00)',
+        animation: 'float 2s infinite alternate ease-in-out',
+        zIndex: 1000,
+      }}
+    />
+  );
+}
