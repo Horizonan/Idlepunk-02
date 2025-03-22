@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
 
+const formatJunkCost = (cost) => {
+  if (cost >= 1000000) {
+    return (cost / 1000000).toFixed(1) + 'M';
+  } else if (cost >= 1000) {
+    return (cost / 1000).toFixed(0) + 'K';
+  }
+  return cost;
+};
+
 export default function CraftingStore({ junk, onCraft, craftingInventory, onBack }) {
   const [selectedTab, setSelectedTab] = useState('basic');
 
@@ -156,7 +165,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                 >
                   <div className="item-header">
                     <strong>{item.name}</strong>
-                    {item.cost && <span className="cost">({item.cost} Junk)</span>}
+                    {item.cost && <span className="cost">({formatJunkCost(item.cost)} Junk)</span>}
                   </div>
                   <div className="item-info">
                     <p>{item.description}</p>
@@ -192,7 +201,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                         ))}
                       </div>
                     )}
-                    {item.cost && <p>Cost: {item.cost} Junk</p>}
+                    {item.cost && <p>Cost: {formatJunkCost(item.cost)} Junk</p>}
                   </div>
                 </button>
               ))}
@@ -233,7 +242,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                 <div className="item-info">
                   <p>A mysterious crystal pulsing with otherworldly power</p>
                   <p>Requirements:</p>
-                  <p>- Junk: 10,000,000</p>
+                  <p>- Junk: {formatJunkCost(10000000)}</p>
                   <p>- Stabilized Capacitor: 1 ({craftingInventory['Stabilized Capacitor'] || 0} owned)</p>
                   <p>- Voltage Node: 1 ({craftingInventory['Voltage Node'] || 0} owned)</p>
                   <p>- Synthcore Fragment: 1 ({craftingInventory['Synthcore Fragment'] || 0} owned)</p>
