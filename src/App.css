@@ -872,10 +872,7 @@ button.locked {
   z-index: 1001;
   width: 800px;
   height: 600px;
-  resize: none;
-  overflow: hidden;
-  display: block;
-  box-sizing: border-box;
+  min-height: 300px;
 }
 
 .menu-container {
