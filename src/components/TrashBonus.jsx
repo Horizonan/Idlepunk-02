@@ -10,10 +10,10 @@ export default function TrashBonus({ onCollect, onDisappear, passiveIncome }) {
   useEffect(() => {
     const moveInterval = setInterval(() => {
       setPosition(prev => ({
-        x: Math.max(0, Math.min(window.innerWidth - 64, prev.x + (Math.random() - 0.5) * 100)),
-        y: Math.max(0, Math.min(window.innerHeight - 64, prev.y + (Math.random() - 0.5) * 100))
+        x: Math.max(0, Math.min(window.innerWidth - 64, prev.x + (Math.random() - 0.5) * 50)),
+        y: Math.max(0, Math.min(window.innerHeight - 64, prev.y + (Math.random() - 0.5) * 50))
       }));
-    }, 100);
+    }, 50);
 
     const disappearTimeout = setTimeout(() => {
       onDisappear();
@@ -27,7 +27,7 @@ export default function TrashBonus({ onCollect, onDisappear, passiveIncome }) {
 
   return (
     <img
-      src="trashClicker"
+      src="/Icons/TrashButtonBig.png"
       alt="Trash Bonus"
       onClick={onCollect}
       style={{
@@ -38,6 +38,7 @@ export default function TrashBonus({ onCollect, onDisappear, passiveIncome }) {
         height: '64px',
         cursor: 'pointer',
         filter: 'drop-shadow(0 0 10px #00FF00)',
+        transition: 'left 0.2s ease-out, top 0.2s ease-out',
         animation: 'float 2s infinite alternate ease-in-out',
         zIndex: 1000,
       }}
