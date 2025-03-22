@@ -398,6 +398,7 @@ export default function App() {
     junkMagnet: 1500,
     urbanRecycler: 3000,
     autoClicker: 5000,
+    autoClickerV2: 10000,
     clickEnhancer: 2500,
     scrapDrone: 7500
   });
@@ -1021,6 +1022,7 @@ export default function App() {
         <AutomationStore
           junk={junk}
           itemCosts={itemCosts}
+          autoClicks={autoClicks}
           onBuyAutoClicker={() => {
             if (junk >= itemCosts.autoClicker) {
               setJunk(prev => prev - itemCosts.autoClicker);
@@ -1029,6 +1031,17 @@ export default function App() {
               setNotifications(prev => [...prev, "Auto Clicker Bot purchased!"]);
               window.dispatchEvent(new CustomEvent('nextNews', { 
                 detail: { message: "Cogfather whispers: 'Sit back, kid. Let the bots handle it from here.'" }
+              }));
+            }
+          }}
+          onBuyAutoClickerV2={() => {
+            if (junk >= itemCosts.autoClickerV2 && autoClicks >= 1) {
+              setJunk(prev => prev - itemCosts.autoClickerV2);
+              setAutoClicks(prev => prev + 1);
+              setItemCosts(prev => ({...prev, autoClickerV2: Math.floor(prev.autoClickerV2 * 1.15)}));
+              setNotifications(prev => [...prev, "Auto Clicker Bot v2.0 purchased!"]);
+              window.dispatchEvent(new CustomEvent('nextNews', { 
+                detail: { message: "Cogfather: 'Twice the clicks, twice the profits. Now that's efficiency!'" }
               }));
             }
           }}

@@ -1,7 +1,9 @@
+
 import React from 'react';
 
-export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onBack }) {
-  const canAfford = junk >= (itemCosts.autoClicker || 5000);
+export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onBuyAutoClickerV2, autoClicks, onBack }) {
+  const canAffordV1 = junk >= (itemCosts.autoClicker || 5000);
+  const canAffordV2 = junk >= (itemCosts.autoClickerV2 || 10000);
 
   return (
     <div className="store-container">
@@ -11,17 +13,33 @@ export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onB
       </div>
       <div className="store-items">
         <button 
-          className={`store-item ${!canAfford ? 'disabled' : ''}`}
+          className={`store-item ${!canAffordV1 ? 'disabled' : ''}`}
           onClick={onBuyAutoClicker}
-          disabled={!canAfford}
+          disabled={!canAffordV1}
         >
           <div className="item-header">
             <span>Auto Clicker Bot</span>
             <span className="cost"> ({itemCosts.autoClicker} Junk)</span>
           </div>
           <div className="item-info">
-            <img src="/src/Icons/robot.png" alt="Auto Clicker" className="item-icon" />
+            <img src="/Icons/robot.png" alt="Auto Clicker" className="item-icon" />
             <p>+1 Automatic Click per second (generates Junk automatically as if clicked by the player)</p> 
+          </div>
+        </button>
+
+        <button 
+          className={`store-item ${!canAffordV2 || autoClicks < 1 ? 'disabled' : ''}`}
+          onClick={onBuyAutoClickerV2}
+          disabled={!canAffordV2 || autoClicks < 1}
+          title="Auto Clicker Bot v2.0 – Upgraded to 2 clicks/sec. Now 12% less annoying."
+        >
+          <div className="item-header">
+            <span>Auto Clicker Bot v2.0</span>
+            <span className="cost"> ({itemCosts.autoClickerV2 || 10000} Junk)</span>
+          </div>
+          <div className="item-info">
+            <img src="/Icons/Upgrades/clickerV2.png" alt="Auto Clicker v2.0" className="item-icon" />
+            <p>+2 Automatic Clicks per second (Requires 1 Auto Clicker Bot to upgrade)</p>
           </div>
         </button>
       </div>
