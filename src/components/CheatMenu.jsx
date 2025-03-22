@@ -85,6 +85,7 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
               <button onClick={() => onAddJunk(10000)}>Add 10000 Junk</button>
               <button onClick={() => onAddJunk(100000)}>Add 100k Junk</button>
               <button onClick={() => onAddJunk(1000000)}>Add 1M Junk</button>
+              <button onClick={() => onAddJunk(10000000)}>Add 10M Junk</button>
               <button onClick={() => {
                 const materials = ['Wires', 'Metal Plates', 'Gear Bits'];
                 materials.forEach(material => {
