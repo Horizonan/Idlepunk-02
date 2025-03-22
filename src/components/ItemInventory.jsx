@@ -92,10 +92,8 @@ export default function ItemInventory({ craftingInventory, onBack }) {
               <div className="item-icon">{itemDetails[name]?.icon || '❓'}</div>
               <div className="item-content">
                 <div className="item-name">{name} x{count}</div>
-                <div className="item-details">
-                  <div className="item-description">{itemDetails[name]?.description || 'Unknown item'}</div>
-                  <div className="item-effect">{itemDetails[name]?.effect || 'No effect'}</div>
-                </div>
+                <div className="item-description">{itemDetails[name]?.description || 'Unknown item'}</div>
+                <div className="item-effect">{itemDetails[name]?.effect || 'No effect'}</div>
               </div>
             </div>
           ))}
