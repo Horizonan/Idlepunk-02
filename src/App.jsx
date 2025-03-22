@@ -135,6 +135,7 @@ export default function App() {
     return mergedAchievements;
   });
   const [autoClicks, setAutoClicks] = useState(0); // Added state for auto clicks
+  const [preservedHelper, setPreservedHelper] = useState(null); //New state for preserved helper
 
   useEffect(() => {
     const handleAddMaterial = (e) => {
@@ -874,6 +875,7 @@ export default function App() {
         <p className="crystal-shards" title="Requires advanced knowledge to operate. Unlocks after ascension.">
           Electro Shards: {electroShards}
         </p>
+        <p>Preserved Helper: {preservedHelper}</p> {/*Added preserved helper display*/}
       </div>
       <Menu onStoreSelect={(type) => {
         switch(type) {
@@ -1143,6 +1145,32 @@ export default function App() {
               setNotifications(prev => [...prev, "Crafting Booster Unit purchased! Basic crafting costs reduced by 10%"]);
               window.dispatchEvent(new CustomEvent('nextNews', { 
                 detail: { message: "Your crafting operations just got more efficient!" }
+              }));
+            }
+          }}
+          onBuyReclaimer={() => {
+            if (credits >= 90 && (craftingInventory['Ascension Reclaimer'] || 0) < 2) {
+              setCredits(prev => prev - 90);
+              setCraftingInventory(prev => ({
+                ...prev,
+                'Ascension Reclaimer': (prev['Ascension Reclaimer'] || 0) + 1
+              }));
+
+              const automationHelpers = [
+                'Auto Clicker Bot',
+                'Click Rig Mk I',
+                'Auto Toolkit',
+                'Compression Pack',
+                'Scrap Drone'
+              ];
+
+              const randomHelper = automationHelpers[Math.floor(Math.random() * automationHelpers.length)];
+              setPreservedHelper(randomHelper);
+              localStorage.setItem('preservedHelper', randomHelper);
+
+              setNotifications(prev => [...prev, `Ascension Reclaimer purchased! ${randomHelper} will be preserved after prestige.`]);
+              window.dispatchEvent(new CustomEvent('nextNews', { 
+                detail: { message: `Energy shield activated: ${randomHelper} locked in for preservation.` }
               }));
             }
           }}

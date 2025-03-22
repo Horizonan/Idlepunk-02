@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-export default function CredStore({ junk, onSellJunk, onBack, credits, onBuyBeacon, craftingInventory, onBuyHoverDrone, onBuyBooster }) {
+export default function CredStore({ junk, onSellJunk, onBack, credits, onBuyBeacon, craftingInventory, onBuyHoverDrone, onBuyBooster, onBuyReclaimer }) {
   const baseRate = 100000; // 100,000 junk = 1 credit
   const formatAmount = (amount) => {
     if (amount >= 1000000) {
@@ -109,6 +109,26 @@ export default function CredStore({ junk, onSellJunk, onBack, credits, onBuyBeac
             Floating Trash lasts +5s longer before disappearing
             A sleek aerial companion that helps extend the lifespan
             of floating trash bonuses. One-time purchase.
+          </div>
+        </button>
+
+        <button 
+          className={`store-item ${credits < 90 || (craftingInventory['Ascension Reclaimer'] || 0) >= 2 ? 'uncraftable' : ''}`}
+          onClick={() => {
+            if (credits >= 90 && (craftingInventory['Ascension Reclaimer'] || 0) < 2) {
+              onBuyReclaimer();
+            }
+          }}
+          disabled={credits < 90 || (craftingInventory['Ascension Reclaimer'] || 0) >= 2}
+        >
+          <div className="item-header">
+            <strong><span className="icon">🛡️</span> Ascension Reclaimer</strong>
+            <span>90 Credits</span>
+          </div>
+          <div className="item-info">
+            Keep 1 random helper or crafting bonus after Prestige.
+            Energy shield technology that preserves automation through ascension.
+            Can be purchased twice. ({(craftingInventory['Ascension Reclaimer'] || 0)}/2)
           </div>
         </button>
       </div>
