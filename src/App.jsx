@@ -1121,9 +1121,14 @@ export default function App() {
           onBack={() => setActiveStore(null)}
         />
       )}
-      {showBeacon && (
+      {beaconCount > 0 && (
         <div className="shard-beacon">
-          <div className="beacon-glow"></div>
+          <div className="beacon-rays"></div>
+          <div className="beacon-top"></div>
+          <div className="beacon-tower">
+            <div className="beacon-glow"></div>
+          </div>
+          <div className="beacon-base"></div>
         </div>
       )}
       {activeStore === 'inventory' && showInventory && (
