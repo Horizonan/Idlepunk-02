@@ -524,6 +524,17 @@ export default function App() {
           }));
           setNotifications(prev => [...prev, "The whispers grow stronger. Received: 1x Synthcore Fragment"]);
         }
+      },
+      {
+        title: "Forge the Future",
+        condition: craftingInventory['Prestige Crystal'] >= 1,
+        stage: 10,
+        onComplete: () => {
+          window.dispatchEvent(new CustomEvent('nextNews', { 
+            detail: { message: "The crystal pulses with untold power. The path to ascension lies before you." }
+          }));
+          setNotifications(prev => [...prev, "The Prestige Crystal resonates with power. Ascension awaits!"]);
+        }
       }
     ];
 
