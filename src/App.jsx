@@ -950,6 +950,9 @@ export default function App() {
           case 'changelog':
             setShowChangelog(true);
             break;
+          case 'techtree':
+            setShowTechTree(true);
+            break;
         }
       }} />
       {showSlotMachine && (
