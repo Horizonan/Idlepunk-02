@@ -23,7 +23,7 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
       <button onClick={() => onStoreSelect('craft')}>Craft Items</button>
       {showInventory && <button onClick={() => onStoreSelect('inventory')}>Item Inventory</button>}
       {(localStorage.getItem('prestigeUnlocked') === 'true' || localStorage.getItem('prestigeCount') > 0) && (
-        <button onClick={() => onStoreSelect('techTree')}>Tech Tree</button>
+        <button onClick={() => onStoreSelect('techtree')}>Tech Tree</button>
       )}
     </div>
   );
