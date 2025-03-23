@@ -386,6 +386,7 @@ export default function App() {
   }, []);
 
   const [craftingInventory, setCraftingInventory] = useState(() => JSON.parse(localStorage.getItem('craftingInventory')) || {});
+  
   const [hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge] = useState(false);
   const [surgeCount, setSurgeCount] = useState(() => Number(localStorage.getItem('surgeCount')) || 0);
   const [activeCheatsList, setActiveCheatsList] = useState(() => ({

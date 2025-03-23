@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function CredStore({ credits, junk, onSellJunk, onBuyBeacon, craftingInventory, onBuyHoverDrone, onBuyBooster, onBuyReclaimer, autoClicks, onBack }) {
+export default function CredStore({ credits, junk, onSellJunk, onBuyBeacon, craftingInventory, onBuyHoverDrone, onBuyBooster, onBuyReclaimer, autoClicks, onBack, credStoreItems }) {
   const baseRate = 100000; // 100,000 junk = 1 credit
   const formatAmount = (amount) => {
     if (amount >= 1000000) {
@@ -74,10 +74,12 @@ export default function CredStore({ credits, junk, onSellJunk, onBuyBeacon, craf
           </div>
           <div>25 Credits</div>
           <div className="item-info">
-            Reduces Electro Shard spawn cooldown by 1% (Max 10)
+            <p>Reduces Electro Shard spawn cooldown by 1% (Max 10)</p>
             A mysterious device that creates an electromagnetic field,
-            attracting Electro Shards more frequently. Stack up to 10 beacons
-            for a maximum 10% reduction in spawn time.
+            attracting Electro Shards more frequently. 
+            
+            <p>Stack up to 10 beacons
+            for a maximum 10% reduction in spawn time.</p>
           </div>
         </button>
         <button
