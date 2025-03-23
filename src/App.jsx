@@ -1479,7 +1479,7 @@ export default function App() {
           }}
         />
       )}
-      {((craftingInventory['Prestige Crystal'] >= 1) || localStorage.getItem('prestigeUnlocked') === 'true') && (
+      {((craftingInventory['Prestige Crystal'] >= 1) || localStorage.getItem('prestigeUnlocked') === 'true') && !localStorage.getItem('hasPrestiged') && (
         <button 
           className={`prestige-button ${localStorage.getItem('prestigeUnlocked') !== 'true' ? 'locked' : ''}`}
           onClick={() => {
@@ -1534,6 +1534,9 @@ export default function App() {
                 // Show notification
                 setNotifications(prev => [...prev, "Prestige complete! Gained 1 Prestige Token"]);
                 
+                // Set prestiged flag
+                localStorage.setItem('hasPrestiged', 'true');
+
                 // Open Tech Tree
                 setShowTechTree(true);
               }
