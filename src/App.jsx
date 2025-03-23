@@ -1407,14 +1407,6 @@ export default function App() {
                 }}
               />
             </label>
-            {(craftingInventory['Prestige Token'] > 0 || localStorage.getItem('prestigeUnlocked') === 'true' || prestigeCount > 0) && (
-              <button 
-                onClick={() => setShowTechTree(true)}
-                style={{marginBottom: '20px', width: '100%'}}
-              >
-                Open Tech Tree
-              </button>
-            )}
             <div className="reset-section">
               <h3>Reset Progress</h3>
               <p className="reset-warning">Warning: This will permanently delete all your progress!</p>
