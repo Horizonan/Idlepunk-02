@@ -99,7 +99,7 @@ export default function CredStore({ credits, junk, onSellJunk, onBuyBeacon, craf
         </button>
         <button
           onClick={() => onBuyHoverDrone()}
-          disabled={credits < 20 || craftingInventory['Hover Drone']}
+          disabled={credits < 20 || creditStoreItems['Hover Drone']}
           className="store-item"
         >
           <div className="item-header">

@@ -386,6 +386,11 @@ export default function App() {
   }, []);
 
   const [craftingInventory, setCraftingInventory] = useState(() => JSON.parse(localStorage.getItem('craftingInventory')) || {});
+  const [creditStoreItems, setCreditStoreItems] = useState(() => JSON.parse(localStorage.getItem('creditStoreItems')) || {
+    'Hover Drone': false,
+    'Crafting Booster Unit': false,
+    'Ascension Reclaimer': 0
+  });
   
   const [hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge] = useState(false);
   const [surgeCount, setSurgeCount] = useState(() => Number(localStorage.getItem('surgeCount')) || 0);
@@ -1174,8 +1179,13 @@ export default function App() {
           }}
           craftingInventory={craftingInventory}
           onBuyHoverDrone={() => {
-            if (credits >= 20 && !craftingInventory['Hover Drone']) {
+            if (credits >= 20 && !creditStoreItems['Hover Drone']) {
               setCredits(prev => prev - 20);
+              setCreditStoreItems(prev => {
+                const newItems = { ...prev, 'Hover Drone': true };
+                localStorage.setItem('creditStoreItems', JSON.stringify(newItems));
+                return newItems;
+              });
               setCraftingInventory(prev => ({
                 ...prev,
                 'Hover Drone': 1
@@ -1187,8 +1197,13 @@ export default function App() {
             }
           }}
           onBuyBooster={() => {
-            if (credits >= 60 && !craftingInventory['Crafting Booster Unit']) {
+            if (credits >= 60 && !creditStoreItems['Crafting Booster Unit']) {
               setCredits(prev => prev - 60);
+              setCreditStoreItems(prev => {
+                const newItems = { ...prev, 'Crafting Booster Unit': true };
+                localStorage.setItem('creditStoreItems', JSON.stringify(newItems));
+                return newItems;
+              });
               setCraftingInventory(prev => ({
                 ...prev,
                 'Crafting Booster Unit': 1
