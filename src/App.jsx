@@ -1474,14 +1474,7 @@ export default function App() {
           }}
         />
       )}
-      {(craftingInventory['Prestige Token'] > 0 || localStorage.getItem('prestigeUnlocked') === 'true' || prestigeCount > 0) && (
-        <button
-          onClick={() => setShowTechTree(true)}
-          style={{marginBottom: '20px', width: '100%'}}
-        >
-          Open Tech Tree
-        </button>
-      )}
+      
       {((craftingInventory['Prestige Crystal'] >= 1) || localStorage.getItem('prestigeUnlocked') === 'true') && (
         <button 
           className={`prestige-button ${localStorage.getItem('prestigeUnlocked') !== 'true' ? 'locked' : ''}`}
