@@ -137,6 +137,7 @@ export default function App() {
   });
   const [autoClicks, setAutoClicks] = useState(() => Number(localStorage.getItem('autoClicks')) || 0);
   const [preservedHelper, setPreservedHelper] = useState(null); //New state for preserved helper
+  const [globalJpsMultiplier, setGlobalJpsMultiplier] = useState(() => Number(localStorage.getItem('globalJpsMultiplier')) || 1);
 
   useEffect(() => {
     const handleAddMaterial = (e) => {
@@ -206,7 +207,7 @@ export default function App() {
       if (circuitPulse && !circuitPulse.unlocked && shardCount >= 5) {
         circuitPulse.unlocked = true;
         if (!circuitPulse.checked) {
-          setPassiveIncome(prev => prev * 1.02);
+          setGlobalJpsMultiplier(prev => prev * 1.02);
           setNotifications(prev => [...prev, "Achievement Unlocked: Circuit Pulse Mastery!"]);
           circuitPulse.checked = true;
           changed = true;
@@ -318,6 +319,7 @@ export default function App() {
   const [hasUpgrade, setHasUpgrade] = useState(false);
   const [hasHelper, setHasHelper] = useState(false);
   const [showInventory, setShowInventory] = useState(false);
+  const [passiveIncome, setPassiveIncome] = useState(() => Number(localStorage.getItem('passiveIncome')) || 0);
 
   // Close store when opening other menus
   useEffect(() => {
@@ -382,7 +384,7 @@ export default function App() {
       window.removeEventListener('triggerSurge', handleTriggerSurge);
     };
   }, []);
-  const [passiveIncome, setPassiveIncome] = useState(() => Number(localStorage.getItem('passiveIncome')) || 0);
+
   const [craftingInventory, setCraftingInventory] = useState(() => JSON.parse(localStorage.getItem('craftingInventory')) || {});
   const [hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge] = useState(false);
   const [surgeCount, setSurgeCount] = useState(() => Number(localStorage.getItem('surgeCount')) || 0);
@@ -416,10 +418,10 @@ export default function App() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setJunk(prev => prev + passiveIncome + (autoClicks * clickMultiplier)); // Auto clicks use click multiplier
+      setJunk(prev => prev + (passiveIncome * globalJpsMultiplier) + (autoClicks * clickMultiplier)); // Auto clicks use click multiplier
     }, 1000);
     return () => clearInterval(interval);
-  }, [passiveIncome, autoClicks, clickMultiplier]);
+  }, [passiveIncome, autoClicks, clickMultiplier, globalJpsMultiplier]);
 
   // Save special resources whenever craftingInventory changes
   useEffect(() => {
@@ -427,7 +429,7 @@ export default function App() {
   }, [craftingInventory]);
 
   useEffect(() => {
-    const totalPassiveIncome = passiveIncome + (autoClicks * clickMultiplier);
+    const totalPassiveIncome = passiveIncome * globalJpsMultiplier + (autoClicks * clickMultiplier);
     if ((totalPassiveIncome >= 100 || junk >= 1000000)) {
       localStorage.setItem('prestigeUnlocked', 'true');
     }
@@ -448,10 +450,11 @@ export default function App() {
     localStorage.setItem('clickEnhancerLevel', clickEnhancerLevel);
     localStorage.setItem('ownedItems', JSON.stringify(ownedItems));
     localStorage.setItem('craftingInventory', JSON.stringify(craftingInventory));
-  }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts, autoClicks, clickCount, achievements, ownedItems, clickEnhancerLevel]);
+    localStorage.setItem('globalJpsMultiplier', globalJpsMultiplier);
+  }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts, autoClicks, clickCount, achievements, ownedItems, clickEnhancerLevel, globalJpsMultiplier]);
 
   const validateQuestsAndAchievements = () => {
-    const totalPassiveIncome = Math.floor(passiveIncome + (autoClicks * clickMultiplier));
+    const totalPassiveIncome = Math.floor(passiveIncome * globalJpsMultiplier + (autoClicks * clickMultiplier));
 
     // Validate achievements independently
     setAchievements(prev => {
@@ -543,7 +546,7 @@ export default function App() {
       {
         title: "Surge Rider",
         condition: surgeCount >= 1,
-        category: 'progression',
+        category: 'ascension',
         onComplete: () => {
           setElectroShards(prev => {
             const newValue = prev + 1;
@@ -657,7 +660,7 @@ export default function App() {
             }
             break;
           case "Greasy Milestone":
-            if ((passiveIncome + (autoClicks * clickMultiplier)) >= 10) {
+            if ((passiveIncome * globalJpsMultiplier + (autoClicks * clickMultiplier)) >= 10) {
               shouldUnlock = true;
               reward = () => setAutoClicks(prev => prev + 1);
             }
@@ -830,7 +833,11 @@ export default function App() {
     if (junk >= (itemCosts.holoBillboard || 15000)) {
       setJunk(prev => prev - (itemCosts.holoBillboard || 15000));
       setNotifications(prev => [...prev, "Holo Billboard Online – City scrappers stare in awe (+10% Junk/sec globally)!"]);
-      setPassiveIncome(prev => prev * 1.1);
+      setGlobalJpsMultiplier(prev => {
+        const newValue = prev * 1.1;
+        localStorage.setItem('globalJpsMultiplier', newValue);
+        return newValue;
+      });
       setItemCosts(prev => ({...prev, holoBillboard: Math.floor((prev.holoBillboard || 15000) * 1.2)}));
       setOwnedItems(prev => ({...prev, holoBillboard: (prev.holoBillboard || 0) + 1}));
 
@@ -856,7 +863,7 @@ export default function App() {
   // Validate on major game events
   useEffect(() => {
     validateQuestsAndAchievements();
-  }, [passiveIncome, ownedItems.streetrat, clickMultiplier]);
+  }, [passiveIncome, ownedItems.streetrat, clickMultiplier, globalJpsMultiplier]);
 
   useEffect(() => {
     const onetimeItems = ['Click Rig Mk I', 'Auto Toolkit', 'Compression Pack', 'Reinforced Backpack', 'Surge Capacitor Module'];
@@ -900,7 +907,7 @@ export default function App() {
       <div className="stats">
         <p>Money: {credits.toFixed(2)}C</p>
         <p>Junk: {Math.floor(junk).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
-        <p>Junk/sec: {Math.floor(passiveIncome + (autoClicks * clickMultiplier)).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
+        <p>Junk/sec: {Math.floor((passiveIncome * globalJpsMultiplier) + (autoClicks * clickMultiplier)).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
         <p className="crystal-shards" title="Requires advanced knowledge to operate. Unlocks after ascension.">
           Electro Shards: {electroShards}
         </p>
@@ -1285,8 +1292,8 @@ export default function App() {
             <div className="stats-section">
               <h3>Stats</h3>
               <p>Total Clicks: {clickCount.toLocaleString()}</p>
-              <p>Average JPS: {Math.floor(passiveIncome + (autoClicks * clickMultiplier)).toLocaleString()}</p>
-              <p>Global JPS Multiplier: {((craftingInventory['Compression Pack'] ? 1.25 : 1) * (ownedItems.holoBillboard ? Math.pow(1.1, ownedItems.holoBillboard) : 1)).toFixed(2)}x</p>
+              <p>Average JPS: {Math.floor((passiveIncome * globalJpsMultiplier) + (autoClicks * clickMultiplier)).toLocaleString()}</p>
+              <p>Global JPS Multiplier: {((craftingInventory['Compression Pack'] ? 1.25 : 1) * globalJpsMultiplier).toFixed(2)}x</p>
               <p>Trash Surges Completed: {surgeCount.toLocaleString()}</p>
             </div>
             {preservedHelper && (
@@ -1393,7 +1400,7 @@ export default function App() {
         <TrashBonus
           passiveIncome={passiveIncome}
           onCollect={() => {
-            const bonus = Math.floor((passiveIncome + (autoClicks * clickMultiplier)) * 11.87);
+            const bonus = Math.floor((passiveIncome * globalJpsMultiplier + (autoClicks * clickMultiplier)) * 11.87);
             setJunk(prev => prev + bonus);
             setShowTrashBonus(false);
             setNotifications(prev => [...prev, `Collected ${bonus.toLocaleString()} bonus junk!`]);
