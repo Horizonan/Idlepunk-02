@@ -305,6 +305,8 @@ export default function App() {
             checked: false
           }))
         );
+        localStorage.setItem('globalJpsMultiplier', '1');
+        setGlobalJpsMultiplier(1);
         break;
     }
   };
@@ -391,7 +393,7 @@ export default function App() {
     'Crafting Booster Unit': false,
     'Ascension Reclaimer': 0
   });
-  
+
   const [hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge] = useState(false);
   const [surgeCount, setSurgeCount] = useState(() => Number(localStorage.getItem('surgeCount')) || 0);
   const [activeCheatsList, setActiveCheatsList] = useState(() => ({
@@ -811,7 +813,7 @@ export default function App() {
 
   const handleBuyUrbanRecycler = () => {
     if (junk >= itemCosts.urbanRecycler) {
-      setJunk(prev => prev - itemCosts.urbanRecycler);
+            setJunk(prev => prev - itemCosts.urbanRecycler);
       setNotifications(prev => [...prev, "Urban Recycler purchased!"]);
       setPassiveIncome(prev => prev + 20);
       setItemCosts(prev => ({...prev, urbanRecycler: Math.floor(prev.urbanRecycler * 1.15)}));
@@ -1401,6 +1403,8 @@ export default function App() {
                     ];
                     localStorage.clear();
                     localStorage.setItem('achievements', JSON.stringify(defaultAchievements));
+                    localStorage.setItem('globalJpsMultiplier', '1');
+                    setGlobalJpsMultiplier(1);
                     handleReset('all');
                     window.location.reload();
                   }
