@@ -2,7 +2,7 @@
 import React from 'react';
 import './TechTree.css';
 
-export default function TechTree({ prestigeTokens, onUnlock }) {
+export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
   return (
     <div className="tech-tree-container">
       <div className="tech-tree-header">
