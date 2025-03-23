@@ -1286,6 +1286,7 @@ export default function App() {
               <h3>Stats</h3>
               <p>Total Clicks: {clickCount.toLocaleString()}</p>
               <p>Average JPS: {Math.floor(passiveIncome + (autoClicks * clickMultiplier)).toLocaleString()}</p>
+              <p>Global JPS Multiplier: {((craftingInventory['Compression Pack'] ? 1.25 : 1) * (ownedItems.holoBillboard ? Math.pow(1.1, ownedItems.holoBillboard) : 1)).toFixed(2)}x</p>
               <p>Trash Surges Completed: {surgeCount.toLocaleString()}</p>
             </div>
             {preservedHelper && (
