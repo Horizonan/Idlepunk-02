@@ -1180,6 +1180,7 @@ export default function App() {
             }
           }}
           craftingInventory={craftingInventory}
+          creditStoreItems={creditStoreItems}
           onBuyHoverDrone={() => {
             if (credits >= 20 && !creditStoreItems['Hover Drone']) {
               setCredits(prev => prev - 20);
