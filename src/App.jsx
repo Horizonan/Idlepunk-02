@@ -1037,6 +1037,7 @@ export default function App() {
           onBuyHoloBillboard={handleBuyHoloBillboard} // Added prop
           globalJpsMultiplier={globalJpsMultiplier}
           passiveIncome={passiveIncome}
+          prestigeCount={prestigeCount}
           onBuyClickEnhancer={() => {
             if (junk >= itemCosts.clickEnhancer) {
               setJunk(prev => prev - itemCosts.clickEnhancer);
