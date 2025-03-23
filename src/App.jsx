@@ -32,6 +32,7 @@ export default function App() {
   const baseRate = 100000; // 100,000 junk = 1 credit
   const [showChangelog, setShowChangelog] = useState(false);
   const [showTechTree, setShowTechTree] = useState(false);
+  const [prestigeCount, setPrestigeCount] = useState(() => Number(localStorage.getItem('prestigeCount')) || 0);
   const [showSlotMachine, setShowSlotMachine] = useState(false);
   const [showCheatMenu, setShowCheatMenu] = useState(false);
   const [showCrystal, setShowCrystal] = useState(false);
@@ -1340,6 +1341,7 @@ export default function App() {
               <p>Average JPS: {Math.floor((passiveIncome * globalJpsMultiplier) + (autoClicks * clickMultiplier)).toLocaleString()}</p>
               <p>Global JPS Multiplier: {(1 + (globalJpsMultiplier - 1) + (craftingInventory['Compression Pack'] ? 0.25 : 0)).toFixed(2)}x</p>
               <p>Trash Surges Completed: {surgeCount.toLocaleString()}</p>
+              <p>Times Prestiged: {prestigeCount}</p>
             </div>
             {preservedHelper && (
               <div className="stats-section">
@@ -1405,7 +1407,7 @@ export default function App() {
                 }}
               />
             </label>
-            {(craftingInventory['Prestige Token'] > 0 || localStorage.getItem('prestigeUnlocked') === 'true') && (
+            {(craftingInventory['Prestige Token'] > 0 || localStorage.getItem('prestigeUnlocked') === 'true' || prestigeCount > 0) && (
               <button 
                 onClick={() => setShowTechTree(true)}
                 style={{marginBottom: '20px', width: '100%'}}
@@ -1483,11 +1485,16 @@ export default function App() {
           onClick={() => {
             if (localStorage.getItem('prestigeUnlocked') === 'true') {
               if (window.confirm('Are you sure you want to prestige? This will reset your progress but grant you 1 Prestige Token.')) {
-                // Add Prestige Token
+                // Add Prestige Token and increment count
                 setCraftingInventory(prev => ({
                   ...prev,
                   'Prestige Token': (prev['Prestige Token'] || 0) + 1
                 }));
+                setPrestigeCount(prev => {
+                  const newCount = prev + 1;
+                  localStorage.setItem('prestigeCount', newCount);
+                  return newCount;
+                });
                 
                 // Reset progress
                 setJunk(0);
