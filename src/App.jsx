@@ -950,7 +950,7 @@ export default function App() {
           case 'changelog':
             setShowChangelog(true);
             break;
-          case 'techtree':
+          case 'techTree':
             setShowTechTree(true);
             break;
         }
