@@ -38,6 +38,7 @@ export default function App() {
   const [beaconCount, setBeaconCount] = useState(() => Number(localStorage.getItem('beaconCount')) || 0);
   const [showBeacon, setShowBeacon] = useState(false);
   const [showBeaconVisual, setShowBeaconVisual] = useState(() => localStorage.getItem('showBeaconVisual') !== 'false');
+  const [showHoloBillboard, setShowHoloBillboard] = useState(() => localStorage.getItem('showHoloBillboard') !== 'false')
   const [showActiveCheats, setShowActiveCheats] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
