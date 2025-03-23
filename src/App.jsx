@@ -1026,6 +1026,7 @@ export default function App() {
           onBuyUrbanRecycler={handleBuyUrbanRecycler}
           onBuyScrapDrone={handleBuyScrapDrone}
           onBuyHoloBillboard={handleBuyHoloBillboard} // Added prop
+          globalJpsMultiplier={globalJpsMultiplier}
           passiveIncome={passiveIncome}
           onBuyClickEnhancer={() => {
             if (junk >= itemCosts.clickEnhancer) {

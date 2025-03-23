@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, clickCount, purchasedUpgrades, onBack, passiveIncome, onBuyClickEnhancer }) {
+export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, clickCount, purchasedUpgrades, onBack, passiveIncome, onBuyClickEnhancer, globalJpsMultiplier }) {
   const showClickEnhancer = purchasedUpgrades >= 3 || clickCount >= 1000;
 
   const clickItems = [
@@ -38,7 +38,7 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
     { 
       name: 'Streetrat', 
       cost: itemCosts.streetrat, 
-      description: '+1 Junk/sec, +15% Cost', 
+      description: `+${Math.floor(1 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
       info: 'Hire a local to automatically collect junk for you',
       action: onBuyStreetrat,
       purchasedCount: ownedItems.streetrat || 0 
@@ -46,7 +46,7 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
     { 
       name: 'Shopping Cart', 
       cost: itemCosts.cart, 
-      description: '+5 Junk/sec, +15% Cost', 
+      description: `+${Math.floor(5 * globalJpsMultiplier)} Junk/sec, +15% Cost`, 
       info: 'Large capacity cart that greatly increases automatic collection',
       action: onBuyCart,
       purchasedCount: ownedItems.cart || 0 
@@ -54,7 +54,7 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
     { 
       name: 'Junk Magnet', 
       cost: itemCosts.junkMagnet, 
-      description: '+10 Junk/sec, +15% Cost', 
+      description: `+${Math.floor(10 * globalJpsMultiplier)} Junk/sec, +15% Cost`, 
       info: 'Electromagnetic device that attracts valuable junk automatically',
       action: onBuyJunkMagnet,
       purchasedCount: ownedItems.junkMagnet || 0 
@@ -62,7 +62,7 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
     { 
       name: 'Urban Recycler', 
       cost: itemCosts.urbanRecycler, 
-      description: '+20 Junk/sec, +15% Cost', 
+      description: `+${Math.floor(20 * globalJpsMultiplier)} Junk/sec, +15% Cost`, 
       info: 'Automated system that processes urban waste into valuable junk',
       action: onBuyUrbanRecycler,
       purchasedCount: ownedItems.urbanRecycler || 0 
@@ -70,7 +70,7 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
     { 
       name: 'Scrap Drone', 
       cost: itemCosts.scrapDrone, 
-      description: '+25 Junk/sec, +15% Cost', 
+      description: `+${Math.floor(25 * globalJpsMultiplier)} Junk/sec, +15% Cost`, 
       info: 'Autonomous drone that scans the area for valuable junk',
       action: onBuyScrapDrone,
       purchasedCount: ownedItems.scrapDrone || 0 
