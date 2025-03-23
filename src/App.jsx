@@ -951,7 +951,6 @@ export default function App() {
             setShowChangelog(true);
             break;
           case 'techTree':
-            setActiveStore(null);
             setShowTechTree(true);
             break;
         }
