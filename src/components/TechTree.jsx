@@ -5,7 +5,10 @@ import './TechTree.css';
 export default function TechTree({ prestigeTokens, onUnlock }) {
   return (
     <div className="tech-tree-container">
-      <h2>Tech Tree</h2>
+      <div className="tech-tree-header">
+        <h2>Tech Tree</h2>
+        <button onClick={onClose}>Close</button>
+      </div>
       <div className="tech-tokens">Prestige Tokens: {prestigeTokens}</div>
       
       <div className="tech-tree">

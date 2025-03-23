@@ -1313,6 +1313,7 @@ export default function App() {
       {showTechTree && (
         <TechTree 
           prestigeTokens={craftingInventory['Prestige Token'] || 0}
+          onClose={() => setShowTechTree(false)}
           onUnlock={(nodeId) => {
             if (nodeId === 'tronicsClicker') {
               setCraftingInventory(prev => ({
