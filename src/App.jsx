@@ -26,10 +26,12 @@ import HoloBillboard from './components/HoloBillboard';
 import TrashBonus from './components/TrashBonus';
 import ItemInventory from './components/ItemInventory';
 import Changelog from './components/Changelog';
+import TechTree from './components/TechTree';
 
 export default function App() {
   const baseRate = 100000; // 100,000 junk = 1 credit
   const [showChangelog, setShowChangelog] = useState(false);
+  const [showTechTree, setShowTechTree] = useState(false);
   const [showSlotMachine, setShowSlotMachine] = useState(false);
   const [showCheatMenu, setShowCheatMenu] = useState(false);
   const [showCrystal, setShowCrystal] = useState(false);
@@ -1308,6 +1310,22 @@ export default function App() {
       {showChangelog && (
         <Changelog onClose={() => setShowChangelog(false)} />
       )}
+      {showTechTree && (
+        <TechTree 
+          prestigeTokens={craftingInventory['Prestige Token'] || 0}
+          onUnlock={(nodeId) => {
+            if (nodeId === 'tronicsClicker') {
+              setCraftingInventory(prev => ({
+                ...prev,
+                'Prestige Token': prev['Prestige Token'] - 1
+              }));
+              setElectronicsUnlock(true);
+              setNotifications(prev => [...prev, "Tronics Clicker Unlocked!"]);
+            }
+          }}
+          onClose={() => setShowTechTree(false)}
+        />
+      )}
       {showSettings && (
         <div className="store-container settings-menu">
           <div className="settings-header">
@@ -1386,6 +1404,14 @@ export default function App() {
                 }}
               />
             </label>
+            {(craftingInventory['Prestige Token'] > 0 || localStorage.getItem('prestigeUnlocked') === 'true') && (
+              <button 
+                onClick={() => setShowTechTree(true)}
+                style={{marginBottom: '20px', width: '100%'}}
+              >
+                Open Tech Tree
+              </button>
+            )}
             <div className="reset-section">
               <h3>Reset Progress</h3>
               <p className="reset-warning">Warning: This will permanently delete all your progress!</p>
@@ -1455,8 +1481,54 @@ export default function App() {
           className={`prestige-button ${localStorage.getItem('prestigeUnlocked') !== 'true' ? 'locked' : ''}`}
           onClick={() => {
             if (localStorage.getItem('prestigeUnlocked') === 'true') {
-              // Prestige functionality will be implemented later
-              setNotifications(prev => [...prev, "Prestige system not yet implemented"]);
+              if (window.confirm('Are you sure you want to prestige? This will reset your progress but grant you 1 Prestige Token.')) {
+                // Add Prestige Token
+                setCraftingInventory(prev => ({
+                  ...prev,
+                  'Prestige Token': (prev['Prestige Token'] || 0) + 1
+                }));
+                
+                // Reset progress
+                setJunk(0);
+                setClickMultiplier(1);
+                setPassiveIncome(0);
+                setAutoClicks(0);
+                setClickEnhancerLevel(0);
+                
+                // Reset costs
+                setItemCosts({
+                  trashBag: 10,
+                  trashPicker: 100,
+                  streetrat: 100,
+                  cart: 500,
+                  junkMagnet: 1500,
+                  clickEnhancer: 2500,
+                  urbanRecycler: 3000,
+                  autoClicker: 5000,
+                  scrapDrone: 7500,
+                  holoBillboard: 15000
+                });
+                
+                // Reset owned items except preserved ones
+                const resetOwnedItems = {
+                  trashBag: 0,
+                  trashPicker: 0,
+                  streetrat: 0,
+                  cart: 0,
+                  junkMagnet: 0,
+                  urbanRecycler: 0,
+                  clickEnhancer: 0,
+                  scrapDrone: 0,
+                  holoBillboard: 0
+                };
+                setOwnedItems(resetOwnedItems);
+                
+                // Show notification
+                setNotifications(prev => [...prev, "Prestige complete! Gained 1 Prestige Token"]);
+                
+                // Open Tech Tree
+                setShowTechTree(true);
+              }
             }
           }}
         >

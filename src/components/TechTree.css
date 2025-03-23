@@ -1,0 +1,94 @@
+
+.tech-tree-container {
+  background: rgba(26, 26, 26, 0.95);
+  border: 2px solid #9400D3;
+  border-radius: 8px;
+  padding: 20px;
+  width: 800px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+}
+
+.tech-tokens {
+  color: #00FF00;
+  font-size: 1.2em;
+  margin: 10px 0 20px;
+}
+
+.tech-tree {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.tech-tier {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+}
+
+.tech-node {
+  width: 200px;
+  text-align: center;
+}
+
+.tech-button {
+  width: 100%;
+  padding: 15px;
+  background: #222;
+  border: 2px solid #9400D3;
+  color: #00FF00;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.tech-button:hover:not(:disabled) {
+  background: #9400D3;
+  color: #222;
+}
+
+.tech-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.tech-cost {
+  font-size: 0.8em;
+  margin-top: 5px;
+  color: #FF00FF;
+}
+
+.tech-connections {
+  position: relative;
+  height: 50px;
+  width: 100%;
+}
+
+.vertical-line {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 100%;
+  width: 2px;
+  background: #9400D3;
+}
+
+.horizontal-line {
+  position: absolute;
+  bottom: 0;
+  left: 25%;
+  width: 50%;
+  height: 2px;
+  background: #9400D3;
+}
+
+.tech-node.locked .tech-button {
+  background: #333;
+  border-color: #666;
+  color: #666;
+}
