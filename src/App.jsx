@@ -951,6 +951,7 @@ export default function App() {
             setShowChangelog(true);
             break;
           case 'techTree':
+            setActiveStore(null);
             setShowTechTree(true);
             break;
         }
@@ -1328,7 +1329,6 @@ export default function App() {
               setNotifications(prev => [...prev, "Tronics Clicker Unlocked!"]);
             }
           }}
-          onClose={() => setShowTechTree(false)}
         />
       )}
       {showSettings && (
