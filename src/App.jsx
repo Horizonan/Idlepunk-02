@@ -540,6 +540,19 @@ export default function App() {
         condition: totalPassiveIncome > 0,
         category: 'progression'
       },
+      {
+        title: "Surge Rider",
+        condition: surgeCount >= 1,
+        category: 'progression',
+        onComplete: () => {
+          setElectroShards(prev => {
+            const newValue = prev + 1;
+            localStorage.setItem('electroShards', newValue);
+            return newValue;
+          });
+          setNotifications(prev => [...prev, "Quest Completed: Surge Rider - Received 1x Electro Shard!"]);
+        }
+      },
       { 
         title: "Surge Overflow", 
         condition: surgeCount >= 3,
