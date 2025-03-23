@@ -1450,7 +1450,7 @@ export default function App() {
           }}
         />
       )}
-      {(craftingInventory['Prestige Crystal'] >= 1) && (
+      {((craftingInventory['Prestige Crystal'] >= 1) || localStorage.getItem('prestigeUnlocked') === 'true') && (
         <button 
           className={`prestige-button ${localStorage.getItem('prestigeUnlocked') !== 'true' ? 'locked' : ''}`}
           onClick={() => {
