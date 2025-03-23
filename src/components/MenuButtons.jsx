@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import App from '../App';
 
-export default function MenuButtons({ onStoreSelect, showInventory}) {
+export default function MenuButtons({ onStoreSelect, showInventory }) {
   const junk = Number(window.localStorage.getItem('junk')) || 0;
   const upgradeCount = Object.keys(JSON.parse(window.localStorage.getItem('itemCosts') || '{}')).length;
   const automationUnlocked = junk >= 2500 || upgradeCount >= 5;
@@ -23,15 +22,6 @@ export default function MenuButtons({ onStoreSelect, showInventory}) {
       <button onClick={() => onStoreSelect('stats')}>Upgrade Stats</button>
       <button onClick={() => onStoreSelect('craft')}>Craft Items</button>
       {showInventory && <button onClick={() => onStoreSelect('inventory')}>Item Inventory</button>}
-      {(localStorage.getItem('prestigeUnlocked') === 'true' || prestigeCount > 0) && (
-        <button
-          onClick={() => onStoreSelect('techTree')}
-        >
-          Open Tech Tree
-        </button>
-      )}
-        
-     
     </div>
-  );;
+  );
 }

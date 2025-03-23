@@ -950,9 +950,6 @@ export default function App() {
           case 'changelog':
             setShowChangelog(true);
             break;
-          case 'techTree':
-            setShowTechTree(true);
-            break;
         }
       }} />
       {showSlotMachine && (
@@ -1037,7 +1034,6 @@ export default function App() {
           onBuyHoloBillboard={handleBuyHoloBillboard} // Added prop
           globalJpsMultiplier={globalJpsMultiplier}
           passiveIncome={passiveIncome}
-          prestigeCount={prestigeCount}
           onBuyClickEnhancer={() => {
             if (junk >= itemCosts.clickEnhancer) {
               setJunk(prev => prev - itemCosts.clickEnhancer);
@@ -1329,6 +1325,7 @@ export default function App() {
               setNotifications(prev => [...prev, "Tronics Clicker Unlocked!"]);
             }
           }}
+          onClose={() => setShowTechTree(false)}
         />
       )}
       {showSettings && (
@@ -1410,6 +1407,14 @@ export default function App() {
                 }}
               />
             </label>
+            {(craftingInventory['Prestige Token'] > 0 || localStorage.getItem('prestigeUnlocked') === 'true' || prestigeCount > 0) && (
+              <button 
+                onClick={() => setShowTechTree(true)}
+                style={{marginBottom: '20px', width: '100%'}}
+              >
+                Open Tech Tree
+              </button>
+            )}
             <div className="reset-section">
               <h3>Reset Progress</h3>
               <p className="reset-warning">Warning: This will permanently delete all your progress!</p>
@@ -1474,7 +1479,6 @@ export default function App() {
           }}
         />
       )}
-      
       {((craftingInventory['Prestige Crystal'] >= 1) || localStorage.getItem('prestigeUnlocked') === 'true') && (
         <button 
           className={`prestige-button ${localStorage.getItem('prestigeUnlocked') !== 'true' ? 'locked' : ''}`}
