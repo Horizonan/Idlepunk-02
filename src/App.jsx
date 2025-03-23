@@ -418,7 +418,8 @@ export default function App() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setJunk(prev => prev + (passiveIncome * globalJpsMultiplier) + (autoClicks * clickMultiplier)); // Auto clicks use click multiplier
+      const totalMultiplier = 1 + (globalJpsMultiplier - 1) + (craftingInventory['Compression Pack'] ? 0.25 : 0);
+      setJunk(prev => prev + (passiveIncome * totalMultiplier) + (autoClicks * clickMultiplier)); // Auto clicks use click multiplier
     }, 1000);
     return () => clearInterval(interval);
   }, [passiveIncome, autoClicks, clickMultiplier, globalJpsMultiplier]);
@@ -834,7 +835,7 @@ export default function App() {
       setJunk(prev => prev - (itemCosts.holoBillboard || 15000));
       setNotifications(prev => [...prev, "Holo Billboard Online – City scrappers stare in awe (+10% Junk/sec globally)!"]);
       setGlobalJpsMultiplier(prev => {
-        const newValue = prev * 1.1;
+        const newValue = prev + 0.1;
         localStorage.setItem('globalJpsMultiplier', newValue);
         return newValue;
       });
@@ -1293,7 +1294,7 @@ export default function App() {
               <h3>Stats</h3>
               <p>Total Clicks: {clickCount.toLocaleString()}</p>
               <p>Average JPS: {Math.floor((passiveIncome * globalJpsMultiplier) + (autoClicks * clickMultiplier)).toLocaleString()}</p>
-              <p>Global JPS Multiplier: {((craftingInventory['Compression Pack'] ? 1.25 : 1) * globalJpsMultiplier).toFixed(2)}x</p>
+              <p>Global JPS Multiplier: {(1 + (globalJpsMultiplier - 1) + (craftingInventory['Compression Pack'] ? 0.25 : 0)).toFixed(2)}x</p>
               <p>Trash Surges Completed: {surgeCount.toLocaleString()}</p>
             </div>
             {preservedHelper && (
