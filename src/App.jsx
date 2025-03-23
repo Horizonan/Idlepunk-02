@@ -47,6 +47,7 @@ export default function App() {
   const [junk, setJunk] = useState(() => Math.floor(Number(localStorage.getItem('junk')) || 0));
   const [clickCount, setClickCount] = useState(() => Math.floor(Number(localStorage.getItem('clickCount')) || 0));
   const [cogfatherLore, setCogfatherLore] = useState(() => JSON.parse(localStorage.getItem('cogfatherLore')) || []);
+  
   const defaultAchievements = [
     {
       title: "Junkie Starter",
@@ -516,7 +517,6 @@ export default function App() {
     });
 
     // Quest validation
-    const hasAnyHelper = ownedItems.streetrat > 0;
     const hasAnyUpgrade = ownedItems.trashBag > 0 || ownedItems.trashPicker > 0;
 
     const questChecks = [
@@ -876,7 +876,7 @@ export default function App() {
         <p className="crystal-shards" title="Requires advanced knowledge to operate. Unlocks after ascension.">
           Electro Shards: {electroShards}
         </p>
-        <p>Preserved Helper: {preservedHelper}</p> {/*Added preserved helper display*/}
+        
       </div>
       <Menu onStoreSelect={(type) => {
         switch(type) {
@@ -1171,10 +1171,10 @@ export default function App() {
             }
 
             if (credits >= 90 && (craftingInventory['Ascension Reclaimer'] || 0) < 2) {
-              setCredits(prev => prev - 90);
+              setCredits(prev => prev - 90);  // Deduct 90 credits from the user's current balance
               setCraftingInventory(prev => ({
                 ...prev,
-                'Ascension Reclaimer': (prev['Ascension Reclaimer'] || 0) + 1
+                'Ascension Reclaimer': (prev['Ascension Reclaimer'] || 0) + 1 // Increment the count of the Ascension Reclaimer in the crafting inventory
               }));
 
               // Only select from automation store items
@@ -1182,10 +1182,14 @@ export default function App() {
                 'Auto Clicker Bot'
               ];
 
+              // Randomly select a helper from the automationHelpers array
               const randomHelper = automationHelpers[Math.floor(Math.random() * automationHelpers.length)];
+              // Update the state to keep track of the selected helper
               setPreservedHelper(randomHelper);
+              // Store the selected helper in local storage
               localStorage.setItem('preservedHelper', randomHelper);
 
+              
               setNotifications(prev => [...prev, `Ascension Reclaimer purchased! ${randomHelper} will be preserved after prestige.`]);
               window.dispatchEvent(new CustomEvent('nextNews', { 
                 detail: { message: `Energy shield activated: ${randomHelper} locked in for preservation.` }
