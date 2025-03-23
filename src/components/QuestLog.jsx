@@ -95,8 +95,7 @@ export default function QuestLog({ tutorialStage, onClose }) {
             <div 
               key={quest.id} 
               className={`quest-item ${
-                quest.id < tutorialStage ? 'completed' : 
-                quest.id === tutorialStage ? 'active' : 'pending'
+                localStorage.getItem(`quest_sync_${quest.title}`) ? 'completed' : 'active'
               }`}
             >
               <div className="quest-title">{quest.title}</div>

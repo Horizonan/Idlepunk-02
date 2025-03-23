@@ -47,7 +47,7 @@ export default function App() {
   const [junk, setJunk] = useState(() => Math.floor(Number(localStorage.getItem('junk')) || 0));
   const [clickCount, setClickCount] = useState(() => Math.floor(Number(localStorage.getItem('clickCount')) || 0));
   const [cogfatherLore, setCogfatherLore] = useState(() => JSON.parse(localStorage.getItem('cogfatherLore')) || []);
-  
+
   const defaultAchievements = [
     {
       title: "Junkie Starter",
@@ -520,14 +520,30 @@ export default function App() {
     const hasAnyUpgrade = ownedItems.trashBag > 0 || ownedItems.trashPicker > 0;
 
     const questChecks = [
-      { title: "First Steps", condition: clickCount > 0, stage: 0 },
-      { title: "Shopping Time", condition: hasAnyUpgrade, stage: 1 },
-      { title: "Tool Master", condition: clickMultiplier > 1, stage: 2 },
-      { title: "Passive Income", condition: totalPassiveIncome > 0, stage: 3 },
+      { 
+        title: "First Steps", 
+        condition: clickCount > 0,
+        category: 'progression'
+      },
+      { 
+        title: "Shopping Time", 
+        condition: hasAnyUpgrade,
+        category: 'progression'
+      },
+      { 
+        title: "Tool Master", 
+        condition: clickMultiplier > 1,
+        category: 'progression'
+      },
+      { 
+        title: "Passive Income", 
+        condition: totalPassiveIncome > 0,
+        category: 'progression'
+      },
       { 
         title: "Surge Overflow", 
-        condition: surgeCount >= 3, 
-        stage: 7,
+        condition: surgeCount >= 3,
+        category: 'ascension',
         onComplete: () => {
           setCraftingInventory(prev => ({
             ...prev,
@@ -538,8 +554,8 @@ export default function App() {
       },
       { 
         title: "The Circuit Speaks", 
-        condition: electroShards >= 5, 
-        stage: 8,
+        condition: electroShards >= 5,
+        category: 'ascension',
         onComplete: () => {
           setCraftingInventory(prev => ({
             ...prev,
@@ -551,7 +567,7 @@ export default function App() {
       {
         title: "Whispers in the Scrap",
         condition: (cogfatherLore.length >= 10 || junk >= 7500000),
-        stage: 9,
+        category: 'ascension',
         onComplete: () => {
           setCraftingInventory(prev => ({
             ...prev,
@@ -566,7 +582,7 @@ export default function App() {
       {
         title: "Forge the Future",
         condition: craftingInventory['Prestige Crystal'] >= 1,
-        stage: 10,
+        category: 'prestige',
         onComplete: () => {
           localStorage.setItem('prestigeUnlocked', 'true');
           setNotifications(prev => [...prev, "The Prestige System has been unlocked!"]);
@@ -578,11 +594,10 @@ export default function App() {
     ];
 
     questChecks.forEach(quest => {
-      if (quest.condition && tutorialStage <= quest.stage) {
+      if (quest.condition) {
         const questSyncKey = `quest_sync_${quest.title}`;
         if (!localStorage.getItem(questSyncKey)) {
           localStorage.setItem(questSyncKey, 'true');
-          setTutorialStage(quest.stage + 1);
           setNotifications(prev => [...prev, `Quest Completed: ${quest.title}`]);
 
           // Call completion handler if it exists
@@ -876,7 +891,7 @@ export default function App() {
         <p className="crystal-shards" title="Requires advanced knowledge to operate. Unlocks after ascension.">
           Electro Shards: {electroShards}
         </p>
-        
+
       </div>
       <Menu onStoreSelect={(type) => {
         switch(type) {
@@ -1189,7 +1204,7 @@ export default function App() {
               // Store the selected helper in local storage
               localStorage.setItem('preservedHelper', randomHelper);
 
-              
+
               setNotifications(prev => [...prev, `Ascension Reclaimer purchased! ${randomHelper} will be preserved after prestige.`]);
               window.dispatchEvent(new CustomEvent('nextNews', { 
                 detail: { message: `Energy shield activated: ${randomHelper} locked in for preservation.` }
