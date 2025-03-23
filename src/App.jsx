@@ -37,6 +37,7 @@ export default function App() {
   const [electroShards, setElectroShards] = useState(() => Number(localStorage.getItem('electroShards')) || 0);
   const [beaconCount, setBeaconCount] = useState(() => Number(localStorage.getItem('beaconCount')) || 0);
   const [showBeacon, setShowBeacon] = useState(false);
+  const [showBeaconVisual, setShowBeaconVisual] = useState(() => localStorage.getItem('showBeaconVisual') !== 'false');
   const [showActiveCheats, setShowActiveCheats] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -1254,7 +1255,7 @@ export default function App() {
           onBack={() => setActiveStore(null)}
         />
       )}
-      {beaconCount > 0 && (
+      {beaconCount > 0 && showBeaconVisual && (
         <div className="shard-beacon">
           <div className="beacon-rays"></div>
           <div className="beacon-top"></div>
@@ -1366,6 +1367,17 @@ export default function App() {
                 onChange={(e) => {
                   setShowNewsTicker(e.target.checked);
                   localStorage.setItem('showNewsTicker', e.target.checked);
+                }}
+              />
+            </label>
+            <label className="setting-option">
+              <span>Show Shard Beacon</span>
+              <input
+                type="checkbox"
+                checked={showBeaconVisual}
+                onChange={(e) => {
+                  setShowBeaconVisual(e.target.checked);
+                  localStorage.setItem('showBeaconVisual', e.target.checked);
                 }}
               />
             </label>
