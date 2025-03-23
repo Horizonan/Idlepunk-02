@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function CredStore({ credits, junk, onSellJunk, onBuyBeacon, craftingInventory, onBuyHoverDrone, onBuyBooster, onBuyReclaimer, autoClicks, onBack, credStoreItems }) {
+export default function CredStore({ credits, junk, onSellJunk, onBuyBeacon, craftingInventory, onBuyHoverDrone, onBuyBooster, onBuyReclaimer, autoClicks, onBack, creditStoreItems }) {
   const baseRate = 100000; // 100,000 junk = 1 credit
   const formatAmount = (amount) => {
     if (amount >= 1000000) {

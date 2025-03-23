@@ -1174,7 +1174,7 @@ export default function App() {
                 localStorage.setItem('beaconCount', newCount);
                 return newCount;
               });
-              setNotifications(prev => [...prev, "Electro Shard Beacon purchased! Crystal spawn time reduced by 10%"]);
+              setNotifications(prev => [...prev, "Electro Shard Beacon purchased! Crystal spawn time reduced by 1%"]);
               setShowBeacon(true);
               setTimeout(() => setShowBeacon(false), 3000);
             }
