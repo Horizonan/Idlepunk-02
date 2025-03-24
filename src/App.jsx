@@ -1494,6 +1494,7 @@ export default function App() {
           onClick={() => {
             if (localStorage.getItem('prestigeUnlocked') === 'true') {
               setShowPrestigePopup(true);
+            }
           }}
         >
           Prestige
