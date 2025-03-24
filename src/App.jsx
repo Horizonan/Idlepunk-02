@@ -46,8 +46,7 @@ export default function App() {
   const [beaconCount, setBeaconCount] = useState(() => Number(localStorage.getItem('beaconCount')) || 0);
   const [showBeacon, setShowBeacon] = useState(false);
   const [showBeaconVisual, setShowBeaconVisual] = useState(() => localStorage.getItem('showBeaconVisual') !== 'false');
-  const [showHoloBillboard, setShowHoloBillboard] = useState(() => localStorage.getItem('showHoloBillboard') !== 'false');
-  const [enableHoloBillboard, setEnableHoloBillboard] = useState(() => localStorage.getItem('enableHoloBillboard') !== 'false'); // Added state
+  const [showHoloBillboard, setShowHoloBillboard] = useState(() => localStorage.getItem('showHoloBillboard') !== 'false')
   const [showActiveCheats, setShowActiveCheats] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -474,8 +473,7 @@ export default function App() {
     localStorage.setItem('ownedItems', JSON.stringify(ownedItems));
     localStorage.setItem('craftingInventory', JSON.stringify(craftingInventory));
     localStorage.setItem('globalJpsMultiplier', globalJpsMultiplier);
-    localStorage.setItem('enableHoloBillboard', enableHoloBillboard); //Added
-  }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts, autoClicks, clickCount, achievements, ownedItems, clickEnhancerLevel, globalJpsMultiplier, enableHoloBillboard]); //Added
+  }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts, autoClicks, clickCount, achievements, ownedItems, clickEnhancerLevel, globalJpsMultiplier]);
 
   const validateQuestsAndAchievements = () => {
     const totalPassiveIncome = Math.floor(passiveIncome * globalJpsMultiplier + (autoClicks * clickMultiplier));
@@ -806,7 +804,7 @@ export default function App() {
       setJunk(prev => prev - itemCosts.streetrat);
       setNotifications(prev => [...prev, "Streetrat hired!"]);
       setPassiveIncome(prev => prev + 1);
-      setItemCosts(prev => ({...prev, streetrat: Math.floor(prev.streetrat * 1.15)}));<replit_final_file>
+      setItemCosts(prev => ({...prev, streetrat: Math.floor(prev.streetrat * 1.15)}));
       setOwnedItems(prev => ({...prev, streetrat: prev.streetrat + 1}));
       setHasHelper(true);
     }
@@ -917,9 +915,7 @@ export default function App() {
       />
       {showNewsTicker && <NewsContainer isSurgeActive={isSurgeActive} />}
       <TrashSurge isActive={isSurgeActive} />
-      {ownedItems.holoBillboard && enableHoloBillboard && (
-        <HoloBillboard ownedItems={ownedItems} />
-      )}
+      <HoloBillboard ownedItems={ownedItems} />
       {showCrystal && (
         <FlyingCrystal
           onCollect={() => {
@@ -1424,17 +1420,6 @@ export default function App() {
                 onChange={(e) => {
                   setShowBeaconVisual(e.target.checked);
                   localStorage.setItem('showBeaconVisual', e.target.checked);
-                }}
-              />
-            </label>
-            <label className="setting-option">
-              <span>Enable HoloBillboard</span>
-              <input
-                type="checkbox"
-                checked={enableHoloBillboard}
-                onChange={(e) => {
-                  setEnableHoloBillboard(e.target.checked);
-                  localStorage.setItem('enableHoloBillboard', e.target.checked);
                 }}
               />
             </label>
