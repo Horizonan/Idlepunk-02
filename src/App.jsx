@@ -51,6 +51,7 @@ export default function App() {
   const [credits, setCredits] = useState(() => Math.floor(Number(localStorage.getItem('credits')) || 0));
   const [junk, setJunk] = useState(() => Math.floor(Number(localStorage.getItem('junk')) || 0));
   const [clickCount, setClickCount] = useState(() => Math.floor(Number(localStorage.getItem('clickCount')) || 0));
+  const [tronics, setTronics] = useState(() => Number(localStorage.getItem('tronics')) || 0);
   const [cogfatherLore, setCogfatherLore] = useState(() => JSON.parse(localStorage.getItem('cogfatherLore')) || []);
 
   const defaultAchievements = [
@@ -753,7 +754,11 @@ export default function App() {
 
   const collectTronics = () => {
     if (electronicsUnlock) {
-      setCredits(prev => prev + 1);
+      setTronics(prev => {
+        const newValue = prev + 1;
+        localStorage.setItem('tronics', newValue);
+        return newValue;
+      });
     }
   };
 
@@ -925,6 +930,7 @@ export default function App() {
         <p>Money: {credits.toFixed(2)}C</p>
         <p>Junk: {Math.floor(junk).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
         <p>Junk/sec: {Math.floor((passiveIncome * globalJpsMultiplier) + (autoClicks * clickMultiplier)).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
+        <p>Tronics: {tronics.toFixed(2)}</p>
         <p className="crystal-shards" title="Requires advanced knowledge to operate. Unlocks after ascension.">
           Electro Shards: {electroShards}
         </p>
