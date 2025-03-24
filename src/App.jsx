@@ -31,6 +31,9 @@ import PrestigePopup from './components/PrestigePopup';
 
 export default function App() {
   const [showPrestigePopup, setShowPrestigePopup] = useState(false);
+  const [prestigeQuestCompleted, setPrestigeQuestCompleted] = useState(() => 
+    localStorage.getItem('quest_sync_Forge the Future') === 'true'
+  );
   const baseRate = 100000; // 100,000 junk = 1 credit
   const [showChangelog, setShowChangelog] = useState(false);
   const [showTechTree, setShowTechTree] = useState(false);
@@ -621,12 +624,11 @@ export default function App() {
         onComplete: () => {
           localStorage.setItem('prestigeUnlocked', 'true');
           localStorage.setItem('quest_sync_Forge the Future', 'true');
+          setPrestigeQuestCompleted(true);
           setNotifications(prev => [...prev, "The Prestige System has been unlocked!"]);
           window.dispatchEvent(new CustomEvent('nextNews', { 
             detail: { message: "Cogfather: The crystal's power flows through the system. You're ready for what comes next." }
           }));
-          // Force re-render of prestige button state
-          setJunk(prev => prev);
         }
       }
     ];
@@ -1503,9 +1505,9 @@ export default function App() {
       )}
       {(junk >= 1000000 || craftingInventory['Prestige Crystal'] >= 1) && !localStorage.getItem('hasPrestiged') && prestigeCount === 0 && (
         <button 
-          className={`prestige-button ${localStorage.getItem('quest_sync_Forge the Future') !== 'true' ? 'locked' : ''}`}
+          className={`prestige-button ${!prestigeQuestCompleted ? 'locked' : ''}`}
           onClick={() => {
-            if (localStorage.getItem('quest_sync_Forge the Future') === 'true') {
+            if (prestigeQuestCompleted) {
               setShowPrestigePopup(true);
             }
           }}>
