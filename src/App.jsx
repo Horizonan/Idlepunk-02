@@ -27,11 +27,9 @@ import TrashBonus from './components/TrashBonus';
 import ItemInventory from './components/ItemInventory';
 import Changelog from './components/Changelog';
 import TechTree from './components/TechTree';
-import PrestigePopup from './components/PrestigePopup';
 
 export default function App() {
   const baseRate = 100000; // 100,000 junk = 1 credit
-  const [showPrestigePopup, setShowPrestigePopup] = useState(false);
   const [showChangelog, setShowChangelog] = useState(false);
   const [showTechTree, setShowTechTree] = useState(false);
   const [prestigeCount, setPrestigeCount] = useState(() => Number(localStorage.getItem('prestigeCount')) || 0);
@@ -1493,23 +1491,7 @@ export default function App() {
           className={`prestige-button ${localStorage.getItem('prestigeUnlocked') !== 'true' ? 'locked' : ''}`}
           onClick={() => {
             if (localStorage.getItem('prestigeUnlocked') === 'true') {
-              setShowPrestigePopup(true);
-            }
-          }}>
-          Prestige
-        </button>
-      )}
-      {showPrestigePopup && (
-        <PrestigePopup
-          stats={{
-            junk,
-            clickMultiplier,
-            passiveIncome,
-            autoClicks,
-            clickEnhancerLevel
-          }}
-          onClose={() => setShowPrestigePopup(false)}
-          onConfirm={() => {
+              if (window.confirm('Are you sure you want to prestige? This will reset your progress but grant you 1 Prestige Token.')) {
                 // Add Prestige Token and increment count
                 setCraftingInventory(prev => ({
                   ...prev,
