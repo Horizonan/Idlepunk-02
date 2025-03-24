@@ -1328,7 +1328,8 @@ export default function App() {
                 'Prestige Token': prev['Prestige Token'] - 1
               }));
               setElectronicsUnlock(true);
-              setNotifications(prev => [...prev, "Tronics Clicker Unlocked!"]);
+              localStorage.setItem('hasPrestiged', 'true');
+              setNotifications(prev => [...prev, "Tronics Clicker and ElectroShop Unlocked!"]);
             }
           }}
           onClose={() => setShowTechTree(false)}
