@@ -46,8 +46,7 @@ export default function App() {
   const [beaconCount, setBeaconCount] = useState(() => Number(localStorage.getItem('beaconCount')) || 0);
   const [showBeacon, setShowBeacon] = useState(false);
   const [showBeaconVisual, setShowBeaconVisual] = useState(() => localStorage.getItem('showBeaconVisual') !== 'false');
-  const [showHoloBillboard, setShowHoloBillboard] = useState(() => localStorage.getItem('showHoloBillboard') !== 'false');
-  const [enableHoloBillboard, setEnableHoloBillboard] = useState(() => localStorage.getItem('enableHoloBillboard') !== 'false');
+  const [showHoloBillboard, setShowHoloBillboard] = useState(() => localStorage.getItem('showHoloBillboard') !== 'false')
   const [showActiveCheats, setShowActiveCheats] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -903,7 +902,6 @@ export default function App() {
 
   return (
     <main>
-      {/* Quest Log Component */}
       {showQuestLog && <QuestLog tutorialStage={tutorialStage} onClose={() => setShowQuestLog(false)} />}
       <TutorialSystem
         junk={junk}
@@ -917,7 +915,7 @@ export default function App() {
       />
       {showNewsTicker && <NewsContainer isSurgeActive={isSurgeActive} />}
       <TrashSurge isActive={isSurgeActive} />
-      {ownedItems.holoBillboard && enableHoloBillboard && <HoloBillboard ownedItems={ownedItems} />}
+      <HoloBillboard ownedItems={ownedItems} />
       {showCrystal && (
         <FlyingCrystal
           onCollect={() => {
@@ -1422,17 +1420,6 @@ export default function App() {
                 onChange={(e) => {
                   setShowBeaconVisual(e.target.checked);
                   localStorage.setItem('showBeaconVisual', e.target.checked);
-                }}
-              />
-            </label>
-            <label className="setting-option">
-              <span>Enable HoloBillboard</span>
-              <input
-                type="checkbox"
-                checked={enableHoloBillboard}
-                onChange={(e) => {
-                  setEnableHoloBillboard(e.target.checked);
-                  localStorage.setItem('enableHoloBillboard', e.target.checked);
                 }}
               />
             </label>
