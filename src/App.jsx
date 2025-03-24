@@ -1505,7 +1505,8 @@ export default function App() {
             if (localStorage.getItem('quest_sync_Forge the Future') === 'true') {
               setShowPrestigePopup(true);
             }
-          }}>
+          }}
+          title={localStorage.getItem('quest_sync_Forge the Future') !== 'true' ? 'System not yet stable to reboot, Keep Grinding' : 'Ready to Prestige'}>
           Prestige
         </button>
       )}
