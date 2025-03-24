@@ -1636,13 +1636,21 @@ button.locked {
   padding: 15px 30px;
   border-radius: 8px;
   box-shadow: 0 0 15px rgba(148, 0, 211, 0.3);
-  cursor: not-allowed;
-  opacity: 0.7;
   transition: all 0.3s ease;
   z-index: 1000;
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.prestige-button.locked {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.prestige-button:not(.locked) {
+  cursor: pointer;
+  opacity: 1;
 }
 
 .prestige-button.locked::before {
