@@ -1590,8 +1590,18 @@ export default function App() {
             // Set prestiged flag
             localStorage.setItem('hasPrestiged', 'true');
 
-            // Open Tech Tree
-            setShowTechTree(true);
+            // Show Cogfather message for first prestige
+            const cogfatherMessage = (
+              <div className="cogfather-message-popup">
+                <img src="Icons/NPCs/Cogfather.jfif" alt="Cogfather" />
+                <p>You scrapped everything… just to prove you could build better. That's the first real upgrade.</p>
+                <button onClick={() => {
+                  setNotifications(prev => [...prev, "The path to greater power begins..."]);
+                  setShowTechTree(true);
+                }}>Improvement complete...</button>
+              </div>
+            );
+            setNotifications(prev => [...prev, cogfatherMessage]);
           }}
         />
       )}
