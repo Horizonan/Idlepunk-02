@@ -1459,6 +1459,12 @@ export default function App() {
                         checked: false
                       }
                     ];
+                    // Clear all quest sync states
+                    Object.keys(localStorage).forEach(key => {
+                      if (key.startsWith('quest_sync_')) {
+                        localStorage.removeItem(key);
+                      }
+                    });
                     localStorage.clear();
                     localStorage.setItem('achievements', JSON.stringify(defaultAchievements));
                     localStorage.setItem('globalJpsMultiplier', '1');
@@ -1523,14 +1529,14 @@ export default function App() {
               localStorage.setItem('prestigeCount', newCount);
               return newCount;
             });
-            
+
             // Reset progress
             setJunk(0);
             setClickMultiplier(1);
             setPassiveIncome(0);
             setAutoClicks(0);
             setClickEnhancerLevel(0);
-            
+
             // Reset costs
             setItemCosts({
               trashBag: 10,
@@ -1544,7 +1550,7 @@ export default function App() {
               scrapDrone: 7500,
               holoBillboard: 15000
             });
-            
+
             // Reset owned items except preserved ones
             const resetOwnedItems = {
               trashBag: 0,
@@ -1558,10 +1564,10 @@ export default function App() {
               holoBillboard: 0
             };
             setOwnedItems(resetOwnedItems);
-            
+
             // Show notification
             setNotifications(prev => [...prev, "Prestige complete! Gained 1 Prestige Token"]);
-            
+
             // Set prestiged flag
             localStorage.setItem('hasPrestiged', 'true');
 
