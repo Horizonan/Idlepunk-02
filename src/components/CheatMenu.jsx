@@ -87,6 +87,12 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
               <button onClick={() => onAddJunk(1000000)}>Add 1M Junk</button>
               <button onClick={() => onAddJunk(10000000)}>Add 10M Junk</button>
               <button onClick={() => {
+                localStorage.setItem('prestigeCount', '1');
+                window.dispatchEvent(new CustomEvent('addMaterial', {
+                  detail: { material: 'Prestige Token', amount: 1 }
+                }));
+              }}>Set Prestige</button>
+              <button onClick={() => {
                 const materials = ['Wires', 'Metal Plates', 'Gear Bits'];
                 materials.forEach(material => {
                   window.dispatchEvent(new CustomEvent('addMaterial', { 
