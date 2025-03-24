@@ -1,7 +1,11 @@
 
 import React from 'react';
 
+import React, { useState } from 'react';
+import PrestigeAnimation from './PrestigeAnimation';
+
 export default function PrestigePopup({ onConfirm, onClose, stats }) {
+  const [showAnimation, setShowAnimation] = useState(false);
   return (
     <div className="store-container">
       <div className="store-header">
@@ -39,7 +43,7 @@ export default function PrestigePopup({ onConfirm, onClose, stats }) {
         </div>
 
         <button 
-          onClick={onConfirm}
+          onClick={() => setShowAnimation(true)}
           style={{
             width: '100%',
             marginTop: '20px',
@@ -50,6 +54,7 @@ export default function PrestigePopup({ onConfirm, onClose, stats }) {
           Confirm Prestige
         </button>
       </div>
+      {showAnimation && <PrestigeAnimation onAnimationComplete={onConfirm} />}
     </div>
   );
 }
