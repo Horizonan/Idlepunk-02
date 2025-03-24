@@ -29,10 +29,14 @@ export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onB
         </button>
 
         <button 
-          className={`store-item ${!canAffordV2 || autoClicks < 1 ? 'disabled' : ''}`}
-          onClick={onBuyAutoClickerV2}
-          disabled={!canAffordV2 || autoClicks < 1}
-          title="Auto Clicker Bot v2.0 – Upgraded to 2 clicks/sec. Now 12% less annoying."
+          className={`store-item ${junk < itemCosts.autoClickerV2 || autoClicks < 1 ? 'disabled' : ''}`}
+          onClick={() => {
+            if (junk >= itemCosts.autoClickerV2 && autoClicks >= 1) {
+              onBuyAutoClickerV2();
+            }
+          }}
+          disabled={junk < itemCosts.autoClickerV2 || autoClicks < 1}
+          title={`Auto Clicker Bot v2.0 – Upgraded to 2 clicks/sec. Requires ${itemCosts.autoClickerV2} Junk and 1 Auto Clicker Bot`}
         >
           <div className="item-header">
             <span>Auto Clicker Bot v2.0</span>
