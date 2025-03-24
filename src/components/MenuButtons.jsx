@@ -16,7 +16,7 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
         className={!localStorage.getItem('hasPrestiged') ? 'locked-store' : ''}
         disabled={!localStorage.getItem('hasPrestiged')}
       >
-        Visit ElectroShop 🔒
+        Visit ElectroShop {!localStorage.getItem('hasPrestiged') && '🔒'}
       </button>
       <button onClick={() => onStoreSelect('credstore')}>Visit CredStore</button>
       <button onClick={() => onStoreSelect('stats')}>Upgrade Stats</button>
