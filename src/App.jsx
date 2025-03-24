@@ -620,10 +620,13 @@ export default function App() {
         category: 'prestige',
         onComplete: () => {
           localStorage.setItem('prestigeUnlocked', 'true');
+          localStorage.setItem('quest_sync_Forge the Future', 'true');
           setNotifications(prev => [...prev, "The Prestige System has been unlocked!"]);
           window.dispatchEvent(new CustomEvent('nextNews', { 
             detail: { message: "Cogfather: The crystal's power flows through the system. You're ready for what comes next." }
           }));
+          // Force re-render of prestige button state
+          setJunk(prev => prev);
         }
       }
     ];
