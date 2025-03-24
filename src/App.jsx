@@ -1418,7 +1418,7 @@ export default function App() {
                 }}
               />
             </label>
-            {(craftingInventory['Prestige Token'] > 0 || localStorage.getItem('prestigeUnlocked') === 'true' || prestigeCount > 0) && (
+            {(prestigeCount > 0 || localStorage.getItem('hasPrestiged') === 'true') && (
               <button 
                 onClick={() => setShowTechTree(true)}
                 style={{marginBottom: '20px', width: '100%'}}
@@ -1498,11 +1498,11 @@ export default function App() {
           }}
         />
       )}
-      {((craftingInventory['Prestige Crystal'] >= 1) || localStorage.getItem('prestigeUnlocked') === 'true') && !localStorage.getItem('hasPrestiged') && prestigeCount === 0 && (
+      {(junk >= 1000000 || craftingInventory['Prestige Crystal'] >= 1) && !localStorage.getItem('hasPrestiged') && prestigeCount === 0 && (
         <button 
-          className={`prestige-button ${localStorage.getItem('prestigeUnlocked') !== 'true' ? 'locked' : ''}`}
+          className={`prestige-button ${localStorage.getItem('quest_sync_Forge the Future') !== 'true' ? 'locked' : ''}`}
           onClick={() => {
-            if (localStorage.getItem('prestigeUnlocked') === 'true') {
+            if (localStorage.getItem('quest_sync_Forge the Future') === 'true') {
               setShowPrestigePopup(true);
             }
           }}>
