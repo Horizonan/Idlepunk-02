@@ -272,6 +272,8 @@ export default function App() {
         setCredits(0);
         setClickCount(0);
         localStorage.setItem('clickCount', '0');
+        localStorage.removeItem('prestigeUnlocked');
+        localStorage.removeItem('hasPrestiged');
         setClickMultiplier(1);
         setPassiveIncome(0);
         setElectronicsUnlock(false);
