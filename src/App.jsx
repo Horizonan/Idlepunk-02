@@ -1468,7 +1468,9 @@ export default function App() {
                     localStorage.clear();
                     localStorage.setItem('achievements', JSON.stringify(defaultAchievements));
                     localStorage.setItem('globalJpsMultiplier', '1');
+                    localStorage.setItem('prestigeCount', '0');
                     setGlobalJpsMultiplier(1);
+                    setPrestigeCount(0);
                     handleReset('all');
                     window.location.reload();
                   }
