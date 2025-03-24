@@ -903,6 +903,7 @@ export default function App() {
 
   return (
     <main>
+      {/* Quest Log Component */}
       {showQuestLog && <QuestLog tutorialStage={tutorialStage} onClose={() => setShowQuestLog(false)} />}
       <TutorialSystem
         junk={junk}
