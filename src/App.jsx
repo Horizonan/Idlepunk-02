@@ -1591,17 +1591,19 @@ export default function App() {
             localStorage.setItem('hasPrestiged', 'true');
 
             // Show Cogfather message for first prestige
-            const cogfatherMessage = (
-              <div className="cogfather-message-popup">
-                <img src="Icons/NPCs/Cogfather.jfif" alt="Cogfather" />
-                <p>You scrapped everything… just to prove you could build better. That's the first real upgrade.</p>
-                <button onClick={() => {
-                  setNotifications(prev => [...prev, "The path to greater power begins..."]);
-                  setShowTechTree(true);
-                }}>Improvement complete...</button>
-              </div>
-            );
-            setNotifications(prev => [...prev, cogfatherMessage]);
+            if (prestigeCount === 0) {
+              const cogfatherMessage = (
+                <div className="cogfather-message-popup">
+                  <img src="Icons/NPCs/Cogfather.jfif" alt="Cogfather" />
+                  <p>You scrapped everything… just to prove you could build better. That's the first real upgrade.</p>
+                  <button onClick={() => {
+                    setShowTechTree(true);
+                    setNotifications(prev => prev.filter(n => typeof n !== 'object'));
+                  }}>Improvement complete...</button>
+                </div>
+              );
+              setNotifications(prev => [...prev, cogfatherMessage]);
+            }
           }}
         />
       )}
