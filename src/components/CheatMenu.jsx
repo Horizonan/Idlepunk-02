@@ -87,9 +87,25 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
               <button onClick={() => onAddJunk(1000000)}>Add 1M Junk</button>
               <button onClick={() => onAddJunk(10000000)}>Add 10M Junk</button>
               <button onClick={() => {
-                localStorage.setItem('prestigeCount', '1');
+                // Add all materials needed for prestige
                 window.dispatchEvent(new CustomEvent('addMaterial', {
-                  detail: { material: 'Prestige Token', amount: 1 }
+                  detail: { material: 'Stabilized Capacitor', amount: 1 }
+                }));
+                window.dispatchEvent(new CustomEvent('addMaterial', {
+                  detail: { material: 'Voltage Node', amount: 1 }
+                }));
+                window.dispatchEvent(new CustomEvent('addMaterial', {
+                  detail: { material: 'Synthcore Fragment', amount: 1 }
+                }));
+                window.dispatchEvent(new CustomEvent('addMaterial', {
+                  detail: { material: 'Prestige Crystal', amount: 1 }
+                }));
+                localStorage.setItem('quest_sync_Forge the Future', 'true');
+                localStorage.setItem('prestigeCount', '1');
+                window.dispatchEvent(new CustomEvent('validateAchievements'));
+                window.dispatchEvent(new CustomEvent('nextNews', { 
+                  detail: { message: "Cogfather: The crystal's power flows through the system." }
+                }));
                 }));
               }}>Set Prestige</button>
               <button onClick={() => {
