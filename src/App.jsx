@@ -1496,11 +1496,11 @@ export default function App() {
           }}
         />
       )}
-      {((craftingInventory['Prestige Crystal'] >= 1) || localStorage.getItem('prestigeUnlocked') === 'true') && !localStorage.getItem('hasPrestiged') && prestigeCount === 0 && localStorage.getItem('quest_sync_Forge the Future') === 'true' && (
+      {((craftingInventory['Prestige Crystal'] >= 1) || localStorage.getItem('prestigeUnlocked') === 'true') && !localStorage.getItem('hasPrestiged') && prestigeCount === 0 && (
         <button 
-          className={`prestige-button ${localStorage.getItem('quest_sync_Forge the Future') !== 'true' ? 'locked' : ''}`}
+          className={`prestige-button ${localStorage.getItem('prestigeUnlocked') !== 'true' ? 'locked' : ''}`}
           onClick={() => {
-            if (localStorage.getItem('quest_sync_Forge the Future') === 'true') {
+            if (localStorage.getItem('prestigeUnlocked') === 'true') {
               setShowPrestigePopup(true);
             }
           }}>
