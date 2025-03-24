@@ -883,6 +883,19 @@ button.locked {
   min-height: 300px;
 }
 
+/* Special styling for prestige popup */
+.store-container:has(.stats-section) {
+  width: 900px;
+  height: auto;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.store-container .stats-section {
+  margin: 15px 0;
+  padding: 20px;
+}
+
 .store-header {
   display: flex;
   justify-content: center;
