@@ -1513,64 +1513,60 @@ export default function App() {
             setShowPrestigePopup(false);
             // Add Prestige Token and increment count
             setCraftingInventory(prev => ({
-                  ...prev,
-                  'Prestige Token': (prev['Prestige Token'] || 0) + 1
-                }));
-                setPrestigeCount(prev => {
-                  const newCount = prev + 1;
-                  localStorage.setItem('prestigeCount', newCount);
-                  return newCount;
-                });
-                
-                // Reset progress
-                setJunk(0);
-                setClickMultiplier(1);
-                setPassiveIncome(0);
-                setAutoClicks(0);
-                setClickEnhancerLevel(0);
-                
-                // Reset costs
-                setItemCosts({
-                  trashBag: 10,
-                  trashPicker: 100,
-                  streetrat: 100,
-                  cart: 500,
-                  junkMagnet: 1500,
-                  clickEnhancer: 2500,
-                  urbanRecycler: 3000,
-                  autoClicker: 5000,
-                  scrapDrone: 7500,
-                  holoBillboard: 15000
-                });
-                
-                // Reset owned items except preserved ones
-                const resetOwnedItems = {
-                  trashBag: 0,
-                  trashPicker: 0,
-                  streetrat: 0,
-                  cart: 0,
-                  junkMagnet: 0,
-                  urbanRecycler: 0,
-                  clickEnhancer: 0,
-                  scrapDrone: 0,
-                  holoBillboard: 0
-                };
-                setOwnedItems(resetOwnedItems);
-                
-                // Show notification
-                setNotifications(prev => [...prev, "Prestige complete! Gained 1 Prestige Token"]);
-                
-                // Set prestiged flag
-                localStorage.setItem('hasPrestiged', 'true');
+              ...prev,
+              'Prestige Token': (prev['Prestige Token'] || 0) + 1
+            }));
+            setPrestigeCount(prev => {
+              const newCount = prev + 1;
+              localStorage.setItem('prestigeCount', newCount);
+              return newCount;
+            });
+            
+            // Reset progress
+            setJunk(0);
+            setClickMultiplier(1);
+            setPassiveIncome(0);
+            setAutoClicks(0);
+            setClickEnhancerLevel(0);
+            
+            // Reset costs
+            setItemCosts({
+              trashBag: 10,
+              trashPicker: 100,
+              streetrat: 100,
+              cart: 500,
+              junkMagnet: 1500,
+              clickEnhancer: 2500,
+              urbanRecycler: 3000,
+              autoClicker: 5000,
+              scrapDrone: 7500,
+              holoBillboard: 15000
+            });
+            
+            // Reset owned items except preserved ones
+            const resetOwnedItems = {
+              trashBag: 0,
+              trashPicker: 0,
+              streetrat: 0,
+              cart: 0,
+              junkMagnet: 0,
+              urbanRecycler: 0,
+              clickEnhancer: 0,
+              scrapDrone: 0,
+              holoBillboard: 0
+            };
+            setOwnedItems(resetOwnedItems);
+            
+            // Show notification
+            setNotifications(prev => [...prev, "Prestige complete! Gained 1 Prestige Token"]);
+            
+            // Set prestiged flag
+            localStorage.setItem('hasPrestiged', 'true');
 
-                // Open Tech Tree
-                setShowTechTree(true);
-              }
-            }
+            // Open Tech Tree
+            setShowTechTree(true);
           }}
-        >
-          Prestige
-        </button>
+        />
       )}
     </main>
   );
