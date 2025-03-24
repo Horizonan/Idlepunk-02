@@ -1741,8 +1741,24 @@ button.locked {
   }
 }
 
-.prestige-button:hover::after {
-  content: "Powered up and ready to Enhance";
+.prestige-button.locked:hover::after {
+  content: "System not yet stable to reboot, Keep Grinding";
+  position: absolute;
+  bottom: 120%;
+  right: 0;
+  background: rgba(0, 0, 0, 0.9);
+  color: #FF4444;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #9400D3;
+  white-space: nowrap;
+  font-size: 0.9em;
+  pointer-events: none;
+  width: max-content;
+}
+
+.prestige-button:not(.locked):hover::after {
+  content: "Powered up and ready to enhance";
   position: absolute;
   bottom: 120%;
   right: 0;
