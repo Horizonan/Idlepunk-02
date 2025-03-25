@@ -334,6 +334,10 @@ button {
 }
 
 .settings-menu {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background: rgba(26, 26, 26, 0.95);
   border: 2px solid #9400D3;
   border-radius: 8px;
