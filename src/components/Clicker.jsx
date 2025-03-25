@@ -8,7 +8,17 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
     <div className="main" id="clickers">
       <div>
         {activeClicker === 'electronics' && electronicsUnlock && (
-          <img src="Icons/electroClicker/electronic-waste.png" alt="Electro Clicker" onClick={collectTronics} className="tronics" />
+          <img 
+            src="Icons/electroClicker/electronic-waste.png" 
+            alt="Electro Clicker" 
+            onClick={() => {
+              const boostCount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
+              for(let i = 0; i <= boostCount; i++) {
+                collectTronics();
+              }
+            }} 
+            className="tronics" 
+          />
         )}
         {activeClicker === 'trash' && (
           <img src="Icons/TrashButtonBig.png" alt="Trash Clicker" id="trashClicker" onClick={collectJunk} />

@@ -993,6 +993,8 @@ export default function App() {
             } else if (isUnlocked && tronics >= 250) {
               setTronics(prev => prev - 250);
               setClickMultiplier(prev => prev + 1);
+              const newBoostCount = (parseInt(localStorage.getItem('tronics_boost_count') || '0') + 1);
+              localStorage.setItem('tronics_boost_count', newBoostCount);
               setNotifications(prev => [...prev, "Tronics Click Boost I purchased! +1 Tronics per click"]);
             }
           }}
