@@ -95,42 +95,31 @@ export default function Settings({
             className="reset-button" 
             onClick={() => {
               if (window.confirm('Are you sure you want to reset all progress? This cannot be undone!')) {
-                const defaultAchievements = [
-                  {
-                    title: "Junkie Starter",
-                    requirement: "Collect 1,000 Junk",
-                    reward: "+500 Junk",
-                    flavorText: "Now you're hoarding like a real scavver.",
-                    unlocked: false,
-                    checked: false
-                  },
-                  {
-                    title: "The First Clicks",
-                    requirement: "Click 500 times",
-                    reward: "+5% Click Power",
-                    flavorText: "That mouse is starting to look worn...",
-                    unlocked: false,
-                    checked: false
-                  },
-                  {
-                    title: "Greasy Milestone",
-                    requirement: "Reach 10 Junk/sec",
-                    reward: "+1 Auto Click/sec",
-                    flavorText: "The gears are turning smoothly now.",
-                    unlocked: false,
-                    checked: false
-                  }
-                ];
-
-                Object.keys(localStorage).forEach(key => {
-                  if (key.startsWith('quest_sync_')) {
-                    localStorage.removeItem(key);
-                  }
-                });
+                // First clear all localStorage
                 localStorage.clear();
-                localStorage.setItem('achievements', JSON.stringify(defaultAchievements));
+
+                // Reset core game values
+                localStorage.setItem('junk', '0');
+                localStorage.setItem('credits', '0');
+                localStorage.setItem('clickCount', '0');
+                localStorage.setItem('tronics', '0');
+                localStorage.setItem('autoClicks', '0');
+                localStorage.setItem('clickMultiplier', '1');
+                localStorage.setItem('passiveIncome', '0');
                 localStorage.setItem('globalJpsMultiplier', '1');
+                localStorage.setItem('electronicsUnlock', 'false');
+                localStorage.setItem('clickEnhancerLevel', '0');
+                localStorage.setItem('tutorialStage', '0');
                 localStorage.setItem('prestigeCount', '0');
+                localStorage.setItem('electroShards', '0');
+                localStorage.setItem('beaconCount', '0');
+                localStorage.setItem('surgeCount', '0');
+                localStorage.setItem('cogfatherLore', '[]');
+                localStorage.setItem('craftingInventory', '{}');
+                localStorage.setItem('ownedItems', '{}');
+                localStorage.setItem('achievements', JSON.stringify(defaultAchievements));
+
+                // Force a page reload to apply changes
                 window.location.reload();
               }
             }}
