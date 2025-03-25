@@ -133,6 +133,10 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
               <button onClick={() => {
                 setShowTrashBonus(true);
               }}>Trigger Trash</button>
+              <button onClick={() => {
+                localStorage.removeItem('unlocked_tronics_boost');
+                window.location.reload();
+              }}>Lock Tronics Boost</button>
             </div>
           )}
         </div>
