@@ -984,7 +984,11 @@ export default function App() {
           onBuyTronicsBoost={() => {
             const isUnlocked = localStorage.getItem('unlocked_tronics_boost') === 'true';
             if (!isUnlocked && electroShards >= 3) {
-              setElectroShards(prev => prev - 3);
+              setElectroShards(prev => {
+                const newValue = prev - 3;
+                localStorage.setItem('electroShards', newValue.toString());
+                return newValue;
+              });
               setNotifications(prev => [...prev, "Tronics Click Boost I unlocked!"]);
             } else if (isUnlocked && tronics >= 250) {
               setTronics(prev => prev - 250);
