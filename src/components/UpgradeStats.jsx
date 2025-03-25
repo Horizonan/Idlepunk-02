@@ -1,6 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import './UpgradeStats.css';
 
+// Create a shared interval ID to prevent multiple intervals
+let globalXpInterval = null;
+
+const updateXp = () => {
+  const activeSkill = localStorage.getItem('activeSkill');
+  const currentXp = parseInt(localStorage.getItem('skillXp')) || 0;
+  const skillLevels = JSON.parse(localStorage.getItem('skillLevels')) || {
+    scavengingFocus: 0,
+    greaseDiscipline: 0
+  };
+
+  if (activeSkill && skillLevels[activeSkill] < 10) {
+    const newXp = currentXp + 1;
+    const baseXp = 10;
+    const requiredXp = Math.floor(baseXp * Math.pow(1.25, skillLevels[activeSkill]));
+
+    if (newXp >= requiredXp) {
+      skillLevels[activeSkill]++;
+      localStorage.setItem('skillLevels', JSON.stringify(skillLevels));
+      localStorage.setItem('skillXp', '0');
+    } else {
+      localStorage.setItem('skillXp', newXp.toString());
+    }
+  }
+};
+
+// Start the global XP interval when the module loads
+if (!globalXpInterval) {
+  globalXpInterval = setInterval(updateXp, 10000);
+}
+
 export default function UpgradeStats({ onClose }) {
   const [xp, setXp] = useState(() => parseInt(localStorage.getItem('skillXp')) || 0);
   const [activeSkill, setActiveSkill] = useState(() => localStorage.getItem('activeSkill') || '');
@@ -19,6 +50,17 @@ export default function UpgradeStats({ onClose }) {
   useEffect(() => {
     localStorage.setItem('activeSkill', activeSkill);
   }, [activeSkill]);
+
+  // Update local state from localStorage every second
+  useEffect(() => {
+    const updateLocalState = () => {
+      setXp(parseInt(localStorage.getItem('skillXp')) || 0);
+      setSkillLevels(JSON.parse(localStorage.getItem('skillLevels')));
+    };
+    
+    const interval = setInterval(updateLocalState, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const getRequiredXp = (skill) => {
     const baseXp = 10;
