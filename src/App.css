@@ -736,14 +736,17 @@ button.locked {
   padding: 10px;
   border-radius: 4px;
   width: 200px;
-  right: auto;
   left: 0;
-  top: 35%;
+  top: 50%;
   z-index: 1100;
   color: #00FF00;
   pointer-events: none;
   box-shadow: 0 0 10px rgba(148, 0, 211, 0.3);
-  transform: translateX(-100%) translateY(-25%);
+  transform: translateX(-110%) translateY(-50%);
+}
+
+.store-item:hover .item-info {
+  display: block;
 }
 
 .store-items {
