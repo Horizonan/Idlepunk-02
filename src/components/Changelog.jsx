@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default function Changelog({ onClose }) {
-  const [expandedVersion, setExpandedVersion] = useState('0.0.4');
+  const [expandedVersion, setExpandedVersion] = useState('0.0.4.1');
 
   const toggleVersion = (version) => {
     setExpandedVersion(expandedVersion === version ? null : version);
@@ -15,6 +15,61 @@ export default function Changelog({ onClose }) {
         <button onClick={onClose}>Close</button>
       </div>
       <div className="changelog-content">
+
+        <div className="changelog-entry">
+          <h3 onClick={() => toggleVersion('0.0.4.1')} style={{ cursor: 'pointer' }}>
+            🔧 IdlePunks – Update Log 0.0.4.1 {expandedVersion === '0.0.4.1' ? '▼' : '▶'}
+          </h3>
+          {expandedVersion === '0.0.4.1' && (
+            <>
+              <p>Thanks to our new Patreon supporter Andy (the actual goat 🐐), we were able to speed up development again — huge thanks, Andy!</p>
+              <div className="changelog-section">
+                <h3>✅ New Additions</h3>
+                <p>✅ Added new resource: Tronics</p>
+                <p>✅ Added popup confirmation when pressing Prestige Button (shows what resets)</p>
+                <p>✅ Added Cheat Menu Button to instantly set Prestige to 1</p>
+                <p>✅ Added toggle option in Settings to disable the Holo Billboard</p>
+                <p>✅ Added new Cogfather quote that appears after Prestiging</p>
+                <h3>⚙️ Improvements & Fixes</h3>
+                <p>⚙️ Fixed bug where ElectroShop would not unlock after Prestige</p>
+                <p>⚙️ Fixed bug where Prestige Button remained locked after save deletion</p>
+                <p>⚙️ Fixed bug where Prestige Button showed wrong tooltip when locked</p>
+                <p>⚙️ Fixed bug where Cogfather quote appeared multiple times after Prestige</p>
+                <p>⚙️ Removed lock icon from ElectroShop after it’s unlocked</p>
+                <p>⚙️ Removed hover lock overlay from Prestige Button once it’s unlocked</p>
+                <p>⚙️ Fixed Prestige Popup and Settings panel sizing issues</p>
+                <h3>🧼 Code Refactors & Structural Improvements</h3>
+                <p>🧼 Moved Achievement logic out of App.jsx (was causing instability)</p>
+                <p>🧼 Moved GameState handling into its own file (was previously inside App.jsx)</p>
+                <p>🧼 Moved Store System into a dedicated folder with cleaner dependency routing</p>
+                <p>🧪 Possibly broke Achievements in the process (awaiting testing)</p>
+                <h3>🚧 Started (Incomplete Features)</h3>
+                <p>🚧 Started integrating Auto Clicker v2: NEED HELP ITS NOT WORKING</p>
+                <p>🚧 Tronics Click Boost I & II setup started (not fully implemented)</p>
+                <p>🚧 Prestige Visual Feedback (flash/glow) planned but not yet in</p>
+                <h3>📝 Known Issues</h3>
+                <p>⚠️ Achievements may not trigger or save properly (under review)</p>
+                <p>⚠️ GameStates need testing for save/load consistency</p>
+                <p>⚠️ Ascension Reclaimer saved item not being saved on reload.</p>
+                <p>⚠️ Milestones are still partially broken</p>
+                <p>⚠️ Prestige Button only updates after a page reload</p>
+                <p>⚠️ Cogfather's Tips are not showing up in the News Ticker.</p>
+                <p>⚠️ Started implementation of Auto Clicker Bot v2:
+
+                Still not purchasable.
+
+                Owned bots not displayed correctly.
+
+                No animation on screen.
+
+                No info in hover tooltip.</p>
+                <p>⚠️ Auto Clicker Bot v1 still has no image or animation</p>
+              </div>
+              <p className="changelog-footer">Thanks again for playing and sharing your feedback — it really helps shape each version. More content and polish coming soon! If you want to help please make sure to mail me itscolord@gmail.com 🚀</p>
+            </>
+          )}
+        </div>
+        
         <div className="changelog-entry">
           <h3 onClick={() => toggleVersion('0.0.4')} style={{ cursor: 'pointer' }}>
             🔧 IdlePunks — Update Log v0.0.4 {expandedVersion === '0.0.4' ? '▼' : '▶'}
