@@ -13,6 +13,9 @@ const updateXp = () => {
   };
 
   if (activeSkill && skillLevels[activeSkill] < 10) {
+    if (skillLevels[activeSkill] >= 10) {
+      return;
+    }
     const newXp = currentXp + 1;
     const baseXp = 10;
     const requiredXp = Math.floor(baseXp * Math.pow(1.25, skillLevels[activeSkill]));
