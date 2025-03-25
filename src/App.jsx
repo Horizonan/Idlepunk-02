@@ -35,6 +35,7 @@ import ItemInventory from './components/StoreSystem/ItemInventory';
 import Changelog from './components/SideMenu/Changelog';
 import TechTree from './components/TechTree';
 import PrestigePopup from './components/PrestigePopup';
+import UpgradeStats from './components/UpgradeStats'; //Import missing component
 
 export default function App() {
   const { 
@@ -774,7 +775,7 @@ export default function App() {
       setOwnedItems(prev => ({...prev, junkRefinery: (prev.junkRefinery || 0) + 1}));
       setItemCosts(prev => ({...prev, junkRefinery: Math.floor((prev.junkRefinery || 500000) * 1.2)}));
       setNotifications(prev => [...prev, "Junk Refinery purchased! +50 Junk/sec"]);
-      
+
       if (!ownedItems.junkRefinery) {
         window.dispatchEvent(new CustomEvent('nextNews', { 
           detail: { message: "Cogfather: A Refinery? Now you're thinking industrial scale." }
@@ -829,6 +830,7 @@ export default function App() {
         electroShards={electroShards}
       />
       <Menu onStoreSelect={(type) => {
+        setActiveStore(null); //added this line to close the store before opening other menus
         switch(type) {
           case 'marketplace':
             setActiveStore('marketplace');
@@ -921,7 +923,11 @@ export default function App() {
           onUpgradeStats={() => setShowUpgradeStats(true)}
         />
       </div>
-      {showUpgradeStats && <UpgradeStats onClose={() => setShowUpgradeStats(false)} />}
+      {showUpgradeStats && (
+        <UpgradeStats
+          onClose={() => setShowUpgradeStats(false)}
+        />
+      )}
       {activeStore === 'store' && (
         <Store 
           credits={junk}
