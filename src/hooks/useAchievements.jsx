@@ -69,12 +69,23 @@ export const defaultAchievements = [
 
 export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoClicks, setPassiveIncome, setNotifications, setCogfatherLore) => {
   const [achievements, setAchievements] = useState(() => {
-    const stored = localStorage.getItem('achievements');
-    if (!stored) {
-      localStorage.setItem('achievements', JSON.stringify(defaultAchievements));
+    try {
+      const stored = localStorage.getItem('achievements');
+      if (!stored) {
+        localStorage.setItem('achievements', JSON.stringify(defaultAchievements));
+        return defaultAchievements;
+      }
+      const parsed = JSON.parse(stored);
+      // Ensure all default achievements exist
+      const merged = defaultAchievements.map(defaultAchievement => {
+        const stored = parsed.find(a => a.title === defaultAchievement.title);
+        return stored || defaultAchievement;
+      });
+      return merged;
+    } catch (error) {
+      console.error('Error loading achievements:', error);
       return defaultAchievements;
     }
-    return JSON.parse(stored);
   });
 
   const validateAchievements = () => {
