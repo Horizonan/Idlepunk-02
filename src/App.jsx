@@ -1104,6 +1104,7 @@ export default function App() {
             }
           }}
           onBuyAutoClickerV2={() => {
+            console.log("Button clicked", {junk, cost: itemCosts.autoClickerV2, autoClicks});
             if (junk >= itemCosts.autoClickerV2 && autoClicks >= 1) {
               console.log("it works");
               setJunk(prev => prev - itemCosts.autoClickerV2);
