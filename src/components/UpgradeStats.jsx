@@ -2,14 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './UpgradeStats.css';
 
 export default function UpgradeStats({ onClose }) {
-  const [activeSkill, setActiveSkill] = useState(() => localStorage.getItem('activeSkill') || null);
   const [xp, setXp] = useState(() => parseInt(localStorage.getItem('skillXp')) || 0);
-  const [position, setPosition] = useState(() => {
-    const saved = localStorage.getItem('upgradeStatsPosition');
-    return saved ? JSON.parse(saved) : { x: 50, y: 50 };
-  });
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [activeSkill, setActiveSkill] = useState(() => localStorage.getItem('activeSkill') || '');
   const [skillLevels, setSkillLevels] = useState(() => {
     const saved = localStorage.getItem('skillLevels');
     return saved ? JSON.parse(saved) : {
@@ -63,46 +57,8 @@ export default function UpgradeStats({ onClose }) {
     return (xp / required) * 100;
   };
 
-  const handleMouseDown = (e) => {
-    if (e.target.tagName === 'BUTTON') return;
-    setIsDragging(true);
-    const rect = e.currentTarget.getBoundingClientRect();
-    setDragOffset({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
-    });
-  };
-
-  const handleMouseMove = (e) => {
-    if (isDragging) {
-      setPosition({
-        x: e.clientX - dragOffset.x,
-        y: e.clientY - dragOffset.y
-      });
-    }
-  };
-
-  const handleMouseUp = () => {
-    if (isDragging) {
-      setIsDragging(false);
-      localStorage.setItem('upgradeStatsPosition', JSON.stringify(position));
-    }
-  };
-
   return (
-    <div 
-      className="upgrade-stats"
-      style={{
-        position: 'fixed',
-        left: position.x,
-        top: position.y,
-        cursor: isDragging ? 'grabbing' : 'grab'
-      }}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
-    >
+    <div className="upgrade-stats">
       <div className="upgrade-header">
         <h2>Skills</h2>
         <button onClick={onClose}>Close</button>
