@@ -825,7 +825,7 @@ export default function App() {
         localStorage.setItem('menuOpen', !menuOpen);
       }}>
         <div></div>
-        <div></div>
+        <div<div></div>
         <div></div>
       </div>
       <div 
@@ -1098,16 +1098,16 @@ export default function App() {
                 'Ascension Reclaimer': (prev['Ascension Reclaimer'] || 0) + 1 
               }));
 
-              
+
               const automationHelpers = [
                 'Auto Clicker Bot'
               ];
 
-              
+
               const randomHelper = automationHelpers[Math.floor(Math.random() * automationHelpers.length)];
-              
+
               setPreservedHelper(randomHelper);
-              
+
               localStorage.setItem('preservedHelper', randomHelper);
 
               setNotifications(prev => [...prev, `Ascension Reclaimer purchased! ${randomHelper} will be preserved after prestige.`]);
@@ -1316,7 +1316,7 @@ export default function App() {
                         checked: false
                       }
                     ];
-                    
+
                     Object.keys(localStorage).forEach(key => {
                       if (key.startsWith('quest_sync_')) {
                         localStorage.removeItem(key);
@@ -1378,7 +1378,7 @@ export default function App() {
           onClose={() => setShowPrestigePopup(false)}
           onConfirm={() => {
             setShowPrestigePopup(false);
-            
+
             setCraftingInventory(prev => ({
               ...prev,
               'Prestige Token': (prev['Prestige Token'] || 0) + 1
@@ -1389,14 +1389,14 @@ export default function App() {
               return newCount;
             });
 
-            
+
             setJunk(0);
             setClickMultiplier(1);
             setPassiveIncome(0);
             setAutoClicks(0);
             setClickEnhancerLevel(0);
 
-            
+
             setItemCosts({
               trashBag: 10,
               trashPicker: 100,
@@ -1410,7 +1410,7 @@ export default function App() {
               holoBillboard: 15000
             });
 
-            
+
             const resetOwnedItems = {
               trashBag: 0,
               trashPicker: 0,
@@ -1424,13 +1424,13 @@ export default function App() {
             };
             setOwnedItems(resetOwnedItems);
 
-            
+
             setNotifications(prev => [...prev, "Prestige complete! Gained 1 Prestige Token"]);
 
-            
+
             localStorage.setItem('hasPrestiged', 'true');
 
-            
+
             if (prestigeCount === 0) {
               const cogfatherMessage = (
                 <div className="cogfather-message-popup">
