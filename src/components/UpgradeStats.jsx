@@ -76,8 +76,11 @@ export default function UpgradeStats({ onClose }) {
               {activeSkill === 'scavengingFocus' ? 'Training' : 'Train'}
             </button>
             {activeSkill === 'scavengingFocus' && skillLevels.scavengingFocus < 10 && (
-              <div className="progress-bar">
-                <div className="progress" style={{ width: `${getProgressPercentage('scavengingFocus')}%` }}></div>
+              <div className="progress-container">
+                <div className="progress-bar">
+                  <div className="progress" style={{ width: `${getProgressPercentage('scavengingFocus')}%` }}></div>
+                </div>
+                <div className="xp-text">{xp}/{getRequiredXp('scavengingFocus')} XP</div>
               </div>
             )}
           </div>
@@ -96,8 +99,11 @@ export default function UpgradeStats({ onClose }) {
                 {activeSkill === 'greaseDiscipline' ? 'Training' : 'Train'}
               </button>
               {activeSkill === 'greaseDiscipline' && skillLevels.greaseDiscipline < 10 && (
-                <div className="progress-bar">
-                  <div className="progress" style={{ width: `${getProgressPercentage('greaseDiscipline')}%` }}></div>
+                <div className="progress-container">
+                  <div className="progress-bar">
+                    <div className="progress" style={{ width: `${getProgressPercentage('greaseDiscipline')}%` }}></div>
+                  </div>
+                  <div className="xp-text">{xp}/{getRequiredXp('greaseDiscipline')} XP</div>
                 </div>
               )}
             </div>
