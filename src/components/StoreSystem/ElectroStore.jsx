@@ -14,8 +14,8 @@ export default function ElectroStore({ electroShards, tronics, onBuyTronicsBoost
           onClick={() => {
             if (!localStorage.getItem('unlocked_tronics_boost')) {
               if (electroShards >= 3) {
-                onBuyTronicsBoost();
                 localStorage.setItem('unlocked_tronics_boost', 'true');
+                onBuyTronicsBoost();
               }
             } else if (tronics >= 250) {
               onBuyTronicsBoost();
