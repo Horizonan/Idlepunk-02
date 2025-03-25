@@ -147,41 +147,26 @@ export default function App() {
     };
   }, []);
 
-  const checkElectroMilestones = (shardCount) => {
-    setAchievements(prev => {
-      const newAchievements = [...prev];
-      let changed = false;
+  const { achievements, setAchievements, validateAchievements, checkElectroMilestones } = useAchievements(
+    { 
+      junk, 
+      clickCount, 
+      passiveIncome, 
+      globalJpsMultiplier, 
+      autoClicks, 
+      clickMultiplier,
+      isSurgeActive,
+      cogfatherLore 
+    },
+    setJunk,
+    setClickMultiplier,
+    setAutoClicks,
+    setPassiveIncome,
+    setNotifications,
+    setCogfatherLore
+  );
 
-      // Check Circuit Pulse Mastery
-      const circuitPulse = newAchievements.find(a => a.title === "Circuit Pulse Mastery");
-      if (circuitPulse && !circuitPulse.unlocked && shardCount >= 5) {
-        circuitPulse.unlocked = true;
-        if (!circuitPulse.checked) {
-          setGlobalJpsMultiplier(prev => prev * 1.02);
-          setNotifications(prev => [...prev, "Achievement Unlocked: Circuit Pulse Mastery!"]);
-          circuitPulse.checked = true;
-          changed = true;
-        }
-      }
-
-      // Check Cogfather's First Secret
-      const cogfatherSecret = newAchievements.find(a => a.title === "Cogfather's First Secret");
-      if (cogfatherSecret && !cogfatherSecret.unlocked && shardCount >= 10) {
-        console.log(`Cogfather unlocked`);
-        cogfatherSecret.unlocked = true;
-        if (!cogfatherSecret.checked) {
-          const newLore = [...cogfatherLore, "001"];
-          setCogfatherLore(newLore);
-          localStorage.setItem('cogfatherLore', JSON.stringify(newLore));
-          setNotifications(prev => [...prev, "Achievement Unlocked: Cogfather's First Secret!"]);
-          cogfatherSecret.checked = true;
-          changed = true;
-        }
-      }
-
-      return changed ? newAchievements : prev;
-    });
-  };
+  const checkAchievements = validateAchievements;
 
   const checkShardMilestones = (shardCount) => {
     // Check for 3 shard milestone
@@ -597,69 +582,6 @@ export default function App() {
     });
   };
 
-  const checkAchievements = () => {
-    setAchievements(prev => {
-      const newAchievements = [...prev];
-      let anyChanged = false;
-
-      // Check each achievement independently
-      newAchievements.forEach(achievement => {
-        if (achievement.unlocked) return; // Skip if already unlocked
-
-        let shouldUnlock = false;
-        let reward = null;
-
-        switch (achievement.title) {
-          case "Junkie Starter":
-            if (junk >= 1000) {
-              shouldUnlock = true;
-              reward = () => setJunk(j => j + 500);
-            }
-            break;
-          case "The First Clicks":
-            if (clickCount >= 500) {
-              shouldUnlock = true;
-              reward = () => setClickMultiplier(prev => prev * 1.05);
-            }
-            break;
-          case "Greasy Milestone":
-            if ((passiveIncome * globalJpsMultiplier + (autoClicks * clickMultiplier)) >= 10) {
-              shouldUnlock = true;
-              reward = () => setAutoClicks(prev => prev + 1);
-            }
-            break;
-          case "The First Hoard":
-            if (junk >= 10000) {
-              shouldUnlock = true;
-              reward = () => {
-                setPassiveIncome(prev => prev * 1.1);
-                setTimeout(() => setPassiveIncome(prev => prev / 1.1), 30000);
-              };
-            }
-            break;
-          case "UI Breaker":
-            if (isSurgeActive || localStorage.getItem('hadFirstSurge') === 'true') {
-              shouldUnlock = true;
-            }
-            break;
-        }
-
-        if (shouldUnlock && !achievement.checked) {
-          achievement.unlocked = true;
-          achievement.checked = true;
-          anyChanged = true;
-          setNotifications(prev => [...prev, `Achievement Unlocked: ${achievement.title}!`]);
-          if (reward) reward();
-        }
-      });
-
-      if (anyChanged) {
-        localStorage.setItem('achievements', JSON.stringify(newAchievements));
-      }
-      return anyChanged ? newAchievements : prev;
-    });
-  };
-
   const collectJunk = () => {
     const surgeMultiplier = isSurgeActive ? 2 : 1;
     setJunk(prev => prev + (clickMultiplier * surgeMultiplier));
@@ -850,7 +772,7 @@ export default function App() {
         hasCrafting={Object.values(craftingInventory).some(count => count > 0)}
         isSurgeActive={isSurgeActive}
         tutorialStage={tutorialStage}
-        onTutorialProgress={(stage) => setTutorialStage(stage)}
+        onTutorialProgress={(stage)) => setTutorialStage(stage)}
       />
       {showNewsTicker && <NewsContainer isSurgeActive={isSurgeActive} />}
       <TrashSurge isActive={isSurgeActive} />
