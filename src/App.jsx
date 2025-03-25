@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import StatsDisplay from './components/StatsDisplay';
 import { useGameState } from './hooks/useGameState';
 import { useItemState } from './hooks/useItemState';
 import { useAchievements, defaultAchievements } from './hooks/useAchievements';
@@ -776,16 +777,16 @@ export default function App() {
           }}
         />
       )}
-      <div className="stats">
-        <p>Money: {credits.toFixed(2)}C</p>
-        <p>Junk: {Math.floor(junk).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
-        <p>Junk/sec: {Math.floor((passiveIncome * globalJpsMultiplier) + (autoClicks * clickMultiplier)).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
-        <p>Tronics: {tronics.toFixed(2)}</p>
-        <p className="crystal-shards" title="Requires advanced knowledge to operate. Unlocks after ascension.">
-          Electro Shards: {electroShards}
-        </p>
-
-      </div>
+      <StatsDisplay 
+        credits={credits}
+        junk={junk}
+        passiveIncome={passiveIncome}
+        autoClicks={autoClicks}
+        clickMultiplier={clickMultiplier}
+        globalJpsMultiplier={globalJpsMultiplier}
+        tronics={tronics}
+        electroShards={electroShards}
+      />
       <Menu onStoreSelect={(type) => {
         switch(type) {
           case 'marketplace':
@@ -830,7 +831,7 @@ export default function App() {
         <div></div>
       </div>
       <div 
-        className={`sidebar ${menuOpen ? 'open' : ''} ${localStorage.getItem('sidebarLocked') === 'true' ? 'locked' : ''}`}
+        className={`sidebar ${menuOpen ? ''open' : ''} ${localStorage.getItem('sidebarLocked') === 'true' ? 'locked' : ''}`}
         style={{
           left: menuOpen ? (localStorage.getItem('sidebarLeft') || '0px') : '-300px',
           bottom: activeStore ? (localStorage.getItem('sidebarBottom') || '250px') : '250px'
@@ -1099,16 +1100,16 @@ export default function App() {
                 'Ascension Reclaimer': (prev['Ascension Reclaimer'] || 0) + 1 
               }));
 
-              
+
               const automationHelpers = [
                 'Auto Clicker Bot'
               ];
 
-              
+
               const randomHelper = automationHelpers[Math.floor(Math.random() * automationHelpers.length)];
-              
+
               setPreservedHelper(randomHelper);
-              
+
               localStorage.setItem('preservedHelper', randomHelper);
 
               setNotifications(prev => [...prev, `Ascension Reclaimer purchased! ${randomHelper} will be preserved after prestige.`]);
@@ -1317,7 +1318,7 @@ export default function App() {
                         checked: false
                       }
                     ];
-                    
+
                     Object.keys(localStorage).forEach(key => {
                       if (key.startsWith('quest_sync_')) {
                         localStorage.removeItem(key);
@@ -1379,7 +1380,7 @@ export default function App() {
           onClose={() => setShowPrestigePopup(false)}
           onConfirm={() => {
             setShowPrestigePopup(false);
-            
+
             setCraftingInventory(prev => ({
               ...prev,
               'Prestige Token': (prev['Prestige Token'] || 0) + 1
@@ -1390,14 +1391,14 @@ export default function App() {
               return newCount;
             });
 
-            
+
             setJunk(0);
             setClickMultiplier(1);
             setPassiveIncome(0);
             setAutoClicks(0);
             setClickEnhancerLevel(0);
 
-            
+
             setItemCosts({
               trashBag: 10,
               trashPicker: 100,
@@ -1411,7 +1412,7 @@ export default function App() {
               holoBillboard: 15000
             });
 
-            
+
             const resetOwnedItems = {
               trashBag: 0,
               trashPicker: 0,
@@ -1425,13 +1426,13 @@ export default function App() {
             };
             setOwnedItems(resetOwnedItems);
 
-            
+
             setNotifications(prev => [...prev, "Prestige complete! Gained 1 Prestige Token"]);
 
-            
+
             localStorage.setItem('hasPrestiged', 'true');
 
-            
+
             if (prestigeCount === 0) {
               const cogfatherMessage = (
                 <div className="cogfather-message-popup">
