@@ -17,7 +17,30 @@ export default function CredStore({ credits, junk, onSellJunk, onBuyBeacon, craf
         <h2>Credit Exchange</h2>
       </div>
       <div className="store-items">
-      <button
+        {localStorage.getItem('hasPrestiged') === 'true' && (
+          <div className="store-category">
+            <h3>First Ascension</h3>
+            <button
+              onClick={() => onBuyShardExtractor()}
+              disabled={credits < 75 || creditStoreItems['lastShardExtractorUse'] > Date.now() - 900000}
+              className="store-item"
+            >
+              <div className="item-header">
+                <strong>⚡ Shard Extractor</strong>
+              </div>
+              <div>75 Credits</div>
+              <div className="item-info">
+                <p>Forces a crystal shard to spawn within 30 seconds</p>
+                <p>15 minute cooldown between uses</p>
+                {creditStoreItems['lastShardExtractorUse'] > Date.now() - 900000 && 
+                  <p className="cooldown">Available in: {Math.ceil((900000 - (Date.now() - creditStoreItems['lastShardExtractorUse'])) / 60000)}m</p>
+                }
+              </div>
+            </button>
+          </div>
+        )}
+
+        <button
           onClick={() => onSellJunk(baseRate)}
           disabled={junk < baseRate}
           className="store-item"
@@ -131,23 +154,6 @@ export default function CredStore({ credits, junk, onSellJunk, onBuyBeacon, craf
             Keep 1 random helper or crafting bonus after Prestige.
             Energy shield technology that preserves automation through ascension.
             Can be purchased twice. ({(craftingInventory['Ascension Reclaimer'] || 0)}/2)
-          </div>
-        </button>
-        <button
-          onClick={() => onBuyShardExtractor()}
-          disabled={credits < 75 || creditStoreItems['lastShardExtractorUse'] > Date.now() - 900000}
-          className="store-item"
-        >
-          <div className="item-header">
-            <strong>⚡ Shard Extractor</strong>
-          </div>
-          <div>75 Credits</div>
-          <div className="item-info">
-            <p>Forces a crystal shard to spawn within 30 seconds</p>
-            <p>15 minute cooldown between uses</p>
-            {creditStoreItems['lastShardExtractorUse'] > Date.now() - 900000 && 
-              <p className="cooldown">Available in: {Math.ceil((900000 - (Date.now() - creditStoreItems['lastShardExtractorUse'])) / 60000)}m</p>
-            }
           </div>
         </button>
       </div>

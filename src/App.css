@@ -742,6 +742,26 @@ button.locked {
 }
 
 .store-items {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.store-category {
+  border: 2px solid #9400D3;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.store-category h3 {
+  color: #9400D3;
+  margin: 0 0 15px 0;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.store-items {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 10px;
