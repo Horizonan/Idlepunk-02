@@ -1095,7 +1095,8 @@ export default function App() {
         <AutomationStore
           junk={junk}
           itemCosts={itemCosts}
-          autoClicks={autoClicks}
+          autoClickersV1={autoClickersV1}
+          autoClickersV2={autoClickersV2}
           onBuyAutoClicker={() => {
             console.log("Button clicked", {junk, cost: itemCosts.autoClickerV2, autoClicks, autoClickersV1});
             if (junk >= itemCosts.autoClicker) {
