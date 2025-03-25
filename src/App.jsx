@@ -908,6 +908,7 @@ export default function App() {
             setActiveStore(store);
           }}
           showInventory={showInventory}
+          setShowUpgradeStats={setShowUpgradeStats}
         />
       </div>
       {activeStore === 'store' && (
