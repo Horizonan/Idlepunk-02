@@ -19,7 +19,10 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
         Visit ElectroShop {!localStorage.getItem('hasPrestiged') && '🔒'}
       </button>
       <button onClick={() => onStoreSelect('credstore')}>Visit CredStore</button>
-      <button onClick={() => onStoreSelect('upgradeStats')}>Upgrade Stats</button>
+      <button onClick={() => {
+        const event = new CustomEvent('openUpgradeStats');
+        window.dispatchEvent(event);
+      }}>Upgrade Stats</button>
       <button onClick={() => onStoreSelect('craft')}>Craft Items</button>
       {showInventory && <button onClick={() => onStoreSelect('inventory')}>Item Inventory</button>}
     </div>
