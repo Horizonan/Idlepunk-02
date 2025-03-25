@@ -691,7 +691,6 @@ button.locked {
   margin: 20px auto;
   max-width: 1000px;
   border-radius: 8px;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   scrollbar-width: thin;
