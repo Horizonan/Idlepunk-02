@@ -67,6 +67,10 @@ export default function App() {
   const [autoClicks, setAutoClicks] = useState(() => Number(localStorage.getItem('autoClicks')) || 0);
   const [preservedHelper, setPreservedHelper] = useState(null); //New state for preserved helper
   const [globalJpsMultiplier, setGlobalJpsMultiplier] = useState(() => Number(localStorage.getItem('globalJpsMultiplier')) || 1);
+  const [clickMultiplier, setClickMultiplier] = useState(() => Number(localStorage.getItem('clickMultiplier')) || 1);
+  const [isSurgeActive, setIsSurgeActive] = useState(false);
+  const [passiveIncome, setPassiveIncome] = useState(() => Number(localStorage.getItem('passiveIncome')) || 0);
+
 
   useEffect(() => {
     const handleAddMaterial = (e) => {
@@ -230,14 +234,13 @@ export default function App() {
   const [notifications, setNotifications] = useState([]);
   const [activeStore, setActiveStore] = useState(() => localStorage.getItem('activeStore') || null);
   const [menuOpen, setMenuOpen] = useState(() => localStorage.getItem('menuOpen') !== 'false');
-  const [clickMultiplier, setClickMultiplier] = useState(() => Number(localStorage.getItem('clickMultiplier')) || 1);
+
   const [clickEnhancerLevel, setClickEnhancerLevel] = useState(() => Number(localStorage.getItem('clickEnhancerLevel')) || 0);
-  const [isSurgeActive, setIsSurgeActive] = useState(false);
   const [tutorialStage, setTutorialStage] = useState(() => Number(localStorage.getItem('tutorialStage')) || 0);
   const [hasUpgrade, setHasUpgrade] = useState(false);
   const [hasHelper, setHasHelper] = useState(false);
   const [showInventory, setShowInventory] = useState(false);
-  const [passiveIncome, setPassiveIncome] = useState(() => Number(localStorage.getItem('passiveIncome')) || 0);
+
 
   // Close store when opening other menus
   useEffect(() => {
@@ -770,7 +773,7 @@ export default function App() {
             setNotifications(prev => [...prev, "Crystal shard collected!"]);
           }}
           onDisappear={() => {
-            setShowCrystal(false);
+            setShowCrystal(falsese);
             setNotifications(prev => [...prev, "The electro shard vanished into the void..."]);
           }}
         />
