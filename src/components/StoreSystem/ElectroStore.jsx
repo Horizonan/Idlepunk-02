@@ -44,6 +44,31 @@ export default function ElectroStore({ electroShards, tronics, onBuyTronicsBoost
             )}
           </div>
         </button>
+
+        <button
+          className={`store-item ${!localStorage.getItem('unlocked_tronics_boost') || !localStorage.getItem('tronics_boost_count') ? 'locked' : tronics < 750 ? 'disabled' : ''}`}
+          onClick={() => {
+            if (localStorage.getItem('unlocked_tronics_boost') && localStorage.getItem('tronics_boost_count') && tronics >= 750) {
+              const boostCount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
+              const newBoostCount = boostCount + 1;
+              localStorage.setItem('tronics_boost_II_count', newBoostCount);
+              setTronics(prev => prev - 750);
+              setClickMultiplier(prev => prev + 2);
+              setNotifications(prev => [...prev, "Tronics Click Boost II purchased! +2 Tronics per click"]);
+            }
+          }}
+          disabled={!localStorage.getItem('unlocked_tronics_boost') || !localStorage.getItem('tronics_boost_count') || tronics < 750}
+        >
+          <div className="item-header">
+            <strong>⚡ Tronics Click Boost II</strong>
+          </div>
+          <div>750 Tronics</div>
+          <div className="item-info">
+            <p>+2 Tronics per click</p>
+            <p className="owned">Owned: {localStorage.getItem('tronics_boost_II_count') || 0}</p>
+            <p title="Now with extra voltage. May void warranty.">Cost: 750 Tronics</p>
+          </div>
+        </button>
       </div>
     </div>
   );

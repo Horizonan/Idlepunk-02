@@ -12,8 +12,10 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
             src="Icons/electroClicker/electronic-waste.png" 
             alt="Electro Clicker" 
             onClick={() => {
-              const boostCount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
-              for(let i = 0; i <= boostCount; i++) {
+              const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
+              const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
+              const totalBoost = boostICount + (boostIICount * 2);
+              for(let i = 0; i <= totalBoost; i++) {
                 collectTronics();
               }
             }} 
