@@ -736,8 +736,9 @@ button.locked {
   padding: 10px;
   border-radius: 4px;
   width: 200px;
-  right: -220px;
-  top: 0;
+  left: -220px;
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 1100;
   color: #00FF00;
   pointer-events: none;
