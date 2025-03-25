@@ -691,6 +691,11 @@ button.locked {
   margin: 20px auto;
   max-width: 1000px;
   border-radius: 8px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: thin;
+  scrollbar-color: #9400D3 rgba(26, 26, 26, 0.9);
 }
 
 .store-container h2 {
@@ -742,9 +747,9 @@ button.locked {
 }
 
 .store-items {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 10px;
 }
 
 .store-category {
@@ -761,11 +766,6 @@ button.locked {
   font-size: 1.2em;
 }
 
-.store-items {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 10px;
-}
 
 .store-item:disabled {
   opacity: 0.6;
