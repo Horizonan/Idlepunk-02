@@ -66,6 +66,7 @@ export default function App() {
   const [showChangelog, setShowChangelog] = useState(false);
   const [showTechTree, setShowTechTree] = useState(false);
   const [showSlotMachine, setShowSlotMachine] = useState(false);
+  const [enableHoloBillboard, setEnableHoloBillboard] = useState(() => localStorage.getItem('enableHoloBillboard') !== 'false');
   const [showCheatMenu, setShowCheatMenu] = useState(false);
   const [showCrystal, setShowCrystal] = useState(false);
   const [showTrashBonus, setShowTrashBonus] = useState(false);
