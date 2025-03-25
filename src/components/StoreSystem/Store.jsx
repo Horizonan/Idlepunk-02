@@ -1,89 +1,51 @@
-import React from 'react';
-import './Store.css';
 
-export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, onBuyJunkRefinery, globalJpsMultiplier, passiveIncome, onBuyClickEnhancer, clickCount, purchasedUpgrades, onBack }) {
-  const showClickEnhancer = purchasedUpgrades >= 3 || clickCount >= 1000;
+import React, { useState } from 'react';
+
+export default function Store({ credits, onBuyAutoClicker, onBuyAutoClickerV2, onBuyShoppingCart, onBuyHobo, onBuyTrashPicker, itemCosts, ownedItems, onBack }) {
+  const [selectedTab, setSelectedTab] = useState('pre-prestige');
+
+  const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
 
   const clickItems = [
-    { 
-      name: 'Scrap Bag', 
-      cost: itemCosts.trashBag, 
-      description: '+1 Junk/Click, +10% Cost per purchase', 
-      info: 'A sturdy bag that helps you collect more junk with each click',
-      action: onBuyTrashBag,
-      purchasedCount: ownedItems.trashBag || 0 
+    {
+      name: 'Trash Picker',
+      cost: itemCosts.trashPicker || 100,
+      action: onBuyTrashPicker,
+      description: '+1 Junk per Click',
+      info: 'A simple tool to help you collect more junk.',
+      purchasedCount: ownedItems.trashPicker || 0
     },
-    { 
-      name: 'Trash Picker', 
-      cost: itemCosts.trashPicker, 
-      description: '+3 Junk/Click, +10% Cost', 
-      info: 'Professional tool that triples your junk collection efficiency',
-      action: onBuyPicker,
-      purchasedCount: ownedItems.trashPicker || 0 
+    {
+      name: 'Shopping Cart',
+      cost: itemCosts.shoppingCart || 1000,
+      action: onBuyShoppingCart,
+      description: '+5 Junk per Click',
+      info: 'Haul more junk with this rusty cart.',
+      purchasedCount: ownedItems.shoppingCart || 0
+    },
+    {
+      name: 'Local Hobo',
+      cost: itemCosts.hobo || 5000,
+      action: onBuyHobo,
+      description: '+25 Junk per Click',
+      info: 'A seasoned junk collector joins your cause.',
+      purchasedCount: ownedItems.hobo || 0
     }
   ];
 
-  if (showClickEnhancer) {
-    clickItems.push({
-      name: 'Click Enhancer',
-      cost: itemCosts.clickEnhancer,
-      description: '+10 Junk/Click, +10% Cost',
-      info: 'Cybernetic finger enhancements for maximum clicking efficiency',
-      action: onBuyClickEnhancer,
-      purchasedCount: ownedItems.clickEnhancer || 0
-    });
-  }
+  const ascensionItems = [
+    {
+      name: 'Junk Refinery',
+      cost: itemCosts.junkRefinery || 500000,
+      description: '+50 Junk/sec',
+      info: 'A high-tech facility that processes junk more efficiently.',
+      purchasedCount: ownedItems.junkRefinery || 0
+    }
+  ];
 
-  const passiveItems = [
-    { 
-      name: 'Streetrat', 
-      cost: itemCosts.streetrat, 
-      description: `+${Math.floor(1 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
-      info: 'Hire a local to automatically collect junk for you',
-      action: onBuyStreetrat,
-      purchasedCount: ownedItems.streetrat || 0 
-    },
-    { 
-      name: 'Shopping Cart', 
-      cost: itemCosts.cart, 
-      description: `+${Math.floor(5 * globalJpsMultiplier)} Junk/sec, +15% Cost`, 
-      info: 'Large capacity cart that greatly increases automatic collection',
-      action: onBuyCart,
-      purchasedCount: ownedItems.cart || 0 
-    },
-    { 
-      name: 'Junk Magnet', 
-      cost: itemCosts.junkMagnet, 
-      description: `+${Math.floor(10 * globalJpsMultiplier)} Junk/sec, +15% Cost`, 
-      info: 'Electromagnetic device that attracts valuable junk automatically',
-      action: onBuyJunkMagnet,
-      purchasedCount: ownedItems.junkMagnet || 0 
-    },
-    { 
-      name: 'Urban Recycler', 
-      cost: itemCosts.urbanRecycler, 
-      description: `+${Math.floor(20 * globalJpsMultiplier)} Junk/sec, +15% Cost`, 
-      info: 'Automated system that processes urban waste into valuable junk',
-      action: onBuyUrbanRecycler,
-      purchasedCount: ownedItems.urbanRecycler || 0 
-    },
-    { 
-      name: 'Scrap Drone', 
-      cost: itemCosts.scrapDrone, 
-      description: `+${Math.floor(25 * globalJpsMultiplier)} Junk/sec, +15% Cost`, 
-      info: 'Autonomous drone that scans the area for valuable junk',
-      action: onBuyScrapDrone,
-      purchasedCount: ownedItems.scrapDrone || 0 
-    },{
-      name: 'Holo Billboard',
-        cost: itemCosts.holoBillboard || 15000,
-        description: '+10% global Junk/sec boost',
-        info: 'A massive holographic display that attracts more scrappers to your territory',
-        action: onBuyHoloBillboard,
-        purchasedCount: ownedItems.holoBillboard || 0,
-        hidden: !(passiveIncome >= 50 || (ownedItems.scrapDrone && ownedItems.scrapDrone > 0))
-      }
-
+  const tabs = [
+    { id: 'pre-prestige', label: 'Pre-Prestige' },
+    { id: 'ascension', label: 'First Ascension', unlockCondition: () => hasPrestiged }
   ];
 
   return (
@@ -92,77 +54,106 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
         <h2>Junk Store</h2>
         <button onClick={onBack}>Close</button>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-        <div>
-          <h3 style={{ color: '#9400D3', textAlign: 'center' }}>Click Upgrades</h3>
-          <div className="store-items">
-            {clickItems.map((item) => (
-              <button
-                key={item.name}
-                onClick={item.action}
-                disabled={credits < item.cost}
-                className="store-item"
-              >
-                <div className="item-header">
-                  <strong>{item.name}</strong>
-                  <span className="cost">({item.cost} Junk)</span>
-                </div>
-                <div className="item-info">
-                  <p>{item.description}</p>
-                  <p>{item.info}</p>
-                  <p className="owned">Owned: {item.purchasedCount}</p>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-        <div>
-          <h3 style={{ color: '#9400D3', textAlign: 'center' }}>Passive Upgrades</h3>
-          <div className="store-items">
-            {passiveItems.map((item) => (
-              <button
-                key={item.name}
-                onClick={item.action}
-                disabled={credits < item.cost}
-                className="store-item"
-              >
-                <div className="item-header">
-                  <strong>{item.name}</strong>
-                  <span className="cost">({item.cost} Junk)</span>
-                </div>
-                <div className="item-info">
-                  <p>{item.description}</p>
-                  <p>{item.info}</p>
-                  <p className="owned">Owned: {item.purchasedCount}</p>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
+      
+      <div className="crafting-tabs">
+        {tabs.map(tab => (
+          (!tab.unlockCondition || tab.unlockCondition()) && (
+            <button 
+              key={tab.id}
+              className={`tab-button ${selectedTab === tab.id ? 'active' : ''}`}
+              onClick={() => setSelectedTab(tab.id)}
+            >
+              {tab.label}
+            </button>
+          )
+        ))}
       </div>
 
-      {localStorage.getItem('hasPrestiged') === 'true' && (
-        <div className="store-category">
-          <h3>First Ascension</h3>
-          <button
-            className={`store-item ${credits < (itemCosts.junkRefinery || 500000) ? 'disabled' : ''}`}
-            onClick={onBuyJunkRefinery}
-            disabled={credits < (itemCosts.junkRefinery || 500000)}
-          >
-            <div className="item-header">
-              <strong>🔹 Junk Refinery</strong>
+      {selectedTab === 'pre-prestige' && (
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+          <div>
+            <h3 style={{ color: '#9400D3', textAlign: 'center' }}>Click Upgrades</h3>
+            <div className="store-items">
+              {clickItems.map((item) => (
+                <button
+                  key={item.name}
+                  onClick={item.action}
+                  disabled={credits < item.cost}
+                  className="store-item"
+                >
+                  <div className="item-header">
+                    <strong>{item.name}</strong>
+                    <span className="cost">({item.cost} Junk)</span>
+                  </div>
+                  <div className="item-info">
+                    <p>{item.description}</p>
+                    <p>{item.info}</p>
+                    <p className="owned">Owned: {item.purchasedCount}</p>
+                  </div>
+                </button>
+              ))}
             </div>
-            <div>{itemCosts.junkRefinery || 500000} Junk</div>
-            <div className="item-info">
-              <p>+50 Junk/sec</p>
-              <p>Owned: {ownedItems.junkRefinery || 0}</p>
-              A high-tech facility that processes junk more efficiently.
+          </div>
+          <div>
+            <h3 style={{ color: '#9400D3', textAlign: 'center' }}>Passive Upgrades</h3>
+            <div className="store-items">
+              <button
+                onClick={onBuyAutoClicker}
+                disabled={credits < (itemCosts.autoClicker || 5000)}
+                className="store-item"
+              >
+                <div className="item-header">
+                  <strong>Auto Clicker</strong>
+                  <span className="cost">({itemCosts.autoClicker || 5000} Junk)</span>
+                </div>
+                <div className="item-info">
+                  <p>+1 Auto Click per second</p>
+                  <p>A basic automated clicking machine.</p>
+                </div>
+              </button>
+              <button
+                onClick={onBuyAutoClickerV2}
+                disabled={credits < (itemCosts.autoClickerV2 || 10000)}
+                className="store-item"
+              >
+                <div className="item-header">
+                  <strong>Auto Clicker V2</strong>
+                  <span className="cost">({itemCosts.autoClickerV2 || 10000} Junk)</span>
+                </div>
+                <div className="item-info">
+                  <p>+5 Auto Clicks per second</p>
+                  <p>An upgraded automated clicking machine.</p>
+                </div>
+              </button>
             </div>
-          </button>
+          </div>
         </div>
       )}
 
-      <button onClick={onBack}>Close</button>
+      {selectedTab === 'ascension' && hasPrestiged && (
+        <div className="store-category">
+          <h3>First Ascension Upgrades</h3>
+          <div className="store-items">
+            {ascensionItems.map((item) => (
+              <button
+                key={item.name}
+                className={`store-item ${credits < item.cost ? 'disabled' : ''}`}
+                disabled={credits < item.cost}
+              >
+                <div className="item-header">
+                  <strong>{item.name}</strong>
+                  <span className="cost">({item.cost} Junk)</span>
+                </div>
+                <div className="item-info">
+                  <p>{item.description}</p>
+                  <p>{item.info}</p>
+                  <p className="owned">Owned: {item.purchasedCount}</p>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
