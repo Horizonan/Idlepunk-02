@@ -839,6 +839,7 @@ export default function App() {
             break;
           case 'upgradeStats':
             setShowUpgradeStats(true);
+            setActiveStore(null);
             break;
         }
       }} />
