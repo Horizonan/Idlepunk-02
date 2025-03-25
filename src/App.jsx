@@ -1050,6 +1050,22 @@ export default function App() {
           }}
           craftingInventory={craftingInventory}
           creditStoreItems={creditStoreItems}
+          onBuyShardExtractor={() => {
+            if (credits >= 75 && (!creditStoreItems['lastShardExtractorUse'] || creditStoreItems['lastShardExtractorUse'] <= Date.now() - 900000)) {
+              setCredits(prev => prev - 75);
+              setCreditStoreItems(prev => {
+                const newItems = { ...prev, lastShardExtractorUse: Date.now() };
+                localStorage.setItem('creditStoreItems', JSON.stringify(newItems));
+                return newItems;
+              });
+              setNotifications(prev => [...prev, "Shard Extractor activated! A crystal will appear soon..."]);
+              setTimeout(() => {
+                setShowCrystal(true);
+                setShowBeacon(true);
+                setTimeout(() => setShowBeacon(false), 3000);
+              }, Math.random() * 30000);
+            }
+          }}
           onBuyHoverDrone={() => {
             if (credits >= 20 && !creditStoreItems['Hover Drone']) {
               setCredits(prev => prev - 20);
