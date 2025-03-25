@@ -1,7 +1,6 @@
 import React from 'react';
 
-
-export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, clickCount, purchasedUpgrades, onBack, passiveIncome, onBuyClickEnhancer, globalJpsMultiplier }) {
+export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, onBuyJunkRefinery, globalJpsMultiplier, passiveIncome, onBuyClickEnhancer, clickCount, purchasedUpgrades, onBack }) {
   const showClickEnhancer = purchasedUpgrades >= 3 || clickCount >= 1000;
 
   const clickItems = [
@@ -83,7 +82,7 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
         purchasedCount: ownedItems.holoBillboard || 0,
         hidden: !(passiveIncome >= 50 || (ownedItems.scrapDrone && ownedItems.scrapDrone > 0))
       }
-    
+
   ];
 
   return (
@@ -140,7 +139,29 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
           </div>
         </div>
       </div>
-      
+
+      {localStorage.getItem('hasPrestiged') === 'true' && (
+        <div className="store-category">
+          <h3>First Ascension</h3>
+          <button
+            className={`store-item ${credits < (itemCosts.junkRefinery || 500000) ? 'disabled' : ''}`}
+            onClick={onBuyJunkRefinery}
+            disabled={credits < (itemCosts.junkRefinery || 500000)}
+          >
+            <div className="item-header">
+              <strong>🔹 Junk Refinery</strong>
+            </div>
+            <div>{itemCosts.junkRefinery || 500000} Junk</div>
+            <div className="item-info">
+              <p>+50 Junk/sec</p>
+              <p>Owned: {ownedItems.junkRefinery || 0}</p>
+              A high-tech facility that processes junk more efficiently.
+            </div>
+          </button>
+        </div>
+      )}
+
+      <button onClick={onBack}>Close</button>
     </div>
   );
 }

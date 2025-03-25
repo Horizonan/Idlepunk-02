@@ -207,8 +207,10 @@ export default function App() {
           clickEnhancer: 2500,
           urbanRecycler: 3000,
           autoClicker: 5000,
+          autoClickerV2: 10000,
           scrapDrone: 7500,
-          holoBillboard: 15000
+          holoBillboard: 15000,
+          junkRefinery: 500000
         });
         setAutoClicks(0);
         setCraftingInventory({});
@@ -224,7 +226,8 @@ export default function App() {
           urbanRecycler: 0,
           clickEnhancer: 0,
           scrapDrone: 0,
-          holoBillboard: 0
+          holoBillboard: 0,
+          junkRefinery: 0
         };
         setOwnedItems(resetOwnedItems);
         localStorage.setItem('ownedItems', JSON.stringify(resetOwnedItems));
@@ -330,7 +333,9 @@ export default function App() {
     autoClicker: 5000,
     autoClickerV2: 10000,
     clickEnhancer: 2500,
-    scrapDrone: 7500
+    scrapDrone: 7500,
+    holoBillboard: 15000,
+    junkRefinery: 500000
   });
 
   const [ownedItems, setOwnedItems] = useState(() => JSON.parse(localStorage.getItem('ownedItems')) || {
@@ -340,7 +345,10 @@ export default function App() {
     cart: 0,
     junkMagnet: 0,
     urbanRecycler: 0,
-    clickEnhancer: 0
+    clickEnhancer: 0,
+    scrapDrone: 0,
+    holoBillboard: 0,
+    junkRefinery: 0
   });
 
   useEffect(() => {
@@ -743,6 +751,17 @@ export default function App() {
   }, [craftingInventory]);
 
 
+  const handleBuyJunkRefinery = () => {
+    // Placeholder handler - needs actual functionality added
+    if (junk >= itemCosts.junkRefinery) {
+      setJunk(prev => prev - itemCosts.junkRefinery);
+      setNotifications(prev => [...prev, "Junk Refinery purchased! +50 Junk/sec"]);
+      setOwnedItems(prev => ({...prev, junkRefinery: (prev.junkRefinery || 0) + 1}));
+      setPassiveIncome(prev => prev + 50); // Add 50 JPS
+      setItemCosts(prev => ({...prev, junkRefinery: Math.floor(prev.junkRefinery * 1.2)})); // Increase cost by 20%
+    }
+  };
+
   return (
     <main>
       {showQuestLog && <QuestLog tutorialStage={tutorialStage} onClose={() => setShowQuestLog(false)} />}
@@ -911,6 +930,7 @@ export default function App() {
           clickCount={clickCount}
           purchasedUpgrades={Object.values(itemCosts).filter(cost => cost > 0).length}
           onBack={() => setActiveStore(null)}
+          onBuyJunkRefinery={handleBuyJunkRefinery}
         />
       )}
       {activeStore === 'marketplace' && (
@@ -1434,7 +1454,8 @@ export default function App() {
               urbanRecycler: 3000,
               autoClicker: 5000,
               scrapDrone: 7500,
-              holoBillboard: 15000
+              holoBillboard: 15000,
+              junkRefinery: 500000
             });
 
 
@@ -1447,7 +1468,8 @@ export default function App() {
               urbanRecycler: 0,
               clickEnhancer: 0,
               scrapDrone: 0,
-              holoBillboard: 0
+              holoBillboard: 0,
+              junkRefinery: 0
             };
             setOwnedItems(resetOwnedItems);
 
