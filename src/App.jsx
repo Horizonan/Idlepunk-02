@@ -64,27 +64,6 @@ export default function App() {
   const [tronics, setTronics] = useState(() => Number(localStorage.getItem('tronics')) || 0);
   const [cogfatherLore, setCogfatherLore] = useState(() => JSON.parse(localStorage.getItem('cogfatherLore')) || []);
 
-  const [achievements, setAchievements] = useState(() => {
-    const stored = localStorage.getItem('achievements');
-    if (!stored) {
-      localStorage.setItem('achievements', JSON.stringify(defaultAchievements));
-      return defaultAchievements;
-    }
-    const loadedAchievements = JSON.parse(stored);
-    // Merge existing achievements with any new ones from defaultAchievements, preserving unlocked/checked states
-    const mergedAchievements = defaultAchievements.map(defaultAchievement => {
-      const existingAchievement = loadedAchievements.find(a => a.title === defaultAchievement.title);
-      if (existingAchievement) {
-        return {
-          ...defaultAchievement,
-          unlocked: existingAchievement.unlocked,
-          checked: existingAchievement.checked
-        };
-      }
-      return defaultAchievement;
-    });
-    return mergedAchievements;
-  });
   const [autoClicks, setAutoClicks] = useState(() => Number(localStorage.getItem('autoClicks')) || 0);
   const [preservedHelper, setPreservedHelper] = useState(null); //New state for preserved helper
   const [globalJpsMultiplier, setGlobalJpsMultiplier] = useState(() => Number(localStorage.getItem('globalJpsMultiplier')) || 1);
