@@ -36,7 +36,7 @@ export default function ElectroStore({ electroShards, tronics, onBuyTronicsBoost
             ) : (
               <>
                 <p>+1 Tronics per click</p>
-                <p className="owned">Owned: {localStorage.getItem('tronics_boost_count') || 0}</p>k</p>
+                <p className="owned">Owned: {localStorage.getItem('tronics_boost_count') || 0}</p>
                 <p>Cost: 250 Tronics</p>
               </>
             )}
