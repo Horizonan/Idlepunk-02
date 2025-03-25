@@ -129,6 +129,9 @@ export default function App() {
     };
   }, []);
 
+  const [passiveIncome, setPassiveIncome] = useState(() => Number(localStorage.getItem('passiveIncome')) || 0);
+  const [notifications, setNotifications] = useState([]);
+
   const { achievements, setAchievements, validateAchievements, checkElectroMilestones } = useAchievements(
     { 
       junk, 
