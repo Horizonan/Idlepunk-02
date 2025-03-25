@@ -2,6 +2,8 @@
 import React from 'react';
 
 export default function ElectroStore({ electroShards, tronics, onBuyTronicsBoost, onBack }) {
+  const tronicsBoostCost = parseInt(localStorage.getItem('tronics_boost_cost') || '250');
+  
   return (
     <div className="store-container">
       <div className="store-header">
@@ -17,16 +19,16 @@ export default function ElectroStore({ electroShards, tronics, onBuyTronicsBoost
                 onBuyTronicsBoost();
                 localStorage.setItem('unlocked_tronics_boost', 'true');
               }
-            } else if (tronics >= 250) {
+            } else if (tronics >= tronicsBoostCost) {
               onBuyTronicsBoost();
             }
           }}
-          disabled={!localStorage.getItem('unlocked_tronics_boost') ? electroShards < 3 : tronics < 250}
+          disabled={!localStorage.getItem('unlocked_tronics_boost') ? electroShards < 3 : tronics < tronicsBoostCost}
         >
           <div className="item-header">
             <strong>⚡ Tronics Click Boost I</strong>
           </div>
-          <div>250 Tronics</div>
+          <div>{tronicsBoostCost} Tronics</div>
           <div className="item-info">
             {!localStorage.getItem('unlocked_tronics_boost') ? (
               <>
