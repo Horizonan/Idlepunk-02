@@ -117,6 +117,7 @@ export default function UpgradeStats({ onClose }) {
             <button 
               onClick={() => setActiveSkill(activeSkill === 'scavengingFocus' ? '' : 'scavengingFocus')}
               className={activeSkill === 'scavengingFocus' ? 'active' : ''}
+              disabled={skillLevels.scavengingFocus >= 10}
             >
               {activeSkill === 'scavengingFocus' ? 'Training' : 'Train'}
             </button>
@@ -140,6 +141,7 @@ export default function UpgradeStats({ onClose }) {
               <button 
                 onClick={() => setActiveSkill(activeSkill === 'greaseDiscipline' ? '' : 'greaseDiscipline')}
                 className={activeSkill === 'greaseDiscipline' ? 'active' : ''}
+                disabled={skillLevels.greaseDiscipline >= 10}
               >
                 {activeSkill === 'greaseDiscipline' ? 'Training' : 'Train'}
               </button>
