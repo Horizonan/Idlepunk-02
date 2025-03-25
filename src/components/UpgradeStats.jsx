@@ -73,20 +73,33 @@ export default function UpgradeStats({ onClose }) {
     });
   };
 
-  const handleMouseMove = (e) => {
-    if (isDragging) {
-      const newX = e.clientX - dragOffset.x;
-      const newY = e.clientY - dragOffset.y;
-      setPosition({ x: newX, y: newY });
-    }
-  };
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (isDragging) {
+        setPosition({
+          x: e.clientX - dragOffset.x,
+          y: e.clientY - dragOffset.y
+        });
+      }
+    };
 
-  const handleMouseUp = () => {
+    const handleMouseUp = () => {
+      if (isDragging) {
+        setIsDragging(false);
+        localStorage.setItem('upgradeStatsPosition', JSON.stringify(position));
+      }
+    };
+
     if (isDragging) {
-      setIsDragging(false);
-      localStorage.setItem('upgradeStatsPosition', JSON.stringify(position));
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
     }
-  };
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging, dragOffset]);
 
   return (
     <div 
@@ -98,9 +111,6 @@ export default function UpgradeStats({ onClose }) {
         cursor: isDragging ? 'grabbing' : 'grab'
       }}
       onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
     >
       <div className="upgrade-header">
         <h2>Skills</h2>
