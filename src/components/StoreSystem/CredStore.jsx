@@ -133,28 +133,23 @@ export default function CredStore({ credits, junk, onSellJunk, onBuyBeacon, craf
             Can be purchased twice. ({(craftingInventory['Ascension Reclaimer'] || 0)}/2)
           </div>
         </button>
-        {localStorage.getItem('hasPrestiged') === 'true' && (
-          <div className="store-category">
-            <h3>First Ascension Items</h3>
-            <button
-              onClick={() => onBuyShardExtractor()}
-              disabled={credits < 75 || creditStoreItems['lastShardExtractorUse'] > Date.now() - 900000}
-              className="store-item"
-            >
-              <div className="item-header">
-                <span>⚡ Shard Extractor</span>
-              </div>
-              <div>75 Credits</div>
-              <div className="item-info">
-                <p>Forces a crystal shard to spawn within 30 seconds</p>
-                <p>15 minute cooldown between uses</p>
-                {creditStoreItems['lastShardExtractorUse'] > Date.now() - 900000 && 
-                  <p className="cooldown">Available in: {Math.ceil((900000 - (Date.now() - creditStoreItems['lastShardExtractorUse'])) / 60000)}m</p>
-                }
-              </div>
-            </button>
+        <button
+          onClick={() => onBuyShardExtractor()}
+          disabled={credits < 75 || creditStoreItems['lastShardExtractorUse'] > Date.now() - 900000}
+          className="store-item"
+        >
+          <div className="item-header">
+            <strong>⚡ Shard Extractor</strong>
           </div>
-        )}
+          <div>75 Credits</div>
+          <div className="item-info">
+            <p>Forces a crystal shard to spawn within 30 seconds</p>
+            <p>15 minute cooldown between uses</p>
+            {creditStoreItems['lastShardExtractorUse'] > Date.now() - 900000 && 
+              <p className="cooldown">Available in: {Math.ceil((900000 - (Date.now() - creditStoreItems['lastShardExtractorUse'])) / 60000)}m</p>
+            }
+          </div>
+        </button>
       </div>
       <button onClick={onBack}>Back</button>
     </div>
