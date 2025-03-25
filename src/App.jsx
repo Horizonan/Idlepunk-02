@@ -297,7 +297,8 @@ export default function App() {
           scrapDrone: 7500,
           holoBillboard: 15000
         });
-        setAutoClicks(0);
+        setAutoClickersV1(0);
+        setAutoClickersV2(0);
         setCraftingInventory({});
         localStorage.removeItem('craftedItems');
         localStorage.removeItem('craftingInventory');
