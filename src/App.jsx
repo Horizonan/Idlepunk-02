@@ -752,13 +752,18 @@ export default function App() {
 
 
   const handleBuyJunkRefinery = () => {
-    // Placeholder handler - needs actual functionality added
-    if (junk >= itemCosts.junkRefinery) {
-      setJunk(prev => prev - itemCosts.junkRefinery);
-      setNotifications(prev => [...prev, "Junk Refinery purchased! +50 Junk/sec"]);
+    if (junk >= (itemCosts.junkRefinery || 500000)) {
+      setJunk(prev => prev - (itemCosts.junkRefinery || 500000));
+      setPassiveIncome(prev => prev + 50);
       setOwnedItems(prev => ({...prev, junkRefinery: (prev.junkRefinery || 0) + 1}));
-      setPassiveIncome(prev => prev + 50); // Add 50 JPS
-      setItemCosts(prev => ({...prev, junkRefinery: Math.floor(prev.junkRefinery * 1.2)})); // Increase cost by 20%
+      setItemCosts(prev => ({...prev, junkRefinery: Math.floor((prev.junkRefinery || 500000) * 1.2)}));
+      setNotifications(prev => [...prev, "Junk Refinery purchased! +50 Junk/sec"]);
+      
+      if (!ownedItems.junkRefinery) {
+        window.dispatchEvent(new CustomEvent('nextNews', { 
+          detail: { message: "Cogfather: A Refinery? Now you're thinking industrial scale." }
+        }));
+      }
     }
   };
 
