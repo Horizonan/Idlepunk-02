@@ -848,6 +848,9 @@ export default function App() {
           case 'changelog':
             setShowChangelog(true);
             break;
+          case 'upgradeStats':
+            setShowUpgradeStats(true);
+            break;
         }
       }} />
       {showSlotMachine && (
