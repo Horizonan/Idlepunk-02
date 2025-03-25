@@ -1106,12 +1106,7 @@ export default function App() {
           onBuyAutoClickerV2={() => {
             if (junk >= itemCosts.autoClickerV2 && autoClicks >= 1) {
               setJunk(prev => prev - itemCosts.autoClickerV2);
-              setAutoClicks(prev => {
-                // Remove one v1 autoclicker and add a v2 (worth 2 clicks)
-                const newValue = prev - 1 + 2;
-                localStorage.setItem('autoClicks', newValue);
-                return newValue;
-              });
+              setAutoClicks(prev => prev - 1 + 2); // Remove 1 v1 and add 2 clicks for v2
               setItemCosts(prev => ({...prev, autoClickerV2: Math.floor(prev.autoClickerV2 * 1.15)}));
               setNotifications(prev => [...prev, "Auto Clicker Bot v2.0 purchased! (Consumed 1 Auto Clicker Bot)"]);
               window.dispatchEvent(new CustomEvent('nextNews', { 
