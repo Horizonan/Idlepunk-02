@@ -345,6 +345,10 @@ button {
   z-index: 1000;
   width: 400px;
   min-height: 200px;
+  padding: 20px;
+  z-index: 1000;
+  width: 400px;
+  min-height: 200px;
 }
 
 .settings-header {
