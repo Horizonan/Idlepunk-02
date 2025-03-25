@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 export default function Settings({ 
@@ -10,46 +9,17 @@ export default function Settings({
   setShowBeaconVisual,
   enableHoloBillboard,
   setEnableHoloBillboard,
-  prestigeCount,
-  setShowTechTree,
   clickCount,
   passiveIncome,
   globalJpsMultiplier,
   surgeCount,
-  craftingInventory,
-  preservedHelper,
-  onClose 
+  prestigeCount,
+  onClose
 }) {
   const handleReset = () => {
     if (window.confirm('Are you sure you want to reset all progress? This cannot be undone!')) {
-      // Import defaultAchievements
-      import('../hooks/useAchievements').then(({ defaultAchievements }) => {
-        localStorage.clear();
-
-        // Reset core game values
-        localStorage.setItem('junk', '0');
-        localStorage.setItem('credits', '0');
-        localStorage.setItem('clickCount', '0');
-        localStorage.setItem('tronics', '0');
-        localStorage.setItem('autoClicks', '0');
-        localStorage.setItem('clickMultiplier', '1');
-        localStorage.setItem('passiveIncome', '0');
-        localStorage.setItem('globalJpsMultiplier', '1');
-        localStorage.setItem('electronicsUnlock', 'false');
-        localStorage.setItem('clickEnhancerLevel', '0');
-        localStorage.setItem('tutorialStage', '0');
-        localStorage.setItem('prestigeCount', '0');
-        localStorage.setItem('electroShards', '0');
-        localStorage.setItem('beaconCount', '0');
-        localStorage.setItem('surgeCount', '0');
-        localStorage.setItem('cogfatherLore', '[]');
-        localStorage.setItem('craftingInventory', '{}');
-        localStorage.setItem('ownedItems', '{}');
-        localStorage.setItem('achievements', JSON.stringify(defaultAchievements));
-
-        // Reload the page to apply changes
-        window.location.reload();
-      });
+      localStorage.clear();
+      window.location.reload();
     }
   };
 
@@ -57,85 +27,91 @@ export default function Settings({
     <div className="settings-menu">
       <div className="settings-header">
         <h2>Settings</h2>
-        <button onClick={onClose}>✕</button>
+        <button className="close-button" onClick={onClose}>Close</button>
       </div>
-      <div className="settings-options">
-        <div className="stats-section">
-          <h3>Game Stats</h3>
-          <p>Total Clicks: {clickCount.toLocaleString()}</p>
-          <p>Passive Income: {Math.floor(passiveIncome * globalJpsMultiplier).toLocaleString()} JPS</p>
-          <p>Global Multiplier: {(globalJpsMultiplier * 100).toFixed(0)}%</p>
-          <p>Surge Count: {surgeCount}</p>
-          <p>Prestige Count: {prestigeCount}</p>
-          {preservedHelper && <p>Preserved Helper: {preservedHelper}</p>}
-          <p>Crafted Items: {Object.keys(craftingInventory).length}</p>
-        </div>
 
-        <h3>Display Settings</h3>
-        <label className="setting-option">
-          <span>Show Click Effects</span>
+      <div className="stats-section">
+        <h3>Stats</h3>
+        <p>Total Clicks: {clickCount}</p>
+        <p>Average JPS: {Math.floor(passiveIncome * globalJpsMultiplier)}</p>
+        <p>Global JPS Multiplier: {globalJpsMultiplier.toFixed(2)}x</p>
+        <p>Trash Surges Completed: {surgeCount}</p>
+        <p>Times Prestiged: {prestigeCount}</p>
+      </div>
+
+      <div className="settings-options">
+        <div className="setting-option">
+          <label>Show Click Enhancer Effect</label>
           <input
             type="checkbox"
             checked={showClickEnhancerUI}
-            onChange={(e) => {
-              setShowClickEnhancerUI(e.target.checked);
-              localStorage.setItem('showClickEnhancerUI', e.target.checked);
-            }}
+            onChange={(e) => setShowClickEnhancerUI(e.target.checked)}
           />
-        </label>
-        <label className="setting-option">
-          <span>Show News Ticker</span>
+        </div>
+
+        <div className="setting-option">
+          <label>Max Click Enhancers</label>
           <input
-            type="checkbox"
-            checked={showNewsTicker}
-            onChange={(e) => {
-              setShowNewsTicker(e.target.checked);
-              localStorage.setItem('showNewsTicker', e.target.checked);
-            }}
+            type="number"
+            defaultValue="3"
+            min="1"
+            max="10"
           />
-        </label>
-        <label className="setting-option">
-          <span>Show Shard Beacon</span>
+        </div>
+
+        <div className="setting-option">
+          <label>Show Drones</label>
           <input
             type="checkbox"
             checked={showBeaconVisual}
-            onChange={(e) => {
-              setShowBeaconVisual(e.target.checked);
-              localStorage.setItem('showBeaconVisual', e.target.checked);
-            }}
+            onChange={(e) => setShowBeaconVisual(e.target.checked)}
           />
-        </label>
-        <label className="setting-option">
-          <span>Enable HoloBillboard</span>
+        </div>
+
+        <div className="setting-option">
+          <label>Max Visible Drones</label>
+          <input
+            type="number"
+            defaultValue="10"
+            min="1"
+            max="20"
+          />
+        </div>
+
+        <div className="setting-option">
+          <label>Show News Ticker</label>
+          <input
+            type="checkbox"
+            checked={showNewsTicker}
+            onChange={(e) => setShowNewsTicker(e.target.checked)}
+          />
+        </div>
+
+        <div className="setting-option">
+          <label>Show Shard Beacon</label>
+          <input
+            type="checkbox"
+            checked={showBeaconVisual}
+            onChange={(e) => setShowBeaconVisual(e.target.checked)}
+          />
+        </div>
+
+        <div className="setting-option">
+          <label>Enable HoloBillboard</label>
           <input
             type="checkbox"
             checked={enableHoloBillboard}
-            onChange={(e) => {
-              setEnableHoloBillboard(e.target.checked);
-              localStorage.setItem('enableHoloBillboard', e.target.checked);
-            }}
+            onChange={(e) => setEnableHoloBillboard(e.target.checked)}
           />
-        </label>
-
-        {(prestigeCount > 0 || localStorage.getItem('hasPrestiged') === 'true') && (
-          <button 
-            onClick={() => setShowTechTree(true)}
-            style={{marginTop: '20px', width: '100%'}}
-          >
-            Open Tech Tree
-          </button>
-        )}
-
-        <div className="reset-section">
-          <h3>Reset Progress</h3>
-          <p className="reset-warning">Warning: This will permanently delete all your progress!</p>
-          <button 
-            className="reset-button" 
-            onClick={handleReset}
-          >
-            Reset All Progress
-          </button>
         </div>
+      </div>
+
+      <div className="reset-section">
+        <h3>Reset Progress</h3>
+        <p className="reset-warning">Warning: This will permanently delete all your progress!</p>
+        <button className="reset-button" onClick={handleReset}>
+          Reset All Progress
+        </button>
       </div>
     </div>
   );
