@@ -771,8 +771,8 @@ export default function App() {
             });
             setNotifications(prev => [...prev, "Crystal shard collected!"]);
           }}
-          onDisappear() => {
-            setShowCrystal(falsese);
+          onDisappear={() => {
+            setShowCrystal(false);
             setNotifications(prev => [...prev, "The electro shard vanished into the void..."]);
           }}
         />
