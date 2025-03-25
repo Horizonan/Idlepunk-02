@@ -261,7 +261,7 @@ export default function App() {
   useEffect(() => {
     const handleUpgradeStats = () => setShowUpgradeStats(true);
     window.addEventListener('openUpgradeStats', handleUpgradeStats);
-    
+
     if (showSlotMachine || showAchievements || showSettings || showQuestLog) {
       setActiveStore(null);
     }
@@ -367,11 +367,10 @@ export default function App() {
   });
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const totalMultiplier = 1 + (globalJpsMultiplier - 1) + (craftingInventory['Compression Pack'] ? 0.25 : 0);
-      setJunk(prev => prev + (passiveIncome * totalMultiplier) + (autoClicks * clickMultiplier)); // Auto clicks use click multiplier
-    }, 1000);
-    return () => clearInterval(interval);
+    const skillLevels = JSON.parse(localStorage.getItem('skillLevels')) || { greaseDiscipline: 0 };
+    const greaseDisciplineBonus = skillLevels.greaseDiscipline * 0.5 / 100;
+    const totalMultiplier = 1 + (globalJpsMultiplier - 1) + (craftingInventory['Compression Pack'] ? 0.25 : 0) + greaseDisciplineBonus;
+    setJunk(prev => prev + (passiveIncome * totalMultiplier) + (autoClicks * clickMultiplier)); // Auto clicks use click multiplier
   }, [passiveIncome, autoClicks, clickMultiplier, globalJpsMultiplier]);
 
   // Save special resources whenever craftingInventory changes
