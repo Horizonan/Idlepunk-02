@@ -76,6 +76,14 @@ export default function App() {
   const [showActiveCheats, setShowActiveCheats] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showUpgradeStats, setShowUpgradeStats] = useState(false);
+  const [skillLevels, setSkillLevels] = useState(() => {
+    const saved = localStorage.getItem('skillLevels');
+    return saved ? JSON.parse(saved) : {
+      scavengingFocus: 0,
+      greaseDiscipline: 0
+    };
+  });
   const [showQuestLog, setShowQuestLog] = useState(false);
   const [showClickEnhancerUI, setShowClickEnhancerUI] = useState(true);
   const [showNewsTicker, setShowNewsTicker] = useState(() => localStorage.getItem('showNewsTicker') !== 'false');
@@ -575,7 +583,12 @@ export default function App() {
 
   const collectJunk = () => {
     const surgeMultiplier = isSurgeActive ? 2 : 1;
-    setJunk(prev => prev + (clickMultiplier * surgeMultiplier));
+    const scavengingBonus = 1 + (skillLevels.scavengingFocus / 100);
+    const greaseDisciplineBonus = 1 + (skillLevels.greaseDiscipline * 0.5 / 100);
+    setJunk(prev => prev + (clickMultiplier * surgeMultiplier * scavengingBonus));
+    if (passiveIncome > 0) {
+      setPassiveIncome(prev => prev * greaseDisciplineBonus);
+    }
 
     // Random material finding
     const random = Math.random();
@@ -902,8 +915,10 @@ export default function App() {
             setActiveStore(store);
           }}
           showInventory={showInventory}
+          onUpgradeStats={() => setShowUpgradeStats(true)}
         />
       </div>
+      {showUpgradeStats && <UpgradeStats onClose={() => setShowUpgradeStats(false)} />}
       {activeStore === 'store' && (
         <Store 
           credits={junk}
