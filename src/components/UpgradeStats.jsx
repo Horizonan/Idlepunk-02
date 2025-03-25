@@ -24,10 +24,21 @@ export default function UpgradeStats({ onClose }) {
   useEffect(() => {
     const interval = setInterval(() => {
       if (activeSkill) {
-        setXp(prev => {
-          const newXp = prev + 1;
-          localStorage.setItem('skillXp', newXp);
-          return newXp;
+        setSkillLevels(prev => {
+          const skill = prev[activeSkill];
+          if (skill < 10) {
+            const requiredXp = getRequiredXp(activeSkill);
+            setXp(prevXp => {
+              const newXp = prevXp + 1;
+              localStorage.setItem('skillXp', newXp);
+              if (newXp >= requiredXp) {
+                levelUpSkill(activeSkill);
+                return 0;
+              }
+              return newXp;
+            });
+          }
+          return prev;
         });
       }
     }, 10000); // 1 XP every 10 seconds
