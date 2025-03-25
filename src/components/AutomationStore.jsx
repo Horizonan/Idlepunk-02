@@ -2,8 +2,9 @@
 import React from 'react';
 
 export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onBuyAutoClickerV2, autoClicks, onBack }) {
-  const canAffordV1 = junk >= (itemCosts.autoClicker || 5000);
-  const canAffordV2 = junk >= (itemCosts.autoClickerV2 || 10000);
+  const canAffordV1 = junk >= (itemCosts?.autoClicker || 5000);
+  const canAffordV2 = junk >= (itemCosts?.autoClickerV2 || 10000);
+  const v2Cost = itemCosts?.autoClickerV2 || 10000;
 
   return (
     <div className="store-container">
@@ -36,7 +37,7 @@ export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onB
         >
           <div className="item-header">
             <span>Auto Clicker Bot v2.0</span>
-            <span className="cost"> ({itemCosts.autoClickerV2 || 10000} Junk)</span>
+            <span className="cost"> ({v2Cost} Junk)</span>
           </div>
           <div className="item-info">
             <img src="/Icons/Upgrades/clickerV2.png" alt="Auto Clicker v2.0" className="item-icon" />
