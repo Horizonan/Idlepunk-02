@@ -166,6 +166,31 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
           <div className="store-category">
             <h3>First Ascension</h3>
             <button
+              onClick={() => {
+                if (credits >= 2500000 && !localStorage.getItem('modularScrapperPurchased')) {
+                  setJunk(prev => prev - 2500000);
+                  setPassiveIncome(prev => prev * 2);
+                  localStorage.setItem('modularScrapperPurchased', 'true');
+                  setNotifications(prev => [...prev, "Modular Scrapper Rig installed! Junk/sec doubled!"]);
+                  window.dispatchEvent(new CustomEvent('nextNews', { 
+                    detail: { message: "Cogfather: Now that's what I call an upgrade. Your operation just got serious." }
+                  }));
+                }
+              }}
+              disabled={credits < 2500000 || localStorage.getItem('modularScrapperPurchased')}
+              className="store-item"
+            >
+              <div className="item-header">
+                <strong>🔹 Modular Scrapper Rig</strong>
+                <span className="cost">(2.5M Junk)</span>
+              </div>
+              <div className="item-info">
+                <p>Doubles current Junk/sec</p>
+                <p>One-time purchase per prestige</p>
+                <p className="owned">Owned: {localStorage.getItem('modularScrapperPurchased') ? '1' : '0'}</p>
+              </div>
+            </button>
+            <button
               className={`store-item ${credits < (itemCosts.junkRefinery || 500000) ? 'disabled' : ''}`}
               onClick={onBuyJunkRefinery}
               disabled={credits < (itemCosts.junkRefinery || 500000)}
