@@ -425,7 +425,8 @@ export default function App() {
     autoClicker: 5000,
     autoClickerV2: 10000,
     clickEnhancer: 2500,
-    scrapDrone: 7500
+    scrapDrone: 7500,
+    holoBillboard: 15000
   });
 
   const [ownedItems, setOwnedItems] = useState(() => JSON.parse(localStorage.getItem('ownedItems')) || {
