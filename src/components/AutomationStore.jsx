@@ -1,9 +1,9 @@
 
 import React from 'react';
 
-export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onBuyAutoClickerV2, autoClickersV1, autoClickersV2, onBack }) {
+export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onBuyAutoClickerV2, autoClicks, onBack }) {
   const canAffordV1 = junk >= (itemCosts.autoClicker || 5000);
-  const canAffordV2 = junk >= (itemCosts.autoClickerV2 || 10000) && autoClickersV1 >= 1;
+  const canAffordV2 = junk >= (itemCosts.autoClickerV2 || 10000);
 
   return (
     <div className="store-container">
@@ -24,14 +24,14 @@ export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onB
           <div className="item-info">
             <img src="/Icons/robot.png" alt="Auto Clicker" className="item-icon" />
             <p>+1 Automatic Click per second (generates Junk automatically as if clicked by the player)</p>
-            <p>Owned: {autoClickersV1}</p>
+            <p>Owned: {Math.floor(autoClicks)}</p>
           </div>
         </button>
 
         <button 
-          className={`store-item ${!canAffordV2 || autoClickersV1 < 1 ? 'disabled' : ''}`}
+          className={`store-item ${!canAffordV2 || autoClicks < 1 ? 'disabled' : ''}`}
           onClick={onBuyAutoClickerV2}
-          disabled={!canAffordV2 || autoClickersV1 < 1}
+          disabled={!canAffordV2 || autoClicks < 1}
           title="Auto Clicker Bot v2.0 – Upgraded to 2 clicks/sec. Now 12% less annoying."
         >
           <div className="item-header">
@@ -41,7 +41,6 @@ export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onB
           <div className="item-info">
             <img src="/Icons/Upgrades/clickerV2.png" alt="Auto Clicker v2.0" className="item-icon" />
             <p>+2 Automatic Clicks per second (Consumes 1 Auto Clicker Bot)</p>
-            <p>Owned: {autoClickersV2}</p>
           </div>
         </button>
       </div>
