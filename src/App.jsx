@@ -751,7 +751,7 @@ export default function App() {
         hasCrafting={Object.values(craftingInventory).some(count => count > 0)}
         isSurgeActive={isSurgeActive}
         tutorialStage={tutorialStage}
-        onTutorialProgress={(stage)) => setTutorialStage(stage)}
+        onTutorialProgress={(stage) => setTutorialStage(stage)}
       />
       {showNewsTicker && <NewsContainer isSurgeActive={isSurgeActive} />}
       <TrashSurge isActive={isSurgeActive} />
