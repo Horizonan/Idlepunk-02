@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import './UpgradeStats.css';
 
@@ -21,53 +20,41 @@ export default function UpgradeStats({ onClose }) {
     localStorage.setItem('activeSkill', activeSkill);
   }, [activeSkill]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (activeSkill) {
-        setSkillLevels(prev => {
-          const skill = prev[activeSkill];
-          if (skill < 10) {
-            const requiredXp = getRequiredXp(activeSkill);
-            setXp(prevXp => {
-              const newXp = prevXp + 1;
-              localStorage.setItem('skillXp', newXp);
-              if (newXp >= requiredXp) {
-                levelUpSkill(activeSkill);
-                return 0;
-              }
-              return newXp;
-            });
-          }
-          return prev;
-        });
-      }
-    }, 10000); // 1 XP every 10 seconds
-
-    return () => clearInterval(interval);
-  }, [activeSkill]);
-
   const getRequiredXp = (skill) => {
     const baseXp = 10;
     const level = skillLevels[skill];
     return Math.floor(baseXp * Math.pow(1.25, level));
   };
 
-  const levelUpSkill = (skill) => {
-    const requiredXp = getRequiredXp(skill);
-    if (xp >= requiredXp && skillLevels[skill] < 10) {
-      setXp(prev => {
-        const remaining = prev - requiredXp;
-        localStorage.setItem('skillXp', remaining);
-        return remaining;
-      });
-      setSkillLevels(prev => ({
-        ...prev,
-        [skill]: prev[skill] + 1
-      }));
-      window.dispatchEvent(new CustomEvent('skillLevelUp', { 
-        detail: { skill, level: skillLevels[skill] + 1 }
-      }));
-    }
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (activeSkill && skillLevels[activeSkill] < 10) {
+        setXp(prev => {
+          const newXp = prev + 1;
+          const requiredXp = getRequiredXp(activeSkill);
+
+          if (newXp >= requiredXp) {
+            setSkillLevels(prevLevels => ({
+              ...prevLevels,
+              [activeSkill]: prevLevels[activeSkill] + 1
+            }));
+            localStorage.setItem('skillXp', '0');
+            return 0;
+          }
+
+          localStorage.setItem('skillXp', newXp);
+          return newXp;
+        });
+      }
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [activeSkill]);
+
+  const getProgressPercentage = (skill) => {
+    if (!skill) return 0;
+    const required = getRequiredXp(skill);
+    return (xp / required) * 100;
   };
 
   return (
@@ -76,7 +63,6 @@ export default function UpgradeStats({ onClose }) {
         <h2>Skills</h2>
         <button onClick={onClose}>Close</button>
       </div>
-      <div className="skill-xp">XP: {xp}</div>
       <div className="skill-list">
         <div className="skill-item">
           <h3>Scavenging Focus {skillLevels.scavengingFocus}/10</h3>
@@ -89,12 +75,11 @@ export default function UpgradeStats({ onClose }) {
             >
               {activeSkill === 'scavengingFocus' ? 'Training' : 'Train'}
             </button>
-            <button 
-              onClick={() => levelUpSkill('scavengingFocus')}
-              disabled={xp < getRequiredXp('scavengingFocus') || skillLevels.scavengingFocus >= 10}
-            >
-              Level Up ({getRequiredXp('scavengingFocus')} XP)
-            </button>
+            {activeSkill === 'scavengingFocus' && skillLevels.scavengingFocus < 10 && (
+              <div className="progress-bar">
+                <div className="progress" style={{ width: `${getProgressPercentage('scavengingFocus')}%` }}></div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -110,12 +95,11 @@ export default function UpgradeStats({ onClose }) {
               >
                 {activeSkill === 'greaseDiscipline' ? 'Training' : 'Train'}
               </button>
-              <button 
-                onClick={() => levelUpSkill('greaseDiscipline')}
-                disabled={xp < getRequiredXp('greaseDiscipline') || skillLevels.greaseDiscipline >= 10}
-              >
-                Level Up ({getRequiredXp('greaseDiscipline')} XP)
-              </button>
+              {activeSkill === 'greaseDiscipline' && skillLevels.greaseDiscipline < 10 && (
+                <div className="progress-bar">
+                  <div className="progress" style={{ width: `${getProgressPercentage('greaseDiscipline')}%` }}></div>
+                </div>
+              )}
             </div>
           </div>
         )}
