@@ -1,12 +1,7 @@
 
 import React from 'react';
 
-export default function ElectroStore({ credits, onBuySolderingIron, onBuyMultimeter, onBack }) {
-  const items = [
-    { name: 'Soldering Iron', cost: 1000, action: onBuySolderingIron },
-    { name: 'Multimeter', cost: 2000, action: onBuyMultimeter }
-  ];
-
+export default function ElectroStore({ electroShards, tronics, onBuyTronicsBoost, onBack }) {
   return (
     <div className="store-container">
       <div className="store-header">
@@ -14,16 +9,21 @@ export default function ElectroStore({ credits, onBuySolderingIron, onBuyMultime
         <button onClick={onBack}>Close</button>
       </div>
       <div className="store-items">
-        {items.map((item) => (
-          <button
-            key={item.name}
-            onClick={item.action}
-            disabled={credits < item.cost}
-            className="store-item"
-          >
-            Buy {item.name} ({item.cost}C)
-          </button>
-        ))}
+        <button
+          className={`store-item ${electroShards < 3 || tronics < 250 ? 'disabled' : ''}`}
+          onClick={onBuyTronicsBoost}
+          disabled={electroShards < 3 || tronics < 250}
+          title={electroShards < 3 ? "Requires 3 Electro Shards to unlock" : ""}
+        >
+          <div className="item-header">
+            <strong>⚡ Tronics Click Boost I</strong>
+          </div>
+          <div>250 Tronics</div>
+          <div className="item-info">
+            <p>+1 Tronics per click</p>
+            <p>Unlock Cost: 3 Electro Shards</p>
+          </div>
+        </button>
       </div>
     </div>
   );

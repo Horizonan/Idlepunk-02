@@ -923,9 +923,16 @@ export default function App() {
       )}
       {activeStore === 'electrostore' && (
         <ElectroStore 
-          credits={credits}
-          onBuySolderingIron={handleBuySolderingIron}
-          onBuyMultimeter={handleBuyMultimeter}
+          electroShards={electroShards}
+          tronics={tronics}
+          onBuyTronicsBoost={() => {
+            if (electroShards >= 3 && tronics >= 250) {
+              setElectroShards(prev => prev - 3);
+              setTronics(prev => prev - 250);
+              setClickMultiplier(prev => prev + 1);
+              setNotifications(prev => [...prev, "Tronics Click Boost I purchased! +1 Tronics per click"]);
+            }
+          }}
           onBack={() => setActiveStore(null)}
         />
       )}
