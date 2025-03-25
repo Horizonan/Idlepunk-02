@@ -38,7 +38,7 @@ export default function UpgradeStats({ onClose, junk, passiveIncome, clickMultip
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (activeSkill) {
+      if (activeSkill && skills[activeSkill]) {
         setXp(prev => {
           const newXp = prev + 1;
           localStorage.setItem('skillXp', newXp);
@@ -48,7 +48,7 @@ export default function UpgradeStats({ onClose, junk, passiveIncome, clickMultip
     }, 10000); // 1 XP every 10 seconds
 
     return () => clearInterval(interval);
-  }, [activeSkill]);
+  }, [activeSkill, skills]);
 
   useEffect(() => {
     if (!activeSkill) return;
