@@ -1,4 +1,5 @@
 import React from 'react';
+import './Store.css';
 
 export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, onBuyJunkRefinery, globalJpsMultiplier, passiveIncome, onBuyClickEnhancer, clickCount, purchasedUpgrades, onBack }) {
   const showClickEnhancer = purchasedUpgrades >= 3 || clickCount >= 1000;
