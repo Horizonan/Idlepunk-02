@@ -1280,6 +1280,11 @@ export default function App() {
           onClose={() => setShowSettings(false)}
         />
       )}
+      {showUpgradeStats && (
+        <UpgradeStats
+          onClose={() => setShowUpgradeStats(false)}
+        />
+      )}
       <Notifications notifications={notifications} />
       {showTrashBonus && (
         <TrashBonus
