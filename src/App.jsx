@@ -232,12 +232,14 @@ export default function App() {
         break;
     }
   };
-  const [electronicsUnlock, setElectronicsUnlock] = useState(() => localStorage.getItem('electronicsUnlock') === 'true');
-  const [activeStore, setActiveStore] = useState(() => localStorage.getItem('activeStore') || null);
-  const [menuOpen, setMenuOpen] = useState(() => localStorage.getItem('menuOpen') !== 'false');
-  const [clickEnhancerLevel, setClickEnhancerLevel] = useState(() => Number(localStorage.getItem('clickEnhancerLevel')) || 0);
-  const [tutorialStage, setTutorialStage] = useState(() => Number(localStorage.getItem('tutorialStage')) || 0);
-  const [hasUpgrade, setHasUpgrade] = useState(false);
+  const { 
+    electronicsUnlock, setElectronicsUnlock,
+    activeStore, setActiveStore,
+    menuOpen, setMenuOpen,
+    clickEnhancerLevel, setClickEnhancerLevel,
+    tutorialStage, setTutorialStage,
+    hasUpgrade, setHasUpgrade
+  } = useGameState();
   const [hasHelper, setHasHelper] = useState(false);
   const [showInventory, setShowInventory] = useState(false);
 

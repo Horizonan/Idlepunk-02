@@ -10,6 +10,13 @@ export const useGameState = () => {
   const [clickMultiplier, setClickMultiplier] = useState(() => Number(localStorage.getItem('clickMultiplier')) || 1);
   const [passiveIncome, setPassiveIncome] = useState(() => Number(localStorage.getItem('passiveIncome')) || 0);
   const [globalJpsMultiplier, setGlobalJpsMultiplier] = useState(() => Number(localStorage.getItem('globalJpsMultiplier')) || 1);
+  const [notifications, setNotifications] = useState([]);
+  const [electronicsUnlock, setElectronicsUnlock] = useState(() => localStorage.getItem('electronicsUnlock') === 'true');
+  const [activeStore, setActiveStore] = useState(() => localStorage.getItem('activeStore') || null);
+  const [menuOpen, setMenuOpen] = useState(() => localStorage.getItem('menuOpen') !== 'false');
+  const [clickEnhancerLevel, setClickEnhancerLevel] = useState(() => Number(localStorage.getItem('clickEnhancerLevel')) || 0);
+  const [tutorialStage, setTutorialStage] = useState(() => Number(localStorage.getItem('tutorialStage')) || 0);
+  const [hasUpgrade, setHasUpgrade] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('junk', junk);
@@ -20,7 +27,10 @@ export const useGameState = () => {
     localStorage.setItem('clickMultiplier', clickMultiplier);
     localStorage.setItem('passiveIncome', passiveIncome);
     localStorage.setItem('globalJpsMultiplier', globalJpsMultiplier);
-  }, [junk, credits, clickCount, tronics, autoClicks, clickMultiplier, passiveIncome, globalJpsMultiplier]);
+    localStorage.setItem('electronicsUnlock', electronicsUnlock);
+    localStorage.setItem('clickEnhancerLevel', clickEnhancerLevel);
+    localStorage.setItem('tutorialStage', tutorialStage);
+  }, [junk, credits, clickCount, tronics, autoClicks, clickMultiplier, passiveIncome, globalJpsMultiplier, electronicsUnlock, clickEnhancerLevel, tutorialStage]);
 
   return {
     junk, setJunk,
@@ -30,6 +40,13 @@ export const useGameState = () => {
     autoClicks, setAutoClicks,
     clickMultiplier, setClickMultiplier,
     passiveIncome, setPassiveIncome,
-    globalJpsMultiplier, setGlobalJpsMultiplier
+    globalJpsMultiplier, setGlobalJpsMultiplier,
+    notifications, setNotifications,
+    electronicsUnlock, setElectronicsUnlock,
+    activeStore, setActiveStore,
+    menuOpen, setMenuOpen,
+    clickEnhancerLevel, setClickEnhancerLevel,
+    tutorialStage, setTutorialStage,
+    hasUpgrade, setHasUpgrade
   };
 };
