@@ -17,29 +17,6 @@ export default function CredStore({ credits, junk, onSellJunk, onBuyBeacon, craf
         <h2>Credit Exchange</h2>
       </div>
       <div className="store-items">
-        {localStorage.getItem('hasPrestiged') === 'true' && (
-          <div className="store-category">
-            <h3>First Ascension</h3>
-            <button
-              onClick={() => onBuyShardExtractor()}
-              disabled={credits < 75 || creditStoreItems['lastShardExtractorUse'] > Date.now() - 900000}
-              className="store-item"
-            >
-              <div className="item-header">
-                <strong>⚡ Shard Extractor</strong>
-              </div>
-              <div>75 Credits</div>
-              <div className="item-info">
-                <p>Forces a crystal shard to spawn within 30 seconds</p>
-                <p>15 minute cooldown between uses</p>
-                {creditStoreItems['lastShardExtractorUse'] > Date.now() - 900000 && 
-                  <p className="cooldown">Available in: {Math.ceil((900000 - (Date.now() - creditStoreItems['lastShardExtractorUse'])) / 60000)}m</p>
-                }
-              </div>
-            </button>
-          </div>
-        )}
-
         <button
           onClick={() => onSellJunk(baseRate)}
           disabled={junk < baseRate}
@@ -157,6 +134,29 @@ export default function CredStore({ credits, junk, onSellJunk, onBuyBeacon, craf
           </div>
         </button>
       </div>
+
+      {localStorage.getItem('hasPrestiged') === 'true' && (
+        <div className="store-category">
+          <h3>First Ascension</h3>
+          <button
+            onClick={() => onBuyShardExtractor()}
+            disabled={credits < 75 || creditStoreItems['lastShardExtractorUse'] > Date.now() - 900000}
+            className="store-item"
+          >
+            <div className="item-header">
+              <strong>⚡ Shard Extractor</strong>
+            </div>
+            <div>75 Credits</div>
+            <div className="item-info">
+              <p>Forces a crystal shard to spawn within 30 seconds</p>
+              <p>15 minute cooldown between uses</p>
+              {creditStoreItems['lastShardExtractorUse'] > Date.now() - 900000 && 
+                <p className="cooldown">Available in: {Math.ceil((900000 - (Date.now() - creditStoreItems['lastShardExtractorUse'])) / 60000)}m</p>
+              }
+            </div>
+          </button>
+        </div>
+      )}
       <button onClick={onBack}>Back</button>
     </div>
   );
