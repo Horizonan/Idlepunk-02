@@ -161,7 +161,6 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
         </div>
       )}
 
-      <button onClick={onBack}>Close</button>
     </div>
   );
 }
