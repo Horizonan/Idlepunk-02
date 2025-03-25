@@ -166,25 +166,10 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
           <div className="store-category">
             <h3>First Ascension</h3>
             <button
-              className={`store-item ${credits < (itemCosts.junkRefinery || 500000) ? 'disabled' : ''}`}
-              onClick={onBuyJunkRefinery}
-              disabled={credits < (itemCosts.junkRefinery || 500000)}
-            >
-              <div className="item-header">
-                <strong>🔹 Junk Refinery</strong>
-              </div>
-              <div>{itemCosts.junkRefinery || 500000} Junk</div>
-              <div className="item-info">
-                <p>+50 Junk/sec</p>
-                <p>Owned: {ownedItems.junkRefinery || 0}</p>
-                A high-tech facility that processes junk more efficiently.
-              </div>
-            </button>
-            <button
               onClick={() => {
                 if (credits >= 2500000 && !localStorage.getItem('modularScrapperPurchased')) {
                   setJunk(prev => prev - 2500000);
-                  passiveIncome(prev => prev * 2);
+                  setPassiveIncome(prev => prev * 2);
                   localStorage.setItem('modularScrapperPurchased', 'true');
                   setNotifications(prev => [...prev, "Modular Scrapper Rig installed! Junk/sec doubled!"]);
                   window.dispatchEvent(new CustomEvent('nextNews', { 
@@ -203,6 +188,21 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
                 <p>Doubles current Junk/sec</p>
                 <p>One-time purchase per prestige</p>
                 <p className="owned">Owned: {localStorage.getItem('modularScrapperPurchased') ? '1' : '0'}</p>
+              </div>
+            </button>
+            <button
+              className={`store-item ${credits < (itemCosts.junkRefinery || 500000) ? 'disabled' : ''}`}
+              onClick={onBuyJunkRefinery}
+              disabled={credits < (itemCosts.junkRefinery || 500000)}
+            >
+              <div className="item-header">
+                <strong>🔹 Junk Refinery</strong>
+              </div>
+              <div>{itemCosts.junkRefinery || 500000} Junk</div>
+              <div className="item-info">
+                <p>+50 Junk/sec</p>
+                <p>Owned: {ownedItems.junkRefinery || 0}</p>
+                A high-tech facility that processes junk more efficiently.
               </div>
             </button>
           </div>

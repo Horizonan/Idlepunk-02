@@ -34,7 +34,6 @@ import TrashBonus from './components/Effects/TrashBonus';
 import ItemInventory from './components/StoreSystem/ItemInventory';
 import Changelog from './components/SideMenu/Changelog';
 import TechTree from './components/TechTree';
-import UpgradeStats from './components/UpgradeStats';
 import PrestigePopup from './components/PrestigePopup';
 
 export default function App() {
@@ -77,7 +76,6 @@ export default function App() {
   const [showActiveCheats, setShowActiveCheats] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [showUpgradeStats, setShowUpgradeStats] = useState(false);
   const [showQuestLog, setShowQuestLog] = useState(false);
   const [showClickEnhancerUI, setShowClickEnhancerUI] = useState(true);
   const [showNewsTicker, setShowNewsTicker] = useState(() => localStorage.getItem('showNewsTicker') !== 'false');
@@ -837,10 +835,6 @@ export default function App() {
           case 'changelog':
             setShowChangelog(true);
             break;
-          case 'upgradeStats':
-            setShowUpgradeStats(true);
-            setActiveStore(null);
-            break;
         }
       }} />
       {showSlotMachine && (
@@ -908,7 +902,6 @@ export default function App() {
             setActiveStore(store);
           }}
           showInventory={showInventory}
-          setShowUpgradeStats={setShowUpgradeStats}
         />
       </div>
       {activeStore === 'store' && (
@@ -1245,16 +1238,6 @@ export default function App() {
             }
           }}
           onClose={() => setShowTechTree(false)}
-        />
-      )}
-      {showUpgradeStats && (
-        <UpgradeStats
-          onClose={() => setShowUpgradeStats(false)}
-          junk={junk}
-          passiveIncome={passiveIncome}
-          clickMultiplier={clickMultiplier}
-          setClickMultiplier={setClickMultiplier}
-          setPassiveIncome={setPassiveIncome}
         />
       )}
       {showSettings && (

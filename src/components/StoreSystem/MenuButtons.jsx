@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function MenuButtons({ onStoreSelect, showInventory, setShowUpgradeStats }) {
+export default function MenuButtons({ onStoreSelect, showInventory }) {
   const junk = Number(window.localStorage.getItem('junk')) || 0;
   const upgradeCount = Object.keys(JSON.parse(window.localStorage.getItem('itemCosts') || '{}')).length;
   const automationUnlocked = junk >= 2500 || upgradeCount >= 5;
@@ -19,7 +19,7 @@ export default function MenuButtons({ onStoreSelect, showInventory, setShowUpgra
         Visit ElectroShop {!localStorage.getItem('hasPrestiged') && '🔒'}
       </button>
       <button onClick={() => onStoreSelect('credstore')}>Visit CredStore</button>
-      <button onClick={() => setShowUpgradeStats(true)}>Upgrade Stats</button>
+      <button onClick={() => onStoreSelect('stats')}>Upgrade Stats</button>
       <button onClick={() => onStoreSelect('craft')}>Craft Items</button>
       {showInventory && <button onClick={() => onStoreSelect('inventory')}>Item Inventory</button>}
     </div>
