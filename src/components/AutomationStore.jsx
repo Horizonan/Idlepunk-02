@@ -1,9 +1,9 @@
 
 import React from 'react';
 
-export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onBuyAutoClickerV2, autoClicks, onBack }) {
+export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onBuyAutoClickerV2, autoClickersV1, autoClickersV2, onBack }) {
   const canAffordV1 = junk >= (itemCosts.autoClicker || 5000);
-  const canAffordV2 = junk >= (itemCosts.autoClickerV2 || 10000);
+  const canAffordV2 = junk >= (itemCosts.autoClickerV2 || 10000) && autoClickersV1 >= 1;
 
   return (
     <div className="store-container">

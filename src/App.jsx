@@ -147,7 +147,9 @@ export default function App() {
     });
     return mergedAchievements;
   });
-  const [autoClicks, setAutoClicks] = useState(() => Number(localStorage.getItem('autoClicks')) || 0);
+  const [autoClickersV1, setAutoClickersV1] = useState(() => Number(localStorage.getItem('autoClickersV1')) || 0);
+  const [autoClickersV2, setAutoClickersV2] = useState(() => Number(localStorage.getItem('autoClickersV2')) || 0);
+  const autoClicks = autoClickersV1 + (autoClickersV2 * 2); // V2 clicks count double
   const [preservedHelper, setPreservedHelper] = useState(null); //New state for preserved helper
   const [globalJpsMultiplier, setGlobalJpsMultiplier] = useState(() => Number(localStorage.getItem('globalJpsMultiplier')) || 1);
 
@@ -1096,7 +1098,7 @@ export default function App() {
           onBuyAutoClicker={() => {
             if (junk >= itemCosts.autoClicker) {
               setJunk(prev => prev - itemCosts.autoClicker);
-              setAutoClicks(prev => prev + 1);
+              setAutoClickersV1(prev => prev + 1);
               setItemCosts(prev => ({...prev, autoClicker: Math.floor(prev.autoClicker * 1.15)}));
               setNotifications(prev => [...prev, "Auto Clicker Bot purchased!"]);
               window.dispatchEvent(new CustomEvent('nextNews', { 
@@ -1105,11 +1107,10 @@ export default function App() {
             }
           }}
           onBuyAutoClickerV2={() => {
-            console.log("Button clicked", {junk, cost: itemCosts.autoClickerV2, autoClicks});
-            if (junk >= itemCosts.autoClickerV2 && autoClicks >= 1) {
-              console.log("it works");
+            if (junk >= itemCosts.autoClickerV2 && autoClickersV1 >= 1) {
               setJunk(prev => prev - itemCosts.autoClickerV2);
-              setAutoClicks(prev => prev - 1 + 2); // Remove 1 v1 and add 2 clicks for v2
+              setAutoClickersV1(prev => prev - 1); // Remove one V1 clicker
+              setAutoClickersV2(prev => prev + 1); // Add one V2 clicker
               setItemCosts(prev => ({...prev, autoClickerV2: Math.floor(prev.autoClickerV2 * 1.15)}));
               setNotifications(prev => [...prev, "Auto Clicker Bot v2.0 purchased! (Consumed 1 Auto Clicker Bot)"]);
               window.dispatchEvent(new CustomEvent('nextNews', { 
