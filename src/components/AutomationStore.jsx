@@ -1,9 +1,9 @@
 
 import React from 'react';
 
-export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onBuyAutoClickerV2, autoClickersV1, autoClickersV2, onBack }) {
+export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onBuyAutoClickerV2, autoClickersV1, autoClickersV2, autoClicks, onBack }) {
   const canAffordV1 = junk >= (itemCosts.autoClicker || 5000);
-  const canAffordV2 = junk >= (itemCosts.autoClickerV2 || 10000) && autoClickersV1 >= 1;
+  const canAffordV2 = junk >= (itemCosts.autoClickerV2 || 10000);
 
   return (
     <div className="store-container">
@@ -29,7 +29,7 @@ export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onB
         </button>
 
         <button 
-          className={`store-item ${!canAffordV2 || autoClicks < 1 ? 'disabled' : ''}`}
+          className={`store-item ${!canAffordV2 || autoClickersV2 < 1 ? 'disabled' : ''}`}
           onClick={onBuyAutoClickerV2}
           disabled={!canAffordV2 || autoClicks < 1}
           title="Auto Clicker Bot v2.0 – Upgraded to 2 clicks/sec. Now 12% less annoying."

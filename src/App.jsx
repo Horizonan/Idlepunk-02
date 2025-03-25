@@ -293,6 +293,7 @@ export default function App() {
           clickEnhancer: 2500,
           urbanRecycler: 3000,
           autoClicker: 5000,
+          autoClickerV2: 10000,
           scrapDrone: 7500,
           holoBillboard: 15000
         });
@@ -1096,6 +1097,7 @@ export default function App() {
           itemCosts={itemCosts}
           autoClicks={autoClicks}
           onBuyAutoClicker={() => {
+            console.log("Button clicked", {junk, cost: itemCosts.autoClickerV2, autoClicks, autoClickersV1});
             if (junk >= itemCosts.autoClicker) {
               setJunk(prev => prev - itemCosts.autoClicker);
               setAutoClickersV1(prev => prev + 1);
@@ -1107,6 +1109,7 @@ export default function App() {
             }
           }}
           onBuyAutoClickerV2={() => {
+            console.log("Button clicked", {junk, cost: itemCosts.autoClickerV2, autoClicks, autoClickersV1});
             if (junk >= itemCosts.autoClickerV2 && autoClickersV1 >= 1) {
               setJunk(prev => prev - itemCosts.autoClickerV2);
               setAutoClickersV1(prev => prev - 1); // Remove one V1 clicker
