@@ -17,6 +17,17 @@ export const useGameState = () => {
   const [clickEnhancerLevel, setClickEnhancerLevel] = useState(() => Number(localStorage.getItem('clickEnhancerLevel')) || 0);
   const [tutorialStage, setTutorialStage] = useState(() => Number(localStorage.getItem('tutorialStage')) || 0);
   const [hasUpgrade, setHasUpgrade] = useState(false);
+  const [showPrestigePopup, setShowPrestigePopup] = useState(false);
+  const [prestigeCount, setPrestigeCount] = useState(() => Number(localStorage.getItem('prestigeCount')) || 0);
+  const [electroShards, setElectroShards] = useState(() => Number(localStorage.getItem('electroShards')) || 0);
+  const [beaconCount, setBeaconCount] = useState(() => Number(localStorage.getItem('beaconCount')) || 0);
+  const [showBeacon, setShowBeacon] = useState(false);
+  const [showBeaconVisual, setShowBeaconVisual] = useState(() => localStorage.getItem('showBeaconVisual') !== 'false');
+  const [isSurgeActive, setIsSurgeActive] = useState(false);
+  const [hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge] = useState(false);
+  const [surgeCount, setSurgeCount] = useState(() => Number(localStorage.getItem('surgeCount')) || 0);
+  const [cogfatherLore, setCogfatherLore] = useState(() => JSON.parse(localStorage.getItem('cogfatherLore')) || []);
+  const [preservedHelper, setPreservedHelper] = useState(null);
 
   useEffect(() => {
     localStorage.setItem('junk', junk);
@@ -30,7 +41,14 @@ export const useGameState = () => {
     localStorage.setItem('electronicsUnlock', electronicsUnlock);
     localStorage.setItem('clickEnhancerLevel', clickEnhancerLevel);
     localStorage.setItem('tutorialStage', tutorialStage);
-  }, [junk, credits, clickCount, tronics, autoClicks, clickMultiplier, passiveIncome, globalJpsMultiplier, electronicsUnlock, clickEnhancerLevel, tutorialStage]);
+    localStorage.setItem('prestigeCount', prestigeCount);
+    localStorage.setItem('electroShards', electroShards);
+    localStorage.setItem('beaconCount', beaconCount);
+    localStorage.setItem('surgeCount', surgeCount);
+    localStorage.setItem('cogfatherLore', JSON.stringify(cogfatherLore));
+  }, [junk, credits, clickCount, tronics, autoClicks, clickMultiplier, passiveIncome, globalJpsMultiplier, 
+      electronicsUnlock, clickEnhancerLevel, tutorialStage, prestigeCount, electroShards, beaconCount, 
+      surgeCount, cogfatherLore]);
 
   return {
     junk, setJunk,
@@ -47,6 +65,17 @@ export const useGameState = () => {
     menuOpen, setMenuOpen,
     clickEnhancerLevel, setClickEnhancerLevel,
     tutorialStage, setTutorialStage,
-    hasUpgrade, setHasUpgrade
+    hasUpgrade, setHasUpgrade,
+    showPrestigePopup, setShowPrestigePopup,
+    prestigeCount, setPrestigeCount,
+    electroShards, setElectroShards,
+    beaconCount, setBeaconCount,
+    showBeacon, setShowBeacon,
+    showBeaconVisual, setShowBeaconVisual,
+    isSurgeActive, setIsSurgeActive,
+    hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge,
+    surgeCount, setSurgeCount,
+    cogfatherLore, setCogfatherLore,
+    preservedHelper, setPreservedHelper
   };
 };
