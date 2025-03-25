@@ -26,9 +26,15 @@ export default function NewsContainer({ isSurgeActive }) {
   ]);
 
   useEffect(() => {
+    const handleAddNews = (event) => {
+      setDefaultNews(prev => [...prev, event.detail.message]);
+    };
+
     const handleNextNews = () => {
       setCurrentNewsIndex((prev) => (prev + 1) % defaultNews.length);
     };
+
+    window.addEventListener('addNews', handleAddNews);
     
     const newsContent = document.querySelector('.news-content');
     if (newsContent) {
@@ -38,6 +44,7 @@ export default function NewsContainer({ isSurgeActive }) {
     window.addEventListener('nextNews', handleNextNews);
     return () => {
       window.removeEventListener('nextNews', handleNextNews);
+      window.removeEventListener('addNews', handleAddNews);
       const newsContent = document.querySelector('.news-content');
       if (newsContent) {
         newsContent.removeEventListener('animationend', handleNextNews);

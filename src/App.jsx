@@ -704,7 +704,9 @@ export default function App() {
         window.dispatchEvent(new CustomEvent('nextNews', { 
           detail: { message: "Cogfather: You've got drones now? Look at you, corporate overlord in the making." }
         }));
-        setDefaultNews(prev => [...prev, "Automated helper deployed. Don't expect it to take breaks."]);
+        window.dispatchEvent(new CustomEvent('addNews', {
+          detail: { message: "Automated helper deployed. Don't expect it to take breaks." }
+        }));
       }
     }
   };
