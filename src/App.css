@@ -768,8 +768,32 @@ button.locked {
 }
 
 .store-item:disabled {
-  opacity: 0.8;
+  opacity: 0.6;
   cursor: not-allowed;
+}
+
+.store-item.locked {
+  position: relative;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.store-item.locked::before {
+  content: '🔒';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+}
+
+.locked-message {
+  color: #ff6b6b;
+  font-weight: bold;
+}
+
+.unlocked-preview {
+  color: #868e96;
+  font-style: italic;
 }
 
 .surge-banner {
@@ -1068,7 +1092,7 @@ button.locked {
 .store-container {
   max-width: 800px;
   margin: 20px auto;
-  background: rgba(26, 26, 26, 0.9);
+  background: rgba(26,26, 26, 0.9);
   padding: 20px;
   border: 2px solid #9400D3;
   border-radius: 8px;
