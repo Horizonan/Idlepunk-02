@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default function Changelog({ onClose }) {
-  const [expandedVersion, setExpandedVersion] = useState('0.0.4.1');
+  const [expandedVersion, setExpandedVersion] = useState('0.0.4.2');
 
   const toggleVersion = (version) => {
     setExpandedVersion(expandedVersion === version ? null : version);
@@ -15,6 +15,61 @@ export default function Changelog({ onClose }) {
         <button onClick={onClose}>Close</button>
       </div>
       <div className="changelog-content">
+
+        <div className="changelog-entry">
+          <h3 onClick={() => toggleVersion('0.0.4.2')} style={{ cursor: 'pointer' }}>
+            🔧 IdlePunks – Update Log 0.0.4.2 {expandedVersion === '0.0.4.2' ? '▼' : '▶'}
+          </h3>
+          {expandedVersion === '0.0.4.2' && (
+            <>
+              <p>⚠️ Note: Progress will slow down slightly due to current lack of funding — thank you for your continued support and patience! 💛</p>
+              <div className="changelog-section">
+                <h3>✅ New Additions</h3>
+                <p>✅ Added Shard Extractor to the Credit Store (spawns Electro Shard) </p>
+                <p>✅ Added new styling to Credit Store items added after first Ascension</p>
+                <p>✅ Added Junk Refinery to the Junk Store (post-prestige)</p>
+                <p>✅ Added Modular Scrapper Rig to the Junk Store (post-prestige)</p>
+                <p>✅ Added picture and animation for AutoClicker v1</p>
+                <p>✅ Added Upgrade Stats Menu with the first two combat skills (passive XP system)</p>
+                <h3>⚙️ Improvements & Fixes</h3>
+                <p>⚙️ Fixed bug where Tronics appeared pre-prestige</p>
+                <p>⚙️ Fixed Reset Button not working</p>
+                <p>⚙️ Fixed News Ticker not updating when store purchases are made</p>
+                <p>⚙️ Fixed misplaced Credit Exchange button (moved back to correct position)</p>
+                <h3>🧼 Code Refactors & Structural Improvements</h3>
+                <p>🧼 Added new folder and cleaner dependency structure for Effects system</p>
+                <p>🧼 Added new folder and cleaner dependencies for the Side Menu</p>
+                <p>🧼 Moved Stats Display out of App.jsx into its own file</p>
+                <p>🧼 Moved Settings Menu into a separate component</p>
+                <p>🧼 Moved Crafting Store CSS into its own styleshee</p>
+                <p>🧪 Possibly broke Achievements in the process (awaiting testing)</p>
+                <h3>🚧 Started (Incomplete Features)</h3>
+                <p>🚧 Started integrating Auto Clicker v2: NEED HELP ITS NOT WORKING</p>
+                <p>🚧 Tronics Click Boost I & II setup started (not fully implemented)</p>
+                <p>🚧 Prestige Visual Feedback (flash/glow) planned but not yet in</p>
+                <p>🚧 Crafting System refactor in progress (moving to standalone file)</p>
+                <p>🚧 ElectroShop started — still buggy / unstable</p>
+                <h3>📝 Known Issues</h3>
+                <p>⚠️ Achievements may not trigger or save properly (under review)</p>
+                <p>⚠️ More code cleanup coming before additional content</p>
+                <p>⚠️ Ascension Reclaimer saved item not being saved on reload.</p>
+                <p>⚠️ Milestones are still partially broken</p>
+                <p>⚠️ Prestige Button only updates after a page reload</p>
+                <p>⚠️ Cogfather's Tips are not showing up in the News Ticker.</p>
+                <p>⚠️ Started implementation of Auto Clicker Bot v2:
+
+                Still not purchasable.
+
+                Owned bots not displayed correctly.
+
+                No animation on screen.
+
+                No info in hover tooltip.</p>
+              </div>
+              <p className="changelog-footer">Thanks again for playing and sharing your feedback — it really helps shape each version. More content and polish coming soon! If you want to help please make sure to mail me itscolord@gmail.com 🚀</p>
+            </>
+          )}
+        </div>
 
         <div className="changelog-entry">
           <h3 onClick={() => toggleVersion('0.0.4.1')} style={{ cursor: 'pointer' }}>
