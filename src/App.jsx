@@ -69,9 +69,8 @@ export default function App() {
   const [globalJpsMultiplier, setGlobalJpsMultiplier] = useState(() => Number(localStorage.getItem('globalJpsMultiplier')) || 1);
   const [clickMultiplier, setClickMultiplier] = useState(() => Number(localStorage.getItem('clickMultiplier')) || 1);
   const [isSurgeActive, setIsSurgeActive] = useState(false);
-  const [passiveIncome, setPassiveIncome] = useState(() => Number(localStorage.getItem('passiveIncome')) || 0);
 
-
+  
   useEffect(() => {
     const handleAddMaterial = (e) => {
       const { material, amount } = e.detail;
