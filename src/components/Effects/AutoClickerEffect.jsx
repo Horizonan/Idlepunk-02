@@ -11,9 +11,9 @@ export default function AutoClickerEffect({ autoClicks = 0 }) {
     if (!clickerElement) return;
 
     const rect = clickerElement.getBoundingClientRect();
-    const centerX = rect.x + rect.width / 2;
-    const centerY = rect.y + rect.height / 2;
-    const radius = Math.min(rect.width, rect.height) / 3;
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const radius = Math.min(rect.width, rect.height) / 2.5;
 
     // Create cursor positions in a circle around the clicker
     const newCursors = Array(numCursors).fill().map((_, i) => {
