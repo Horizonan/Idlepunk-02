@@ -1105,6 +1105,7 @@ export default function App() {
           }}
           onBuyAutoClickerV2={() => {
             if (junk >= itemCosts.autoClickerV2 && autoClicks >= 1) {
+              console.log("it works");
               setJunk(prev => prev - itemCosts.autoClickerV2);
               setAutoClicks(prev => prev - 1 + 2); // Remove 1 v1 and add 2 clicks for v2
               setItemCosts(prev => ({...prev, autoClickerV2: Math.floor(prev.autoClickerV2 * 1.15)}));
