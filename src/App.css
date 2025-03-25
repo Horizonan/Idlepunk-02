@@ -524,6 +524,11 @@ button.locked {
   transform: scale(0.95);
 }
 
+@keyframes rotate {
+  from { transform: rotate(0deg) translateX(20px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(20px) rotate(-360deg); }
+}
+
 .news-bar {
   display: flex;
   align-items: center;

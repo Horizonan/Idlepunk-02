@@ -22,6 +22,7 @@ import SlotMachine from './components/SideMenu/SlotMachine';
 import ClickEnhancerEffect from './components/Effects/ClickEnhancerEffect';
 import DroneEffect from './components/Effects/DroneEffect';
 import HoverDroneEffect from './components/Effects/HoverDroneEffect';
+import AutoClickerEffect from './components/Effects/AutoClickerEffect';
 import Menu from './components/SideMenu/Menu';
 import CraftingStore from './components/StoreSystem/CraftingStore';
 import Marketplace from './components/SideMenu/Marketplace';
@@ -1143,6 +1144,7 @@ export default function App() {
         electronicsUnlock={electronicsUnlock}
       />
       {showClickEnhancerUI && clickEnhancerLevel > 0 && <ClickEnhancerEffect level={clickEnhancerLevel} />}
+      {autoClicks > 0 && <AutoClickerEffect autoClicks={autoClicks} />}
       {ownedItems.scrapDrone > 0 && <DroneEffect numDrones={ownedItems.scrapDrone} />}
       {craftingInventory['Hover Drone'] && <HoverDroneEffect />}
       <Notifications notifications={notifications} />

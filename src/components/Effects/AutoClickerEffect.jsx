@@ -1,0 +1,66 @@
+
+import React, { useEffect, useState } from 'react';
+
+export default function AutoClickerEffect({ autoClicks = 0 }) {
+  const [cursors, setCursors] = useState([]);
+
+  useEffect(() => {
+    const numCursors = Math.min(autoClicks, 5); // Cap visible cursors at 5
+    const clickerElement = document.getElementById('trashClicker');
+    
+    if (!clickerElement) return;
+
+    const rect = clickerElement.getBoundingClientRect();
+    const centerX = rect.x + rect.width / 2;
+    const centerY = rect.y + rect.height / 2;
+    const radius = Math.min(rect.width, rect.height) / 3;
+
+    // Create cursor positions in a circle around the clicker
+    const newCursors = Array(numCursors).fill().map((_, i) => {
+      const angle = (i / numCursors) * 2 * Math.PI;
+      return {
+        id: i,
+        x: centerX + radius * Math.cos(angle),
+        y: centerY + radius * Math.sin(angle),
+        clicking: false
+      };
+    });
+
+    setCursors(newCursors);
+
+    // Animate clicks
+    const clickInterval = setInterval(() => {
+      setCursors(prev => prev.map(cursor => ({
+        ...cursor,
+        clicking: Math.random() < 0.3
+      })));
+    }, 1000);
+
+    return () => clearInterval(clickInterval);
+  }, [autoClicks]);
+
+  return (
+    <>
+      {cursors.map(cursor => (
+        <div
+          key={cursor.id}
+          style={{
+            position: 'fixed',
+            left: cursor.x,
+            top: cursor.y,
+            width: '32px',
+            height: '32px',
+            backgroundImage: 'url(/Icons/cursor.png)',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            transform: cursor.clicking ? 'scale(0.9)' : 'scale(1)',
+            transition: 'transform 0.1s',
+            pointerEvents: 'none',
+            zIndex: 1000,
+            animation: 'rotate 4s infinite linear'
+          }}
+        />
+      ))}
+    </>
+  );
+}
