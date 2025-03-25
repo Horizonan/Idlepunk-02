@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import { useGameState } from './hooks/useGameState';
 import { useItemState } from './hooks/useItemState';
-import { useAchievements } from './hooks/useAchievements';
+import { useAchievements, defaultAchievements } from './hooks/useAchievements';
 import { collectJunk, handleBuyItem, handleReset } from './utils/gameHandlers';
 import Clicker from './components/Clicker';
 import Achievements from './components/Achievements';

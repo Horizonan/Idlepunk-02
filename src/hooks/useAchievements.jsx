@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 
-const defaultAchievements = [
+export const defaultAchievements = [
   {
     title: "Junkie Starter",
     requirement: "Collect 1,000 Junk",
