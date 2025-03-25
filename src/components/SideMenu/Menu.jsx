@@ -9,7 +9,8 @@ export default function Menu({ onStoreSelect }) {
     { id: 'questLog', label: 'Quest Log' },
     { id: 'slotMachine', label: 'Slot Machine' },
     { id: 'settings', label: 'Settings' },
-    { id: 'changelog', label: 'Changelog' }
+    { id: 'changelog', label: 'Changelog' },
+    { id: 'upgradeStats', label: 'Upgrade Stats' }
   ];
 
   return (
