@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 export default function Settings({ 
@@ -10,72 +9,32 @@ export default function Settings({
   setShowBeaconVisual,
   enableHoloBillboard,
   setEnableHoloBillboard,
+  prestigeCount,
+  setShowTechTree,
   clickCount,
   passiveIncome,
   globalJpsMultiplier,
-  craftingInventory,
   surgeCount,
-  prestigeCount,
+  craftingInventory,
   preservedHelper,
-  prestigeQuestCompleted,
-  setShowTechTree,
   onClose 
 }) {
   return (
-    <div className="store-container settings-menu">
+    <div className="settings-menu">
       <div className="settings-header">
         <h2>Settings</h2>
-        <button onClick={onClose}>Close</button>
+        <button onClick={onClose}>✕</button>
       </div>
       <div className="settings-options">
-        <div className="stats-section">
-          <h3>Stats</h3>
-          <p>Total Clicks: {clickCount.toLocaleString()}</p>
-          <p>Average JPS: {Math.floor((passiveIncome * globalJpsMultiplier)).toLocaleString()}</p>
-          <p>Global JPS Multiplier: {(1 + (globalJpsMultiplier - 1) + (craftingInventory['Compression Pack'] ? 0.25 : 0)).toFixed(2)}x</p>
-          <p>Trash Surges Completed: {surgeCount.toLocaleString()}</p>
-          <p>Times Prestiged: {prestigeCount}</p>
-        </div>
-        {preservedHelper && (
-          <div className="stats-section">
-            <h3>Energy Shielded Helpers</h3>
-            <p>{preservedHelper} (Protected from Ascension)</p>
-          </div>
-        )}
         <label className="setting-option">
-          <span>Show Click Enhancer Effect</span>
+          <span>Show Click Effects</span>
           <input
             type="checkbox"
             checked={showClickEnhancerUI}
-            onChange={() => setShowClickEnhancerUI(prev => !prev)}
-          />
-        </label>
-        <label className="setting-option">
-          <span>Max Click Enhancers</span>
-          <input
-            type="number"
-            min="1"
-            max="10"
-            value={localStorage.getItem('maxClickEnhancers') || 3}
-            onChange={(e) => localStorage.setItem('maxClickEnhancers', e.target.value)}
-          />
-        </label>
-        <label className="setting-option">
-          <span>Show Drones</span>
-          <input
-            type="checkbox"
-            checked={localStorage.getItem('showDrones') !== 'false'}
-            onChange={(e) => localStorage.setItem('showDrones', e.target.checked)}
-          />
-        </label>
-        <label className="setting-option">
-          <span>Max Visible Drones</span>
-          <input
-            type="number"
-            min="1"
-            max="20"
-            value={localStorage.getItem('maxVisibleDrones') || 10}
-            onChange={(e) => localStorage.setItem('maxVisibleDrones', e.target.value)}
+            onChange={(e) => {
+              setShowClickEnhancerUI(e.target.checked);
+              localStorage.setItem('showClickEnhancerUI', e.target.checked);
+            }}
           />
         </label>
         <label className="setting-option">
@@ -119,6 +78,16 @@ export default function Settings({
             Open Tech Tree
           </button>
         )}
+        <div className="stats-section">
+          <h3>Game Stats</h3>
+          <p>Total Clicks: {clickCount.toLocaleString()}</p>
+          <p>Passive Income: {Math.floor(passiveIncome * globalJpsMultiplier).toLocaleString()} JPS</p>
+          <p>Global Multiplier: {(globalJpsMultiplier * 100).toFixed(0)}%</p>
+          <p>Surge Count: {surgeCount}</p>
+          <p>Prestige Count: {prestigeCount}</p>
+          {preservedHelper && <p>Preserved Helper: {preservedHelper}</p>}
+          <p>Crafted Items: {Object.keys(craftingInventory).length}</p>
+        </div>
         <div className="reset-section">
           <h3>Reset Progress</h3>
           <p className="reset-warning">Warning: This will permanently delete all your progress!</p>
