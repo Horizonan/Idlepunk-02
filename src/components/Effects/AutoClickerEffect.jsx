@@ -22,7 +22,8 @@ export default function AutoClickerEffect({ autoClicks = 0 }) {
         id: i,
         x: centerX + radius * Math.cos(angle),
         y: centerY + radius * Math.sin(angle),
-        clicking: false
+        clicking: false,
+        rotation: Math.random() * 360
       };
     });
 
@@ -44,19 +45,13 @@ export default function AutoClickerEffect({ autoClicks = 0 }) {
       {cursors.map(cursor => (
         <div
           key={cursor.id}
+          className={`auto-clicker ${cursor.clicking ? 'clicking' : ''}`}
           style={{
-            position: 'fixed',
             left: cursor.x,
             top: cursor.y,
-            width: '32px',
-            height: '32px',
-            backgroundImage: 'url(/Icons/cursor.png)',
+            backgroundImage: 'url(/Icons/Upgrades/autoClickerV1.png)',
             backgroundSize: 'contain',
             backgroundRepeat: 'no-repeat',
-            transform: cursor.clicking ? 'scale(0.9)' : 'scale(1)',
-            transition: 'transform 0.1s',
-            pointerEvents: 'none',
-            zIndex: 1000,
             animation: 'rotate 4s infinite linear'
           }}
         />

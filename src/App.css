@@ -529,6 +529,24 @@ button.locked {
   to { transform: rotate(360deg) translateX(20px) rotate(-360deg); }
 }
 
+@keyframes rotate {
+  from { transform: rotate(0deg) translateX(20px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(20px) rotate(-360deg); }
+}
+
+.auto-clicker {
+  position: fixed;
+  width: 32px;
+  height: 32px;
+  pointer-events: none;
+  z-index: 1000;
+  transition: transform 0.1s;
+}
+
+.auto-clicker.clicking {
+  transform: scale(0.9);
+}
+
 .news-bar {
   display: flex;
   align-items: center;
