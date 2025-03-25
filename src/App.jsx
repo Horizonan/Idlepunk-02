@@ -1108,7 +1108,6 @@ export default function App() {
               setJunk(prev => prev - itemCosts.autoClickerV2);
               setAutoClicks(prev => {
                 // Remove one v1 autoclicker and add a v2 (worth 2 clicks)
-                console.log("working");
                 const newValue = prev - 1 + 2;
                 localStorage.setItem('autoClicks', newValue);
                 return newValue;
