@@ -34,43 +34,51 @@ import TechTree from './components/TechTree';
 import PrestigePopup from './components/PrestigePopup';
 
 export default function App() {
-  const [showPrestigePopup, setShowPrestigePopup] = useState(false);
-  const [prestigeQuestCompleted, setPrestigeQuestCompleted] = useState(() => 
-    localStorage.getItem('quest_sync_Forge the Future') === 'true'
-  );
+  const { 
+    junk, setJunk,
+    credits, setCredits,
+    clickCount, setClickCount,
+    tronics, setTronics,
+    autoClicks, setAutoClicks,
+    clickMultiplier, setClickMultiplier,
+    passiveIncome, setPassiveIncome,
+    globalJpsMultiplier, setGlobalJpsMultiplier,
+    notifications, setNotifications,
+    electronicsUnlock, setElectronicsUnlock,
+    activeStore, setActiveStore,
+    menuOpen, setMenuOpen,
+    clickEnhancerLevel, setClickEnhancerLevel,
+    tutorialStage, setTutorialStage,
+    hasUpgrade, setHasUpgrade,
+    showPrestigePopup, setShowPrestigePopup,
+    prestigeCount, setPrestigeCount,
+    electroShards, setElectroShards,
+    beaconCount, setBeaconCount,
+    showBeacon, setShowBeacon,
+    showBeaconVisual, setShowBeaconVisual,
+    isSurgeActive, setIsSurgeActive,
+    hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge,
+    surgeCount, setSurgeCount,
+    cogfatherLore, setCogfatherLore,
+    preservedHelper, setPreservedHelper
+  } = useGameState();
   const baseRate = 100000; // 100,000 junk = 1 credit
   const [showChangelog, setShowChangelog] = useState(false);
   const [showTechTree, setShowTechTree] = useState(false);
-  const [prestigeCount, setPrestigeCount] = useState(() => Number(localStorage.getItem('prestigeCount')) || 0);
   const [showSlotMachine, setShowSlotMachine] = useState(false);
   const [showCheatMenu, setShowCheatMenu] = useState(false);
   const [showCrystal, setShowCrystal] = useState(false);
   const [showTrashBonus, setShowTrashBonus] = useState(false);
-  const [electroShards, setElectroShards] = useState(() => Number(localStorage.getItem('electroShards')) || 0);
-  const [beaconCount, setBeaconCount] = useState(() => Number(localStorage.getItem('beaconCount')) || 0);
-  const [showBeacon, setShowBeacon] = useState(false);
-  const [showBeaconVisual, setShowBeaconVisual] = useState(() => localStorage.getItem('showBeaconVisual') !== 'false');
-  const [showHoloBillboard, setShowHoloBillboard] = useState(() => localStorage.getItem('showHoloBillboard') !== 'false')
-   const [enableHoloBillboard, setEnableHoloBillboard] = useState(() => localStorage.getItem('enableHoloBillboard') !== 'false');
   const [showActiveCheats, setShowActiveCheats] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showQuestLog, setShowQuestLog] = useState(false);
   const [showClickEnhancerUI, setShowClickEnhancerUI] = useState(true);
   const [showNewsTicker, setShowNewsTicker] = useState(() => localStorage.getItem('showNewsTicker') !== 'false');
-  const [credits, setCredits] = useState(() => Math.floor(Number(localStorage.getItem('credits')) || 0));
-  const [junk, setJunk] = useState(() => Math.floor(Number(localStorage.getItem('junk')) || 0));
-  const [clickCount, setClickCount] = useState(() => Math.floor(Number(localStorage.getItem('clickCount')) || 0));
-  const [tronics, setTronics] = useState(() => Number(localStorage.getItem('tronics')) || 0);
-  const [cogfatherLore, setCogfatherLore] = useState(() => JSON.parse(localStorage.getItem('cogfatherLore')) || []);
+  const [prestigeQuestCompleted, setPrestigeQuestCompleted] = useState(() => 
+    localStorage.getItem('quest_sync_Forge the Future') === 'true'
+  );
 
-  const [autoClicks, setAutoClicks] = useState(() => Number(localStorage.getItem('autoClicks')) || 0);
-  const [preservedHelper, setPreservedHelper] = useState(null); //New state for preserved helper
-  const [globalJpsMultiplier, setGlobalJpsMultiplier] = useState(() => Number(localStorage.getItem('globalJpsMultiplier')) || 1);
-  const [clickMultiplier, setClickMultiplier] = useState(() => Number(localStorage.getItem('clickMultiplier')) || 1);
-  const [isSurgeActive, setIsSurgeActive] = useState(false);
-
-  
   useEffect(() => {
     const handleAddMaterial = (e) => {
       const { material, amount } = e.detail;
@@ -232,14 +240,6 @@ export default function App() {
         break;
     }
   };
-  const { 
-    electronicsUnlock, setElectronicsUnlock,
-    activeStore, setActiveStore,
-    menuOpen, setMenuOpen,
-    clickEnhancerLevel, setClickEnhancerLevel,
-    tutorialStage, setTutorialStage,
-    hasUpgrade, setHasUpgrade
-  } = useGameState();
   const [hasHelper, setHasHelper] = useState(false);
   const [showInventory, setShowInventory] = useState(false);
 
@@ -315,8 +315,6 @@ export default function App() {
     'Ascension Reclaimer': 0
   });
 
-  const [hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge] = useState(false);
-  const [surgeCount, setSurgeCount] = useState(() => Number(localStorage.getItem('surgeCount')) || 0);
   const [activeCheatsList, setActiveCheatsList] = useState(() => ({
     'Guaranteed Capacitor': false,
     'Force Triple Win': false,
@@ -891,7 +889,7 @@ export default function App() {
           onBuyJunkMagnet={handleBuyJunkMagnet}
           onBuyUrbanRecycler={handleBuyUrbanRecycler}
           onBuyScrapDrone={handleBuyScrapDrone}
-          onBuyHoloBillboard={handleBuyHoloBillboard} // Added prop
+          onBuyHoloBillboard={handleBuyHoloBillboard} 
           globalJpsMultiplier={globalJpsMultiplier}
           passiveIncome={passiveIncome}
           onBuyClickEnhancer={() => {
@@ -952,7 +950,7 @@ export default function App() {
             if (junk >= itemCosts.autoClickerV2 && autoClicks >= 1) {
               console.log("it works");
               setJunk(prev => prev - itemCosts.autoClickerV2);
-              setAutoClicks(prev => prev - 1 + 2); // Remove 1 v1 and add 2 clicks for v2
+              setAutoClicks(prev => prev - 1 + 2); 
               setItemCosts(prev => ({...prev, autoClickerV2: Math.floor(prev.autoClickerV2 * 1.15)}));
               setNotifications(prev => [...prev, "Auto Clicker Bot v2.0 purchased! (Consumed 1 Auto Clicker Bot)"]);
               window.dispatchEvent(new CustomEvent('nextNews', { 
@@ -1007,7 +1005,7 @@ export default function App() {
                   setItemCosts(prev => {
                     const newCosts = { ...prev };
                     Object.keys(newCosts).forEach(key => {
-                      if (key !== 'clickEnhancer') { // Don't affect click enhancer scaling
+                      if (key !== 'clickEnhancer') { 
                         const currentScaling = key === 'streetrat' || key === 'cart' || key === 'junkMagnet' || key === 'urbanRecycler' || key === 'scrapDrone' ? 1.15 : 1.1;
                         const newScaling = currentScaling - 0.01;
                         localStorage.setItem(`${key}Scaling`, newScaling.toString());
@@ -1089,7 +1087,7 @@ export default function App() {
             }
           }}
           onBuyReclaimer={() => {
-            const hasAutoClickerBot = autoClicks > 0; // Check if user has any Auto Clicker Bots
+            const hasAutoClickerBot = autoClicks > 0; 
 
             if (!hasAutoClickerBot) {
               setNotifications(prev => [...prev, "You need to own at least one automation helper to use the Ascension Reclaimer!"]);
@@ -1097,24 +1095,23 @@ export default function App() {
             }
 
             if (credits >= 90 && (craftingInventory['Ascension Reclaimer'] || 0) < 2) {
-              setCredits(prev => prev - 90);  // Deduct 90 credits from the user's current balance
+              setCredits(prev => prev - 90);  
               setCraftingInventory(prev => ({
                 ...prev,
-                'Ascension Reclaimer': (prev['Ascension Reclaimer'] || 0) + 1 // Increment the count of the Ascension Reclaimer in the crafting inventory
+                'Ascension Reclaimer': (prev['Ascension Reclaimer'] || 0) + 1 
               }));
 
-              // Only select from automation store items
+              
               const automationHelpers = [
                 'Auto Clicker Bot'
               ];
 
-              // Randomly select a helper from the automationHelpers array
+              
               const randomHelper = automationHelpers[Math.floor(Math.random() * automationHelpers.length)];
-              // Update the state to keep track of the selected helper
+              
               setPreservedHelper(randomHelper);
-              // Store the selected helper in local storage
+              
               localStorage.setItem('preservedHelper', randomHelper);
-
 
               setNotifications(prev => [...prev, `Ascension Reclaimer purchased! ${randomHelper} will be preserved after prestige.`]);
               window.dispatchEvent(new CustomEvent('nextNews', { 
@@ -1322,7 +1319,7 @@ export default function App() {
                         checked: false
                       }
                     ];
-                    // Clear all quest sync states
+                    
                     Object.keys(localStorage).forEach(key => {
                       if (key.startsWith('quest_sync_')) {
                         localStorage.removeItem(key);
@@ -1384,7 +1381,7 @@ export default function App() {
           onClose={() => setShowPrestigePopup(false)}
           onConfirm={() => {
             setShowPrestigePopup(false);
-            // Add Prestige Token and increment count
+            
             setCraftingInventory(prev => ({
               ...prev,
               'Prestige Token': (prev['Prestige Token'] || 0) + 1
@@ -1395,14 +1392,14 @@ export default function App() {
               return newCount;
             });
 
-            // Reset progress
+            
             setJunk(0);
             setClickMultiplier(1);
             setPassiveIncome(0);
             setAutoClicks(0);
             setClickEnhancerLevel(0);
 
-            // Reset costs
+            
             setItemCosts({
               trashBag: 10,
               trashPicker: 100,
@@ -1416,7 +1413,7 @@ export default function App() {
               holoBillboard: 15000
             });
 
-            // Reset owned items except preserved ones
+            
             const resetOwnedItems = {
               trashBag: 0,
               trashPicker: 0,
@@ -1430,13 +1427,13 @@ export default function App() {
             };
             setOwnedItems(resetOwnedItems);
 
-            // Show notification
+            
             setNotifications(prev => [...prev, "Prestige complete! Gained 1 Prestige Token"]);
 
-            // Set prestiged flag
+            
             localStorage.setItem('hasPrestiged', 'true');
 
-            // Show Cogfather message for first prestige
+            
             if (prestigeCount === 0) {
               const cogfatherMessage = (
                 <div className="cogfather-message-popup">
