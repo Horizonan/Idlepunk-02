@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Store.css';
 
 export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, onBuyJunkRefinery, globalJpsMultiplier, passiveIncome, onBuyClickEnhancer, clickCount, purchasedUpgrades, onBack }) {
+  const [selectedTab, setSelectedTab] = useState('prePres');
+
   const showClickEnhancer = purchasedUpgrades >= 3 || clickCount >= 1000;
 
   const clickItems = [
@@ -86,82 +88,101 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
 
   ];
 
+  const tabs = [
+    { id: 'prePres', label: 'Pre-Prestige' },
+    { id: 'firstAsc', label: 'First Ascension', unlockCondition: () => localStorage.getItem('hasPrestiged') === 'true' }
+  ];
+
   return (
     <div className="store-container">
       <div className="store-header">
         <h2>Junk Store</h2>
         <button onClick={onBack}>Close</button>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-        <div>
-          <h3 style={{ color: '#9400D3', textAlign: 'center' }}>Click Upgrades</h3>
-          <div className="store-items">
-            {clickItems.map((item) => (
-              <button
-                key={item.name}
-                onClick={item.action}
-                disabled={credits < item.cost}
-                className="store-item"
-              >
-                <div className="item-header">
-                  <strong>{item.name}</strong>
-                  <span className="cost">({item.cost} Junk)</span>
-                </div>
-                <div className="item-info">
-                  <p>{item.description}</p>
-                  <p>{item.info}</p>
-                  <p className="owned">Owned: {item.purchasedCount}</p>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-        <div>
-          <h3 style={{ color: '#9400D3', textAlign: 'center' }}>Passive Upgrades</h3>
-          <div className="store-items">
-            {passiveItems.map((item) => (
-              <button
-                key={item.name}
-                onClick={item.action}
-                disabled={credits < item.cost}
-                className="store-item"
-              >
-                <div className="item-header">
-                  <strong>{item.name}</strong>
-                  <span className="cost">({item.cost} Junk)</span>
-                </div>
-                <div className="item-info">
-                  <p>{item.description}</p>
-                  <p>{item.info}</p>
-                  <p className="owned">Owned: {item.purchasedCount}</p>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {localStorage.getItem('hasPrestiged') === 'true' && (
-        <div className="store-category">
-          <h3>First Ascension</h3>
+      <div className="crafting-tabs">
+        {tabs.map(tab => (
           <button
-            className={`store-item ${credits < (itemCosts.junkRefinery || 500000) ? 'disabled' : ''}`}
-            onClick={onBuyJunkRefinery}
-            disabled={credits < (itemCosts.junkRefinery || 500000)}
+            key={tab.id}
+            className={`tab-button ${selectedTab === tab.id ? 'active' : ''} ${tab.unlockCondition && !tab.unlockCondition() ? 'locked' : ''}`}
+            onClick={() => (!tab.unlockCondition || tab.unlockCondition()) && setSelectedTab(tab.id)}
+            disabled={tab.unlockCondition && !tab.unlockCondition()}
           >
-            <div className="item-header">
-              <strong>🔹 Junk Refinery</strong>
-            </div>
-            <div>{itemCosts.junkRefinery || 500000} Junk</div>
-            <div className="item-info">
-              <p>+50 Junk/sec</p>
-              <p>Owned: {ownedItems.junkRefinery || 0}</p>
-              A high-tech facility that processes junk more efficiently.
-            </div>
+            {tab.label} {tab.unlockCondition && !tab.unlockCondition() && '🔒'}
           </button>
-        </div>
-      )}
-
+        ))}
+      </div>
+      <div className="store-items">
+        {selectedTab === 'prePres' && (
+          <>
+            <div>
+              <h3 style={{ color: '#9400D3', textAlign: 'center' }}>Click Upgrades</h3>
+              <div className="store-items">
+                {clickItems.map((item) => (
+                  <button
+                    key={item.name}
+                    onClick={item.action}
+                    disabled={credits < item.cost}
+                    className="store-item"
+                  >
+                    <div className="item-header">
+                      <strong>{item.name}</strong>
+                      <span className="cost">({item.cost} Junk)</span>
+                    </div>
+                    <div className="item-info">
+                      <p>{item.description}</p>
+                      <p>{item.info}</p>
+                      <p className="owned">Owned: {item.purchasedCount}</p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h3 style={{ color: '#9400D3', textAlign: 'center' }}>Passive Upgrades</h3>
+              <div className="store-items">
+                {passiveItems.map((item) => (
+                  <button
+                    key={item.name}
+                    onClick={item.action}
+                    disabled={credits < item.cost}
+                    className="store-item"
+                  >
+                    <div className="item-header">
+                      <strong>{item.name}</strong>
+                      <span className="cost">({item.cost} Junk)</span>
+                    </div>
+                    <div className="item-info">
+                      <p>{item.description}</p>
+                      <p>{item.info}</p>
+                      <p className="owned">Owned: {item.purchasedCount}</p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+        {selectedTab === 'firstAsc' && localStorage.getItem('hasPrestiged') === 'true' && (
+          <div className="store-category">
+            <h3>First Ascension</h3>
+            <button
+              className={`store-item ${credits < (itemCosts.junkRefinery || 500000) ? 'disabled' : ''}`}
+              onClick={onBuyJunkRefinery}
+              disabled={credits < (itemCosts.junkRefinery || 500000)}
+            >
+              <div className="item-header">
+                <strong>🔹 Junk Refinery</strong>
+              </div>
+              <div>{itemCosts.junkRefinery || 500000} Junk</div>
+              <div className="item-info">
+                <p>+50 Junk/sec</p>
+                <p>Owned: {ownedItems.junkRefinery || 0}</p>
+                A high-tech facility that processes junk more efficiently.
+              </div>
+            </button>
+          </div>
+        )}
+      </div>
       <button onClick={onBack}>Close</button>
     </div>
   );
