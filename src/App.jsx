@@ -234,7 +234,7 @@ export default function App() {
   const [notifications, setNotifications] = useState([]);
   const [activeStore, setActiveStore] = useState(() => localStorage.getItem('activeStore') || null);
   const [menuOpen, setMenuOpen] = useState(() => localStorage.getItem('menuOpen') !== 'false');
-
+  const [passiveIncome, setPassiveIncome] = useState(() => Number(localStorage.getItem('passiveIncome')) || 0);
   const [clickEnhancerLevel, setClickEnhancerLevel] = useState(() => Number(localStorage.getItem('clickEnhancerLevel')) || 0);
   const [tutorialStage, setTutorialStage] = useState(() => Number(localStorage.getItem('tutorialStage')) || 0);
   const [hasUpgrade, setHasUpgrade] = useState(false);
@@ -772,7 +772,7 @@ export default function App() {
             });
             setNotifications(prev => [...prev, "Crystal shard collected!"]);
           }}
-          onDisappear={() => {
+          onDisappear() => {
             setShowCrystal(falsese);
             setNotifications(prev => [...prev, "The electro shard vanished into the void..."]);
           }}
