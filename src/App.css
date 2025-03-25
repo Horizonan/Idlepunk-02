@@ -736,13 +736,14 @@ button.locked {
   padding: 10px;
   border-radius: 4px;
   width: 200px;
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
+  right: auto;
+  left: 0;
+  top: 35%;
   z-index: 1100;
   color: #00FF00;
   pointer-events: none;
   box-shadow: 0 0 10px rgba(148, 0, 211, 0.3);
+  transform: translateX(-100%) translateY(-25%);
 }
 
 .store-items {
