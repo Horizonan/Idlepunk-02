@@ -831,7 +831,7 @@ export default function App() {
         <div></div>
       </div>
       <div 
-        className={`sidebar ${menuOpen ? ''open' : ''} ${localStorage.getItem('sidebarLocked') === 'true' ? 'locked' : ''}`}
+        className={`sidebar ${menuOpen ? 'open' : ''} ${localStorage.getItem('sidebarLocked') === 'true' ? 'locked' : ''}`}
         style={{
           left: menuOpen ? (localStorage.getItem('sidebarLeft') || '0px') : '-300px',
           bottom: activeStore ? (localStorage.getItem('sidebarBottom') || '250px') : '250px'
