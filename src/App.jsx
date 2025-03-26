@@ -334,7 +334,6 @@ export default function App() {
     };
   }, []);
 
-  const [craftingInventory, setCraftingInventory] = useState(() => JSON.parse(localStorage.getItem('craftingInventory')) || {});
   const [creditStoreItems, setCreditStoreItems] = useState(() => JSON.parse(localStorage.getItem('creditStoreItems')) || {
     'Hover Drone': false,
     'Crafting Booster Unit': false,
