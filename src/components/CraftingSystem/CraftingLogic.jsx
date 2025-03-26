@@ -1,11 +1,6 @@
 import React from 'react';
 
 export const craftItem = (item, junk, setJunk, setCraftingInventory, setNotifications, clickMultiplier, craftingInventory, setClickMultiplier, setAutoClicks, setPassiveIncome, setItemCosts) => {
-  if (!craftingInventory) {
-    console.error('craftingInventory is undefined');
-    return;
-  }
-
   if (item.type === 'basic') {
     const cost = craftingInventory['Crafting Booster Unit'] ? Math.floor(item.cost * 0.9) : item.cost;
     if (junk >= cost) {
@@ -22,11 +17,14 @@ export const craftItem = (item, junk, setJunk, setCraftingInventory, setNotifica
     ) && (!item.onetime || !(craftingInventory[item.name] || 0)) && junk >= (item.cost || 0);
 
     if (canCraft) {
-      const newInventory = { ...craftingInventory };
-      Object.entries(item.requirements).forEach(([mat, count]) => {
-        newInventory[mat] -= count;
+      setCraftingInventory(prev => {
+        const newInventory = { ...prev };
+        Object.entries(item.requirements).forEach(([mat, count]) => {
+          newInventory[mat] -= count;
+        });
+        newInventory[item.name] = (newInventory[item.name] || 0) + 1;
+        return newInventory;
       });
-      newInventory[item.name] = (newInventory[item.name] || 0) + 1;
 
       if (item.cost) setJunk(prev => prev - item.cost);
 
@@ -58,7 +56,6 @@ export const craftItem = (item, junk, setJunk, setCraftingInventory, setNotifica
         setNotifications(prev => [...prev, "Cost scaling reduced by 1%!"]);
       }
 
-      setCraftingInventory(newInventory);
       setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
     }
   }
@@ -88,6 +85,7 @@ export const validateCrafting = (junk, craftingInventory, notifications, setNoti
         newInventory[item.name] = (newInventory[item.name] || 0) + 1;
 
         if (item.cost) setJunk(prev => prev - item.cost);
+
 
         return newInventory;
       }
