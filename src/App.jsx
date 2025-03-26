@@ -7,7 +7,7 @@ import { useAchievements, defaultAchievements } from './hooks/useAchievements';
 import { collectJunk, handleBuyItem, handleReset } from './utils/gameHandlers';
 import Clicker from './components/Clicker';
 import Achievements from './components/Achievements';
-import CheatMenu from './components/CheatMenu';
+import CheatMenu from './components/CheatMenu/CheatMenu';
 import Store from './components/StoreSystem/Store';
 import ElectroStore from './components/StoreSystem/ElectroStore';
 import CredStore from './components/StoreSystem/CredStore';
@@ -27,7 +27,7 @@ import Menu from './components/SideMenu/Menu';
 import Settings from './components/Settings';
 import CraftingStore from './components/StoreSystem/CraftingStore';
 import Marketplace from './components/SideMenu/Marketplace';
-import ActiveCheats from './components/ActiveCheats';
+import ActiveCheats from './components/CheatMenu/ActiveCheats';
 import FlyingCrystal from './components/Effects/FlyingCrystal';
 import HoloBillboard from './components/HoloBillboard';
 import TrashBonus from './components/Effects/TrashBonus';
@@ -35,7 +35,7 @@ import ItemInventory from './components/StoreSystem/ItemInventory';
 import Changelog from './components/SideMenu/Changelog';
 import TechTree from './components/TechTree';
 import PrestigePopup from './components/PrestigePopup';
-import UpgradeStats from './components/UpgradeStats'; //Import missing component
+import UpgradeStats from './components/StoreSystem/UpgradeStats'; //Import missing component
 import {craftItem} from './CraftingLogic'; //Import crafting logic
 
 export default function App() {
