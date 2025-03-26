@@ -1,7 +1,6 @@
-
 import React from 'react';
 
-export const craftItem = (item, junk, setJunk, setCraftingInventory, setNotifications, clickMultiplier, craftingInventory) => {
+export const craftItem = (item, junk, setJunk, setCraftingInventory, setNotifications, clickMultiplier, craftingInventory, setClickMultiplier, setAutoClicks, setPassiveIncome, setItemCosts) => {
   if (item.type === 'basic') {
     const cost = craftingInventory['Crafting Booster Unit'] ? Math.floor(item.cost * 0.9) : item.cost;
     if (junk >= cost) {
@@ -28,6 +27,35 @@ export const craftItem = (item, junk, setJunk, setCraftingInventory, setNotifica
       });
 
       if (item.cost) setJunk(prev => prev - item.cost);
+
+      // Handle special effects
+      if (item.name === 'Click Rig Mk I') {
+        setClickMultiplier(prev => prev * 1.25);
+        setNotifications(prev => [...prev, "Click power increased by 25%!"]);
+      }
+      if (item.name === 'Auto Toolkit') {
+        setAutoClicks(prev => Math.floor(prev * 1.25));
+        setNotifications(prev => [...prev, "Auto Click efficiency increased by 25%!"]);
+      }
+      if (item.name === 'Compression Pack') {
+        setPassiveIncome(prev => Math.floor(prev * 1.25));
+        setNotifications(prev => [...prev, "Passive income increased by 25%!"]);
+      }
+      if (item.name === 'Reinforced Backpack') {
+        setItemCosts(prev => {
+          const newCosts = { ...prev };
+          Object.keys(newCosts).forEach(key => {
+            if (key !== 'clickEnhancer') {
+              const currentScaling = key === 'streetrat' || key === 'cart' || key === 'junkMagnet' || key === 'urbanRecycler' || key === 'scrapDrone' ? 1.15 : 1.1;
+              const newScaling = currentScaling - 0.01;
+              localStorage.setItem(`${key}Scaling`, newScaling.toString());
+            }
+          });
+          return newCosts;
+        });
+        setNotifications(prev => [...prev, "Cost scaling reduced by 1%!"]);
+      }
+
       setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
     }
   }
@@ -58,33 +86,6 @@ export const validateCrafting = (junk, craftingInventory, notifications, setNoti
 
         if (item.cost) setJunk(prev => prev - item.cost);
 
-        // Handle special effects
-        if (item.name === 'Click Rig Mk I') {
-          setClickMultiplier(prev => prev * 1.25);
-          setNotifications(prev => [...prev, "Click power increased by 25%!"]);
-        }
-        if (item.name === 'Auto Toolkit') {
-          setAutoClicks(prev => Math.floor(prev * 1.25));
-          setNotifications(prev => [...prev, "Auto Click efficiency increased by 25%!"]);
-        }
-        if (item.name === 'Compression Pack') {
-          setPassiveIncome(prev => Math.floor(prev * 1.25));
-          setNotifications(prev => [...prev, "Passive income increased by 25%!"]);
-        }
-        if (item.name === 'Reinforced Backpack') {
-          setItemCosts(prev => {
-            const newCosts = { ...prev };
-            Object.keys(newCosts).forEach(key => {
-              if (key !== 'clickEnhancer') {
-                const currentScaling = key === 'streetrat' || key === 'cart' || key === 'junkMagnet' || key === 'urbanRecycler' || key === 'scrapDrone' ? 1.15 : 1.1;
-                const newScaling = currentScaling - 0.01;
-                localStorage.setItem(`${key}Scaling`, newScaling.toString());
-              }
-            });
-            return newCosts;
-          });
-          setNotifications(prev => [...prev, "Cost scaling reduced by 1%!"]);
-        }
 
         return newInventory;
       }
