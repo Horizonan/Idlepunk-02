@@ -35,8 +35,7 @@ import ItemInventory from './components/StoreSystem/ItemInventory';
 import Changelog from './components/SideMenu/Changelog';
 import TechTree from './components/TechTree';
 import PrestigePopup from './components/PrestigePopup';
-import UpgradeStats from './components/StoreSystem/UpgradeStats'; //Import missing component
-import {craftItem} from './components/CraftingSystem/CraftingLogic'; //Import crafting logic
+import UpgradeStats from './components/StoreSystem/UpgradeStats';
 
 export default function App() {
   const { 
@@ -46,6 +45,39 @@ export default function App() {
     tronics, setTronics,
     autoClicks, setAutoClicks,
     clickMultiplier, setClickMultiplier,
+
+const craftItem = (item, junk, setJunk, setCraftingInventory, setNotifications, clickMultiplier) => {
+  if (item.type === 'basic') {
+    const cost = craftingInventory['Crafting Booster Unit'] ? Math.floor(item.cost * 0.9) : item.cost;
+    if (junk >= cost) {
+      setJunk(prev => prev - cost);
+      setCraftingInventory(prev => ({
+        ...prev,
+        [item.name]: (prev[item.name] || 0) + 1
+      }));
+      setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
+    }
+  } else {
+    const canCraft = Object.entries(item.requirements).every(
+      ([mat, count]) => (craftingInventory[mat] || 0) >= count
+    ) && (!item.onetime || !(craftingInventory[item.name] || 0)) && junk >= (item.cost || 0);
+
+    if (canCraft) {
+      setCraftingInventory(prev => {
+        const newInventory = { ...prev };
+        Object.entries(item.requirements).forEach(([mat, count]) => {
+          newInventory[mat] -= count;
+        });
+        newInventory[item.name] = (newInventory[item.name] || 0) + 1;
+        return newInventory;
+      });
+
+      if (item.cost) setJunk(prev => prev - item.cost);
+      setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
+    }
+  }
+};
+
     passiveIncome, setPassiveIncome,
     globalJpsMultiplier, setGlobalJpsMultiplier,
     notifications, setNotifications,
