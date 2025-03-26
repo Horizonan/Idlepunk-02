@@ -91,6 +91,9 @@ export default function App() {
   const [prestigeQuestCompleted, setPrestigeQuestCompleted] = useState(() => 
     localStorage.getItem('quest_sync_Forge the Future') === 'true'
   );
+  const [craftingInventory, setCraftingInventory] = useState(() => 
+    JSON.parse(localStorage.getItem('craftingInventory')) || {}
+  );
 
   useEffect(() => {
     const handleAddMaterial = (e) => {
@@ -326,7 +329,7 @@ export default function App() {
     };
   }, []);
 
-  const [craftingInventory, setCraftingInventory] = useState(() => JSON.parse(localStorage.getItem('craftingInventory')) || {});
+
   const [creditStoreItems, setCreditStoreItems] = useState(() => JSON.parse(localStorage.getItem('creditStoreItems')) || {
     'Hover Drone': false,
     'Crafting Booster Unit': false,
@@ -788,6 +791,14 @@ export default function App() {
     }
   };
 
+  // Update prestige state when quest completes
+  useEffect(() => {
+    if (localStorage.getItem('quest_sync_Forge the Future') === 'true' || 
+        (craftingInventory && craftingInventory['Prestige Crystal'] >= 1)) {
+      setPrestigeQuestCompleted(true);
+    }
+  }, [craftingInventory]);
+
   return (
     <main>
       {showQuestLog && <QuestLog tutorialStage={tutorialStage} onClose={() => setShowQuestLog(false)} />}
@@ -995,12 +1006,12 @@ export default function App() {
               setClickMultiplier(prev => prev + 1);
               const newBoostCount = (parseInt(localStorage.getItem('tronics_boost_count') || '0') + 1);
               localStorage.setItem('tronics_boost_count', newBoostCount);
-              
+
               // Update cost
               const currentCost = parseInt(localStorage.getItem('tronics_boost_cost') || '250');
               const newCost = Math.floor(currentCost * 1.1);
               localStorage.setItem('tronics_boost_cost', newCost);
-              
+
               setNotifications(prev => [...prev, "Tronics Click Boost I purchased! +1 Tronics per click"]);
             }
           }}
