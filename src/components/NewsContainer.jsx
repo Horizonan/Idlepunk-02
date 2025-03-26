@@ -55,17 +55,23 @@ export default function NewsContainer({ isSurgeActive }) {
   useEffect(() => {
     const handleTutorialProgress = (event) => {
       const stage = event.detail.stage;
-      const tips = {
-        1: "If it's buzzing, it's working. If it's sparking, it's improving.",
-        2: "Efficiency is just laziness with better marketing.",
-        3: "One man's trash is my entire business model.",
-        4: "Automation isn't cheating. It's evolution.",
-        5: "Upgrade or stagnate. That's the law of the junkpile.",
-        6: "I once bartered a working toaster for a seat on a hoverbus. Worth it."
+      const cogfatherTips = {
+        1: "Cogfather: If it's buzzing, it's working. If it's sparking, it's improving.",
+        2: "Cogfather: Efficiency is just laziness with better marketing.",
+        3: "Cogfather: One man's trash is my entire business model.",
+        4: "Cogfather: Automation isn't cheating. It's evolution.",
+        5: "Cogfather: Upgrade or stagnate. That's the law of the junkpile.",
+        6: "Cogfather: I once bartered a working toaster for a seat on a hoverbus. Worth it."
       };
       
-      if (stage > 0 && stage <= 6 && event.detail.tip) {
-        setDefaultNews(prev => [...prev, event.detail.tip]);
+      if (stage > 0 && stage <= 6) {
+        const tip = cogfatherTips[stage];
+        if (tip && !defaultNews.includes(tip)) {
+          setDefaultNews(prev => [...prev, tip]);
+        }
+        if (event.detail.tip && !defaultNews.includes(event.detail.tip)) {
+          setDefaultNews(prev => [...prev, event.detail.tip]);
+        }
         setCurrentNewsIndex(prev => prev + 1);
       }
     };
