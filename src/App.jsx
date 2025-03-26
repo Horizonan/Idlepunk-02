@@ -1001,6 +1001,7 @@ export default function App() {
           electroShards={electroShards}
           tronics={tronics}
           setTronics={setTronics}
+          setNotifications={setNotifications}
           onBuyQuantumTap={() => {
             if (tronics >= 1250) {
               setTronics(prev => prev - 1250);

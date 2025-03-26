@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-export default function ElectroStore({ electroShards, tronics, setTronics, onBuyTronicsBoost, onBack }) {
+export default function ElectroStore({ electroShards, tronics, setTronics, setNotifications, onBuyTronicsBoost, onBack }) {
   const tronicsBoostCost = parseInt(localStorage.getItem('tronics_boost_cost') || '250');
   const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
   const hasTronicsBoost = localStorage.getItem('unlocked_tronics_boost') === 'true';
