@@ -1000,6 +1000,7 @@ export default function App() {
         <ElectroStore 
           electroShards={electroShards}
           tronics={tronics}
+          setTronics={setTronics}
           onBuyQuantumTap={() => {
             if (tronics >= 1250) {
               setTronics(prev => prev - 1250);
