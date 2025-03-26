@@ -39,12 +39,7 @@ export default function Settings({
         {preservedHelper && (
           <div className="stats-section">
             <h3>Energy Shielded Helpers</h3>
-            {Array.isArray(preservedHelper) ? 
-              preservedHelper.map((helper, index) => (
-                <p key={index}>{helper} (Protected from Ascension)</p>
-              ))
-              : <p>{preservedHelper} (Protected from Ascension)</p>
-            }
+            <p>{preservedHelper} (Protected from Ascension)</p>
           </div>
         )}
         <label className="setting-option">

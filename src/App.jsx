@@ -1213,12 +1213,10 @@ export default function App() {
 
 
               const randomHelper = automationHelpers[Math.floor(Math.random() * automationHelpers.length)];
-              
-              setPreservedHelper(prev => {
-                const newHelpers = Array.isArray(prev) ? [...prev, randomHelper] : [randomHelper];
-                localStorage.setItem('preservedHelper', JSON.stringify(newHelpers));
-                return newHelpers;
-              });omHelper);
+
+              setPreservedHelper(randomHelper);
+
+              localStorage.setItem('preservedHelper', randomHelper);
 
               setNotifications(prev => [...prev, `Ascension Reclaimer purchased! ${randomHelper} will be preserved after prestige.`]);
               window.dispatchEvent(new CustomEvent('nextNews', { 
