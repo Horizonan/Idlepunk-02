@@ -91,6 +91,7 @@ export default function App() {
   const [prestigeQuestCompleted, setPrestigeQuestCompleted] = useState(() => 
     localStorage.getItem('quest_sync_Forge the Future') === 'true'
   );
+  const [craftingInventory, setCraftingInventory] = useState(() => JSON.parse(localStorage.getItem('craftingInventory')) || {});
 
   // Update prestige state when quest completes
   useEffect(() => {
