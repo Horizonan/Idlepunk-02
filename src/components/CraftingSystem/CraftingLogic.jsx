@@ -1,6 +1,36 @@
 
 import React from 'react';
 
+export const craftItem = (item, junk, setJunk, setCraftingInventory, setNotifications, clickMultiplier) => {
+  if (item.type === 'basic') {
+    const cost = craftingInventory['Crafting Booster Unit'] ? Math.floor(item.cost * 0.9) : item.cost;
+    if (junk >= cost) {
+      setJunk(prev => prev - cost);
+      setCraftingInventory(prev => ({
+        ...prev,
+        [item.name]: (prev[item.name] || 0) + 1
+      }));
+    }
+  } else {
+    const canCraft = Object.entries(item.requirements).every(
+      ([mat, count]) => (craftingInventory[mat] || 0) >= count
+    ) && (!item.onetime || !(craftingInventory[item.name] || 0)) && junk >= (item.cost || 0);
+
+    if (canCraft) {
+      setCraftingInventory(prev => {
+        const newInventory = { ...prev };
+        Object.entries(item.requirements).forEach(([mat, count]) => {
+          newInventory[mat] -= count;
+        });
+        newInventory[item.name] = (newInventory[item.name] || 0) + 1;
+        return newInventory;
+      });
+
+      if (item.cost) setJunk(prev => prev - item.cost);
+    }
+  }
+};
+
 export const validateCrafting = (junk, craftingInventory, notifications, setNotifications, setJunk, setClickMultiplier, setAutoClicks, setPassiveIncome, setItemCosts) => {
   const handleCraft = (item) => {
     if (item.type === 'basic') {
