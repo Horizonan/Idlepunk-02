@@ -91,14 +91,6 @@ export default function App() {
   const [prestigeQuestCompleted, setPrestigeQuestCompleted] = useState(() => 
     localStorage.getItem('quest_sync_Forge the Future') === 'true'
   );
-  const [craftingInventory, setCraftingInventory] = useState(() => JSON.parse(localStorage.getItem('craftingInventory')) || {});
-
-  // Update prestige state when quest completes
-  useEffect(() => {
-    if (localStorage.getItem('quest_sync_Forge the Future') === 'true') {
-      setPrestigeQuestCompleted(true);
-    }
-  }, [craftingInventory]);
 
   useEffect(() => {
     const handleAddMaterial = (e) => {
@@ -334,6 +326,7 @@ export default function App() {
     };
   }, []);
 
+  const [craftingInventory, setCraftingInventory] = useState(() => JSON.parse(localStorage.getItem('craftingInventory')) || {});
   const [creditStoreItems, setCreditStoreItems] = useState(() => JSON.parse(localStorage.getItem('creditStoreItems')) || {
     'Hover Drone': false,
     'Crafting Booster Unit': false,
