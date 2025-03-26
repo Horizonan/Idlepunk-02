@@ -871,6 +871,8 @@ button.locked {
   width: 800px;
   height: 600px;
   min-height: 300px;
+  background: rgba(34, 34, 34, 0.9);
+  border: 2px solid #9400D3;
 }
 
 /* Special styling for prestige popup */
@@ -1076,7 +1078,7 @@ button.locked {
 }
 
 .basic-materials .item-icon {
-  box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+  box-shadow: 0 0 10px rgba(0, 255,255, 0.2);
 }
 
 .crafted-items .item-icon {
@@ -1846,4 +1848,15 @@ button.locked {
   to {
     opacity: 0;
   }
+}
+@keyframes prestigeGlow {
+  0% { box-shadow: 0 0 15px rgba(148, 0, 211, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(148, 0, 211, 0.8); }
+  100% { box-shadow: 0 0 15px rgba(148, 0, 211, 0.3); }
+}
+
+.store-container.prestige-popup {
+  background: rgba(34, 34, 34, 0.95);
+  border: 2px solid #9400D3;
+  animation: prestigeGlow 2s infinite;
 }
