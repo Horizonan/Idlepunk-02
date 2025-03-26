@@ -27,7 +27,10 @@ export const useGameState = () => {
   const [hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge] = useState(false);
   const [surgeCount, setSurgeCount] = useState(() => Number(localStorage.getItem('surgeCount')) || 0);
   const [cogfatherLore, setCogfatherLore] = useState(() => JSON.parse(localStorage.getItem('cogfatherLore')) || []);
-  const [preservedHelper, setPreservedHelper] = useState(() => localStorage.getItem('preservedHelper') || null);
+  const [preservedHelper, setPreservedHelper] = useState(() => {
+    const saved = localStorage.getItem('preservedHelper');
+    return saved ? JSON.parse(saved) : null;
+  });
 
   useEffect(() => {
     localStorage.setItem('junk', junk);
