@@ -636,11 +636,19 @@ export default function App() {
 
   const collectTronics = () => {
     if (electronicsUnlock) {
+      const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
+      const quantumProc = hasQuantumTap && Math.random() < 0.03;
+      const amount = quantumProc ? 3 : 1;
+      
       setTronics(prev => {
-        const newValue = prev + 1;
+        const newValue = prev + amount;
         localStorage.setItem('tronics', newValue);
         return newValue;
       });
+      
+      if (quantumProc) {
+        setNotifications(prev => [...prev, "Quantum Tap triggered! 3x Tronics gained!"]);
+      }
     }
   };
 
@@ -992,6 +1000,12 @@ export default function App() {
         <ElectroStore 
           electroShards={electroShards}
           tronics={tronics}
+          onBuyQuantumTap={() => {
+            if (tronics >= 1250) {
+              setTronics(prev => prev - 1250);
+              setNotifications(prev => [...prev, "Quantum Tap Circuit installed! You now have a 3% chance to get 3x Tronics per click."]);
+            }
+          }}
           onBuyTronicsBoost={() => {
             const isUnlocked = localStorage.getItem('unlocked_tronics_boost') === 'true';
             if (!isUnlocked && electroShards >= 3) {

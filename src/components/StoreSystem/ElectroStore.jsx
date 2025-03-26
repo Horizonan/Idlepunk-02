@@ -3,6 +3,8 @@ import React from 'react';
 
 export default function ElectroStore({ electroShards, tronics, onBuyTronicsBoost, onBack }) {
   const tronicsBoostCost = parseInt(localStorage.getItem('tronics_boost_cost') || '250');
+  const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
+  const hasTronicsBoost = localStorage.getItem('unlocked_tronics_boost') === 'true';
   
   return (
     <div className="store-container">
@@ -11,6 +13,28 @@ export default function ElectroStore({ electroShards, tronics, onBuyTronicsBoost
         <button onClick={onBack}>Close</button>
       </div>
       <div className="store-items">
+        <button
+          className={`store-item ${!hasTronicsBoost ? 'locked' : hasQuantumTap ? 'disabled' : ''}`}
+          onClick={() => {
+            if (tronics >= 1250 && hasTronicsBoost && !hasQuantumTap) {
+              onBuyQuantumTap();
+              localStorage.setItem('quantum_tap_purchased', 'true');
+              setNotifications(prev => [...prev, "Quantum Tap Circuit purchased! You now have a 3% chance to get 3x Tronics per click."]);
+            }
+          }}
+          disabled={!hasTronicsBoost || hasQuantumTap || tronics < 1250}
+        >
+          <div className="item-header">
+            <strong>⚡ Quantum Tap Circuit</strong>
+          </div>
+          <div>1,250 Tronics</div>
+          <div className="item-info">
+            <p>3% chance per click to gain 3x Tronics</p>
+            <p className="requirement">Requires Tronics Click Boost I</p>
+            <p className="onetime">One-time purchase</p>
+            {hasQuantumTap && <p className="purchased">Already purchased</p>}
+          </div>
+        </button>
         <button
           className={`store-item ${!localStorage.getItem('unlocked_tronics_boost') ? 'locked' : tronics < 250 ? 'disabled' : ''}`}
           onClick={() => {
