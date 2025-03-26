@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-export const craftItem = (item, junk, setJunk, setCraftingInventory, setNotifications, clickMultiplier) => {
+export const craftItem = (item, junk, setJunk, setCraftingInventory, setNotifications, clickMultiplier, craftingInventory) => {
   if (item.type === 'basic') {
     const cost = craftingInventory['Crafting Booster Unit'] ? Math.floor(item.cost * 0.9) : item.cost;
     if (junk >= cost) {
@@ -10,6 +10,7 @@ export const craftItem = (item, junk, setJunk, setCraftingInventory, setNotifica
         ...prev,
         [item.name]: (prev[item.name] || 0) + 1
       }));
+      setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
     }
   } else {
     const canCraft = Object.entries(item.requirements).every(
@@ -27,6 +28,7 @@ export const craftItem = (item, junk, setJunk, setCraftingInventory, setNotifica
       });
 
       if (item.cost) setJunk(prev => prev - item.cost);
+      setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
     }
   }
 };
@@ -89,7 +91,6 @@ export const validateCrafting = (junk, craftingInventory, notifications, setNoti
     }
     return craftingInventory;
   };
-
   return { handleCraft };
 };
 
