@@ -873,6 +873,20 @@ button.locked {
   min-height: 300px;
 }
 
+.store-container:has(.stats-section) {
+  animation: prestigeGlow 2s infinite alternate;
+  box-shadow: 0 0 20px rgba(148, 0, 211, 0.5);
+}
+
+@keyframes prestigeGlow {
+  from {
+    box-shadow: 0 0 20px rgba(148, 0, 211, 0.5);
+  }
+  to {
+    box-shadow: 0 0 40px rgba(148, 0, 211, 0.8);
+  }
+}
+
 /* Special styling for prestige popup */
 .store-container:has(.stats-section) {
   width: 900px;
