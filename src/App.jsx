@@ -7,7 +7,7 @@ import { useAchievements, defaultAchievements } from './hooks/useAchievements';
 import { collectJunk, handleBuyItem, handleReset } from './utils/gameHandlers';
 import Clicker from './components/Clicker';
 import Achievements from './components/Achievements';
-import CheatMenu from './components/CheatMenu/CheatMenu';
+import CheatMenu from './components/CheatMenu';
 import Store from './components/StoreSystem/Store';
 import ElectroStore from './components/StoreSystem/ElectroStore';
 import CredStore from './components/StoreSystem/CredStore';
@@ -27,7 +27,7 @@ import Menu from './components/SideMenu/Menu';
 import Settings from './components/Settings';
 import CraftingStore from './components/StoreSystem/CraftingStore';
 import Marketplace from './components/SideMenu/Marketplace';
-import ActiveCheats from './components/CheatMenu/ActiveCheats';
+import ActiveCheats from './components/ActiveCheats';
 import FlyingCrystal from './components/Effects/FlyingCrystal';
 import HoloBillboard from './components/HoloBillboard';
 import TrashBonus from './components/Effects/TrashBonus';
@@ -35,7 +35,7 @@ import ItemInventory from './components/StoreSystem/ItemInventory';
 import Changelog from './components/SideMenu/Changelog';
 import TechTree from './components/TechTree';
 import PrestigePopup from './components/PrestigePopup';
-import UpgradeStats from './components/StoreSystem/UpgradeStats';
+import UpgradeStats from './components/UpgradeStats'; //Import missing component
 
 export default function App() {
   const { 
@@ -45,39 +45,6 @@ export default function App() {
     tronics, setTronics,
     autoClicks, setAutoClicks,
     clickMultiplier, setClickMultiplier,
-
-const craftItem = (item, junk, setJunk, setCraftingInventory, setNotifications, clickMultiplier) => {
-  if (item.type === 'basic') {
-    const cost = craftingInventory['Crafting Booster Unit'] ? Math.floor(item.cost * 0.9) : item.cost;
-    if (junk >= cost) {
-      setJunk(prev => prev - cost);
-      setCraftingInventory(prev => ({
-        ...prev,
-        [item.name]: (prev[item.name] || 0) + 1
-      }));
-      setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
-    }
-  } else {
-    const canCraft = Object.entries(item.requirements).every(
-      ([mat, count]) => (craftingInventory[mat] || 0) >= count
-    ) && (!item.onetime || !(craftingInventory[item.name] || 0)) && junk >= (item.cost || 0);
-
-    if (canCraft) {
-      setCraftingInventory(prev => {
-        const newInventory = { ...prev };
-        Object.entries(item.requirements).forEach(([mat, count]) => {
-          newInventory[mat] -= count;
-        });
-        newInventory[item.name] = (newInventory[item.name] || 0) + 1;
-        return newInventory;
-      });
-
-      if (item.cost) setJunk(prev => prev - item.cost);
-      setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
-    }
-  }
-};
-
     passiveIncome, setPassiveIncome,
     globalJpsMultiplier, setGlobalJpsMultiplier,
     notifications, setNotifications,
@@ -821,7 +788,8 @@ const craftItem = (item, junk, setJunk, setCraftingInventory, setNotifications, 
     }
   };
 
-  return (    <main>
+  return (
+    <main>
       {showQuestLog && <QuestLog tutorialStage={tutorialStage} onClose={() => setShowQuestLog(false)} />}
       <TutorialSystem
         junk={junk}
@@ -1027,12 +995,12 @@ const craftItem = (item, junk, setJunk, setCraftingInventory, setNotifications, 
               setClickMultiplier(prev => prev + 1);
               const newBoostCount = (parseInt(localStorage.getItem('tronics_boost_count') || '0') + 1);
               localStorage.setItem('tronics_boost_count', newBoostCount);
-
+              
               // Update cost
               const currentCost = parseInt(localStorage.getItem('tronics_boost_cost') || '250');
               const newCost = Math.floor(currentCost * 1.1);
               localStorage.setItem('tronics_boost_cost', newCost);
-
+              
               setNotifications(prev => [...prev, "Tronics Click Boost I purchased! +1 Tronics per click"]);
             }
           }}
@@ -1076,7 +1044,58 @@ const craftItem = (item, junk, setJunk, setCraftingInventory, setNotifications, 
           junk={junk}
           craftingInventory={craftingInventory}
           onCraft={(item) => {
-            craftItem(item, junk, setJunk, setCraftingInventory, setNotifications, clickMultiplier);
+            if (item.type === 'basic') {
+              if (junk >= item.cost) {
+                setJunk(prev => prev - item.cost);
+                setCraftingInventory(prev => ({
+                  ...prev,
+                  [item.name]: (prev[item.name] || 0) + 1
+                }));
+                setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
+              }
+            } else {
+              const canCraft = Object.entries(item.requirements).every(
+                ([mat, count]) => (craftingInventory[mat] || 0) >= count
+              ) && (!item.onetime || !(craftingInventory[item.name] || 0)) && junk >= (item.cost || 0);
+              if (canCraft) {
+                setCraftingInventory(prev => {
+                  const newInventory = { ...prev };
+                  Object.entries(item.requirements).forEach(([mat, count]) => {
+                    newInventory[mat] -= count;
+                  });
+                  newInventory[item.name] = (newInventory[item.name] || 0) + 1;
+                  return newInventory;
+                });
+                if (item.cost) setJunk(prev => prev - item.cost);
+                if (item.name === 'Click Rig Mk I') {
+                  setClickMultiplier(prev => prev * 1.25);
+                  setNotifications(prev => [...prev, "Click power increased by 25%!"]);
+                }
+                if (item.name === 'Auto Toolkit') {
+                  setAutoClicks(prev => Math.floor(prev * 1.25));
+                  setNotifications(prev => [...prev, "Auto Click efficiency increased by 25%!"]);
+                }
+                if (item.name === 'Compression Pack') {
+                  setPassiveIncome(prev => Math.floor(prev * 1.25));
+                  setNotifications(prev => [...prev, "Passive income increased by 25%!"]);
+                }
+                if (item.name === 'Reinforced Backpack') {
+                  setItemCosts(prev => {
+                    const newCosts = { ...prev };
+                    Object.keys(newCosts).forEach(key => {
+                      if (key !== 'clickEnhancer') { 
+                        const currentScaling = key === 'streetrat' || key === 'cart' || key === 'junkMagnet' || key === 'urbanRecycler' || key === 'scrapDrone' ? 1.15 : 1.1;
+                        const newScaling = currentScaling - 0.01;
+                        localStorage.setItem(`${key}Scaling`, newScaling.toString());
+                      }
+                    });
+                    return newCosts;
+                  });
+                  setNotifications(prev => [...prev, "Cost scaling reduced by 1%!"]);
+                }
+                setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
+              }
+            }
           }}
           onBack={() => setActiveStore(null)}
         />

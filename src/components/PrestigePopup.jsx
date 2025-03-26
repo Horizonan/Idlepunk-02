@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function PrestigePopup({ onConfirm, onClose, stats }) {
   return (
-    <div className="store-container prestige-popup">
+    <div className="store-container">
       <div className="store-header">
         <h2>Prestige Confirmation</h2>
         <button onClick={onClose}>Close</button>

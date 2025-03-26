@@ -56,36 +56,34 @@ export default function NewsContainer({ isSurgeActive }) {
     const handleTutorialProgress = (event) => {
       const stage = event.detail.stage;
       const tips = {
-        1: "Cogfather: If it's buzzing, it's working. If it's sparking, it's improving.",
-        2: "Cogfather: Efficiency is just laziness with better marketing.",
-        3: "Cogfather: One man's trash is my entire business model.",
-        4: "Cogfather: Automation isn't cheating. It's evolution.",
-        5: "Cogfather: Upgrade or stagnate. That's the law of the junkpile.",
-        6: "Cogfather: I once bartered a working toaster for a seat on a hoverbus. Worth it."
+        1: "If it's buzzing, it's working. If it's sparking, it's improving.",
+        2: "Efficiency is just laziness with better marketing.",
+        3: "One man's trash is my entire business model.",
+        4: "Automation isn't cheating. It's evolution.",
+        5: "Upgrade or stagnate. That's the law of the junkpile.",
+        6: "I once bartered a working toaster for a seat on a hoverbus. Worth it."
       };
       
-      if (stage > 0 && stage <= 6) {
-        const tip = tips[stage];
-        if (tip) {
-          setDefaultNews(prev => [...prev, tip]);
-          setCurrentNewsIndex(prev => prev + 1);
-        }
+      if (stage > 0 && stage <= 6 && event.detail.tip) {
+        setDefaultNews(prev => [...prev, event.detail.tip]);
+        setCurrentNewsIndex(prev => prev + 1);
       }
     };
 
-    const handleAddNews = (event) => {
-      if (event.detail.message) {
-        setDefaultNews(prev => [...prev, event.detail.message]);
-      }
-    };
+    function getCogfatherTip(stage) {
+      const tips = {
+        1: "If it's buzzing, it's working. If it's sparking, it's improving.",
+        2: "Efficiency is just laziness with better marketing.",
+        3: "One man's trash is my entire business model.",
+        4: "Automation isn't cheating. It's evolution.",
+        5: "Upgrade or stagnate. That's the law of the junkpile.",
+        6: "I once bartered a working toaster for a seat on a hoverbus. Worth it."
+      };
+      return tips[stage];
+    }
 
     window.addEventListener('tutorialProgress', handleTutorialProgress);
-    window.addEventListener('addNews', handleAddNews);
-    
-    return () => {
-      window.removeEventListener('tutorialProgress', handleTutorialProgress);
-      window.removeEventListener('addNews', handleAddNews);
-    };
+    return () => window.removeEventListener('tutorialProgress', handleTutorialProgress);
   }, []);
 
   useEffect(() => {
