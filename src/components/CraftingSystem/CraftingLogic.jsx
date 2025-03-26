@@ -1,13 +1,6 @@
 import React from 'react';
 
-export const craftItem = (item, junk, setJunk, setCraftingInventory, setNotifications, clickMultiplier, craftingInventory) => {
-  // First check if we have craftingInventory
-  if (!craftingInventory) {
-    console.error('Missing craftingInventory in craftItem');
-    return;
-  }
-
-  // Basic item crafting logic
+export const craftItem = (item, junk, setJunk, setCraftingInventory, setNotifications, clickMultiplier, craftingInventory, setClickMultiplier, setAutoClicks, setPassiveIncome, setItemCosts) => {
   if (item.type === 'basic') {
     const cost = craftingInventory['Crafting Booster Unit'] ? Math.floor(item.cost * 0.9) : item.cost;
     if (junk >= cost) {
@@ -18,36 +11,53 @@ export const craftItem = (item, junk, setJunk, setCraftingInventory, setNotifica
       }));
       setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
     }
-    return;
-  }
+  } else {
+    const canCraft = Object.entries(item.requirements).every(
+      ([mat, count]) => (craftingInventory[mat] || 0) >= count
+    ) && (!item.onetime || !(craftingInventory[item.name] || 0)) && junk >= (item.cost || 0);
 
-  // Check if all requirements are met
-  const canCraft = Object.entries(item.requirements).every(
-    ([mat, count]) => (craftingInventory[mat] || 0) >= count
-  ) && (!item.onetime || !(craftingInventory[item.name] || 0));
-
-  // Additional junk cost check
-  if (item.cost && junk < item.cost) {
-    return;
-  }
-
-  if (canCraft) {
-    // Update inventory by removing required materials
-    setCraftingInventory(prev => {
-      const newInventory = { ...prev };
-      Object.entries(item.requirements).forEach(([mat, count]) => {
-        newInventory[mat] = (newInventory[mat] || 0) - count;
+    if (canCraft) {
+      setCraftingInventory(prev => {
+        const newInventory = { ...prev };
+        Object.entries(item.requirements).forEach(([mat, count]) => {
+          newInventory[mat] -= count;
+        });
+        newInventory[item.name] = (newInventory[item.name] || 0) + 1;
+        return newInventory;
       });
-      newInventory[item.name] = (newInventory[item.name] || 0) + 1;
-      return newInventory;
-    });
 
-    // Deduct junk cost if any
-    if (item.cost) {
-      setJunk(prev => prev - item.cost);
+      if (item.cost) setJunk(prev => prev - item.cost);
+
+      // Handle special effects
+      if (item.name === 'Click Rig Mk I') {
+        setClickMultiplier(prev => prev * 1.25);
+        setNotifications(prev => [...prev, "Click power increased by 25%!"]);
+      }
+      if (item.name === 'Auto Toolkit') {
+        setAutoClicks(prev => Math.floor(prev * 1.25));
+        setNotifications(prev => [...prev, "Auto Click efficiency increased by 25%!"]);
+      }
+      if (item.name === 'Compression Pack') {
+        setPassiveIncome(prev => Math.floor(prev * 1.25));
+        setNotifications(prev => [...prev, "Passive income increased by 25%!"]);
+      }
+      if (item.name === 'Reinforced Backpack') {
+        setItemCosts(prev => {
+          const newCosts = { ...prev };
+          Object.keys(newCosts).forEach(key => {
+            if (key !== 'clickEnhancer') {
+              const currentScaling = key === 'streetrat' || key === 'cart' || key === 'junkMagnet' || key === 'urbanRecycler' || key === 'scrapDrone' ? 1.15 : 1.1;
+              const newScaling = currentScaling - 0.01;
+              localStorage.setItem(`${key}Scaling`, newScaling.toString());
+            }
+          });
+          return newCosts;
+        });
+        setNotifications(prev => [...prev, "Cost scaling reduced by 1%!"]);
+      }
+
+      setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
     }
-
-    setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
   }
 };
 
@@ -75,6 +85,7 @@ export const validateCrafting = (junk, craftingInventory, notifications, setNoti
         newInventory[item.name] = (newInventory[item.name] || 0) + 1;
 
         if (item.cost) setJunk(prev => prev - item.cost);
+
 
         return newInventory;
       }
