@@ -790,7 +790,7 @@ export default function App() {
 
   return (
     <main>
-      {showQuestLog && <QuestLog tutorialStage={tutorialStage} onClose={()=> setShowQuestLog(false)} />}
+      {showQuestLog && <QuestLog tutorialStage={tutorialStage} onClose={() => setShowQuestLog(false)} />}
       <TutorialSystem
         junk={junk}
         hasUpgrade={hasUpgrade}
@@ -995,12 +995,12 @@ export default function App() {
               setClickMultiplier(prev => prev + 1);
               const newBoostCount = (parseInt(localStorage.getItem('tronics_boost_count') || '0') + 1);
               localStorage.setItem('tronics_boost_count', newBoostCount);
-
+              
               // Update cost
               const currentCost = parseInt(localStorage.getItem('tronics_boost_cost') || '250');
               const newCost = Math.floor(currentCost * 1.1);
               localStorage.setItem('tronics_boost_cost', newCost);
-
+              
               setNotifications(prev => [...prev, "Tronics Click Boost I purchased! +1 Tronics per click"]);
             }
           }}
@@ -1330,9 +1330,8 @@ export default function App() {
         <button 
           className={`prestige-button ${!prestigeQuestCompleted ? 'locked' : ''}`}
           onClick={() => {
-            if (prestigeQuestCompleted || localStorage.getItem('quest_sync_Forge the Future') === 'true') {
+            if (prestigeQuestCompleted) {
               setShowPrestigePopup(true);
-              setPrestigeQuestCompleted(true);
             }
           }}>
           Prestige
