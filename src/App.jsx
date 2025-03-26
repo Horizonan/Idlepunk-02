@@ -36,7 +36,7 @@ import Changelog from './components/SideMenu/Changelog';
 import TechTree from './components/TechTree';
 import PrestigePopup from './components/PrestigePopup';
 import UpgradeStats from './components/StoreSystem/UpgradeStats'; //Import missing component
-import {craftItem} from './CraftingLogic'; //Import crafting logic
+import {craftItem} from './components/CraftingSystem/CraftingLogic'; //Import crafting logic
 
 export default function App() {
   const { 
