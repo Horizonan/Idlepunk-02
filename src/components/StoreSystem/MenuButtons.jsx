@@ -23,7 +23,6 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
         const event = new CustomEvent('openUpgradeStats');
         window.dispatchEvent(event);
       }}>Upgrade Stats</button>
-      <button onClick={() => window.dispatchEvent(new Event('openTechTree'))}>Tech Tree</button>
       <button onClick={() => onStoreSelect('craft')}>Craft Items</button>
       {showInventory && <button onClick={() => onStoreSelect('inventory')}>Item Inventory</button>}
     </div>
