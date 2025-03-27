@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 
 export default function Menu({ onStoreSelect }) {
@@ -8,6 +9,7 @@ export default function Menu({ onStoreSelect }) {
     { id: 'marketplace', label: 'Marketplace' },
     { id: 'questLog', label: 'Quest Log' },
     { id: 'slotMachine', label: 'Slot Machine' },
+    { id: 'techTree', label: 'Tech Tree' },
     { id: 'settings', label: 'Settings' },
     { id: 'changelog', label: 'Changelog' }
   ];

@@ -887,6 +887,9 @@ export default function App() {
           case 'settings':
             setShowSettings(true);
             break;
+          case 'techTree':
+            setShowTechTree(true);
+            break;
           case 'changelog':
             setShowChangelog(true);
             break;
