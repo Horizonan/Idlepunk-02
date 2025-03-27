@@ -370,11 +370,15 @@ export default function App() {
   });
 
   useEffect(() => {
-    const skillLevels = JSON.parse(localStorage.getItem('skillLevels')) || { greaseDiscipline: 0 };
-    const greaseDisciplineBonus = skillLevels.greaseDiscipline * 0.5 / 100;
-    const totalMultiplier = 1 + (globalJpsMultiplier - 1) + (craftingInventory['Compression Pack'] ? 0.25 : 0) + greaseDisciplineBonus;
-    setJunk(prev => prev + (passiveIncome * totalMultiplier) + (autoClicks * clickMultiplier)); // Auto clicks use click multiplier
-  }, [passiveIncome, autoClicks, clickMultiplier, globalJpsMultiplier]);
+    const updateInterval = setInterval(() => {
+      const skillLevels = JSON.parse(localStorage.getItem('skillLevels')) || { greaseDiscipline: 0 };
+      const greaseDisciplineBonus = skillLevels.greaseDiscipline * 0.5 / 100;
+      const totalMultiplier = 1 + (globalJpsMultiplier - 1) + (craftingInventory['Compression Pack'] ? 0.25 : 0) + greaseDisciplineBonus;
+      setJunk(prev => prev + (passiveIncome * totalMultiplier) + (autoClicks * clickMultiplier)); // Auto clicks use click multiplier
+    }, 1000);
+
+    return () => clearInterval(updateInterval);
+  }, [passiveIncome, autoClicks, clickMultiplier, globalJpsMultiplier, craftingInventory]);
 
   // Save special resources whenever craftingInventory changes
   useEffect(() => {
