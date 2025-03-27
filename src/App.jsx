@@ -481,6 +481,7 @@ export default function App() {
         condition: Object.values(craftingInventory).some(count => count > 0),
         category: 'progression',
         onComplete: () => {
+          localStorage.setItem('quest_sync_Begin Crafting', 'true');
           setNotifications(prev => [...prev, "Quest Completed: Begin Crafting"]);
         }
       },
