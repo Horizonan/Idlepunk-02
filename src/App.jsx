@@ -378,9 +378,10 @@ export default function App() {
       const skillLevels = JSON.parse(localStorage.getItem('skillLevels')) || { greaseDiscipline: 0 };
       const greaseDisciplineBonus = skillLevels.greaseDiscipline * 0.5 / 100;
       const circuitOptCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
-  const circuitOptBonus = circuitOptCount * 0.25;
-  const totalMultiplier = 1 + (globalJpsMultiplier - 1) + (craftingInventory['Compression Pack'] ? 0.25 : 0) + greaseDisciplineBonus + circuitOptBonus;
-      setJunk(prev => prev + (passiveIncome * totalMultiplier) + (autoClicks * clickMultiplier)); // Auto clicks use click multiplier
+      const circuitOptBonus = circuitOptCount * 0.25;
+      const totalMultiplier = 1 + circuitOptBonus + (craftingInventory['Compression Pack'] ? 0.25 : 0) + greaseDisciplineBonus;
+      setGlobalJpsMultiplier(totalMultiplier);
+      setJunk(prev => prev + (passiveIncome * totalMultiplier) + (autoClicks * clickMultiplier));
     }, 1000);
 
     return () => clearInterval(updateInterval);
