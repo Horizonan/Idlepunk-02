@@ -88,8 +88,9 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
               <button onClick={() => onAddJunk(10000000)}>Add 10M Junk</button>
               <button onClick={() => {
                 const currentTronics = parseInt(localStorage.getItem('tronics') || '0');
-                localStorage.setItem('tronics', currentTronics + 1000);
+                localStorage.setItem('tronics', (currentTronics + 1000).toString());
                 window.dispatchEvent(new Event('storage'));
+                window.location.reload();
               }}>Add 1000 Tronics</button>
               <button onClick={() => {
                 localStorage.setItem('prestigeCount', '1');
