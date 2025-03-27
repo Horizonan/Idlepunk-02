@@ -49,10 +49,12 @@ export default function AutoClickerEffect({ autoClicks = 0 }) {
           style={{
             left: cursor.x,
             top: cursor.y,
-            backgroundImage: 'url(/Icons/Upgrades/autoClickerV1.png)',
+            backgroundImage: cursor.id % 2 === 0 ? 'url(/Icons/Upgrades/autoClickerV1.png)' : 'url(/Icons/Upgrades/clickerV2.png)',
             backgroundSize: 'contain',
             backgroundRepeat: 'no-repeat',
-            animation: 'rotate 4s infinite linear'
+            animation: `rotate ${cursor.id % 2 === 0 ? '4s' : '3s'} infinite linear`,
+            transform: `scale(${cursor.id % 2 === 0 ? '1' : '1.2'})`,
+            filter: cursor.id % 2 === 0 ? 'none' : 'drop-shadow(0 0 5px #00ff00)'
           }}
         />
       ))}
