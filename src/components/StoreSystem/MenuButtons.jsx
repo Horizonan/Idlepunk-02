@@ -32,7 +32,7 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
         onStoreSelect(activeStore === 'credstore' ? null : 'credstore');
       }}>Visit CredStore</button>
       <button onClick={() => {
-        const event = new CustomEvent('openUpgradeStats');
+        const event = new CustomEvent('toggleUpgradeStats');
         window.dispatchEvent(event);
       }}>Upgrade Stats</button>
       <button onClick={() => {
