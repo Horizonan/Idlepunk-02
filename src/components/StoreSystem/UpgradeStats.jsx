@@ -85,22 +85,26 @@ export default function UpgradeStats({ onClose }) {
   useEffect(() => {
     const interval = setInterval(() => {
       if (activeSkill && skillLevels[activeSkill] < 10) {
-        setXp(prev => {
-          const newXp = prev + 1;
-          const requiredXp = getRequiredXp(activeSkill);
+        const currentSkillXp = JSON.parse(localStorage.getItem('skillXp')) || {
+          scavengingFocus: 0,
+          greaseDiscipline: 0
+        };
+        
+        const newXp = (currentSkillXp[activeSkill] || 0) + 1;
+        const requiredXp = getRequiredXp(activeSkill);
 
-          if (newXp >= requiredXp) {
-            setSkillLevels(prevLevels => ({
-              ...prevLevels,
-              [activeSkill]: prevLevels[activeSkill] + 1
-            }));
-            localStorage.setItem('skillXp', '0');
-            return 0;
-          }
-
-          localStorage.setItem('skillXp', newXp);
-          return newXp;
-        });
+        if (newXp >= requiredXp) {
+          setSkillLevels(prevLevels => ({
+            ...prevLevels,
+            [activeSkill]: prevLevels[activeSkill] + 1
+          }));
+          currentSkillXp[activeSkill] = 0;
+        } else {
+          currentSkillXp[activeSkill] = newXp;
+        }
+        
+        localStorage.setItem('skillXp', JSON.stringify(currentSkillXp));
+        setSkillXp(currentSkillXp);
       }
     }, 10000);
 
