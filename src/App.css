@@ -1269,20 +1269,16 @@ button.locked {
 
 .tooltips-menu {
   max-width: 800px;
-  width: 90%;
   margin: 20px auto;
-  height: 80vh;
+  max-height: 80vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
 .tooltips-content {
   flex: 1;
   overflow-y: auto;
   padding: 15px;
-  margin-right: -15px;
-  padding-right: 30px;
 }
 
 .tooltip-entry {
