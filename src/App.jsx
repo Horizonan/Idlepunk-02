@@ -266,7 +266,14 @@ export default function App() {
 
   // Close store when opening other menus
   useEffect(() => {
-    const handleUpgradeStats = () => setShowUpgradeStats(prev => !prev);
+    const handleUpgradeStats = () => {
+      setShowUpgradeStats(prev => !prev);
+      setShowSlotMachine(false);
+      setShowAchievements(false);
+      setShowSettings(false);
+      setShowQuestLog(false);
+      setActiveStore(null);
+    };
     window.addEventListener('toggleUpgradeStats', handleUpgradeStats);
 
     if (showSlotMachine || showAchievements || showSettings || showQuestLog) {
