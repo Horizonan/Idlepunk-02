@@ -478,7 +478,7 @@ export default function App() {
     const questChecks = [
       {
         title: "Begin Crafting",
-        condition: Object.values(craftingInventory).reduce((total, count) => total + (count || 0), 0) > 0,
+        condition: Object.keys(craftingInventory).length > 0 && Object.values(craftingInventory).some(count => count > 0),
         category: 'progression'
       },
       { 
