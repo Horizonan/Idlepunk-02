@@ -1863,6 +1863,12 @@ button.locked {
 
 .store-header {
   display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.store-navigation {
+  display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
@@ -1870,20 +1876,32 @@ button.locked {
 
 .store-controls {
   display: flex;
-  gap: 8px;
+  gap: 15px;
 }
 
-.store-controls button {
-  padding: 5px 10px;
+.store-tab {
+  padding: 10px 20px;
   background: #1a1a1a;
-  border: 1px solid #333;
-  color: #fff;
+  border: 2px solid #9400D3;
+  color: #00FF00;
   cursor: pointer;
+  font-weight: bold;
+  min-width: 120px;
 }
 
-.store-controls button.active {
-  background: #333;
-  border-color: #666;
+.store-tab:hover {
+  background: rgba(148, 0, 211, 0.2);
+}
+
+.store-tab.active {
+  background: #9400D3;
+  color: #222;
+  border-color: #00FF00;
+}
+
+.store-close {
+  padding: 10px 20px;
+  margin: 0;
 }
 
 .coming-soon {

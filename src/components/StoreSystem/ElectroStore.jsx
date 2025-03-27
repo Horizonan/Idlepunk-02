@@ -142,22 +142,24 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
   return (
     <div className="store-container">
       <div className="store-header">
-        <h2>Electronics Store</h2>
-        <div className="store-controls">
-          <button 
-            className={currentSection === 'average' ? 'active' : ''} 
-            onClick={() => setCurrentSection('average')}
-          >
-            Average
-          </button>
-          <button 
-            className={currentSection === 'premium' ? 'active' : ''} 
-            onClick={() => setCurrentSection('premium')}
-          >
-            Premium
-          </button>
-          <button onClick={onBack}>Close</button>
+        <div className="store-navigation">
+          <div className="store-controls">
+            <button 
+              className={`store-tab ${currentSection === 'average' ? 'active' : ''}`}
+              onClick={() => setCurrentSection('average')}
+            >
+              AVERAGE
+            </button>
+            <button 
+              className={`store-tab ${currentSection === 'premium' ? 'active' : ''}`}
+              onClick={() => setCurrentSection('premium')}
+            >
+              PREMIUM
+            </button>
+          </div>
+          <button className="store-close" onClick={onBack}>Close</button>
         </div>
+        <h2>Electronics Store</h2>
       </div>
       {currentSection === 'average' ? renderAverageSection() : renderPremiumSection()}
     </div>
