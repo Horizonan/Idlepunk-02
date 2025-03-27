@@ -873,6 +873,36 @@ button.locked {
   min-height: 300px;
 }
 
+.store-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-bottom: 2px solid #9400D3;
+}
+
+.store-tab {
+  padding: 8px 20px;
+  background: #222;
+  border: 2px solid #9400D3;
+  color: #00FF00;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.store-tab.active {
+  background: #9400D3;
+  color: #222;
+}
+
+.coming-soon {
+  color: #00FF00;
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+  opacity: 0.8;
+}
+
 .store-container:has(.stats-section) {
   animation: prestigeGlow 2s infinite alternate;
   box-shadow: 0 0 20px rgba(148, 0, 211, 0.5);
