@@ -855,6 +855,7 @@ export default function App() {
         <MenuButtons 
           onStoreSelect={(store) => {
             setActiveStore(store);
+            localStorage.setItem('activeStore', store);
           }}
           showInventory={showInventory}
           onUpgradeStats={() => setShowUpgradeStats(true)}
@@ -898,13 +899,19 @@ export default function App() {
           }}
           clickCount={clickCount}
           purchasedUpgrades={Object.values(itemCosts).filter(cost => cost > 0).length}
-          onBack={() => setActiveStore(null)}
+          onBack={() => {
+            setActiveStore(null);
+            localStorage.setItem('activeStore', null);
+          }}
           onBuyJunkRefinery={handleBuyJunkRefinery}
         />
       )}
       {activeStore === 'marketplace' && (
         <Marketplace 
-          onClose={() => setActiveStore(null)}
+          onClose={() => {
+            setActiveStore(null);
+            localStorage.setItem('activeStore', null);
+          }}
           junk={junk}
           passiveIncome={passiveIncome}
           cogfatherLore={cogfatherLore}
@@ -945,7 +952,10 @@ export default function App() {
               setNotifications(prev => [...prev, "Tronics Click Boost I purchased! +1 Tronics per click"]);
             }
           }}
-          onBack={() => setActiveStore(null)}
+          onBack={() => {
+            setActiveStore(null);
+            localStorage.setItem('activeStore', null);
+          }}
         />
       )}
       {activeStore === 'automation' && (
@@ -986,7 +996,10 @@ export default function App() {
               }));
             }
           }}
-          onBack={() => setActiveStore(null)}
+          onBack={() => {
+            setActiveStore(null);
+            localStorage.setItem('activeStore', null);
+          }}
         />
       )}
       {activeStore === 'craft' && (
@@ -1047,7 +1060,10 @@ export default function App() {
               }
             }
           }}
-          onBack={() => setActiveStore(null)}
+          onBack={() => {
+            setActiveStore(null);
+            localStorage.setItem('activeStore', null);
+          }}
         />
       )}
       {activeStore === 'credstore' && (
@@ -1171,7 +1187,10 @@ export default function App() {
               }));
             }
           }}
-          onBack={() => setActiveStore(null)}
+          onBack={() => {
+            setActiveStore(null);
+            localStorage.setItem('activeStore', null);
+          }}
         />
       )}
       {beaconCount > 0 && showBeaconVisual && (
@@ -1187,7 +1206,10 @@ export default function App() {
       {activeStore === 'inventory' && showInventory && (
         <ItemInventory
           craftingInventory={craftingInventory}
-          onBack={() => setActiveStore(null)}
+          onBack={() => {
+            setActiveStore(null);
+            localStorage.setItem('activeStore', null);
+          }}
         />
       )}
       <Clicker 

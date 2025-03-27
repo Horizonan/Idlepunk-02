@@ -7,24 +7,42 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
 
   return (
     <div className="main">
-      <button onClick={() => onStoreSelect('store')}>Visit Store</button>
+      <button onClick={() => {
+        const activeStore = localStorage.getItem('activeStore');
+        onStoreSelect(activeStore === 'store' ? null : 'store');
+      }}>Visit Store</button>
       {automationUnlocked && (
-        <button onClick={() => onStoreSelect('automation')}>Visit Automation</button>
+        <button onClick={() => {
+          const activeStore = localStorage.getItem('activeStore');
+          onStoreSelect(activeStore === 'automation' ? null : 'automation');
+        }}>Visit Automation</button>
       )}
       <button 
-        onClick={() => onStoreSelect('electrostore')}
+        onClick={() => {
+          const activeStore = localStorage.getItem('activeStore');
+          onStoreSelect(activeStore === 'electrostore' ? null : 'electrostore');
+        }}
         className={!localStorage.getItem('hasPrestiged') ? 'locked-store' : ''}
         disabled={!localStorage.getItem('hasPrestiged')}
       >
         Visit ElectroShop {!localStorage.getItem('hasPrestiged') && '🔒'}
       </button>
-      <button onClick={() => onStoreSelect('credstore')}>Visit CredStore</button>
+      <button onClick={() => {
+        const activeStore = localStorage.getItem('activeStore');
+        onStoreSelect(activeStore === 'credstore' ? null : 'credstore');
+      }}>Visit CredStore</button>
       <button onClick={() => {
         const event = new CustomEvent('openUpgradeStats');
         window.dispatchEvent(event);
       }}>Upgrade Stats</button>
-      <button onClick={() => onStoreSelect('craft')}>Craft Items</button>
-      {showInventory && <button onClick={() => onStoreSelect('inventory')}>Item Inventory</button>}
+      <button onClick={() => {
+        const activeStore = localStorage.getItem('activeStore');
+        onStoreSelect(activeStore === 'craft' ? null : 'craft');
+      }}>Craft Items</button>
+      {showInventory && <button onClick={() => {
+        const activeStore = localStorage.getItem('activeStore');
+        onStoreSelect(activeStore === 'inventory' ? null : 'inventory');
+      }}>Item Inventory</button>}
     </div>
   );
 }
