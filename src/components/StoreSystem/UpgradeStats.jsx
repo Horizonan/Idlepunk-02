@@ -123,7 +123,7 @@ export default function UpgradeStats({ onClose }) {
   return (
     <div className="upgrade-stats">
       <div className="upgrade-header">
-        <h2>Skills</h2>
+        <h2>Skills Center</h2>
         <button onClick={onClose}>Close</button>
       </div>
       <div className="skill-list">

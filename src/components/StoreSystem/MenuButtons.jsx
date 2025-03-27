@@ -34,7 +34,7 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
       <button onClick={() => {
         const event = new CustomEvent('toggleUpgradeStats');
         window.dispatchEvent(event);
-      }}>Upgrade Stats</button>
+      }}>Skills Center</button>
       <button onClick={() => {
         const activeStore = localStorage.getItem('activeStore');
         onStoreSelect(activeStore === 'craft' ? null : 'craft');
