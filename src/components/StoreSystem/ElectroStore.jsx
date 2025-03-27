@@ -152,8 +152,42 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
           </>
         )}
         {section === 'premium' && (
-          <div className="coming-soon">
-            Premium upgrades coming soon!
+          <div className="store-items">
+            <button
+              className={`store-item ${!localStorage.getItem('unlocked_tronics_boost') || tronics < 25000 || electroShards < 5 || (parseInt(localStorage.getItem('circuit_optimization_count') || '0') >= 4) ? 'disabled' : ''}`}
+              onClick={() => {
+                if (tronics >= parseInt(localStorage.getItem('circuit_optimization_cost') || '25000') && electroShards >= 5 && (parseInt(localStorage.getItem('circuit_optimization_count') || '0') < 4)) {
+                  const currentCost = parseInt(localStorage.getItem('circuit_optimization_cost') || '25000');
+                  const currentCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
+                  
+                  setTronics(prev => prev - currentCost);
+                  localStorage.setItem('electroShards', electroShards - 5);
+                  
+                  const newCount = currentCount + 1;
+                  localStorage.setItem('circuit_optimization_count', newCount);
+                  
+                  const newCost = Math.floor(currentCost * 1.2);
+                  localStorage.setItem('circuit_optimization_cost', newCost);
+                  
+                  setNotifications(prev => [...prev, "Circuit Optimization Unit installed! Global Junk/sec increased by 25%"]);
+                  
+                  // Update global JPS multiplier in App.jsx through localStorage
+                  const currentMultiplier = parseFloat(localStorage.getItem('globalJpsMultiplier') || '1');
+                  localStorage.setItem('globalJpsMultiplier', (currentMultiplier + 0.25).toString());
+                }
+              }}
+              title="More junk. Same scrap. Just optimized."
+            >
+              <div className="item-header">
+                <strong>🧠 Circuit Optimization Unit</strong>
+              </div>
+              <div>{localStorage.getItem('circuit_optimization_cost') || 25000} Tronics + 5 Electro Shards</div>
+              <div className="item-info">
+                <p>An overclocked mesh of recycled processors fine-tunes your entire junk economy.</p>
+                <p>Enhances all passive Junk/sec sources with a 25% production boost. This upgrade is ideal for idle-focused builds and synergizes well with helper scaling.</p>
+                <p className="owned">Owned: {localStorage.getItem('circuit_optimization_count') || 0}/4</p>
+              </div>
+            </button>
           </div>
         )}
       </div>
