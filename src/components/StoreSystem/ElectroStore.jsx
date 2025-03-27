@@ -101,26 +101,30 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
 
         <button
           onClick={() => {
-            if (electroShards >= 2 && tronics >= 10000 && localStorage.getItem('tronics_boost_II_purchased') === 'true' && !localStorage.getItem('high_freq_tap_purchased')) {
+            if (electroShards >= 2 && tronics >= 10000 && localStorage.getItem('tronics_boost_II_count') && !localStorage.getItem('high_freq_tap_purchased')) {
               setTronics(prev => prev - 10000);
               localStorage.setItem('electroShards', electroShards - 2);
               localStorage.setItem('high_freq_tap_purchased', 'true');
               setNotifications(prev => [...prev, 'High-Frequency Tap Chip installed!']);
             }
           }}
-          disabled={electroShards < 2 || tronics < 10000 || localStorage.getItem('tronics_boost_II_purchased') !== 'true' || localStorage.getItem('high_freq_tap_purchased') === 'true'}
-          className="store-item"
+          disabled={electroShards < 2 || tronics < 10000 || !localStorage.getItem('tronics_boost_II_count') || localStorage.getItem('high_freq_tap_purchased') === 'true'}
+          className={`store-item ${!localStorage.getItem('tronics_boost_II_count') ? 'locked' : ''}`}
         >
           <div className="item-header">
             <strong>⚡ High-Frequency Tap Chip</strong>
           </div>
           <div className="item-info">
-            {localStorage.getItem('high_freq_tap_purchased') === 'true' ? (
+            {!localStorage.getItem('tronics_boost_II_count') ? (
+              <>
+                <p className="locked-message">🔒 Locked - Requires Tronics Boost II</p>
+                <p className="unlocked-preview">Once unlocked: Clicker fires twice per manual click (Costs 10,000 Tronics and 2 Electro Shards)</p>
+              </>
+            ) : localStorage.getItem('high_freq_tap_purchased') === 'true' ? (
               <p>Already purchased!</p>
             ) : (
               <>
                 <p>Clicker fires twice per manual click</p>
-                <p>Requirements: Tronics Boost II</p>
                 <p>Cost: 10,000 Tronics and 2 Electro Shards</p>
                 <p>One-time purchase</p>
               </>
