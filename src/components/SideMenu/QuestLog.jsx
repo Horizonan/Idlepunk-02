@@ -22,8 +22,18 @@ export default function QuestLog({ tutorialStage, onClose }) {
     };
 
     handleStorageChange(); // Initial check
+    
+    // Listen for both storage and custom quest update events
     window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    window.addEventListener('questUpdate', handleStorageChange);
+    
+    const interval = setInterval(handleStorageChange, 1000); // Poll for updates
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('questUpdate', handleStorageChange);
+      clearInterval(interval);
+    };
   }, [selectedQuestLine]);
 
   const questLines = {
