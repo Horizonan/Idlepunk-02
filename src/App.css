@@ -1073,7 +1073,8 @@ button.locked {
   color: #FF00FF;
 }
 
-.special-materials .inventory-header h2 { color: #FFD700;
+.special-materials .inventory-header h2 {
+  color: #FFD700;
 }
 
 .item-icon {
@@ -1859,67 +1860,4 @@ button.locked {
   to {
     opacity: 0;
   }
-}
-
-.store-header {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
-}
-
-.store-navigation {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.store-tabs-navigation {
-  position: absolute;
-  left: 20px;
-  top: 20px;
-}
-
-.store-controls {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-}
-
-.store-tab {
-  padding: 10px 20px;
-  background: #1a1a1a;
-  border: 2px solid #9400D3;
-  color: #00FF00;
-  cursor: pointer;
-  font-weight: bold;
-  min-width: 120px;
-}
-
-.store-tab:hover {
-  background: rgba(148, 0, 211, 0.2);
-}
-
-.store-tab.active {
-  background: #9400D3;
-  color: #222;
-  border-color: #00FF00;
-}
-
-.store-close {
-  padding: 10px 20px;
-  margin: 0;
-}
-
-.coming-soon {
-  text-align: center;
-  padding: 20px;
-  background: rgba(51, 51, 51, 0.3);
-  border-radius: 5px;
-  margin: 10px 0;
-}
-
-.coming-soon h3 {
-  color: #0097fb;
-  margin-bottom: 10px;
 }
