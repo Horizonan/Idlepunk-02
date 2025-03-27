@@ -1,6 +1,8 @@
-import React from 'react';
 
-export default function ElectroStore({ electroShards, tronics, setTronics, setNotifications, onBuyTronicsBoost, onBack }) {
+import React, { useState } from 'react';
+
+export default function ElectroStore({ electroShards, tronics, setTronics, setNotifications, onBuyTronicsBoost, onBuyQuantumTap, onBack }) {
+  const [currentSpecial, setCurrentSpecial] = useState(0);
   const tronicsBoostCost = parseInt(localStorage.getItem('tronics_boost_cost') || '250');
   const tronicsBoostIICost = parseInt(localStorage.getItem('tronics_boost_II_cost') || '750');
   const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
@@ -10,8 +12,29 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
     <div className="store-container">
       <div className="store-header">
         <h2>Electronics Store</h2>
-        <button onClick={onBack}>Close</button>
+        <div className="store-controls">
+          <button onClick={() => setCurrentSpecial(prev => (prev + 1) % 3)}>Change Special</button>
+          <button onClick={onBack}>Close</button>
+        </div>
       </div>
+      {currentSpecial === 0 && (
+        <div className="special-offer">
+          <h3>Today's Special: Bulk Tronics Bundle</h3>
+          <p>Buy any Tronics upgrade to get +5% efficiency on all future purchases!</p>
+        </div>
+      )}
+      {currentSpecial === 1 && (
+        <div className="special-offer">
+          <h3>Today's Special: ElectroShard Exchange</h3>
+          <p>All ElectroShard costs are reduced by 1 (minimum 1 shard)!</p>
+        </div>
+      )}
+      {currentSpecial === 2 && (
+        <div className="special-offer">
+          <h3>Today's Special: Quantum Boost</h3>
+          <p>All Quantum effects have +2% increased chance to trigger!</p>
+        </div>
+      )}
       <div className="store-items">
         <button
           className={`store-item ${!localStorage.getItem('unlocked_tronics_boost') ? 'locked' : tronics < 250 ? 'disabled' : ''}`}
@@ -55,7 +78,6 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
               const newBoostCount = boostCount + 1;
               localStorage.setItem('tronics_boost_II_count', newBoostCount);
 
-              // Update cost with 20% increase
               const currentCost = parseInt(localStorage.getItem('tronics_boost_II_cost') || '750');
               const newCost = Math.floor(currentCost * 1.2);
               localStorage.setItem('tronics_boost_II_cost', newCost);
