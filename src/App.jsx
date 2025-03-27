@@ -476,6 +476,11 @@ export default function App() {
     const hasAnyUpgrade = ownedItems.trashBag > 0 || ownedItems.trashPicker > 0;
 
     const questChecks = [
+      {
+        title: "Begin Crafting",
+        condition: Object.values(craftingInventory).some(count => count > 0),
+        category: 'progression'
+      },
       { 
         title: "First Steps", 
         condition: clickCount > 0,
