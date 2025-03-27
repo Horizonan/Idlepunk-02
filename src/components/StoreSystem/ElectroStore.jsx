@@ -171,10 +171,7 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
                   
                   setNotifications(prev => [...prev, "Circuit Optimization Unit installed! Global Junk/sec increased by 25%"]);
                   
-                  // Update global JPS multiplier in App.jsx through localStorage
-                  const currentMultiplier = parseFloat(localStorage.getItem('globalJpsMultiplier') || '1');
-                  const newMultiplier = (currentMultiplier + 0.25).toString();
-                  localStorage.setItem('globalJpsMultiplier', newMultiplier);
+                  // Only store the count, let App.jsx handle the multiplier calculation
                   window.dispatchEvent(new Event('storage')); // Trigger state update
                 }
               }}
