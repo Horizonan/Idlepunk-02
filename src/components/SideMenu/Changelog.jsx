@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default function Changelog({ onClose }) {
-  const [expandedVersion, setExpandedVersion] = useState('0.0.4.4');
+  const [expandedVersion, setExpandedVersion] = useState('0.0.4.5/1');
 
   const toggleVersion = (version) => {
     setExpandedVersion(expandedVersion === version ? null : version);
@@ -16,6 +16,34 @@ export default function Changelog({ onClose }) {
       </div>
       
       <div className="changelog-content">
+
+        <div className="changelog-entry">
+          <h3 onClick={() => toggleVersion('0.0.4.5/1')} style={{ cursor: 'pointer' }}>
+            🔧 QoL and Bugs – Update Log 0.0.4.5/1 {expandedVersion === '0.0.4.5/1' ? '▼' : '▶'}
+          </h3>
+          {expandedVersion === '0.0.4.5/1' && (
+            <>
+              <p>⚠️ Note: Progress will slow down slightly due to current lack of funding — thank you for your continued support and patience! 💛</p>
+              <div className="changelog-section">
+                <h3>⚙️ Improvements & Fixes</h3>
+                <p>⚙️ Fixed floating pickups going under windows and jittering unpredictably</p>
+                <p>⚙️ Fixed Hobo Billboard display issue (now correctly applies % bonus to Junk/sec)</p>
+                <p>⚙️ Fixed Prestige Ready quest not completing even after reaching required Junk</p>
+                <p>⚙️ Fixed Skills Center window not closing other open popups properly</p>
+                <h3>🔧 System Adjustments & UX Improvements</h3>
+                <p>🔧 Improved visual feedback for the Trash Box so it looks clearly clickable</p>
+                <p>🔧 Reworked skill training system to prevent partial XP carryover when switching skills</p>
+                <h3>🔋 Shard System & Progression Improvements</h3>
+                <p>🔋 Added tooltip/info panel explaining the purpose of Electro Shards</p>
+                <h3>🔌 Terminology & UI Cleanup</h3>
+                <p>🔌 Renamed “Upgrade Stats” → Skill Center</p>
+                <p>🔌 Renamed “Marketplace” → Junktown Nexus</p>
+                <p>🔌 Removed “Runs on Replit” label from the interface</p>
+              </div>
+              <p className="changelog-footer">Thanks again for playing and sharing your feedback — it really helps shape each version. More content and polish coming soon! If you want to help please make sure to mail me itscolord@gmail.com 🚀</p>
+            </>
+          )}
+        </div>
 
         <div className="changelog-entry">
           <h3 onClick={() => toggleVersion('0.0.4.4')} style={{ cursor: 'pointer' }}>
