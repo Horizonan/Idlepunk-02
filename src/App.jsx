@@ -656,13 +656,13 @@ export default function App() {
       const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
       const quantumProc = hasQuantumTap && Math.random() < 0.03;
       const amount = quantumProc ? 3 : 1;
-      
+
       setTronics(prev => {
         const newValue = prev + amount;
         localStorage.setItem('tronics', newValue);
         return newValue;
       });
-      
+
       if (quantumProc) {
         setNotifications(prev => [...prev, "Quantum Tap triggered! 3x Tronics gained!"]);
       }
@@ -1018,6 +1018,7 @@ export default function App() {
           electroShards={electroShards}
           tronics={tronics}
           setTronics={setTronics}
+          setNotifications={setNotifications}
           onBuyQuantumTap={() => {
             if (tronics >= 1250) {
               setTronics(prev => prev - 1250);
@@ -1244,7 +1245,7 @@ export default function App() {
 
               const currentPreserved = localStorage.getItem('preservedHelper') || '';
               let randomHelper = automationHelpers[Math.floor(Math.random() * automationHelpers.length)];
-              
+
               // Make sure second helper is different from first
               if (currentPreserved && randomHelper === currentPreserved) {
                 randomHelper = automationHelpers.find(h => h !== currentPreserved) || randomHelper;
@@ -1415,7 +1416,7 @@ export default function App() {
             // Keep track of preserved helpers before reset
             const preservedHelpersList = preservedHelper ? preservedHelper.split(', ') : [];
             let preservedAutoClicks = 0;
-            
+
             // Count preserved Auto Clicker Bots
             preservedHelpersList.forEach(helper => {
               if (helper === 'Auto Clicker Bot') preservedAutoClicks++;
