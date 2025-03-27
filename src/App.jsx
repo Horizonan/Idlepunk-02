@@ -765,31 +765,30 @@ export default function App() {
         autoClickerV1Count={autoClickerV1Count} // Pass to StatsDisplay
       />
       <Menu onStoreSelect={(type) => {
-        setActiveStore(null); //added this line to close the store before opening other menus
         switch(type) {
           case 'marketplace':
-            setActiveStore('marketplace');
+            setActiveStore(prev => prev === 'marketplace' ? null : 'marketplace');
             break;
           case 'achievements':
-            setShowAchievements(true);
+            setShowAchievements(prev => !prev);
             break;
-          case'questLog':
+          case 'questLog':
             setShowQuestLog(prev => !prev);
             break;
           case 'slotMachine':
-            setShowSlotMachine(true);
+            setShowSlotMachine(prev => !prev);
             break;
           case 'settings':
-            setShowSettings(true);
+            setShowSettings(prev => !prev);
             break;
           case 'techTree':
-            setShowTechTree(true);
+            setShowTechTree(prev => !prev);
             break;
           case 'changelog':
-            setShowChangelog(true);
+            setShowChangelog(prev => !prev);
             break;
           case 'upgradeStats':
-            setShowUpgradeStats(true);
+            setShowUpgradeStats(prev => !prev);
             break;
         }
       }} />
