@@ -33,7 +33,8 @@ export default function QuestLog({ tutorialStage, onClose }) {
       { id: 3, title: "Tool Master", task: "Keep collecting and upgrading your tools" },
       { id: 4, title: "Passive Income", task: "Purchase something that generates passive income" },
       { id: 5, title: "Begin Crafting", task: "Start crafting items from your collected junk" },
-      { id: 6, title: "Surge Rider", task: "Take advantage of the surge to collect extra junk", reward: "1x Electro Shard" }
+      { id: 6, title: "Surge Rider", task: "Take advantage of the surge to collect extra junk", reward: "1x Electro Shard" },
+      { id: 7, title: "Prestige Ready", task: "Reach 1 million junk to unlock the path to prestige", reward: "Unlocks the Prestige button" }
     ],
     ascension: [
       { id: 7, title: "Surge Overflow", task: "Trigger 3 Trash Surges", reward: "1x Stabilized Capacitor" },
