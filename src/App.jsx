@@ -68,6 +68,8 @@ export default function App() {
   } = useGameState();
   const baseRate = 100000; // 100,000 junk = 1 credit
   const [showChangelog, setShowChangelog] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [showUpgradeStats, setShowUpgradeStats] = useState(false);
   const [showTechTree, setShowTechTree] = useState(false);
   const [showSlotMachine, setShowSlotMachine] = useState(false);
   const [enableHoloBillboard, setEnableHoloBillboard] = useState(() => localStorage.getItem('enableHoloBillboard') !== 'false');
@@ -893,6 +895,9 @@ export default function App() {
           case 'upgradeStats':
             setShowUpgradeStats(true);
             break;
+          case 'techTree':
+            setShowTechTree(true);
+            break; // Added case for techTree
         }
       }} />
       {showSlotMachine && (
@@ -961,6 +966,7 @@ export default function App() {
           }}
           showInventory={showInventory}
           onUpgradeStats={() => setShowUpgradeStats(true)}
+          onTechTree={() => setShowTechTree(true)} // Added Tech Tree button
         />
       </div>
       {showUpgradeStats && (

@@ -17,7 +17,6 @@ export default function Settings({
   prestigeCount,
   preservedHelper,
   prestigeQuestCompleted,
-  setShowTechTree,
   onClose 
 }) {
   return (
