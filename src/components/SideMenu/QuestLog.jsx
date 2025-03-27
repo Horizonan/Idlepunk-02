@@ -10,6 +10,21 @@ export default function QuestLog({ tutorialStage, onClose }) {
   });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [questStates, setQuestStates] = useState({});
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const newQuestStates = {};
+      questLines[selectedQuestLine].forEach(quest => {
+        newQuestStates[quest.title] = localStorage.getItem(`quest_sync_${quest.title}`) === 'true';
+      });
+      setQuestStates(newQuestStates);
+    };
+
+    handleStorageChange(); // Initial check
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, [selectedQuestLine]);
 
   const questLines = {
     progression: [
@@ -17,7 +32,7 @@ export default function QuestLog({ tutorialStage, onClose }) {
       { id: 2, title: "Shopping Time", task: "Visit the store and buy your first upgrade" },
       { id: 3, title: "Tool Master", task: "Keep collecting and upgrading your tools" },
       { id: 4, title: "Passive Income", task: "Purchase something that generates passive income" },
-      { id: 5, title: "Crafting Begin", task: "Start crafting items from your collected junk" },
+      { id: 5, title: "Begin Crafting", task: "Start crafting items from your collected junk" },
       { id: 6, title: "Surge Rider", task: "Take advantage of the surge to collect extra junk", reward: "1x Electro Shard" }
     ],
     ascension: [
@@ -43,10 +58,9 @@ export default function QuestLog({ tutorialStage, onClose }) {
 
   const handleMouseMove = (e) => {
     if (isDragging) {
-      setPosition({
-        x: e.clientX - dragOffset.x,
-        y: e.clientY - dragOffset.y
-      });
+      const newX = e.clientX - dragOffset.x;
+      const newY = e.clientY - dragOffset.y;
+      setPosition({ x: newX, y: newY });
     }
   };
 
@@ -94,9 +108,7 @@ export default function QuestLog({ tutorialStage, onClose }) {
           {questLines[selectedQuestLine].map((quest) => (
             <div 
               key={quest.id} 
-              className={`quest-item ${
-                localStorage.getItem(`quest_sync_${quest.title}`) ? 'completed' : 'active'
-              }`}
+              className={`quest-item ${questStates[quest.title] ? 'completed' : 'active'}`}
             >
               <div className="quest-title">{quest.title}</div>
               <div className="quest-task">{quest.task}</div>
