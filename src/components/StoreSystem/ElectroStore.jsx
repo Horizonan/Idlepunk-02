@@ -173,7 +173,9 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
                   
                   // Update global JPS multiplier in App.jsx through localStorage
                   const currentMultiplier = parseFloat(localStorage.getItem('globalJpsMultiplier') || '1');
-                  localStorage.setItem('globalJpsMultiplier', (currentMultiplier + 0.25).toString());
+                  const newMultiplier = (currentMultiplier + 0.25).toString();
+                  localStorage.setItem('globalJpsMultiplier', newMultiplier);
+                  window.dispatchEvent(new Event('storage')); // Trigger state update
                 }
               }}
               title="More junk. Same scrap. Just optimized."
