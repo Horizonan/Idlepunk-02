@@ -188,40 +188,30 @@ export default function App() {
     switch(type) {
       case 'junk':
         setJunk(0);
-        localStorage.setItem('junk', '0');
         break;
       case 'credits':
         setCredits(0);
-        localStorage.setItem('credits', '0');
         break;
       case 'achievements':
-        const resetAchievements = defaultAchievements.map(achievement => ({
-          ...achievement,
-          unlocked: false,
-          checked: false
-        }));
-        setAchievements(resetAchievements);
-        localStorage.setItem('achievements', JSON.stringify(resetAchievements));
+        setAchievements(prevAchievements => 
+          prevAchievements.map(achievement => ({
+            ...achievement,
+            unlocked: false,
+            checked: false
+          }))
+        );
         break;
       case 'all':
-        // Reset all state variables
         setJunk(0);
         setCredits(0);
         setClickCount(0);
-        setTronics(0);
-        setAutoClicks(0);
-        setAutoClickerV1Count(0);
+        localStorage.setItem('clickCount', '0');
+        localStorage.removeItem('prestigeUnlocked');
+        localStorage.removeItem('hasPrestiged');
         setClickMultiplier(1);
         setPassiveIncome(0);
-        setGlobalJpsMultiplier(1);
         setElectronicsUnlock(false);
         setClickEnhancerLevel(0);
-        setElectroShards(0);
-        setPrestigeCount(0);
-        setBeaconCount(0);
-        setCraftingInventory({});
-
-        // Reset costs to initial values
         setItemCosts({
           trashBag: 10,
           trashPicker: 100,
@@ -234,12 +224,14 @@ export default function App() {
           autoClickerV2: 10000,
           scrapDrone: 7500,
           holoBillboard: 15000,
-          junkRefinery: 500000,
-          autoClicker: 5000,
-          autoClickerV2: 10000
+          junkRefinery: 500000
         });
-
-        // Reset owned items
+        setAutoClicks(0);
+        setAutoClickerV1Count(0); // Reset v1 count
+        setCraftingInventory({});
+        localStorage.removeItem('craftedItems');
+        localStorage.removeItem('craftingInventory');
+        setShowInventory(false);
         const resetOwnedItems = {
           trashBag: 0,
           trashPicker: 0,
@@ -253,23 +245,16 @@ export default function App() {
           junkRefinery: 0
         };
         setOwnedItems(resetOwnedItems);
-
-        // Clear localStorage except settings
-        Object.keys(localStorage).forEach(key => {
-          if (key !== 'showNewsTicker' && key !== 'enableHoloBillboard') {
-            localStorage.removeItem(key);
-          }
-        });
-
-        // Reset achievements
-        setAchievements(defaultAchievements.map(achievement => ({
-          ...achievement,
-          unlocked: false,
-          checked: false
-        })));
-
-        // Force page reload to ensure clean state
-        window.location.reload();
+        localStorage.setItem('ownedItems', JSON.stringify(resetOwnedItems));
+        setAchievements(prevAchievements => 
+          prevAchievements.map(achievement => ({
+            ...achievement,
+            unlocked: false,
+            checked: false
+          }))
+        );
+        localStorage.setItem('globalJpsMultiplier', '1');
+        setGlobalJpsMultiplier(1);
         break;
     }
   };
