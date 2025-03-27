@@ -56,7 +56,6 @@ export default function ElectroStore({ electroShards, tronics, setTronics, onBuy
               const newBoostCount = boostCount + 1;
               localStorage.setItem('tronics_boost_II_count', newBoostCount);
               setTronics(prev => prev - 750);
-              setClickMultiplier(prev => prev + 2);
               setNotifications(prev => [...prev, "Tronics Click Boost II purchased! +2 Tronics per click"]);
             }
           }}
