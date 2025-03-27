@@ -1234,17 +1234,25 @@ export default function App() {
                 'Ascension Reclaimer': (prev['Ascension Reclaimer'] || 0) + 1 
               }));
 
-
               const automationHelpers = [
                 'Auto Clicker Bot'
               ];
 
+              const currentPreserved = localStorage.getItem('preservedHelper') || '';
+              let randomHelper = automationHelpers[Math.floor(Math.random() * automationHelpers.length)];
+              
+              // Make sure second helper is different from first
+              if (currentPreserved && randomHelper === currentPreserved) {
+                randomHelper = automationHelpers.find(h => h !== currentPreserved) || randomHelper;
+              }
 
-              const randomHelper = automationHelpers[Math.floor(Math.random() * automationHelpers.length)];
-
-              setPreservedHelper(randomHelper);
-
-              localStorage.setItem('preservedHelper', randomHelper);
+              if (currentPreserved) {
+                setPreservedHelper(`${currentPreserved}, ${randomHelper}`);
+                localStorage.setItem('preservedHelper', `${currentPreserved}, ${randomHelper}`);
+              } else {
+                setPreservedHelper(randomHelper);
+                localStorage.setItem('preservedHelper', randomHelper);
+              }
 
               setNotifications(prev => [...prev, `Ascension Reclaimer purchased! ${randomHelper} will be preserved after prestige.`]);
               window.dispatchEvent(new CustomEvent('nextNews', { 

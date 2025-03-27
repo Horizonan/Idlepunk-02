@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 export default function Settings({ 
@@ -39,7 +38,7 @@ export default function Settings({
         {preservedHelper && (
           <div className="stats-section">
             <h3>Energy Shielded Helpers</h3>
-            <p>{preservedHelper} (Protected from Ascension)</p>
+            <p>Preserved Helper{preservedHelper.includes(',') ? 's' : ''}: {preservedHelper}</p>
           </div>
         )}
         <label className="setting-option">
