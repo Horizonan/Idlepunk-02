@@ -37,6 +37,7 @@ import Changelog from './components/SideMenu/Changelog';
 import TechTree from './components/TechTree';
 import PrestigePopup from './components/PrestigePopup';
 import UpgradeStats from './components/StoreSystem/UpgradeStats'; //Import missing component
+import Tooltips from './components/SideMenu/Tooltips'; // Added Tooltips component
 
 export default function App() {
   const { 
@@ -97,6 +98,7 @@ export default function App() {
   );
   const [autoClickerV1Count, setAutoClickerV1Count] = useState(0);
   const [autoClickerV2Count, setAutoClickerV2Count] = useState(0);
+  const [showTooltips, setShowTooltips] = useState(false); // Added state for Tooltips
 
   useEffect(() => {
     const handleAddMaterial = (e) => {
@@ -274,19 +276,21 @@ export default function App() {
           setShowAchievements(false);
           setShowSettings(false);
           setShowQuestLog(false);
+          setShowTooltips(false); // Added setShowTooltips
         }
         return !prev;
       });
     };
     window.addEventListener('toggleUpgradeStats', handleUpgradeStats);
 
-    if (showSlotMachine || showAchievements || showSettings || showQuestLog) {
+    if (showSlotMachine || showAchievements || showSettings || showQuestLog || showTooltips) { // Added showTooltips
       setActiveStore(null);
       setShowUpgradeStats(false);
     }
 
     return () => window.removeEventListener('toggleUpgradeStats', handleUpgradeStats);
-  }, [showSlotMachine, showAchievements, showSettings, showQuestLog]);
+  }, [showSlotMachine, showAchievements, showSettings, showQuestLog, showTooltips]); // Added showTooltips
+
 
   // Close upgrade stats when opening a store
   useEffect(() => {
@@ -810,11 +814,15 @@ export default function App() {
           case 'changelog':
             setShowChangelog(prev => !prev);
             break;
+          case 'tooltips':
+            setShowTooltips(prev => !prev);
+            break;
           case 'upgradeStats':
             setShowUpgradeStats(prev => !prev);
             break;
         }
       }} />
+      {showTooltips && <Tooltips onClose={() => setShowTooltips(false)} />}
       {showSlotMachine && (
         <SlotMachine
           junk={junk}

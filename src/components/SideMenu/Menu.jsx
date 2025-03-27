@@ -10,6 +10,7 @@ export default function Menu({ onStoreSelect }) {
     { id: 'questLog', label: 'Quest Log' },
     { id: 'slotMachine', label: 'Slot Machine' },
     ...(prestigeCount > 0 ? [{ id: 'techTree', label: 'Tech Tree' }] : []),
+    { id: 'tooltips', label: 'Tooltips' },
     { id: 'settings', label: 'Settings' },
     { id: 'changelog', label: 'Changelog' }
   ];
