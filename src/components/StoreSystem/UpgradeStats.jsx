@@ -6,10 +6,13 @@ let globalXpInterval = null;
 
 const updateXp = () => {
   const activeSkill = localStorage.getItem('activeSkill');
-  const skillXp = JSON.parse(localStorage.getItem('skillXp')) || {
-    scavengingFocus: 0,
-    greaseDiscipline: 0
-  };
+  let skillXp = JSON.parse(localStorage.getItem('skillXp'));
+  if (!skillXp || typeof skillXp !== 'object') {
+    skillXp = {
+      scavengingFocus: 0,
+      greaseDiscipline: 0
+    };
+  }
   const skillLevels = JSON.parse(localStorage.getItem('skillLevels')) || {
     scavengingFocus: 0,
     greaseDiscipline: 0
