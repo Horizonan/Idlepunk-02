@@ -600,12 +600,9 @@ button.locked {
   }
   
   .menu-container {
-    position: fixed;
     right: 10px;
-    top: initial;
-    bottom: 20px;
+    top: 80px;
     min-width: unset;
-    z-index: 1002;
   }
   
   .quest-log {
@@ -620,17 +617,12 @@ button.locked {
   }
   
   .burger-menu {
-    position: fixed;
-    top: initial;
-    bottom: 20px;
-    left: 20px;
-    z-index: 1002;
+    top: 80px;
   }
   
   .sidebar {
     width: 90%;
     max-width: 300px;
-    bottom: 80px;
   }
   
   button {
