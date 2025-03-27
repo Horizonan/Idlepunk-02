@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default function Changelog({ onClose }) {
-  const [expandedVersion, setExpandedVersion] = useState('0.0.4.3');
+  const [expandedVersion, setExpandedVersion] = useState('0.0.4.4');
 
   const toggleVersion = (version) => {
     setExpandedVersion(expandedVersion === version ? null : version);
@@ -16,6 +16,37 @@ export default function Changelog({ onClose }) {
       </div>
       
       <div className="changelog-content">
+
+        <div className="changelog-entry">
+          <h3 onClick={() => toggleVersion('0.0.4.4')} style={{ cursor: 'pointer' }}>
+            🔧 Mobile Update – Update Log 0.0.4.4 {expandedVersion === '0.0.4.4' ? '▼' : '▶'}
+          </h3>
+          {expandedVersion === '0.0.4.4' && (
+            <>
+              <p>⚠️ Note: Progress will slow down slightly due to current lack of funding — thank you for your continued support and patience! 💛</p>
+              <div className="changelog-section">
+                <h3>✅ New Additions</h3>
+                <p>✅ Added High-Frequency Tap Chip (Clicker fires twice per click)</p>
+                <p>✅ Added new navigation buttons to the ElectroShop to switch between sections</p>
+                <p>✅ Added Circuit Optimization Unit (+25% Junk/sec)</p>
+                <h3>⚙️ Improvements & Fixes</h3>
+                <p>⚙️ Moved Tech Tree UI to a dedicated menu tab (removed from Settings)</p>
+                <p>⚙️ AutoClicker v2 is now purchasable and fully functional</p>
+                <p>⚙️ Made UI windows toggleable by clicking the same button again (Store, Quests, Achievements, etc.)</p>
+                <h3>🧼 Code Refactors & Structural Improvements</h3>
+                <p>🧼 Moved Quest Validation to its own file</p>  
+                <p>🧼 UI now significantly more mobile-friendly</p>
+                <h3>🚧 Started (Incomplete Features)</h3>
+                <p>🚧 Tronics Flow Regulator</p>
+                <p>🚧 Add tooltip system and basic visual layout polish</p>
+                <h3>🧪 Planned Implementations</h3>
+                <p>🧪 Add tooltip system and basic visual layout polish</p>
+                <p>🧪 Tronics Flow Regulator</p>
+              </div>
+              <p className="changelog-footer">Thanks again for playing and sharing your feedback — it really helps shape each version. More content and polish coming soon! If you want to help please make sure to mail me itscolord@gmail.com 🚀</p>
+            </>
+          )}
+        </div>
 
         <div className="changelog-entry">
           <h3 onClick={() => toggleVersion('0.0.4.3')} style={{ cursor: 'pointer' }}>
