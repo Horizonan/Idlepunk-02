@@ -1071,12 +1071,17 @@ export default function App() {
             }
           }}
           onBuyAutoClickerV2={() => {
-            console.log("Button clicked", {junk, cost: itemCosts.autoClickerV2, autoClicks});
-            if (junk >= itemCosts.autoClickerV2 && autoClicks >= 1) {
-              console.log("it works");
-              setJunk(prev => prev - itemCosts.autoClickerV2);
-              setAutoClicks(prev => prev - 1 + 2); 
-              setItemCosts(prev => ({...prev, autoClickerV2: Math.floor(prev.autoClickerV2 * 1.15)}));
+            const baseV2Cost = 10000;
+            const currentCost = itemCosts.autoClickerV2 || baseV2Cost;
+            
+            if (junk >= currentCost && autoClicks >= 1) {
+              setJunk(prev => prev - currentCost);
+              setAutoClicks(prev => prev - 1); // Remove v1 bot
+              setAutoClicks(prev => prev + 2); // Add v2 bot (worth 2 clicks/sec)
+              setItemCosts(prev => ({
+                ...prev, 
+                autoClickerV2: Math.floor((prev.autoClickerV2 || baseV2Cost) * 1.2)
+              }));
               setNotifications(prev => [...prev, "Auto Clicker Bot v2.0 purchased! (Consumed 1 Auto Clicker Bot)"]);
               window.dispatchEvent(new CustomEvent('nextNews', { 
                 detail: { message: "Cogfather: 'Twice the clicks, twice the profits. Now that's efficiency!'" }
