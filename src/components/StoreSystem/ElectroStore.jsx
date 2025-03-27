@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 export default function ElectroStore({ electroShards, tronics, setTronics, setNotifications, onBuyTronicsBoost, onBack }) {
@@ -6,7 +5,7 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
   const tronicsBoostIICost = parseInt(localStorage.getItem('tronics_boost_II_cost') || '750');
   const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
   const hasTronicsBoost = localStorage.getItem('unlocked_tronics_boost') === 'true';
-  
+
   return (
     <div className="store-container">
       <div className="store-header">
@@ -49,26 +48,32 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
         </button>
 
         <button
-          className={`store-item ${!localStorage.getItem('unlocked_tronics_boost') || !localStorage.getItem('tronics_boost_count') ? 'locked' : tronics < 750 ? 'disabled' : ''}`}
+          className={`store-item ${!localStorage.getItem('unlocked_tronics_boost') || !localStorage.getItem('tronics_boost_count') ? 'locked' : tronics < tronicsBoostIICost ? 'disabled' : ''}`}
           onClick={() => {
-            if (localStorage.getItem('unlocked_tronics_boost') && localStorage.getItem('tronics_boost_count') && tronics >= 750) {
+            if (localStorage.getItem('unlocked_tronics_boost') && localStorage.getItem('tronics_boost_count') && tronics >= tronicsBoostIICost) {
               const boostCount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
               const newBoostCount = boostCount + 1;
               localStorage.setItem('tronics_boost_II_count', newBoostCount);
-              setTronics(prev => prev - 750);
+
+              // Update cost with 20% increase
+              const currentCost = parseInt(localStorage.getItem('tronics_boost_II_cost') || '750');
+              const newCost = Math.floor(currentCost * 1.2);
+              localStorage.setItem('tronics_boost_II_cost', newCost);
+
+              setTronics(prev => prev - currentCost);
               setNotifications(prev => [...prev, "Tronics Click Boost II purchased! +2 Tronics per click"]);
             }
           }}
-          disabled={!localStorage.getItem('unlocked_tronics_boost') || !localStorage.getItem('tronics_boost_count') || tronics < 750}
+          disabled={!localStorage.getItem('unlocked_tronics_boost') || !localStorage.getItem('tronics_boost_count') || tronics < tronicsBoostIICost}
         >
           <div className="item-header">
             <strong>⚡ Tronics Click Boost II</strong>
           </div>
-          <div>750 Tronics</div>
+          <div>{tronicsBoostIICost} Tronics</div>
           <div className="item-info">
             <p>+2 Tronics per click</p>
             <p className="owned">Owned: {localStorage.getItem('tronics_boost_II_count') || 0}</p>
-            <p title="Now with extra voltage. May void warranty.">Cost: 750 Tronics</p>
+            <p title="Now with extra voltage. May void warranty.">Cost: {tronicsBoostIICost} Tronics</p>
           </div>
         </button>
         <button
