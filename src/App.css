@@ -1755,7 +1755,7 @@ button.locked {
 }
 
 .prestige-button.locked:hover::after {
-  content: "🔒 System not yet stable to reboot, Keep Grinding";
+  content: "System not yet stable to reboot, Keep Grinding";
   position: absolute;
   bottom: 120%;
   right: 0;
@@ -1860,33 +1860,4 @@ button.locked {
   to {
     opacity: 0;
   }
-}
-
-.store-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.store-controls {
-  display: flex;
-  gap: 10px;
-}
-
-.store-header button {
-  padding: 5px 10px;
-}
-
-.special-offer {
-  background: rgba(0, 255, 255, 0.1);
-  border: 1px solid cyan;
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 5px;
-  text-align: center;
-}
-
-.special-offer h3 {
-  color: cyan;
-  margin: 0 0 5px 0;
 }
