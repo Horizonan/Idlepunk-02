@@ -51,7 +51,7 @@ export default function Marketplace({ onClose, junk, passiveIncome, cogfatherLor
   return (
     <div className="store-container marketplace">
       <div className="store-header">
-        <h2>Marketplace</h2>
+        <h2>Junktown Nexus</h2>
         <button onClick={onClose}>Close</button>
       </div>
       <div className="npc-container">

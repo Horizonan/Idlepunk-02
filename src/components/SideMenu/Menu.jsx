@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 
 export default function Menu({ onStoreSelect }) {
@@ -7,7 +6,7 @@ export default function Menu({ onStoreSelect }) {
 
   const buttons = [
     { id: 'achievements', label: 'Achievements' },
-    { id: 'marketplace', label: 'Marketplace' },
+    { id: 'marketplace', label: 'Junktown Nexus' },
     { id: 'questLog', label: 'Quest Log' },
     { id: 'slotMachine', label: 'Slot Machine' },
     ...(prestigeCount > 0 ? [{ id: 'techTree', label: 'Tech Tree' }] : []),
