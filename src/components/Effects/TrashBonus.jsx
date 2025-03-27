@@ -38,10 +38,11 @@ export default function TrashBonus({ onCollect, onDisappear, passiveIncome }) {
         width: '64px',
         height: '64px',
         cursor: 'pointer',
-        filter: 'drop-shadow(0 0 10px #00FF00)',
-        transition: 'left 0.2s ease-out, top 0.2s ease-out',
-        animation: 'float 2s infinite alternate ease-in-out',
-        zIndex: 1000,
+        filter: 'drop-shadow(0 0 10px #00ff00)',
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        transform: 'translateZ(0)',
+        willChange: 'transform',
+        zIndex: 9999,
       }}
     />
   );
