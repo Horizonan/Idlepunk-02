@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onBuyAutoClickerV2, autoClicks, onBack }) {
+export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onBuyAutoClickerV2, autoClicks, autoClickerV1Count, onBack }) {
   const canAffordV1 = junk >= (itemCosts.autoClicker || 5000);
   const baseV2Cost = 10000;
 const canAffordV2 = junk >= (itemCosts.autoClickerV2 || baseV2Cost);
@@ -25,7 +25,7 @@ const canAffordV2 = junk >= (itemCosts.autoClickerV2 || baseV2Cost);
           <div className="item-info">
             <img src="/Icons/Upgrades/autoClickerV1.png" alt="Auto Clicker" className="item-icon" />
             <p>+1 Automatic Click per second (generates Junk automatically as if clicked by the player)</p>
-            <p>Owned: {Math.floor(autoClicks - (itemCosts.autoClickerV2 ? 1 : 0))}</p>
+            <p>Owned: {autoClickerV1Count}</p>
           </div>
         </button>
 

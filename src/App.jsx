@@ -94,6 +94,7 @@ export default function App() {
   const [craftingInventory, setCraftingInventory] = useState(() => 
     JSON.parse(localStorage.getItem('craftingInventory')) || {}
   );
+  const [autoClickerV1Count, setAutoClickerV1Count] = useState(0); // New state variable
 
   useEffect(() => {
     const handleAddMaterial = (e) => {
@@ -226,6 +227,7 @@ export default function App() {
           junkRefinery: 500000
         });
         setAutoClicks(0);
+        setAutoClickerV1Count(0); // Reset v1 count
         setCraftingInventory({});
         localStorage.removeItem('craftedItems');
         localStorage.removeItem('craftingInventory');
@@ -408,7 +410,8 @@ export default function App() {
     localStorage.setItem('ownedItems', JSON.stringify(ownedItems));
     localStorage.setItem('craftingInventory', JSON.stringify(craftingInventory));
     localStorage.setItem('globalJpsMultiplier', globalJpsMultiplier);
-  }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts, autoClicks, clickCount, achievements, ownedItems, clickEnhancerLevel, globalJpsMultiplier]);
+    localStorage.setItem('autoClickerV1Count', autoClickerV1Count); //Persist v1 count
+  }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts, autoClicks, clickCount, achievements, ownedItems, clickEnhancerLevel, globalJpsMultiplier, autoClickerV1Count]);
 
   const validateQuestsAndAchievements = () => {
     const totalPassiveIncome = Math.floor(passiveIncome * globalJpsMultiplier + (autoClicks * clickMultiplier));
@@ -868,6 +871,7 @@ export default function App() {
         globalJpsMultiplier={globalJpsMultiplier}
         tronics={tronics}
         electroShards={electroShards}
+        autoClickerV1Count={autoClickerV1Count} // Pass to StatsDisplay
       />
       <Menu onStoreSelect={(type) => {
         setActiveStore(null); //added this line to close the store before opening other menus
@@ -1059,10 +1063,12 @@ export default function App() {
           junk={junk}
           itemCosts={itemCosts}
           autoClicks={autoClicks}
+          autoClickerV1Count={autoClickerV1Count} // Pass to AutomationStore
           onBuyAutoClicker={() => {
             if (junk >= itemCosts.autoClicker) {
               setJunk(prev => prev - itemCosts.autoClicker);
               setAutoClicks(prev => prev + 1);
+              setAutoClickerV1Count(prev => prev + 1); //Increment v1 count
               setItemCosts(prev => ({...prev, autoClicker: Math.floor(prev.autoClicker * 1.15)}));
               setNotifications(prev => [...prev, "Auto Clicker Bot purchased!"]);
               window.dispatchEvent(new CustomEvent('nextNews', { 
@@ -1073,11 +1079,11 @@ export default function App() {
           onBuyAutoClickerV2={() => {
             const baseV2Cost = 10000;
             const currentCost = itemCosts.autoClickerV2 || baseV2Cost;
-            
-            if (junk >= currentCost && autoClicks >= 1) {
+
+            if (junk >= currentCost && autoClickerV1Count >= 1) { // Check v1 count
               setJunk(prev => prev - currentCost);
-              setAutoClicks(prev => prev - 1); // Remove v1 bot
-              setAutoClicks(prev => prev + 2); // Add v2 bot (worth 2 clicks/sec)
+              setAutoClicks(prev => prev + 1); // Add v2 bot (worth 2 clicks/sec)
+              setAutoClickerV1Count(prev => prev -1); //Decrement v1 count
               setItemCosts(prev => ({
                 ...prev, 
                 autoClickerV2: Math.floor((prev.autoClickerV2 || baseV2Cost) * 1.2)
@@ -1404,7 +1410,8 @@ export default function App() {
             clickMultiplier,
             passiveIncome,
             autoClicks,
-            clickEnhancerLevel
+            clickEnhancerLevel,
+            autoClickerV1Count // Add to stats
           }}
           onClose={() => setShowPrestigePopup(false)}
           onConfirm={() => {
@@ -1435,6 +1442,7 @@ export default function App() {
             setPassiveIncome(0);
             setAutoClicks(preservedAutoClicks); // Set preserved auto clickers
             setClickEnhancerLevel(0);
+            setAutoClickerV1Count(0); // Reset v1 count on prestige
 
             setItemCosts({
               trashBag: 10,
