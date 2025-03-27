@@ -1869,21 +1869,14 @@ button.locked {
 
 .store-navigation {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 15px;
-  width: 200px;
-  position: absolute;
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
 }
 
 .store-controls {
   display: flex;
-  flex-direction: column;
   gap: 15px;
-  width: 100%;
 }
 
 .store-tab {
