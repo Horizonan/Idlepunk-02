@@ -3,13 +3,14 @@ import React, { useState } from 'react';
 
 export default function Menu({ onStoreSelect }) {
   const [showMenu, setShowMenu] = useState(true);
+  const prestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
 
   const buttons = [
     { id: 'achievements', label: 'Achievements' },
     { id: 'marketplace', label: 'Marketplace' },
     { id: 'questLog', label: 'Quest Log' },
     { id: 'slotMachine', label: 'Slot Machine' },
-    { id: 'techTree', label: 'Tech Tree' },
+    ...(prestigeCount > 0 ? [{ id: 'techTree', label: 'Tech Tree' }] : []),
     { id: 'settings', label: 'Settings' },
     { id: 'changelog', label: 'Changelog' }
   ];
