@@ -478,11 +478,13 @@ export default function App() {
     const questChecks = [
       {
         title: "Begin Crafting",
-        condition: Object.values(craftingInventory).some(count => count > 0) || localStorage.getItem('quest_sync_Begin Crafting') === 'true',
+        condition: Object.values(craftingInventory).some(count => count > 0),
         category: 'progression',
         onComplete: () => {
-          if (localStorage.getItem('quest_sync_Begin Crafting') !== 'true') {
-            localStorage.setItem('quest_sync_Begin Crafting', 'true');
+          const questKey = 'quest_sync_Begin Crafting';
+          if (localStorage.getItem(questKey) !== 'true') {
+            localStorage.setItem(questKey, 'true');
+            window.dispatchEvent(new Event('storage'));
             setNotifications(prev => [...prev, "Quest Completed: Begin Crafting"]);
           }
         }
