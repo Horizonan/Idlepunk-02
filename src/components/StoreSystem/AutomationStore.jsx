@@ -25,7 +25,7 @@ const canAffordV2 = junk >= (itemCosts.autoClickerV2 || baseV2Cost);
           <div className="item-info">
             <img src="/Icons/Upgrades/autoClickerV1.png" alt="Auto Clicker" className="item-icon" />
             <p>+1 Automatic Click per second (generates Junk automatically as if clicked by the player)</p>
-            <p>Owned: {Math.floor(autoClicks)}</p>
+            <p>Owned: {Math.floor(autoClicks - (itemCosts.autoClickerV2 ? 1 : 0))}</p>
           </div>
         </button>
 
@@ -42,6 +42,7 @@ const canAffordV2 = junk >= (itemCosts.autoClickerV2 || baseV2Cost);
           <div className="item-info">
             <img src="/Icons/Upgrades/clickerV2.png" alt="Auto Clicker v2.0" className="item-icon" />
             <p>+2 Automatic Clicks per second (Consumes 1 Auto Clicker Bot)</p>
+            <p>Owned: {itemCosts.autoClickerV2 ? 1 : 0}</p>
           </div>
         </button>
       </div>
