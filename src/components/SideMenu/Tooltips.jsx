@@ -40,6 +40,48 @@ export default function Tooltips({ onClose }) {
             </div>
           )}
         </div>
+
+        <div className="tooltip-entry">
+          <h3 onClick={() => toggleTip('prestige')} style={{ cursor: 'pointer' }}>
+            🔁 How Prestige Works {expandedTip === 'prestige' ? '▼' : '▶'}
+          </h3>
+          {expandedTip === 'prestige' && (
+            <div className="tooltip-section">
+              <p>Prestiging is a major reset that wipes most of your progress in exchange for unlocking permanent upgrades and access to powerful new systems like Electronics, Tronics, and mod slots.</p>
+              
+              <h4>How to Unlock Prestige:</h4>
+              <ul>
+                <li>Reach 1 million Junk</li>
+                <li>Complete the Ascension Questline (starts after 1 million junk)</li>
+                <li>Collect special resources (Ascension Materials)</li>
+                <li>Craft the Prestige Crystal in the crafting menu</li>
+              </ul>
+              
+              <h4>What Does Prestige Reset?</h4>
+              <ul>
+                <li>Your Junk, upgrades, helpers, and quest progress</li>
+                <li>Most inventory items and crafting materials</li>
+              </ul>
+
+              <h4>What Do You Keep?</h4>
+              <ul>
+                <li>Unlocked systems (like the ElectroShop)</li>
+                <li>Prestige-exclusive upgrades and bonuses</li>
+                <li>Electro Shards, Tronics, Credits, and special resources unlocked post-prestige</li>
+                <li>Progress in future systems (e.g., passive skills, mod slots)</li>
+              </ul>
+
+              <h4>Why Prestige?</h4>
+              <ul>
+                <li>Access powerful new layers of progression</li>
+                <li>Unlock Electronics Clicker, Tronics Upgrades, and more</li>
+                <li>Speed up future runs with permanent multipliers and bonuses</li>
+              </ul>
+              
+              <p className="tooltip-tip">💡 Tip: Make sure to craft the Prestige Crystal before attempting to prestige!</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
