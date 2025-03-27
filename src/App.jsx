@@ -1408,12 +1408,20 @@ export default function App() {
             });
 
 
+            // Keep track of preserved helpers before reset
+            const preservedHelpersList = preservedHelper ? preservedHelper.split(', ') : [];
+            let preservedAutoClicks = 0;
+            
+            // Count preserved Auto Clicker Bots
+            preservedHelpersList.forEach(helper => {
+              if (helper === 'Auto Clicker Bot') preservedAutoClicks++;
+            });
+
             setJunk(0);
             setClickMultiplier(1);
             setPassiveIncome(0);
-            setAutoClicks(0);
+            setAutoClicks(preservedAutoClicks); // Set preserved auto clickers
             setClickEnhancerLevel(0);
-
 
             setItemCosts({
               trashBag: 10,
