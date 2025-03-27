@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default function Changelog({ onClose }) {
-  const [expandedVersion, setExpandedVersion] = useState('0.0.4.2');
+  const [expandedVersion, setExpandedVersion] = useState('0.0.4.3');
 
   const toggleVersion = (version) => {
     setExpandedVersion(expandedVersion === version ? null : version);
@@ -14,7 +14,59 @@ export default function Changelog({ onClose }) {
         <h2>Changelog</h2>
         <button onClick={onClose}>Close</button>
       </div>
+      
       <div className="changelog-content">
+
+        <div className="changelog-entry">
+          <h3 onClick={() => toggleVersion('0.0.4.3')} style={{ cursor: 'pointer' }}>
+            🔧 IdlePunks – Update Log 0.0.4.3 {expandedVersion === '0.0.4.3' ? '▼' : '▶'}
+          </h3>
+          {expandedVersion === '0.0.4.3' && (
+            <>
+              <p>⚠️ Note: Progress will slow down slightly due to current lack of funding — thank you for your continued support and patience! 💛</p>
+              <div className="changelog-section">
+                <h3>✅ New Additions</h3>
+                <p>✅ Added Quantum Tap Circuit to the ElectroShop</p>
+                <p>✅ Fully implemented Tronics Click Boost I (now functional)</p>
+                <p>✅ Added Tronics Click Boost II to the game</p>
+                <p>✅ Added Prestige popup glow effect (visual feedback)</p>
+                <p>✅ Added Quest for Prestige Button unlock</p>
+                <p>✅ Added 1000 Tronics button to the cheat menu</p>
+                <h3>⚙️ Improvements & Fixes</h3>
+                <p>⚙️ Fixed Prestige button not updating without relo</p>
+                <p>⚙️ Fixed Tronics Click Boost I unlock mechanic</p>
+                <p>⚙️ Fixed Cogfather’s Tips now properly display in News Ticker</p>
+                <p>⚙️ Fixed Ascension Reclaimer</p>
+                <p>⚙️ Fixed "Begin Crafting" quest not checking properly</p>
+                <p>⚙️ Fixed Junk/sec not updating correctly each second</p>
+                <p>⚙️ Fixed Tronics Click Boost II</p>
+                <h3>🧼 Code Refactors & Structural Improvements</h3>
+                <p>🧼 Created new Cheat Menu folder for cleaner dependencies</p>  
+                <p>🧼 Refactored StoreSystem dependencies</p>
+                <p>🧪 Possibly broke Achievements in the process (awaiting testing)</p>
+                <h3>🚧 Started (Incomplete Features)</h3>
+                <p>🚧 Started integrating Auto Clicker v2: NEED HELP ITS NOT WORKING</p>
+                <p>🚧 Move Tech Tree UI to its own tab (remove from Settings)</p>
+                <p>🚧 Move Quest Validation to its own file</p>
+                <p>🚧 High-Frequency Tap Chip (ITEM)</p>
+                <h3>🧪 Planned Implementations</h3>
+                <p>🧪 Add tooltip system and basic visual layout polish</p>
+                <p>🧪 Tronics Flow Regulator</p>
+                <p>🧪 Make UI windows toggleable by re-clicking menu buttons</p>
+                <p>🧪 Started implementation of Auto Clicker Bot v2:
+
+                Still not purchasable.
+
+                Owned bots not displayed correctly.
+
+                No animation on screen.
+
+                No info in hover tooltip.</p>
+              </div>
+              <p className="changelog-footer">Thanks again for playing and sharing your feedback — it really helps shape each version. More content and polish coming soon! If you want to help please make sure to mail me itscolord@gmail.com 🚀</p>
+            </>
+          )}
+        </div>
 
         <div className="changelog-entry">
           <h3 onClick={() => toggleVersion('0.0.4.2')} style={{ cursor: 'pointer' }}>
