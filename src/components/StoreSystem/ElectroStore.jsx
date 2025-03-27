@@ -143,6 +143,9 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
     <div className="store-container">
       <div className="store-header">
         <div className="store-navigation">
+          <button className="store-close" onClick={onBack}>Close</button>
+        </div>
+        <div className="store-tabs-navigation">
           <div className="store-controls">
             <button 
               className={`store-tab ${currentSection === 'average' ? 'active' : ''}`}
@@ -157,7 +160,6 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
               PREMIUM
             </button>
           </div>
-          <button className="store-close" onClick={onBack}>Close</button>
         </div>
         <h2>Electronics Store</h2>
       </div>
