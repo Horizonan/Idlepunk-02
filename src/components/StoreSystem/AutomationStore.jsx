@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onBuyAutoClickerV2, autoClicks, autoClickerV1Count, onBack }) {
+export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onBuyAutoClickerV2, autoClicks, autoClickerV1Count, autoClickerV2Count, onBack }) {
   const canAffordV1 = junk >= (itemCosts.autoClicker || 5000);
   const baseV2Cost = 10000;
 const canAffordV2 = junk >= (itemCosts.autoClickerV2 || baseV2Cost);

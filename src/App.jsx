@@ -954,7 +954,8 @@ export default function App() {
           junk={junk}
           itemCosts={itemCosts}
           autoClicks={autoClicks}
-          autoClickerV1Count={autoClickerV1Count} // Pass to AutomationStore
+          autoClickerV1Count={autoClickerV1Count}
+          autoClickerV2Count={autoClickerV2Count}
           onBuyAutoClicker={() => {
             if (junk >= itemCosts.autoClicker) {
               setJunk(prev => prev - itemCosts.autoClicker);
