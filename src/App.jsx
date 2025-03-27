@@ -379,7 +379,8 @@ export default function App() {
       const greaseDisciplineBonus = skillLevels.greaseDiscipline * 0.5 / 100;
       const circuitOptCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
       const circuitOptBonus = circuitOptCount * 0.25;
-      const totalMultiplier = 1 + circuitOptBonus + (craftingInventory['Compression Pack'] ? 0.25 : 0) + greaseDisciplineBonus;
+      const holoBillboardBonus = (ownedItems.holoBillboard || 0) * 0.1;
+      const totalMultiplier = 1 + circuitOptBonus + (craftingInventory['Compression Pack'] ? 0.25 : 0) + greaseDisciplineBonus + holoBillboardBonus;
       setGlobalJpsMultiplier(totalMultiplier);
       setJunk(prev => prev + (passiveIncome * totalMultiplier) + (autoClicks * clickMultiplier));
     }, 1000);
