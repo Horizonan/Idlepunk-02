@@ -266,15 +266,34 @@ export default function App() {
 
   // Close store when opening other menus
   useEffect(() => {
-    const handleUpgradeStats = () => setShowUpgradeStats(prev => !prev);
+    const handleUpgradeStats = () => {
+      setShowUpgradeStats(prev => {
+        if (!prev) {
+          setActiveStore(null);
+          setShowSlotMachine(false);
+          setShowAchievements(false);
+          setShowSettings(false);
+          setShowQuestLog(false);
+        }
+        return !prev;
+      });
+    };
     window.addEventListener('toggleUpgradeStats', handleUpgradeStats);
 
     if (showSlotMachine || showAchievements || showSettings || showQuestLog) {
       setActiveStore(null);
+      setShowUpgradeStats(false);
     }
 
     return () => window.removeEventListener('toggleUpgradeStats', handleUpgradeStats);
   }, [showSlotMachine, showAchievements, showSettings, showQuestLog]);
+
+  // Close upgrade stats when opening a store
+  useEffect(() => {
+    if (activeStore) {
+      setShowUpgradeStats(false);
+    }
+  }, [activeStore]);
 
   useEffect(() => {
     const maxBeacons = Math.min(10, beaconCount); // Cap at 10 beacons
