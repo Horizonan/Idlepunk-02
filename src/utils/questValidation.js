@@ -108,6 +108,15 @@ export const validateQuests = ({
       }
     },
     {
+      title: "Prestige Ready",
+      condition: junk >= 1000000,
+      category: 'progression',
+      onComplete: () => {
+        localStorage.setItem('quest_sync_Prestige Ready', 'true');
+        setNotifications(prev => [...prev, "You've accumulated enough junk to attempt a Prestige!"]);
+      }
+    },
+    {
       title: "Forge the Future",
       condition: craftingInventory['Prestige Crystal'] >= 1,
       category: 'prestige',
