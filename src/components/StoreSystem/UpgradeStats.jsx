@@ -6,7 +6,10 @@ let globalXpInterval = null;
 
 const updateXp = () => {
   const activeSkill = localStorage.getItem('activeSkill');
-  const currentXp = parseInt(localStorage.getItem('skillXp')) || 0;
+  const skillXp = JSON.parse(localStorage.getItem('skillXp')) || {
+    scavengingFocus: 0,
+    greaseDiscipline: 0
+  };
   const skillLevels = JSON.parse(localStorage.getItem('skillLevels')) || {
     scavengingFocus: 0,
     greaseDiscipline: 0
@@ -16,6 +19,7 @@ const updateXp = () => {
     if (skillLevels[activeSkill] >= 10) {
       return;
     }
+    const currentXp = skillXp[activeSkill] || 0;
     const newXp = currentXp + 1;
     const baseXp = 10;
     const requiredXp = Math.floor(baseXp * Math.pow(1.25, skillLevels[activeSkill]));
@@ -23,10 +27,11 @@ const updateXp = () => {
     if (newXp >= requiredXp) {
       skillLevels[activeSkill]++;
       localStorage.setItem('skillLevels', JSON.stringify(skillLevels));
-      localStorage.setItem('skillXp', '0');
+      skillXp[activeSkill] = 0;
     } else {
-      localStorage.setItem('skillXp', newXp.toString());
+      skillXp[activeSkill] = newXp;
     }
+    localStorage.setItem('skillXp', JSON.stringify(skillXp));
   }
 };
 
@@ -36,7 +41,10 @@ if (!globalXpInterval) {
 }
 
 export default function UpgradeStats({ onClose }) {
-  const [xp, setXp] = useState(() => parseInt(localStorage.getItem('skillXp')) || 0);
+  const [skillXp, setSkillXp] = useState(() => JSON.parse(localStorage.getItem('skillXp')) || {
+    scavengingFocus: 0,
+    greaseDiscipline: 0
+  });
   const [activeSkill, setActiveSkill] = useState(() => localStorage.getItem('activeSkill') || '');
   const [skillLevels, setSkillLevels] = useState(() => {
     const saved = localStorage.getItem('skillLevels');
@@ -57,7 +65,10 @@ export default function UpgradeStats({ onClose }) {
   // Update local state from localStorage every second
   useEffect(() => {
     const updateLocalState = () => {
-      setXp(parseInt(localStorage.getItem('skillXp')) || 0);
+      setSkillXp(JSON.parse(localStorage.getItem('skillXp')) || {
+        scavengingFocus: 0,
+        greaseDiscipline: 0
+      });
       setSkillLevels(JSON.parse(localStorage.getItem('skillLevels')));
     };
     
@@ -99,7 +110,7 @@ export default function UpgradeStats({ onClose }) {
   const getProgressPercentage = (skill) => {
     if (!skill) return 0;
     const required = getRequiredXp(skill);
-    return (xp / required) * 100;
+    return ((skillXp[skill] || 0) / required) * 100;
   };
 
   return (
@@ -126,7 +137,7 @@ export default function UpgradeStats({ onClose }) {
                 <div className="progress-bar">
                   <div className="progress" style={{ width: `${getProgressPercentage('scavengingFocus')}%` }}></div>
                 </div>
-                <div className="xp-text">{xp}/{getRequiredXp('scavengingFocus')} XP</div>
+                <div className="xp-text">{skillXp.scavengingFocus || 0}/{getRequiredXp('scavengingFocus')} XP</div>
               </div>
             )}
           </div>
@@ -150,7 +161,7 @@ export default function UpgradeStats({ onClose }) {
                   <div className="progress-bar">
                     <div className="progress" style={{ width: `${getProgressPercentage('greaseDiscipline')}%` }}></div>
                   </div>
-                  <div className="xp-text">{xp}/{getRequiredXp('greaseDiscipline')} XP</div>
+                  <div className="xp-text">{skillXp.greaseDiscipline || 0}/{getRequiredXp('greaseDiscipline')} XP</div>
                 </div>
               )}
             </div>
