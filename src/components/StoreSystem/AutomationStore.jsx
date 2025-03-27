@@ -42,7 +42,7 @@ const canAffordV2 = junk >= (itemCosts.autoClickerV2 || baseV2Cost);
           <div className="item-info">
             <img src="/Icons/Upgrades/clickerV2.png" alt="Auto Clicker v2.0" className="item-icon" />
             <p>+2 Automatic Clicks per second (Consumes 1 Auto Clicker Bot)</p>
-            <p>Owned: {itemCosts.autoClickerV2 ? 1 : 0}</p>
+            <p>Owned: {autoClickerV2Count}</p>
           </div>
         </button>
       </div>

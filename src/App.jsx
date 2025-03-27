@@ -95,7 +95,8 @@ export default function App() {
   const [craftingInventory, setCraftingInventory] = useState(() => 
     JSON.parse(localStorage.getItem('craftingInventory')) || {}
   );
-  const [autoClickerV1Count, setAutoClickerV1Count] = useState(0); // New state variable
+  const [autoClickerV1Count, setAutoClickerV1Count] = useState(0);
+  const [autoClickerV2Count, setAutoClickerV2Count] = useState(0);
 
   useEffect(() => {
     const handleAddMaterial = (e) => {
@@ -973,7 +974,8 @@ export default function App() {
             if (junk >= currentCost && autoClickerV1Count >= 1) { // Check v1 count
               setJunk(prev => prev - currentCost);
               setAutoClicks(prev => prev + 1); // Add v2 bot (worth 2 clicks/sec)
-              setAutoClickerV1Count(prev => prev -1); //Decrement v1 count
+              setAutoClickerV1Count(prev => prev - 1); //Decrement v1 count
+              setAutoClickerV2Count(prev => prev + 1); // Increment v2 count
               setItemCosts(prev => ({
                 ...prev, 
                 autoClickerV2: Math.floor((prev.autoClickerV2 || baseV2Cost) * 1.2)
