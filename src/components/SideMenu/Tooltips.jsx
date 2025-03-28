@@ -34,10 +34,11 @@ export default function Tooltips({ onClose }) {
                 <li>Rare floating pickups</li>
                 <li>Special crafting recipes Post Prestige</li>
                 <li>Select quests</li>
+                <li>Electroshard miner v0.1</li>
               </ul>
               
               <p>Their availability increases after your first Prestige, but limited ways to earn them exist earlier in the game.</p>
-              <p>Can be acquired by the Electroshard miner v0.1</p>
+            
               <p className="tooltip-tip">💡 Tip: Keep an eye on rare pickups and hidden quest rewards — they matter more than you think.</p>
             </div>
           )}
