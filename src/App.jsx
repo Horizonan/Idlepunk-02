@@ -744,8 +744,12 @@ export default function App() {
           case 'questLog':
             setShowQuestLog(prev => {
               const questLogBtn = document.querySelector('.quest-log-toggle');
+              const mainQuestLog = document.querySelector('.quest-log');
               if (questLogBtn) {
                 questLogBtn.classList.remove('quest-log-attention');
+              }
+              if (mainQuestLog) {
+                mainQuestLog.classList.remove('quest-log-attention');
               }
               return !prev;
             });
