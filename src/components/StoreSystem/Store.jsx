@@ -104,8 +104,8 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
       unlockCondition: () => credits >= 10000000 && (craftingInventory['Scrap Core'] || 0) >= 5,
       purchasedCount: ownedItems.shardMiner || 0,
       action: () => {
-        if (!ownedItems.shardMiner) {
-          setJunk(prev => prev - 10000000);
+        if (!ownedItems.shardMiner && credits >= 10000000 && craftingInventory['Scrap Core'] >= 5) {
+          onBuyJunk(-10000000);
           setCraftingInventory(prev => ({
             ...prev,
             'Scrap Core': prev['Scrap Core'] - 5
