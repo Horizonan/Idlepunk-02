@@ -14,7 +14,10 @@ export default function FlyingCrystal({ onCollect, onDisappear }) {
         const newX = prev.x + (3 * direction);
         if ((direction > 0 && newX > window.innerWidth + 100) || 
             (direction < 0 && newX < -100)) {
-          onDisappear();
+          return {
+            x: direction > 0 ? -100 : window.innerWidth + 100,
+            y: Math.random() * (window.innerHeight - 100)
+          };
         }
         return {
           ...prev,
