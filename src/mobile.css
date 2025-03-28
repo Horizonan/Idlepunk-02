@@ -37,6 +37,13 @@
     width: 90% !important;
     max-width: 300px !important;
     height: auto !important;
+    z-index: 1000 !important;
+    margin: 0 !important;
+  }
+
+  .quest-log-content {
+    max-height: 70vh !important;
+    overflow-y: auto !important;
   }
   
   .notifications-container {
