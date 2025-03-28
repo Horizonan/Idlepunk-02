@@ -3,10 +3,27 @@ import React, { useState, useEffect } from 'react';
 import './ShardMiner.css';
 
 export default function ShardMiner({ onCollect }) {
-  const [storedShards, setStoredShards] = useState(0);
-  const [timeUntilNext, setTimeUntilNext] = useState(1800);
+  const [storedShards, setStoredShards] = useState(() => parseInt(localStorage.getItem('shardMiner_storedShards') || '0'));
+  const [timeUntilNext, setTimeUntilNext] = useState(() => {
+    const savedTime = localStorage.getItem('shardMiner_timeUntilNext');
+    if (!savedTime) return 1800;
+    
+    const timePassed = Math.floor((Date.now() - parseInt(localStorage.getItem('shardMiner_lastUpdate') || Date.now())) / 1000);
+    const remainingTime = Math.max(0, parseInt(savedTime) - timePassed);
+    return remainingTime || 1800;
+  });
   const [readyToCollect, setReadyToCollect] = useState(false);
   const maxShards = 3;
+
+  // Save state when it changes
+  useEffect(() => {
+    localStorage.setItem('shardMiner_storedShards', storedShards);
+  }, [storedShards]);
+
+  useEffect(() => {
+    localStorage.setItem('shardMiner_timeUntilNext', timeUntilNext);
+    localStorage.setItem('shardMiner_lastUpdate', Date.now());
+  }, [timeUntilNext]);
 
   useEffect(() => {
     const handleSkipTimer = () => {
