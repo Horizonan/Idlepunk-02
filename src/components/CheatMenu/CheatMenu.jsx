@@ -124,8 +124,8 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
               <button onClick={() => {
                 const currentShards = parseInt(localStorage.getItem('electroShards') || '0');
                 const newShards = currentShards + 10;
-                localStorage.setItem('electroShards', newShards);
-                setElectroShards(newShards);
+                localStorage.setItem('electroShards', newShards.toString());
+                setElectroShards(prev => prev + 10);
                 window.dispatchEvent(new Event('storage'));
               }}>Add 10 Electro Shards</button>
               <button onClick={() => {
