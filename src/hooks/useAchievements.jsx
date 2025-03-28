@@ -88,11 +88,14 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
   });
 
   const validateAchievements = () => {
+    const currentShards = parseInt(localStorage.getItem('electroShards')) || 0;
+    
+    // First validate electro shard milestones
+    checkElectroMilestones(currentShards);
+    
     setAchievements(prev => {
       const newAchievements = [...prev];
       let changed = false;
-
-      const currentShards = parseInt(localStorage.getItem('electroShards')) || 0;
 
       newAchievements.forEach(achievement => {
         switch (achievement.title) {
