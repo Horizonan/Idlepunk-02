@@ -334,7 +334,16 @@ export default function App() {
       const holoBillboardBonus = (ownedItems.holoBillboard || 0) * 0.1;
       const totalMultiplier = 1 + circuitOptBonus + (craftingInventory['Compression Pack'] ? 0.25 : 0) + greaseDisciplineBonus + holoBillboardBonus;
       setGlobalJpsMultiplier(totalMultiplier);
-      setJunk(prev => prev + (passiveIncome * totalMultiplier) + (autoClicks * clickMultiplier));
+      
+      // Only add passive income, not clicking
+      if (passiveIncome > 0) {
+        setJunk(prev => prev + (passiveIncome * totalMultiplier));
+      }
+      
+      // Handle auto clicks separately
+      if (autoClicks > 0) {
+        setJunk(prev => prev + (autoClicks * clickMultiplier));
+      }
     }, 1000);
 
     return () => clearInterval(updateInterval);
