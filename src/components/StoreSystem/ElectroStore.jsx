@@ -10,7 +10,7 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
   return (
     <div className="store-container">
       <div className="store-header">
-        <h2>ElectroShop</h2>
+        <h2>Electro Store</h2>
         <button onClick={onBack}>Close</button>
       </div>
       <div className="store-tabs">

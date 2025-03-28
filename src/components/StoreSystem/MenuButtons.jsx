@@ -25,7 +25,7 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
         className={!localStorage.getItem('hasPrestiged') ? 'locked-store' : ''}
         disabled={!localStorage.getItem('hasPrestiged')}
       >
-        Open ElectroShop {!localStorage.getItem('hasPrestiged') && '🔒'}
+        Open Electro Store {!localStorage.getItem('hasPrestiged') && '🔒'}
       </button>
       <button onClick={() => {
         const activeStore = localStorage.getItem('activeStore');
@@ -42,7 +42,7 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
       {showInventory && <button onClick={() => {
         const activeStore = localStorage.getItem('activeStore');
         onStoreSelect(activeStore === 'inventory' ? null : 'inventory');
-      }}>Item Inventory</button>}
+      }}>Open Item Inventory</button>}
     </div>
   );
 }
