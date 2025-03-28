@@ -103,7 +103,7 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
             </button>
 
             <button
-              className={`store-item ${tronics < 3000 ? 'disabled' : ''}`} // Corrected disabled condition
+              className={`store-item ${!localStorage.getItem('flow_regulator_purchased') ? '' : 'disabled'}`}
               onClick={() => {
                 if (tronics >= 3000 && !localStorage.getItem('flow_regulator_purchased')) {
                   setTronics(prev => prev - 3000);
@@ -193,9 +193,9 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
         {section === 'premium' && (
           <div className="store-items">
             <button
-              className={`store-item ${tronics < (localStorage.getItem('circuit_optimization_cost') || 25000) || electroShards < 5 ? 'disabled' : ''}`}
+              className={`store-item ${!localStorage.getItem('unlocked_tronics_boost') || tronics < 25000 || electroShards < 5 || (parseInt(localStorage.getItem('circuit_optimization_count') || '0') >= 4) ? 'disabled' : ''}`}
               onClick={() => {
-                if (tronics >= (localStorage.getItem('circuit_optimization_cost') || 25000) && electroShards >= 5 && (parseInt(localStorage.getItem('circuit_optimization_count') || '0') < 4)) {
+                if (tronics >= parseInt(localStorage.getItem('circuit_optimization_cost') || '25000') && electroShards >= 5 && (parseInt(localStorage.getItem('circuit_optimization_count') || '0') < 4)) {
                   const currentCost = parseInt(localStorage.getItem('circuit_optimization_cost') || '25000');
                   const currentCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
 
