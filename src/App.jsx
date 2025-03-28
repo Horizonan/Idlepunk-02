@@ -641,12 +641,12 @@ export default function App() {
       if (!localStorage.getItem('shown_questlog_hint')) {
         setNotifications(prev => [...prev, "You've reached a milestone! Check the Quest Log for progress."]);
         localStorage.setItem('shown_questlog_hint', 'true');
-        // Add pulsing animation class to quest log button
+        
+        // Add pulsing animation class to both quest log buttons
         const questLogBtn = document.querySelector('.quest-log-toggle');
-        if (questLogBtn) {
-          questLogBtn.classList.add('quest-log-attention');
-          setTimeout(() => questLogBtn.classList.remove('quest-log-attention'), 10000); // Remove after 10 seconds
-        }
+        const mainQuestLog = document.querySelector('.quest-log');
+        if (questLogBtn) questLogBtn.classList.add('quest-log-attention');
+        if (mainQuestLog) mainQuestLog.classList.add('quest-log-attention');
       }
     }
   }, [tutorialStage, junk]);
