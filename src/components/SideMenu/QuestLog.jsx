@@ -40,7 +40,7 @@ export default function QuestLog({ tutorialStage, onClose }) {
     progression: [
       { id: 1, title: "First Steps", task: "Click on the junk pile to collect some scrap" },
       { id: 2, title: "Shopping Time", task: "Visit the store and buy your first upgrade" },
-      { id: 3, title: "Tool Master", task: "Keep collecting and upgrading your tools" },
+      { id: 3, title: "Tool Master", task: "Keep collecting and upgrading your tools", reward: "1x Electro Shard" },
       { id: 4, title: "Passive Income", task: "Purchase something that generates passive income" },
       { id: 5, title: "Begin Crafting", task: "Start crafting items from your collected junk" },
       { id: 6, title: "Surge Rider", task: "Take advantage of the surge to collect extra junk", reward: "1x Electro Shard" },
