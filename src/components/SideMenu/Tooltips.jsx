@@ -37,7 +37,24 @@ export default function Tooltips({ onClose }) {
               </ul>
               
               <p>Their availability increases after your first Prestige, but limited ways to earn them exist earlier in the game.</p>
+              <p>Can be acquired by the Electroshard miner v0.1</p>
               <p className="tooltip-tip">💡 Tip: Keep an eye on rare pickups and hidden quest rewards — they matter more than you think.</p>
+            </div>
+          )}
+        </div>
+
+        <div className="tooltip-entry">
+          <h3 onClick={() => toggleTip('tronicsClicker')}>
+            🔌 Tronics Clicker {expandedTip === 'tronicsClicker' ? '▼' : '▶'}
+          </h3>
+          {expandedTip === 'tronicsClicker' && (
+            <div className="tooltip-section">
+              <p>Channel unstable energy into the system — one click at a time.</p>
+              <ul>
+                <li>🔌 Generates 1 Tronic per click</li>
+                <li>📈 Benefits from Tronics per Click upgrades</li>
+                <li>💡 Unlocks new tech, ElectroShop items, and advanced systems post-prestige</li>
+              </ul>
             </div>
           )}
         </div>
