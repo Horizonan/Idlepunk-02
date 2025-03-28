@@ -103,7 +103,21 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
       info: 'A glorified toaster tuned to the shard frequency. Hums when it works.',
       unlockCondition: () => credits >= 10000000 && (craftingInventory['Scrap Core'] || 0) >= 5,
       purchasedCount: ownedItems.shardMiner || 0,
-      action: () => {console.log("Shard miner bought")} // Placeholder action
+      action: () => {
+        if (!ownedItems.shardMiner) {
+          setJunk(prev => prev - 10000000);
+          setCraftingInventory(prev => ({
+            ...prev,
+            'Scrap Core': prev['Scrap Core'] - 5
+          }));
+          setOwnedItems(prev => ({
+            ...prev,
+            shardMiner: 1
+          }));
+          localStorage.setItem('shardMiner_purchased', 'true');
+          setNotifications(prev => [...prev, "Shard Miner v0.1 purchased! It will generate Electro Shards over time."]);
+        }
+      }
     }
   ];
 
