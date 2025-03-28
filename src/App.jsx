@@ -189,80 +189,7 @@ export default function App() {
     }
   };
 
-  const handleReset = (type) => {
-    switch(type) {
-      case 'junk':
-        setJunk(0);
-        break;
-      case 'credits':
-        setCredits(0);
-        break;
-      case 'achievements':
-        setAchievements(prevAchievements => 
-          prevAchievements.map(achievement => ({
-            ...achievement,
-            unlocked: false,
-            checked: false
-          }))
-        );
-        break;
-      case 'all':
-        setJunk(0);
-        setCredits(0);
-        setClickCount(0);
-        localStorage.setItem('clickCount', '0');
-        localStorage.removeItem('prestigeUnlocked');
-        localStorage.removeItem('hasPrestiged');
-        setClickMultiplier(1);
-        setPassiveIncome(0);
-        setElectronicsUnlock(false);
-        setClickEnhancerLevel(0);
-        setItemCosts({
-          trashBag: 10,
-          trashPicker: 100,
-          streetrat: 100,
-          cart: 500,
-          junkMagnet: 1500,
-          clickEnhancer: 2500,
-          urbanRecycler: 3000,
-          autoClicker: 5000,
-          autoClickerV2: 10000,
-          scrapDrone: 7500,
-          holoBillboard: 15000,
-          junkRefinery: 500000
-        });
-        setAutoClicks(0);
-        setAutoClickerV1Count(0); // Reset v1 count
-        setCraftingInventory({});
-        localStorage.removeItem('craftedItems');
-        localStorage.removeItem('craftingInventory');
-        setShowInventory(false);
-        const resetOwnedItems = {
-          trashBag: 0,
-          trashPicker: 0,
-          streetrat: 0,
-          cart: 0,
-          junkMagnet: 0,
-          urbanRecycler: 0,
-          clickEnhancer: 0,
-          scrapDrone: 0,
-          holoBillboard: 0,
-          junkRefinery: 0
-        };
-        setOwnedItems(resetOwnedItems);
-        localStorage.setItem('ownedItems', JSON.stringify(resetOwnedItems));
-        setAchievements(prevAchievements => 
-          prevAchievements.map(achievement => ({
-            ...achievement,
-            unlocked: false,
-            checked: false
-          }))
-        );
-        localStorage.setItem('globalJpsMultiplier', '1');
-        setGlobalJpsMultiplier(1);
-        break;
-    }
-  };
+  
   const [hasHelper, setHasHelper] = useState(false);
   const [showInventory, setShowInventory] = useState(false);
 
@@ -1272,7 +1199,7 @@ export default function App() {
       <Notifications notifications={notifications} />
       {showCheatMenu && (
         <CheatMenu 
-          onReset={handleReset}
+          onReset={() => window.location.reload()}
           onAddJunk={(amount) => setJunk(prev => prev + amount)}
           onClose={() => setShowCheatMenu(false)}
           onResetTutorial={() => setTutorialStage(0)}
