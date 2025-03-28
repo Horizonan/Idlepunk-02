@@ -94,7 +94,55 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
       let changed = false;
 
       newAchievements.forEach(achievement => {
-        if (achievement.unlocked) return;
+        switch (achievement.title) {
+          case "Junkie Starter":
+            if (gameState.junk >= 1000 && !achievement.checked) {
+              achievement.unlocked = true;
+              achievement.checked = true;
+              setJunk(prev => prev + 500);
+              setNotifications(prev => [...prev, "Achievement Unlocked: Junkie Starter!"]);
+              changed = true;
+            }
+            break;
+          case "The First Clicks":
+            if (gameState.clickCount >= 500 && !achievement.checked) {
+              achievement.unlocked = true;
+              achievement.checked = true;
+              setClickMultiplier(prev => prev * 1.05);
+              setNotifications(prev => [...prev, "Achievement Unlocked: The First Clicks!"]);
+              changed = true;
+            }
+            break;
+          case "Greasy Milestone":
+            const totalJps = gameState.passiveIncome * gameState.globalJpsMultiplier + (gameState.autoClicks * gameState.clickMultiplier);
+            if (totalJps >= 10 && !achievement.checked) {
+              achievement.unlocked = true;
+              achievement.checked = true;
+              setAutoClicks(prev => prev + 1);
+              setNotifications(prev => [...prev, "Achievement Unlocked: Greasy Milestone!"]);
+              changed = true;
+            }
+            break;
+          case "The First Hoard":
+            if (gameState.junk >= 10000 && !achievement.checked) {
+              achievement.unlocked = true;
+              achievement.checked = true;
+              setPassiveIncome(prev => prev * 1.1);
+              setTimeout(() => setPassiveIncome(prev => prev / 1.1), 30000);
+              setNotifications(prev => [...prev, "Achievement Unlocked: The First Hoard!"]);
+              changed = true;
+            }
+            break;
+          case "UI Breaker":
+            if ((gameState.isSurgeActive || localStorage.getItem('hadFirstSurge') === 'true') && !achievement.checked) {
+              achievement.unlocked = true;
+              achievement.checked = true;
+              setNotifications(prev => [...prev, "Achievement Unlocked: UI Breaker!"]);
+              changed = true;
+            }
+            break;
+        }
+      }); return;
 
         switch (achievement.title) {
           case "Junkie Starter":
