@@ -97,9 +97,6 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
             <div className="category-content">
               <button onClick={() => onAddJunk(1000)}>Add 1000 Junk</button>
               <button onClick={() => onAddJunk(10000)}>Add 10000 Junk</button>
-              <button onClick={() => {
-                window.dispatchEvent(new CustomEvent('addTronics', { detail: { amount: 1000 }}));
-              }}>Add 1000 Tronics</button></button>
               <button onClick={() => onAddJunk(100000)}>Add 100k Junk</button>
               <button onClick={() => onAddJunk(1000000)}>Add 1M Junk</button>
               <button onClick={() => onAddJunk(10000000)}>Add 10M Junk</button>

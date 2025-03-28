@@ -118,15 +118,6 @@ export default function App() {
 
     window.addEventListener('addMaterial', handleAddMaterial);
     window.addEventListener('validateAchievements', handleValidateAchievements);
-    
-    const handleAddTronics = (e) => {
-      setTronics(prev => {
-        const newValue = prev + e.detail.amount;
-        localStorage.setItem('tronics', newValue);
-        return newValue;
-      });
-    };
-    window.addEventListener('addTronics', handleAddTronics);
 
     if (activeCheatsList['Force Triple Win']) {
       window.dispatchEvent(new CustomEvent('slotForceTriple'));
@@ -641,6 +632,12 @@ export default function App() {
     }
   };
 
+  const handleBuySolderingIron = () => {
+    buyItem(1000, "Bought a Soldering Iron!");
+    setElectronicsUnlock(true);
+  };
+  const handleBuyMultimeter = () => buyItem(2000, "Bought a Multimeter!");
+
   useEffect(() => {
     localStorage.setItem('tutorialStage', tutorialStage);
     validateQuestsAndAchievements();
@@ -753,7 +750,7 @@ export default function App() {
         globalJpsMultiplier={globalJpsMultiplier}
         tronics={tronics}
         electroShards={electroShards}
-        autoClickerV1Count={autoClickerV1Count} 
+        autoClickerV1Count={autoClickerV1Count} // Pass to StatsDisplay
       />
       <Menu onStoreSelect={(type) => {
         switch(type) {
