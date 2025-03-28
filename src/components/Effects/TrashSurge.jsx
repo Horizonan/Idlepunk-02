@@ -3,10 +3,23 @@ import { useState, useEffect } from 'react';
 
 export default function TrashSurge({ isActive }) {
   const [timeLeft, setTimeLeft] = useState(0);
+  const [activeClicker, setActiveClicker] = useState('trash');
   const [nextSurgeTime, setNextSurgeTime] = useState(() => {
     const saved = localStorage.getItem('nextSurgeTime');
     return saved ? parseInt(saved) : Date.now() + (240000 + Math.random() * 240000);
   });
+
+  useEffect(() => {
+    const updateActiveClicker = () => {
+      const activeElement = document.querySelector('.clicker-select.active');
+      setActiveClicker(activeElement?.textContent.toLowerCase().includes('trash') ? 'trash' : 'tronics');
+    };
+    
+    updateActiveClicker();
+    document.addEventListener('click', updateActiveClicker);
+    
+    return () => document.removeEventListener('click', updateActiveClicker);
+  }, []);
 
   useEffect(() => {
     if (isActive) {
@@ -54,7 +67,7 @@ export default function TrashSurge({ isActive }) {
     );
   }
 
-  return localStorage.getItem('hadFirstSurge') === 'true' ? (
+  return localStorage.getItem('hadFirstSurge') === 'true' && activeClicker === 'trash' ? (
     <div className="next-surge-timer">
       Next surge in: {Math.floor(timeLeft / 60)}m {timeLeft % 60}s
     </div>
