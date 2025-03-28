@@ -902,7 +902,6 @@ export default function App() {
           credits={junk}
           itemCosts={itemCosts}
           ownedItems={ownedItems}
-          craftingInventory={craftingInventory}
           onBuyTrashBag={handleBuyTrashBag}
           onBuyPicker={handleBuyPicker}
           onBuyStreetrat={handleBuyStreetrat}

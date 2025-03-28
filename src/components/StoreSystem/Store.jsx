@@ -1,27 +1,7 @@
 import React, { useState } from 'react';
 import './Store.css';
 
-export default function Store({ 
-  credits,
-  itemCosts,
-  ownedItems,
-  craftingInventory,
-  onBuyTrashBag,
-  onBuyPicker,
-  onBuyStreetrat,
-  onBuyCart,
-  onBuyJunkMagnet,
-  onBuyUrbanRecycler,
-  onBuyScrapDrone,
-  onBuyHoloBillboard,
-  globalJpsMultiplier,
-  passiveIncome,
-  onBuyClickEnhancer,
-  clickCount,
-  purchasedUpgrades,
-  onBack,
-  onBuyJunkRefinery
-}) {
+export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, onBuyJunkRefinery, globalJpsMultiplier, passiveIncome, onBuyClickEnhancer, clickCount, purchasedUpgrades, onBack }) {
   const [selectedTab, setSelectedTab] = useState('prePres');
   const [activeTab, setActiveTab] = useState('prePres'); // Added state for premium tab
 
@@ -218,7 +198,7 @@ export default function Store({
               <button
                 key={item.name}
                 onClick={item.action}
-                disabled={!item.unlockCondition() || credits < item.cost.junk || (ownedItems.scrapCores || 0) < item.cost.scrapCores}
+                disabled={!item.unlockCondition || credits < item.cost.junk || ownedItems.scrapCores < item.cost.scrapCores}
                 className="store-item"
               >
                 <div className="item-header">
