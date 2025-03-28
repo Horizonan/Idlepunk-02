@@ -97,26 +97,13 @@ export default function Store({ credits, itemCosts, ownedItems, craftingInventor
 
   const premiumItems = [
     {
-      name: 'Shard Miner v0.1',
+      name: 'Shard Miner',
       cost: { junk: 10000000, scrapCores: 5 },
       description: 'Passively generates 1 Electro Shard every 30 minutes, up to a max of 3 stored.',
       info: 'A glorified toaster tuned to the shard frequency. Hums when it works.',
       unlockCondition: () => credits >= 10000000 && (craftingInventory?.['Scrap Core'] || 0) >= 5,
       purchasedCount: ownedItems.shardMiner || 0,
-      action: onBuyShardMiner,
-          onBuyJunk(-10000000);
-          setCraftingInventory(prev => ({
-            ...prev,
-            'Scrap Core': prev['Scrap Core'] - 5
-          }));
-          setOwnedItems(prev => ({
-            ...prev,
-            shardMiner: 1
-          }));
-          localStorage.setItem('shardMiner_purchased', 'true');
-          setNotifications(prev => [...prev, "Shard Miner v0.1 purchased! It will generate Electro Shards over time."]);
-        }
-      }
+      action: onBuyShardMiner
     }
   ];
 

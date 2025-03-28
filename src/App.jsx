@@ -907,14 +907,18 @@ export default function App() {
           onBuyPicker={handleBuyPicker}
           onBuyStreetrat={handleBuyStreetrat}
           onBuyShardMiner={() => {
-            if (junk >= 10000000 && craftingInventory['Scrap Core'] >= 5 && !ownedItems.shardMiner) {
-              setJunk(prev => prev - 10000000);
+            const cost = 10000000;
+            if (junk >= cost && craftingInventory['Scrap Core'] >= 5 && !ownedItems.shardMiner) {
+              setJunk(prev => prev - cost);
               setCraftingInventory(prev => ({
                 ...prev,
                 'Scrap Core': prev['Scrap Core'] - 5
               }));
               setOwnedItems(prev => ({...prev, shardMiner: 1}));
               setNotifications(prev => [...prev, "Shard Miner purchased!"]);
+              window.dispatchEvent(new CustomEvent('nextNews', { 
+                detail: { message: "A new frequency resonates through your junkyard..." }
+              }));
             }
           }}
           onBuyCart={handleBuyCart}
