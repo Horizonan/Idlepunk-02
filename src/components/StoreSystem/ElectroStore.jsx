@@ -195,35 +195,26 @@ export default function ElectroStore({ electroShards, setElectroShards, tronics,
             <button
               className={`store-item ${!localStorage.getItem('unlocked_tronics_boost') || tronics < 25000 || electroShards < 5 || (parseInt(localStorage.getItem('circuit_optimization_count') || '0') >= 4) ? 'disabled' : ''}`}
               onClick={() => {
-                if (tronics >= parseInt(localStorage.getItem('circuit_optimization_cost') || '25000') && electroShards >= 5 && (parseInt(localStorage.getItem('circuit_optimization_count') || '0') < 4)) {
-                  const currentCost = parseInt(localStorage.getItem('circuit_optimization_cost') || '25000');
-                  const currentCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
+                const currentCost = parseInt(localStorage.getItem('circuit_optimization_cost') || '25000');
+                const currentCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
 
-                  if (tronics >= currentCost && electroShards >= 5) {
-                    setTronics(prev => prev - currentCost);
-                    setElectroShards(prev => {
-                      const newValue = prev - 5;
-                      localStorage.setItem('electroShards', newValue);
-                      return newValue;
-                    });
+                if (tronics >= currentCost && electroShards >= 5) {
+                  setTronics(prev => prev - currentCost);
+                  setElectroShards(prev => prev - 5);
+                  localStorage.setItem('electroShards', electroShards - 5);
 
-                    const newCount = currentCount + 1;
-                    localStorage.setItem('circuit_optimization_count', newCount);
+                  const newCount = currentCount + 1;
+                  localStorage.setItem('circuit_optimization_count', newCount);
 
-                    const newCost = Math.floor(currentCost * 1.2);
-                    localStorage.setItem('circuit_optimization_cost', newCost);
+                  const newCost = Math.floor(currentCost * 1.2);
+                  localStorage.setItem('circuit_optimization_cost', newCost);
 
-                    setNotifications(prev => [...prev, "Circuit Optimization Unit installed! Global Junk/sec increased by 25%"]);
-
-                    // Trigger state update
-                    window.dispatchEvent(new Event('storage'));
-                  } else {
-                    if (tronics < currentCost) {
-                      setNotifications(prev => [...prev, "Not enough Tronics!"]);
-                    } else {
-                      setNotifications(prev => [...prev, "Not enough Electro Shards! Need 5 shards."]);
-                    }
-                  }
+                  setNotifications(prev => [...prev, "Circuit Optimization Unit installed! Global Junk/sec increased by 25%"]);
+                  window.dispatchEvent(new Event('storage'));
+                } else if (tronics < currentCost) {
+                  setNotifications(prev => [...prev, "Not enough Tronics!"]);
+                } else {
+                  setNotifications(prev => [...prev, "Not enough Electro Shards! Need 5 shards."]);
                 }
               }}
               title="More junk. Same scrap. Just optimized."
