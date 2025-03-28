@@ -90,13 +90,37 @@
   .quest-log-content,
   .slot-machine-container,
   .changelog-menu {
-    width: 95% !important;
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 90vw !important;
     max-width: 350px !important;
     height: auto !important;
     max-height: 80vh !important;
     overflow-y: auto !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
+    padding: 15px !important;
+    z-index: 1100 !important;
+  }
+
+  .achievements-tabs {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px !important;
+  }
+
+  .achievements-list {
+    width: 100% !important;
+  }
+
+  .achievement {
+    font-size: 0.9em !important;
+    padding: 10px !important;
+  }
+
+  .badges-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
   }
   
   .quest-log {
