@@ -165,6 +165,14 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
                 localStorage.setItem('skillLevels', JSON.stringify(skillLevels));
                 window.location.reload();
               }}>Max Scavenging Focus</button>
+              <button onClick={() => {
+                const skillLevels = {
+                  scavengingFocus: JSON.parse(localStorage.getItem('skillLevels'))?.scavengingFocus || 0,
+                  greaseDiscipline: 10
+                };
+                localStorage.setItem('skillLevels', JSON.stringify(skillLevels));
+                window.location.reload();
+              }}>Max Grease Discipline</button>
             </div>
           )}
         </div>
