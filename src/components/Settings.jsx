@@ -112,6 +112,14 @@ export default function Settings({
             }}
           />
         </label>
+        <label className="setting-option">
+          <span>Show Hover Drone</span>
+          <input
+            type="checkbox"
+            checked={localStorage.getItem('showHoverDrone') !== 'false'}
+            onChange={(e) => localStorage.setItem('showHoverDrone', e.target.checked)}
+          />
+        </label>
 
 
         <ResetProgress onReset={() => window.location.reload()} />

@@ -40,6 +40,10 @@ export default function HoverDroneEffect() {
     return () => clearInterval(moveInterval);
   }, []);
 
+  const showHoverDrone = localStorage.getItem('showHoverDrone') !== 'false';
+  
+  if (!showHoverDrone) return null;
+
   return (
     <img
       src="/Icons/Upgrades/hover-drone.png"
