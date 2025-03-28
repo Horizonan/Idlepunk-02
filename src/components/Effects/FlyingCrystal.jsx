@@ -14,7 +14,7 @@ export default function FlyingCrystal({ onCollect, onDisappear }) {
 
     const disappearTimeout = setTimeout(() => {
       onDisappear();
-    }, 15000);
+    }, 300000); // 5 minutes
 
     return () => {
       clearInterval(moveInterval);
