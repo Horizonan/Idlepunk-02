@@ -142,7 +142,7 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
             }
             break;
         }
-      }); return;
+      });
 
         switch (achievement.title) {
           case "Junkie Starter":
@@ -201,7 +201,7 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
         return [...newAchievements];
       }
       return prev;
-    });
+    }
   };
 
   const checkElectroMilestones = (shardCount) => {
@@ -245,10 +245,10 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
     });
   };
 
-  return { 
+  { 
     achievements, 
     setAchievements, 
     validateAchievements,
     checkElectroMilestones
   };
-};
+
