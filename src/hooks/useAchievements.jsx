@@ -178,43 +178,43 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
   };
 
   const checkElectroMilestones = (shardCount) => {
-    if (typeof shardCount !== 'number' || isNaN(shardCount)) return;
+    const currentShards = parseInt(localStorage.getItem('electroShards')) || 0;
 
     setAchievements(prev => {
       const newAchievements = [...prev];
       let changed = false;
 
-      const currentShards = parseInt(localStorage.getItem('electroShards')) || 0;
-      if (currentShards < 5) return prev;
-
+      // Find electro shard achievements
       const circuitPulse = newAchievements.find(a => a.title === "Circuit Pulse Mastery");
-      if (circuitPulse && !circuitPulse.unlocked && currentShards >= 5) {
-        circuitPulse.unlocked = true;
-        if (!circuitPulse.checked) {
-          setNotifications(prev => [...prev, "Achievement Unlocked: Circuit Pulse Mastery!"]);
+      const cogfatherSecret = newAchievements.find(a => a.title === "Cogfather's First Secret");
+
+      // Check Circuit Pulse Mastery (5 shards)
+      if (circuitPulse && currentShards >= 5) {
+        if (!circuitPulse.unlocked) {
+          circuitPulse.unlocked = true;
           circuitPulse.checked = true;
+          setNotifications(prev => [...prev, "Achievement Unlocked: Circuit Pulse Mastery!"]);
           changed = true;
         }
       }
 
-      const cogfatherSecret = newAchievements.find(a => a.title === "Cogfather's First Secret");
-      if (cogfatherSecret && !cogfatherSecret.unlocked && currentShards >= 10) {
-        cogfatherSecret.unlocked = true;
-        if (!cogfatherSecret.checked) {
+      // Check Cogfather's First Secret (10 shards)
+      if (cogfatherSecret && currentShards >= 10) {
+        if (!cogfatherSecret.unlocked) {
+          cogfatherSecret.unlocked = true;
+          cogfatherSecret.checked = true;
           const newLore = [...gameState.cogfatherLore, "001"];
           setCogfatherLore(newLore);
           localStorage.setItem('cogfatherLore', JSON.stringify(newLore));
           setNotifications(prev => [...prev, "Achievement Unlocked: Cogfather's First Secret!"]);
-          cogfatherSecret.checked = true;
           changed = true;
         }
       }
 
       if (changed) {
         localStorage.setItem('achievements', JSON.stringify(newAchievements));
-        return newAchievements;
       }
-      return prev;
+      return changed ? newAchievements : prev;
     });
   };
 
