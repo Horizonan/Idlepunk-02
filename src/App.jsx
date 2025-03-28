@@ -36,8 +36,9 @@ import ItemInventory from './components/StoreSystem/ItemInventory';
 import Changelog from './components/SideMenu/Changelog';
 import TechTree from './components/TechTree';
 import PrestigePopup from './components/PrestigePopup';
-import UpgradeStats from './components/StoreSystem/UpgradeStats'; //Import missing component
-import Tooltips from './components/SideMenu/Tooltips'; // Added Tooltips component
+import UpgradeStats from './components/StoreSystem/UpgradeStats';
+import Tooltips from './components/SideMenu/Tooltips';
+import ShardMiner from './components/Effects/ShardMiner';
 
 export default function App() {
   const { 
@@ -1338,6 +1339,18 @@ export default function App() {
         />
       )}
       <Notifications notifications={notifications} />
+      {ownedItems.shardMiner && (
+        <ShardMiner
+          onCollect={(amount) => {
+            setElectroShards(prev => {
+              const newValue = prev + amount;
+              localStorage.setItem('electroShards', newValue);
+              return newValue;
+            });
+            setNotifications(prev => [...prev, `Collected ${amount} Electro Shard${amount > 1 ? 's' : ''}!`]);
+          }}
+        />
+      )}
       {showTrashBonus && (
         <TrashBonus
           passiveIncome={passiveIncome}
