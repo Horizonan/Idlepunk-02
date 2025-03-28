@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default function Changelog({ onClose }) {
-  const [expandedVersion, setExpandedVersion] = useState('0.0.4.5/1');
+  const [expandedVersion, setExpandedVersion] = useState('0.0.4.5/2');
 
   const toggleVersion = (version) => {
     setExpandedVersion(expandedVersion === version ? null : version);
@@ -16,6 +16,32 @@ export default function Changelog({ onClose }) {
       </div>
       
       <div className="changelog-content">
+
+        <div className="changelog-entry">
+          <h3 onClick={() => toggleVersion('0.0.4.5/2')} style={{ cursor: 'pointer' }}>
+            🔧 QoL and Bugs – Update Log 0.0.4.5/2 {expandedVersion === '0.0.4.5/2' ? '▼' : '▶'}
+          </h3>
+          {expandedVersion === '0.0.4.5/2' && (
+            <>
+              <p>⚠️ Note: Progress will slow down slightly due to current lack of funding — thank you for your continued support and patience! 💛</p>
+              <div className="changelog-section">
+                <h3>⚙️ Improvements & Fixes</h3>
+                <p>⚙️ Added new Prestige button tooltip</p>
+                <p>⚙️ Added Tronics Clicker tooltip</p>
+                <p>⚙️ Added animation trigger when reaching 1 million Junk to guide players to the Quest Log</p>
+                <h3>🔧 System Adjustments & UX Improvements</h3>
+                <p>🔧 Moved Reset All Progress button to its own file</p>
+                <p>🔧 Fixed issue where Reset All Progress wouldn’t trigger properly after Prestige (hopefully fully resolved)</p>
+                <p>🔧 Moved mobile-specific CSS into its own file for easier updates</p>
+                <p>🔧 Fixed Cogfather’s First Secret unlocking early without meeting the required condition</p>
+                <h3>🔋 Shard System & Progression Improvements</h3>
+                <p>🔋 Added Shard Miner v0.1 (early version of crystal shard generation system)</p>
+                <p>🔋 Crystal Shard floating pickup now flies around for 5 full minutes</p>
+              </div>
+              <p className="changelog-footer">Thanks again for playing and sharing your feedback — it really helps shape each version. More content and polish coming soon! If you want to help please make sure to mail me itscolord@gmail.com 🚀</p>
+            </>
+          )}
+        </div>
 
         <div className="changelog-entry">
           <h3 onClick={() => toggleVersion('0.0.4.5/1')} style={{ cursor: 'pointer' }}>
