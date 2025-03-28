@@ -6,6 +6,8 @@ export default function ResetProgress({ onReset }) {
   const handleReset = (type) => {
     if (window.confirm('Are you sure you want to reset all progress? This cannot be undone!')) {
       // Clear all localStorage first
+      const allKeys = Object.keys(localStorage);
+      allKeys.forEach(key => localStorage.removeItem(key));
       localStorage.clear();
 
       // Set essential default values
@@ -49,6 +51,22 @@ export default function ResetProgress({ onReset }) {
       localStorage.setItem('clickEnhancerLevel', '0');
       localStorage.setItem('electroShards', '0');
       localStorage.setItem('tronics', '0');
+      localStorage.setItem('tutorialStage', '0');
+      localStorage.setItem('prestigeUnlocked', 'false');
+      localStorage.setItem('hasPrestiged', 'false');
+      localStorage.setItem('cogfatherEvent', 'false');
+      localStorage.setItem('surgeCount', '0');
+      localStorage.setItem('craftingInventory', '{}');
+      localStorage.setItem('ownedItems', '{}');
+      localStorage.setItem('creditStoreItems', '{}');
+      localStorage.setItem('beaconCount', '0');
+
+      // Reset all quest states
+      allKeys.forEach(key => {
+        if (key.startsWith('quest_sync_')) {
+          localStorage.removeItem(key);
+        }
+      });
 
       // Force page reload to ensure clean slate
       window.location.reload();
