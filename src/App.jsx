@@ -906,6 +906,17 @@ export default function App() {
           onBuyTrashBag={handleBuyTrashBag}
           onBuyPicker={handleBuyPicker}
           onBuyStreetrat={handleBuyStreetrat}
+          onBuyShardMiner={() => {
+            if (junk >= 10000000 && craftingInventory['Scrap Core'] >= 5 && !ownedItems.shardMiner) {
+              setJunk(prev => prev - 10000000);
+              setCraftingInventory(prev => ({
+                ...prev,
+                'Scrap Core': prev['Scrap Core'] - 5
+              }));
+              setOwnedItems(prev => ({...prev, shardMiner: 1}));
+              setNotifications(prev => [...prev, "Shard Miner purchased!"]);
+            }
+          }}
           onBuyCart={handleBuyCart}
           onBuyJunkMagnet={handleBuyJunkMagnet}
           onBuyUrbanRecycler={handleBuyUrbanRecycler}

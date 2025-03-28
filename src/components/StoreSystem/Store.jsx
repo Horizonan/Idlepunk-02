@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Store.css';
 
-export default function Store({ credits, itemCosts, ownedItems, craftingInventory, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, onBuyJunkRefinery, globalJpsMultiplier, passiveIncome, onBuyClickEnhancer, clickCount, purchasedUpgrades, onBack }) {
+export default function Store({ credits, itemCosts, ownedItems, craftingInventory, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, onBuyJunkRefinery, onBuyShardMiner, globalJpsMultiplier, passiveIncome, onBuyClickEnhancer, clickCount, purchasedUpgrades, onBack }) {
   const [selectedTab, setSelectedTab] = useState('prePres');
   const [activeTab, setActiveTab] = useState('prePres'); // Added state for premium tab
 
@@ -103,8 +103,7 @@ export default function Store({ credits, itemCosts, ownedItems, craftingInventor
       info: 'A glorified toaster tuned to the shard frequency. Hums when it works.',
       unlockCondition: () => credits >= 10000000 && (craftingInventory?.['Scrap Core'] || 0) >= 5,
       purchasedCount: ownedItems.shardMiner || 0,
-      action: () => {
-        if (!ownedItems.shardMiner && credits >= 10000000 && craftingInventory['Scrap Core'] >= 5) {
+      action: onBuyShardMiner,
           onBuyJunk(-10000000);
           setCraftingInventory(prev => ({
             ...prev,
