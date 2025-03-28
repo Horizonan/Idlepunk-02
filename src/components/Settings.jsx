@@ -111,8 +111,8 @@ export default function Settings({
             }}
           />
         </label>
-       
-        
+
+
         <ResetProgress onReset={() => window.location.reload()} />
       </div>
     </div>

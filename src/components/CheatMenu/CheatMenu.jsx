@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import ResetProgress from '../ResetProgress/ResetProgress';
 
 export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial, onNextTutorial, setShowTrashBonus }) {
   const [openCategories, setOpenCategories] = useState({
@@ -187,7 +188,7 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
               <button onClick={() => onReset('junk')}>Reset Junk</button>
               <button onClick={() => onReset('credits')}>Reset Credits</button>
               <button onClick={() => onReset('achievements')}>Reset Achievements</button>
-              <button onClick={() => onReset('all')} className="full-width">Reset Everything</button>
+              <ResetProgress onReset={() => onReset('all')} /> {/* Replacing 'Reset Everything' button */}
             </div>
           )}
         </div>
