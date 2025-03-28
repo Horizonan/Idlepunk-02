@@ -273,25 +273,22 @@ button {
   margin: 0;
 }
 
-.close-button {
-  background: rgba(148, 0, 211, 0.8);
-  border: none;
-  color: white;
-  padding: 8px 20px;
+.quest-log .close-button {
+  background: #222;
+  border: 1px solid #9400D3;
+  color: #00FF00;
+  padding: 5px 15px;
   margin: 0;
   cursor: pointer;
-  border-radius: 1px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 10px #9400D3;
-  font-size: 16px;
-  width: 100%;
+  box-shadow: none;
+  font-size: 14px;
 }
 
-.close-button:hover {
-  background: rgba(148, 0, 211, 1);
-  box-shadow: 0 0 15px #9400D3;
+.quest-log .close-button:hover {
+  background: rgba(148, 0, 211, 0.2);
 }
 
 .quest-item {
