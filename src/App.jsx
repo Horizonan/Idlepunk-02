@@ -635,7 +635,13 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('tutorialStage', tutorialStage);
     validateQuestsAndAchievements();
-  }, [tutorialStage]);
+
+    // Check for 1M junk milestone
+    if (junk >= 1000000 && !localStorage.getItem('shown_questlog_hint')) {
+      setNotifications(prev => [...prev, "You've reached a milestone! Check the Quest Log for progress."]);
+      localStorage.setItem('shown_questlog_hint', 'true');
+    }
+  }, [tutorialStage, junk]);
 
   // Validate on major game events
   useEffect(() => {
