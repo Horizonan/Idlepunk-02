@@ -157,12 +157,17 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
   };
 
   const checkElectroMilestones = (shardCount) => {
+    if (typeof shardCount !== 'number' || isNaN(shardCount)) return;
+    
     setAchievements(prev => {
       const newAchievements = [...prev];
       let changed = false;
 
+      const currentShards = parseInt(localStorage.getItem('electroShards')) || 0;
+      if (currentShards < 5) return prev;
+
       const circuitPulse = newAchievements.find(a => a.title === "Circuit Pulse Mastery");
-      if (circuitPulse && !circuitPulse.unlocked && shardCount >= 5) {
+      if (circuitPulse && !circuitPulse.unlocked && currentShards >= 5) {
         circuitPulse.unlocked = true;
         if (!circuitPulse.checked) {
           setNotifications(prev => [...prev, "Achievement Unlocked: Circuit Pulse Mastery!"]);
@@ -172,7 +177,7 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
       }
 
       const cogfatherSecret = newAchievements.find(a => a.title === "Cogfather's First Secret");
-      if (cogfatherSecret && !cogfatherSecret.unlocked && shardCount >= 10) {
+      if (cogfatherSecret && !cogfatherSecret.unlocked && currentShards >= 10) {
         cogfatherSecret.unlocked = true;
         if (!cogfatherSecret.checked) {
           const newLore = [...gameState.cogfatherLore, "001"];
