@@ -1,3 +1,5 @@
+@import './mobile.css';
+
 .uncraftable {
   opacity: 0.7;
   cursor: default !important;
@@ -626,9 +628,7 @@ button.locked {
   border-bottom: 2px solid #9400D3;
 }
 
-@import './mobile.css';
-
-  button {
+button {
     padding: 8px 16px;
     font-size: 14px;
   }
