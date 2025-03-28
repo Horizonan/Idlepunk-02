@@ -468,11 +468,7 @@ export default function App() {
   const collectJunk = () => {
     const surgeMultiplier = isSurgeActive ? 2 : 1;
     const scavengingBonus = 1 + (skillLevels.scavengingFocus / 100);
-    const greaseDisciplineBonus = 1 + (skillLevels.greaseDiscipline * 0.5 / 100);
     setJunk(prev => prev + (clickMultiplier * surgeMultiplier * scavengingBonus));
-    if (passiveIncome > 0) {
-      setPassiveIncome(prev => prev * greaseDisciplineBonus);
-    }
 
     // Random material finding
     const random = Math.random();
