@@ -92,11 +92,77 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
       const newAchievements = [...prev];
       let changed = false;
 
-      // Update all achievements that are unlocked to be checked
+      const currentShards = parseInt(localStorage.getItem('electroShards')) || 0;
+
       newAchievements.forEach(achievement => {
-        if (achievement.unlocked && !achievement.checked) {
-          achievement.checked = true;
-          changed = true;
+        switch (achievement.title) {
+          case "Junkie Starter":
+            if (gameState.junk >= 1000 && !achievement.unlocked) {
+              achievement.unlocked = true;
+              achievement.checked = true;
+              setJunk(prev => prev + 500);
+              setNotifications(prev => [...prev, "Achievement Unlocked: Junkie Starter!"]);
+              changed = true;
+            }
+            break;
+          case "Circuit Pulse Mastery":
+            if (currentShards >= 5 && !achievement.unlocked) {
+              achievement.unlocked = true;
+              achievement.checked = true;
+              setNotifications(prev => [...prev, "Achievement Unlocked: Circuit Pulse Mastery!"]);
+              changed = true;
+            }
+            break;
+          case "Cogfather's First Secret":
+            if (currentShards >= 10 && !achievement.unlocked) {
+              achievement.unlocked = true;
+              achievement.checked = true;
+              const newLore = [...gameState.cogfatherLore, "001"];
+              setCogfatherLore(newLore);
+              localStorage.setItem('cogfatherLore', JSON.stringify(newLore));
+              setNotifications(prev => [...prev, "Achievement Unlocked: Cogfather's First Secret!"]);
+              changed = true;
+            }
+            break;
+          case "The First Clicks":
+            if (gameState.clickCount >= 500 && !achievement.unlocked) {
+              achievement.unlocked = true;
+              achievement.checked = true;
+              setClickMultiplier(prev => prev * 1.05);
+              setNotifications(prev => [...prev, "Achievement Unlocked: The First Clicks!"]);
+              changed = true;
+            }
+            break;
+          case "Greasy Milestone":
+            if ((gameState.passiveIncome * gameState.globalJpsMultiplier + (gameState.autoClicks * gameState.clickMultiplier)) >= 10 && !achievement.unlocked) {
+              achievement.unlocked = true;
+              achievement.checked = true;
+              setAutoClicks(prev => prev + 1);
+              setNotifications(prev => [...prev, "Achievement Unlocked: Greasy Milestone!"]);
+              changed = true;
+            }
+            break;
+          case "The First Hoard":
+            if (gameState.junk >= 10000 && !achievement.unlocked) {
+              achievement.unlocked = true;
+              achievement.checked = true;
+              setPassiveIncome(prev => {
+                const newIncome = prev * 1.1;
+                setTimeout(() => setPassiveIncome(prev => prev / 1.1), 30000);
+                return newIncome;
+              });
+              setNotifications(prev => [...prev, "Achievement Unlocked: The First Hoard!"]);
+              changed = true;
+            }
+            break;
+          case "UI Breaker":
+            if ((gameState.isSurgeActive || localStorage.getItem('hadFirstSurge') === 'true') && !achievement.unlocked) {
+              achievement.unlocked = true;
+              achievement.checked = true;
+              setNotifications(prev => [...prev, "Achievement Unlocked: UI Breaker!"]);
+              changed = true;
+            }
+            break;
         }
       });
 
