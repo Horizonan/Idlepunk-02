@@ -4,32 +4,9 @@ import React, { useState, useEffect } from 'react';
 const crystalSound = new Audio('/sounds/crystal appears.mp3');
 
 export default function FlyingCrystal({ onCollect, onDisappear }) {
-  const [timeLeft, setTimeLeft] = useState(() => {
-    const savedSpawnTime = localStorage.getItem('crystalSpawnTime');
-    if (!savedSpawnTime) {
-      localStorage.setItem('crystalSpawnTime', Date.now().toString());
-      return 300;
-    }
-    const elapsed = Math.floor((Date.now() - parseInt(savedSpawnTime)) / 1000);
-    return Math.max(0, 300 - elapsed);
-  });
-
   useEffect(() => {
     crystalSound.play().catch(err => console.log('Audio play failed:', err));
-    
-    const timer = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev <= 0) {
-          onDisappear();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
   }, []);
-
   const [position, setPosition] = useState({ 
     x: Math.random() < 0.5 ? -100 : window.innerWidth + 100,
     y: Math.random() * window.innerHeight 
@@ -65,15 +42,10 @@ export default function FlyingCrystal({ onCollect, onDisappear }) {
   }, [direction, onDisappear]);
 
   return (
-    <div className="crystal-container">
-      <div className="crystal-timer">{Math.floor(timeLeft)}s</div>
-      <img
-        src="Icons/electroClicker/crystals.png"
-        alt="Crystal"
-        onClick={() => {
-          localStorage.removeItem('crystalSpawnTime');
-          onCollect();
-        }}
+    <img
+      src="Icons/electroClicker/crystals.png"
+      alt="Crystal"
+      onClick={onCollect}
       style={{
         position: 'fixed',
         left: position.x,
@@ -86,28 +58,5 @@ export default function FlyingCrystal({ onCollect, onDisappear }) {
         zIndex: 1000,
       }}
     />
-    </div>
   );
 }
-
-// Add styles
-const styles = document.createElement('style');
-styles.textContent = `
-  .crystal-container {
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .crystal-timer {
-    background: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    padding: 2px 8px;
-    border-radius: 10px;
-    font-size: 12px;
-    margin-bottom: 5px;
-  }
-`;
-document.head.appendChild(styles);
