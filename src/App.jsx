@@ -942,6 +942,7 @@ export default function App() {
       )}
       {activeStore === 'electrostore' && (
         <ElectroStore 
+          onRemoveElectroShard={(amount) => setElectroShards(prev => prev - amount)}
           electroShards={electroShards}
           tronics={tronics}
           setTronics={setTronics}
@@ -1249,6 +1250,9 @@ export default function App() {
         <CheatMenu 
           onReset={() => window.location.reload()}
           onAddJunk={(amount) => setJunk(prev => prev + amount)}
+          onAddTronics={(amount) => setTronics(prev => prev + amount)}
+          onAddSetPrestige={(amount) => setPrestigeCount(amount)}
+          onAddElectroShard={(amount) => setElectroShards(prev => prev + amount)}
           onClose={() => setShowCheatMenu(false)}
           onResetTutorial={() => setTutorialStage(0)}
           onNextTutorial={() => setTutorialStage(prev => prev + 1)}
@@ -1283,7 +1287,6 @@ export default function App() {
               setNotifications(prev => [...prev, "Tronics Clicker and ElectroShop Unlocked!"]);
             }
           }}
-          onClose={() => setShowTechTree(false)}
         />
       )}
       {showSettings && (

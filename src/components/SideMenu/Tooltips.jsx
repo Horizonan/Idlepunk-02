@@ -61,6 +61,22 @@ export default function Tooltips({ onClose }) {
         </div>
 
         <div className="tooltip-entry">
+          <h3 onClick={() => toggleTip('techTree')}>
+            💡 What Is The Tech Tree? {expandedTip === 'techTree' ? '▼' : '▶'}
+          </h3>
+          {expandedTip === 'techTree' && (
+            <div className="tooltip-section">
+              <p>“Unlock the circuits of progression.”</p>
+              <p>The first node is mandatory it unlocks the Tronics Clicker, which is core to late-game systems like ElectroShop, Credit Store, and more.</p>
+              <p>Spend your first Ascension Token here to begin your tech evolution. More nodes unlock advanced upgrades and passive systems.
+
+</p>
+              <p className="tooltip-tip">💡 Tip: Unlock the First Node or you WILL be STUCK.</p>
+            </div>
+          )}
+        </div>
+
+        <div className="tooltip-entry">
           <h3 onClick={() => toggleTip('prestige')}>
             🔁 How Prestige Works {expandedTip === 'prestige' ? '▼' : '▶'}
           </h3>

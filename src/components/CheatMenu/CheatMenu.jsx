@@ -1,14 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import ResetProgress from '../ResetProgress/ResetProgress';
 
-export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial, onNextTutorial, setShowTrashBonus }) {
+export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial, onNextTutorial, setShowTrashBonus, onAddTronics, onAddSetPrestige, onAddElectroShard }) {
   const [openCategories, setOpenCategories] = useState({
     resources: false,
     events: false,
     tutorial: false,
     reset: false
   });
-  const [electroShards, setElectroShards] = useState(parseInt(localStorage.getItem('electroShards') || '0')); // Added state for electro shards
 
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -81,38 +80,16 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
           >
             {openCategories.resources ? '▼' : '▶'} Resources
           </button>
-          <button 
-            className="category-header"
-            onClick={() => toggleCategory('tools')}
-          >
-            {openCategories.tools ? '▼' : '▶'} Tools
-          </button>
-          {openCategories.tools && (
-            <div className="category-content">
-              <button onClick={() => {
-                window.dispatchEvent(new CustomEvent('skipShardTimer'));
-              }}>Skip Shard Timer</button>
-            </div>
-          )}
           {openCategories.resources && (
             <div className="category-content">
-              <button onClick={() => onAddJunk(1000)}>Add 1000 Junk</button>
-              <button onClick={() => onAddJunk(10000)}>Add 10000 Junk</button>
+              <button onClick={() => onAddJunk(1000)}>Add 1k Junk</button>
+              <button onClick={() => onAddJunk(10000)}>Add 10k Junk</button>
               <button onClick={() => onAddJunk(100000)}>Add 100k Junk</button>
               <button onClick={() => onAddJunk(1000000)}>Add 1M Junk</button>
               <button onClick={() => onAddJunk(10000000)}>Add 10M Junk</button>
-              <button onClick={() => {
-                const currentTronics = parseInt(localStorage.getItem('tronics') || '0');
-                localStorage.setItem('tronics', (currentTronics + 10000).toString());
-                window.dispatchEvent(new Event('storage'));
-                window.location.reload();
-              }}>Add 10000 Tronics</button>
-              <button onClick={() => {
-                localStorage.setItem('prestigeCount', '1');
-                window.dispatchEvent(new CustomEvent('addMaterial', {
-                  detail: { material: 'Prestige Token', amount: 1 }
-                }));
-              }}>Set Prestige</button>
+              <button onClick={() => onAddTronics(1000)}>Add 1k Tronics</button>
+              <button onClick={() => onAddTronics(10000)}>Add 10k Tronics</button>
+              <button onClick={() => onAddSetPrestige(1)}>Set Prestige 1</button>
               <button onClick={() => {
                 const materials = ['Wires', 'Metal Plates', 'Gear Bits'];
                 materials.forEach(material => {
@@ -121,14 +98,7 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
                   }));
                 });
               }}>Add Basic Materials</button>
-              <button onClick={() => {
-                const currentShards = parseInt(localStorage.getItem('electroShards') || '0');
-                const newShards = currentShards + 10;
-                console.log('Adding 10 shards, new total:', newShards);
-                localStorage.setItem('electroShards', newShards.toString());
-                setElectroShards(newShards);
-                window.dispatchEvent(new Event('storage'));
-              }}>Add 10 Electro Shards</button>
+              <button onClick={() => onAddElectroShard(10)}>Add 10 Electro Shards</button>
               <button onClick={() => {
                 localStorage.setItem('surgeCount', '3');
                 localStorage.setItem('hadFirstSurge', 'true');
@@ -137,7 +107,19 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
             </div>
           )}
         </div>
-
+        <button 
+          className="category-header"
+          onClick={() => toggleCategory('tools')}
+        >
+          {openCategories.tools ? '▼' : '▶'} Tools
+        </button>
+        {openCategories.tools && (
+          <div className="category-content">
+            <button onClick={() => {
+              window.dispatchEvent(new CustomEvent('skipShardTimer'));
+            }}>Skip Shard Timer</button>
+          </div>
+        )}
         <div className="cheat-category">
           <button 
             className="category-header"

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function ElectroStore({ electroShards, setElectroShards, tronics, setTronics, setNotifications, onBuyTronicsBoost, onBuyQuantumTap, onBack }) {
+export default function ElectroStore({ electroShards, onRemoveElectroShard, tronics, setTronics, setNotifications, onBuyTronicsBoost, onBuyQuantumTap, onBack }) {
   const [section, setSection] = useState('average');
   const tronicsBoostCost = parseInt(localStorage.getItem('tronics_boost_cost') || '250');
   const tronicsBoostIICost = parseInt(localStorage.getItem('tronics_boost_II_cost') || '750');
@@ -57,7 +57,6 @@ export default function ElectroStore({ electroShards, setElectroShards, tronics,
                 ) : (
                   <>
                     <p>+1 Tronics per click</p>
-                    <p>Cost: 250 Tronics</p>
                     <p className="owned">Owned: {localStorage.getItem('tronics_boost_count') || 0}</p>
                   </>
                 )}
@@ -95,8 +94,8 @@ export default function ElectroStore({ electroShards, setElectroShards, tronics,
                 ) : (
                   <>
                     <p>+2 Tronics per click</p>
+                    <p>Now with extra voltage. May void warranty.</p>
                     <p className="owned">Owned: {localStorage.getItem('tronics_boost_II_count') || 0}</p>
-                    <p title="Now with extra voltage. May void warranty.">Cost: {tronicsBoostIICost} Tronics</p>
                   </>
                 )}
               </div>
@@ -201,11 +200,7 @@ export default function ElectroStore({ electroShards, setElectroShards, tronics,
 
                   if (tronics >= currentCost && electroShards >= 5) {
                     setTronics(prev => prev - currentCost);
-                    setElectroShards(prev => {
-                      const newValue = prev - 5;
-                      localStorage.setItem('electroShards', newValue);
-                      return newValue;
-                    });
+                    onRemoveElectroShard(5);
 
                     const newCount = currentCount + 1;
                     localStorage.setItem('circuit_optimization_count', newCount);

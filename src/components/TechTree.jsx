@@ -15,6 +15,7 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
         <div className="tech-tier">
           <h3>Tier 1 - Root Node</h3>
           <div className="tech-node root-node">
+            
             <button 
               onClick={() => onUnlock('tronicsClicker')}
               disabled={prestigeTokens < 1}
@@ -22,6 +23,7 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
             >
               Unlock Tronics Clicker
               <div className="tech-cost">Cost: 1 Token</div>
+              <div className="item-info"><p>Hello</p></div>
             </button>
           </div>
         </div>
