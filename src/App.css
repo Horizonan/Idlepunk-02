@@ -1273,6 +1273,10 @@ button.locked {
   height: 80vh;
   display: flex;
   flex-direction: column;
+  background: rgba(26, 26, 26, 0.95);
+  border: 2px solid #9400D3;
+  border-radius: 8px;
+  padding: 20px;
 }
 
 .tooltips-content {
@@ -1299,6 +1303,8 @@ button.locked {
   border-radius: 4px;
   margin-bottom: 10px;
   transition: all 0.3s ease;
+  cursor: pointer;
+  color: #00FF00;
 }
 
 .tooltip-entry h3:hover {
@@ -1310,6 +1316,7 @@ button.locked {
   background: rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   margin: 10px 0;
+  color: #00FF00;
 }
 
 .tooltip-section ul {
@@ -1336,9 +1343,6 @@ button.locked {
   font-size: 0.9em;
   border-left: 3px solid #9400D3;
   padding-left: 10px;
-}
-
-  margin-top: 5px;
 }
 
 .inventory-grid {
