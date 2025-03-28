@@ -87,9 +87,18 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
               </div>
               <div>{tronicsBoostIICost} Tronics</div>
               <div className="item-info">
-                <p>+2 Tronics per click</p>
-                <p className="owned">Owned: {localStorage.getItem('tronics_boost_II_count') || 0}</p>
-                <p title="Now with extra voltage. May void warranty.">Cost: {tronicsBoostIICost} Tronics</p>
+                {!localStorage.getItem('unlocked_tronics_boost') || !localStorage.getItem('tronics_boost_count') ? (
+                  <>
+                    <p className="locked-message">🔒 Locked - Requires Tronics Click Boost I</p>
+                    <p className="unlocked-preview">Once unlocked: +2 Tronics per click (Costs {tronicsBoostIICost} Tronics)</p>
+                  </>
+                ) : (
+                  <>
+                    <p>+2 Tronics per click</p>
+                    <p className="owned">Owned: {localStorage.getItem('tronics_boost_II_count') || 0}</p>
+                    <p title="Now with extra voltage. May void warranty.">Cost: {tronicsBoostIICost} Tronics</p>
+                  </>
+                )}
               </div>
             </button>
 
@@ -109,10 +118,18 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
               </div>
               <div>1,250 Tronics</div>
               <div className="item-info">
-                <p>3% chance per click to gain 3x Tronics</p>
-                <p className="requirement">Requires Tronics Click Boost I</p>
-                <p className="onetime">One-time purchase</p>
-                {hasQuantumTap && <p className="purchased">Already purchased</p>}
+                {!hasTronicsBoost ? (
+                  <>
+                    <p className="locked-message">🔒 Locked - Requires Tronics Click Boost I</p>
+                    <p className="unlocked-preview">Once unlocked: 3% chance per click to gain 3x Tronics (Costs 1,250 Tronics)</p>
+                  </>
+                ) : (
+                  <>
+                    <p>3% chance per click to gain 3x Tronics</p>
+                    <p className="onetime">One-time purchase</p>
+                    {hasQuantumTap && <p className="purchased">Already purchased</p>}
+                  </>
+                )}
               </div>
             </button>
 
