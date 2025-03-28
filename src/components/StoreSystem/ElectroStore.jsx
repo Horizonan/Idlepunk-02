@@ -200,7 +200,11 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
                   const currentCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
 
                   setTronics(prev => prev - currentCost);
-                  localStorage.setItem('electroShards', electroShards - 5);
+                  setElectroShards(prev => {
+                    const newValue = prev - 5;
+                    localStorage.setItem('electroShards', newValue);
+                    return newValue;
+                  });
 
                   const newCount = currentCount + 1;
                   localStorage.setItem('circuit_optimization_count', newCount);
