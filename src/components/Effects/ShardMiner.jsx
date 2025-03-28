@@ -66,14 +66,18 @@ export default function ShardMiner({ onCollect }) {
   };
 
   const handleClick = () => {
-    if (readyToCollect) {
-      setStoredShards(prev => Math.min(prev + 1, maxShards));
-      setReadyToCollect(false);
-    } else if (storedShards > 0) {
+    if (storedShards > 0) {
       onCollect(storedShards);
       setStoredShards(0);
     }
   };
+
+  useEffect(() => {
+    if (readyToCollect && storedShards < maxShards) {
+      setStoredShards(prev => Math.min(prev + 1, maxShards));
+      setReadyToCollect(false);
+    }
+  }, [readyToCollect, storedShards]);
 
   return (
     <div 
