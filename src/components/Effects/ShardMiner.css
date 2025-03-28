@@ -44,6 +44,8 @@
   color: #fff;
   font-size: 14px;
   white-space: nowrap;
+  min-width: 50px;
+  text-align: center;
 }
 
 @keyframes pulse {
