@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 
 export default function ElectroStore({ electroShards, tronics, setTronics, setNotifications, onBuyTronicsBoost, onBuyQuantumTap, onBack }) {
@@ -11,7 +10,7 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
   return (
     <div className="store-container">
       <div className="store-header">
-        <h2>Electronics Store</h2>
+        <h2>ElectroShop</h2>
         <button onClick={onBack}>Close</button>
       </div>
       <div className="store-tabs">
@@ -159,18 +158,18 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
                 if (tronics >= parseInt(localStorage.getItem('circuit_optimization_cost') || '25000') && electroShards >= 5 && (parseInt(localStorage.getItem('circuit_optimization_count') || '0') < 4)) {
                   const currentCost = parseInt(localStorage.getItem('circuit_optimization_cost') || '25000');
                   const currentCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
-                  
+
                   setTronics(prev => prev - currentCost);
                   localStorage.setItem('electroShards', electroShards - 5);
-                  
+
                   const newCount = currentCount + 1;
                   localStorage.setItem('circuit_optimization_count', newCount);
-                  
+
                   const newCost = Math.floor(currentCost * 1.2);
                   localStorage.setItem('circuit_optimization_cost', newCost);
-                  
+
                   setNotifications(prev => [...prev, "Circuit Optimization Unit installed! Global Junk/sec increased by 25%"]);
-                  
+
                   // Only store the count, let App.jsx handle the multiplier calculation
                   window.dispatchEvent(new Event('storage')); // Trigger state update
                 }

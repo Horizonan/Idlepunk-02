@@ -9,7 +9,7 @@ const canAffordV2 = junk >= (itemCosts.autoClickerV2 || baseV2Cost);
   return (
     <div className="store-container">
       <div className="store-header">
-        <h2>Automation Store</h2>
+        <h2>Automation Center</h2>
         <button onClick={onBack}>Close</button>
       </div>
       <div className="store-items">
