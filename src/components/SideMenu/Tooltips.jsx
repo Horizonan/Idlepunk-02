@@ -16,7 +16,8 @@ export default function Tooltips({ onClose }) {
       </div>
       
       <div className="tooltips-content">
-        <div className="tooltip-entry">
+        <div className="tooltip-box">
+          <div className="tooltip-entry">
           <h3 onClick={() => toggleTip('electroShards')} style={{ cursor: 'pointer' }}>
             ⚡ What Are Electro Shards? {expandedTip === 'electroShards' ? '▼' : '▶'}
           </h3>
@@ -41,8 +42,10 @@ export default function Tooltips({ onClose }) {
           )}
         </div>
 
-        <div className="tooltip-entry">
-          <h3 onClick={() => toggleTip('prestige')} style={{ cursor: 'pointer' }}>
+        </div>
+        <div className="tooltip-box">
+          <div className="tooltip-entry">
+            <h3 onClick={() => toggleTip('prestige')} style={{ cursor: 'pointer' }}>
             🔁 How Prestige Works {expandedTip === 'prestige' ? '▼' : '▶'}
           </h3>
           {expandedTip === 'prestige' && (
