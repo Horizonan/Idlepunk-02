@@ -1,19 +1,35 @@
+
 import React, { useState } from 'react';
 
 export default function Menu({ onStoreSelect }) {
   const [showMenu, setShowMenu] = useState(true);
   const prestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
 
-  const buttons = [
-    { id: 'achievements', label: 'Achievements' },
-    { id: 'marketplace', label: 'Junktown Nexus' },
-    { id: 'questLog', label: 'Quest Log' },
-    { id: 'slotMachine', label: 'Slot Machine' },
-    ...(prestigeCount > 0 ? [{ id: 'techTree', label: 'Tech Tree' }] : []),
-    { id: 'tooltips', label: 'Tooltips' },
-    { id: 'settings', label: 'Settings' },
-    { id: 'changelog', label: 'Changelog' }
-  ];
+  const menuCategories = {
+    progress: {
+      header: 'Progress',
+      buttons: [
+        { id: 'questLog', label: 'Quest Log' },
+        { id: 'achievements', label: 'Achievements' },
+        ...(prestigeCount > 0 ? [{ id: 'techTree', label: 'Tech Tree' }] : [])
+      ]
+    },
+    activities: {
+      header: 'Activities',
+      buttons: [
+        { id: 'marketplace', label: 'Junktown Nexus' },
+        { id: 'slotMachine', label: 'Slot Machine' }
+      ]
+    },
+    help: {
+      header: 'Help & Settings',
+      buttons: [
+        { id: 'tooltips', label: 'Tooltips' },
+        { id: 'settings', label: 'Settings' },
+        { id: 'changelog', label: 'Changelog' }
+      ]
+    }
+  };
 
   return (
     <div className={`menu-container ${showMenu ? '' : 'collapsed'}`}>
@@ -21,13 +37,18 @@ export default function Menu({ onStoreSelect }) {
         {showMenu ? 'Close' : '≡'}
       </button>
       <div className="menu-buttons">
-        {buttons.map(button => (
-          <button
-            key={button.id}
-            className={`menu-button ${button.id}-btn`}
-            onClick={() => onStoreSelect(button.id)}>
-            {button.label}
-          </button>
+        {Object.entries(menuCategories).map(([category, { header, buttons }]) => (
+          <div key={category} className="menu-category">
+            <h3 className="menu-category-header">{header}</h3>
+            {buttons.map(button => (
+              <button
+                key={button.id}
+                className={`menu-button ${button.id}-btn`}
+                onClick={() => onStoreSelect(button.id)}>
+                {button.label}
+              </button>
+            ))}
+          </div>
         ))}
       </div>
     </div>

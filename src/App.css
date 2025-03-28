@@ -1023,7 +1023,23 @@ button.locked {
 .menu-buttons {
   display: flex;
   flex-direction: column;
+  gap: 20px;
+}
+
+.menu-category {
+  display: flex;
+  flex-direction: column;
   gap: 8px;
+}
+
+.menu-category-header {
+  color: #9400D3;
+  font-size: 0.9em;
+  margin: 0;
+  padding: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.8;
 }
 
 .menu-button {
