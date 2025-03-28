@@ -400,7 +400,7 @@ button {
 }
 
 .reset-button:hover {
-  background: #ff0000;x;
+  background: #ff0000;
 }
 
 .setting-option {
@@ -632,7 +632,7 @@ button.locked {
     padding: 8px 16px;
     font-size: 14px;
   }
-}
+
 
 .stats p {
   margin: 0;
