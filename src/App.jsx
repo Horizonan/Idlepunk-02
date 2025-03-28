@@ -189,7 +189,7 @@ export default function App() {
     }
   };
 
-  
+
   const [hasHelper, setHasHelper] = useState(false);
   const [showInventory, setShowInventory] = useState(false);
 
@@ -637,9 +637,17 @@ export default function App() {
     validateQuestsAndAchievements();
 
     // Check for 1M junk milestone
-    if (junk >= 1000000 && !localStorage.getItem('shown_questlog_hint')) {
-      setNotifications(prev => [...prev, "You've reached a milestone! Check the Quest Log for progress."]);
-      localStorage.setItem('shown_questlog_hint', 'true');
+    if (junk >= 1000000) {
+      if (!localStorage.getItem('shown_questlog_hint')) {
+        setNotifications(prev => [...prev, "You've reached a milestone! Check the Quest Log for progress."]);
+        localStorage.setItem('shown_questlog_hint', 'true');
+        // Add pulsing animation class to quest log button
+        const questLogBtn = document.querySelector('.quest-log-toggle');
+        if (questLogBtn) {
+          questLogBtn.classList.add('quest-log-attention');
+          setTimeout(() => questLogBtn.classList.remove('quest-log-attention'), 10000); // Remove after 10 seconds
+        }
+      }
     }
   }, [tutorialStage, junk]);
 
