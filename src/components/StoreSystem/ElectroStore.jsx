@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function ElectroStore({ electroShards, tronics, setTronics, setNotifications, onBuyTronicsBoost, onBuyQuantumTap, onBack }) {
+export default function ElectroStore({ electroShards, setElectroShards, tronics, setTronics, setNotifications, onBuyTronicsBoost, onBuyQuantumTap, onBack }) {
   const [section, setSection] = useState('average');
   const tronicsBoostCost = parseInt(localStorage.getItem('tronics_boost_cost') || '250');
   const tronicsBoostIICost = parseInt(localStorage.getItem('tronics_boost_II_cost') || '750');
