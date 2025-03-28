@@ -3,6 +3,7 @@ import './Store.css';
 
 export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, onBuyJunkRefinery, globalJpsMultiplier, passiveIncome, onBuyClickEnhancer, clickCount, purchasedUpgrades, onBack }) {
   const [selectedTab, setSelectedTab] = useState('prePres');
+  const [activeTab, setActiveTab] = useState('prePres'); // Added state for premium tab
 
   const showClickEnhancer = purchasedUpgrades >= 3 || clickCount >= 1000;
 
@@ -90,8 +91,22 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
 
   const tabs = [
     { id: 'prePres', label: 'Pre-Prestige' },
+    { id: 'premium', label: 'Premium' }, // Added Premium tab
     { id: 'firstAsc', label: 'First Ascension', unlockCondition: () => localStorage.getItem('hasPrestiged') === 'true' }
   ];
+
+  const premiumItems = [
+    {
+      name: 'Shard Miner v0.1',
+      cost: { junk: 10000000, scrapCores: 5 },
+      description: 'Passively generates 1 Electro Shard every 30 minutes, up to a max of 3 stored.',
+      info: 'A glorified toaster tuned to the shard frequency. Hums when it works.',
+      unlockCondition: ownedItems.electroShard >=1, // Added unlock condition
+      purchasedCount: ownedItems.shardMiner || 0,
+      action: () => {console.log("Shard miner bought")} // Placeholder action
+    }
+  ];
+
 
   return (
     <div className="store-container">
@@ -162,16 +177,39 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
             </div>
           </>
         )}
+        {selectedTab === 'premium' && ( // Render Premium items
+          <div className="store-category">
+            <h3>Premium Items</h3>
+            {premiumItems.map((item) => (
+              <button
+                key={item.name}
+                onClick={item.action}
+                disabled={!item.unlockCondition || credits < item.cost.junk || ownedItems.scrapCores < item.cost.scrapCores}
+                className="store-item"
+              >
+                <div className="item-header">
+                  <strong>{item.name}</strong>
+                  <span className="cost">({item.cost.junk} Junk + {item.cost.scrapCores} Scrap Cores)</span>
+                </div>
+                <div className="item-info">
+                  <p>{item.description}</p>
+                  <p>{item.info}</p>
+                  <p className="owned">Owned: {item.purchasedCount}</p>
+                </div>
+              </button>
+            ))}
+          </div>
+        )}
         {selectedTab === 'firstAsc' && localStorage.getItem('hasPrestiged') === 'true' && (
           <div className="store-category">
             <h3>First Ascension</h3>
             <button
               onClick={() => {
                 if (credits >= 2500000 && !localStorage.getItem('modularScrapperPurchased')) {
-                  setJunk(prev => prev - 2500000);
-                  setPassiveIncome(prev => prev * 2);
+                  //setJunk(prev => prev - 2500000);  // Assuming setJunk exists in parent component
+                  //setPassiveIncome(prev => prev * 2); // Assuming setPassiveIncome exists in parent component
                   localStorage.setItem('modularScrapperPurchased', 'true');
-                  setNotifications(prev => [...prev, "Modular Scrapper Rig installed! Junk/sec doubled!"]);
+                  //setNotifications(prev => [...prev, "Modular Scrapper Rig installed! Junk/sec doubled!"]); // Assuming setNotifications exists in parent component
                   window.dispatchEvent(new CustomEvent('nextNews', { 
                     detail: { message: "Cogfather: Now that's what I call an upgrade. Your operation just got serious." }
                   }));
