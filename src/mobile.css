@@ -97,42 +97,10 @@
     overflow-y: auto !important;
     left: 50% !important;
     transform: translate(-50%, -50%) !important;
-    padding: 10px !important;
   }
-
+  
   .quest-log {
-    position: fixed !important;
     top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    width: 95% !important;
-    max-width: 350px !important;
-  }
-
-  .quest-tabs {
-    flex-wrap: wrap !important;
-    gap: 5px !important;
-  }
-
-  .quest-tab {
-    padding: 6px 12px !important;
-    font-size: 0.9em !important;
-    flex: 1 !important;
-  }
-
-  .achievements-list {
-    max-height: 60vh !important;
-    padding: 5px !important;
-  }
-
-  .achievement {
-    padding: 8px !important;
-    margin: 5px 0 !important;
-    font-size: 0.85em !important;
-  }
-
-  .achievement h3 {
-    font-size: 1em !important;
-    margin-bottom: 5px !important;
+    transform: translateY(-50%) !important;
   }
 }
