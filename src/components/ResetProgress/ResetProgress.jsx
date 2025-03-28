@@ -5,6 +5,10 @@ import './ResetProgress.css';
 export default function ResetProgress({ onReset }) {
   const handleReset = (type) => {
     if (window.confirm('Are you sure you want to reset all progress? This cannot be undone!')) {
+      // Clear all localStorage first
+      localStorage.clear();
+
+      // Set essential default values
       const defaultAchievements = [
         {
           title: "Junkie Starter",
@@ -32,20 +36,22 @@ export default function ResetProgress({ onReset }) {
         }
       ];
 
-      // Clear quest sync data
-      Object.keys(localStorage).forEach(key => {
-        if (key.startsWith('quest_sync_')) {
-          localStorage.removeItem(key);
-        }
-      });
-
-      // Clear all localStorage except achievements
-      localStorage.clear();
+      // Reinitialize essential storage values
       localStorage.setItem('achievements', JSON.stringify(defaultAchievements));
       localStorage.setItem('globalJpsMultiplier', '1');
       localStorage.setItem('prestigeCount', '0');
+      localStorage.setItem('junk', '0');
+      localStorage.setItem('clickCount', '0');
+      localStorage.setItem('electronicsUnlock', 'false');
+      localStorage.setItem('clickMultiplier', '1');
+      localStorage.setItem('passiveIncome', '0');
+      localStorage.setItem('autoClicks', '0');
+      localStorage.setItem('clickEnhancerLevel', '0');
+      localStorage.setItem('electroShards', '0');
+      localStorage.setItem('tronics', '0');
 
-      onReset(type);
+      // Force page reload to ensure clean slate
+      window.location.reload();
     }
   };
 
