@@ -720,7 +720,7 @@ export default function App() {
         onTutorialProgress={(stage) => setTutorialStage(stage)}
       />
       {showNewsTicker && <NewsContainer isSurgeActive={isSurgeActive} />}
-      <TrashSurge isActive={isSurgeActive} />
+      <TrashSurge isActive={isSurgeActive} activeClicker={document.querySelector('.clicker-select.active')?.textContent.includes('Trash') ? 'trash' : 'electronics'} />
       {enableHoloBillboard && <HoloBillboard ownedItems={ownedItems} />}
       {showCrystal && (
         <FlyingCrystal

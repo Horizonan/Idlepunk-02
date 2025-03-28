@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 
-export default function TrashSurge({ isActive }) {
+export default function TrashSurge({ isActive, activeClicker }) {
   const [timeLeft, setTimeLeft] = useState(0);
   const [nextSurgeTime, setNextSurgeTime] = useState(() => {
     const saved = localStorage.getItem('nextSurgeTime');
@@ -54,7 +54,7 @@ export default function TrashSurge({ isActive }) {
     );
   }
 
-  return localStorage.getItem('hadFirstSurge') === 'true' ? (
+  return localStorage.getItem('hadFirstSurge') === 'true' && activeClicker === 'trash' ? (
     <div className="next-surge-timer">
       Next surge in: {Math.floor(timeLeft / 60)}m {timeLeft % 60}s
     </div>
