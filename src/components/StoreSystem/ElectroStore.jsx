@@ -103,6 +103,29 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
             </button>
 
             <button
+              className={`store-item ${!localStorage.getItem('flow_regulator_purchased') ? '' : 'disabled'}`}
+              onClick={() => {
+                if (tronics >= 3000 && !localStorage.getItem('flow_regulator_purchased')) {
+                  setTronics(prev => prev - 3000);
+                  localStorage.setItem('flow_regulator_purchased', 'true');
+                  localStorage.setItem('globalTronicsMultiplier', '1.1');
+                  setNotifications(prev => [...prev, "Flow Regulator purchased! +10% Tronics per click"]);
+                }
+              }}
+              disabled={localStorage.getItem('flow_regulator_purchased') === 'true'}
+            >
+              <div className="item-header">
+                <strong>⚡ Flow Regulator</strong>
+              </div>
+              <div>3,000 Tronics</div>
+              <div className="item-info">
+                <p>+10% Tronics per click</p>
+                <p className="onetime">One-time purchase</p>
+                {localStorage.getItem('flow_regulator_purchased') && <p className="purchased">Already purchased</p>}
+              </div>
+            </button>
+
+            <button
               className={`store-item ${!hasTronicsBoost ? 'locked' : hasQuantumTap ? 'disabled' : ''}`}
               onClick={() => {
                 if (tronics >= 1250 && hasTronicsBoost && !hasQuantumTap) {
