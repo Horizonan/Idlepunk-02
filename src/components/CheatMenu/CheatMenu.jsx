@@ -157,6 +157,14 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
                 localStorage.removeItem('unlocked_tronics_boost');
                 window.location.reload();
               }}>Lock Tronics Boost</button>
+              <button onClick={() => {
+                const skillLevels = {
+                  scavengingFocus: 10,
+                  greaseDiscipline: JSON.parse(localStorage.getItem('skillLevels'))?.greaseDiscipline || 0
+                };
+                localStorage.setItem('skillLevels', JSON.stringify(skillLevels));
+                window.location.reload();
+              }}>Max Scavenging Focus</button>
             </div>
           )}
         </div>
