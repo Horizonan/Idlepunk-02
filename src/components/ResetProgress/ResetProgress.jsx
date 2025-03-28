@@ -32,33 +32,44 @@ export default function ResetProgress({ onReset }) {
         }
       ];
 
-      // Clear quest sync data
-      Object.keys(localStorage).forEach(key => {
-        if (key.startsWith('quest_sync_')) {
+      // Clear ALL localStorage items
+      const keysToPreserve = ['achievements'];
+      const allKeys = Object.keys(localStorage);
+      allKeys.forEach(key => {
+        if (!keysToPreserve.includes(key)) {
           localStorage.removeItem(key);
         }
       });
 
-      // Clear all localStorage except achievements
-      localStorage.clear();
+      // Reset achievements
       localStorage.setItem('achievements', JSON.stringify(defaultAchievements));
+      
+      // Reset core game values
       localStorage.setItem('globalJpsMultiplier', '1');
       localStorage.setItem('prestigeCount', '0');
+      localStorage.setItem('electroShards', '0');
+      localStorage.setItem('beaconCount', '0');
+      localStorage.setItem('surgeCount', '0');
+      localStorage.setItem('cogfatherLore', '[]');
+      localStorage.setItem('preservedHelper', '');
+      localStorage.setItem('craftingInventory', '{}');
+      localStorage.setItem('creditStoreItems', '{}');
+      localStorage.setItem('skillLevels', '{"scavengingFocus":0,"greaseDiscipline":0}');
+      localStorage.setItem('hasPrestiged', 'false');
+      localStorage.setItem('prestigeUnlocked', 'false');
+      localStorage.setItem('hadFirstSurge', 'false');
+      localStorage.setItem('cogfatherEvent', 'false');
+      localStorage.setItem('quantum_tap_purchased', 'false');
+      localStorage.setItem('tronics_boost_count', '0');
+      localStorage.setItem('circuit_optimization_count', '0');
 
       onReset(type);
     }
   };
 
   return (
-    <div className="reset-section">
-      <h3>Reset Progress</h3>
-      <p className="reset-warning">Warning: This will permanently delete all your progress!</p>
-      <button 
-        className="reset-button"
-        onClick={() => handleReset('all')}
-      >
-        Reset All Progress
-      </button>
+    <div className="reset-progress">
+      <button onClick={() => handleReset('all')}>Reset All Progress</button>
     </div>
   );
 }
