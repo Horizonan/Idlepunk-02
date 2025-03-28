@@ -1,7 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
 
+const crystalSound = new Audio('/sounds/crystal appears.mp3');
+
 export default function FlyingCrystal({ onCollect, onDisappear }) {
+  useEffect(() => {
+    crystalSound.play().catch(err => console.log('Audio play failed:', err));
+  }, []);
   const [position, setPosition] = useState({ 
     x: Math.random() < 0.5 ? -100 : window.innerWidth + 100,
     y: Math.random() * window.innerHeight 
