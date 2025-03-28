@@ -277,14 +277,14 @@ button {
   background: #222;
   border: 1px solid #9400D3;
   color: #00FF00;
-  padding: 3px 10px;
+  padding: 5px 15px;
   margin: 0;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: none;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .quest-log .close-button:hover {
