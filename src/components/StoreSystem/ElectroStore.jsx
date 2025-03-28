@@ -165,31 +165,6 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
                 )}
               </div>
             </button>
-
-            <button
-              onClick={() => {
-                if (tronics >= 3000 && !localStorage.getItem('flow_regulator_purchased')) {
-                  const newTronics = tronics - 3000;
-                  setTronics(newTronics);
-                  localStorage.setItem('flow_regulator_purchased', 'true');
-                  localStorage.setItem('globalTronicsMultiplier', '1.1');
-                  setNotifications(prev => [...prev, "Flow Regulator installed! +10% Tronics per click"]);
-                }
-              }}
-              className={tronics < 3000 ? 'disabled' : ''}
-              disabled={localStorage.getItem('flow_regulator_purchased') === 'true'}
-            >
-              <div className="item-header">
-                <img src="/Icons/Upgrades/flowregulator.png" alt="Flow Regulator" />
-                <h3>Flow Regulator</h3>
-              </div>
-              <div>3,000 Tronics</div>
-              <div className="item-info">
-                <p>+10% Tronics per click</p>
-                <p className="onetime">One-time purchase</p>
-                {localStorage.getItem('flow_regulator_purchased') === 'true' && <p className="purchased">Already purchased</p>}
-              </div>
-            </button>
           </>
         )}
         {section === 'premium' && (
