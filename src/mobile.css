@@ -46,7 +46,7 @@
     overflow-y: auto !important;
   }
 
-  .quest-log .close-button {
+  .quest-log {
     font-size: 12px !important;
     padding: 3px 8px !important;
     opacity: 0.8 !important;
