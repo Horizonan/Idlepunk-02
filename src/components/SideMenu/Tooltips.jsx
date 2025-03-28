@@ -12,7 +12,7 @@ export default function Tooltips({ onClose }) {
   return (
     <div className="store-container tooltips-menu">
       <div className="tooltips-header">
-        <h2>Game Tooltips</h2>
+        <h2>Game Tips</h2>
         <button onClick={onClose}>Close</button>
       </div>
       
@@ -34,7 +34,7 @@ export default function Tooltips({ onClose }) {
                 <li>Rare floating pickups</li>
                 <li>Special crafting recipes Post Prestige</li>
                 <li>Select quests</li>
-                <li>Electroshard miner v0.1</li>
+                <li>Electroshard miner v0.1 (Premium Junk Upgrade)</li>
               </ul>
               
               <p>Their availability increases after your first Prestige, but limited ways to earn them exist earlier in the game.</p>
@@ -72,6 +72,20 @@ export default function Tooltips({ onClose }) {
 
 </p>
               <p className="tooltip-tip">💡 Tip: Unlock the First Node or you WILL be STUCK.</p>
+            </div>
+          )}
+        </div>
+
+        <div className="tooltip-entry">
+          <h3 onClick={() => toggleTip('flyingCrystal')}>
+            ✨ What Is The Flying Crystal? {expandedTip === 'flyingCrystal' ? '▼' : '▶'}
+          </h3>
+          {expandedTip === 'flyingCrystal' && (
+            <div className="tooltip-section">
+              <p>“A rare fragment pulsing with unstable energy.”</p>
+              <p>Collect it before it vanishes to gain 1 Electro Shard.</p>
+              <p>Stays visible for 5 minutes. Don’t blink — missing one slows your tech progress. </p>
+              <p className="tooltip-tip">💡 Tip: Appears once every 30 minutes.</p>
             </div>
           )}
         </div>

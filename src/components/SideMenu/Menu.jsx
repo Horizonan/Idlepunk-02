@@ -24,7 +24,7 @@ export default function Menu({ onStoreSelect }) {
     help: {
       header: 'Help & Settings',
       buttons: [
-        { id: 'tooltips', label: 'Tooltips' },
+        { id: 'tooltips', label: 'Game Tips' },
         { id: 'settings', label: 'Settings' },
         { id: 'changelog', label: 'Changelog' }
       ]
