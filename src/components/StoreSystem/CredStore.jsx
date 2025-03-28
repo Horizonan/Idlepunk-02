@@ -67,7 +67,7 @@ export default function CredStore({ credits, junk, onSellJunk, onBuyBeacon, craf
         </button>
         <button
           onClick={() => onBuyBeacon()}
-          disabled={credits < 25}
+          disabled={credits < 25 || localStorage.getItem('beaconCount') >= 10}
           className="store-item"
         >
           <div className="item-header">
@@ -81,6 +81,10 @@ export default function CredStore({ credits, junk, onSellJunk, onBuyBeacon, craf
 
             <p>Stack up to 10 beacons
             for a maximum 10% reduction in spawn time.</p>
+            <p>Current beacons: {localStorage.getItem('beaconCount') || 0}/10</p>
+            {localStorage.getItem('beaconCount') >= 10 && 
+              <p className="max-limit">Maximum beacons reached!</p>
+            }
           </div>
         </button>
         <button
