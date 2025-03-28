@@ -4,11 +4,6 @@ import React, { useState, useEffect } from 'react';
 const crystalSound = new Audio('/sounds/crystal appears.mp3');
 
 export default function FlyingCrystal({ onCollect, onDisappear }) {
-  const [nextCrystalTime, setNextCrystalTime] = useState(() => {
-    const saved = localStorage.getItem('nextCrystalTime');
-    return saved ? parseInt(saved) : Date.now() + (900000 + Math.random() * 900000);
-  });
-
   const [timeLeft, setTimeLeft] = useState(() => {
     const savedSpawnTime = localStorage.getItem('crystalSpawnTime');
     if (!savedSpawnTime) {
@@ -18,15 +13,6 @@ export default function FlyingCrystal({ onCollect, onDisappear }) {
     const elapsed = Math.floor((Date.now() - parseInt(savedSpawnTime)) / 1000);
     return Math.max(0, 300 - elapsed);
   });
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const remaining = Math.max(0, Math.ceil((nextCrystalTime - Date.now()) / 1000));
-      setTimeLeft(remaining);
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [nextCrystalTime]);
 
   useEffect(() => {
     crystalSound.play().catch(err => console.log('Audio play failed:', err));
@@ -78,18 +64,10 @@ export default function FlyingCrystal({ onCollect, onDisappear }) {
     };
   }, [direction, onDisappear]);
 
-  const showNextSpawn = !document.querySelector('.crystal-container');
-
   return (
-    <>
-      {showNextSpawn && (
-        <div className="next-crystal-timer">
-          Next crystal in: {Math.floor(timeLeft / 60)}m {timeLeft % 60}s
-        </div>
-      )}
-      <div className="crystal-container">
-        <div className="crystal-timer">{Math.floor(timeLeft)}s</div>
-        <img
+    <div className="crystal-container">
+      <div className="crystal-timer">{Math.floor(timeLeft)}s</div>
+      <img
         src="Icons/electroClicker/crystals.png"
         alt="Crystal"
         onClick={() => {
