@@ -25,3 +25,53 @@
 .reset-button:hover {
   background: #ff0000;
 }
+
+.reset-confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.reset-confirm-popup {
+  background: #1a1a1a;
+  border: 2px solid #ff4444;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.reset-confirm-popup h4 {
+  color: #ff4444;
+  margin: 0 0 10px 0;
+}
+
+.reset-confirm-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.reset-confirm-buttons button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.reset-confirm-buttons button:first-child {
+  background: #ff4444;
+  color: white;
+}
+
+.reset-confirm-buttons button:last-child {
+  background: #333;
+  color: white;
+}

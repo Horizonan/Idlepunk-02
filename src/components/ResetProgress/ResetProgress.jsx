@@ -1,7 +1,10 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import './ResetProgress.css';
 
 export default function ResetProgress({ onReset }) {
+  const [showConfirm, setShowConfirm] = useState(false);
+
   const handleReset = () => {
     // Clear ALL localStorage items
     localStorage.clear();
@@ -37,10 +40,23 @@ export default function ResetProgress({ onReset }) {
       <p className="reset-warning">Warning: This will permanently delete all your progress!</p>
       <button 
         className="reset-button"
-        onClick={handleReset}
+        onClick={() => setShowConfirm(true)}
       >
         Reset All Progress
       </button>
+
+      {showConfirm && (
+        <div className="reset-confirm-overlay">
+          <div className="reset-confirm-popup">
+            <h4>Are you sure?</h4>
+            <p>This action cannot be undone!</p>
+            <div className="reset-confirm-buttons">
+              <button onClick={handleReset}>Yes, Reset Everything</button>
+              <button onClick={() => setShowConfirm(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
