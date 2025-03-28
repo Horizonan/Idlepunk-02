@@ -742,7 +742,13 @@ export default function App() {
             setShowAchievements(prev => !prev);
             break;
           case 'questLog':
-            setShowQuestLog(prev => !prev);
+            setShowQuestLog(prev => {
+              const questLogBtn = document.querySelector('.quest-log-toggle');
+              if (questLogBtn) {
+                questLogBtn.classList.remove('quest-log-attention');
+              }
+              return !prev;
+            });
             break;
           case 'slotMachine':
             setShowSlotMachine(prev => !prev);
