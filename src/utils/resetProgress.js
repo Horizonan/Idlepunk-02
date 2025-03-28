@@ -89,14 +89,7 @@ export const resetAllProgress = () => {
     localStorage.setItem(key, JSON.stringify(value));
   });
 
-  // Clear any quest states
-  Object.keys(localStorage).forEach(key => {
-    if (key.startsWith('quest_sync_')) {
-      localStorage.removeItem(key);
-    }
-  });
-
-  // Clear any specific states that might persist
+  // Clear specific progress flags
   localStorage.removeItem('unlocked_tronics_boost');
   localStorage.removeItem('tronics_boost_count');
   localStorage.removeItem('tronics_boost_cost');
@@ -107,6 +100,15 @@ export const resetAllProgress = () => {
   localStorage.removeItem('sidebarLocked');
   localStorage.removeItem('sidebarLeft');
   localStorage.removeItem('sidebarTop');
+  localStorage.removeItem('preservedHelper');
+  localStorage.removeItem('craftedItems');
+
+  // Clear any quest states
+  Object.keys(localStorage).forEach(key => {
+    if (key.startsWith('quest_sync_')) {
+      localStorage.removeItem(key);
+    }
+  });
 
   // Force a complete page reload to reset React state
   window.location.href = window.location.href;
