@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import VersionPopup from './components/VersionPopup/VersionPopup';
 import StatsDisplay from './components/StatsDisplay';
 import { validateQuests } from './utils/questValidation';
 import { useGameState } from './hooks/useGameState';
@@ -701,6 +702,7 @@ export default function App() {
 
   return (
     <main>
+      <VersionPopup onClose={() => {}} />
       {showQuestLog && <QuestLog tutorialStage={tutorialStage} onClose={() => setShowQuestLog(false)} />}
       <TutorialSystem
         junk={junk}
