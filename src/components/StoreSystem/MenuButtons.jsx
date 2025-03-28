@@ -10,12 +10,12 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
       <button onClick={() => {
         const activeStore = localStorage.getItem('activeStore');
         onStoreSelect(activeStore === 'store' ? null : 'store');
-      }}>Visit Store</button>
+      }}>Open Junk Store</button>
       {automationUnlocked && (
         <button onClick={() => {
           const activeStore = localStorage.getItem('activeStore');
           onStoreSelect(activeStore === 'automation' ? null : 'automation');
-        }}>Visit Automation</button>
+        }}>Open Automation Center</button>
       )}
       <button 
         onClick={() => {
@@ -25,20 +25,20 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
         className={!localStorage.getItem('hasPrestiged') ? 'locked-store' : ''}
         disabled={!localStorage.getItem('hasPrestiged')}
       >
-        Visit ElectroShop {!localStorage.getItem('hasPrestiged') && '🔒'}
+        Open ElectroShop {!localStorage.getItem('hasPrestiged') && '🔒'}
       </button>
       <button onClick={() => {
         const activeStore = localStorage.getItem('activeStore');
         onStoreSelect(activeStore === 'credstore' ? null : 'credstore');
-      }}>Visit CredStore</button>
+      }}>Open Credit Store</button>
       <button onClick={() => {
         const event = new CustomEvent('toggleUpgradeStats');
         window.dispatchEvent(event);
-      }}>Skills Center</button>
+      }}>Open Skills Center</button>
       <button onClick={() => {
         const activeStore = localStorage.getItem('activeStore');
         onStoreSelect(activeStore === 'craft' ? null : 'craft');
-      }}>Craft Items</button>
+      }}>Open Crafting Menu</button>
       {showInventory && <button onClick={() => {
         const activeStore = localStorage.getItem('activeStore');
         onStoreSelect(activeStore === 'inventory' ? null : 'inventory');
