@@ -32,18 +32,63 @@ export default function ResetProgress({ onReset }) {
         }
       ];
 
-      // Clear quest sync data
+      // First, save any values we want to preserve
+      const achievements = JSON.stringify(defaultAchievements);
+
+      // Clear ALL localStorage
+      localStorage.clear();
+
+      // Reset core values
+      localStorage.setItem('achievements', achievements);
+      localStorage.setItem('globalJpsMultiplier', '1');
+      localStorage.setItem('prestigeCount', '0');
+      localStorage.setItem('electroShards', '0');
+      localStorage.setItem('beaconCount', '0');
+      localStorage.setItem('surgeCount', '0');
+      localStorage.setItem('tronics', '0');
+      localStorage.setItem('junk', '0');
+      localStorage.setItem('credits', '0');
+      localStorage.setItem('clickCount', '0');
+      localStorage.setItem('autoClicks', '0');
+      localStorage.setItem('clickMultiplier', '1');
+      localStorage.setItem('passiveIncome', '0');
+      localStorage.setItem('clickEnhancerLevel', '0');
+      localStorage.setItem('skillLevels', JSON.stringify({scavengingFocus: 0, greaseDiscipline: 0}));
+      localStorage.setItem('craftingInventory', '{}');
+      localStorage.setItem('creditStoreItems', '{}');
+      localStorage.setItem('ownedItems', '{}');
+      localStorage.setItem('itemCosts', JSON.stringify({
+        trashBag: 10,
+        trashPicker: 100,
+        streetrat: 100,
+        cart: 500,
+        junkMagnet: 1500,
+        urbanRecycler: 3000,
+        autoClicker: 5000,
+        autoClickerV2: 10000,
+        clickEnhancer: 2500,
+        scrapDrone: 7500,
+        holoBillboard: 15000,
+        junkRefinery: 500000
+      }));
+
+      // Clear special states
+      localStorage.removeItem('prestigeUnlocked');
+      localStorage.removeItem('hasPrestiged');
+      localStorage.removeItem('hadFirstSurge');
+      localStorage.removeItem('cogfatherEvent');
+      localStorage.removeItem('quantum_tap_purchased');
+      localStorage.removeItem('tronics_boost_count');
+      localStorage.removeItem('circuit_optimization_count');
+      localStorage.removeItem('preservedHelper');
+      localStorage.removeItem('unlocked_tronics_boost');
+
+      // Clear quest states
       Object.keys(localStorage).forEach(key => {
         if (key.startsWith('quest_sync_')) {
           localStorage.removeItem(key);
         }
       });
-
-      // Clear all localStorage except achievements
-      localStorage.clear();
-      localStorage.setItem('achievements', JSON.stringify(defaultAchievements));
-      localStorage.setItem('globalJpsMultiplier', '1');
-      localStorage.setItem('prestigeCount', '0');
 
       onReset(type);
     }
