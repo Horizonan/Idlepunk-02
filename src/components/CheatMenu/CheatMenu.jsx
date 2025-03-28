@@ -129,9 +129,8 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
                 console.log('New shards:', newShards);
                 localStorage.setItem('electroShards', newShards.toString());
                 console.log('Updated localStorage');
-                onAddJunk(0); // Trigger parent update
-                window.dispatchEvent(new Event('storage')); // Trigger global state update
-                console.log('Events dispatched');
+                setElectroShards(newShards); // Update state directly
+                console.log('State updated');
               }}>Add 10 Electro Shards</button>
               <button onClick={() => {
                 localStorage.setItem('surgeCount', '3');
