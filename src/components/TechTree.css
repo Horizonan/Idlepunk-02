@@ -86,6 +86,49 @@
 }
 
 .horizontal-line {
+
+.required-label {
+  color: #FF0000;
+  font-weight: bold;
+  text-shadow: 0 0 5px #FF0000;
+  animation: glow 1.5s ease-in-out infinite alternate;
+  margin: 5px 0;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 5px #FF0000;
+  }
+  to {
+    text-shadow: 0 0 10px #FF0000, 0 0 15px #FF0000;
+  }
+}
+
+.item-info {
+  font-size: 0.9em;
+  margin-top: 10px;
+  text-align: left;
+  padding: 5px;
+}
+
+.item-info ul {
+  margin: 5px 0;
+  padding-left: 20px;
+  list-style-type: none;
+}
+
+.item-info li {
+  margin: 3px 0;
+  position: relative;
+}
+
+.item-info li:before {
+  content: "•";
+  color: #9400D3;
+  position: absolute;
+  left: -15px;
+}
+
   position: absolute;
   bottom: 0;
   left: 25%;

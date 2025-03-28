@@ -23,7 +23,15 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
             >
               Unlock Tronics Clicker
               <div className="tech-cost">Cost: 1 Token</div>
-              <div className="item-info"><p>Hello</p></div>
+              <div className="required-label">REQUIRED</div>
+              <div className="item-info">
+                <p>Unlocks the Tronics Clicker - essential for late-game progression:</p>
+                <ul>
+                  <li>Generate Tronics with each click</li>
+                  <li>Access to ElectroShop and advanced systems</li>
+                  <li>Required for Credit Store access</li>
+                </ul>
+              </div>
             </button>
           </div>
         </div>
