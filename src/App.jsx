@@ -118,6 +118,15 @@ export default function App() {
 
     window.addEventListener('addMaterial', handleAddMaterial);
     window.addEventListener('validateAchievements', handleValidateAchievements);
+    
+    const handleAddTronics = (e) => {
+      setTronics(prev => {
+        const newValue = prev + e.detail.amount;
+        localStorage.setItem('tronics', newValue);
+        return newValue;
+      });
+    };
+    window.addEventListener('addTronics', handleAddTronics);
 
     if (activeCheatsList['Force Triple Win']) {
       window.dispatchEvent(new CustomEvent('slotForceTriple'));
