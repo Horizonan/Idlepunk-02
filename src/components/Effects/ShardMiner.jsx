@@ -82,6 +82,12 @@ export default function ShardMiner({ onCollect }) {
     >
       <div className="miner-body">
         <div className="miner-glow"></div>
+        <div className="server-unit"></div>
+        <div className="server-unit"></div>
+        <div className="server-unit"></div>
+        <div className="server-unit"></div>
+        <div className="server-unit"></div>
+        <div className="server-unit"></div>
       </div>
       <div className="shard-indicator">
         {storedShards > 0 ? `⚡ x${storedShards}` : readyToCollect ? '⚡ Ready!' : formatTime(timeUntilNext)}
