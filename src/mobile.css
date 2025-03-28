@@ -45,6 +45,12 @@
     max-height: 70vh !important;
     overflow-y: auto !important;
   }
+
+  .quest-log .close-button {
+    font-size: 12px !important;
+    padding: 3px 8px !important;
+    opacity: 0.8 !important;
+  }
   
   .notifications-container {
     max-width: 90%;
