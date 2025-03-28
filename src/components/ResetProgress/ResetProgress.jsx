@@ -5,7 +5,15 @@ import './ResetProgress.css';
 
 export default function ResetProgress() {
   const handleReset = () => {
-    if (window.confirm('Are you sure you want to reset all progress? This cannot be undone!')) {
+    const confirmation = window.confirm('WARNING: This will permanently delete ALL progress including:\n\n' +
+      '- All junk and resources\n' +
+      '- All upgrades and items\n' +
+      '- All achievements and quests\n' +
+      '- All crafting materials\n' +
+      '- All automation progress\n\n' +
+      'This action cannot be undone! Are you sure?');
+    
+    if (confirmation) {
       resetAllProgress();
     }
   };
