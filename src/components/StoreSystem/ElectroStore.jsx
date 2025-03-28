@@ -103,9 +103,9 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
             </button>
 
             <button
-              className={`store-item ${tronics < 3000 || localStorage.getItem('flow_regulator_purchased') ? 'disabled' : ''}`}
+              className={`store-item ${tronics < 3000 || localStorage.getItem('flow_regulator_purchased') === 'true' ? 'disabled' : ''}`}
               onClick={() => {
-                if (tronics >= 3000 && !localStorage.getItem('flow_regulator_purchased')) {
+                if (tronics >= 3000 && localStorage.getItem('flow_regulator_purchased') !== 'true') {
                   setTronics(prev => prev - 3000);
                   localStorage.setItem('flow_regulator_purchased', 'true');
                   localStorage.setItem('globalTronicsMultiplier', '1.1');
