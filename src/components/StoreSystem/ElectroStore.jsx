@@ -215,14 +215,12 @@ export default function ElectroStore({ electroShards, setElectroShards, tronics,
 
                     setNotifications(prev => [...prev, "Circuit Optimization Unit installed! Global Junk/sec increased by 25%"]);
 
-                    // Trigger state update
-                    window.dispatchEvent(new Event('storage'));
+                    // Only store the count, let App.jsx handle the multiplier calculation
+                    window.dispatchEvent(new Event('storage')); // Trigger state update
+                  } else if (electroShards < 5) {
+                    setNotifications(prev => [...prev, "Not enough Electro Shards! Need 5 shards."]);
                   } else {
-                    if (tronics < currentCost) {
-                      setNotifications(prev => [...prev, "Not enough Tronics!"]);
-                    } else {
-                      setNotifications(prev => [...prev, "Not enough Electro Shards! Need 5 shards."]);
-                    }
+                    setNotifications(prev => [...prev, "Not enough Tronics!"]);
                   }
                 }
               }}
