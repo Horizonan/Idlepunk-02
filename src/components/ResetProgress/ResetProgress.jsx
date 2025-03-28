@@ -5,16 +5,29 @@ import './ResetProgress.css';
 
 export default function ResetProgress() {
   const handleReset = () => {
-    const confirmation = window.confirm('WARNING: This will permanently delete ALL progress including:\n\n' +
-      '- All junk and resources\n' +
+    const confirmText = 'RESET';
+    const userInput = window.prompt(
+      'WARNING: This will permanently delete ALL progress!\n\n' +
+      'Type RESET (all caps) and click OK to confirm deletion of:\n' +
+      '- All junk, credits, and resources\n' +
       '- All upgrades and items\n' +
       '- All achievements and quests\n' +
       '- All crafting materials\n' +
-      '- All automation progress\n\n' +
-      'This action cannot be undone! Are you sure?');
+      '- All automation progress\n' +
+      '- All skills and levels\n' +
+      '- Everything else\n\n' +
+      'This action CANNOT be undone!'
+    );
     
-    if (confirmation) {
-      resetAllProgress();
+    if (userInput === confirmText) {
+      try {
+        resetAllProgress();
+      } catch (error) {
+        console.error('Reset failed:', error);
+        alert('Reset failed! Please refresh the page and try again.');
+      }
+    } else if (userInput !== null) {
+      alert('Reset cancelled - Text did not match "RESET"');
     }
   };
 
