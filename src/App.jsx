@@ -705,9 +705,38 @@ export default function App() {
     }
   }, [craftingInventory]);
 
+  const [mainTimeLeft, setMainTimeLeft] = useState({
+    surge: 0,
+    crystal: 0
+  });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const nextSurgeTime = parseInt(localStorage.getItem('nextSurgeTime') || Date.now());
+      const nextCrystalTime = parseInt(localStorage.getItem('nextCrystalTime') || Date.now());
+      
+      setMainTimeLeft({
+        surge: Math.max(0, Math.ceil((nextSurgeTime - Date.now()) / 1000)),
+        crystal: Math.max(0, Math.ceil((nextCrystalTime - Date.now()) / 1000))
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <main>
       <VersionPopup onClose={() => {}} />
+      {localStorage.getItem('hadFirstSurge') === 'true' && (
+        <div className="main-timers">
+          <div className="timer-item">
+            Next surge in: {Math.floor(mainTimeLeft.surge / 60)}m {mainTimeLeft.surge % 60}s
+          </div>
+          <div className="timer-item crystal">
+            Next crystal in: {Math.floor(mainTimeLeft.crystal / 60)}m {mainTimeLeft.crystal % 60}s
+          </div>
+        </div>
+      )}
       {showQuestLog && <QuestLog tutorialStage={tutorialStage} onClose={() => setShowQuestLog(false)} />}
       <TutorialSystem
         junk={junk}

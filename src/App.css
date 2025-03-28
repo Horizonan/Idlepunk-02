@@ -806,6 +806,32 @@ button.locked {
   font-style: italic;
 }
 
+.main-timers {
+  position: fixed;
+  top: 130px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1000;
+}
+
+.timer-item {
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid #444;
+  padding: 8px 16px;
+  border-radius: 5px;
+  color: #888;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.timer-item.crystal {
+  border-color: #9400D3;
+  color: #9400D3;
+}
+
 .surge-banner {
   position: fixed;
   top: 180px;
