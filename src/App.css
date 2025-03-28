@@ -2031,22 +2031,9 @@ button.locked {
 }
 
 .locked-store {
-  opacity: 0.4;
+  opacity: 0.6;
   cursor: not-allowed;
   position: relative;
-  background: #333 !important;
-  border-color: #666 !important;
-  color: #888 !important;
-}
-
-.locked-store::before {
-  content: '🔒';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 24px;
-  z-index: 1;
 }
 
 .locked-store:hover::after {
