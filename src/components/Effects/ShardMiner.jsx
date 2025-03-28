@@ -5,6 +5,7 @@ import './ShardMiner.css';
 export default function ShardMiner({ onCollect }) {
   const [storedShards, setStoredShards] = useState(0);
   const [timeUntilNext, setTimeUntilNext] = useState(1800);
+  const [readyToCollect, setReadyToCollect] = useState(false);
   const maxShards = 3;
 
   useEffect(() => {
@@ -17,19 +18,29 @@ export default function ShardMiner({ onCollect }) {
 
   useEffect(() => {
     const miningInterval = setInterval(() => {
-      setStoredShards(prev => Math.min(prev + 1, maxShards));
+      if (storedShards < maxShards) {
+        setReadyToCollect(true);
+      }
       setTimeUntilNext(1800);
     }, 1800000); // 30 minutes
 
     const timerInterval = setInterval(() => {
-      setTimeUntilNext(prev => Math.max(0, prev - 1));
+      setTimeUntilNext(prev => {
+        if (prev <= 0) {
+          if (storedShards < maxShards) {
+            setReadyToCollect(true);
+          }
+          return 1800;
+        }
+        return prev - 1;
+      });
     }, 1000);
 
     return () => {
       clearInterval(miningInterval);
       clearInterval(timerInterval);
     };
-  }, []);
+  }, [storedShards]);
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -37,21 +48,26 @@ export default function ShardMiner({ onCollect }) {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
+  const handleClick = () => {
+    if (readyToCollect) {
+      setStoredShards(prev => Math.min(prev + 1, maxShards));
+      setReadyToCollect(false);
+    } else if (storedShards > 0) {
+      onCollect(storedShards);
+      setStoredShards(0);
+    }
+  };
+
   return (
     <div 
-      className={`shard-miner ${storedShards > 0 ? 'ready' : ''}`}
-      onClick={() => {
-        if (storedShards > 0) {
-          onCollect(storedShards);
-          setStoredShards(0);
-        }
-      }}
+      className={`shard-miner ${readyToCollect || storedShards > 0 ? 'ready' : ''}`}
+      onClick={handleClick}
     >
       <div className="miner-body">
         <div className="miner-glow"></div>
       </div>
       <div className="shard-indicator">
-        {storedShards > 0 ? `⚡ x${storedShards}` : formatTime(timeUntilNext)}
+        {storedShards > 0 ? `⚡ x${storedShards}` : readyToCollect ? '⚡ Ready!' : formatTime(timeUntilNext)}
       </div>
     </div>
   );
