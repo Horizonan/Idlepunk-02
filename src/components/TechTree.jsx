@@ -21,7 +21,7 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
               disabled={prestigeTokens < 1}
               className="tech-button"
             >
-              Unlock Tronics Clicker
+              <span>Unlock Tronics Clicker</span>
               <div className="tech-cost">Cost: 1 Token</div>
               <div className="required-label">REQUIRED</div>
               <div className="item-info">
