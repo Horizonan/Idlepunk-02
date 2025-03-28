@@ -1738,6 +1738,24 @@ button.locked {
 .notification {
 }
 
+.notifications-reopen-button {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(26, 26, 26, 0.9);
+  border: 2px solid #9400D3;
+  color: #00FF00;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.notifications-reopen-button:hover {
+  background: #9400D3;
+  color: #222;
+}
+
 .marketplace .npc-container {
   background: rgba(26, 26, 26, 0.9);
   padding: 20px;

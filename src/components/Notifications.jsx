@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 
 export default function Notifications({ notifications }) {
@@ -5,7 +6,16 @@ export default function Notifications({ notifications }) {
   const [isVisible, setIsVisible] = useState(true);
   const displayNotifications = isExpanded ? notifications : notifications.slice(-5);
 
-  if (!isVisible) return null;
+  if (!isVisible) {
+    return (
+      <button 
+        className="notifications-reopen-button"
+        onClick={() => setIsVisible(true)}
+      >
+        Show Notifications
+      </button>
+    );
+  }
 
   return (
     <div className="notifications-container">
