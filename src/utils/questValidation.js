@@ -114,6 +114,12 @@ export const validateQuests = ({
       onComplete: () => {
         localStorage.setItem('quest_sync_Prestige Ready', 'true');
         setNotifications(prev => [...prev, "You've accumulated enough junk to attempt a Prestige!"]);
+        
+        // Add animation to quest log buttons
+        const questLogBtn = document.querySelector('.quest-log-toggle');
+        const mainQuestLog = document.querySelector('.quest-log');
+        if (questLogBtn) questLogBtn.classList.add('quest-log-attention');
+        if (mainQuestLog) mainQuestLog.classList.add('quest-log-attention');
       }
     },
     {
