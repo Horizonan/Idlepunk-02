@@ -849,7 +849,6 @@ export default function App() {
         >
           {localStorage.getItem('sidebarLocked') === 'true' ? '🔒' : '🔓'}
         </button>
-        <button className="close-button" onClick={() => setMenuOpen(false)}>Close</button>
         <MenuButtons 
           onStoreSelect={(store) => {
             setActiveStore(store);
