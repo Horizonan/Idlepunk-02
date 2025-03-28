@@ -90,7 +90,6 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
                 <p>+2 Tronics per click</p>
                 <p className="owned">Owned: {localStorage.getItem('tronics_boost_II_count') || 0}</p>
                 <p title="Now with extra voltage. May void warranty.">Cost: {tronicsBoostIICost} Tronics</p>
-                {!localStorage.getItem('unlocked_tronics_boost') && <p className="locked-message">🔒 Locked - Requires Tronics Click Boost I</p>}
               </div>
             </button>
 
@@ -113,7 +112,6 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
                 <p>3% chance per click to gain 3x Tronics</p>
                 <p className="requirement">Requires Tronics Click Boost I</p>
                 <p className="onetime">One-time purchase</p>
-                {!hasTronicsBoost && <p className="locked-message">🔒 Locked - Requires Tronics Click Boost I</p>}
                 {hasQuantumTap && <p className="purchased">Already purchased</p>}
               </div>
             </button>
