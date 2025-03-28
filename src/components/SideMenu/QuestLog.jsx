@@ -108,8 +108,11 @@ export default function QuestLog({ tutorialStage, onClose }) {
           </button>
           {localStorage.getItem('cogfatherEvent') === 'true' && (
             <button 
-              className={`quest-tab ${selectedQuestLine === 'ascension' ? 'active' : ''}`}
-              onClick={() => setSelectedQuestLine('ascension')}
+              className={`quest-tab ${selectedQuestLine === 'ascension' ? 'active' : ''} ${localStorage.getItem('cogfatherEvent') === 'true' && !localStorage.getItem('ascension_tab_clicked') ? 'highlight' : ''}`}
+              onClick={() => {
+                setSelectedQuestLine('ascension');
+                localStorage.setItem('ascension_tab_clicked', 'true');
+              }}
             >
               Ascension Protocol
             </button>
