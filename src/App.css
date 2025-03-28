@@ -274,8 +274,8 @@ button {
 }
 
 .close-button {
-  background: #222;
-  border: 1px solid #9400D3;
+  background: rgba(34, 34, 34, 0.8);
+  border: 2px solid #9400D3;
   color: #00FF00;
   padding: 5px 15px;
   margin: 0;
@@ -284,10 +284,13 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 0 10px #9400D3;
+  text-shadow: 0 0 5px #00FF00;
 }
 
 .close-button:hover {
-  color: #9400D3;
+  background: rgba(148, 0, 211, 0.2);
+  box-shadow: 0 0 15px #9400D3;
 }
 
 .quest-item {
