@@ -1099,6 +1099,26 @@ button.locked {
   background: rgba(148, 0, 211, 0.6);
 }
 
+.menu-button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  position: relative;
+}
+
+.menu-button[disabled]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 105%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
 .menu-toggle {
   width: 100%;
   padding: 10px;
