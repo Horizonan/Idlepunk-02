@@ -101,7 +101,7 @@ export default function Store({ credits, itemCosts, ownedItems, onBuyTrashBag, o
       cost: { junk: 10000000, scrapCores: 5 },
       description: 'Passively generates 1 Electro Shard every 30 minutes, up to a max of 3 stored.',
       info: 'A glorified toaster tuned to the shard frequency. Hums when it works.',
-      unlockCondition: () => credits >= 10000000 && (craftingInventory['Scrap Core'] || 0) >= 5,
+      unlockCondition: () => credits >= 10000000 && (craftingInventory?.['Scrap Core'] || 0) >= 5,
       purchasedCount: ownedItems.shardMiner || 0,
       action: () => {
         if (!ownedItems.shardMiner && credits >= 10000000 && craftingInventory['Scrap Core'] >= 5) {
