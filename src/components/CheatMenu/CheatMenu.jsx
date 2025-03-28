@@ -122,15 +122,14 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
                 });
               }}>Add Basic Materials</button>
               <button onClick={() => {
-                console.log('Add 10 Electro Shards clicked');
-                const currentShards = parseInt(localStorage.getItem('electroShards') || '0');
-                console.log('Current shards:', currentShards);
+                const currentShards = parseInt(localStorage.getItem('electroShards')) || 0;
                 const newShards = currentShards + 10;
                 console.log('New shards:', newShards);
                 localStorage.setItem('electroShards', newShards.toString());
                 console.log('Updated localStorage');
-                setElectroShards(newShards); // Update state directly
+                setElectroShards(newShards);
                 console.log('State updated');
+                window.dispatchEvent(new Event('storage')); // Trigger global state update
               }}>Add 10 Electro Shards</button>
               <button onClick={() => {
                 localStorage.setItem('surgeCount', '3');
