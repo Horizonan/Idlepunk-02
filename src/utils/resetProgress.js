@@ -1,4 +1,5 @@
-// Initial game state values
+
+// Initial game state values with proper defaults
 const initialState = {
   junk: '0',
   credits: '0',
@@ -31,10 +32,10 @@ const initialState = {
   quantum_tap_purchased: 'false',
   skillLevels: '{"scavengingFocus":0,"greaseDiscipline":0}',
   preservedHelper: '',
-  hadFirstSurge: 'false',
-  autoClickerV1Count: '0'
+  hadFirstSurge: 'false'
 };
 
+// Initial object states
 const initialObjects = {
   achievements: [],
   craftingInventory: {},
@@ -48,35 +49,50 @@ const initialObjects = {
     clickEnhancer: 0,
     scrapDrone: 0,
     holoBillboard: 0,
-    junkRefinery: 0,
-    autoClicker: 0,
-    autoClickerV2: 0
+    junkRefinery: 0
   },
-  creditStoreItems: {},
-  electroStoreItems: {}
+  creditStoreItems: {
+    'Hover Drone': false,
+    'Crafting Booster Unit': false,
+    'Ascension Reclaimer': 0
+  },
+  itemCosts: {
+    trashBag: 10,
+    trashPicker: 100,
+    streetrat: 100,
+    cart: 500,
+    junkMagnet: 1500,
+    urbanRecycler: 3000,
+    autoClicker: 5000,
+    autoClickerV2: 10000,
+    clickEnhancer: 2500,
+    scrapDrone: 7500,
+    holoBillboard: 15000,
+    junkRefinery: 500000
+  }
 };
 
 export const resetAllProgress = () => {
-  // Clear all localStorage first
+  // Clear everything first
   localStorage.clear();
 
-  // Set initial primitive values
+  // Set initial values
   Object.entries(initialState).forEach(([key, value]) => {
     localStorage.setItem(key, value);
   });
 
-  // Set initial objects with proper stringification
+  // Set initial objects
   Object.entries(initialObjects).forEach(([key, value]) => {
     localStorage.setItem(key, JSON.stringify(value));
   });
 
-  // Clear all quest states
+  // Remove all quest states
   Object.keys(localStorage).forEach(key => {
     if (key.startsWith('quest_sync_')) {
       localStorage.removeItem(key);
     }
   });
 
-  // Force page reload to reset all React states
-  window.location.reload();
+  // Force complete page reload
+  window.location.href = window.location.href;
 };
