@@ -199,23 +199,31 @@ export default function ElectroStore({ electroShards, tronics, setTronics, setNo
                   const currentCost = parseInt(localStorage.getItem('circuit_optimization_cost') || '25000');
                   const currentCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
 
-                  setTronics(prev => prev - currentCost);
-                  setElectroShards(prev => {
-                    const newValue = prev - 5;
-                    localStorage.setItem('electroShards', newValue);
-                    return newValue;
-                  });
+                  if (tronics >= currentCost && electroShards >= 5) {
+                    setTronics(prev => prev - currentCost);
+                    setElectroShards(prev => {
+                      const newValue = prev - 5;
+                      localStorage.setItem('electroShards', newValue);
+                      return newValue;
+                    });
 
-                  const newCount = currentCount + 1;
-                  localStorage.setItem('circuit_optimization_count', newCount);
+                    const newCount = currentCount + 1;
+                    localStorage.setItem('circuit_optimization_count', newCount);
 
-                  const newCost = Math.floor(currentCost * 1.2);
-                  localStorage.setItem('circuit_optimization_cost', newCost);
+                    const newCost = Math.floor(currentCost * 1.2);
+                    localStorage.setItem('circuit_optimization_cost', newCost);
 
-                  setNotifications(prev => [...prev, "Circuit Optimization Unit installed! Global Junk/sec increased by 25%"]);
+                    setNotifications(prev => [...prev, "Circuit Optimization Unit installed! Global Junk/sec increased by 25%"]);
 
-                  // Only store the count, let App.jsx handle the multiplier calculation
-                  window.dispatchEvent(new Event('storage')); // Trigger state update
+                    // Trigger state update
+                    window.dispatchEvent(new Event('storage'));
+                  } else {
+                    if (tronics < currentCost) {
+                      setNotifications(prev => [...prev, "Not enough Tronics!"]);
+                    } else {
+                      setNotifications(prev => [...prev, "Not enough Electro Shards! Need 5 shards."]);
+                    }
+                  }
                 }
               }}
               title="More junk. Same scrap. Just optimized."
