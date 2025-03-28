@@ -274,6 +274,33 @@ button {
 }
 
 .quest-log .close-button {
+
+.notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  border-bottom: 1px solid #9400D3;
+}
+
+.notifications-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.close-notifications {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 5px;
+}
+
+.close-notifications:hover {
+  color: #ff4444;
+}
+
   background: #222;
   border: 1px solid #9400D3;
   color: #00FF00;
