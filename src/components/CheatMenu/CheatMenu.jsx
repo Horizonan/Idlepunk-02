@@ -8,6 +8,7 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
     tutorial: false,
     reset: false
   });
+  const [electroShards, setElectroShards] = useState(parseInt(localStorage.getItem('electroShards') || '0')); // Added state for electro shards
 
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -105,7 +106,7 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
                 localStorage.setItem('tronics', (currentTronics + 10000).toString());
                 window.dispatchEvent(new Event('storage'));
                 window.location.reload();
-              }}>Add 1000 Tronics</button>
+              }}>Add 10000 Tronics</button>
               <button onClick={() => {
                 localStorage.setItem('prestigeCount', '1');
                 window.dispatchEvent(new CustomEvent('addMaterial', {
@@ -121,11 +122,12 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
                 });
               }}>Add Basic Materials</button>
               <button onClick={() => {
-                const stored = localStorage.getItem('electroShards') || '0';
-                const current = parseInt(stored);
-                localStorage.setItem('electroShards', current + 10);
-                window.location.reload();
-              }}>Add 10 Crystals</button>
+                const currentShards = parseInt(localStorage.getItem('electroShards') || '0');
+                const newShards = currentShards + 10;
+                localStorage.setItem('electroShards', newShards);
+                setElectroShards(newShards);
+                window.dispatchEvent(new Event('storage'));
+              }}>Add 10 Electro Shards</button>
               <button onClick={() => {
                 localStorage.setItem('surgeCount', '3');
                 localStorage.setItem('hadFirstSurge', 'true');
