@@ -48,7 +48,15 @@ export const validateQuests = ({
     { 
       title: "Tool Master", 
       condition: clickMultiplier > 1,
-      category: 'progression'
+      category: 'progression',
+      onComplete: () => {
+        setElectroShards(prev => {
+          const newValue = prev + 1;
+          localStorage.setItem('electroShards', newValue);
+          return newValue;
+        });
+        setNotifications(prev => [...prev, "Quest Completed: Tool Master - Received 1x Electro Shard!"]);
+      }
     },
     { 
       title: "Passive Income", 
