@@ -10,7 +10,7 @@ export default function ResetProgress({ onReset }) {
       allKeys.forEach(key => localStorage.removeItem(key));
       localStorage.clear();
 
-      // Set essential default values
+      // Reset all game states to default values
       const defaultAchievements = [
         {
           title: "Junkie Starter",
@@ -38,20 +38,21 @@ export default function ResetProgress({ onReset }) {
         }
       ];
 
-      // Reinitialize essential storage values
+      // Reset all essential game states
       localStorage.setItem('achievements', JSON.stringify(defaultAchievements));
+      localStorage.setItem('junk', '0');
+      localStorage.setItem('credits', '0');
+      localStorage.setItem('tronics', '0');
       localStorage.setItem('globalJpsMultiplier', '1');
       localStorage.setItem('prestigeCount', '0');
-      localStorage.setItem('junk', '0');
       localStorage.setItem('clickCount', '0');
       localStorage.setItem('electronicsUnlock', 'false');
       localStorage.setItem('clickMultiplier', '1');
       localStorage.setItem('passiveIncome', '0');
       localStorage.setItem('autoClicks', '0');
       localStorage.setItem('clickEnhancerLevel', '0');
-      localStorage.setItem('electroShards', '0');
-      localStorage.setItem('tronics', '0');
       localStorage.setItem('tutorialStage', '0');
+      localStorage.setItem('electroShards', '0');
       localStorage.setItem('prestigeUnlocked', 'false');
       localStorage.setItem('hasPrestiged', 'false');
       localStorage.setItem('cogfatherEvent', 'false');
@@ -60,16 +61,27 @@ export default function ResetProgress({ onReset }) {
       localStorage.setItem('ownedItems', '{}');
       localStorage.setItem('creditStoreItems', '{}');
       localStorage.setItem('beaconCount', '0');
+      localStorage.setItem('showDrones', 'true');
+      localStorage.setItem('maxVisibleDrones', '10');
+      localStorage.setItem('maxClickEnhancers', '3');
+      localStorage.setItem('showBeaconVisual', 'true');
+      localStorage.setItem('enableHoloBillboard', 'true');
+      localStorage.setItem('showNewsTicker', 'true');
 
-      // Reset all quest states
+      // Reset quest states
       allKeys.forEach(key => {
         if (key.startsWith('quest_sync_')) {
           localStorage.removeItem(key);
         }
       });
 
-      // Force page reload to ensure clean slate
-      window.location.reload();
+      // Reset all UI states
+      localStorage.setItem('menuOpen', 'true');
+      localStorage.setItem('activeStore', null);
+      localStorage.setItem('ascension_tab_clicked', 'false');
+
+      // Force a complete page reload to reset all React states
+      window.location.href = window.location.href;
     }
   };
 
