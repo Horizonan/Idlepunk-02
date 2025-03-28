@@ -12,7 +12,6 @@ export default function StatsDisplay({ credits, junk, passiveIncome, globalJpsMu
       {hasPrestiged && (
         <>
           <p>Tronics: {tronics.toFixed(2)}</p>
-          <p>Tronics Multiplier: {((parseFloat(localStorage.getItem('globalTronicsMultiplier') || '1') * 100) - 100).toFixed(0)}%</p>
         </>
       )}
       <p className="crystal-shards" title="Requires advanced knowledge to operate. Unlocks after ascension.">
