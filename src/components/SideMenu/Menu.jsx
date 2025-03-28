@@ -18,7 +18,7 @@ export default function Menu({ onStoreSelect }) {
       header: 'Activities',
       buttons: [
         { id: 'marketplace', label: 'Junktown Nexus' },
-        { id: 'scraptagon', label: '🔒 The Scraptagon', disabled: true, tooltip: 'Under Construction' },
+        { id: 'scraptagon', label: 'The Scraptagon', disabled: true, tooltip: 'Under Construction' },
         { id: 'slotMachine', label: 'Slot Machine' }
       ]
     },
