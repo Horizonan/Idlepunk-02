@@ -2,25 +2,36 @@
 import React, { useState, useEffect } from 'react';
 
 export default function FlyingCrystal({ onCollect, onDisappear }) {
-  const [position, setPosition] = useState({ x: -100, y: Math.random() * window.innerHeight });
-
+  const [position, setPosition] = useState({ 
+    x: Math.random() < 0.5 ? -100 : window.innerWidth + 100,
+    y: Math.random() * window.innerHeight 
+  });
+  const [direction] = useState(position.x < 0 ? 1 : -1);
+  
   useEffect(() => {
     const moveInterval = setInterval(() => {
-      setPosition(prev => ({
-        ...prev,
-        x: prev.x + 2
-      }));
+      setPosition(prev => {
+        const newX = prev.x + (3 * direction);
+        if ((direction > 0 && newX > window.innerWidth + 100) || 
+            (direction < 0 && newX < -100)) {
+          onDisappear();
+        }
+        return {
+          ...prev,
+          x: newX
+        };
+      });
     }, 16);
 
     const disappearTimeout = setTimeout(() => {
       onDisappear();
-    }, 300000); // 5 minutes
+    }, 300000); // 5 minutes max duration
 
     return () => {
       clearInterval(moveInterval);
       clearTimeout(disappearTimeout);
     };
-  }, []);
+  }, [direction, onDisappear]);
 
   return (
     <img
