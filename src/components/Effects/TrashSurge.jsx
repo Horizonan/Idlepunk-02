@@ -50,9 +50,9 @@ export default function TrashSurge({ isActive }) {
     );
   }
 
-  return (
+  return localStorage.getItem('hadFirstSurge') === 'true' ? (
     <div className="next-surge-timer">
       Next surge in: {Math.floor(timeLeft / 60)}m {timeLeft % 60}s
     </div>
-  );
+  ) : null;
 }
