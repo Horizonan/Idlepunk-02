@@ -79,6 +79,19 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
           >
             {openCategories.resources ? '▼' : '▶'} Resources
           </button>
+          <button 
+            className="category-header"
+            onClick={() => toggleCategory('tools')}
+          >
+            {openCategories.tools ? '▼' : '▶'} Tools
+          </button>
+          {openCategories.tools && (
+            <div className="category-content">
+              <button onClick={() => {
+                window.dispatchEvent(new CustomEvent('skipShardTimer'));
+              }}>Skip Shard Timer</button>
+            </div>
+          )}
           {openCategories.resources && (
             <div className="category-content">
               <button onClick={() => onAddJunk(1000)}>Add 1000 Junk</button>

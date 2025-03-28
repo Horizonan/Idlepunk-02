@@ -8,6 +8,14 @@ export default function ShardMiner({ onCollect }) {
   const maxShards = 3;
 
   useEffect(() => {
+    const handleSkipTimer = () => {
+      setTimeUntilNext(1);
+    };
+    window.addEventListener('skipShardTimer', handleSkipTimer);
+    return () => window.removeEventListener('skipShardTimer', handleSkipTimer);
+  }, []);
+
+  useEffect(() => {
     const miningInterval = setInterval(() => {
       setStoredShards(prev => Math.min(prev + 1, maxShards));
       setTimeUntilNext(1800);
