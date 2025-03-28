@@ -819,10 +819,11 @@ export default function App() {
         className={`sidebar ${menuOpen ? 'open' : ''} ${localStorage.getItem('sidebarLocked') === 'true' ? 'locked' : ''}`}
         style={{
           left: menuOpen ? (localStorage.getItem('sidebarLeft') || '0px') : '-300px',
-          bottom: activeStore ? (localStorage.getItem('sidebarBottom') || '250px') : '250px'
+          top: localStorage.getItem('sidebarTop') || '250px',
+          bottom: 'auto'
         }}
         onMouseDown={(e) => {
-          if (localStorage.getItem('sidebarLocked') === 'true' ||e.target.className === 'lock-button') return;
+          if (localStorage.getItem('sidebarLocked') === 'true' || e.target.className === 'lock-button') return;
 
           const sidebar = e.currentTarget;
           const startX = e.clientX - sidebar.offsetLeft;
@@ -848,8 +849,12 @@ export default function App() {
           className="lock-button"
           onClick={() => {
             const isLocked = localStorage.getItem('sidebarLocked') === 'true';
-            localStorage.setItem('sidebarLocked', !isLocked);
+            const newLocked = !isLocked;
+            localStorage.setItem('sidebarLocked', newLocked);
             document.querySelector('.sidebar').classList.toggle('locked');
+            // Force a re-render by toggling a class
+            document.querySelector('.sidebar').classList.toggle('temp');
+            setTimeout(() => document.querySelector('.sidebar').classList.toggle('temp'), 0);
           }}
         >
           {localStorage.getItem('sidebarLocked') === 'true' ? '🔒' : '🔓'}
