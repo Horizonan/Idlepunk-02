@@ -35,6 +35,7 @@ export default function Settings({
           <p>Global JPS Multiplier: {(1 + (globalJpsMultiplier - 1) + (craftingInventory['Compression Pack'] ? 0.25 : 0)).toFixed(2)}x</p>
           <p>Trash Surges Completed: {surgeCount.toLocaleString()}</p>
           <p>Times Prestiged: {prestigeCount}</p>
+          <p>Crystal Time Reduction: {Math.min(10, parseInt(localStorage.getItem('beaconCount') || '0'))}%</p>
         </div>
         {preservedHelper && (
           <div className="stats-section">
