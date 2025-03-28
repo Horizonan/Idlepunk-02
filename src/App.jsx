@@ -639,7 +639,6 @@ export default function App() {
     // Check for 1M junk milestone
     if (junk >= 1000000) {
       if (!localStorage.getItem('shown_questlog_hint')) {
-        setNotifications(prev => [...prev, "You've reached a milestone! Check the Quest Log for progress."]);
         localStorage.setItem('shown_questlog_hint', 'true');
         
         // Add pulsing animation class to both quest log buttons
@@ -647,6 +646,19 @@ export default function App() {
         const mainQuestLog = document.querySelector('.quest-log');
         if (questLogBtn) questLogBtn.classList.add('quest-log-attention');
         if (mainQuestLog) mainQuestLog.classList.add('quest-log-attention');
+
+        // Add Cogfather popup message
+        const cogfatherMessage = (
+          <div className="cogfather-message-popup">
+            <img src="Icons/NPCs/Cogfather.jfif" alt="Cogfather" />
+            <p>A million pieces of junk? Now that's what I call a beautiful mess. Check your quest log, kid - you're ready for bigger things.</p>
+            <button onClick={() => {
+              setShowQuestLog(true);
+              setNotifications(prev => prev.filter(n => typeof n !== 'object'));
+            }}>Open Quest Log</button>
+          </div>
+        );
+        setNotifications(prev => [...prev, cogfatherMessage]);
       }
     }
   }, [tutorialStage, junk]);
