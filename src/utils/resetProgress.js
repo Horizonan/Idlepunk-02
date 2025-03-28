@@ -1,5 +1,4 @@
-
-// Initial game state values with proper defaults
+// Initial game state values
 const initialState = {
   junk: '0',
   credits: '0',
@@ -32,10 +31,10 @@ const initialState = {
   quantum_tap_purchased: 'false',
   skillLevels: '{"scavengingFocus":0,"greaseDiscipline":0}',
   preservedHelper: '',
-  hadFirstSurge: 'false'
+  hadFirstSurge: 'false',
+  autoClickerV1Count: '0'
 };
 
-// Initial object states
 const initialObjects = {
   achievements: [],
   craftingInventory: {},
@@ -49,50 +48,35 @@ const initialObjects = {
     clickEnhancer: 0,
     scrapDrone: 0,
     holoBillboard: 0,
-    junkRefinery: 0
+    junkRefinery: 0,
+    autoClicker: 0,
+    autoClickerV2: 0
   },
-  creditStoreItems: {
-    'Hover Drone': false,
-    'Crafting Booster Unit': false,
-    'Ascension Reclaimer': 0
-  },
-  itemCosts: {
-    trashBag: 10,
-    trashPicker: 100,
-    streetrat: 100,
-    cart: 500,
-    junkMagnet: 1500,
-    urbanRecycler: 3000,
-    autoClicker: 5000,
-    autoClickerV2: 10000,
-    clickEnhancer: 2500,
-    scrapDrone: 7500,
-    holoBillboard: 15000,
-    junkRefinery: 500000
-  }
+  creditStoreItems: {},
+  electroStoreItems: {}
 };
 
 export const resetAllProgress = () => {
-  // Clear everything first
+  // Clear all localStorage first
   localStorage.clear();
 
-  // Set initial values
+  // Set initial primitive values
   Object.entries(initialState).forEach(([key, value]) => {
     localStorage.setItem(key, value);
   });
 
-  // Set initial objects
+  // Set initial objects with proper stringification
   Object.entries(initialObjects).forEach(([key, value]) => {
     localStorage.setItem(key, JSON.stringify(value));
   });
 
-  // Remove all quest states
+  // Clear all quest states
   Object.keys(localStorage).forEach(key => {
     if (key.startsWith('quest_sync_')) {
       localStorage.removeItem(key);
     }
   });
 
-  // Force complete page reload
-  window.location.href = window.location.href;
+  // Force page reload to reset all React states
+  window.location.reload();
 };
