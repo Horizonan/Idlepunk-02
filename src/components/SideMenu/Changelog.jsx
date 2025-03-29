@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default function Changelog({ onClose }) {
-  const [expandedVersion, setExpandedVersion] = useState('0.0.4.5/2');
+  const [expandedVersion, setExpandedVersion] = useState('0.0.5');
 
   const toggleVersion = (version) => {
     setExpandedVersion(expandedVersion === version ? null : version);
@@ -16,6 +16,50 @@ export default function Changelog({ onClose }) {
       </div>
       
       <div className="changelog-content">
+
+        <div className="changelog-entry">
+          <h3 onClick={() => toggleVersion('0.0.5')} style={{ cursor: 'pointer' }}>
+            🔧 Big QoL and Bugs – Update Log 0.0.5 {expandedVersion === '0.0.5' ? '▼' : '▶'}
+          </h3>
+          {expandedVersion === '0.0.5' && (
+            <>
+              <p>Note: Huge Thanks to kykydoodles (Potatomaster) for helping with Feature Testing 💛</p>
+              <div className="changelog-section">
+                <h3>⚙️ UI & UX Improvements</h3>
+                <p>⚙️ Improved portrait mode UI scaling</p>
+                <p>⚙️ Updated Prestige quest chain wording for clarity</p>
+                <p>⚙️ Standardized Store naming</p>
+                <p>⚙️ Side menu sorted for better navigation</p>
+                <p>⚙️ Notifications are now fully closable</p>
+                <p>⚙️ Gametips renamed from Tooltips for consistency</p>
+                <p>⚙️ Added Tech Tree Tooltip + new Item Info Box for tech nodes</p>
+                <p>⚙️ Added Flying Crystal Tooltip</p>
+                <h3>🔧 Bugfixes & Functionality Tweaks</h3>
+                <p>🔧 Fixed clicker Junk/sec bug (finally!)</p>
+                <p>🔧 Store lock now stays locked on reload</p>
+                <p>🔧 Fixed lock animation not showing without reload</p>
+                <p>🔧 Fixed Cheat Menu functionality and cleaned it up</p>
+                <p>🔧 Tronics Info Box no longer shows item price</p>
+                <p>🔧 Circuit Optimization Unit now correctly subtracts Electro Shards</p>
+                <p>🔧 Electro Shard Beacon now displays item ownership properly</p>
+                <p>🔧 Shard Miner has been relocated</p>
+                <p>🔧 Added missing Electro Shard reward for Tool Master quest</p>
+                <p>🔧 Hover Drone is now toggleable</p>
+                <h3>⚡ Core System Updates</h3>
+                <p>⚡ Fully reworked Surge system</p>
+                <p>⚡ Added Next Surge timer after triggering the first surge</p>
+                <p>⚡ Trash Surge timer now only displays when Trash Clicker is selected</p>
+                <h3>🧩 New Content</h3>
+                <p>🧩 Added Flow Regulator item to ElectroShop</p>
+                <p>🧩 Added reduction stat in Settings menu</p>
+                <p>🧩 Added sound effect when crystal shard appears</p>
+                <p>🧩 Added proper locked messages for average ElectroShop upgrades</p>
+                <p>🧩 Renamed Prestige quest: “Prestige Ready” → “Unlock Ascension Protocol”</p>
+              </div>
+              <p className="changelog-footer">Thanks again for playing and sharing your feedback — it really helps shape each version. More content and polish coming soon! If you want to help please make sure to mail me itscolord@gmail.com 🚀</p>
+            </>
+          )}
+        </div>
 
         <div className="changelog-entry">
           <h3 onClick={() => toggleVersion('0.0.4.5/2')} style={{ cursor: 'pointer' }}>
