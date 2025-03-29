@@ -24,10 +24,11 @@ export default function TrashSurge({ isActive }) {
     if (isActive) {
       document.body.classList.add('surge-active');
 
-      const baseSurgeDuration = parseInt(localStorage.getItem('surgeDuration') || '5000');
+      const isQuickTimer = JSON.parse(localStorage.getItem('activeCheatsList') || '{}')['Quick Surge Timer'];
+      const baseSurgeDuration = isQuickTimer ? 5000 : parseInt(localStorage.getItem('surgeDuration') || '5000');
       const isSurgeNodePurchased = localStorage.getItem('electro_surge_node_purchased') === 'true';
       const surgeDurationBonus = isSurgeNodePurchased ? parseInt(localStorage.getItem('surge_duration_bonus') || '5') * 1000 : 0;
-      const surgeDuration = baseSurgeDuration + surgeDurationBonus;
+      const surgeDuration = isQuickTimer ? 5000 : (baseSurgeDuration + surgeDurationBonus);
 
       const endTime = Date.now() + surgeDuration;
 
