@@ -264,6 +264,7 @@ export default function ElectroStore({ electroShards, onRemoveElectroShard, tron
                 <p className="owned">Owned: {localStorage.getItem('circuit_optimization_count') || 0}/4</p>
               </div>
             </button>
+            
           </div>
         )}
       </div>
