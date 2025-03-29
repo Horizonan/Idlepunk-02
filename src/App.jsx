@@ -506,21 +506,15 @@ export default function App() {
     checkAchievements();
   };
 
+  
   const collectTronics = () => {
     if (electronicsUnlock) {
-      const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
-      const quantumProc = hasQuantumTap && Math.random() < 0.03;
-      const amount = quantumProc ? 3 : 1;
 
       setTronics(prev => {
         const newValue = prev + amount;
         localStorage.setItem('tronics', newValue);
         return newValue;
       });
-
-      if (quantumProc) {
-        setNotifications(prev => [...prev, "Quantum Tap triggered! 3x Tronics gained!"]);
-      }
     }
   };
 
@@ -720,7 +714,7 @@ export default function App() {
         onTutorialProgress={(stage) => setTutorialStage(stage)}
       />
       {showNewsTicker && <NewsContainer isSurgeActive={isSurgeActive} />}
-      <TrashSurge isActive={isSurgeActive} />
+      <TrashSurge isActive={isSurgeActive} activeClicker={document.querySelector('.clicker-select.active')?.textContent.includes('Trash') ? 'trash' : 'electronics'} />
       {enableHoloBillboard && <HoloBillboard ownedItems={ownedItems} />}
       {showCrystal && (
         <FlyingCrystal
