@@ -7,6 +7,12 @@ function setNextSurgeTimer() {
   window.dispatchEvent(new Event('triggerSurge'));
 }
 
+function setNextTronicsSurgeTimer() {
+  const nextTime = Date.now() + 10000; // 10 seconds
+  localStorage.setItem('nextTronicsSurgeTime', nextTime.toString());
+  window.dispatchEvent(new Event('triggerTronicsSurge'));
+}
+
 export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial, onNextTutorial, setShowTrashBonus, onAddTronics, onAddSetPrestige, onAddElectroShard, onShowCrystal, onSetTronicsSurgeActive, onSetSurgeActive }) {
   const [openCategories, setOpenCategories] = useState({
     resources: false,
@@ -160,6 +166,7 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
                 window.location.reload();
               }}>Max Grease Discipline</button>
               <button onClick={setNextSurgeTimer}>Set Next Surge 10s</button>
+              <button onClick={setNextTronicsSurgeTimer}>Set Next Tronics Surge 10s</button>
             </div>
           )}
         </div>
