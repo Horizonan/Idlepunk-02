@@ -38,6 +38,7 @@ import PrestigePopup from './components/PrestigePopup';
 import UpgradeStats from './components/StoreSystem/UpgradeStats';
 import Tooltips from './components/SideMenu/Tooltips';
 import ShardMiner from './components/Effects/ShardMiner';
+import TronicsSurge from './components/Effects/TronicsSurge';
 
 export default function App() {
   const { 
@@ -718,6 +719,10 @@ export default function App() {
       />
       {showNewsTicker && <NewsContainer isSurgeActive={isSurgeActive} />}
       <TrashSurge isActive={isSurgeActive} activeClicker={document.querySelector('.clicker-select.active')?.textContent.includes('Trash') ? 'trash' : 'electronics'} />
+
+      
+       <TronicsSurge isActive={isTronicsSurgeActive} activeClicker={document.querySelector('.clicker-select.active')?.textContent.includes('Trash') ? 'trash' : 'electronics'} />
+      
       {enableHoloBillboard && <HoloBillboard ownedItems={ownedItems} />}
       {showCrystal && (
         <FlyingCrystal

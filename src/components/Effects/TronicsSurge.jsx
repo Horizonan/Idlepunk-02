@@ -6,7 +6,7 @@ export default function TronicsSurge({ isActive, activeClicker }) {
   const [timeLeft, setTimeLeft] = useState(0);
   const [nextSurgeTime, setNextSurgeTime] = useState(() => {
     const saved = localStorage.getItem('nextTronicsSurgeTime');
-    return saved ? parseInt(saved) : Date.now() + (300000 + Math.random() * 300000);
+    return saved ? parseInt(saved) : Date.now() + (600000 + Math.random() * 900000);
   });
   const [capacitors, setCapacitors] = useState([]);
 
@@ -35,8 +35,8 @@ export default function TronicsSurge({ isActive, activeClicker }) {
         if (remaining === 0) {
           clearInterval(timer);
           clearInterval(capacitorTimer);
-          const nextTime = Date.now() + (300000 + Math.random() * 300000);
-          setNextSurgeTime(nextTime);
+          const nextTime = Date.now() + (600000 + Math.random() * 900000);
+          setNextSurgeTime(nextTime);0
           localStorage.setItem('nextTronicsSurgeTime', nextTime);
           document.body.classList.remove('tronics-surge-active');
           setCapacitors([]);
@@ -57,6 +57,10 @@ export default function TronicsSurge({ isActive, activeClicker }) {
         
         if (remaining === 0) {
           window.dispatchEvent(new CustomEvent('triggerTronicsSurge'));
+          clearInterval(timer);
+          const nextTime = Date.now() + (240000 + Math.random() * 240000);
+          setNextSurgeTime(nextTime);
+          localStorage.setItem('nextSurgeTime', nextTime);
         }
       }, 1000);
 
@@ -97,7 +101,7 @@ export default function TronicsSurge({ isActive, activeClicker }) {
   }
 
   return activeClicker === 'electronics' ? (
-    <div className="next-surge-timer">
+    <div className="next-surge-timer-tronics">
       Next Tronics surge in: {Math.floor(timeLeft / 60)}m {timeLeft % 60}s
     </div>
   ) : null;
