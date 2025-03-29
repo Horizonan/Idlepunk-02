@@ -297,8 +297,7 @@ export default function App() {
   const [activeCheatsList, setActiveCheatsList] = useState(() => ({
     'Guaranteed Capacitor': false,
     'Force Triple Win': false,
-    'Force Double Win': false,
-    'Quick Surge Timer': false
+    'Force Double Win': false
   }));
   const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem('itemCosts')) || {
     trashBag: 10,
