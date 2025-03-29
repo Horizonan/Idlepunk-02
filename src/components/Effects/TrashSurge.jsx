@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from 'react';
-import './TrashSurge.css';
 
 export default function TrashSurge({ isActive, activeClicker }) {
   const [timeLeft, setTimeLeft] = useState(0);
@@ -46,7 +45,6 @@ export default function TrashSurge({ isActive, activeClicker }) {
       };
     } else {
       const timer = setInterval(() => {
-        console.log("entered next Surge");
         const remaining = Math.max(0, Math.ceil((nextSurgeTime - Date.now()) / 1000));
         setTimeLeft(remaining);
         console.log("in else");
