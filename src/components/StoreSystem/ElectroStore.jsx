@@ -206,16 +206,20 @@ export default function ElectroStore({ electroShards, onRemoveElectroShard, tron
             >
               <div className="item-header">
                 <strong>⚡ Electro Surge Node</strong>
+               
                 {!localStorage.getItem('electro_surge_node_purchased') ? (
                   <>
-                    <p>Increases all Surge durations by +5 seconds and unlocks tronics surge</p>
-                    <p>Cost: 35,000 Tronics and 8 Electro Shards</p>
-                    <p>One-time purchase</p>
-                    <p className="flavor-text">"Let it surge. Let it ride."</p>
+                    <p>35,000 Tronics + 8 Electro Shards</p>
                   </>
                 ) : (
                   <p>Purchased</p>
                 )}
+              </div>
+              <div className="item-info">
+                <p>Increases all Surge durations by +5 seconds and unlocks tronics surge</p>
+                 <p>Cost: 35,000 Tronics and 8 Electro Shards</p>
+                 <p>One-time purchase</p>
+                <p className="flavor-text">"Let it surge. Let it ride."</p>
               </div>
             </button>
             <button
