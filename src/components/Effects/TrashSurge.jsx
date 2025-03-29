@@ -48,10 +48,8 @@ export default function TrashSurge({ isActive, activeClicker }) {
       const timer = setInterval(() => {
         const remaining = Math.max(0, Math.ceil((nextSurgeTime - Date.now()) / 1000));
         setTimeLeft(remaining);
-        console.log("in else");
-        console.log(isActive);
-
-        if (remaining <= 0) {
+        
+        if (remaining <= 0 && !isActive) {
           clearInterval(timer);
           const nextTime = Date.now() + (240000 + Math.random() * 240000);
           setNextSurgeTime(nextTime);
