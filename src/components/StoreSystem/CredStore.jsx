@@ -1,28 +1,38 @@
 import React from 'react';
-import CredStoreFunctionality from './CredStoreFunctionality';
 
 export default function CredStore({ credits, junk, onSellJunk, onBuyBeacon, craftingInventory, onBuyHoverDrone, onBuyBooster, onBuyReclaimer, autoClicks, onBack, creditStoreItems, onBuyShardExtractor }) {
+  const baseRate = 100000; // 100,000 junk = 1 credit
+  const formatAmount = (amount) => {
+    if (amount >= 1000000) {
+      return `${(amount / 1000000)} mil`;
+    } else if (amount >= 1000) {
+      return `${(amount / 1000)}k`;
+    }
+    return amount;
+  };
+
   return (
     <div className="store-container">
       <div className="store-header">
         <h2>Credit Store</h2>
         <button onClick={onBack}>Close</button>
       </div>
-      <CredStoreFunctionality 
-        junk={junk}
-        credits={credits}
-        autoClicks={autoClicks}
-        onSellJunk={onSellJunk}
-        onBuyBeacon={onBuyBeacon}
-        craftingInventory={craftingInventory}
-        onBuyHoverDrone={onBuyHoverDrone}
-        onBuyBooster={onBuyBooster}
-        onBuyReclaimer={onBuyReclaimer}
-        onBuyShardExtractor={onBuyShardExtractor}
-        creditStoreItems={creditStoreItems}
-      />
-    </div>
-  );on>
+      <div className="store-items">
+        <button
+          onClick={() => onSellJunk(baseRate)}
+          disabled={junk < baseRate}
+          className="store-item"
+        >
+          <div className="item-header">
+            <strong>💲 Basic Exchange</strong>
+          </div>
+          <div>1 Credit</div>
+          <div className="item-info">
+            Sell {formatAmount(baseRate)} Junk for 1 Credit
+            Convert your excess junk into valuable credits at the standard exchange rate.
+            Perfect for small transactions.
+          </div>
+        </button>
 
         <button
           onClick={() => onSellJunk(baseRate * 10)}
