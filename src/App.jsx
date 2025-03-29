@@ -262,7 +262,9 @@ export default function App() {
       
       const isTronicsSurgeUnlocked = localStorage.getItem('electro_surge_node_purchased') === 'true';
       const surgeDurationBonus = isTronicsSurgeUnlocked ? parseInt(localStorage.getItem('surge_duration_bonus') || '5') : 0;
-      const surgeDuration = craftingInventory['Surge Capacitor Module'] ? 10000 : 5000;
+      const surgeDuration = craftingInventory['Surge Capacitor Module'] ? 10000 : 5000 + (surgeDurationBonus * 1000);
+      console.log(surgeDuration);
+      
       setTimeout(() => {
         setIsSurgeActive(false);
         setHasFoundCapacitorThisSurge(false);
@@ -278,7 +280,7 @@ export default function App() {
     window.addEventListener('triggerSurge', handleTriggerSurge);
 
     const interval = setInterval(() => {
-      if (Math.random() < 0.5) startSurge();
+      if (!isSurgeActive && Math.random() < 0.5) startSurge();
     }, 240000 + Math.random() * 240000);
 
     return () => {
