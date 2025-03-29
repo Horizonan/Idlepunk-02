@@ -15,7 +15,12 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
               const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
               const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
               const totalBoost = boostICount + (boostIICount * 2);
-              for(let i = 0; i <= totalBoost; i++) {
+              const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
+              
+              // Apply quantum tap chance (3%)
+              const quantumMultiplier = hasQuantumTap && Math.random() < 0.03 ? 3 : 1;
+              
+              for(let i = 0; i < totalBoost * quantumMultiplier; i++) {
                 collectTronics();
               }
             }} 
