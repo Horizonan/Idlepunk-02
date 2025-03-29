@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 
 export default function TrashSurge({ isActive, activeClicker }) {
@@ -15,7 +16,7 @@ export default function TrashSurge({ isActive, activeClicker }) {
       const isSurgeNodePurchased = localStorage.getItem('electro_surge_node_purchased') === 'true';
       const surgeDurationBonus = isSurgeNodePurchased ? parseInt(localStorage.getItem('surge_duration_bonus') || '5') * 1000 : 0;
       const surgeDuration = baseSurgeDuration + surgeDurationBonus;
-
+      
       console.log("Active:", isActive);
       console.log("Base Surge Duration:", baseSurgeDuration);
       console.log("Surge Duration Bonus:", surgeDurationBonus);
@@ -32,7 +33,7 @@ export default function TrashSurge({ isActive, activeClicker }) {
           console.log("Tried to remove surge-active");
           clearInterval(timer);
           document.body.classList.remove('surge-active');
-          const nextTime = Date.now() + (20000 + Math.random() * 20000); // Set to 20-40 seconds for testing
+          const nextTime = Date.now() + (240000 + Math.random() * 240000);
           setNextSurgeTime(nextTime);
           localStorage.setItem('nextSurgeTime', nextTime.toString());
         }
@@ -51,7 +52,7 @@ export default function TrashSurge({ isActive, activeClicker }) {
 
         if (remaining <= 0) {
           clearInterval(timer);
-          const nextTime = Date.now() + (20000 + Math.random() * 20000); // Set to 20-40 seconds for testing
+          const nextTime = Date.now() + (240000 + Math.random() * 240000);
           setNextSurgeTime(nextTime);
           localStorage.setItem('nextSurgeTime', nextTime.toString());
           window.dispatchEvent(new Event('triggerSurge'));
