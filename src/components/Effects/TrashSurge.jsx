@@ -1,24 +1,13 @@
-import { useState, useEffect } from 'react';
 
-export default function TrashSurge({ isActive }) {
+import { useState, useEffect } from 'react';
+import './TrashSurge.css';
+
+export default function TrashSurge({ isActive, activeClicker }) {
   const [timeLeft, setTimeLeft] = useState(0);
-  const [activeClicker, setActiveClicker] = useState('trash');
   const [nextSurgeTime, setNextSurgeTime] = useState(() => {
     const saved = localStorage.getItem('nextSurgeTime');
     return saved ? parseInt(saved) : Date.now() + (240000 + Math.random() * 240000);
   });
-
-  useEffect(() => {
-    const updateActiveClicker = () => {
-      const activeElement = document.querySelector('.clicker-select.active');
-      setActiveClicker(activeElement?.textContent.toLowerCase().includes('trash') ? 'trash' : 'tronics');
-    };
-
-    updateActiveClicker();
-    document.addEventListener('click', updateActiveClicker);
-
-    return () => document.removeEventListener('click', updateActiveClicker);
-  }, []);
 
   useEffect(() => {
     if (isActive) {
@@ -28,17 +17,26 @@ export default function TrashSurge({ isActive }) {
       const isSurgeNodePurchased = localStorage.getItem('electro_surge_node_purchased') === 'true';
       const surgeDurationBonus = isSurgeNodePurchased ? parseInt(localStorage.getItem('surge_duration_bonus') || '5') * 1000 : 0;
       const surgeDuration = baseSurgeDuration + surgeDurationBonus;
+      
+      console.log("Active:", isActive);
+      console.log("Base Surge Duration:", baseSurgeDuration);
+      console.log("Surge Duration Bonus:", surgeDurationBonus);
+      console.log("Total Surge Duration:", Math.floor(surgeDuration/1000) + " seconds");
 
       const endTime = Date.now() + surgeDuration;
 
       const timer = setInterval(() => {
         const remaining = Math.max(0, Math.ceil((endTime - Date.now()) / 1000));
         setTimeLeft(remaining);
+        console.log(remaining + "seconds");
 
         if (remaining === 0) {
+          console.log("Tried to remove surge-active");
           clearInterval(timer);
           document.body.classList.remove('surge-active');
-          window.dispatchEvent(new Event('surgeCooldown'));
+          const nextTime = Date.now() + (240000 + Math.random() * 240000);
+          setNextSurgeTime(nextTime);
+          localStorage.setItem('nextSurgeTime', nextTime.toString());
         }
       }, 1000);
 
@@ -48,15 +46,18 @@ export default function TrashSurge({ isActive }) {
       };
     } else {
       const timer = setInterval(() => {
+        console.log("entered next Surge");
         const remaining = Math.max(0, Math.ceil((nextSurgeTime - Date.now()) / 1000));
         setTimeLeft(remaining);
+        console.log("in else");
+        console.log(isActive);
 
-        if (remaining === 0) {
+        if (remaining <= 0) {
           clearInterval(timer);
-          window.dispatchEvent(new Event('triggerSurge'));
           const nextTime = Date.now() + (240000 + Math.random() * 240000);
           setNextSurgeTime(nextTime);
           localStorage.setItem('nextSurgeTime', nextTime.toString());
+          window.dispatchEvent(new Event('triggerSurge'));
         }
       }, 1000);
 
