@@ -24,15 +24,17 @@ export default function TrashSurge({ isActive, activeClicker }) {
 
       const startTime = Date.now();
       const endTime = startTime + surgeDuration;
+      console.log("Expected duration:", surgeDuration/1000, "seconds");
 
       const timer = setInterval(() => {
         const now = Date.now();
-        const remaining = Math.max(0, Math.ceil((endTime - now) / 1000));
+        const elapsed = now - startTime;
+        const remaining = Math.max(0, Math.ceil((surgeDuration - elapsed) / 1000));
         setTimeLeft(remaining);
-        console.log(remaining + " seconds");
+        console.log(remaining + " seconds left, elapsed: " + elapsed/1000);
 
-        if (remaining === 0 || now >= endTime) {
-          console.log("Surge ended after " + Math.floor((now - startTime) / 1000) + " seconds");
+        if (elapsed >= surgeDuration) {
+          console.log("Surge ended after " + elapsed/1000 + " seconds");
           clearInterval(timer);
           document.body.classList.remove('surge-active');
           const nextTime = Date.now() + (240000 + Math.random() * 240000);
