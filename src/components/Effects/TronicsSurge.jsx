@@ -56,13 +56,13 @@ export default function TronicsSurge({ isActive, activeClicker }) {
         const remaining = Math.max(0, Math.ceil((nextSurgeTime - Date.now()) / 1000));
         setTimeLeft(remaining);
         
-        if (remaining <= 0 && !isActive) {
-          window.dispatchEvent(new CustomEvent('triggerTronicsSurge'));
+        if (remaining === 0 && !isActive) {
+          console.log("Timer hit 0, triggering surge");
+          window.dispatchEvent(new Event('setTronicsSurgeActive'));
           clearInterval(timer);
           const nextTime = Date.now() + (600000 + Math.random() * 900000);
           setNextSurgeTime(nextTime);
           localStorage.setItem('nextTronicsSurgeTime', nextTime.toString());
-          window.dispatchEvent(new Event('triggerTronicsSurge'));
         }
       }, 1000);
 
