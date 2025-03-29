@@ -29,6 +29,7 @@ export const useGameState = () => {
   const [cogfatherLore, setCogfatherLore] = useState(() => JSON.parse(localStorage.getItem('cogfatherLore')) || []);
   const [preservedHelper, setPreservedHelper] = useState(() => localStorage.getItem('preservedHelper') || null);
 
+  
   useEffect(() => {
     localStorage.setItem('junk', junk);
     localStorage.setItem('credits', credits);

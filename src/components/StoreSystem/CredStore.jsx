@@ -1,7 +1,12 @@
 import React from 'react';
 
-export default function CredStore({ credits, junk, onSellJunk, onBuyBeacon, craftingInventory, onBuyHoverDrone, onBuyBooster, onBuyReclaimer, autoClicks, onBack, creditStoreItems, onBuyShardExtractor }) {
-  const baseRate = 100000; // 100,000 junk = 1 credit
+export default function CredStore({ credits, junk, craftingInventory, onBuyHoverDrone, onBuyBooster, onBuyReclaimer, autoClicks, onBack, creditStoreItems, onSetCredits, onSetJunk, onSetNotification, onSetBeaconCount, onSetShowBeacon, onSetCreditStoreItems, onSetShowCrystal, onSetCraftingInventory, onSetPreservedHelper }) {
+  
+  
+  // 100,000 junk = 1 credit
+  const baseRate = 100000; 
+
+  //Formatting Junk 
   const formatAmount = (amount) => {
     if (amount >= 1000000) {
       return `${(amount / 1000000)} mil`;
@@ -11,6 +16,124 @@ export default function CredStore({ credits, junk, onSellJunk, onBuyBeacon, craf
     return amount;
   };
 
+  //Sell Junk Function
+  const onSellJunk = (rate) => {
+    if (junk >= rate) {
+      const creditsToAdd = rate === baseRate ? 1 : rate === baseRate * 10 ? 10 : 100;
+      onSetJunk(prev => prev - rate);
+      onSetCredits(prev => prev + creditsToAdd);
+      onSetNotification(prev => [...prev, `Sold ${rate} junk for ${creditsToAdd} credits!`]);
+    }
+  };
+
+  //Buy beacon function
+  const onBuyBeacon = () => {
+    const currentBeaconCount = parseInt(localStorage.getItem('beaconCount') || '0');
+    if (credits >= 25 && currentBeaconCount < 10) {
+      onSetCredits(prev => prev - 25);
+      onSetBeaconCount(prev => prev +1);
+      onSetNotification(prev => [...prev, "Electro Shard Beacon purchased! Crystal spawn time reduced by 1%"]);
+      onSetShowBeacon(true);
+      setTimeout(() => onSetShowBeacon(false), 3000);
+    }
+  }
+
+  //Buy Shard Extractor Function
+  const onBuyShardExtractor=() => {
+    if (credits >= 75 && (!creditStoreItems['lastShardExtractorUse'] || creditStoreItems['lastShardExtractorUse'] <= Date.now() - 900000)) {
+      onSetCredits(prev => prev - 75);
+      onSetCreditStoreItems(prev => {
+        const newItems = { ...prev, lastShardExtractorUse: Date.now() };
+        localStorage.setItem('creditStoreItems', JSON.stringify(newItems));
+        return newItems;
+      });
+      onSetNotification(prev => [...prev, "Shard Extractor activated! A crystal will appear soon..."]);
+      setTimeout(() => {
+        onSetShowCrystal(true);
+        onSetShowBeacon(true);
+        setTimeout(() => onSetShowBeacon(false), 3000);
+      }, Math.random() * 30000);
+    }
+  }
+
+  //Buy Hover Drone Function
+  onBuyHoverDrone = () => {
+    if (credits >= 20 && !creditStoreItems['Hover Drone']) {
+      onSetCredits(prev => prev - 20);
+      onSetCreditStoreItems(prev => {
+        const newItems = { ...prev, 'Hover Drone': true };
+        localStorage.setItem('creditStoreItems', JSON.stringify(newItems));
+        return newItems;
+      });
+      onSetCraftingInventory(prev => ({
+        ...prev,
+        'Hover Drone': 1
+      }));
+      onSetNotification(prev => [...prev, "Hover Drone Addon purchased! Floating trash will last longer."]);
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: "A new drone takes to the skies, extending the life of your floating opportunities." }
+      }));
+    }
+  }
+
+  //Buy Booster Function
+  onBuyBooster= () => {
+    if (credits >= 60 && !creditStoreItems['Crafting Booster Unit']) {
+      onSetCredits(prev => prev - 60);
+      onSetCreditStoreItems(prev => {
+        const newItems = { ...prev, 'Crafting Booster Unit': true };
+        localStorage.setItem('creditStoreItems', JSON.stringify(newItems));
+        return newItems;
+      });
+      onSetCraftingInventory(prev => ({
+        ...prev,
+        'Crafting Booster Unit': 1
+      }));
+      onSetNotification(prev => [...prev, "Crafting Booster Unit purchased! Basic crafting costs reduced by 10%"]);
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: "Your crafting operations just got more efficient!" }
+      }));
+    }
+  }
+
+  //Buy Reclaimer Function
+  onBuyReclaimer=() => {
+    const hasAutoClickerBot = autoClicks > 0; 
+
+    if (!hasAutoClickerBot) {
+      onSetNotification(prev => [...prev, "You need to own at least one automation helper to use the Ascension Reclaimer!"]);
+      return;
+    }
+
+    if (credits >= 90 && (craftingInventory['Ascension Reclaimer'] || 0) < 2) {
+      onSetCredits(prev => prev - 90);  
+      onSetCraftingInventory(prev => ({
+        ...prev,
+        'Ascension Reclaimer': (prev['Ascension Reclaimer'] || 0) + 1 
+      }));
+
+      const automationHelpers = [
+        'Auto Clicker Bot'
+      ];
+
+      const currentPreserved = localStorage.getItem('preservedHelper') || '';
+      let randomHelper = automationHelpers[Math.floor(Math.random() * automationHelpers.length)];
+
+      // Make sure second helper is different from first
+      if (currentPreserved && randomHelper === currentPreserved) {
+        randomHelper = automationHelpers.find(h => h !== currentPreserved) || randomHelper;
+      }
+
+      onSetPreservedHelper(currentPreserved ? `${currentPreserved}, ${randomHelper}` : randomHelper);
+      localStorage.setItem('preservedHelper', currentPreserved ? `${currentPreserved}, ${randomHelper}` : randomHelper);
+
+      onSetNotification(prev => [...prev, `Ascension Reclaimer purchased! ${randomHelper} will be preserved after prestige.`]);
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: `Energy shield activated: ${randomHelper} locked in for preservation.` }
+      }));
+    }
+  }
+  
   return (
     <div className="store-container">
       <div className="store-header">

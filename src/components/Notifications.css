@@ -1,0 +1,74 @@
+
+.notifications-container {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(26, 26, 26, 0.9);
+  border: 2px solid #9400D3;
+  border-radius: 8px;
+  max-width: 300px;
+  z-index: 1000;
+}
+
+.notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  border-bottom: 1px solid #9400D3;
+}
+
+.notifications-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.notifications-reopen-button {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(26, 26, 26, 0.9);
+  border: 2px solid #9400D3;
+  color: #00FF00;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.notifications-reopen-button:hover {
+  background: #9400D3;
+  color: #222;
+}
+
+.close-notifications {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 5px;
+}
+
+.close-notifications:hover {
+  color: #ff4444;
+}
+
+.notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #9400D3;
+}
+
+.notifications-header button {
+  padding: 4px 8px;
+  font-size: 12px;
+  margin: 0;
+}
+
+.notifications-list {
+  max-height: 200px;
+  overflow-y: auto;
+}

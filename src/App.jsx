@@ -513,9 +513,6 @@ export default function App() {
       const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
       const randomValue = Math.random();
       const quantumProc = hasQuantumTap && randomValue < 0.03;
-    
-
-      console.log('Random Value:', randomValue, 'Quantum Tap Purchased:', hasQuantumTap, quantumProc);
 
       setTronics(prev => {
         const newValue = prev + (quantumProc ? amount * 3 : amount);
@@ -1100,122 +1097,17 @@ export default function App() {
           junk={junk}
           credits={credits}
           autoClicks={autoClicks}
-          onSellJunk={(rate) => {
-            if (junk >= rate) {
-              const creditsToAdd = rate === baseRate ? 1 : rate === baseRate * 10 ? 10 : 100;
-              setJunk(prev => prev - rate);
-              setCredits(prev => prev + creditsToAdd);
-              setNotifications(prev => [...prev, `Sold ${rate} junk for ${creditsToAdd} credits!`]);
-            }
-          }}
-          onBuyBeacon={() => {
-            if (credits >= 25) {
-              setCredits(prev => prev - 25);
-              setBeaconCount(prev => {
-                const newCount = prev + 1;
-                localStorage.setItem('beaconCount', newCount);
-                return newCount;
-              });
-              setNotifications(prev => [...prev, "Electro Shard Beacon purchased! Crystal spawn time reduced by 1%"]);
-              setShowBeacon(true);
-              setTimeout(() => setShowBeacon(false), 3000);
-            }
-          }}
+          onSetJunk={setJunk}
+          onSetCredits={setCredits}
+          onSetNotification={setNotifications}
+          onSetBeaconCount={setBeaconCount}
+          onSetShowBeacon={setShowBeacon}
           craftingInventory={craftingInventory}
           creditStoreItems={creditStoreItems}
-          onBuyShardExtractor={() => {
-            if (credits >= 75 && (!creditStoreItems['lastShardExtractorUse'] || creditStoreItems['lastShardExtractorUse'] <= Date.now() - 900000)) {
-              setCredits(prev => prev - 75);
-              setCreditStoreItems(prev => {
-                const newItems = { ...prev, lastShardExtractorUse: Date.now() };
-                localStorage.setItem('creditStoreItems', JSON.stringify(newItems));
-                return newItems;
-              });
-              setNotifications(prev => [...prev, "Shard Extractor activated! A crystal will appear soon..."]);
-              setTimeout(() => {
-                setShowCrystal(true);
-                setShowBeacon(true);
-                setTimeout(() => setShowBeacon(false), 3000);
-              }, Math.random() * 30000);
-            }
-          }}
-          onBuyHoverDrone={() => {
-            if (credits >= 20 && !creditStoreItems['Hover Drone']) {
-              setCredits(prev => prev - 20);
-              setCreditStoreItems(prev => {
-                const newItems = { ...prev, 'Hover Drone': true };
-                localStorage.setItem('creditStoreItems', JSON.stringify(newItems));
-                return newItems;
-              });
-              setCraftingInventory(prev => ({
-                ...prev,
-                'Hover Drone': 1
-              }));
-              setNotifications(prev => [...prev, "Hover Drone Addon purchased! Floating trash will last longer."]);
-              window.dispatchEvent(new CustomEvent('nextNews', { 
-                detail: { message: "A new drone takes to the skies, extending the life of your floating opportunities." }
-              }));
-            }
-          }}
-          onBuyBooster={() => {
-            if (credits >= 60 && !creditStoreItems['Crafting Booster Unit']) {
-              setCredits(prev => prev - 60);
-              setCreditStoreItems(prev => {
-                const newItems = { ...prev, 'Crafting Booster Unit': true };
-                localStorage.setItem('creditStoreItems', JSON.stringify(newItems));
-                return newItems;
-              });
-              setCraftingInventory(prev => ({
-                ...prev,
-                'Crafting Booster Unit': 1
-              }));
-              setNotifications(prev => [...prev, "Crafting Booster Unit purchased! Basic crafting costs reduced by 10%"]);
-              window.dispatchEvent(new CustomEvent('nextNews', { 
-                detail: { message: "Your crafting operations just got more efficient!" }
-              }));
-            }
-          }}
-          onBuyReclaimer={() => {
-            const hasAutoClickerBot = autoClicks > 0; 
-
-            if (!hasAutoClickerBot) {
-              setNotifications(prev => [...prev, "You need to own at least one automation helper to use the Ascension Reclaimer!"]);
-              return;
-            }
-
-            if (credits >= 90 && (craftingInventory['Ascension Reclaimer'] || 0) < 2) {
-              setCredits(prev => prev - 90);  
-              setCraftingInventory(prev => ({
-                ...prev,
-                'Ascension Reclaimer': (prev['Ascension Reclaimer'] || 0) + 1 
-              }));
-
-              const automationHelpers = [
-                'Auto Clicker Bot'
-              ];
-
-              const currentPreserved = localStorage.getItem('preservedHelper') || '';
-              let randomHelper = automationHelpers[Math.floor(Math.random() * automationHelpers.length)];
-
-              // Make sure second helper is different from first
-              if (currentPreserved && randomHelper === currentPreserved) {
-                randomHelper = automationHelpers.find(h => h !== currentPreserved) || randomHelper;
-              }
-
-              if (currentPreserved) {
-                setPreservedHelper(`${currentPreserved}, ${randomHelper}`);
-                localStorage.setItem('preservedHelper', `${currentPreserved}, ${randomHelper}`);
-              } else {
-                setPreservedHelper(randomHelper);
-                localStorage.setItem('preservedHelper', randomHelper);
-              }
-
-              setNotifications(prev => [...prev, `Ascension Reclaimer purchased! ${randomHelper} will be preserved after prestige.`]);
-              window.dispatchEvent(new CustomEvent('nextNews', { 
-                detail: { message: `Energy shield activated: ${randomHelper} locked in for preservation.` }
-              }));
-            }
-          }}
+          onSetCreditStoreItems={setCreditStoreItems}
+          onSetShowCrystal={setShowCrystal}
+          onSetCraftingInventory={setCraftingInventory}
+          onSetPreservedHelper= {setPreservedHelper}
           onBack={() => {
             setActiveStore(null);
             localStorage.setItem('activeStore', null);

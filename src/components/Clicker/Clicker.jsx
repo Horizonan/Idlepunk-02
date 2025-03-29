@@ -15,11 +15,16 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
             onClick={() => {       
               const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
               const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
-
+              const amount = 1;
               const totalBoost = boostICount + (boostIICount * 2);
-              const amount = 1 * totalBoost;
               
-              collectTronics(amount);
+              if(totalBoost >= 1){
+                  const amount = (1 * totalBoost) + 1;
+                  collectTronics(amount);
+              } else {
+                collectTronics(amount);
+              }
+              
               
             }} 
             className="tronics" 
