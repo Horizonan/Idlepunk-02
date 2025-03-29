@@ -192,6 +192,33 @@ export default function ElectroStore({ electroShards, onRemoveElectroShard, tron
         {section === 'premium' && (
           <div className="store-items">
             <button
+              className={`store-item ${!localStorage.getItem('electro_surge_node_purchased') ? (tronics < 35000 || electroShards < 8 ? 'disabled' : '') : 'disabled'}`}
+              onClick={() => {
+                if (tronics >= 35000 && electroShards >= 8 && !localStorage.getItem('electro_surge_node_purchased')) {
+                  setTronics(prev => prev - 35000);
+                  onRemoveElectroShard(8);
+                  localStorage.setItem('electro_surge_node_purchased', 'true');
+                  localStorage.setItem('surge_duration_bonus', '5');
+                  setNotifications(prev => [...prev, "⚡ Electro Surge Node installed! All surge durations increased by 5 seconds."]);
+                }
+              }}
+              disabled={localStorage.getItem('electro_surge_node_purchased') || tronics < 35000 || electroShards < 8}
+            >
+              <div className="item-header">
+                <strong>⚡ Electro Surge Node</strong>
+                {!localStorage.getItem('electro_surge_node_purchased') ? (
+                  <>
+                    <p>Increases all Surge durations by +5 seconds and unlocks tronics surge</p>
+                    <p>Cost: 35,000 Tronics and 8 Electro Shards</p>
+                    <p>One-time purchase</p>
+                    <p className="flavor-text">"Let it surge. Let it ride."</p>
+                  </>
+                ) : (
+                  <p>Purchased</p>
+                )}
+              </div>
+            </button>
+            <button
               className={`store-item ${!localStorage.getItem('unlocked_tronics_boost') || tronics < 25000 || electroShards < 5 || (parseInt(localStorage.getItem('circuit_optimization_count') || '0') >= 4) ? 'disabled' : ''}`}
               onClick={() => {
                 if (tronics >= parseInt(localStorage.getItem('circuit_optimization_cost') || '25000') && electroShards >= 5 && (parseInt(localStorage.getItem('circuit_optimization_count') || '0') < 4)) {
