@@ -66,7 +66,8 @@ export default function App() {
     hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge,
     surgeCount, setSurgeCount,
     cogfatherLore, setCogfatherLore,
-    preservedHelper, setPreservedHelper
+    preservedHelper, setPreservedHelper,
+    setTronicsSurgeActive, isTronicsSurgeActive
   } = useGameState();
   const [showChangelog, setShowChangelog] = useState(false);
   const [showTechTree, setShowTechTree] = useState(false);
@@ -1147,6 +1148,8 @@ export default function App() {
           onResetTutorial={() => setTutorialStage(0)}
           onNextTutorial={() => setTutorialStage(prev => prev + 1)}
           setShowTrashBonus={setShowTrashBonus}
+          onShowCrystal= {setShowCrystal}
+          onSetTronicsSurgeActive= {setTronicsSurgeActive}
         />
       )}
       {showActiveCheats && (

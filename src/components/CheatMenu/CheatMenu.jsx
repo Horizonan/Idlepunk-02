@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import ResetProgress from '../ResetProgress/ResetProgress';
 
-export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial, onNextTutorial, setShowTrashBonus, onAddTronics, onAddSetPrestige, onAddElectroShard }) {
+export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial, onNextTutorial, setShowTrashBonus, onAddTronics, onAddSetPrestige, onAddElectroShard, onShowCrystal, onSetTronicsSurgeActive }) {
   const [openCategories, setOpenCategories] = useState({
     resources: false,
     events: false,
@@ -130,13 +130,9 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
             <div className="category-content">
               <button onClick={() => window.dispatchEvent(new CustomEvent('triggerSurge'))}>Trigger Surge</button>
               <button onClick={() => window.dispatchEvent(new CustomEvent('nextNews'))}>Next News</button>
-              <button onClick={() => {
-                const event = new CustomEvent('showCrystal');
-                window.dispatchEvent(event);
-              }}>Trigger Crystal</button>
-              <button onClick={() => {
-                setShowTrashBonus(true);
-              }}>Trigger Trash</button>
+              <button onClick={() => onShowCrystal(true)}>Trigger Crystal</button>
+              <button onClick={() => onSetTronicsSurgeActive(true)}>Trigger Tronic Surge</button>
+              <button onClick={() => { setShowTrashBonus(true); }}>Trigger Trash</button>
               <button onClick={() => {
                 localStorage.removeItem('unlocked_tronics_boost');
                 window.location.reload();

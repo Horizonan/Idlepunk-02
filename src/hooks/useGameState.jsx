@@ -23,12 +23,18 @@ export const useGameState = () => {
   const [beaconCount, setBeaconCount] = useState(() => Number(localStorage.getItem('beaconCount')) || 0);
   const [showBeacon, setShowBeacon] = useState(false);
   const [showBeaconVisual, setShowBeaconVisual] = useState(() => localStorage.getItem('showBeaconVisual') !== 'false');
-  const [isSurgeActive, setIsSurgeActive] = useState(false);
-  const [hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge] = useState(false);
-  const [surgeCount, setSurgeCount] = useState(() => Number(localStorage.getItem('surgeCount')) || 0);
   const [cogfatherLore, setCogfatherLore] = useState(() => JSON.parse(localStorage.getItem('cogfatherLore')) || []);
   const [preservedHelper, setPreservedHelper] = useState(() => localStorage.getItem('preservedHelper') || null);
 
+
+  //Trash Surge 
+  const [surgeCount, setSurgeCount] = useState(() => Number(localStorage.getItem('surgeCount')) || 0);  
+  const [hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge] = useState(false);
+  const [isSurgeActive, setIsSurgeActive] = useState(false);
+  
+
+  //Tronics Surge
+  const [isTronicsSurgeActive, setTronicsSurgeActive] = useState(false);
   
   useEffect(() => {
     localStorage.setItem('junk', junk);
@@ -77,6 +83,7 @@ export const useGameState = () => {
     hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge,
     surgeCount, setSurgeCount,
     cogfatherLore, setCogfatherLore,
-    preservedHelper, setPreservedHelper
+    preservedHelper, setPreservedHelper, 
+    isTronicsSurgeActive, setTronicsSurgeActive
   };
 };
