@@ -55,6 +55,11 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
     window.addEventListener('mouseup', () => window.removeEventListener('mousemove', handleMouseMove));
   };
 
+  const handleReduceNextSurge = () => {
+    const nextTime = Date.now() + 5000;
+    localStorage.setItem('nextSurgeTime', nextTime.toString());
+  };
+
   return (
     <div 
       ref={containerRef}
@@ -129,6 +134,7 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
           {openCategories.events && (
             <div className="category-content">
               <button onClick={() => onSetSurgeActive(true)}>Trigger Surge</button>
+              <button onClick={handleReduceNextSurge}>Quick Next Surge (5s)</button>
               <button onClick={() => window.dispatchEvent(new CustomEvent('nextNews'))}>Next News</button>
               <button onClick={() => onShowCrystal(true)}>Trigger Crystal</button>
               <button onClick={() => onSetTronicsSurgeActive(true)}>Trigger Tronic Surge</button>
