@@ -2,13 +2,9 @@ import { useState, useRef, useEffect } from 'react';
 import ResetProgress from '../ResetProgress/ResetProgress';
 
 function setNextSurgeTimer() {
-  // Placeholder implementation. Replace with actual timer logic.
-  console.log('Next trash surge timer set to 10 seconds!');
-  //  In a real implementation, you'd likely set a timer using setTimeout or a similar mechanism,
-  //  and update the game state to reflect the new timer value.  For example:
-  //  setTimeout(() => {
-  //    // Update game state to trigger the surge after 10 seconds
-  //  }, 10000);
+  const nextTime = Date.now() + 10000; // 10 seconds
+  localStorage.setItem('nextSurgeTime', nextTime.toString());
+  window.dispatchEvent(new Event('triggerSurge'));
 }
 
 export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial, onNextTutorial, setShowTrashBonus, onAddTronics, onAddSetPrestige, onAddElectroShard, onShowCrystal, onSetTronicsSurgeActive, onSetSurgeActive }) {
