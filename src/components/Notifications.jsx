@@ -1,12 +1,11 @@
-
 import { useState } from 'react';
-import './Notifications.css';
 
 export default function Notifications({ notifications }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const displayNotifications = isExpanded ? notifications : notifications.slice(-5);
 
+  // If notifications are not visible, show the reopen button
   if (!isVisible) {
     return (
       <button 
@@ -23,7 +22,7 @@ export default function Notifications({ notifications }) {
       <div className="notifications-header">
         <span>Notifications</span>
         <div className="notifications-buttons">
-          <button onClick={() => setIsExpanded(!isExpanded)}>
+          <button onClick={() => setIsExpanded(prev => !prev)}>
             {isExpanded ? 'Show Less' : 'Show More'}
           </button>
           <button 

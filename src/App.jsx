@@ -4,9 +4,7 @@ import VersionPopup from './components/VersionPopup/VersionPopup';
 import StatsDisplay from './components/StatsDisplay';
 import { validateQuests } from './utils/questValidation';
 import { useGameState } from './hooks/useGameState';
-import { useItemState } from './hooks/useItemState';
 import { useAchievements, defaultAchievements } from './hooks/useAchievements';
-import { collectJunk, handleBuyItem, handleReset } from './utils/gameHandlers';
 import Clicker from './components/Clicker/Clicker';
 import Achievements from './components/Achievements';
 import CheatMenu from './components/CheatMenu/CheatMenu';
@@ -70,7 +68,6 @@ export default function App() {
     cogfatherLore, setCogfatherLore,
     preservedHelper, setPreservedHelper
   } = useGameState();
-  const baseRate = 100000; // 100,000 junk = 1 credit
   const [showChangelog, setShowChangelog] = useState(false);
   const [showTechTree, setShowTechTree] = useState(false);
   const [showSlotMachine, setShowSlotMachine] = useState(false);
@@ -634,12 +631,6 @@ export default function App() {
     }
   };
 
-  const handleBuySolderingIron = () => {
-    buyItem(1000, "Bought a Soldering Iron!");
-    setElectronicsUnlock(true);
-  };
-  const handleBuyMultimeter = () => buyItem(2000, "Bought a Multimeter!");
-
   useEffect(() => {
     localStorage.setItem('tutorialStage', tutorialStage);
     validateQuestsAndAchievements();
@@ -1142,7 +1133,6 @@ export default function App() {
       {autoClicks > 0 && <AutoClickerEffect autoClicks={autoClicks} />}
       {ownedItems.scrapDrone > 0 && <DroneEffect numDrones={ownedItems.scrapDrone} />}
       {craftingInventory['Hover Drone'] && <HoverDroneEffect />}
-      <Notifications notifications={notifications} />
       {showCheatMenu && (
         <CheatMenu 
           onReset={() => window.location.reload()}

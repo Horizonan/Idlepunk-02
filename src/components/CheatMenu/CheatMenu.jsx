@@ -102,7 +102,6 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
               <button onClick={() => {
                 localStorage.setItem('surgeCount', '3');
                 localStorage.setItem('hadFirstSurge', 'true');
-                window.location.reload();
               }}>Set to 3 Surges</button>
             </div>
           )}
