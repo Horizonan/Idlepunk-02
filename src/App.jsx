@@ -257,6 +257,9 @@ export default function App() {
       setIsSurgeActive(true);
       setHasFoundCapacitorThisSurge(false);
       localStorage.setItem('hadFirstSurge', 'true');
+      
+      const isTronicsSurgeUnlocked = localStorage.getItem('electro_surge_node_purchased') === 'true';
+      const surgeDurationBonus = isTronicsSurgeUnlocked ? parseInt(localStorage.getItem('surge_duration_bonus') || '5') : 0;
       const surgeDuration = craftingInventory['Surge Capacitor Module'] ? 10000 : 5000;
       setTimeout(() => {
         setIsSurgeActive(false);

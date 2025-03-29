@@ -90,7 +90,13 @@ export default function TronicsSurge({ isActive, activeClicker }) {
     );
   }
 
-  return localStorage.getItem('hadFirstTronicsSurge') === 'true' && activeClicker === 'electronics' ? (
+  const isTronicsSurgeUnlocked = localStorage.getItem('electro_surge_node_purchased') === 'true';
+  
+  if (!isTronicsSurgeUnlocked) {
+    return null;
+  }
+
+  return activeClicker === 'electronics' ? (
     <div className="next-surge-timer">
       Next Tronics surge in: {Math.floor(timeLeft / 60)}m {timeLeft % 60}s
     </div>
