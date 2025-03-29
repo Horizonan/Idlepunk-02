@@ -24,7 +24,10 @@ export default function TrashSurge({ isActive }) {
   useEffect(() => {
     if (isActive) {
       document.body.classList.add('surge-active');
-      const surgeDuration = localStorage.getItem('surgeDuration') || 5000;
+      const baseSurgeDuration = parseInt(localStorage.getItem('surgeDuration') || '5000');
+      const isSurgeNodePurchased = localStorage.getItem('electro_surge_node_purchased') === 'true';
+      const surgeDurationBonus = isSurgeNodePurchased ? parseInt(localStorage.getItem('surge_duration_bonus') || '5') * 1000 : 0;
+      const surgeDuration = baseSurgeDuration + surgeDurationBonus;
       const endTime = Date.now() + surgeDuration;
       
       const timer = setInterval(() => {
