@@ -42,7 +42,6 @@ export default function TrashSurge({ isActive, activeClicker }) {
 
       return () => {
         clearInterval(timer);
-        document.body.classList.remove('surge-active');
       };
     } else {
       const timer = setInterval(() => {
