@@ -53,7 +53,7 @@ export default function TrashSurge({ isActive }) {
         const remaining = Math.max(0, Math.ceil((nextSurgeTime - Date.now()) / 1000));
         setTimeLeft(remaining);
         
-        if (remaining === 0) {
+        if (remaining === 0 && !isActive) {
           window.dispatchEvent(new CustomEvent('triggerSurge'));
         }
       }, 1000);
