@@ -48,7 +48,7 @@ export default function QuestLog({ tutorialStage, onClose }) {
     ],
     ascension: [
       { id: 7, title: "Surge Overflow", task: "Trigger 3 Trash Surges", reward: "1x Stabilized Capacitor" },
-      { id: 8, title: "The Circuit Speaks", task: "Collect 5 Electro Shards", reward: "1x Voltage Node" },
+      { id: 8, title: "The Circuit Speaks", task: "Collect 3 Electro Shards", reward: "1x Voltage Node" },
       { id: 9, title: "Whispers in the Scrap", task: "Collect 10 Lore Logs or reach 7.5M Junk", reward: "1x Synthcore Fragment" },
       { id: 10, title: "Forge the Future", task: "Craft the Prestige Crystal", reward: "Unlocks Ascension" }
     ]

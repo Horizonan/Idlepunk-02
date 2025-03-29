@@ -507,14 +507,25 @@ export default function App() {
   };
 
   
-  const collectTronics = () => {
+  const collectTronics = (amount) => {
     if (electronicsUnlock) {
+      
+      const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
+      const randomValue = Math.random();
+      const quantumProc = hasQuantumTap && randomValue < 0.03;
+    
+
+      console.log('Random Value:', randomValue, 'Quantum Tap Purchased:', hasQuantumTap, quantumProc);
 
       setTronics(prev => {
-        const newValue = prev + amount;
+        const newValue = prev + (quantumProc ? amount * 3 : amount);
         localStorage.setItem('tronics', newValue);
         return newValue;
       });
+
+      if (quantumProc) {
+        setNotifications(prev => [...prev, "Quantum Tap triggered! 3x Tronics gained!"]);
+      }
     }
   };
 
@@ -957,7 +968,6 @@ export default function App() {
               });
               setNotifications(prev => [...prev, "Tronics Click Boost I unlocked!"]);
             } else if (isUnlocked && tronics >= 250) {
-              setTronics(prev => prev - 250);
               setClickMultiplier(prev => prev + 1);
               const newBoostCount = (parseInt(localStorage.getItem('tronics_boost_count') || '0') + 1);
               localStorage.setItem('tronics_boost_count', newBoostCount);
@@ -966,6 +976,7 @@ export default function App() {
               const currentCost = parseInt(localStorage.getItem('tronics_boost_cost') || '250');
               const newCost = Math.floor(currentCost * 1.1);
               localStorage.setItem('tronics_boost_cost', newCost);
+              setTronics(prev => prev - currentCost);
 
               setNotifications(prev => [...prev, "Tronics Click Boost I purchased! +1 Tronics per click"]);
             }

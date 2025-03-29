@@ -16,24 +16,11 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
               const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
               const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
 
-              const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
-              const randomValue = Math.random();
-              const quantumProc = hasQuantumTap && randomValue < 0.03;
-                const multiplier = quantumProc ? 3 : 1;
-
-
-              console.log('Random Value:', randomValue, 'Quantum Tap Purchased:', hasQuantumTap, quantumProc);
-              
-              
-              if (quantumProc) {
-                setNotifications(prev => [...prev, "Quantum Tap triggered! 3x Tronics gained!"]);
-              }
-       
               const totalBoost = boostICount + (boostIICount * 2);
+              const amount = 1 * totalBoost;
               
-              for(let i = 0; i <= totalBoost * multiplier; i++) {
-                collectTronics();
-              }
+              collectTronics(amount);
+              
             }} 
             className="tronics" 
           />

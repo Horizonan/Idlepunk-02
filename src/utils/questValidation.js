@@ -90,7 +90,7 @@ export const validateQuests = ({
     },
     { 
       title: "The Circuit Speaks", 
-      condition: electroShards >= 5,
+      condition: electroShards >= 3,
       category: 'ascension',
       onComplete: () => {
         setCraftingInventory(prev => ({
