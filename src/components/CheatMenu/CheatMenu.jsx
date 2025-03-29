@@ -4,7 +4,6 @@ import ResetProgress from '../ResetProgress/ResetProgress';
 function setNextSurgeTimer() {
   const nextTime = Date.now() + 10000; // 10 seconds
   localStorage.setItem('nextSurgeTime', nextTime.toString());
-  window.dispatchEvent(new Event('triggerSurge'));
 }
 
 function setNextTronicsSurgeTimer() {

@@ -12,6 +12,7 @@ export default function TronicsSurge({ isActive, activeClicker }) {
 
   useEffect(() => {
     if (isActive) {
+      console.log("is Active");
       document.body.classList.add('tronics-surge-active');
       const surgeDuration = 5000; // 5 seconds
       const endTime = Date.now() + surgeDuration;
