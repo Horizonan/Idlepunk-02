@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 
 export default function TrashSurge({ isActive }) {
@@ -14,49 +13,32 @@ export default function TrashSurge({ isActive }) {
       const activeElement = document.querySelector('.clicker-select.active');
       setActiveClicker(activeElement?.textContent.toLowerCase().includes('trash') ? 'trash' : 'tronics');
     };
-    
+
     updateActiveClicker();
     document.addEventListener('click', updateActiveClicker);
-    
+
     return () => document.removeEventListener('click', updateActiveClicker);
   }, []);
 
   useEffect(() => {
     if (isActive) {
-      console.log("Active:" + isActive);
       document.body.classList.add('surge-active');
 
-      //Base Surge Duration + Updated Time
       const baseSurgeDuration = parseInt(localStorage.getItem('surgeDuration') || '5000');
       const isSurgeNodePurchased = localStorage.getItem('electro_surge_node_purchased') === 'true';
-
-      //Add Time to Surge if electro surge is purchased
       const surgeDurationBonus = isSurgeNodePurchased ? parseInt(localStorage.getItem('surge_duration_bonus') || '5') * 1000 : 0;
       const surgeDuration = baseSurgeDuration + surgeDurationBonus;
 
-      console.log("Base Surge Duration:", baseSurgeDuration);
-      console.log("Surge Duration Bonus:", surgeDurationBonus);
-      console.log("Total Surge Duration:", surgeDuration / 1000 + " seconds");
-
-      //Set Time Left
       const endTime = Date.now() + surgeDuration;
-      
+
       const timer = setInterval(() => {
         const remaining = Math.max(0, Math.ceil((endTime - Date.now()) / 1000));
         setTimeLeft(remaining);
-        console.log(remaining + "seconds");
-        if (remaining == 0) {
-          
-          console.log("entered next Surge");
-          
+
+        if (remaining === 0) {
           clearInterval(timer);
           document.body.classList.remove('surge-active');
-          console.log("Tried to remove surge-active");
-          
-          const nextTime = Date.now() + (24000 + Math.random() * 24000);
-          setNextSurgeTime(nextTime);
-          localStorage.setItem('nextSurgeTime', nextTime);
-          return;
+          window.dispatchEvent(new Event('surgeCooldown'));
         }
       }, 1000);
 
@@ -65,21 +47,18 @@ export default function TrashSurge({ isActive }) {
         document.body.classList.remove('surge-active');
       };
     } else {
-      console.log("in else");
-      console.log(isActive);
       const timer = setInterval(() => {
         const remaining = Math.max(0, Math.ceil((nextSurgeTime - Date.now()) / 1000));
         setTimeLeft(remaining);
-        
+
         if (remaining === 0) {
-          console.log("entered next Surge");
-            clearInterval(timer);
-            document.body.classList.remove('surge-active');
-            const nextTime = Date.now() + (240000 + Math.random() * 240000);
-            setNextSurgeTime(nextTime);
-            localStorage.setItem('nextSurgeTime', nextTime);
-          }
-        }, 1000);
+          clearInterval(timer);
+          window.dispatchEvent(new Event('triggerSurge'));
+          const nextTime = Date.now() + (240000 + Math.random() * 240000);
+          setNextSurgeTime(nextTime);
+          localStorage.setItem('nextSurgeTime', nextTime.toString());
+        }
+      }, 1000);
 
       return () => clearInterval(timer);
     }
