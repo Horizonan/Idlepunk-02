@@ -6,11 +6,19 @@ export default function Notifications({ notifications }) {
   const [isVisible, setIsVisible] = useState(true);
   const displayNotifications = isExpanded ? notifications : notifications.slice(-5);
 
+  const handleClose = () => {
+    setIsVisible(false);
+  };
+
+  const handleReopen = () => {
+    setIsVisible(true);
+  };
+
   if (!isVisible) {
     return (
       <button 
         className="notifications-reopen-button"
-        onClick={() => setIsVisible(true)}
+        onClick={handleReopen}
       >
         Show Notifications
       </button>
@@ -25,7 +33,7 @@ export default function Notifications({ notifications }) {
           <button onClick={() => setIsExpanded(!isExpanded)}>
             {isExpanded ? 'Show Less' : 'Show More'}
           </button>
-          <button className="close-notifications" onClick={() => setIsVisible(false)}>×</button>
+          <button className="close-notifications" onClick={handleClose}>×</button>
         </div>
       </div>
       <div className="notifications-list">
