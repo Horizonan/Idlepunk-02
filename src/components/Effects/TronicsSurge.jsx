@@ -55,12 +55,13 @@ export default function TronicsSurge({ isActive, activeClicker }) {
         const remaining = Math.max(0, Math.ceil((nextSurgeTime - Date.now()) / 1000));
         setTimeLeft(remaining);
         
-        if (remaining === 0) {
+        if (remaining <= 0 && !isActive) {
           window.dispatchEvent(new CustomEvent('triggerTronicsSurge'));
           clearInterval(timer);
-          const nextTime = Date.now() + (240000 + Math.random() * 240000);
+          const nextTime = Date.now() + (600000 + Math.random() * 900000);
           setNextSurgeTime(nextTime);
-          localStorage.setItem('nextSurgeTime', nextTime);
+          localStorage.setItem('nextTronicsSurgeTime', nextTime.toString());
+          window.dispatchEvent(new Event('triggerTronicsSurge'));
         }
       }, 1000);
 
