@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import ResetProgress from '../ResetProgress/ResetProgress';
 
-export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial, onNextTutorial, setShowTrashBonus, onAddTronics, onAddSetPrestige, onAddElectroShard, onShowCrystal, onSetTronicsSurgeActive }) {
+export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial, onNextTutorial, setShowTrashBonus, onAddTronics, onAddSetPrestige, onAddElectroShard, onShowCrystal, onSetTronicsSurgeActive, onSetSurgeActive }) {
   const [openCategories, setOpenCategories] = useState({
     resources: false,
     events: false,
@@ -128,7 +128,7 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
           </button>
           {openCategories.events && (
             <div className="category-content">
-              <button onClick={() => window.dispatchEvent(new CustomEvent('triggerSurge'))}>Trigger Surge</button>
+              <button onClick={() => onSetSurgeActive(true)}>Trigger Surge</button>
               <button onClick={() => window.dispatchEvent(new CustomEvent('nextNews'))}>Next News</button>
               <button onClick={() => onShowCrystal(true)}>Trigger Crystal</button>
               <button onClick={() => onSetTronicsSurgeActive(true)}>Trigger Tronic Surge</button>

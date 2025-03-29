@@ -1155,6 +1155,8 @@ export default function App() {
           setShowTrashBonus={setShowTrashBonus}
           onShowCrystal= {setShowCrystal}
           onSetTronicsSurgeActive= {setTronicsSurgeActive}
+          onSetSurgeActive={setIsSurgeActive}
+          
         />
       )}
       {showActiveCheats && (

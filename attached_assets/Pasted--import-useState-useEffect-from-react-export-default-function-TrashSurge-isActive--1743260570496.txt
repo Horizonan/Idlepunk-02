@@ -34,9 +34,8 @@ export default function TrashSurge({ isActive }) {
       const surgeDurationBonus = isSurgeNodePurchased ? parseInt(localStorage.getItem('surge_duration_bonus') || '5') * 1000 : 0;
       const surgeDuration = baseSurgeDuration + surgeDurationBonus;
 
-      console.log("Base Surge Duration:", baseSurgeDuration);
-      console.log("Surge Duration Bonus:", surgeDurationBonus);
-      console.log("Total Surge Duration:", surgeDuration / 1000 + " seconds");
+      //Debug
+      console.log(surgeDuration / 1000 + "seconds");
 
       //Set Time Left
       const endTime = Date.now() + surgeDuration;
@@ -46,17 +45,12 @@ export default function TrashSurge({ isActive }) {
         setTimeLeft(remaining);
         console.log(remaining + "seconds");
         if (remaining == 0) {
-          
           console.log("entered next Surge");
-          
           clearInterval(timer);
           document.body.classList.remove('surge-active');
-          console.log("Tried to remove surge-active");
-          
           const nextTime = Date.now() + (24000 + Math.random() * 24000);
           setNextSurgeTime(nextTime);
           localStorage.setItem('nextSurgeTime', nextTime);
-          return;
         }
       }, 1000);
 
