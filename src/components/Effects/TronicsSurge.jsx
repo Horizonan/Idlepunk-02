@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import './TronicsSurge.css';
 
@@ -12,7 +11,7 @@ export default function TronicsSurge({ isActive, activeClicker }) {
       document.body.classList.add('tronics-surge-active');
       const surgeDuration = 5000;
       const endTime = Date.now() + surgeDuration;
-      
+
       // Spawn capacitors every second
       const capacitorTimer = setInterval(() => {
         if (Math.random() < 0.1) {
@@ -28,17 +27,13 @@ export default function TronicsSurge({ isActive, activeClicker }) {
       const timer = setInterval(() => {
         const remaining = Math.max(0, Math.ceil((endTime - Date.now()) / 1000));
         setTimeLeft(remaining);
-        
-        if (remaining === 0) {
+
+        if (remaining <= 0) {
           clearInterval(timer);
           clearInterval(capacitorTimer);
-          const nextTime = Date.now() + (600000 + Math.random() * 900000);
-          setNextSurgeTime(nextTime);0
-          localStorage.setItem('nextTronicsSurgeTime', nextTime);
           document.body.classList.remove('tronics-surge-active');
-          setCapacitors([]);
         }
-      }, 100);
+      }, 1000);
 
       return () => {
         clearInterval(timer);
@@ -47,24 +42,8 @@ export default function TronicsSurge({ isActive, activeClicker }) {
       };
     } else {
       document.body.classList.remove('tronics-surge-active');
-      
-      const timer = setInterval(() => {
-        const remaining = Math.max(0, Math.ceil((nextSurgeTime - Date.now()) / 1000));
-        setTimeLeft(remaining);
-        
-        if (remaining === 0 && !isActive) {
-          console.log("Timer hit 0, triggering surge");
-          window.dispatchEvent(new Event('setTronicsSurgeActive'));
-          clearInterval(timer);
-          const nextTime = Date.now() + (600000 + Math.random() * 900000);
-          setNextSurgeTime(nextTime);
-          localStorage.setItem('nextTronicsSurgeTime', nextTime.toString());
-        }
-      }, 1000);
-
-      return () => clearInterval(timer);
     }
-  }, [isActive, nextSurgeTime]);
+  }, [isActive]);
 
   const handleCapacitorClick = (id) => {
     setCapacitors(prev => prev.filter(cap => cap.id !== id));
@@ -93,7 +72,7 @@ export default function TronicsSurge({ isActive, activeClicker }) {
   }
 
   const isTronicsSurgeUnlocked = localStorage.getItem('electro_surge_node_purchased') === 'true';
-  
+
   if (!isTronicsSurgeUnlocked) {
     return null;
   }
