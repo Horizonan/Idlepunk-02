@@ -223,6 +223,30 @@ export default function ElectroStore({ electroShards, onRemoveElectroShard, tron
               </div>
             </button>
             <button
+              className={`store-item ${!localStorage.getItem('beaconCount') || localStorage.getItem('beacon_core_purchased') || tronics < 500000 || electroShards < 15 ? 'disabled' : ''}`}
+              onClick={() => {
+                if (tronics >= 500000 && electroShards >= 15 && !localStorage.getItem('beacon_core_purchased') && localStorage.getItem('beaconCount')) {
+                  setTronics(prev => prev - 500000);
+                  onRemoveElectroShard(15);
+                  localStorage.setItem('beacon_core_purchased', 'true');
+                  setNotifications(prev => [...prev, "⚡ Electro Beacon Core installed! Electro Shard spawn time decreased by 25%"]);
+                  window.dispatchEvent(new Event('storage'));
+                }
+              }}
+            >
+              <div className="item-header">
+                <strong>🔦 Electro Beacon Core</strong>
+              </div>
+              <div>500,000 Tronics + 15 Electro Shards</div>
+              <div className="item-info">
+                <p>Decrease Electro Shard floating pickup spawn time by 25%</p>
+                <p>A signal amplifier recovered from the core of a fallen tech temple. When active, the frequency of rare Electro Shard pickups increases significantly.</p>
+                <p className="onetime">One-time purchase</p>
+                {localStorage.getItem('beacon_core_purchased') && <p className="purchased">Already purchased</p>}
+              </div>
+            </button>
+
+            <button
               className={`store-item ${!localStorage.getItem('unlocked_tronics_boost') || tronics < 25000 || electroShards < 5 || (parseInt(localStorage.getItem('circuit_optimization_count') || '0') >= 4) ? 'disabled' : ''}`}
               onClick={() => {
                 if (tronics >= parseInt(localStorage.getItem('circuit_optimization_cost') || '25000') && electroShards >= 5 && (parseInt(localStorage.getItem('circuit_optimization_count') || '0') < 4)) {
