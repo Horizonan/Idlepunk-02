@@ -259,7 +259,9 @@ export default function App() {
       const isTronicsSurgeUnlocked = localStorage.getItem('electro_surge_node_purchased') === 'true';
       
       // 50/50 chance between trash and tronics surge if unlocked
-      const isTronicsSurge = isTronicsSurgeUnlocked && Math.random() < 0.5;
+      const randomVal = Math.random();
+      console.log("Number is: " + randomVal);
+      const isTronicsSurge = isTronicsSurgeUnlocked && randomVal < 0.5;
       console.log("Is Tronics Surge: " + isTronicsSurge);
       
       if (isTronicsSurge) {
