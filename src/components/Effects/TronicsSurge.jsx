@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import './TronicsSurge.css';
 
@@ -72,14 +73,10 @@ export default function TronicsSurge({ isActive, activeClicker }) {
   }
 
   const isTronicsSurgeUnlocked = localStorage.getItem('electro_surge_node_purchased') === 'true';
-
+  
   if (!isTronicsSurgeUnlocked) {
     return null;
   }
 
-  return activeClicker === 'electronics' ? (
-    <div className="next-surge-timer-tronics">
-      Next Tronics surge in: {Math.floor(timeLeft / 60)}m {timeLeft % 60}s
-    </div>
-  ) : null;
+  return null;
 }
