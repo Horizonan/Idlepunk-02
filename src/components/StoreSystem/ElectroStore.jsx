@@ -239,10 +239,19 @@ export default function ElectroStore({ electroShards, onRemoveElectroShard, tron
               </div>
               <div>500,000 Tronics + 15 Electro Shards</div>
               <div className="item-info">
-                <p>Decrease Electro Shard floating pickup spawn time by 25%</p>
-                <p>A signal amplifier recovered from the core of a fallen tech temple. When active, the frequency of rare Electro Shard pickups increases significantly.</p>
-                <p className="onetime">One-time purchase</p>
-                {localStorage.getItem('beacon_core_purchased') && <p className="purchased">Already purchased</p>}
+                {parseInt(localStorage.getItem('beaconCount') || '0') < 10 ? (
+                  <>
+                    <p className="locked-message">🔒 Locked - Requires 10 Electro Shard Beacons</p>
+                    <p className="unlocked-preview">Once unlocked: Decrease Electro Shard floating pickup spawn time by 25%</p>
+                  </>
+                ) : (
+                  <>
+                    <p>Decrease Electro Shard floating pickup spawn time by 25%</p>
+                    <p>A signal amplifier recovered from the core of a fallen tech temple. When active, the frequency of rare Electro Shard pickups increases significantly.</p>
+                    <p className="onetime">One-time purchase</p>
+                    {localStorage.getItem('beacon_core_purchased') && <p className="purchased">Already purchased</p>}
+                  </>
+                )}
               </div>
             </button>
 
