@@ -17,7 +17,28 @@ export const validateQuests = ({
   setNotifications,
   setCraftingInventory
 }) => {
-  // Quest validation
+  const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
+  
+  // If prestiged, show new questline instead of original
+  if (hasPrestiged) {
+    // System Memory Detected Quest
+    if (junk >= 25000000 && !localStorage.getItem('quest_sync_System Memory Detected')) {
+      localStorage.setItem('quest_sync_System Memory Detected', 'true');
+      setCraftingInventory(prev => ({
+        ...prev,
+        'Encrypted Coil': (prev['Encrypted Coil'] || 0) + 1
+      }));
+      setNotifications(prev => [...prev, "Quest Complete: System Memory Detected"]);
+      setNotifications(prev => [...prev, "Obtained: Encrypted Coil"]);
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: "There's data buried in the circuits… waiting to be recompiled." }
+      }));
+      return;
+    }
+    return; // Skip other quests if prestiged
+  }
+
+  // Original pre-prestige quests
   const hasAnyUpgrade = ownedItems.trashBag > 0 || ownedItems.trashPicker > 0;
   const totalPassiveIncome = Math.floor(passiveIncome * globalJpsMultiplier + (autoClicks * clickMultiplier));
 
