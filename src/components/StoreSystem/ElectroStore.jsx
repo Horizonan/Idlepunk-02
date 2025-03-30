@@ -223,9 +223,9 @@ export default function ElectroStore({ electroShards, onRemoveElectroShard, tron
               </div>
             </button>
             <button
-              className={`store-item ${!localStorage.getItem('beaconCount') || localStorage.getItem('beacon_core_purchased') || tronics < 500000 || electroShards < 15 ? 'disabled' : ''}`}
+              className={`store-item ${parseInt(localStorage.getItem('beaconCount') || '0') < 10 || localStorage.getItem('beacon_core_purchased') || tronics < 500000 || electroShards < 15 ? 'disabled' : ''}`}
               onClick={() => {
-                if (tronics >= 500000 && electroShards >= 15 && !localStorage.getItem('beacon_core_purchased') && localStorage.getItem('beaconCount')) {
+                if (tronics >= 500000 && electroShards >= 15 && !localStorage.getItem('beacon_core_purchased') && parseInt(localStorage.getItem('beaconCount') || '0') >= 10) {
                   setTronics(prev => prev - 500000);
                   onRemoveElectroShard(15);
                   localStorage.setItem('beacon_core_purchased', 'true');

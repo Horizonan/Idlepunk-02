@@ -1130,7 +1130,7 @@ export default function App() {
         />
       )}
       {beaconCount > 0 && showBeaconVisual && (
-        <div className="shard-beacon">
+        <div className={`shard-beacon ${localStorage.getItem('beacon_core_purchased') === 'true' ? 'core-active' : ''}`}>
           <div className="beacon-rays"></div>
           <div className="beacon-top"></div>
           <div className="beacon-tower">

@@ -1,6 +1,11 @@
 .shard-beacon {
   position: fixed;
   bottom: 30%;
+  transition: all 0.3s ease;
+}
+
+.shard-beacon.core-active {
+  filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.5));
   left: 25%;
   width: 40px;
   height: 120px;
