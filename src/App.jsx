@@ -269,7 +269,7 @@ export default function App() {
       // 50/50 chance between trash and tronics surge if unlocked
       const randomVal = Math.random();
       console.log("Number is: " + randomVal);
-      const isTronicsSurge = isTronicsSurgeUnlocked && randomVal < 0.5;
+      const isTronicsSurge = isTronicsSurgeUnlocked; //&& randomVal < 0.5
       console.log("Is Tronics Surge: " + isTronicsSurge);
       
       if (isTronicsSurge) {
