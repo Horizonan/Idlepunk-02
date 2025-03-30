@@ -5,8 +5,8 @@ export default function StatsDisplay({ credits, junk, passiveIncome, globalJpsMu
   const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
 
   const tronicsPerSecond = hasPrestiged ? (autoClicks * (
-    (parseInt(localStorage.getItem('tronics_boost_count') || '0')) + 
-    (parseInt(localStorage.getItem('tronics_boost_II_count') || '0') * 2)
+    (parseInt(localStorage.getItem('tronics_boost_count') || '1')) + 
+    (parseInt(localStorage.getItem('tronics_boost_II_count') || '1') * 2)
   )) : 0;
 
   return (
