@@ -61,11 +61,16 @@ export default function ItemInventory({ craftingInventory, onBack }) {
       description: 'Mysterious technological artifact',
       effect: 'Purpose unknown',
       icon: '💎'
+    },
+    'Encrypted Coil': {
+      description: 'A mysterious coil emitting strange energy',
+      effect: 'Contains fragments of ancient data',
+      icon: '🔷'
     }
   };
 
   const basicItems = ['Wires', 'Metal Plates', 'Gear Bits', 'Scrap Core'];
-  const specialItems = ['Stabilized Capacitor', 'Voltage Node', 'Synthcore Fragment'];
+  const specialItems = ['Stabilized Capacitor', 'Voltage Node', 'Synthcore Fragment', 'Encrypted Coil'];
 
   const basicMaterials = Object.entries(craftingInventory)
     .filter(([name]) => basicItems.includes(name));
