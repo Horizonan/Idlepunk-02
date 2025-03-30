@@ -99,8 +99,23 @@
 }
 
 .electro-beacon.core-active {
-  background: rgba(0, 255, 255, 0.5);
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+  background: rgba(0, 255, 255, 0.7);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.9);
+  animation: beacon-core-pulse 2s infinite;
+}
+
+.electro-beacon.core-active::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 15px;
+  height: 15px;
+  background: #00ffff;
+  border-radius: 50%;
+  animation: core-inner-pulse 1.5s infinite;
+  z-index: 1;
 }
 
 .electro-beacon.core-active::after {
@@ -111,10 +126,21 @@
   transform: translate(-50%, -50%);
   width: 45px;
   height: 45px;
-  background: rgba(0, 255, 255, 0.5);
+  background: rgba(0, 255, 255, 0.3);
+  border: 2px solid rgba(0, 255, 255, 0.8);
   border-radius: 50%;
   animation: core-pulse 3s infinite;
   z-index: -1;
+}
+
+@keyframes beacon-core-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@keyframes core-inner-pulse {
+  0%, 100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
 }
 
 @keyframes core-pulse {
