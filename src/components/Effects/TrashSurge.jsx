@@ -16,14 +16,8 @@ export default function TrashSurge({ isActive, activeClicker }) {
       const isSurgeNodePurchased = localStorage.getItem('electro_surge_node_purchased') === 'true';
       const surgeDurationBonus = isSurgeNodePurchased ? parseInt(localStorage.getItem('surge_duration_bonus') || '5') * 1000 : 0;
       const surgeDuration = baseSurgeDuration + surgeDurationBonus;
-      
-      console.log("Active:", isActive);
-      console.log("Base Surge Duration:", baseSurgeDuration);
-      console.log("Surge Duration Bonus:", surgeDurationBonus);
-      console.log("Total Surge Duration:", Math.floor(surgeDuration/1000) + " seconds");
 
       const startTime = Date.now();
-      console.log("Starting surge with duration:", surgeDuration/1000, "seconds");
 
       const timer = setInterval(() => {
         const elapsed = Date.now() - startTime;
