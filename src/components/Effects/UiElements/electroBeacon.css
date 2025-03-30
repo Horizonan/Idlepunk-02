@@ -19,6 +19,8 @@
   background: rgba(0, 255, 255, 0.9);
   box-shadow: 0 0 25px rgba(0, 255, 255, 1);
   width: 8px;
+  height: 100px;
+  z-index: 2;
 }
 
 .shard-beacon.core-active .core-container {
