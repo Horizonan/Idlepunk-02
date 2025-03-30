@@ -269,13 +269,22 @@ export default function App() {
       // 50/50 chance between trash and tronics surge if unlocked
       const randomVal = Math.random();
       console.log("Number is: " + randomVal);
-      const isTronicsSurge = isTronicsSurgeUnlocked; //&& randomVal < 0.5
+      const isTronicsSurge = isTronicsSurgeUnlocked && randomVal < 0.5;
       console.log("Is Tronics Surge: " + isTronicsSurge);
       
       if (isTronicsSurge) {
-        window.dispatchEvent(new Event('setTronicsSurgeActive'));
+        console.log("Triggering Tronics Surge");
+        setTronicsSurgeActive(true);
+        setTimeout(() => {
+          setTronicsSurgeActive(false);
+          setSurgeCount(prev => {
+            const newCount = prev + 1;
+            localStorage.setItem('surgeCount', newCount);
+            return newCount;
+          });
+        }, parseInt(localStorage.getItem('surge_duration_bonus') || '5') * 1000);
       } else {
-        console.log("is trash surge");
+        console.log("Triggering Trash Surge");
         setIsSurgeActive(true);
         setHasFoundCapacitorThisSurge(false);
         localStorage.setItem('hadFirstSurge', 'true');
