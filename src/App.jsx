@@ -102,6 +102,12 @@ export default function App() {
   const [showTooltips, setShowTooltips] = useState(false); // Added state for Tooltips
 
   useEffect(() => {
+    const handleUpdateSurgeCount = () => {
+      setSurgeCount(3);
+    };
+    
+    window.addEventListener('updateSurgeCount', handleUpdateSurgeCount);
+    
     const handleAddMaterial = (e) => {
       const { material, amount } = e.detail;
       setCraftingInventory(prev => ({
