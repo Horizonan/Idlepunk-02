@@ -105,9 +105,9 @@ export default function App() {
     const handleUpdateSurgeCount = () => {
       setSurgeCount(3);
     };
-    
+
     window.addEventListener('updateSurgeCount', handleUpdateSurgeCount);
-    
+
     const handleAddMaterial = (e) => {
       const { material, amount } = e.detail;
       setCraftingInventory(prev => ({
@@ -265,13 +265,13 @@ export default function App() {
     const startSurge = () => {
       window.surgeStartTime = Date.now();
       const isTronicsSurgeUnlocked = localStorage.getItem('electro_surge_node_purchased') === 'true';
-      
+
       // 50/50 chance between trash and tronics surge if unlocked
       const randomVal = Math.random();
       console.log("Number is: " + randomVal);
       const isTronicsSurge = isTronicsSurgeUnlocked; //&& randomVal < 0.5
       console.log("Is Tronics Surge: " + isTronicsSurge);
-      
+
       if (isTronicsSurge) {
         console.log("Triggering Tronics Surge");
         setTronicsSurgeActive(true);
@@ -288,10 +288,10 @@ export default function App() {
         setIsSurgeActive(true);
         setHasFoundCapacitorThisSurge(false);
         localStorage.setItem('hadFirstSurge', 'true');
-        
+
         const surgeDurationBonus = isTronicsSurgeUnlocked ? parseInt(localStorage.getItem('surge_duration_bonus') || '5') : 0;
         const surgeDuration = craftingInventory['Surge Capacitor Module'] ? 10000 : 5000 + (surgeDurationBonus * 1000);
-        
+
         setTimeout(() => {
           setIsSurgeActive(false);
           setHasFoundCapacitorThisSurge(false);
@@ -366,12 +366,12 @@ export default function App() {
       const holoBillboardBonus = (ownedItems.holoBillboard || 0) * 0.1;
       const totalMultiplier = 1 + circuitOptBonus + (craftingInventory['Compression Pack'] ? 0.25 : 0) + greaseDisciplineBonus + holoBillboardBonus;
       setGlobalJpsMultiplier(totalMultiplier);
-      
+
       // Only add passive income, not clicking
       if (passiveIncome > 0) {
         setJunk(prev => prev + (passiveIncome * totalMultiplier));
       }
-      
+
       // Handle auto clicks separately
       if (autoClicks > 0) {
         setJunk(prev => prev + (autoClicks * clickMultiplier));
@@ -538,10 +538,10 @@ export default function App() {
     checkAchievements();
   };
 
-  
+
   const collectTronics = (amount) => {
     if (electronicsUnlock) {
-      
+
       const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
       const randomValue = Math.random();
       const quantumProc = hasQuantumTap && randomValue < 0.03;
@@ -674,7 +674,7 @@ export default function App() {
     if (junk >= 1000000) {
       if (!localStorage.getItem('shown_questlog_hint')) {
         localStorage.setItem('shown_questlog_hint', 'true');
-        
+
         // Add pulsing animation class to both quest log buttons
         const questLogBtn = document.querySelector('.quest-log-toggle');
         const mainQuestLog = document.querySelector('.quest-log');
@@ -750,9 +750,9 @@ export default function App() {
       {showNewsTicker && <NewsContainer isSurgeActive={isSurgeActive} />}
       <TrashSurge isActive={isSurgeActive} activeClicker={document.querySelector('.clicker-select.active')?.textContent.includes('Trash') ? 'trash' : 'electronics'} />
 
-      
+
        <TronicsSurge isActive={isTronicsSurgeActive} activeClicker={document.querySelector('.clicker-select.active')?.textContent.includes('Trash') ? 'trash' : 'electronics'} />
-      
+
       {enableHoloBillboard && <HoloBillboard ownedItems={ownedItems} />}
       {showCrystal && (
         <FlyingCrystal
@@ -1192,7 +1192,7 @@ export default function App() {
           onShowCrystal= {setShowCrystal}
           onSetTronicsSurgeActive= {setTronicsSurgeActive}
           onSetSurgeActive={setIsSurgeActive}
-          
+
         />
       )}
       {showActiveCheats && (
