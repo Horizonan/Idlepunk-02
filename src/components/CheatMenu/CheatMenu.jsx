@@ -100,6 +100,7 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
               <button onClick={() => onAddJunk(10000000)}>Add 10M Junk</button>
               <button onClick={() => onAddTronics(1000)}>Add 1k Tronics</button>
               <button onClick={() => onAddTronics(10000)}>Add 10k Tronics</button>
+              <button onClick={() => onAddTronics(100000)}>Add 100k Tronics</button>
               <button onClick={() => onAddSetPrestige(1)}>Set Prestige 1</button>
               <button onClick={() => {
                 const materials = ['Wires', 'Metal Plates', 'Gear Bits'];
