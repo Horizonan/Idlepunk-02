@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 
 export default function QuestLog({ tutorialStage, onClose }) {
@@ -22,11 +21,11 @@ export default function QuestLog({ tutorialStage, onClose }) {
     };
 
     handleStorageChange(); // Initial check
-    
+
     // Listen for both storage and custom quest update events
     window.addEventListener('storage', handleStorageChange);
     window.addEventListener('questUpdate', handleStorageChange);
-    
+
     const interval = setInterval(handleStorageChange, 1000); // Poll for updates
 
     return () => {
@@ -51,6 +50,10 @@ export default function QuestLog({ tutorialStage, onClose }) {
       { id: 8, title: "The Circuit Speaks", task: "Collect 3 Electro Shards", reward: "1x Voltage Node" },
       { id: 9, title: "Whispers in the Scrap", task: "Collect 10 Lore Logs or reach 7.5M Junk", reward: "1x Synthcore Fragment" },
       { id: 10, title: "Forge the Future", task: "Craft the Prestige Crystal", reward: "Unlocks Ascension" }
+    ],
+    postPrestige: [ // New questline
+      { id: 1, title: "System Memory Detected", task: "Reach 25M Junk (post-prestige)", reward: "Encrypted Coil" },
+      // Add more post-prestige quests here
     ]
   };
 
@@ -115,6 +118,14 @@ export default function QuestLog({ tutorialStage, onClose }) {
               }}
             >
               Ascension Protocol
+            </button>
+          )}
+          {localStorage.getItem('hasPrestiged') === 'true' && ( //Conditional rendering for post-prestige tab
+            <button
+              className={`quest-tab ${selectedQuestLine === 'postPrestige' ? 'active' : ''}`}
+              onClick={() => setSelectedQuestLine('postPrestige')}
+            >
+              Post-Prestige Quests
             </button>
           )}
         </div>
