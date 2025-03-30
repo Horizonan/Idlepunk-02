@@ -236,8 +236,10 @@ export default function App() {
   useEffect(() => {
     const maxBeacons = Math.min(10, beaconCount); // Cap at 10 beacons
     const hasBeaconCore = localStorage.getItem('beacon_core_purchased') === 'true';
-    const beaconCoreBonus = hasBeaconCore ? 0.75 : 1; // 25% reduction if core is purchased
-    const beaconMultiplier = Math.pow(0.99, maxBeacons) * beaconCoreBonus; // Combined reduction
+    const beaconBaseReduction = hasBeaconCore ? 0.25 : 0; // 25% base reduction if core is purchased
+    const beaconStackReduction = maxBeacons * 0.01; // 1% per beacon
+    const totalReduction = Math.min(0.9, beaconBaseReduction + beaconStackReduction); // Cap at 90% reduction
+    const beaconMultiplier = 1 - totalReduction;
     const crystalInterval = setInterval(() => {
       if (Math.random() < 0.5) {
         setShowCrystal(true);
