@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 
 export default function QuestLog({ tutorialStage, onClose }) {
@@ -14,19 +15,18 @@ export default function QuestLog({ tutorialStage, onClose }) {
   useEffect(() => {
     const handleStorageChange = () => {
       const newQuestStates = {};
-      questLines[selectedQuestLine].forEach(quest => {
-        newQuestStates[quest.title] = localStorage.getItem(`quest_sync_${quest.title}`) === 'true';
-      });
+      if (questLines[selectedQuestLine]) {
+        questLines[selectedQuestLine].forEach(quest => {
+          newQuestStates[quest.title] = localStorage.getItem(`quest_sync_${quest.title}`) === 'true';
+        });
+      }
       setQuestStates(newQuestStates);
     };
 
-    handleStorageChange(); // Initial check
-
-    // Listen for both storage and custom quest update events
+    handleStorageChange();
     window.addEventListener('storage', handleStorageChange);
     window.addEventListener('questUpdate', handleStorageChange);
-
-    const interval = setInterval(handleStorageChange, 1000); // Poll for updates
+    const interval = setInterval(handleStorageChange, 1000);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
@@ -34,6 +34,29 @@ export default function QuestLog({ tutorialStage, onClose }) {
       clearInterval(interval);
     };
   }, [selectedQuestLine]);
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setDragOffset({
+      x: e.clientX - position.x,
+      y: e.clientY - position.y
+    });
+  };
+
+  const handleMouseMove = (e) => {
+    if (isDragging) {
+      const newPosition = {
+        x: e.clientX - dragOffset.x,
+        y: e.clientY - dragOffset.y
+      };
+      setPosition(newPosition);
+      localStorage.setItem('questLogPosition', JSON.stringify(newPosition));
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
 
   const questLines = {
     progression: [
@@ -43,7 +66,7 @@ export default function QuestLog({ tutorialStage, onClose }) {
       { id: 4, title: "Passive Income", task: "Purchase something that generates passive income" },
       { id: 5, title: "Begin Crafting", task: "Start crafting items from your collected junk" },
       { id: 6, title: "Surge Rider", task: "Take advantage of the surge to collect extra junk", reward: "1x Electro Shard" },
-      { id: 7, title: "Unlock Ascension Protocol", task: "Reach 1 million junk to unlock the path to prestige", reward: "Unlocks the Ascencion Protocol Questline" }
+      { id: 7, title: "Unlock Ascension Protocol", task: "Reach 1 million junk to unlock the path to prestige", reward: "Unlocks the Ascension Protocol Questline" }
     ],
     ascension: [ 
       { id: 7, title: "Surge Overflow", task: "Trigger 3 Trash Surges", reward: "1x Stabilized Capacitor" },
@@ -51,36 +74,21 @@ export default function QuestLog({ tutorialStage, onClose }) {
       { id: 9, title: "Whispers in the Scrap", task: "Collect 10 Lore Logs or reach 7.5M Junk", reward: "1x Synthcore Fragment" },
       { id: 10, title: "Forge the Future", task: "Craft the Prestige Crystal", reward: "Unlocks Ascension" }
     ],
-    postPrestige: [ // New questline
-      { id: 1, title: "System Memory Detected", task: "Reach 25M Junk (post-prestige)", reward: "Encrypted Coil" },
-      // Add more post-prestige quests here
+    postPrestige: [
+      { id: 1, title: "System Memory Detected", task: "Reach 25M Junk (post-prestige)", reward: "Encrypted Coil" }
     ]
   };
 
+  const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
+
+  // Set initial questline based on prestige status
   useEffect(() => {
-    localStorage.setItem('questLogPosition', JSON.stringify(position));
-  }, [position]);
-
-  const handleMouseDown = (e) => {
-    setIsDragging(true);
-    const rect = e.currentTarget.getBoundingClientRect();
-    setDragOffset({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
-    });
-  };
-
-  const handleMouseMove = (e) => {
-    if (isDragging) {
-      const newX = e.clientX - dragOffset.x;
-      const newY = e.clientY - dragOffset.y;
-      setPosition({ x: newX, y: newY });
+    if (hasPrestiged && selectedQuestLine !== 'postPrestige') {
+      setSelectedQuestLine('postPrestige');
+    } else if (!hasPrestiged && selectedQuestLine === 'postPrestige') {
+      setSelectedQuestLine('progression');
     }
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
+  }, [hasPrestiged]);
 
   return (
     <div 
@@ -103,25 +111,28 @@ export default function QuestLog({ tutorialStage, onClose }) {
           <button className="close-button" onClick={onClose}>Close</button>
         </div>
         <div className="quest-tabs">
-          {localStorage.getItem('hasPrestiged') === 'false' &&(
-          <button 
-            className={`quest-tab ${selectedQuestLine === 'progression' ? 'active' : ''}`}
-            onClick={() => setSelectedQuestLine('progression')}
-          >
-            Early Progression
-          </button>)}
-          {localStorage.getItem('cogfatherEvent') === 'true' && localStorage.getItem('hasPrestiged') === 'false' &&(
-            <button 
-              className={`quest-tab ${selectedQuestLine === 'ascension' ? 'active' : ''} ${localStorage.getItem('cogfatherEvent') === 'true' && !localStorage.getItem('ascension_tab_clicked') ? 'highlight' : ''}`}
-              onClick={() => {
-                setSelectedQuestLine('ascension');
-                localStorage.setItem('ascension_tab_clicked', 'true');
-              }}
-            >
-              Ascension Protocol
-            </button>
+          {!hasPrestiged && (
+            <>
+              <button 
+                className={`quest-tab ${selectedQuestLine === 'progression' ? 'active' : ''}`}
+                onClick={() => setSelectedQuestLine('progression')}
+              >
+                Early Progression
+              </button>
+              {localStorage.getItem('cogfatherEvent') === 'true' && (
+                <button 
+                  className={`quest-tab ${selectedQuestLine === 'ascension' ? 'active' : ''} ${localStorage.getItem('cogfatherEvent') === 'true' && !localStorage.getItem('ascension_tab_clicked') ? 'highlight' : ''}`}
+                  onClick={() => {
+                    setSelectedQuestLine('ascension');
+                    localStorage.setItem('ascension_tab_clicked', 'true');
+                  }}
+                >
+                  Ascension Protocol
+                </button>
+              )}
+            </>
           )}
-          {localStorage.getItem('hasPrestiged') === 'true' && ( //Conditional rendering for post-prestige tab
+          {hasPrestiged && (
             <button
               className={`quest-tab ${selectedQuestLine === 'postPrestige' ? 'active' : ''}`}
               onClick={() => setSelectedQuestLine('postPrestige')}
@@ -131,7 +142,7 @@ export default function QuestLog({ tutorialStage, onClose }) {
           )}
         </div>
         <div className="quest-list">
-          {questLines[selectedQuestLine].map((quest) => (
+          {questLines[selectedQuestLine]?.map((quest) => (
             <div 
               key={quest.id} 
               className={`quest-item ${questStates[quest.title] ? 'completed' : 'active'}`}
