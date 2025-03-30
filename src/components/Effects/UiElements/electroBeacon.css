@@ -98,6 +98,11 @@
   animation: beacon-pulse 2s infinite;
 }
 
+.electro-beacon.core-active {
+  background: rgba(0, 255, 255, 0.5);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+}
+
 .electro-beacon.core-active::after {
   content: '';
   position: absolute;

@@ -237,7 +237,12 @@ export default function ElectroStore({ electroShards, onRemoveElectroShard, tron
               <div className="item-header">
                 <strong>🔦 Electro Beacon Core</strong>
               </div>
-              <div>500,000 Tronics + 15 Electro Shards</div>
+              <div>
+                {localStorage.getItem('beacon_core_purchased') === 'true' ? 
+                  'Purchased' : 
+                  '500,000 Tronics + 15 Electro Shards'
+                }
+              </div>
               <div className="item-info">
                 {parseInt(localStorage.getItem('beaconCount') || '0') < 10 ? (
                   <>
