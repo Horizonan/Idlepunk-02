@@ -18,8 +18,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
   const tabs = [
     { id: 'basic', label: 'Basic Materials' },
     { id: 'items', label: 'Craftable Items' },
-    { id: 'mysterious', label: 'Mysterious', unlockCondition: () => localStorage.getItem('mysteriousUnlocked') === 'true' || craftingInventory['Synthcore Fragment'] >= 1 },
-    { id: 'special', label: 'Special Materials' } // Added special materials tab
+    { id: 'mysterious', label: 'Mysterious', unlockCondition: () => localStorage.getItem('mysteriousUnlocked') === 'true' || craftingInventory['Synthcore Fragment'] >= 1 }
   ];
 
   // Set mysterious tab as unlocked if condition met
@@ -126,15 +125,6 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
     }
   ];
 
-  const specialMaterials = [
-    {
-      name: 'Encrypted Coil',
-      description: 'A mysterious coil emitting strange energy.',
-      type: 'special'
-    }
-    // Add more special materials here as needed
-  ];
-
   const canCraft = (item) => {
     if (item.type === 'basic') {
       const cost = craftingInventory['Crafting Booster Unit'] ? Math.floor(item.cost * 0.9) : item.cost;
@@ -155,7 +145,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       <div className="crafting-tabs">
         {tabs.map(tab => (
           (!tab.unlockCondition || tab.unlockCondition()) && (
-            <button
+            <button 
               key={tab.id}
               className={`tab-button ${selectedTab === tab.id ? 'active' : ''}`}
               onClick={() => setSelectedTab(tab.id)}
@@ -262,25 +252,6 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   <p>- Synthcore Fragment: 1 ({craftingInventory['Synthcore Fragment'] || 0} owned)</p>
                 </div>
               </button>
-            </div>
-          </div>
-        )}
-
-        {selectedTab === 'special' && (
-          <div className="crafting-section">
-            <h3>Special Materials</h3>
-            <div className="store-items">
-              {specialMaterials.map((item, index) => (
-                <div key={index} className="store-item special">
-                  <div className="item-header">
-                    <strong>{item.name}</strong>
-                  </div>
-                  <div className="item-info">
-                    <p>{item.description}</p>
-                    <p className="inventory-count">Owned: {craftingInventory[item.name] || 0}</p>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         )}
