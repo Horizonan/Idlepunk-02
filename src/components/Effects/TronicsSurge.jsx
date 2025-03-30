@@ -10,7 +10,7 @@ export default function TronicsSurge({ isActive, activeClicker }) {
     if (isActive) {
       console.log("Tronics Surge Active");
       document.body.classList.add('tronics-surge-active');
-      const surgeDuration = 5000;
+      const surgeDuration = parseInt(localStorage.getItem('surge_duration_bonus') || '5') * 1000;
       const endTime = Date.now() + surgeDuration;
 
       // Spawn capacitors every second
@@ -28,11 +28,12 @@ export default function TronicsSurge({ isActive, activeClicker }) {
       const timer = setInterval(() => {
         const remaining = Math.max(0, Math.ceil((endTime - Date.now()) / 1000));
         setTimeLeft(remaining);
-
-        if (remaining <= 0) {
+        
+        if (remaining === 0) {
           clearInterval(timer);
           clearInterval(capacitorTimer);
           document.body.classList.remove('tronics-surge-active');
+          window.dispatchEvent(new Event('endTronicsSurge'));
         }
       }, 1000);
 
@@ -41,8 +42,6 @@ export default function TronicsSurge({ isActive, activeClicker }) {
         clearInterval(capacitorTimer);
         document.body.classList.remove('tronics-surge-active');
       };
-    } else {
-      document.body.classList.remove('tronics-surge-active');
     }
   }, [isActive]);
 
