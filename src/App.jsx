@@ -1141,6 +1141,7 @@ export default function App() {
           <div className="beacon-top"></div>
           <div className="beacon-tower">
             <div className="beacon-glow"></div>
+            {localStorage.getItem('beacon_core_purchased') === 'true' && <div className="core-pulse"></div>}
           </div>
           <div className="beacon-base"></div>
         </div>
