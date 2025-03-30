@@ -74,7 +74,7 @@ export default function QuestLog({ tutorialStage, onClose }) {
       { id: 9, title: "Whispers in the Scrap", task: "Collect 10 Lore Logs or reach 7.5M Junk", reward: "1x Synthcore Fragment" },
       { id: 10, title: "Forge the Future", task: "Craft the Prestige Crystal", reward: "Unlocks Ascension" }
     ],
-    postPrestige: [
+    awakenTheCore: [
       { id: 1, title: "System Memory Detected", task: "Reach 25M Junk (post-prestige)", reward: "Encrypted Coil" }
     ]
   };
@@ -83,9 +83,9 @@ export default function QuestLog({ tutorialStage, onClose }) {
 
   // Set initial questline based on prestige status
   useEffect(() => {
-    if (hasPrestiged && selectedQuestLine !== 'postPrestige') {
-      setSelectedQuestLine('postPrestige');
-    } else if (!hasPrestiged && selectedQuestLine === 'postPrestige') {
+    if (hasPrestiged && selectedQuestLine !== 'awakenTheCore') {
+      setSelectedQuestLine('awakenTheCore');
+    } else if (!hasPrestiged && selectedQuestLine === 'awakenTheCore') {
       setSelectedQuestLine('progression');
     }
   }, [hasPrestiged]);
@@ -137,7 +137,7 @@ export default function QuestLog({ tutorialStage, onClose }) {
               className={`quest-tab ${selectedQuestLine === 'postPrestige' ? 'active' : ''}`}
               onClick={() => setSelectedQuestLine('postPrestige')}
             >
-              Post-Prestige Quests
+              Awaken the Core
             </button>
           )}
         </div>
