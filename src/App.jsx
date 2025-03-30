@@ -377,6 +377,14 @@ export default function App() {
       // Handle auto clicks separately
       if (autoClicks > 0) {
         setJunk(prev => prev + (autoClicks * clickMultiplier));
+        
+        // Generate tronics if electronics are unlocked
+        if (electronicsUnlock) {
+          const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
+          const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
+          const tronicsPerClick = 1 + boostICount + (boostIICount * 2);
+          setTronics(prev => prev + (autoClicks * tronicsPerClick));
+        }
       }
     }, 1000);
 
