@@ -256,24 +256,31 @@ export default function App() {
   useEffect(() => {
     const startSurge = () => {
       window.surgeStartTime = Date.now();
-      setIsSurgeActive(true);
-      setHasFoundCapacitorThisSurge(false);
-      localStorage.setItem('hadFirstSurge', 'true');
-      
       const isTronicsSurgeUnlocked = localStorage.getItem('electro_surge_node_purchased') === 'true';
-      const surgeDurationBonus = isTronicsSurgeUnlocked ? parseInt(localStorage.getItem('surge_duration_bonus') || '5') : 0;
-      const surgeDuration = craftingInventory['Surge Capacitor Module'] ? 10000 : 5000 + (surgeDurationBonus * 1000);
-      console.log(surgeDuration);
       
-      setTimeout(() => {
-        setIsSurgeActive(false);
+      // 50/50 chance between trash and tronics surge if unlocked
+      const isTronicsSurge = isTronicsSurgeUnlocked && Math.random() < 0.5;
+      
+      if (isTronicsSurge) {
+        window.dispatchEvent(new Event('setTronicsSurgeActive'));
+      } else {
+        setIsSurgeActive(true);
         setHasFoundCapacitorThisSurge(false);
-        setSurgeCount(prev => {
-          const newCount = prev + 1;
-          localStorage.setItem('surgeCount', newCount);
-          return newCount;
-        });
-      }, surgeDuration);
+        localStorage.setItem('hadFirstSurge', 'true');
+        
+        const surgeDurationBonus = isTronicsSurgeUnlocked ? parseInt(localStorage.getItem('surge_duration_bonus') || '5') : 0;
+        const surgeDuration = craftingInventory['Surge Capacitor Module'] ? 10000 : 5000 + (surgeDurationBonus * 1000);
+        
+        setTimeout(() => {
+          setIsSurgeActive(false);
+          setHasFoundCapacitorThisSurge(false);
+          setSurgeCount(prev => {
+            const newCount = prev + 1;
+            localStorage.setItem('surgeCount', newCount);
+            return newCount;
+          });
+        }, surgeDuration);
+      }
     };
 
     const handleTriggerSurge = () => startSurge();

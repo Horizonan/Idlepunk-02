@@ -3,23 +3,19 @@ import { useState, useEffect } from 'react';
 import './TronicsSurge.css';
 
 export default function TronicsSurge({ isActive, activeClicker }) {
-  const [timeLeft, setTimeLeft] = useState(0);
-  const [nextSurgeTime, setNextSurgeTime] = useState(() => {
-    const saved = localStorage.getItem('nextTronicsSurgeTime');
-    return saved ? parseInt(saved) : Date.now() + (600000 + Math.random() * 900000);
-  });
+  const [timeLeft, setTimeLeft] = useState(5);
   const [capacitors, setCapacitors] = useState([]);
 
   useEffect(() => {
     if (isActive) {
-      console.log("is Active");
+      console.log("Tronics Surge Active");
       document.body.classList.add('tronics-surge-active');
-      const surgeDuration = 5000; // 5 seconds
+      const surgeDuration = 5000;
       const endTime = Date.now() + surgeDuration;
       
       // Spawn capacitors every second
       const capacitorTimer = setInterval(() => {
-        if (Math.random() < 0.1) { // 10% chance
+        if (Math.random() < 0.1) {
           const newCapacitor = {
             id: Date.now(),
             x: Math.random() * (window.innerWidth - 50),
