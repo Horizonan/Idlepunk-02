@@ -260,10 +260,12 @@ export default function App() {
       
       // 50/50 chance between trash and tronics surge if unlocked
       const isTronicsSurge = isTronicsSurgeUnlocked && Math.random() < 0.5;
+      console.log("Is Tronics Surge: " + isTronicsSurge);
       
       if (isTronicsSurge) {
         window.dispatchEvent(new Event('setTronicsSurgeActive'));
       } else {
+        console.log("is trash surge");
         setIsSurgeActive(true);
         setHasFoundCapacitorThisSurge(false);
         localStorage.setItem('hadFirstSurge', 'true');

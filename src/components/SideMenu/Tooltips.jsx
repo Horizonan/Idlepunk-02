@@ -45,6 +45,23 @@ export default function Tooltips({ onClose }) {
         </div>
 
         <div className="tooltip-entry">
+          <h3 onClick={() => toggleTip('capacitors')}>
+            ⏛ What Are Capacitors? {expandedTip === 'capacitors' ? '▼' : '▶'}
+          </h3>
+          {expandedTip === 'capacitors' && (
+            <div className="tooltip-section">
+              <p>“Stores unstable surge energy in a compact form.”</p>
+              <ul>
+                <li>Required for advanced crafting and system upgrades.</li>
+                <li>Can be rarely found during normal Surges and more commonly in Tronics Surges.</li>
+              </ul>
+
+              <p className="tooltip-tip">💡 Tip: Keep an eye on rare pickups — they matter more than you think.</p>
+            </div>
+          )}
+        </div>
+
+        <div className="tooltip-entry">
           <h3 onClick={() => toggleTip('tronicsClicker')}>
             🔌 Tronics Clicker {expandedTip === 'tronicsClicker' ? '▼' : '▶'}
           </h3>
