@@ -36,6 +36,7 @@ export default function Settings({
           <p>Trash Surges Completed: {surgeCount.toLocaleString()}</p>
           <p>Times Prestiged: {prestigeCount}</p>
           <p>Crystal Time Reduction: {Math.min(10, parseInt(localStorage.getItem('beaconCount') || '0'))}%</p>
+          <p>Total Tronics Clicks: {localStorage.getItem('totalTronicsClicks') || '0'}</p>
         </div>
         {preservedHelper && (
           <div className="stats-section">
