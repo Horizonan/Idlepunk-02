@@ -21,6 +21,8 @@ export default function Settings({
   setShowTechTree,
   onClose 
 }) {
+  const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks') || '0'); // Directly get from localStorage
+
   return (
     <div className="store-container settings-menu">
       <div className="settings-header">
@@ -36,7 +38,7 @@ export default function Settings({
           <p>Trash Surges Completed: {surgeCount.toLocaleString()}</p>
           <p>Times Prestiged: {prestigeCount}</p>
           <p>Crystal Time Reduction: {Math.min(10, parseInt(localStorage.getItem('beaconCount') || '0'))}%</p>
-          <p>Total Tronics Clicks: {parseInt(localStorage.getItem('totalTronicsClicks') || '0').toLocaleString()}</p>
+          <p>Total Tronics Clicks: {totalTronicsClicks.toLocaleString()}</p> {/* Use the fetched value */}
         </div>
         {preservedHelper && (
           <div className="stats-section">
