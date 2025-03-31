@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default function Changelog({ onClose }) {
-  const [expandedVersion, setExpandedVersion] = useState('0.0.5');
+  const [expandedVersion, setExpandedVersion] = useState('0.0.6/1');
 
   const toggleVersion = (version) => {
     setExpandedVersion(expandedVersion === version ? null : version);
@@ -16,6 +16,40 @@ export default function Changelog({ onClose }) {
       </div>
       
       <div className="changelog-content">
+
+        <div className="changelog-entry">
+          <h3 onClick={() => toggleVersion('0.0.6/1')} style={{ cursor: 'pointer' }}>
+            🔧 Rework Systems – Update Log 0.0.6/1 {expandedVersion === '0.0.6/1' ? '▼' : '▶'}
+          </h3>
+          {expandedVersion === '0.0.6/1' && (
+            <>
+              <p>Note: Updates will majorly slow down due to funding being depleted💛</p>
+              <div className="changelog-section">
+                <h3>⚙️ UI & Backend Improvements</h3>
+                <p>⚙️ Moved Clicker buttons down to avoid blocking surge timers</p>
+                <p>⚙️ Moved Electro Beacon CSS and Notifications CSS into dedicated files</p>
+                <p>⚙️ Fixed Notifications button not disappearing correctly (was called twice in App.jsx)</p>
+                <p>⚙️ Cheat Menu cleaned up & slightly restructured</p>
+                <p>⚙️ Credits Store backend completely overhauled</p>
+                <h3>🔧 Bugfixes & Functionality Tweaks</h3>
+                <p>🔧 Completely reworked Electro Clicker logic to fix multiple bugs</p>
+                <p>🔧 Quantum Tap now triggers at correct 3% chance</p>
+                <p>🔧 Fixed Tronics Upgrades not subtracting Tronics properly</p>
+                <p>🔧 Surge backend fully reworked — smoother & more stable</p>
+                <p>🔧 Added Tronics Surge backend + full implementation</p>
+                <p>🔧 Automation Clickers now generate Tronics/sec</p>
+                <h3>⚡ Core System Updates</h3>
+                <p>⚡ Changed Circuit Speaks quest to only require 3 Electro Shards</p>
+                <p>⚡ Added Capacitor Tooltip (finally!)</p>
+                <p>⚡ Added Electro Beacon Core upgrade</p>
+                <h3>🧩 New Content</h3>
+                <p>🧩 Added first new quest for second prestige questline</p>
+              </div>
+              <p className="changelog-footer">Thanks again for playing and sharing your feedback — it really helps shape each version. More content and polish coming soon! If you want to help please make sure to mail me itscolord@gmail.com 🚀</p>
+            </>
+          )}
+        </div>
+
 
         <div className="changelog-entry">
           <h3 onClick={() => toggleVersion('0.0.5')} style={{ cursor: 'pointer' }}>

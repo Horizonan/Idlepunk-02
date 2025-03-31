@@ -163,7 +163,19 @@ export const validateQuests = ({
           detail: { message: "Cogfather: The crystal's power flows through the system. You're ready for what comes next." }
         }));
       }
-    }
+    },
+    {
+      title: "Tap the Pulse",
+      condition: craftingInventory['Prestige Crystal'] >= 1,
+      category: 'prestige',
+      onComplete: () => {
+        localStorage.setItem('prestigeUnlocked', 'true');
+        localStorage.setItem('quest_sync_Forge the Future', 'true');
+        setNotifications(prev => [...prev, "The Prestige System has been unlocked!"]);
+        window.dispatchEvent(new CustomEvent('nextNews', { 
+          detail: { message: "Cogfather: The crystal's power flows through the system. You're ready for what comes next." }
+        }));
+      }
   ];
 
   questChecks.forEach(quest => {

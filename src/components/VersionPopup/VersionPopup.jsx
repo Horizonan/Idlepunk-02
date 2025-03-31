@@ -6,14 +6,14 @@ export default function VersionPopup({ onClose }) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const hasSeenUpdate = localStorage.getItem('seen_update_0.0.5');
+    const hasSeenUpdate = localStorage.getItem('seen_update_0.0.6/1');
     if (!hasSeenUpdate) {
       setShow(true);
     }
   }, []);
 
   const handleClose = () => {
-    localStorage.setItem('seen_update_0.0.5', 'true');
+    localStorage.setItem('seen_update_0.0.6/1', 'true');
     setShow(false);
     onClose();
   };
@@ -23,12 +23,12 @@ export default function VersionPopup({ onClose }) {
   return (
     <div className="version-popup-overlay">
       <div className="version-popup">
-        <h2>🎮 New Version Available: 0.0.5</h2>
+        <h2>🎮 New Version Available: 0.0.6/1</h2>
         <div className="version-content">
           <h3>What's New:</h3>
           <ul>
             <li>✨ Tons of Bugfixes</li>
-            <li>✨ Tons of QoL</li>
+            <li>✨ Tons of System Reworks</li>
             <li>🔧 A tiny bit of new content</li>
           </ul>
           <p>Check the Changelog for more Information or join the Discord!</p>
