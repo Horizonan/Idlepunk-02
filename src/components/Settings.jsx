@@ -17,8 +17,6 @@ export default function Settings({
   surgeCount,
   prestigeCount,
   preservedHelper,
-  prestigeQuestCompleted,
-  setShowTechTree,
   onClose
 }) {
   const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks') || '0');

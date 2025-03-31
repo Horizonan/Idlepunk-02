@@ -68,7 +68,7 @@ export default function App() {
     surgeCount, setSurgeCount,
     cogfatherLore, setCogfatherLore,
     preservedHelper, setPreservedHelper,
-    setTronicsSurgeActive, isTronicsSurgeActive
+    setTronicsSurgeActive, isTronicsSurgeActive, setTotalTronicsClicks
   } = useGameState();
   const [showChangelog, setShowChangelog] = useState(false);
   const [showTechTree, setShowTechTree] = useState(false);
@@ -372,12 +372,13 @@ export default function App() {
       // Only add passive income, not clicking
       if (passiveIncome > 0) {
         setJunk(prev => prev + (passiveIncome * totalMultiplier));
+        
       }
 
       // Handle auto clicks separately
       if (autoClicks > 0) {
         setJunk(prev => prev + (autoClicks * clickMultiplier));
-        
+        setTotalTronicsClicks(prev => prev + autoClicks);
         // Generate tronics if electronics are unlocked
         if (electronicsUnlock) {
           const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
@@ -503,7 +504,8 @@ export default function App() {
       ownedItems,
       setElectroShards,
       setNotifications,
-      setCraftingInventory
+      setCraftingInventory,
+      setAutoClicks
     });
   };
 
@@ -551,8 +553,6 @@ export default function App() {
 
   const collectTronics = (amount) => {
     if (electronicsUnlock) {
-      // Update total tronics clicks
-      setTotalTronicsClicks(prev => prev + 1);
       
       // Handle manual clicks
       if (amount === 1) {

@@ -15,9 +15,11 @@ export const validateQuests = ({
   ownedItems,
   setElectroShards,
   setNotifications,
-  setCraftingInventory
+  setCraftingInventory,
+  setAutoClicks
 }) => {
   const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
+  const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks'));
   
   // If prestiged, show new questline instead of original
   if (hasPrestiged) {
@@ -32,6 +34,27 @@ export const validateQuests = ({
       setNotifications(prev => [...prev, "Obtained: Encrypted Coil"]);
       window.dispatchEvent(new CustomEvent('nextNews', { 
         detail: { message: "There's data buried in the circuits… waiting to be recompiled." }
+      }));
+      return;
+    }
+      if (totalTronicsClicks >= 5000 && !localStorage.getItem('quest_sync_Tap the Pulse')) {
+        localStorage.setItem('quest_sync_TapThePulse', 'true');
+        setAutoClicks(prev => prev + 5);
+        setNotifications(prev => [...prev, "Quest Complete: Tap the Pulse"]);
+        setNotifications(prev => [...prev, "Obtained: 5 Auto Clicks"]);
+        window.dispatchEvent(new CustomEvent('nextNews', { 
+          detail: { message: "You feel the rhythm of the grid. Tronics flow faster now." }
+        }));
+        return;
+      }
+
+    if (totalTronicsClicks >= 5000 && !localStorage.getItem('quest_sync_Upgrade Cascade')) {
+      localStorage.setItem('quest_sync_TapThePulse', 'true');
+      setAutoClicks(prev => prev + 5);
+      setNotifications(prev => [...prev, "Quest Complete: Tap the Pulse"]);
+      setNotifications(prev => [...prev, "Obtained: 5 Auto Clicks"]);
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: "You feel the rhythm of the grid. Tronics flow faster now." }
       }));
       return;
     }
@@ -164,18 +187,8 @@ export const validateQuests = ({
         }));
       }
     },
-    {
-      title: "Tap the Pulse",
-      condition: craftingInventory['Prestige Crystal'] >= 1,
-      category: 'prestige',
-      onComplete: () => {
-        localStorage.setItem('prestigeUnlocked', 'true');
-        localStorage.setItem('quest_sync_Forge the Future', 'true');
-        setNotifications(prev => [...prev, "The Prestige System has been unlocked!"]);
-        window.dispatchEvent(new CustomEvent('nextNews', { 
-          detail: { message: "Cogfather: The crystal's power flows through the system. You're ready for what comes next." }
-        }));
-      }
+   
+    
   ];
 
   questChecks.forEach(quest => {
