@@ -6,6 +6,14 @@ export default function ElectroStore({ electroShards, onRemoveElectroShard, tron
   const tronicsBoostIICost = parseInt(localStorage.getItem('tronics_boost_II_cost') || '750');
   const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
   const hasTronicsBoost = localStorage.getItem('unlocked_tronics_boost') === 'true';
+  const [upgradeCount, setUpgradeCount] = useState(parseInt(localStorage.getItem('upgradeCount')) || 0);
+
+
+  const incrementUpgradeCount = () => {
+    const newCount = upgradeCount + 1;
+    localStorage.setItem('upgradeCount', newCount);
+    setUpgradeCount(newCount);
+  };
 
   return (
     <div className="store-container">
@@ -37,9 +45,11 @@ export default function ElectroStore({ electroShards, onRemoveElectroShard, tron
                   if (electroShards >= 3) {
                     onBuyTronicsBoost();
                     localStorage.setItem('unlocked_tronics_boost', 'true');
+                    incrementUpgradeCount();
                   }
                 } else if (tronics >= tronicsBoostCost) {
                   onBuyTronicsBoost();
+                  incrementUpgradeCount();
                 }
               }}
               disabled={!localStorage.getItem('unlocked_tronics_boost') ? electroShards < 3 : tronics < tronicsBoostCost}
@@ -77,6 +87,7 @@ export default function ElectroStore({ electroShards, onRemoveElectroShard, tron
 
                   setTronics(prev => prev - currentCost);
                   setNotifications(prev => [...prev, "Tronics Click Boost II purchased! +2 Tronics per click"]);
+                  incrementUpgradeCount();
                 }
               }}
               disabled={!localStorage.getItem('unlocked_tronics_boost') || !localStorage.getItem('tronics_boost_count') || tronics < tronicsBoostIICost}
@@ -109,6 +120,7 @@ export default function ElectroStore({ electroShards, onRemoveElectroShard, tron
                   localStorage.setItem('flow_regulator_purchased', 'true');
                   localStorage.setItem('globalTronicsMultiplier', '1.1');
                   setNotifications(prev => [...prev, "Flow Regulator purchased! +10% Tronics per click"]);
+                  incrementUpgradeCount();
                 }
               }}
               disabled={localStorage.getItem('flow_regulator_purchased') === 'true'}
@@ -131,6 +143,7 @@ export default function ElectroStore({ electroShards, onRemoveElectroShard, tron
                   onBuyQuantumTap();
                   localStorage.setItem('quantum_tap_purchased', 'true');
                   setNotifications(prev => [...prev, "Quantum Tap Circuit purchased! You now have a 3% chance to get 3x Tronics per click."]);
+                  incrementUpgradeCount();
                 }
               }}
               disabled={!hasTronicsBoost || hasQuantumTap || tronics < 1250}
@@ -162,6 +175,7 @@ export default function ElectroStore({ electroShards, onRemoveElectroShard, tron
                   localStorage.setItem('electroShards', electroShards - 2);
                   localStorage.setItem('high_freq_tap_purchased', 'true');
                   setNotifications(prev => [...prev, 'High-Frequency Tap Chip installed!']);
+                  incrementUpgradeCount();
                 }
               }}
               disabled={electroShards < 2 || tronics < 10000 || !localStorage.getItem('tronics_boost_II_count') || localStorage.getItem('high_freq_tap_purchased') === 'true'}
@@ -200,13 +214,14 @@ export default function ElectroStore({ electroShards, onRemoveElectroShard, tron
                   localStorage.setItem('electro_surge_node_purchased', 'true');
                   localStorage.setItem('surge_duration_bonus', '5');
                   setNotifications(prev => [...prev, "⚡ Electro Surge Node installed! All surge durations increased by 5 seconds."]);
+                  incrementUpgradeCount();
                 }
               }}
               disabled={localStorage.getItem('electro_surge_node_purchased') || tronics < 35000 || electroShards < 8}
             >
               <div className="item-header">
                 <strong>⚡ Electro Surge Node</strong>
-               
+
                 {!localStorage.getItem('electro_surge_node_purchased') ? (
                   <>
                     <p>35,000 Tronics + 8 Electro Shards</p>
@@ -231,6 +246,7 @@ export default function ElectroStore({ electroShards, onRemoveElectroShard, tron
                   localStorage.setItem('beacon_core_purchased', 'true');
                   setNotifications(prev => [...prev, "⚡ Electro Beacon Core installed! Electro Shard spawn time decreased by 25%"]);
                   window.dispatchEvent(new Event('storage'));
+                  incrementUpgradeCount();
                 }
               }}
             disabled={localStorage.getItem('beacon_core_purchased') || tronics < 500000 || electroShards < 14}
@@ -285,6 +301,7 @@ export default function ElectroStore({ electroShards, onRemoveElectroShard, tron
 
                     // Trigger state update
                     window.dispatchEvent(new Event('storage'));
+                    incrementUpgradeCount();
                   } else {
                     if (tronics < currentCost) {
                       setNotifications(prev => [...prev, "Not enough Tronics!"]);
@@ -306,7 +323,7 @@ export default function ElectroStore({ electroShards, onRemoveElectroShard, tron
                 <p className="owned">Owned: {localStorage.getItem('circuit_optimization_count') || 0}/4</p>
               </div>
             </button>
-            
+
           </div>
         )}
       </div>
