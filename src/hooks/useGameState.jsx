@@ -57,11 +57,25 @@ export const useGameState = () => {
       electronicsUnlock, clickEnhancerLevel, tutorialStage, prestigeCount, electroShards, beaconCount, 
       surgeCount, cogfatherLore]);
 
-  return {
+  const [manualTronicsClicks, setManualTronicsClicks] = useState(() => 
+  parseInt(localStorage.getItem('manualTronicsClicks') || '0')
+);
+const [totalTronicsClicks, setTotalTronicsClicks] = useState(() => 
+  parseInt(localStorage.getItem('totalTronicsClicks') || '0')
+);
+
+useEffect(() => {
+  localStorage.setItem('manualTronicsClicks', manualTronicsClicks);
+  localStorage.setItem('totalTronicsClicks', totalTronicsClicks);
+}, [manualTronicsClicks, totalTronicsClicks]);
+
+return {
     junk, setJunk,
     credits, setCredits,
     clickCount, setClickCount,
     tronics, setTronics,
+    manualTronicsClicks, setManualTronicsClicks,
+    totalTronicsClicks, setTotalTronicsClicks,
     autoClicks, setAutoClicks,
     clickMultiplier, setClickMultiplier,
     passiveIncome, setPassiveIncome,

@@ -18,6 +18,9 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
               const amount = 1;
               const totalBoost = boostICount + (boostIICount * 2);
               
+              // Update manual click count
+              window.dispatchEvent(new CustomEvent('manualTronicsClick'));
+              
               if(totalBoost >= 1){
                   const amount = (1 * totalBoost) + 1;
                   collectTronics(amount);

@@ -551,6 +551,13 @@ export default function App() {
 
   const collectTronics = (amount) => {
     if (electronicsUnlock) {
+      // Update total tronics clicks
+      setTotalTronicsClicks(prev => prev + 1);
+      
+      // Handle manual clicks
+      if (amount === 1) {
+        setManualTronicsClicks(prev => prev + 1);
+      }
 
       const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
       const randomValue = Math.random();
