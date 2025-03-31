@@ -18,6 +18,13 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
               const amount = 1;
               const totalBoost = boostICount + (boostIICount * 2);
               
+              console.log('Tronics Click Debug:', {
+                currentTotal: parseInt(localStorage.getItem('totalTronicsClicks') || '0'),
+                boostICount,
+                boostIICount,
+                totalBoost
+              });
+              
               // Update manual click count
               window.dispatchEvent(new CustomEvent('manualTronicsClick'));
               

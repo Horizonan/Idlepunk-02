@@ -2,9 +2,9 @@ import React from 'react';
 import ResetProgress from './ResetProgress/ResetProgress';
 
 export default function Settings({ 
-  showClickEnhancerUI,
-  setShowClickEnhancerUI,
-  showNewsTicker,
+  showClickEnhancerUI, 
+  setShowClickEnhancerUI, 
+  showNewsTicker, 
   setShowNewsTicker,
   showBeaconVisual,
   setShowBeaconVisual,
@@ -19,9 +19,10 @@ export default function Settings({
   preservedHelper,
   prestigeQuestCompleted,
   setShowTechTree,
-  onClose 
+  onClose
 }) {
-  const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks') || '0'); // Directly get from localStorage
+  const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
+  console.log('Settings - Total Tronics Clicks:', totalTronicsClicks);
 
   return (
     <div className="store-container settings-menu">
