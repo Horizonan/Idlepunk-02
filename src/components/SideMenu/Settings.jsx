@@ -1,5 +1,5 @@
 import React from 'react';
-import ResetProgress from './ResetProgress/ResetProgress';
+import ResetProgress from '../ResetProgress/ResetProgress';
 
 export default function Settings({ 
   showClickEnhancerUI, 

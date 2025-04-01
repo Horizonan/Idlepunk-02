@@ -43,13 +43,59 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
         
         <div className="tech-tier">
           <div className="tech-node locked">
-            <button disabled className="tech-button">???</button>
+            <button 
+              onClick={() => onUnlock('tronicsClicker')}
+              disabled={prestigeTokens < 1}
+              className="tech-button"
+            >
+              <span>Unlocks Scraptagon</span>
+              <div className="tech-cost">Cost: 1 Token</div>
+              <div className="required-label">Optional</div>
+              <div className="item-info">
+                <p>“You’ve built the junk. Now prove you can survive it.” Unlocks:</p>
+                <ul>
+                  <li>Access to Combat Grounds (passive combat system)</li>
+                  <li>Adds Training Dummies for Combat XP</li>
+                  <li>Future enemies and loot-based mechanics</li>
+                </ul>
+              </div>
+            </button>
           </div>
           <div className="tech-node locked">
-            <button disabled className="tech-button">???</button>
+            <button 
+              onClick={() => onUnlock('tronicsClicker')}
+              disabled={prestigeTokens < 1}
+              className="tech-button"
+            >
+              <span>Unlocks Crafting Bench v2</span>
+              <div className="tech-cost">Cost: 1 Token</div>
+              <div className="required-label">Optional</div>
+              <div className="item-info">
+                <p>“More advanced parts, fewer duct-tape miracles.” Unlocks:</p>
+                <ul>
+                  <li>Access to new items</li>
+                  <li>Recipes show full item info and rarity</li>
+                </ul>
+              </div>
+            </button>
           </div>
           <div className="tech-node locked">
-            <button disabled className="tech-button">???</button>
+            <button 
+              onClick={() => onUnlock('tronicsClicker')}
+              disabled={prestigeTokens < 1}
+              className="tech-button"
+            >
+              <span>Unlocks Modcrafting Station</span>
+              <div className="tech-cost">Cost: 1 Token</div>
+              <div className="required-label">Optional</div>
+              <div className="item-info">
+                <p>“You’ve shaped the world — now shape yourself.” Unlocks:</p>
+                <ul>
+                  <li>Craft and equip passive mods with unique effects</li>
+                  <li>Mod rarity, synergy, and future expansion planned</li>
+                </ul>
+              </div>
+            </button>
           </div>
         </div>
       </div>

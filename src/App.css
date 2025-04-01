@@ -1,7 +1,7 @@
 @import './mobile.css';
 @import 'src/components/Notifications.css';
 @import 'src/components/Clicker/Clicker.css';
-@import 'src/components/Effects/TrashSurge.css';
+@import 'src/components/Effects/surges/TrashSurge.css';
 @import 'src/components/Effects/UiElements/electroBeacon.css';
 
 .uncraftable {

@@ -20,6 +20,7 @@ export const validateQuests = ({
 }) => {
   const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
   const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks'));
+  const electroStoreUpgrades = localStorage.getItem('upgradeCount');
   
   // If prestiged, show new questline instead of original
   if (hasPrestiged) {
@@ -38,7 +39,7 @@ export const validateQuests = ({
       return;
     }
       if (totalTronicsClicks >= 5000 && !localStorage.getItem('quest_sync_Tap the Pulse')) {
-        localStorage.setItem('quest_sync_TapThePulse', 'true');
+        localStorage.setItem('quest_sync_Tap the Pulse', 'true');
         setAutoClicks(prev => prev + 5);
         setNotifications(prev => [...prev, "Quest Complete: Tap the Pulse"]);
         setNotifications(prev => [...prev, "Obtained: 5 Auto Clicks"]);
@@ -48,13 +49,29 @@ export const validateQuests = ({
         return;
       }
 
-    if (totalTronicsClicks >= 5000 && !localStorage.getItem('quest_sync_Upgrade Cascade')) {
-      localStorage.setItem('quest_sync_TapThePulse', 'true');
-      setAutoClicks(prev => prev + 5);
-      setNotifications(prev => [...prev, "Quest Complete: Tap the Pulse"]);
-      setNotifications(prev => [...prev, "Obtained: 5 Auto Clicks"]);
+    if (electroStoreUpgrades >= 10 && !localStorage.getItem('quest_sync_Upgrade Cascade')) {
+      localStorage.setItem('quest_sync_Upgrade Cascade', 'true');
+      setCraftingInventory(prev => ({
+        ...prev,
+        'Surge Capacitor Fragment': (prev['Surge Capacitor Fragment'] || 0) + 1
+      }));
+      setNotifications(prev => [...prev, "Quest Complete: Upgrade Cascade"]);
+      setNotifications(prev => [...prev, "Obtained: ..."]);
       window.dispatchEvent(new CustomEvent('nextNews', { 
-        detail: { message: "You feel the rhythm of the grid. Tronics flow faster now." }
+        detail: { message: "With each spark, the system grows stronger." }
+      }));
+      return;
+    }
+    if (electroStoreUpgrades >= 10 && !localStorage.getItem('quest_sync_Beacon Protocol')) {
+      localStorage.setItem('quest_sync_Beacon Protocol', 'true');
+      setCraftingInventory(prev => ({
+        ...prev,
+        'Surge Capacitor Fragment': (prev['Surge Capacitor Fragment'] || 0) + 1
+      }));
+      setNotifications(prev => [...prev, "Quest Complete: Beacon Protocol"]);
+      setNotifications(prev => [...prev, "Obtained: ..."]);
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: "The grid is lit. The path ahead is clear." }
       }));
       return;
     }

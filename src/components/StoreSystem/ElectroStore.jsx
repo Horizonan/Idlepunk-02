@@ -10,6 +10,7 @@ export default function ElectroStore({ electroShards, onRemoveElectroShard, tron
 
 
   const incrementUpgradeCount = () => {
+    console.log(upgradeCount);
     const newCount = upgradeCount + 1;
     localStorage.setItem('upgradeCount', newCount);
     setUpgradeCount(newCount);

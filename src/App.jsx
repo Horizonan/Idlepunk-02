@@ -1,5 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+
+
+// Import StoreMenu
+import AutomationStore from './components/StoreSystem/AutomationStore';
+import CraftingStore from './components/StoreSystem/CraftingStore';
+import MenuButtons from './components/StoreSystem/MenuButtons';
+import UpgradeStats from './components/StoreSystem/UpgradeStats';
+import Store from './components/StoreSystem/Store';
+
+//Autoclickers
+import AutoClickerEffect from './components/Effects/Automation/AutoClickerEffect';
+
+//Surges
+import TrashSurge from './components/Effects/surges/TrashSurge';
+import TronicsSurge from './components/Effects/surges/TronicsSurge';
+
+//Side Menu
+import QuestLog from './components/SideMenu/QuestLog';
+import Settings from './components/SideMenu/Settings';
+
+//Other Imports
 import VersionPopup from './components/VersionPopup/VersionPopup';
 import StatsDisplay from './components/StatsDisplay';
 import { validateQuests } from './utils/questValidation';
@@ -8,24 +29,16 @@ import { useAchievements, defaultAchievements } from './hooks/useAchievements';
 import Clicker from './components/Clicker/Clicker';
 import Achievements from './components/Achievements';
 import CheatMenu from './components/CheatMenu/CheatMenu';
-import Store from './components/StoreSystem/Store';
 import ElectroStore from './components/StoreSystem/ElectroStore';
 import CredStore from './components/StoreSystem/CredStore';
-import AutomationStore from './components/StoreSystem/AutomationStore';
-import MenuButtons from './components/StoreSystem/MenuButtons';
 import NewsContainer from './components/NewsContainer';
-import TrashSurge from './components/Effects/TrashSurge';
 import Notifications from './components/Notifications';
 import TutorialSystem from './components/TutorialSystem';
-import QuestLog from './components/SideMenu/QuestLog';
 import SlotMachine from './components/SideMenu/SlotMachine';
 import ClickEnhancerEffect from './components/Effects/ClickEnhancerEffect';
 import DroneEffect from './components/Effects/DroneEffect';
 import HoverDroneEffect from './components/Effects/HoverDroneEffect';
-import AutoClickerEffect from './components/Effects/AutoClickerEffect';
 import Menu from './components/SideMenu/Menu';
-import Settings from './components/Settings';
-import CraftingStore from './components/StoreSystem/CraftingStore';
 import Marketplace from './components/SideMenu/Marketplace';
 import ActiveCheats from './components/CheatMenu/ActiveCheats';
 import FlyingCrystal from './components/Effects/FlyingCrystal';
@@ -35,10 +48,8 @@ import ItemInventory from './components/StoreSystem/ItemInventory';
 import Changelog from './components/SideMenu/Changelog';
 import TechTree from './components/TechTree';
 import PrestigePopup from './components/PrestigePopup';
-import UpgradeStats from './components/StoreSystem/UpgradeStats';
 import Tooltips from './components/SideMenu/Tooltips';
 import ShardMiner from './components/Effects/ShardMiner';
-import TronicsSurge from './components/Effects/TronicsSurge';
 
 export default function App() {
   const { 
