@@ -437,6 +437,24 @@ button {
   color: #00FF00;
 }
 
+.settings-section h3 {
+  color: #00FF00;
+  margin-bottom: 10px;
+  padding: 5px;
+  background: rgba(0, 255, 0, 0.1);
+  border-radius: 4px;
+}
+
+.settings-section h3:hover {
+  background: rgba(0, 255, 0, 0.2);
+}
+
+.ui-settings {
+  padding: 10px;
+  border-left: 2px solid #00FF00;
+  margin-left: 10px;
+}
+
 .setting-option label {
   flex: 1;
 }

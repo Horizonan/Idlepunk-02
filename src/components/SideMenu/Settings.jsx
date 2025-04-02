@@ -47,83 +47,93 @@ export default function Settings({
             <p>Preserved Helper{preservedHelper.includes(',') ? 's' : ''}: {preservedHelper}</p>
           </div>
         )}
-        <label className="setting-option">
-          <span>Show Click Enhancer Effect</span>
-          <input
-            type="checkbox"
-            checked={showClickEnhancerUI}
-            onChange={() => setShowClickEnhancerUI(prev => !prev)}
-          />
-        </label>
-        <label className="setting-option">
-          <span>Max Click Enhancers</span>
-          <input
-            type="number"
-            min="1"
-            max="10"
-            value={localStorage.getItem('maxClickEnhancers') || 3}
-            onChange={(e) => localStorage.setItem('maxClickEnhancers', e.target.value)}
-          />
-        </label>
-        <label className="setting-option">
-          <span>Show Drones</span>
-          <input
-            type="checkbox"
-            checked={localStorage.getItem('showDrones') !== 'false'}
-            onChange={(e) => localStorage.setItem('showDrones', e.target.checked)}
-          />
-        </label>
-        <label className="setting-option">
-          <span>Max Visible Drones</span>
-          <input
-            type="number"
-            min="1"
-            max="20"
-            value={localStorage.getItem('maxVisibleDrones') || 10}
-            onChange={(e) => localStorage.setItem('maxVisibleDrones', e.target.value)}
-          />
-        </label>
-        <label className="setting-option">
-          <span>Show News Ticker</span>
-          <input
-            type="checkbox"
-            checked={showNewsTicker}
-            onChange={(e) => {
-              setShowNewsTicker(e.target.checked);
-              localStorage.setItem('showNewsTicker', e.target.checked);
-            }}
-          />
-        </label>
-        <label className="setting-option">
-          <span>Show Shard Beacon</span>
-          <input
-            type="checkbox"
-            checked={showBeaconVisual}
-            onChange={(e) => {
-              setShowBeaconVisual(e.target.checked);
-              localStorage.setItem('showBeaconVisual', e.target.checked);
-            }}
-          />
-        </label>
-        <label className="setting-option">
-          <span>Enable HoloBillboard</span>
-          <input
-            type="checkbox"
-            checked={enableHoloBillboard}
-            onChange={(e) => {
-              setEnableHoloBillboard(e.target.checked);
-              localStorage.setItem('enableHoloBillboard', e.target.checked);
-            }}
-          />
-        </label>
-        <label className="setting-option">
-          <span>Show Hover Drone</span>
-          <input
-            type="checkbox"
-            checked={localStorage.getItem('showHoverDrone') !== 'false'}
-            onChange={(e) => localStorage.setItem('showHoverDrone', e.target.checked)}
-          />
-        </label>
+        <div className="settings-section">
+          <h3 onClick={() => {
+            const section = document.querySelector('.ui-settings');
+            section.style.display = section.style.display === 'none' ? 'block' : 'none';
+          }} style={{ cursor: 'pointer' }}>
+            🎮 UI Settings ▼
+          </h3>
+          <div className="ui-settings">
+            <label className="setting-option">
+              <span>Show Click Enhancer Effect</span>
+              <input
+                type="checkbox"
+                checked={showClickEnhancerUI}
+                onChange={() => setShowClickEnhancerUI(prev => !prev)}
+              />
+            </label>
+            <label className="setting-option">
+              <span>Max Click Enhancers</span>
+              <input
+                type="number"
+                min="1"
+                max="10"
+                value={localStorage.getItem('maxClickEnhancers') || 3}
+                onChange={(e) => localStorage.setItem('maxClickEnhancers', e.target.value)}
+              />
+            </label>
+            <label className="setting-option">
+              <span>Show Drones</span>
+              <input
+                type="checkbox"
+                checked={localStorage.getItem('showDrones') !== 'false'}
+                onChange={(e) => localStorage.setItem('showDrones', e.target.checked)}
+              />
+            </label>
+            <label className="setting-option">
+              <span>Max Visible Drones</span>
+              <input
+                type="number"
+                min="1"
+                max="20"
+                value={localStorage.getItem('maxVisibleDrones') || 10}
+                onChange={(e) => localStorage.setItem('maxVisibleDrones', e.target.value)}
+              />
+            </label>
+            <label className="setting-option">
+              <span>Show News Ticker</span>
+              <input
+                type="checkbox"
+                checked={showNewsTicker}
+                onChange={(e) => {
+                  setShowNewsTicker(e.target.checked);
+                  localStorage.setItem('showNewsTicker', e.target.checked);
+                }}
+              />
+            </label>
+            <label className="setting-option">
+              <span>Show Shard Beacon</span>
+              <input
+                type="checkbox"
+                checked={showBeaconVisual}
+                onChange={(e) => {
+                  setShowBeaconVisual(e.target.checked);
+                  localStorage.setItem('showBeaconVisual', e.target.checked);
+                }}
+              />
+            </label>
+            <label className="setting-option">
+              <span>Enable HoloBillboard</span>
+              <input
+                type="checkbox"
+                checked={enableHoloBillboard}
+                onChange={(e) => {
+                  setEnableHoloBillboard(e.target.checked);
+                  localStorage.setItem('enableHoloBillboard', e.target.checked);
+                }}
+              />
+            </label>
+            <label className="setting-option">
+              <span>Show Hover Drone</span>
+              <input
+                type="checkbox"
+                checked={localStorage.getItem('showHoverDrone') !== 'false'}
+                onChange={(e) => localStorage.setItem('showHoverDrone', e.target.checked)}
+              />
+            </label>
+          </div>
+        </div>
         <button class="changelog-button" onClick={() => {
           setShowChangelog(prev => !prev);
           setShowSettings(false);
