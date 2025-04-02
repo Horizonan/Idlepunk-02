@@ -7,11 +7,14 @@ export default function TronicsSurge({ isActive, activeClicker }) {
   const [capacitors, setCapacitors] = useState([]);
 
   useEffect(() => {
+    let audio;
     if (isActive) {
       console.log("Tronics Surge Active");
       document.body.classList.add('tronics-surge-active');
-      const audio = new Audio('/public/sounds/tronics_surge_sound.mp3');
+      audio = new Audio('/public/sounds/tronics_surge_sound.mp3');
+      
       audio.play();
+      
       const surgeDuration = parseInt(localStorage.getItem('surge_duration_bonus') || '5') * 1000;
       const endTime = Date.now() + surgeDuration;
 
@@ -32,6 +35,7 @@ export default function TronicsSurge({ isActive, activeClicker }) {
         setTimeLeft(remaining);
         
         if (remaining === 0) {
+          
           clearInterval(timer);
           clearInterval(capacitorTimer);
           document.body.classList.remove('tronics-surge-active');
@@ -43,6 +47,10 @@ export default function TronicsSurge({ isActive, activeClicker }) {
         clearInterval(timer);
         clearInterval(capacitorTimer);
         document.body.classList.remove('tronics-surge-active');
+        if(audio) {
+          audio.pause();
+          audio.currentTime = 0;
+        }
       };
     }
   }, [isActive]);
