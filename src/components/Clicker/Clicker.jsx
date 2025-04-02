@@ -3,9 +3,16 @@ import React, { useState } from 'react';
 
 export default function Clickers({ collectJunk, collectTronics, electronicsUnlock }) {
   const [activeClicker, setActiveClicker] = useState('trash');
+  const [showGlitch, setShowGlitch] = useState(false);
+  const [clickCount, setClickCount] = useState(0);
   
   return (
-    <div className="main" id="clickers">
+    <div className={`main ${showGlitch ? 'glitch-effect' : ''}`} id="clickers">
+      {showGlitch && (
+        <div className="glitch-message">
+          Click faster to gather more j̷͓̀u̷͉̿n̷̰̚k̸̪̓...
+        </div>
+      )}
       <div>
         
         {activeClicker === 'electronics' && electronicsUnlock && (
@@ -53,6 +60,14 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
                 localStorage.setItem('firstClick', 'true');
                 e.target.classList.add('clicked');
               }
+              setClickCount(prev => {
+                const newCount = prev + 1;
+                if (newCount === 50) {
+                  setShowGlitch(true);
+                  setTimeout(() => setShowGlitch(false), 3000);
+                }
+                return newCount;
+              });
               collectJunk();
             }} 
           />

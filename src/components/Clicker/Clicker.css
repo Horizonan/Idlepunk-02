@@ -78,3 +78,37 @@
 #trashClicker:active, .tronics:active {
   transform: scale(0.95);
 }
+
+.glitch-effect {
+  animation: glitch 0.3s infinite;
+  position: relative;
+}
+
+.glitch-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ff0000;
+  font-size: 24px;
+  font-family: monospace;
+  text-shadow: 2px 2px #000;
+  animation: textGlitch 0.3s infinite;
+  z-index: 1000;
+}
+
+@keyframes glitch {
+  0% { filter: hue-rotate(0deg) saturate(100%); }
+  25% { filter: hue-rotate(90deg) saturate(300%); }
+  50% { filter: hue-rotate(180deg) saturate(100%); }
+  75% { filter: hue-rotate(270deg) saturate(300%); }
+  100% { filter: hue-rotate(360deg) saturate(100%); }
+}
+
+@keyframes textGlitch {
+  0% { opacity: 1; transform: translate(-50%, -50%) skew(0deg); }
+  25% { opacity: 0.75; transform: translate(-52%, -48%) skew(5deg); }
+  50% { opacity: 0.5; transform: translate(-48%, -52%) skew(-5deg); }
+  75% { opacity: 0.75; transform: translate(-50%, -50%) skew(2deg); }
+  100% { opacity: 1; transform: translate(-50%, -50%) skew(0deg); }
+}
