@@ -31,7 +31,7 @@ export default function Store({ credits, itemCosts, ownedItems, craftingInventor
       name: 'Click Enhancer',
       cost: itemCosts.clickEnhancer,
       description: '+10 Junk/Click, +10% Cost',
-      info: 'Cybernetic finger enhancements for maximum clicking efficiency',
+      info: '"Built from a broken microwave and spite."',
       action: onBuyClickEnhancer,
       purchasedCount: ownedItems.clickEnhancer || 0
     });

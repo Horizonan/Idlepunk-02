@@ -10,6 +10,8 @@ export default function TronicsSurge({ isActive, activeClicker }) {
     if (isActive) {
       console.log("Tronics Surge Active");
       document.body.classList.add('tronics-surge-active');
+      const audio = new Audio('/public/sounds/tronics_surge_sound.mp3');
+      audio.play();
       const surgeDuration = parseInt(localStorage.getItem('surge_duration_bonus') || '5') * 1000;
       const endTime = Date.now() + surgeDuration;
 

@@ -62,9 +62,11 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
               }
               setClickCount(prev => {
                 const newCount = prev + 1;
+                console.log(newCount);
                 if (newCount === 50) {
                   setShowGlitch(true);
-                  setTimeout(() => setShowGlitch(false), 3000);
+                  console.log("showing glitch");
+                  setTimeout(() => setShowGlitch(false), 5000);
                 }
                 return newCount;
               });
