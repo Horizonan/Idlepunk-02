@@ -213,11 +213,11 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
           </div>
         )}
 
-        {selectedTab === 'mysterious' && craftingInventory['Synthcore Fragment'] >= 1 && (
+        {selectedTab === 'mysterious' && (
           <div className="crafting-section">
             <h3>Mysterious Items</h3>
             <div className="store-items">
-              <button
+              {craftingInventory['Synthcore Fragment'] >= 1 && (<button
                 onClick={() => onCraft({
                   name: 'Prestige Crystal',
                   requirements: {
@@ -251,7 +251,41 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   <p>- Voltage Node: 1 ({craftingInventory['Voltage Node'] || 0} owned)</p>
                   <p>- Synthcore Fragment: 1 ({craftingInventory['Synthcore Fragment'] || 0} owned)</p>
                 </div>
-              </button>
+              </button>)}
+              
+            {localStorage.getItem('quest_sync_Beacon Protocol') === 'true' && (
+              <button
+                onClick={() => onCraft({
+                  name: 'Overcharged Prestige Crystal',
+                  requirements: {
+                    'Encrypted Coil': 1,
+                    'Surge Capacitor Fragment': 1,
+                  },
+                  cost: 25000000,
+                  description: 'A mysterious crystal pulsing with otherworldly power',
+                  type: 'mysterious',
+                  icon: '💎'
+                })}
+                disabled={!canCraft({
+                  requirements: {
+                    'Encrypted Coil': 1,
+                    'Surge Capacitor Fragment': 1
+                  },
+                  cost: 25000000
+                })}
+                className="store-item mysterious"
+              >
+                <div className="item-header">
+                  <strong>💎Overcharged Prestige Crystal</strong>
+                </div>
+                <div className="item-info">
+                  <p>A mysterious crystal pulsing with otherworldly power</p>
+                  <p>Requirements:</p>
+                  <p>- Junk: {formatJunkCost(25000000, craftingInventory['Overcharged Prestige Crystal'])}</p>
+                  <p>- Encrypted Coil: 1 ({craftingInventory['Encrypted Coil'] || 0} owned)</p>
+                  <p>- Surge Capacitor Fragment: 1 ({craftingInventory['Surge Capacitor Fragment'] || 0} owned)</p>
+                </div>
+              </button>)}
             </div>
           </div>
         )}

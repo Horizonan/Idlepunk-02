@@ -64,7 +64,7 @@ export default function TrashSurge({ isActive, activeClicker }) {
     );
   }
 
-  return localStorage.getItem('hadFirstSurge') === 'true' ? (
+  return localStorage.getItem('hadFirstSurge') === 'true' && !isActive ? (
     <div className="next-surge-timer">
       Next surge in: {Math.floor(timeLeft / 60)}m {timeLeft % 60}s
     </div>

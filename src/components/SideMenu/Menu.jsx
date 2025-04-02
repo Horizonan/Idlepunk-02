@@ -27,7 +27,6 @@ export default function Menu({ onStoreSelect }) {
       buttons: [
         { id: 'tooltips', label: 'Game Tips' },
         { id: 'settings', label: 'Settings' },
-        { id: 'changelog', label: 'Changelog' }
       ]
     }
   };

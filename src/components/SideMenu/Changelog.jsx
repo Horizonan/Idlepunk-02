@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default function Changelog({ onClose }) {
-  const [expandedVersion, setExpandedVersion] = useState('0.0.6/1');
+  const [expandedVersion, setExpandedVersion] = useState('0.0.6/2');
 
   const toggleVersion = (version) => {
     setExpandedVersion(expandedVersion === version ? null : version);
@@ -17,6 +17,30 @@ export default function Changelog({ onClose }) {
       
       <div className="changelog-content">
 
+        <div className="changelog-entry">
+          <h3 onClick={() => toggleVersion('0.0.6/2')} style={{ cursor: 'pointer' }}>
+            🔧 Last Reddit Update – Update Log 0.0.6/2 {expandedVersion === '0.0.6/2' ? '▼' : '▶'}
+          </h3>
+          {expandedVersion === '0.0.6/2' && (
+            <>
+              <p>Note: Updates will now only be on Discord 💛</p>
+              <div className="changelog-section">
+                <h3>📜 Updates</h3>
+                <p>✅ Completed full integration of Second Prestige Questline</p>
+                <p>✅ Added Overcharged Prestige Crystal recipe</p>
+                <p>✅ Planted Tech Tree unlock teasers after 2nd Prestige</p>
+                <p>✅ Auto Clicks now count toward Tronics Clicks</p>
+                <p>✅ Tronic Click Count added to Stats Menu</p>
+                <p>✅ Added new counter for ElectroShop upgrades</p>
+                <p>✅ Changelog moved to Settings Menu to reduce clutter</p>
+                <p>✅ Fixed Modular Scrapper not working properly</p>
+                <p>✅ Automation Store relocated into Junk Store (less tabs, cleaner nav)</p>
+              </div>
+              <p className="changelog-footer">Thanks again for playing and sharing your feedback — it really helps shape each version. More content and polish coming soon! If you want to help please make sure to mail me itscolord@gmail.com 🚀</p>
+            </>
+          )}
+        </div>
+        
         <div className="changelog-entry">
           <h3 onClick={() => toggleVersion('0.0.6/1')} style={{ cursor: 'pointer' }}>
             🔧 Rework Systems – Update Log 0.0.6/1 {expandedVersion === '0.0.6/1' ? '▼' : '▶'}

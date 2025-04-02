@@ -6,6 +6,8 @@ export default function AutomationStore({ junk, itemCosts, onBuyAutoClicker, onB
   const baseV2Cost = 10000;
 const canAffordV2 = junk >= (itemCosts.autoClickerV2 || baseV2Cost);
 
+  
+
   return (
     <div className="store-container">
       <div className="store-header">

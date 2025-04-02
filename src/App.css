@@ -1835,3 +1835,7 @@ button.locked {
     opacity: 0;
   }
 }
+
+.changelog-button{
+  margin-left: 40%;
+}

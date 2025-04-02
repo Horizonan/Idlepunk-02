@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Store.css';
 
-export default function Store({ credits, itemCosts, ownedItems, craftingInventory, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, onBuyJunkRefinery, onBuyShardMiner, globalJpsMultiplier, passiveIncome, onBuyClickEnhancer, clickCount, purchasedUpgrades, onBack }) {
+export default function Store({ credits, itemCosts, ownedItems, craftingInventory, onBuyTrashBag, onBuyPicker, onBuyStreetrat, onBuyCart, onBuyJunkMagnet, onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, onBuyJunkRefinery, onBuyShardMiner, globalJpsMultiplier, passiveIncome, onBuyClickEnhancer, clickCount, purchasedUpgrades, onBuyAutoClicker, onGetAutoClickersV1, canAffordV1, canAffordV2, onGetAutoClickersV2, onBuyAutoClickerV2, onBack }) {
   const [selectedTab, setSelectedTab] = useState('prePres');
   const [activeTab, setActiveTab] = useState('prePres'); // Added state for premium tab
 
@@ -91,7 +91,8 @@ export default function Store({ credits, itemCosts, ownedItems, craftingInventor
 
   const tabs = [
     { id: 'prePres', label: 'Pre-Prestige' },
-    { id: 'premium', label: 'Premium' }, // Added Premium tab
+    { id: 'premium', label: 'Premium' },
+    { id: 'automation', label: 'Automation' },
     { id: 'firstAsc', label: 'First Ascension', unlockCondition: () => localStorage.getItem('hasPrestiged') === 'true' }
   ];
 
@@ -107,6 +108,34 @@ export default function Store({ credits, itemCosts, ownedItems, craftingInventor
     }
   ];
 
+
+  
+  //Automation Menu
+  const automationItems = [
+    {
+      name: 'Auto Clicker Bot',
+      cost: { junk: itemCosts.autoClicker},
+      description: '+1 Automatic Click per second (counts towards manual clicks)',
+      disabled: !canAffordV1,
+      unlockCondition: () => true,
+      purchasedCount: onGetAutoClickersV1,
+      action: onBuyAutoClicker
+      },
+    {
+      name: 'Auto Clicker Bot V2',
+      cost: { junk: itemCosts.autoClickerV2},
+      description: 'Auto Clicker Bot v2.0 – Upgraded to 2 clicks/sec. Now 12% less annoying.',
+      disabled: !canAffordV2,
+      unlockCondition: () => onGetAutoClickersV1 > 1,
+      purchasedCount: onGetAutoClickersV2,
+      action: onBuyAutoClickerV2
+      }
+    
+  ];
+
+
+
+  
 
   return (
     <div className="store-container">
@@ -177,6 +206,29 @@ export default function Store({ credits, itemCosts, ownedItems, craftingInventor
             </div>
           </>
         )}
+        {selectedTab === 'automation' && ( // Render Automationitems
+          <div className="store-category">
+            <h3>Automation Items</h3>
+            {automationItems.map((item) => (
+              <button
+                key={item.name}
+                onClick={item.action}
+                disabled={!item.unlockCondition || credits < item.cost.junk || ownedItems.scrapCores < item.cost.scrapCores}
+                className="store-item"
+              >
+                <div className="item-header">
+                  <strong>{item.name} </strong>
+                  <span className="cost"> ({item.cost.junk} Junk)</span>
+                </div>
+                <div className="item-info">
+                  <p>{item.description}</p>
+                  <p>{item.info}</p>
+                  <p className="owned">Owned: {item.purchasedCount}</p>
+                </div>
+              </button>
+            ))}
+          </div>
+        )}
         {selectedTab === 'premium' && ( // Render Premium items
           <div className="store-category">
             <h3>Premium Items</h3>
@@ -206,10 +258,10 @@ export default function Store({ credits, itemCosts, ownedItems, craftingInventor
             <button
               onClick={() => {
                 if (credits >= 2500000 && !localStorage.getItem('modularScrapperPurchased')) {
-                  //setJunk(prev => prev - 2500000);  // Assuming setJunk exists in parent component
-                  //setPassiveIncome(prev => prev * 2); // Assuming setPassiveIncome exists in parent component
+                setJunk(prev => prev - 2500000);  
+                passiveIncome(prev => prev * 2);
                   localStorage.setItem('modularScrapperPurchased', 'true');
-                  //setNotifications(prev => [...prev, "Modular Scrapper Rig installed! Junk/sec doubled!"]); // Assuming setNotifications exists in parent component
+                  setNotifications(prev => [...prev, "Modular Scrapper Rig installed! Junk/sec doubled!"]);
                   window.dispatchEvent(new CustomEvent('nextNews', { 
                     detail: { message: "Cogfather: Now that's what I call an upgrade. Your operation just got serious." }
                   }));

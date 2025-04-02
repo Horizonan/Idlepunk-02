@@ -11,12 +11,6 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
         const activeStore = localStorage.getItem('activeStore');
         onStoreSelect(activeStore === 'store' ? null : 'store');
       }}>Open Junk Store</button>
-      {automationUnlocked && (
-        <button onClick={() => {
-          const activeStore = localStorage.getItem('activeStore');
-          onStoreSelect(activeStore === 'automation' ? null : 'automation');
-        }}>Open Automation Center</button>
-      )}
       <button 
         onClick={() => {
           const activeStore = localStorage.getItem('activeStore');

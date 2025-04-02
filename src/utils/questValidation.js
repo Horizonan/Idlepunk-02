@@ -24,7 +24,8 @@ export const validateQuests = ({
   
   // If prestiged, show new questline instead of original
   if (hasPrestiged) {
-    // System Memory Detected Quest
+    
+    // System Memory Detected Quest Validation
     if (junk >= 25000000 && !localStorage.getItem('quest_sync_System Memory Detected')) {
       localStorage.setItem('quest_sync_System Memory Detected', 'true');
       setCraftingInventory(prev => ({
@@ -38,6 +39,8 @@ export const validateQuests = ({
       }));
       return;
     }
+
+    //Tap the Pulse Quest Validation
       if (totalTronicsClicks >= 5000 && !localStorage.getItem('quest_sync_Tap the Pulse')) {
         localStorage.setItem('quest_sync_Tap the Pulse', 'true');
         setAutoClicks(prev => prev + 5);
@@ -49,20 +52,24 @@ export const validateQuests = ({
         return;
       }
 
-    if (electroStoreUpgrades >= 10 && !localStorage.getItem('quest_sync_Upgrade Cascade')) {
-      localStorage.setItem('quest_sync_Upgrade Cascade', 'true');
-      setCraftingInventory(prev => ({
-        ...prev,
-        'Surge Capacitor Fragment': (prev['Surge Capacitor Fragment'] || 0) + 1
-      }));
-      setNotifications(prev => [...prev, "Quest Complete: Upgrade Cascade"]);
-      setNotifications(prev => [...prev, "Obtained: ..."]);
-      window.dispatchEvent(new CustomEvent('nextNews', { 
-        detail: { message: "With each spark, the system grows stronger." }
-      }));
+    
+      //Upgrade Cascade Quest Validation
+      if (electroStoreUpgrades >= 10 && !localStorage.getItem('quest_sync_Upgrade Cascade')) {
+        localStorage.setItem('quest_sync_Upgrade Cascade', 'true');
+        setCraftingInventory(prev => ({
+          ...prev,
+          'Surge Capacitor Fragment': (prev['Surge Capacitor Fragment'] || 0) + 1
+        }));
+        setNotifications(prev => [...prev, "Quest Complete: Upgrade Cascade"]);
+        setNotifications(prev => [...prev, "Obtained: ..."]);
+        window.dispatchEvent(new CustomEvent('nextNews', { 
+          detail: { message: "With each spark, the system grows stronger." }
+        }));
       return;
     }
-    if (electroStoreUpgrades >= 10 && !localStorage.getItem('quest_sync_Beacon Protocol')) {
+    
+    //Beacon Protocol Quest Validation
+    if (localStorage.getItem('beaconCount') == 10 && !localStorage.getItem('quest_sync_Beacon Protocol')) {
       localStorage.setItem('quest_sync_Beacon Protocol', 'true');
       setCraftingInventory(prev => ({
         ...prev,
@@ -72,6 +79,17 @@ export const validateQuests = ({
       setNotifications(prev => [...prev, "Obtained: ..."]);
       window.dispatchEvent(new CustomEvent('nextNews', { 
         detail: { message: "The grid is lit. The path ahead is clear." }
+      }));
+      return;
+    }
+      
+    //Forge the Overcrystal Quest
+    if (craftingInventory['Overcharged Prestige Crystal'] >= 1 && !localStorage.getItem('quest_sync_Forge the Overcrystal')) {
+      localStorage.setItem('prestigeUnlocked', 'true');
+      localStorage.setItem('quest_sync_Forge the Overcrystal', 'true');
+      setNotifications(prev => [...prev, "The Prestige System has been unlocked!"]);
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: "The signal breaks through. You’re no longer just salvaging — you’re rewriting the system" }
       }));
       return;
     }

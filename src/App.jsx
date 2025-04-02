@@ -3,7 +3,6 @@ import './App.css';
 
 
 // Import StoreMenu
-import AutomationStore from './components/StoreSystem/AutomationStore';
 import CraftingStore from './components/StoreSystem/CraftingStore';
 import MenuButtons from './components/StoreSystem/MenuButtons';
 import UpgradeStats from './components/StoreSystem/UpgradeStats';
@@ -111,6 +110,7 @@ export default function App() {
   const [autoClickerV1Count, setAutoClickerV1Count] = useState(0);
   const [autoClickerV2Count, setAutoClickerV2Count] = useState(0);
   const [showTooltips, setShowTooltips] = useState(false); // Added state for Tooltips
+
 
   useEffect(() => {
     const handleUpdateSurgeCount = () => {
@@ -694,6 +694,48 @@ export default function App() {
     }
   };
 
+  //Buy Automation Items
+  const handleBuyAutoClicker = () =>{
+    if (junk >= itemCosts.autoClicker) {
+      setJunk(prev => prev - itemCosts.autoClicker);
+      setAutoClicks(prev => prev + 1);
+      setAutoClickerV1Count(prev => prev + 1); //Increment v1 count
+      setItemCosts(prev => ({...prev, autoClicker: Math.floor(prev.autoClicker * 1.15)}));
+      setNotifications(prev => [...prev, "Auto Clicker Bot purchased!"]);
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: "Cogfather whispers: 'Sit back, kid. Let the bots handle it from here.'" }
+      }));
+    }}
+
+  const canAffordV1 = () => {
+    return junk >= itemCosts.autoClicker;
+  }
+  
+  const canAffordV2 = () => {
+    return junk >= itemCosts.autoClickerV2;
+  }
+
+  const handleBuyAutoClickerV2 = () => {
+      const baseV2Cost = 10000;
+      const currentCost = itemCosts.autoClickerV2 || baseV2Cost;
+
+      if (junk >= currentCost && autoClickerV1Count >= 1) { 
+        setJunk(prev => prev - currentCost);
+        setAutoClicks(prev => prev + 1); 
+        setAutoClickerV1Count(prev => prev - 1); 
+        setAutoClickerV2Count(prev => prev + 1); 
+        setItemCosts(prev => ({
+          ...prev, 
+          autoClickerV2: Math.floor((prev.autoClickerV2 || baseV2Cost) * 1.2)
+        }));
+        setNotifications(prev => [...prev, "Auto Clicker Bot v2.0 purchased! (Consumed 1 Auto Clicker Bot)"]);
+        window.dispatchEvent(new CustomEvent('nextNews', { 
+          detail: { message: "Cogfather: 'Twice the clicks, twice the profits. Now that's efficiency!'" }
+        }));
+      }
+  }
+  
+
   useEffect(() => {
     localStorage.setItem('tutorialStage', tutorialStage);
     validateQuestsAndAchievements();
@@ -842,9 +884,6 @@ export default function App() {
           case 'techTree':
             setShowTechTree(prev => !prev);
             break;
-          case 'changelog':
-            setShowChangelog(prev => !prev);
-            break;
           case 'tooltips':
             setShowTooltips(prev => !prev);
             break;
@@ -933,6 +972,7 @@ export default function App() {
           onClose={() => setShowUpgradeStats(false)}
         />
       )}
+      
       {activeStore === 'store' && (
         <Store 
           credits={junk}
@@ -942,6 +982,12 @@ export default function App() {
           onBuyTrashBag={handleBuyTrashBag}
           onBuyPicker={handleBuyPicker}
           onBuyStreetrat={handleBuyStreetrat}
+          onGetAutoClickersV1={autoClickerV1Count}
+          onBuyAutoClicker = {handleBuyAutoClicker}
+          canAffordV1={canAffordV1}
+          canAffordV2={canAffordV2}
+          onBuyAutoClickerV2= {handleBuyAutoClickerV2}
+          onGetAutoClickersV2={autoClickerV2Count}
           onBuyShardMiner={() => {
             const cost = 10000000;
             if (junk >= cost && craftingInventory['Scrap Core'] >= 5 && !ownedItems.shardMiner) {
@@ -1034,50 +1080,6 @@ export default function App() {
               setTronics(prev => prev - currentCost);
 
               setNotifications(prev => [...prev, "Tronics Click Boost I purchased! +1 Tronics per click"]);
-            }
-          }}
-          onBack={() => {
-            setActiveStore(null);
-            localStorage.setItem('activeStore', null);
-          }}
-        />
-      )}
-      {activeStore === 'automation' && (
-        <AutomationStore
-          junk={junk}
-          itemCosts={itemCosts}
-          autoClicks={autoClicks}
-          autoClickerV1Count={autoClickerV1Count}
-          autoClickerV2Count={autoClickerV2Count}
-          onBuyAutoClicker={() => {
-            if (junk >= itemCosts.autoClicker) {
-              setJunk(prev => prev - itemCosts.autoClicker);
-              setAutoClicks(prev => prev + 1);
-              setAutoClickerV1Count(prev => prev + 1); //Increment v1 count
-              setItemCosts(prev => ({...prev, autoClicker: Math.floor(prev.autoClicker * 1.15)}));
-              setNotifications(prev => [...prev, "Auto Clicker Bot purchased!"]);
-              window.dispatchEvent(new CustomEvent('nextNews', { 
-                detail: { message: "Cogfather whispers: 'Sit back, kid. Let the bots handle it from here.'" }
-              }));
-            }
-          }}
-          onBuyAutoClickerV2={() => {
-            const baseV2Cost = 10000;
-            const currentCost = itemCosts.autoClickerV2 || baseV2Cost;
-
-            if (junk >= currentCost && autoClickerV1Count >= 1) { // Check v1 count
-              setJunk(prev => prev - currentCost);
-              setAutoClicks(prev => prev + 1); // Add v2 bot (worth 2 clicks/sec)
-              setAutoClickerV1Count(prev => prev - 1); //Decrement v1 count
-              setAutoClickerV2Count(prev => prev + 1); // Increment v2 count
-              setItemCosts(prev => ({
-                ...prev, 
-                autoClickerV2: Math.floor((prev.autoClickerV2 || baseV2Cost) * 1.2)
-              }));
-              setNotifications(prev => [...prev, "Auto Clicker Bot v2.0 purchased! (Consumed 1 Auto Clicker Bot)"]);
-              window.dispatchEvent(new CustomEvent('nextNews', { 
-                detail: { message: "Cogfather: 'Twice the clicks, twice the profits. Now that's efficiency!'" }
-              }));
             }
           }}
           onBack={() => {
@@ -1272,6 +1274,8 @@ export default function App() {
           preservedHelper={preservedHelper}
           prestigeQuestCompleted={prestigeQuestCompleted}
           setShowTechTree={setShowTechTree}
+          setShowChangelog={setShowChangelog}
+          setShowSettings={setShowSettings}
           onClose={() => setShowSettings(false)}
         />
       )}

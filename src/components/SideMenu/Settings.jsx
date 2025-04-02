@@ -17,6 +17,8 @@ export default function Settings({
   surgeCount,
   prestigeCount,
   preservedHelper,
+  setShowChangelog,
+  setShowSettings,
   onClose
 }) {
   const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
@@ -122,6 +124,10 @@ export default function Settings({
             onChange={(e) => localStorage.setItem('showHoverDrone', e.target.checked)}
           />
         </label>
+        <button class="changelog-button" onClick={() => {
+          setShowChangelog(prev => !prev);
+          setShowSettings(false);
+        }}>Show Changelog</button>
 
 
         <ResetProgress onReset={() => window.location.reload()} />
