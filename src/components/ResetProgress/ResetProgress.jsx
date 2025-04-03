@@ -18,6 +18,7 @@ export default function ResetProgress({ onReset }) {
     localStorage.setItem('clickMultiplier', '1');
     localStorage.setItem('passiveIncome', '0');
     localStorage.setItem('autoClicks', '0');
+    localStorage.setItem('permanentAutoClicks', '0');
     localStorage.setItem('globalJpsMultiplier', '1');
     localStorage.setItem('surgeCount', '0');
     localStorage.setItem('beaconCount', '0');
