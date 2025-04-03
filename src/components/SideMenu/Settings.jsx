@@ -91,6 +91,29 @@ export default function Settings({
                 onChange={(e) => localStorage.setItem('maxVisibleDrones', e.target.value)}
               />
             </label>
+            <button 
+              className="ui-reset-button"
+              onClick={() => {
+                // Reset draggable positions
+                localStorage.removeItem('slotMachinePosition');
+                localStorage.removeItem('cheatMenuPosition');
+                localStorage.removeItem('activeCheatsPosition');
+                localStorage.removeItem('sidebarLeft');
+                localStorage.removeItem('sidebarTop');
+                
+                // Reset toggleable settings
+                localStorage.setItem('showDrones', 'true');
+                localStorage.setItem('enableHoloBillboard', 'true');
+                localStorage.setItem('showNewsTicker', 'true');
+                localStorage.setItem('showBeaconVisual', 'true');
+                localStorage.setItem('sidebarLocked', 'false');
+                
+                // Force refresh
+                window.location.reload();
+              }}
+            >
+              Reset UI Positions
+            </button>
             <label className="setting-option">
               <span>Show News Ticker</span>
               <input

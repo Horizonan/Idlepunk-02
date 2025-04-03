@@ -1210,6 +1210,22 @@ button.locked {
   padding-left: 10px;
 }
 
+.ui-reset-button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  background: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.ui-reset-button:hover {
+  background: #ff0000;
+}
+
   margin-top: 5px;
 }
 
