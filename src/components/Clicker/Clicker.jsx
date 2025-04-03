@@ -25,12 +25,6 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
               const amount = 1;
               const totalBoost = boostICount + (boostIICount * 2);
               
-              console.log('Tronics Click Debug:', {
-                currentTotal: parseInt(localStorage.getItem('totalTronicsClicks') || '0'),
-                boostICount,
-                boostIICount,
-                totalBoost
-              });
               
               // Update manual click count and total clicks
               window.dispatchEvent(new CustomEvent('manualTronicsClick'));
@@ -62,10 +56,8 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
               }
               setClickCount(prev => {
                 const newCount = prev + 1;
-                console.log(newCount);
                 if (newCount === 50) {
                   setShowGlitch(true);
-                  console.log("showing glitch");
                   setTimeout(() => setShowGlitch(false), 5000);
                 }
                 return newCount;

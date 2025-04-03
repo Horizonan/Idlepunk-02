@@ -1,5 +1,5 @@
 import React from 'react';
-import ResetProgress from '../ResetProgress/ResetProgress';
+import ResetProgress from '../../ResetProgress/ResetProgress.jsx';
 
 export default function Settings({ 
   showClickEnhancerUI, 
@@ -22,7 +22,6 @@ export default function Settings({
   onClose
 }) {
   const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
-  console.log('Settings - Total Tronics Clicks:', totalTronicsClicks);
 
   return (
     <div className="store-container settings-menu">

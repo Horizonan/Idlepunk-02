@@ -17,16 +17,23 @@ import TronicsSurge from './components/Effects/surges/TronicsSurge';
 
 //Side Menu
 import QuestLog from './components/SideMenu/QuestLog';
-import Settings from './components/SideMenu/Settings';
+import Achievements from './components/SideMenu/Achievements';
+import TechTree from './components/SideMenu/techTree/TechTree';
+
+//Settings Menu
+import Settings from './components/SideMenu/settingsMenu/Settings';
+import Changelog from './components/SideMenu/settingsMenu/Changelog';
+
+//Utility imports
+import { useAchievements} from './hooks/useAchievements';
+
 
 //Other Imports
 import VersionPopup from './components/VersionPopup/VersionPopup';
 import StatsDisplay from './components/StatsDisplay';
 import { validateQuests } from './utils/questValidation';
 import { useGameState } from './hooks/useGameState';
-import { useAchievements, defaultAchievements } from './hooks/useAchievements';
 import Clicker from './components/Clicker/Clicker';
-import Achievements from './components/Achievements';
 import CheatMenu from './components/CheatMenu/CheatMenu';
 import ElectroStore from './components/StoreSystem/ElectroStore';
 import CredStore from './components/StoreSystem/CredStore';
@@ -44,73 +51,28 @@ import FlyingCrystal from './components/Effects/FlyingCrystal';
 import HoloBillboard from './components/Effects/HoloBillboard';
 import TrashBonus from './components/Effects/TrashBonus';
 import ItemInventory from './components/StoreSystem/ItemInventory';
-import Changelog from './components/SideMenu/Changelog';
-import TechTree from './components/TechTree';
 import PrestigePopup from './components/PrestigePopup';
 import Tooltips from './components/SideMenu/Tooltips';
 import ShardMiner from './components/Effects/ShardMiner';
 
 export default function App() {
   const { 
-    junk, setJunk,
-    credits, setCredits,
-    clickCount, setClickCount,
-    tronics, setTronics,
-    autoClicks, setAutoClicks,
-    clickMultiplier, setClickMultiplier,
-    passiveIncome, setPassiveIncome,
-    globalJpsMultiplier, setGlobalJpsMultiplier,
-    notifications, setNotifications,
-    electronicsUnlock, setElectronicsUnlock,
-    activeStore, setActiveStore,
-    menuOpen, setMenuOpen,
-    clickEnhancerLevel, setClickEnhancerLevel,
-    tutorialStage, setTutorialStage,
-    hasUpgrade, setHasUpgrade,
-    showPrestigePopup, setShowPrestigePopup,
-    prestigeCount, setPrestigeCount,
-    electroShards, setElectroShards,
-    beaconCount, setBeaconCount,
-    showBeacon, setShowBeacon,
-    showBeaconVisual, setShowBeaconVisual,
-    isSurgeActive, setIsSurgeActive,
-    hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge,
-    surgeCount, setSurgeCount,
-    cogfatherLore, setCogfatherLore,
-    preservedHelper, setPreservedHelper,
-    setTronicsSurgeActive, isTronicsSurgeActive, setTotalTronicsClicks
+    junk, setJunk, credits, setCredits, clickCount, setClickCount, tronics, setTronics, autoClicks, setAutoClicks, clickMultiplier, setClickMultiplier, passiveIncome, 
+    setPassiveIncome, globalJpsMultiplier, setGlobalJpsMultiplier, notifications, setNotifications,
+    electronicsUnlock, setElectronicsUnlock,  activeStore, setActiveStore, menuOpen, setMenuOpen, clickEnhancerLevel, setClickEnhancerLevel,
+    tutorialStage, setTutorialStage, hasUpgrade, setHasUpgrade, showPrestigePopup, setShowPrestigePopup, prestigeCount, setPrestigeCount,
+    electroShards, setElectroShards, beaconCount, setBeaconCount, setShowBeacon, showBeaconVisual, setShowBeaconVisual,isSurgeActive, setIsSurgeActive,
+    hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge, surgeCount, setSurgeCount, cogfatherLore, setCogfatherLore,
+    preservedHelper, setPreservedHelper, setTronicsSurgeActive, isTronicsSurgeActive, setTotalTronicsClicks,
+    autoClickerV1Count, setAutoClickerV1Count, autoClickerV2Count, setAutoClickerV2Count, showChangelog, setShowChangelog, showTechTree, setShowTechTree, showSlotMachine,
+    setShowSlotMachine, showCheatMenu, setShowCheatMenu, showActiveCheats, setShowActiveCheats, showAchievements, setShowAchievements,
+    showSettings, setShowSettings, showUpgradeStats, setShowUpgradeStats, enableHoloBillboard, setEnableHoloBillboard,
+    showCrystal, setShowCrystal, showTrashBonus, setShowTrashBonus, showQuestLog, setShowQuestLog, showNewsTicker, setShowNewsTicker,
+    prestigeQuestCompleted, setPrestigeQuestCompleted, showClickEnhancerUI, setShowClickEnhancerUI, craftingInventory, setCraftingInventory,
+    showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory, activeCheatsList, setActiveCheatsList,
+    itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels
   } = useGameState();
-  const [showChangelog, setShowChangelog] = useState(false);
-  const [showTechTree, setShowTechTree] = useState(false);
-  const [showSlotMachine, setShowSlotMachine] = useState(false);
-  const [enableHoloBillboard, setEnableHoloBillboard] = useState(() => localStorage.getItem('enableHoloBillboard') !== 'false');
-  const [showCheatMenu, setShowCheatMenu] = useState(false);
-  const [showCrystal, setShowCrystal] = useState(false);
-  const [showTrashBonus, setShowTrashBonus] = useState(false);
-  const [showActiveCheats, setShowActiveCheats] = useState(false);
-  const [showAchievements, setShowAchievements] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
-  const [showUpgradeStats, setShowUpgradeStats] = useState(false);
-  const [skillLevels, setSkillLevels] = useState(() => {
-    const saved = localStorage.getItem('skillLevels');
-    return saved ? JSON.parse(saved) : {
-      scavengingFocus: 0,
-      greaseDiscipline: 0
-    };
-  });
-  const [showQuestLog, setShowQuestLog] = useState(false);
-  const [showClickEnhancerUI, setShowClickEnhancerUI] = useState(true);
-  const [showNewsTicker, setShowNewsTicker] = useState(() => localStorage.getItem('showNewsTicker') !== 'false');
-  const [prestigeQuestCompleted, setPrestigeQuestCompleted] = useState(() => 
-    localStorage.getItem('quest_sync_Forge the Future') === 'true'
-  );
-  const [craftingInventory, setCraftingInventory] = useState(() => 
-    JSON.parse(localStorage.getItem('craftingInventory')) || {}
-  );
-  const [autoClickerV1Count, setAutoClickerV1Count] = useState(0);
-  const [autoClickerV2Count, setAutoClickerV2Count] = useState(0);
-  const [showTooltips, setShowTooltips] = useState(false); // Added state for Tooltips
-
+  
 
   useEffect(() => {
     const handleUpdateSurgeCount = () => {
@@ -176,7 +138,7 @@ export default function App() {
     };
   }, []);
 
-  const { achievements, setAchievements, validateAchievements, checkElectroMilestones } = useAchievements(
+  const { achievements, validateAchievements, checkElectroMilestones } = useAchievements(
     { 
       junk, 
       clickCount, 
@@ -198,6 +160,7 @@ export default function App() {
   const checkAchievements = validateAchievements;
 
   const checkShardMilestones = (shardCount) => {
+    
     // Check for 3 shard milestone
     if (shardCount === 3) {
       window.dispatchEvent(new CustomEvent('nextNews', { 
@@ -205,11 +168,6 @@ export default function App() {
       }));
     }
   };
-
-
-  const [hasHelper, setHasHelper] = useState(false);
-  const [showInventory, setShowInventory] = useState(false);
-
 
   // Close store when opening other menus
   useEffect(() => {
@@ -337,38 +295,6 @@ export default function App() {
     'Ascension Reclaimer': 0
   });
 
-  const [activeCheatsList, setActiveCheatsList] = useState(() => ({
-    'Guaranteed Capacitor': false,
-    'Force Triple Win': false,
-    'Force Double Win': false
-  }));
-  const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem('itemCosts')) || {
-    trashBag: 10,
-    trashPicker: 100,
-    streetrat: 100,
-    cart: 500,
-    junkMagnet: 1500,
-    urbanRecycler: 3000,
-    autoClicker: 5000,
-    autoClickerV2: 10000,
-    clickEnhancer: 2500,
-    scrapDrone: 7500,
-    holoBillboard: 15000,
-    junkRefinery: 500000
-  });
-
-  const [ownedItems, setOwnedItems] = useState(() => JSON.parse(localStorage.getItem('ownedItems')) || {
-    trashBag: 0,
-    trashPicker: 0,
-    streetrat: 0,
-    cart: 0,
-    junkMagnet: 0,
-    urbanRecycler: 0,
-    clickEnhancer: 0,
-    scrapDrone: 0,
-    holoBillboard: 0,
-    junkRefinery: 0
-  });
 
   useEffect(() => {
     const updateInterval = setInterval(() => {
@@ -389,13 +315,15 @@ export default function App() {
       // Handle auto clicks separately
       if (autoClicks > 0) {
         setJunk(prev => prev + (autoClicks * clickMultiplier));
-        setTotalTronicsClicks(prev => prev + autoClicks);
+        setClickCount(prev => prev + autoClicks);
+        
         // Generate tronics if electronics are unlocked
         if (electronicsUnlock) {
           const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
           const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
           const tronicsPerClick = 1 + boostICount + (boostIICount * 2);
           setTronics(prev => prev + (autoClicks * tronicsPerClick));
+          setTotalTronicsClicks(prev => prev + autoClicks);
         }
       }
     }, 1000);
@@ -431,15 +359,10 @@ export default function App() {
     localStorage.setItem('ownedItems', JSON.stringify(ownedItems));
     localStorage.setItem('craftingInventory', JSON.stringify(craftingInventory));
     localStorage.setItem('globalJpsMultiplier', globalJpsMultiplier);
-    localStorage.setItem('autoClickerV1Count', autoClickerV1Count); //Persist v1 count
+    localStorage.setItem('autoClickerV1Count', autoClickerV1Count); 
   }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts, autoClicks, clickCount, achievements, ownedItems, clickEnhancerLevel, globalJpsMultiplier, autoClickerV1Count]);
 
   const validateQuestsAndAchievements = () => {
-    const totalPassiveIncome = Math.floor(passiveIncome * globalJpsMultiplier + (autoClicks * clickMultiplier));
-
-
-
-    // Use the separated quest validation
     validateQuests({
       junk,
       clickCount,
@@ -502,16 +425,13 @@ export default function App() {
 
 
   const collectTronics = (amount) => {
-    if (electronicsUnlock) {
-      
+    if (electronicsUnlock) {  
       // Handle manual clicks
       if (amount === 1) {
-
       }
 
       const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
-      const randomValue = Math.random();
-      const quantumProc = hasQuantumTap && randomValue < 0.03;
+      const quantumProc = hasQuantumTap && Math.random() < 0.03;
 
       setTronics(prev => {
         const newValue = prev + (quantumProc ? amount * 3 : amount);
@@ -525,12 +445,6 @@ export default function App() {
     }
   };
 
-  const buyItem = (cost, message) => {
-    if (credits >= cost) {
-      setCredits(prev => prev - cost);
-      setNotifications(prev => [...prev, message]);
-    }
-  };
 
   const handleBuyTrashBag = () => {
     if (junk >= itemCosts.trashBag) {
@@ -1256,8 +1170,7 @@ export default function App() {
           }}
         />
       )}
-      {((junk >= 1000000 && !localStorage.getItem('hasPrestiged') && prestigeCount === 0) || 
-        (localStorage.getItem('quest_sync_Forge the Overcrystal') === 'true')) && prestigeCount === 1 && (
+      {((junk >= 1000000 && !localStorage.getItem('hasPrestiged') && prestigeCount === 0) &&
         <button 
           className={`prestige-button ${!prestigeQuestCompleted ? 'locked' : ''}`}
           onClick={() => {
