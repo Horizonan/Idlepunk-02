@@ -41,9 +41,16 @@ export const useGameState = () => {
 
   useEffect(() => {
     const handleAutoClickerClick = () => {
+      const autoClicks = parseInt(localStorage.getItem('autoClicks') || '0');
+      const permanentAutoClicks = parseInt(localStorage.getItem('permanentAutoClicks') || '0');
+      console.log('Achievement check - Current autoclicks:', { autoClicks, permanentAutoClicks });
+      
       const achievements = JSON.parse(localStorage.getItem('achievements') || '[]');
       const secretAchievement = achievements.find(a => a.title === "Who's Clicking the Clicker?");
-      if (secretAchievement && !secretAchievement.unlocked) {
+      console.log('Achievement found:', secretAchievement);
+      
+      if (secretAchievement && !secretAchievement.unlocked && (autoClicks + permanentAutoClicks > 0)) {
+        console.log('Unlocking achievement');
         secretAchievement.unlocked = true;
         secretAchievement.checked = true;
         localStorage.setItem('achievements', JSON.stringify(achievements));
