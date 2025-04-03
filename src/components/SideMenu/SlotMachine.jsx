@@ -56,7 +56,7 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
     };
   }, [isDragging]);
 
-  const symbols = ['💰','🔋'];
+  const symbols = ['💰', '🗑️', '⚡', '🎲','🔧', '🔋'];
 
   const spin = (forceTriple = false, forceDouble = false) => {
     if (junk < spinCost) return;
@@ -151,8 +151,12 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
             // Capacitor reward - 2 for jackpot, 1 for double
             const isJackpot = newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2];
             const capacitorAmount = isJackpot ? 2 : 1;
-            const currentCapacitors = parseInt(localStorage.getItem('capacitors') || '0');
-            localStorage.setItem('capacitors', (currentCapacitors + capacitorAmount).toString());
+            if (setCraftingInventory) {
+              setCraftingInventory(prev => ({
+                ...prev,
+                'Capacitor': (prev['Capacitor'] || 0) + capacitorAmount
+              }));
+            }
             winMessage = `Congratulations! You won ${capacitorAmount} Capacitor${capacitorAmount > 1 ? 's' : ''}!`;
           } else if (prizeType === '⚡') {
             // Glitched Scrap Core reward

@@ -122,6 +122,19 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       description: 'Increases Trash Surge duration from 5s → 10s',
       type: 'crafted',
       onetime: true
+    },
+    {
+      name: 'Luck Engine',
+      requirements: {
+        'Capacitor': 3,
+        'Glitched Scrap Core': 1,
+        'Metal Plates': 20,
+        'Wires': 40
+      },
+      cost: 25000000,
+      description: 'Allows you to purchase Auto Slotter and Ultimate Slots',
+      type: 'crafted',
+      onetime: true
     }
   ];
 

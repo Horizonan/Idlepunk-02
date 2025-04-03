@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import './TronicsSurge.css';
 
-export default function TronicsSurge({ isActive, activeClicker }) {
+export default function TronicsSurge({ isActive, activeClicker, setCraftingInventory }) {
   const [timeLeft, setTimeLeft] = useState(5);
   const [capacitors, setCapacitors] = useState([]);
 
@@ -26,7 +26,10 @@ export default function TronicsSurge({ isActive, activeClicker }) {
             x: Math.random() * (window.innerWidth - 50),
             y: Math.random() * (window.innerHeight - 50)
           };
-          setCapacitors(prev => [...prev, newCapacitor]);
+          setCraftingInventory(prev => ({
+              ...prev,
+              'Capacitor': (prev['Capacitor'] || 0) + 1
+            }));
         }
       }, 1000);
 

@@ -821,7 +821,11 @@ export default function App() {
       <TrashSurge isActive={isSurgeActive} isTronicsActive={isTronicsSurgeActive} activeClicker={document.querySelector('.clicker-select.active')?.textContent.includes('Trash') ? 'trash' : 'electronics'} />
 
 
-       <TronicsSurge isActive={isTronicsSurgeActive} activeClicker={document.querySelector('.clicker-select.active')?.textContent.includes('Trash') ? 'trash' : 'electronics'} />
+       <TronicsSurge 
+        isActive={isTronicsSurgeActive}
+        activeClicker={document.querySelector('.clicker-select.active')?.textContent.includes('Trash') ? 'trash' : 'electronics'}
+         setCraftingInventory= {setCraftingInventory}
+         />
 
       {enableHoloBillboard && <HoloBillboard ownedItems={ownedItems} />}
       {showCrystal && (
@@ -897,6 +901,7 @@ export default function App() {
         <SlotMachine
           junk={junk}
           onSpin={(cost) => setJunk(prev => prev - cost)}
+          setCraftingInventory={setCraftingInventory}
           onClose={() => setShowSlotMachine(false)}
         />
       )}
@@ -1222,7 +1227,7 @@ export default function App() {
           onShowCrystal= {setShowCrystal}
           onSetTronicsSurgeActive= {setTronicsSurgeActive}
           onSetSurgeActive={setIsSurgeActive}
-
+          setCraftingInventory={setCraftingInventory}
         />
       )}
       {showActiveCheats && (

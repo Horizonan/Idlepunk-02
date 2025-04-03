@@ -17,6 +17,11 @@ export default function ItemInventory({ craftingInventory, onBack }) {
       effect: 'Used in basic crafting',
       icon: '⚙️'
     },
+    'Capacitor': {
+      description: 'Basic Electric Component',
+      effect: 'Used for Energy Storage',
+      icon: '⚡'
+    },
     'Scrap Core': {
       description: 'A basic power core made from scrap',
       effect: 'Used in advanced crafting',
@@ -73,13 +78,18 @@ export default function ItemInventory({ craftingInventory, onBack }) {
       icon: '🔷'
     },
     'Glitched Scrap Core': {
-      description: 'Looks incredibly Lucky!.',
+      description: 'Looks incredibly Lucky!',
       effect: 'Reality chewed it up. You kept it anyway.',
       icon: '🔷'
+    },
+    'Luck Engine': {
+      description: 'A humming mass of fused chance. Feels... oddly warm.',
+      effect: 'Gives you the ability to buy Auto Slotter and Ultimate Slots',
+      icon: '🎲'
     }
   };
 
-  const basicItems = ['Wires', 'Metal Plates', 'Gear Bits', 'Scrap Core', 'Glitched Scrap Core'];
+  const basicItems = ['Wires', 'Metal Plates', 'Gear Bits', 'Capacitor', 'Scrap Core', 'Glitched Scrap Core'];
   const specialItems = ['Stabilized Capacitor', 'Voltage Node', 'Synthcore Fragment', 'Encrypted Coil', 'Surge Capacitor Fragment'];
 
   const basicMaterials = Object.entries(craftingInventory)

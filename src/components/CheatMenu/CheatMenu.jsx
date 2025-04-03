@@ -12,7 +12,7 @@ function setNextTronicsSurgeTimer() {
   window.dispatchEvent(new Event('triggerTronicsSurge'));
 }
 
-export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial, onNextTutorial, setShowTrashBonus, onAddTronics, onAddSetPrestige, onAddElectroShard, onShowCrystal, onSetTronicsSurgeActive, onSetSurgeActive }) {
+export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial, onNextTutorial, setShowTrashBonus, onAddTronics, onAddSetPrestige, onAddElectroShard, onShowCrystal, onSetTronicsSurgeActive, onSetSurgeActive, setCraftingInventory }) {
   const [openCategories, setOpenCategories] = useState({
     resources: false,
     events: false,
@@ -101,6 +101,14 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
               <button onClick={() => onAddTronics(1000)}>Add 1k Tronics</button>
               <button onClick={() => onAddTronics(10000)}>Add 10k Tronics</button>
               <button onClick={() => onAddTronics(100000)}>Add 100k Tronics</button>
+              <button onClick= {() => setCraftingInventory(prev => ({
+                ...prev,
+                'Glitched Scrap Core': (prev['Glitched Scrap Core'] || 0) + 1
+              }))}>Add 1 Glitched Core</button>
+              <button onClick= {() => setCraftingInventory(prev => ({
+                ...prev,
+                'Capacitor': (prev['Capacitor'] || 0) + 10
+              }))}>Add 10 Capacitors</button>
               <button onClick={() => onAddSetPrestige(1)}>Set Prestige 1</button>
               <button onClick={() => {
                 const materials = ['Wires', 'Metal Plates', 'Gear Bits'];
