@@ -46,7 +46,7 @@ export default function AutoClickerEffect({ autoClicks = 0 }) {
         <div
           key={cursor.id}
           className={`auto-clicker ${cursor.clicking ? 'clicking' : ''}`}
-          onClick={() => {}}
+          onClick={null}
           style={{
             left: cursor.x,
             top: cursor.y,
