@@ -46,6 +46,21 @@ export default function AutoClickerEffect({ autoClicks = 0 }) {
         <div
           key={cursor.id}
           className={`auto-clicker ${cursor.clicking ? 'clicking' : ''}`}
+          onClick={() => {
+            const achievements = JSON.parse(localStorage.getItem('achievements') || '[]');
+            const secretAchievement = achievements.find(a => a.title === "Who's Clicking the Clicker?");
+            if (secretAchievement && !secretAchievement.unlocked) {
+              secretAchievement.unlocked = true;
+              secretAchievement.checked = true;
+              localStorage.setItem('achievements', JSON.stringify(achievements));
+              // Add permanent autoclick
+              const currentPermanent = parseInt(localStorage.getItem('permanentAutoClicks') || '0');
+              localStorage.setItem('permanentAutoClicks', (currentPermanent + 1).toString());
+              window.dispatchEvent(new CustomEvent('nextNews', { 
+                detail: { message: "Cogfather: 'Ah, a true automation enthusiast. Always verifying their tools.'" }
+              }));
+            }
+          }}
           style={{
             left: cursor.x,
             top: cursor.y,

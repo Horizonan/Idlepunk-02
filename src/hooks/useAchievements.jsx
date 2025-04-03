@@ -2,6 +2,15 @@ import { useState } from 'react';
 
 export const defaultAchievements = [
   {
+    title: "Who's Clicking the Clicker?",
+    requirement: "Click on an Auto Clicker Bot",
+    reward: "+1 Permanent Auto Click",
+    flavorText: "You had to click it... just to make sure it was working.",
+    unlocked: false,
+    checked: false,
+    hidden: true
+  },
+  {
     title: "Junkie Starter",
     requirement: "Collect 1,000 Junk",
     reward: "+500 Junk",

@@ -6,7 +6,11 @@ export const useGameState = () => {
   const [credits, setCredits] = useState(() => Math.floor(Number(localStorage.getItem('credits')) || 0));
   const [clickCount, setClickCount] = useState(() => Math.floor(Number(localStorage.getItem('clickCount')) || 0));
   const [tronics, setTronics] = useState(() => Number(localStorage.getItem('tronics')) || 0);
-  const [autoClicks, setAutoClicks] = useState(() => Number(localStorage.getItem('autoClicks')) || 0);
+  const [autoClicks, setAutoClicks] = useState(() => {
+    const saved = Number(localStorage.getItem('autoClicks')) || 0;
+    const permanent = Number(localStorage.getItem('permanentAutoClicks')) || 0;
+    return saved + permanent;
+  });
   const [clickMultiplier, setClickMultiplier] = useState(() => Number(localStorage.getItem('clickMultiplier')) || 1);
   const [passiveIncome, setPassiveIncome] = useState(() => Number(localStorage.getItem('passiveIncome')) || 0);
   const [globalJpsMultiplier, setGlobalJpsMultiplier] = useState(() => Number(localStorage.getItem('globalJpsMultiplier')) || 1);
