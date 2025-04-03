@@ -135,18 +135,22 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
             onSpin(-winnings);
             winMessage = `Congratulations! You won ${winnings} Junk!`;
           } else if (prizeType === '📦') {
-            // Material reward - 10 of a random basic material
+            // Material reward - amount depends on match type
             const materials = ['Wires', 'Metal Plates', 'Gear Bits'];
             const randomMaterial = materials[Math.floor(Math.random() * materials.length)];
+            const isJackpot = newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2];
+            const materialAmount = isJackpot ? 10 : 2;
             window.dispatchEvent(new CustomEvent('addMaterial', { 
-              detail: { material: randomMaterial, amount: 10 }
+              detail: { material: randomMaterial, amount: materialAmount }
             }));
-            winMessage = `Congratulations! You won 10 ${randomMaterial}!`;
+            winMessage = `Congratulations! You won ${materialAmount} ${randomMaterial}!`;
           } else if (prizeType === '🔋') {
-            // Capacitor reward
+            // Capacitor reward - 2 for jackpot, 1 for double
+            const isJackpot = newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2];
+            const capacitorAmount = isJackpot ? 2 : 1;
             const currentCapacitors = parseInt(localStorage.getItem('capacitors') || '0');
-            localStorage.setItem('capacitors', (currentCapacitors + 1).toString());
-            winMessage = 'Congratulations! You won a Capacitor!';
+            localStorage.setItem('capacitors', (currentCapacitors + capacitorAmount).toString());
+            winMessage = `Congratulations! You won ${capacitorAmount} Capacitor${capacitorAmount > 1 ? 's' : ''}!`;
           }
 
           const winPopup = document.createElement('div');
