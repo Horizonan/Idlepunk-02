@@ -98,10 +98,10 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
 
   const validateAchievements = () => {
     const currentShards = parseInt(localStorage.getItem('electroShards')) || 0;
-    
+
     // First validate electro shard milestones
     checkElectroMilestones(currentShards);
-    
+
     setAchievements(prev => {
       const newAchievements = [...prev];
       let changed = false;
@@ -172,6 +172,18 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
               achievement.unlocked = true;
               achievement.checked = true;
               setNotifications(prev => [...prev, "Achievement Unlocked: UI Breaker!"]);
+              changed = true;
+            }
+            break;
+          case "Who's Clicking the Clicker?":
+            const secretAchievement = achievements.find(a => a.title === "Who's Clicking the Clicker?");
+            console.log('Achievement found:', secretAchievement);
+
+            if (secretAchievement && !secretAchievement.unlocked && localStorage.getItem('clickedAutoClicker') === 'true') {
+              secretAchievement.unlocked = true;
+              secretAchievement.checked = true;
+              setAutoClicks(prev => prev + 1);
+              setNotifications(prev => [...prev, "Achievement Unlocked: Who's Clicking the Clicker?!"]);
               changed = true;
             }
             break;

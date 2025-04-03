@@ -47,13 +47,9 @@ export default function AutoClickerEffect({ autoClicks = 0 }) {
           key={cursor.id}
           className={`auto-clicker ${cursor.clicking ? 'clicking' : ''}`}
           onClick={() => {
-            const autoClicks = parseInt(localStorage.getItem('autoClicks') || '0');
-            const permanentAutoClicks = parseInt(localStorage.getItem('permanentAutoClicks') || '0');
-            console.log('AutoClicker clicked:', { autoClicks, permanentAutoClicks });
-            if (autoClicks + permanentAutoClicks > 0) {
-              console.log('Dispatching clickedAutoClicker event');
-              window.dispatchEvent(new CustomEvent('clickedAutoClicker'));
-            }
+            console.log('Dispatching clickedAutoClicker event');
+            localStorage.setItem('clickedAutoClicker', 'true');
+            window.dispatchEvent(new CustomEvent('clickedAutoClicker'));
           }}
           style={{
             left: cursor.x,
