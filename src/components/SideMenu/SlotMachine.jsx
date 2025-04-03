@@ -127,7 +127,7 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
         setSpinning(false);
 
         if (winnings > 0) {
-          const prizeType = slots[3];
+          const prizeType = newSlots[3];
           let winMessage = '';
 
           if (!isBigSlots || prizeType === '💰') {
