@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 
 export const useGameState = () => {
@@ -35,14 +34,35 @@ export const useGameState = () => {
   const [surgeCount, setSurgeCount] = useState(() => Number(localStorage.getItem('surgeCount')) || 0);  
   const [hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge] = useState(false);
   const [isSurgeActive, setIsSurgeActive] = useState(false);
-  
+
 
   //Tronics Surge
   const [isTronicsSurgeActive, setTronicsSurgeActive] = useState(false);
-  
+
   useEffect(() => {
-    localStorage.setItem('junk', junk);
+    const handleAutoClickerClick = () => {
+      const achievements = JSON.parse(localStorage.getItem('achievements') || '[]');
+      const secretAchievement = achievements.find(a => a.title === "Who's Clicking the Clicker?");
+      if (secretAchievement && !secretAchievement.unlocked) {
+        secretAchievement.unlocked = true;
+        secretAchievement.checked = true;
+        localStorage.setItem('achievements', JSON.stringify(achievements));
+        const currentPermanent = parseInt(localStorage.getItem('permanentAutoClicks') || '0');
+        localStorage.setItem('permanentAutoClicks', (currentPermanent + 1).toString());
+        setAutoClicks(prev => prev + 1);
+        window.dispatchEvent(new CustomEvent('nextNews', { 
+          detail: { message: "Cogfather: 'Ah, a true automation enthusiast. Always verifying their tools.'" }
+        }));
+      }
+    };
+
+    window.addEventListener('clickedAutoClicker', handleAutoClickerClick);
+    return () => window.removeEventListener('clickedAutoClicker', handleAutoClickerClick);
+  }, []);
+
+  useEffect(() => {
     localStorage.setItem('credits', credits);
+    localStorage.setItem('junk', junk);
     localStorage.setItem('clickCount', clickCount);
     localStorage.setItem('tronics', tronics);
     localStorage.setItem('autoClicks', autoClicks);
