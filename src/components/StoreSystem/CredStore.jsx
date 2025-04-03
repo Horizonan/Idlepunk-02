@@ -261,6 +261,32 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
             Can be purchased twice. ({(craftingInventory['Ascension Reclaimer'] || 0)}/2)
           </div>
         </button>
+
+        <button
+          onClick={() => {
+            if (credits >= 150 && !localStorage.getItem('bigSlots')) {
+              onSetCredits(prev => prev - 150);
+              localStorage.setItem('bigSlots', 'true');
+              onSetNotification(prev => [...prev, "Big Slots activated! The slot machine has been upgraded."]);
+              window.dispatchEvent(new CustomEvent('nextNews', { 
+                detail: { message: "The slots just got bigger... and riskier." }
+              }));
+            }
+          }}
+          disabled={credits < 150 || localStorage.getItem('bigSlots')}
+          className="store-item"
+        >
+          <div className="item-header">
+            <strong>🖥️ Big Slots</strong>
+            <span>150 Credits</span>
+          </div>
+          <div className="item-info">
+            Now with 50% more screen real estate... and danger.
+            Enlarges the slot machine window and improves visual feedback.
+            Cost per spin: 1,000,000 Junk
+            <p>Bigger reels. Bigger risks. Bigger... maybe wins?</p>
+          </div>
+        </button>
       </div>
 
       {localStorage.getItem('hasPrestiged') === 'true' && (

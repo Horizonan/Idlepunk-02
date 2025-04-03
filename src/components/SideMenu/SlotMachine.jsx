@@ -3,6 +3,8 @@ import React, { useState, useRef, useEffect } from 'react';
 export default function SlotMachine({ junk, onSpin, onClose }) {
   const [spinning, setSpinning] = useState(false);
   const [slots, setSlots] = useState(['?', '?', '?']);
+  const [lastWin, setLastWin] = useState(null);
+  const isBigSlots = localStorage.getItem('bigSlots') === 'true';
   const spinCost = 100;
   const containerRef = useRef(null);
 
@@ -124,7 +126,8 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
         top: position.y,
         cursor: isDragging ? 'grabbing' : 'auto',
         transform: 'none',
-        minWidth: '350px'
+        minWidth: isBigSlots ? '450px' : '350px',
+        fontSize: isBigSlots ? '1.2em' : '1em'
       }}
     >
       <div 
