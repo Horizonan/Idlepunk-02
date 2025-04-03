@@ -1,15 +1,7 @@
 import { useState } from 'react';
 
 export const defaultAchievements = [
-  {
-    title: "Who's Clicking the Clicker?",
-    requirement: "Click on an Auto Clicker Bot",
-    reward: "+1 Permanent Auto Click",
-    flavorText: "You had to click it... just to make sure it was working.",
-    unlocked: false,
-    checked: false,
-    hidden: true
-  },
+  
   {
     title: "Junkie Starter",
     requirement: "Collect 1,000 Junk",
@@ -175,20 +167,7 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
               changed = true;
             }
             break;
-          case "Who's Clicking the Clicker?":
-            if (!achievement.unlocked && localStorage.getItem('clickedAutoClicker') === 'true') {
-              achievement.unlocked = true;
-              achievement.checked = true;
-              setAutoClicks(prev => prev + 1);
-              const currentPermanent = parseInt(localStorage.getItem('permanentAutoClicks') || '0');
-              localStorage.setItem('permanentAutoClicks', (currentPermanent + 1).toString());
-              setNotifications(prev => [...prev, "Achievement Unlocked: Who's Clicking the Clicker?!"]);
-              window.dispatchEvent(new CustomEvent('nextNews', { 
-                detail: { message: "Cogfather: 'Ah, a true automation enthusiast. Always verifying their tools.'" }
-              }));
-              changed = true;
-            }
-            break;
+          
         }
       });
 
