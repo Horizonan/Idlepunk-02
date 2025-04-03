@@ -1313,7 +1313,7 @@ export default function App() {
         />
       )}
       {((junk >= 1000000 && !localStorage.getItem('hasPrestiged') && prestigeCount === 0) || 
-        (junk >= 10000000 && localStorage.getItem('quest_sync_Forge the Overcrystal') === 'true')) && (
+        (localStorage.getItem('quest_sync_Forge the Overcrystal') === 'true')) && prestigeCount === 1 && (
         <button 
           className={`prestige-button ${!prestigeQuestCompleted ? 'locked' : ''}`}
           onClick={() => {
