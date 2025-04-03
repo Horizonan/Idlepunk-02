@@ -76,6 +76,34 @@ export const defaultAchievements = [
 ];
 
 export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoClicks, setPassiveIncome, setNotifications, setCogfatherLore) => {
+  const checkAutoClickerAchievement = () => {
+    setAchievements(prev => {
+      const newAchievements = [...prev];
+      const secretAchievement = newAchievements.find(a => a.title === "Who's Clicking the Clicker?");
+      
+      if (secretAchievement && !secretAchievement.unlocked) {
+        secretAchievement.unlocked = true;
+        secretAchievement.checked = true;
+        const currentPermanent = parseInt(localStorage.getItem('permanentAutoClicks') || '0');
+        localStorage.setItem('permanentAutoClicks', (currentPermanent + 1).toString());
+        setAutoClicks(prev => prev + 1);
+        setNotifications(prev => [...prev, "Achievement Unlocked: Who's Clicking the Clicker!"]);
+        window.dispatchEvent(new CustomEvent('nextNews', { 
+          detail: { message: "Cogfather: 'Ah, a true automation enthusiast. Always verifying their tools.'" }
+        }));
+        localStorage.setItem('achievements', JSON.stringify(newAchievements));
+        return newAchievements;
+      }
+      return prev;
+    });
+  };
+
+  useEffect(() => {
+    const handler = () => checkAutoClickerAchievement();
+    window.addEventListener('checkAutoClickerAchievement', handler);
+    return () => window.removeEventListener('checkAutoClickerAchievement', handler);
+  }, []);
+
   const [achievements, setAchievements] = useState(() => {
     try {
       const stored = localStorage.getItem('achievements');

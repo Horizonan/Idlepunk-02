@@ -41,19 +41,7 @@ export const useGameState = () => {
 
   useEffect(() => {
     const handleAutoClickerClick = () => {
-      const achievements = JSON.parse(localStorage.getItem('achievements') || '[]');
-      const secretAchievement = achievements.find(a => a.title === "Who's Clicking the Clicker?");
-      if (secretAchievement && !secretAchievement.unlocked) {
-        secretAchievement.unlocked = true;
-        secretAchievement.checked = true;
-        localStorage.setItem('achievements', JSON.stringify(achievements));
-        const currentPermanent = parseInt(localStorage.getItem('permanentAutoClicks') || '0');
-        localStorage.setItem('permanentAutoClicks', (currentPermanent + 1).toString());
-        setAutoClicks(prev => prev + 1);
-        window.dispatchEvent(new CustomEvent('nextNews', { 
-          detail: { message: "Cogfather: 'Ah, a true automation enthusiast. Always verifying their tools.'" }
-        }));
-      }
+      window.dispatchEvent(new CustomEvent('checkAutoClickerAchievement'));
     };
 
     window.addEventListener('clickedAutoClicker', handleAutoClickerClick);
