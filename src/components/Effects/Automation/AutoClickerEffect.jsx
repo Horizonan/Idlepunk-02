@@ -47,9 +47,10 @@ export default function AutoClickerEffect({ autoClicks = 0 }) {
           key={cursor.id}
           className={`auto-clicker ${cursor.clicking ? 'clicking' : ''}`}
           onClick={() => {
-            console.log('Dispatching clickedAutoClicker event');
+            console.log('Clicked auto clicker, triggering achievement check');
             localStorage.setItem('clickedAutoClicker', 'true');
             window.dispatchEvent(new CustomEvent('clickedAutoClicker'));
+            window.dispatchEvent(new CustomEvent('validateAchievements'));
           }}
           style={{
             left: cursor.x,
