@@ -1,6 +1,7 @@
-
 import React, { useState } from 'react';
 import './ResetProgress.css';
+
+const defaultAchievements = []; // Add default achievements array
 
 export default function ResetProgress({ onReset }) {
   const [showConfirm, setShowConfirm] = useState(false);
@@ -29,9 +30,9 @@ export default function ResetProgress({ onReset }) {
     }));
     localStorage.setItem('ownedItems', JSON.stringify({}));
     localStorage.setItem('craftingInventory', JSON.stringify({}));
-    localStorage.setItem('achievements', JSON.stringify([]));
+    localStorage.setItem('achievements', JSON.stringify(defaultAchievements)); // Set achievements to default
 
-    // Force page reload to ensure all states are reset
+    //Force page reload to ensure all states are reset
     window.location.reload();
   };
 

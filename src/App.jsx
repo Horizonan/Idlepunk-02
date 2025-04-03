@@ -442,36 +442,7 @@ export default function App() {
       const newAchievements = [...prev];
       let changed = false;
 
-      // Each achievement is checked independently
-      if (!newAchievements[0].unlocked && Math.floor(junk) >= 1000) {
-        newAchievements[0].unlocked = true;
-        if (!newAchievements[0].checked) {
-          setJunk(prev => prev + 500);
-          setNotifications(prev => [...prev, "Achievement Unlocked: Junkie Starter!"]);
-          newAchievements[0].checked = true;
-          changed = true;
-        }
-      }
-
-      if (!newAchievements[1].unlocked && clickCount >= 500) {
-        newAchievements[1].unlocked = true;
-        if (!newAchievements[1].checked) {
-          setClickMultiplier(prev => prev * 1.05);
-          setNotifications(prev => [...prev, "Achievement Unlocked: The First Clicks!"]);
-          newAchievements[1].checked = true;
-          changed = true;
-        }
-      }
-
-      if (!newAchievements[2].unlocked && totalPassiveIncome >= 10) {
-        newAchievements[2].unlocked = true;
-        if (!newAchievements[2].checked) {
-          setAutoClicks(prev => prev + 1);
-          setNotifications(prev => [...prev, "Achievement Unlocked: Greasy Milestone!"]);
-          newAchievements[2].checked = true;
-          changed = true;
-        }
-      }
+      // Achievement validation is now handled in useAchievements
 
       if (!newAchievements[3].unlocked && Math.floor(junk) >= 10000) {
         newAchievements[3].unlocked = true;
