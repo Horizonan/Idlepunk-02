@@ -1,4 +1,3 @@
-
 import { defaultAchievements } from '../hooks/useAchievements';
 
 export const validateQuests = ({
@@ -21,10 +20,10 @@ export const validateQuests = ({
   const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
   const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks'));
   const electroStoreUpgrades = localStorage.getItem('upgradeCount');
-  
+
   // If prestiged, show new questline instead of original
   if (hasPrestiged) {
-    
+
     // System Memory Detected Quest Validation
     if (junk >= 25000000 && !localStorage.getItem('quest_sync_System Memory Detected')) {
       localStorage.setItem('quest_sync_System Memory Detected', 'true');
@@ -52,7 +51,7 @@ export const validateQuests = ({
         return;
       }
 
-    
+
       //Upgrade Cascade Quest Validation
       if (electroStoreUpgrades >= 10 && !localStorage.getItem('quest_sync_Upgrade Cascade')) {
         localStorage.setItem('quest_sync_Upgrade Cascade', 'true');
@@ -67,7 +66,7 @@ export const validateQuests = ({
         }));
       return;
     }
-    
+
     //Beacon Protocol Quest Validation
     if (localStorage.getItem('beaconCount') == 10 && !localStorage.getItem('quest_sync_Beacon Protocol')) {
       localStorage.setItem('quest_sync_Beacon Protocol', 'true');
@@ -82,14 +81,15 @@ export const validateQuests = ({
       }));
       return;
     }
-      
+
     //Forge the Overcrystal Quest
     if (craftingInventory['Overcharged Prestige Crystal'] >= 1 && !localStorage.getItem('quest_sync_Forge the Overcrystal')) {
       localStorage.setItem('prestigeUnlocked', 'true');
       localStorage.setItem('quest_sync_Forge the Overcrystal', 'true');
+      localStorage.setItem('hasPrestiged', 'true');
       setNotifications(prev => [...prev, "The Prestige System has been unlocked!"]);
       window.dispatchEvent(new CustomEvent('nextNews', { 
-        detail: { message: "The signal breaks through. You’re no longer just salvaging — you’re rewriting the system" }
+        detail: { message: "The signal breaks through. You're no longer just salvaging — you're rewriting the system" }
       }));
       return;
     }
@@ -201,7 +201,7 @@ export const validateQuests = ({
       onComplete: () => {
         localStorage.setItem('quest_sync_Prestige Ready', 'true');
         setNotifications(prev => [...prev, "You've accumulated enough junk to attempt a Prestige!"]);
-        
+
         // Add animation to quest log buttons
         const questLogBtn = document.querySelector('.quest-log-toggle');
         const mainQuestLog = document.querySelector('.quest-log');
@@ -222,8 +222,8 @@ export const validateQuests = ({
         }));
       }
     },
-   
-    
+
+
   ];
 
   questChecks.forEach(quest => {
