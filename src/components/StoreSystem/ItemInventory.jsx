@@ -79,8 +79,8 @@ export default function ItemInventory({ craftingInventory, onBack }) {
     }
   };
 
-  const basicItems = ['Wires', 'Metal Plates', 'Gear Bits', 'Scrap Core'];
-  const specialItems = ['Stabilized Capacitor', 'Voltage Node', 'Synthcore Fragment', 'Encrypted Coil', 'Surge Capacitor Fragment', 'Glitched Scrap Core'];
+  const basicItems = ['Wires', 'Metal Plates', 'Gear Bits', 'Scrap Core', 'Glitched Scrap Core'];
+  const specialItems = ['Stabilized Capacitor', 'Voltage Node', 'Synthcore Fragment', 'Encrypted Coil', 'Surge Capacitor Fragment'];
 
   const basicMaterials = Object.entries(craftingInventory)
     .filter(([name]) => basicItems.includes(name));
