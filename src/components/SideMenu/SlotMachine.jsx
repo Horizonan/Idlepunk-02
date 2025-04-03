@@ -127,10 +127,31 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
         setSpinning(false);
 
         if (winnings > 0) {
-          onSpin(-winnings);
+          const prizeType = slots[3];
+          let winMessage = '';
+
+          if (!isBigSlots || prizeType === '💰') {
+            // Basic junk reward
+            onSpin(-winnings);
+            winMessage = `Congratulations! You won ${winnings} Junk!`;
+          } else if (prizeType === '📦') {
+            // Material reward - 10 of a random basic material
+            const materials = ['Wires', 'Metal Plates', 'Gear Bits'];
+            const randomMaterial = materials[Math.floor(Math.random() * materials.length)];
+            window.dispatchEvent(new CustomEvent('addMaterial', { 
+              detail: { material: randomMaterial, amount: 10 }
+            }));
+            winMessage = `Congratulations! You won 10 ${randomMaterial}!`;
+          } else if (prizeType === '🔋') {
+            // Capacitor reward
+            const currentCapacitors = parseInt(localStorage.getItem('capacitors') || '0');
+            localStorage.setItem('capacitors', (currentCapacitors + 1).toString());
+            winMessage = 'Congratulations! You won a Capacitor!';
+          }
+
           const winPopup = document.createElement('div');
           winPopup.className = 'win-popup';
-          winPopup.textContent = `Congratulations! You won ${winnings} Junk!`;
+          winPopup.textContent = winMessage;
           containerRef.current.appendChild(winPopup);
 
           setTimeout(() => {
