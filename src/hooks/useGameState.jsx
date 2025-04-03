@@ -10,6 +10,8 @@ export const useGameState = () => {
     const permanent = Number(localStorage.getItem('permanentAutoClicks')) || 0;
     return saved + permanent;
   });
+  const [autoClickerV1Count, setAutoClickerV1Count] = useState(() => Number(localStorage.getItem('autoClickerV1Count')) || 0);
+  const [autoClickerV2Count, setAutoClickerV2Count] = useState(() => Number(localStorage.getItem('autoClickerV2Count')) || 0);
   const [clickMultiplier, setClickMultiplier] = useState(() => Number(localStorage.getItem('clickMultiplier')) || 1);
   const [passiveIncome, setPassiveIncome] = useState(() => Number(localStorage.getItem('passiveIncome')) || 0);
   const [globalJpsMultiplier, setGlobalJpsMultiplier] = useState(() => Number(localStorage.getItem('globalJpsMultiplier')) || 1);
@@ -45,6 +47,8 @@ export const useGameState = () => {
     localStorage.setItem('clickCount', clickCount);
     localStorage.setItem('tronics', tronics);
     localStorage.setItem('autoClicks', autoClicks);
+    localStorage.setItem('autoClickerV1Count', autoClickerV1Count);
+    localStorage.setItem('autoClickerV2Count', autoClickerV2Count);
     localStorage.setItem('clickMultiplier', clickMultiplier);
     localStorage.setItem('passiveIncome', passiveIncome);
     localStorage.setItem('globalJpsMultiplier', globalJpsMultiplier);
@@ -77,6 +81,8 @@ return {
     credits, setCredits,
     clickCount, setClickCount,
     tronics, setTronics,
+    autoClickerV1Count, setAutoClickerV1Count,
+    autoClickerV2Count, setAutoClickerV2Count,
     manualTronicsClicks, setManualTronicsClicks,
     totalTronicsClicks, setTotalTronicsClicks,
     autoClicks, setAutoClicks,
