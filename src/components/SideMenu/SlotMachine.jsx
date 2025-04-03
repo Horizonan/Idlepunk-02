@@ -206,9 +206,9 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
           <div 
             className="slot prize-slot"
             style={{ 
-              width: '160px', 
+              width: '100px', 
               height: '80px', 
-              fontSize: '1.5em',
+              fontSize: '2em',
               marginLeft: '10px',
               background: '#333',
               display: 'flex',
@@ -216,7 +216,7 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
               justifyContent: 'center'
             }}
           >
-            {slots[3] || '💰 Prize Type'}
+            {slots[3] || ''}
           </div>
         )}
       </div>
