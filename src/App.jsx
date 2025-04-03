@@ -437,39 +437,7 @@ export default function App() {
   const validateQuestsAndAchievements = () => {
     const totalPassiveIncome = Math.floor(passiveIncome * globalJpsMultiplier + (autoClicks * clickMultiplier));
 
-    // Validate achievements independently
-    setAchievements(prev => {
-      const newAchievements = [...prev];
-      let changed = false;
 
-      // Achievement validation is now handled in useAchievements
-
-      if (!newAchievements[3].unlocked && Math.floor(junk) >= 10000) {
-        newAchievements[3].unlocked = true;
-        if (!newAchievements[3].checked) {
-          setPassiveIncome(prev => prev * 1.1);
-          setTimeout(() => setPassiveIncome(prev => prev / 1.1), 30000);
-          setNotifications(prev => [...prev, "Achievement Unlocked: The First Hoard!"]);
-          newAchievements[3].checked = true;
-          changed = true;
-        }
-      }
-
-      if (!newAchievements[4].unlocked && (isSurgeActive || localStorage.getItem('hadFirstSurge') === 'true')) {
-        newAchievements[4].unlocked = true;
-        if (!newAchievements[4].checked) {
-          setNotifications(prev => [...prev, "Achievement Unlocked: UI Breaker!"]);
-          newAchievements[4].checked = true;
-          changed = true;
-        }
-      }
-
-      if (changed) {
-        localStorage.setItem('achievements', JSON.stringify(newAchievements));
-        return [...newAchievements];
-      }
-      return prev;
-    });
 
     // Use the separated quest validation
     validateQuests({
