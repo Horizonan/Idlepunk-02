@@ -40,27 +40,6 @@ export const useGameState = () => {
   const [isTronicsSurgeActive, setTronicsSurgeActive] = useState(false);
 
   useEffect(() => {
-    const handleAutoClickerClick = () => {
-      const autoClicks = parseInt(localStorage.getItem('autoClicks') || '0');
-      const permanentAutoClicks = parseInt(localStorage.getItem('permanentAutoClicks') || '0');
-      console.log('Achievement check - Current autoclicks:', { autoClicks, permanentAutoClicks });
-      
-      const achievements = JSON.parse(localStorage.getItem('achievements') || '[]');
-      window.dispatchEvent(new CustomEvent('validateAchievements'));
-        const currentPermanent = parseInt(localStorage.getItem('permanentAutoClicks') || '0');
-        localStorage.setItem('permanentAutoClicks', (currentPermanent + 1).toString());
-        setAutoClicks(prev => prev + 1);
-        window.dispatchEvent(new CustomEvent('nextNews', { 
-          detail: { message: "Cogfather: 'Ah, a true automation enthusiast. Always verifying their tools.'" }
-        }));
-      }
-    };
-
-    window.addEventListener('clickedAutoClicker', handleAutoClickerClick);
-    return () => window.removeEventListener('clickedAutoClicker', handleAutoClickerClick);
-  }, []);
-
-  useEffect(() => {
     localStorage.setItem('credits', credits);
     localStorage.setItem('junk', junk);
     localStorage.setItem('clickCount', clickCount);

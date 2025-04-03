@@ -85,8 +85,8 @@
 }
 
 .glitch-message {
-  position: relative;
-  top: -10%;
+  position: absolute;
+  top: 10%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: #ff0000;
