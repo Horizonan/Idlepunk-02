@@ -49,9 +49,7 @@ export default function AutoClickerEffect({ autoClicks = 0 }) {
           onClick={() => {
             const autoClicks = parseInt(localStorage.getItem('autoClicks') || '0');
             const permanentAutoClicks = parseInt(localStorage.getItem('permanentAutoClicks') || '0');
-            console.log('AutoClicker clicked:', { autoClicks, permanentAutoClicks });
             if (autoClicks + permanentAutoClicks > 0) {
-              console.log('Dispatching clickedAutoClicker event');
               window.dispatchEvent(new CustomEvent('clickedAutoClicker'));
             }
           }}
