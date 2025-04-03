@@ -190,7 +190,7 @@ export default function Store({
           <div className="item-header">
             <strong>{item.name}</strong>
             <span className="cost">
-              ({formatNumber(item.cost.junk || item.cost)} Junk
+              ({typeof item.cost === 'object' ? formatNumber(item.cost.junk) : formatNumber(item.cost)} Junk
               {item.cost.scrapCores
                 ? ` + ${item.cost.scrapCores} Scrap Cores`
                 : ""}
