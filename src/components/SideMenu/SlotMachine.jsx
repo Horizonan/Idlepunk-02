@@ -81,10 +81,18 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
       setSlots(newSlots);
 
       let winnings = 0;
-      if (newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2]) {
-        winnings = 1000;
-      } else if (newSlots[0] === newSlots[1] || newSlots[1] === newSlots[2]) {
-        winnings = 200;
+      if (isBigSlots) {
+        if (newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2]) {
+          winnings = 100000000; // 100x win for triple match with Big Slots
+        } else if (newSlots[0] === newSlots[1] || newSlots[1] === newSlots[2]) {
+          winnings = 20000000; // 20x win for double match with Big Slots
+        }
+      } else {
+        if (newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2]) {
+          winnings = 10000000; // 10x win for triple match
+        } else if (newSlots[0] === newSlots[1] || newSlots[1] === newSlots[2]) {
+          winnings = 2000000; // 2x win for double match
+        }
       }
 
       if (winnings > 0) {
