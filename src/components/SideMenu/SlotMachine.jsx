@@ -139,7 +139,7 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
             const materials = ['Wires', 'Metal Plates', 'Gear Bits'];
             const randomMaterial = materials[Math.floor(Math.random() * materials.length)];
             const isJackpot = newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2];
-            const materialAmount = isJackpot ? 10 : 2;
+            const materialAmount = isJackpot ? 50 : 10;
             window.dispatchEvent(new CustomEvent('addMaterial', { 
               detail: { material: randomMaterial, amount: materialAmount }
             }));
@@ -216,7 +216,7 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
               justifyContent: 'center'
             }}
           >
-            {slots[3] || ''}
+            {slots[3] || '💰'}
           </div>
         )}
       </div>
