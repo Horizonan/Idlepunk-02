@@ -158,8 +158,10 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
             // Glitched Scrap Core reward
             const isJackpot = newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2];
             if (isJackpot) {
-              const currentScrapCores = parseInt(localStorage.getItem('glitchedScrapCores') || '0');
-              localStorage.setItem('glitchedScrapCores', (currentScrapCores + 1).toString());
+              setCraftingInventory(prev => ({
+                ...prev,
+                'Glitched Scrap Core': (prev['Glitched Scrap Core'] || 0) + 1
+              }));
               winMessage = `Congratulations! You won 1 Glitched Scrap Core!`;
             } else {
               winMessage = `Well, you weren't lucky today.`;
