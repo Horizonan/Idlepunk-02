@@ -567,7 +567,7 @@ export default function App() {
       
       // Handle manual clicks
       if (amount === 1) {
-        setManualTronicsClicks(prev => prev + 1);
+
       }
 
       const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
