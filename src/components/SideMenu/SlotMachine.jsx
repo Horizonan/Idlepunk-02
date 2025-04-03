@@ -177,7 +177,7 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
             {symbol}
           </div>
         ))}
-        {isBigSlots && slots[3] && (
+        {isBigSlots && (
           <div 
             className="slot prize-slot"
             style={{ 
@@ -191,7 +191,7 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
               justifyContent: 'center'
             }}
           >
-            {slots[3]}
+            {slots[3] || '💰 Prize Type'}
           </div>
         )}
       </div>
