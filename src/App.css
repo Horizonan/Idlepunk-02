@@ -441,17 +441,17 @@ button {
   color: #00FF00;
   margin-bottom: 10px;
   padding: 5px;
-  background: rgba(0, 255, 0, 0.1);
+  background: rgba(90, 34, 139, 0.5);
   border-radius: 4px;
 }
 
 .settings-section h3:hover {
-  background: rgba(0, 255, 0, 0.2);
+  background:rgba(148, 0, 211, 0.5);
 }
 
 .ui-settings {
   padding: 10px;
-  border-left: 2px solid #00FF00;
+  border-left: 2px solid #9400D3;
   margin-left: 10px;
 }
 
