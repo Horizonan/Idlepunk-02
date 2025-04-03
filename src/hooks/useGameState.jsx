@@ -43,10 +43,20 @@ export const useGameState = () => {
     const handleAutoClickerClick = () => {
       const autoClicks = parseInt(localStorage.getItem('autoClicks') || '0');
       const permanentAutoClicks = parseInt(localStorage.getItem('permanentAutoClicks') || '0');
+      console.log('Achievement check - Current autoclicks:', { autoClicks, permanentAutoClicks });
       
-      if (autoClicks + permanentAutoClicks > 0) {
-        localStorage.setItem('achievement_Who\'s Clicking the Clicker?', 'true');
-        window.dispatchEvent(new Event('validateAchievements'));
+      const achievements = JSON.parse(localStorage.getItem('achievements') || '[]');
+      const secretAchievement = achievements.find(a => a.title === "Who's Clicking the Clicker?");
+      console.log('Achievement found:', secretAchievement);
+      
+      if (secretAchievement && !secretAchievement.unlocked && (autoClicks + permanentAutoClicks > 0)) {
+        console.log('Unlocking achievement');
+        secretAchievement.unlocked = true;
+        secretAchievement.checked = true;
+        localStorage.setItem('achievements', JSON.stringify(achievements));
+        const currentPermanent = parseInt(localStorage.getItem('permanentAutoClicks') || '0');
+        localStorage.setItem('permanentAutoClicks', (currentPermanent + 1).toString());
+        setAutoClicks(prev => prev + 1);
         window.dispatchEvent(new CustomEvent('nextNews', { 
           detail: { message: "Cogfather: 'Ah, a true automation enthusiast. Always verifying their tools.'" }
         }));
