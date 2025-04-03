@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 
 export default function SlotMachine({ junk, onSpin, onClose }) {
   const [spinning, setSpinning] = useState(false);
-  const [slots, setSlots] = useState(['?', '?', '?']);
+  const [slots, setSlots] = useState(['?', '?', '?', '']);
   const [lastWin, setLastWin] = useState(null);
   const isBigSlots = localStorage.getItem('bigSlots') === 'true';
   const spinCost = isBigSlots ? 1000000 : 1000;
@@ -97,11 +97,30 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
         }
       }
 
-      if (winnings > 0) {
+      if (winnings > 0 && isBigSlots) {
+        // Set the fourth slot based on win type
+        const winType = newSlots[0];
+        let prizeType = '';
+        switch(winType) {
+          case '🗑️':
+            prizeType = '💰 Junk';
+            break;
+          case '⚡':
+            prizeType = '🔋 Capacitor';
+            break;
+          default:
+            prizeType = '📦 Material';
+        }
+        newSlots[3] = prizeType;
+        
         const audio = new Audio(newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2] 
           ? '/src/sounds/casino_winning.wav' 
           : 'https://assets.mixkit.co/active_storage/sfx/2019/casino-notification-sound.wav');
         audio.play();
+      } else {
+        if (isBigSlots) {
+          newSlots[3] = '';
+        }
       }
 
       setTimeout(() => {
@@ -149,7 +168,7 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
         <button onClick={onClose}>Close</button>
       </div>
       <div className="slot-display" style={{ padding: '20px 0' }}>
-        {slots.map((symbol, index) => (
+        {slots.slice(0, 3).map((symbol, index) => (
           <div 
             key={index} 
             className={`slot ${spinning ? 'spinning' : ''}`}
@@ -158,6 +177,23 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
             {symbol}
           </div>
         ))}
+        {isBigSlots && slots[3] && (
+          <div 
+            className="slot prize-slot"
+            style={{ 
+              width: '160px', 
+              height: '80px', 
+              fontSize: '1.5em',
+              marginLeft: '10px',
+              background: '#333',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            {slots[3]}
+          </div>
+        )}
       </div>
       <button 
         onClick={() => spin()} 
