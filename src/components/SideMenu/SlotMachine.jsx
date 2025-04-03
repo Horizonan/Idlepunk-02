@@ -56,7 +56,7 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
     };
   }, [isDragging]);
 
-  const symbols = ['💰', '🗑️', '⚡', '🔧', '🎲'];
+  const symbols = ['💰', '🗑️', '⚡', '🔧', '🎲', '🔋'];
 
   const spin = (forceTriple = false, forceDouble = false) => {
     if (junk < spinCost) return;
