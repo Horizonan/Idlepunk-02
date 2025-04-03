@@ -49,7 +49,6 @@ export default function AutoClickerEffect({ autoClicks = 0 }) {
           onClick={() => {
             console.log('Clicked auto clicker, triggering achievement check');
             localStorage.setItem('clickedAutoClicker', 'true');
-            window.dispatchEvent(new CustomEvent('clickedAutoClicker'));
             window.dispatchEvent(new CustomEvent('validateAchievements'));
           }}
           style={{

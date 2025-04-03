@@ -176,14 +176,16 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
             }
             break;
           case "Who's Clicking the Clicker?":
-            const secretAchievement = achievements.find(a => a.title === "Who's Clicking the Clicker?");
-            console.log('Achievement found:', secretAchievement);
-
-            if (secretAchievement && !secretAchievement.unlocked && localStorage.getItem('clickedAutoClicker') === 'true') {
-              secretAchievement.unlocked = true;
-              secretAchievement.checked = true;
+            if (!achievement.unlocked && localStorage.getItem('clickedAutoClicker') === 'true') {
+              achievement.unlocked = true;
+              achievement.checked = true;
               setAutoClicks(prev => prev + 1);
+              const currentPermanent = parseInt(localStorage.getItem('permanentAutoClicks') || '0');
+              localStorage.setItem('permanentAutoClicks', (currentPermanent + 1).toString());
               setNotifications(prev => [...prev, "Achievement Unlocked: Who's Clicking the Clicker?!"]);
+              window.dispatchEvent(new CustomEvent('nextNews', { 
+                detail: { message: "Cogfather: 'Ah, a true automation enthusiast. Always verifying their tools.'" }
+              }));
               changed = true;
             }
             break;
