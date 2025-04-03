@@ -5,7 +5,8 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
   const [slots, setSlots] = useState(['?', '?', '?']);
   const [lastWin, setLastWin] = useState(null);
   const isBigSlots = localStorage.getItem('bigSlots') === 'true';
-  const spinCost = 100;
+  const spinCost = isBigSlots ? 1000000 : 1000;
+  
   const containerRef = useRef(null);
 
   const [position, setPosition] = useState(() => {
@@ -82,6 +83,7 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
 
       let winnings = 0;
       if (isBigSlots) {
+        
         if (newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2]) {
           winnings = 100000000; // 100x win for triple match with Big Slots
         } else if (newSlots[0] === newSlots[1] || newSlots[1] === newSlots[2]) {
@@ -89,9 +91,9 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
         }
       } else {
         if (newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2]) {
-          winnings = 10000000; // 10x win for triple match
+          winnings = 10000; // 10x win for triple match
         } else if (newSlots[0] === newSlots[1] || newSlots[1] === newSlots[2]) {
-          winnings = 2000000; // 2x win for double match
+          winnings = 2000; // 2x win for double match
         }
       }
 
