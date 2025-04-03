@@ -103,13 +103,13 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
         let prizeType = '';
         switch(winType) {
           case '🗑️':
-            prizeType = '💰 Junk';
+            prizeType = '💰'; // junk
             break;
           case '⚡':
-            prizeType = '🔋 Capacitor';
+            prizeType = '🔋'; //Capacitor
             break;
           default:
-            prizeType = '📦 Material';
+            prizeType = '📦'; // Material
         }
         newSlots[3] = prizeType;
         
