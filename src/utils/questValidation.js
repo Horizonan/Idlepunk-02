@@ -155,6 +155,15 @@ export const validateQuests = ({
         setNotifications(prev => [...prev, "Quest Completed: Surge Rider - Received 1x Electro Shard!"]);
       }
     },
+    {
+      title: "Gambling Addiction",
+      condition: localStorage.getItem('bigSlots'),
+      category: 'progression',
+      onComplete: () => {
+        
+        setNotifications(prev => [...prev, "Quest Completed: You are now addicted to gambling! - Unlocked more Gambling related content"]);
+      }
+    },
     { 
       title: "Surge Overflow", 
       condition: surgeCount >= 3,
@@ -169,7 +178,7 @@ export const validateQuests = ({
     },
     { 
       title: "The Circuit Speaks", 
-      condition: electroShards >= 3,
+      condition: electroShards >= 4,
       category: 'ascension',
       onComplete: () => {
         setCraftingInventory(prev => ({
@@ -181,7 +190,7 @@ export const validateQuests = ({
     },
     {
       title: "Whispers in the Scrap",
-      condition: (cogfatherLore.length >= 10 || junk >= 7500000),
+      condition: (cogfatherLore.length >= 10 || junk >= 12500000),
       category: 'ascension',
       onComplete: () => {
         setCraftingInventory(prev => ({

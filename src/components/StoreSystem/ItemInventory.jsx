@@ -71,11 +71,16 @@ export default function ItemInventory({ craftingInventory, onBack }) {
       description: 'It still hums — dangerously.',
       effect: 'Said to form only during peak Electro overloads.',
       icon: '🔷'
+    },
+    'Glitched Scrap Core': {
+      description: 'Looks incredibly Lucky!.',
+      effect: 'Reality chewed it up. You kept it anyway.',
+      icon: '🔷'
     }
   };
 
   const basicItems = ['Wires', 'Metal Plates', 'Gear Bits', 'Scrap Core'];
-  const specialItems = ['Stabilized Capacitor', 'Voltage Node', 'Synthcore Fragment', 'Encrypted Coil', 'Surge Capacitor Fragment'];
+  const specialItems = ['Stabilized Capacitor', 'Voltage Node', 'Synthcore Fragment', 'Encrypted Coil', 'Surge Capacitor Fragment', 'Glitched Scrap Core'];
 
   const basicMaterials = Object.entries(craftingInventory)
     .filter(([name]) => basicItems.includes(name));

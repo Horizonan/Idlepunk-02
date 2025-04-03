@@ -85,9 +85,9 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
       if (isBigSlots) {
         
         if (newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2]) {
-          winnings = 100000000; // 100x win for triple match with Big Slots
+          winnings = 10000000; // 10x win for triple match with Big Slots
         } else if (newSlots[0] === newSlots[1] || newSlots[1] === newSlots[2]) {
-          winnings = 20000000; // 20x win for double match with Big Slots
+          winnings = 2000000; // 2x win for double match with Big Slots
         }
       } else {
         if (newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2]) {
@@ -107,6 +107,9 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
             break;
           case '⚡':
             prizeType = '🔋'; //Capacitor
+            break;
+          case '🔋':
+            prizeType = '⚡'; //Glitched Scrap Core
             break;
           default:
             prizeType = '📦'; // Material
@@ -151,6 +154,16 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
             const currentCapacitors = parseInt(localStorage.getItem('capacitors') || '0');
             localStorage.setItem('capacitors', (currentCapacitors + capacitorAmount).toString());
             winMessage = `Congratulations! You won ${capacitorAmount} Capacitor${capacitorAmount > 1 ? 's' : ''}!`;
+          } else if (prizeType === '⚡') {
+            // Glitched Scrap Core reward
+            const isJackpot = newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2];
+            if (isJackpot) {
+              const currentScrapCores = parseInt(localStorage.getItem('glitchedScrapCores') || '0');
+              localStorage.setItem('glitchedScrapCores', (currentScrapCores + 1).toString());
+              winMessage = `Congratulations! You won 1 Glitched Scrap Core!`;
+            } else {
+              winMessage = `Well, you weren't lucky today.`;
+            }
           }
 
           const winPopup = document.createElement('div');

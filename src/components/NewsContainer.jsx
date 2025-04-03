@@ -22,7 +22,10 @@ export default function NewsContainer({ isSurgeActive }) {
     "Your scrap might be valuable. Somewhere. To someone. Probably.",
     "New study finds clicking improves morale. Source: the clicker industry.",
     "Robot uprising delayed due to a firmware bug. Carry on.",
-    "Stay hydrated. Especially if you're 60% copper wiring."
+    "Stay hydrated. Especially if you're 60% copper wiring.",
+    "Touch grass? WE DON’T HAVE GRASS! Here, touch this junk instead.",
+    "Game developer found dead after coding 200 hours straight. Redditors continue to harass his corpse for not working harder.",
+    "Dyslexic game dev accused of using AI to write coherent text. ‘C::tell them i said hello,’ says developer."
   ]);
 
   useEffect(() => {

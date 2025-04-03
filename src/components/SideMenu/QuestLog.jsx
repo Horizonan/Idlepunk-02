@@ -66,12 +66,13 @@ export default function QuestLog({ tutorialStage, onClose }) {
       { id: 4, title: "Passive Income", task: "Purchase something that generates passive income" },
       { id: 5, title: "Begin Crafting", task: "Start crafting items from your collected junk" },
       { id: 6, title: "Surge Rider", task: "Take advantage of the surge to collect extra junk", reward: "1x Electro Shard" },
-      { id: 7, title: "Unlock Ascension Protocol", task: "Reach 1 million junk to unlock the path to prestige", reward: "Unlocks the Ascension Protocol Questline" }
+      { id: 7, title: "Unlock Ascension Protocol", task: "Reach 1 million junk to unlock the path to prestige", reward: "Unlocks the Ascension Protocol Questline" },
+      { id: 8, title: "Gambling Addiction", task: "Buy the Big Slot Machine", reward: "Become a gambler" }
     ],
     ascension: [ 
       { id: 7, title: "Surge Overflow", task: "Trigger 3 Trash Surges", reward: "1x Stabilized Capacitor" },
-      { id: 8, title: "The Circuit Speaks", task: "Collect 3 Electro Shards", reward: "1x Voltage Node" },
-      { id: 9, title: "Whispers in the Scrap", task: "Collect 10 Lore Logs or reach 7.5M Junk", reward: "1x Synthcore Fragment" },
+      { id: 8, title: "The Circuit Speaks", task: "Collect 4 Electro Shards", reward: "1x Voltage Node" },
+      { id: 9, title: "Whispers in the Scrap", task: "Collect 10 Lore Logs or reach 12.5M Junk", reward: "1x Synthcore Fragment" },
       { id: 10, title: "Forge the Future", task: "Craft the Prestige Crystal", reward: "Unlocks Ascension" }
     ],
     awakenTheCore: [
