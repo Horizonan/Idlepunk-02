@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-export default function SlotMachine({ junk, onSpin, onClose }) {
+export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventory }) {
   const [spinning, setSpinning] = useState(false);
   const [slots, setSlots] = useState(['?', '?', '?', '']);
   const [lastWin, setLastWin] = useState(null);
@@ -158,10 +158,12 @@ export default function SlotMachine({ junk, onSpin, onClose }) {
             // Glitched Scrap Core reward
             const isJackpot = newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2];
             if (isJackpot) {
-              setCraftingInventory(prev => ({
-                ...prev,
-                'Glitched Scrap Core': (prev['Glitched Scrap Core'] || 0) + 1
-              }));
+              if (setCraftingInventory) {
+                setCraftingInventory(prev => ({
+                  ...prev,
+                  'Glitched Scrap Core': (prev['Glitched Scrap Core'] || 0) + 1
+                }));
+              }
               winMessage = `Congratulations! You won 1 Glitched Scrap Core!`;
             } else {
               winMessage = `Well, you weren't lucky today.`;
