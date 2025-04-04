@@ -144,29 +144,54 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
           let winMessage = '';
 
           if (isUltimateSlots) {
-            if (useShardCost) {
-              // Electro Shard cost rewards
-              onSpin(-200000000); // +200M Junk
-              if (setElectroShards) {
-                setElectroShards(prev => prev + 5); // 5 Electro Shards
+            const isJackpot = newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2];
+            
+            if (!isJackpot) {
+              onSpin(-20000000); // +20M Junk for non-jackpot
+              winMessage = `You won 20M Junk!`;
+            } else if (useShardCost) {
+              // Jackpot rewards based on 4th slot for Shard cost
+              switch(newSlots[3]) {
+                case '💰':
+                  onSpin(-200000000); // +200M Junk
+                  winMessage = `Jackpot! You won 200M Junk!`;
+                  break;
+                case '⚡':
+                  if (setElectroShards) {
+                    setElectroShards(prev => prev + 5); // 5 Electro Shards
+                  }
+                  winMessage = `Jackpot! You won 5 Electro Shards!`;
+                  break;
+                case '📦':
+                  const specialMaterials = ['Stabilized Capacitor', 'Voltage Node', 'Encrypted Coil'];
+                  const randomMaterial = specialMaterials[Math.floor(Math.random() * specialMaterials.length)];
+                  setCraftingInventory(prev => ({
+                    ...prev,
+                    [randomMaterial]: (prev[randomMaterial] || 0) + 1
+                  }));
+                  winMessage = `Jackpot! You won 1 ${randomMaterial}!`;
+                  break;
               }
-              // Random special material reward
-              const specialMaterials = ['Stabilized Capacitor', 'Voltage Node', 'Encrypted Coil'];
-              const randomMaterial = specialMaterials[Math.floor(Math.random() * specialMaterials.length)];
-              setCraftingInventory(prev => ({
-                ...prev,
-                [randomMaterial]: (prev[randomMaterial] || 0) + 1
-              }));
-              winMessage = `Jackpot! You won 200M Junk, 5 Electro Shards, and 1 ${randomMaterial}!`;
             } else {
-              // Junk cost rewards
-              onSpin(-50000000); // +50M Junk
-              if (setElectroShards) {
-                setElectroShards(prev => prev + 1); // 1 Electro Shard
+              // Jackpot rewards based on 4th slot for Junk cost
+              switch(newSlots[3]) {
+                case '💰':
+                  onSpin(-100000000); // +100M Junk
+                  winMessage = `Jackpot! You won 100M Junk!`;
+                  break;
+                case '⚡':
+                  if (setElectroShards) {
+                    setElectroShards(prev => prev + 1); // 1 Electro Shard
+                  }
+                  winMessage = `Jackpot! You won 1 Electro Shard!`;
+                  break;
+                case '📦':
+                  localStorage.setItem('global_jps_boost', 
+                    (parseFloat(localStorage.getItem('global_jps_boost') || '1.0') + 0.05).toString()
+                  );
+                  winMessage = `Jackpot! You gained +5% Global JPS Boost!`;
+                  break;
               }
-              // Set global JPS boost
-              localStorage.setItem('global_jps_boost', (parseFloat(localStorage.getItem('global_jps_boost') || '1.0') + 0.05).toString());
-              winMessage = `Jackpot! You won 50M Junk, 1 Electro Shard, and +5% Global JPS Boost!`;
             }
           } else if (!isBigSlots || prizeType === '💰') {
             // Basic junk reward
