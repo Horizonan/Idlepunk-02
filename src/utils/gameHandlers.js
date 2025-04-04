@@ -1,4 +1,3 @@
-
 import { useGameState } from '../hooks/useGameState';
 
 export const gameHandlers = (gameState, setGameState) => {
@@ -27,7 +26,7 @@ export const gameHandlers = (gameState, setGameState) => {
   const calculate10xPriceJunkClicker = (baseCost) => {
     let totalCost = 0;
     let currentCost = baseCost;
-    
+
     for(let i = 0; i < 10; i++) {
       totalCost += currentCost;
       currentCost = Math.floor(currentCost * 1.1);

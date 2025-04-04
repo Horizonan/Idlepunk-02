@@ -77,7 +77,18 @@ export default function App() {
   
   const {
     handleBuyTrashBag
-  } = gameHandlers();
+  } = gameHandlers({
+    junk,
+    bulkBuy,
+    itemCosts
+  }, {
+    setJunk,
+    setNotifications,
+    setClickMultiplier,
+    setItemCosts,
+    setOwnedItems,
+    setHasUpgrade
+  });
   
   useEffect(() => {
     const handleUpdateSurgeCount = () => {
