@@ -19,7 +19,7 @@ export default function Settings({
   preservedHelper,
   setShowChangelog,
   setShowSettings, setShowJunkDrone, showHoverDrone, setShowHoverDrone,
-  onClose, setUiSettingsCollapsed, uiSettingsCollapsed, showJunkDrone
+  onClose, setUiSettingsCollapsed, uiSettingsCollapsed, showJunkDrone, showAutoclickers, setShowAutoclickers
 }) {
   const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
 
