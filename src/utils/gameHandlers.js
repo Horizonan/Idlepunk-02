@@ -196,16 +196,13 @@ export const gameHandlers = (gameState, setGameState) => {
 
   const handleBuyAutoClickerV2 = () => {
     console.log("Auto Clicker V2 purchased!");
-    console.log(gameState.junk >= gameState.itemCosts.autoClickerV2 && gameState.autoClickerV1Count >= 1);
-    console.log(localStorage.getItem('autoClickerV1Count'));
     
-    
-      if (gameState.junk >= gameState.itemCosts.autoClickerV2 && gameState.autoClickerV1Count >= 1) { 
-        const cost = gameState.bulkBuy ? calculate10xPriceJBillBoard(gameState.itemCosts.autoClickerV2) : gameState.itemCosts.autoClickerV2;
-        setGameState.setJunk(prev => prev - currentCost);
-        setGameState.setAutoClicks(prev => prev + (gameState.bulkBuy ? 10 : 1)); 
-        setGameState.setAutoClickerV1Count(prev => prev - (gameState.bulkBuy ? 10 : 1)); 
-        setGameState.setAutoClickerV2Count(prev => prev + (gameState.bulkBuy ? 10 : 1)); 
+    if (gameState.junk >= gameState.itemCosts.autoClickerV2 && gameState.autoClickerV1Count >= 1) { 
+      const cost = gameState.bulkBuy ? calculate10xPriceBillBoard(gameState.itemCosts.autoClickerV2) : gameState.itemCosts.autoClickerV2;
+      setGameState.setJunk(prev => prev - cost);
+      setGameState.setAutoClicks(prev => prev + (gameState.bulkBuy ? 10 : 1)); 
+      setGameState.setAutoClickerV1Count(prev => prev - (gameState.bulkBuy ? 10 : 1)); 
+      setGameState.setAutoClickerV2Count(prev => prev + (gameState.bulkBuy ? 10 : 1)); 
         setGameState.setItemCosts(prev => ({
           ...prev, 
           autoClickerV2: Math.floor((prev.autoClickerV2 || baseV2Cost) * 1.2)
