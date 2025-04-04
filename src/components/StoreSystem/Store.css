@@ -63,6 +63,29 @@
   gap: 10px;
 }
 
+.store-item-container {
+  display: flex;
+  gap: 5px;
+}
+
+.store-item-container.with-bulk .store-item {
+  flex: 1;
+}
+
+.buy-10x-button {
+  width: 50px;
+  background: #222;
+  color: #00FF00;
+  border: 2px solid #9400D3;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.buy-10x-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .store-category {
   border: 2px solid #9400D3;
   border-radius: 8px;
