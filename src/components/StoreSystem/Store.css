@@ -96,35 +96,6 @@
   font-size: 20px;
 }
 
-.store-item.with-bulk {
-  flex: 4;
-}
-
-.buy-10x-button {
-  flex: 1;
-  background: #333;
-  color: #00FF00;
-  border: 2px solid #9400D3;
-  margin-left: 5px;
-  padding: 5px;
-  cursor: pointer;
-  position: relative;
-}
-
-.buy-10x-button:hover .item-info {
-  display: block;
-}
-
-.buy-10x-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.store-item-container {
-  display: flex;
-  margin-bottom: 10px;
-}
-
 .store-header {
   display: flex;
   justify-content: center;
