@@ -194,11 +194,8 @@ export const gameHandlers = (gameState, setGameState) => {
       }));
     }};
 
-  const handleBuyAutoClickerV2 = () => {
-    console.log("Auto Clicker V2 purchased!");
-    console.log("AutoClicker V1 Count:", gameState.autoClickerV1Count);
-    
-    if (gameState.junk >= gameState.itemCosts.autoClickerV2 && gameState.autoClickerV1Count >= 1) { 
+  const handleBuyAutoClickerV2 = () => { 
+    if (gameState.junk >= (gameState.bulkBuy ? calculate10xPriceBillBoard(gameState.itemCosts.autoClickerV2) : gameState.itemCosts.autoClickerV2) && gameState.autoClickerV1Count >= (gameState.bulkBuy ? 10 : 1)) { 
       const cost = gameState.bulkBuy ? calculate10xPriceBillBoard(gameState.itemCosts.autoClickerV2) : gameState.itemCosts.autoClickerV2;
       setGameState.setJunk(prev => prev - cost);
       setGameState.setAutoClicks(prev => prev + (gameState.bulkBuy ? 10 : 1)); 
@@ -206,7 +203,7 @@ export const gameHandlers = (gameState, setGameState) => {
       setGameState.setAutoClickerV2Count(prev => prev + (gameState.bulkBuy ? 10 : 1)); 
         setGameState.setItemCosts(prev => ({
           ...prev, 
-          autoClickerV2: Math.floor((prev.autoClickerV2 || baseV2Cost) * 1.2)
+          autoClickerV2: Math.floor(cost * 1.2)
         }));
         setGameState.setNotifications(prev => [...prev, "Auto Clicker Bot v2.0 purchased! (Consumed 1 Auto Clicker Bot)"]);
         window.dispatchEvent(new CustomEvent('nextNews', { 
