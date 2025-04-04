@@ -27,6 +27,17 @@ export default function Store({
 
   const showClickEnhancer = purchasedUpgrades >= 3 || clickCount >= 1000;
 
+  const calcuate10xPriceJunkClicker = (baseCost) => {
+      let totalCost = 0;
+      let currentCost = baseCost;
+
+      for(let i = 0; i < 10; i++){
+        totalCost += currentCost;
+        currentCost *= 1.1;
+      }
+      return totalCost, currentCost;    
+  }
+  
   const clickItems = [
     {
       name: "Scrap Bag",
