@@ -84,8 +84,7 @@
   transform: scale(1.1);
 }
 
-#trashClicker:active, .tronics:active,
-#trashClicker.active, .tronics.active {
+#trashClicker:active, .tronics:active {
   transform: scale(0.95);
 }
 

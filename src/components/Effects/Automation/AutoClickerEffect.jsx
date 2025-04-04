@@ -33,20 +33,10 @@ export default function AutoClickerEffect({ autoClicks = 0 }) {
 
     // Animate clicks
     const clickInterval = setInterval(() => {
-      setCursors(prev => prev.map(cursor => {
-        const isClicking = Math.random() < 0.3;
-        if (isClicking) {
-          const clickerElement = document.getElementById('trashClicker');
-          if (clickerElement) {
-            clickerElement.classList.add('active');
-            setTimeout(() => clickerElement.classList.remove('active'), 100);
-          }
-        }
-        return {
-          ...cursor,
-          clicking: isClicking
-        };
-      }));
+      setCursors(prev => prev.map(cursor => ({
+        ...cursor,
+        clicking: Math.random() < 0.3
+      })));
     }, 1000);
 
     return () => clearInterval(clickInterval);
