@@ -8,7 +8,7 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
   const isUltimateSlots = localStorage.getItem('ultimateSlots') === 'true';
   const [useShardCost, setUseShardCost] = useState(false);
   const spinCost = isUltimateSlots ? (useShardCost ? 'shard' : 10000000) : (isBigSlots ? 1000000 : 1000);
-  const electroShard = localStorage.getItem('electroShard');
+  const [electroShards, setLocalElectroShards] = useState(() => parseInt(localStorage.getItem('electroShards') || '0'));
   
   const containerRef = useRef(null);
 
@@ -62,10 +62,15 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
   const symbols = ['💰', '🗑️', '⚡', '🎲','🔧', '🔋'];
 
   const spin = (forceTriple = false, forceDouble = false) => {
-    if (junk < spinCost) return;
+    if (useShardCost) {
+      if (electroShards < 1) return;
+      setElectroShards(prev => prev - 1);
+    } else {
+      if (junk < spinCost) return;
+      onSpin(spinCost);
+    }
 
     setSpinning(true);
-    onSpin(spinCost);
 
     setTimeout(() => {
       let newSlots;
