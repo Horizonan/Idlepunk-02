@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function ElectroStore({ electroShards, onRemoveElectroShard, tronics, setTronics, setNotifications, onBuyTronicsBoost, onBuyQuantumTap, onBack }) {
+export default function ElectroStore({ electroShards, onRemoveElectroShard, tronics, setTronics, setNotifications, onBuyTronicsBoost, onBuyQuantumTap, onBack, bulkBuy, setBulkBuy }) {
   const [section, setSection] = useState('average');
   const tronicsBoostCost = parseInt(localStorage.getItem('tronics_boost_cost') || '250');
   const tronicsBoostIICost = parseInt(localStorage.getItem('tronics_boost_II_cost') || '750');
@@ -20,6 +20,15 @@ export default function ElectroStore({ electroShards, onRemoveElectroShard, tron
     <div className="store-container">
       <div className="store-header">
         <h2>Electro Store</h2>
+        <div className="store-controls">
+          <button 
+            onClick={() => setBulkBuy(!bulkBuy)} 
+            className="bulk-buy-toggle"
+          >
+            {bulkBuy ? '10x' : '1x'}
+          </button>
+          <button onClick={onBack}>Close</button>
+        </div>
         <button onClick={onBack}>Close</button>
       </div>
       <div className="store-tabs">

@@ -786,6 +786,8 @@ export default function App() {
           tronics={tronics}
           setTronics={setTronics}
           setNotifications={setNotifications}
+          bulkBuy={bulkBuy}
+          setBulkBuy= {setBulkBuy}
           onBuyQuantumTap={() => {
             if (tronics >= 1250) {
               setTronics(prev => prev - 1250);
