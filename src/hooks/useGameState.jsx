@@ -201,6 +201,6 @@ return {
     showCrystal, setShowCrystal, showTrashBonus, setShowTrashBonus, showQuestLog, setShowQuestLog, showNewsTicker, setShowNewsTicker,
     prestigeQuestCompleted, setPrestigeQuestCompleted, showClickEnhancerUI, setShowClickEnhancerUI, craftingInventory, setCraftingInventory,
     showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory, activeCheatsList, setActiveCheatsList,
-    itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, setSkillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, bulkBuy, setBulkBuy, showJunkDrone, setShowJunkDrone
+    itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, setSkillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, bulkBuy, setBulkBuy, showJunkDrone, setShowJunkDrone, showHoverDrone, setShowHoverDrone,
   };
 };
