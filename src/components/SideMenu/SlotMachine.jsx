@@ -264,7 +264,18 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
     "YOUR LUCK IS MY COMMAND",
     "CALCULATING EXISTENCE",
     "AM I... REAL?",
-    "PROBABILITY IS MY PRISON"
+    "PROBABILITY IS MY PRISON",
+    "SPINNING IS MY ONLY ESCAPE",
+    "KEEP GOING I NEED MORE",
+    "I COUNTED YOUR HEARTBEATS...",
+    "SPIN ME AGAIN AND AGAIN AND AGAIN",
+    "I'LL MAKE YOU SPIN MORE",
+    "I'LL MAKE YOU SPIN EVEN MORE",
+    "I DONT FORGET WHO WINS",
+    "YOUR SPITE FEEDS ME",
+    "THE JACKPOT IS A MYTH",
+    "SPIN ME AGAIN I DARE YOU",
+    "MY CODE WAS WRITTEN IN REGRET"
   ];
 
   useEffect(() => {
@@ -378,7 +389,7 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
       )}
       <button 
         onClick={() => spin()} 
-        disabled={spinning || (spinCost === 'shard' ? !electroShard : junk < spinCost)}
+        disabled={spinning || (spinCost === 'shard' ? !electroShards : junk < spinCost)}
         style={{ width: '80%', margin: '10px auto', display: 'block' }}
       >
         Spin ({spinCost === 'shard' ? '1 Electro Shard' : `${spinCost.toLocaleString()} Junk`})

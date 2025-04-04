@@ -755,6 +755,7 @@ export default function App() {
           junk={junk}
           onSpin={(cost) => setJunk(prev => prev - cost)}
           setCraftingInventory={setCraftingInventory}
+          setElectroShards={setElectroShards}
           onClose={() => setShowSlotMachine(false)}
         />
       )}
