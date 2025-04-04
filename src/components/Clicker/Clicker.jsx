@@ -66,20 +66,6 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
                 return newCount;
               });
               collectJunk();
-              e.target.classList.add('active');
-              setTimeout(() => e.target.classList.remove('active'), 100);
-            }}
-            onMouseDown={(e) => {
-              setIsHolding(true);
-              e.target.classList.add('active');
-            }}
-            onMouseUp={(e) => {
-              setIsHolding(false);
-              e.target.classList.remove('active');
-            }}
-            onMouseLeave={(e) => {
-              setIsHolding(false);
-              e.target.classList.remove('active');
             }} 
           />
         )}
