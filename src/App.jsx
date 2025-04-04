@@ -89,7 +89,7 @@ export default function App() {
   }, {
     setJunk, setNotifications, setClickMultiplier, setItemCosts, setOwnedItems, setHasUpgrade,
     setClickEnhancerLevel,clickEnhancerLevel, setPassiveIncome, setHasHelper, setGlobalJpsMultiplier, setAutoClicks,
-    setAutoClickerV1Count
+    setAutoClickerV1Count, autoClickerV1Count
   });
   
   useEffect(() => {
