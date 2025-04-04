@@ -118,7 +118,7 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
         
         const audio = new Audio();
         if (isUltimateSlots) {
-          audio.src = '/sounds/tronics_surge_sound.mp3';
+          audio.src = 'public/sounds/casino_winning.wav';
           audio.playbackRate = 1.5;
           audio.volume = 0.3;
         } else {
