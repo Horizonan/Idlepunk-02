@@ -19,30 +19,22 @@ export default function Store({
   canAffordV1,
   canAffordV2,
   onGetAutoClickersV2,
-  onBuyAutoClickerV2,
-  onBack, setJunk, setPassiveIncome, setNotifictations
+  onBuyAutoClickerV2, calculate10xPriceJunkClicker,
+  onBack, setJunk, setPassiveIncome, setNotifictations, bulkBuy,
+  setBulkBuy
 }) {
   const [selectedTab, setSelectedTab] = useState("prePres");
   const [activeTab, setActiveTab] = useState("prePres"); // Added state for premium tab
-  const [bulkBuy, setBulkBuy] = useState(false);
+  
 
   const showClickEnhancer = purchasedUpgrades >= 3 || clickCount >= 1000;
 
-  const calcuate10xPriceJunkClicker = (baseCost) => {
-      let totalCost = 0;
-      let currentCost = baseCost;
-
-      for(let i = 0; i < 10; i++){
-        totalCost += currentCost;
-        currentCost *= 1.1;
-      }
-      return totalCost, currentCost;    
-  }
+  
   
   const clickItems = [
     {
       name: "Scrap Bag",
-      cost: itemCosts.trashBag,
+      cost: bulkBuy ?calculate10xPriceJunkClicker(itemCosts.trashBag) :  itemCosts.trashBag,
       description: "+1 Junk/Click, +10% Cost per purchase",
       info: "A sturdy bag that helps you collect more junk with each click",
       action: onBuyTrashBag,

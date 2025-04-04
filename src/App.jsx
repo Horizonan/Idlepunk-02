@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
+//import gamehandlers
+import {gameHandlers} from './utils/gameHandlers';
 
 // Import StoreMenu
 import CraftingStore from './components/StoreSystem/CraftingStore';
@@ -26,7 +28,6 @@ import Changelog from './components/SideMenu/settingsMenu/Changelog';
 
 //Utility imports
 import { useAchievements} from './hooks/useAchievements';
-
 
 //Other Imports
 import VersionPopup from './components/VersionPopup/VersionPopup';
@@ -70,10 +71,14 @@ export default function App() {
     showCrystal, setShowCrystal, showTrashBonus, setShowTrashBonus, showQuestLog, setShowQuestLog, showNewsTicker, setShowNewsTicker,
     prestigeQuestCompleted, setPrestigeQuestCompleted, showClickEnhancerUI, setShowClickEnhancerUI, craftingInventory, setCraftingInventory,
     showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory, activeCheatsList, setActiveCheatsList,
-    itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, uiSettingsCollapsed, setUiSettingsCollapsed
+    itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, uiSettingsCollapsed, setUiSettingsCollapsed,
+    bulkBuy, setBulkBuy
   } = useGameState();
   
-
+  const {
+    handleBuyTrashBag
+  } = gameHandlers();
+  
   useEffect(() => {
     const handleUpdateSurgeCount = () => {
       setSurgeCount(3);
@@ -445,17 +450,19 @@ export default function App() {
     }
   };
 
+  const calculate10xPriceJunkClicker = (baseCost) => {
+      let totalCost = 0;
+      let currentCost = baseCost;
 
-  const handleBuyTrashBag = () => {
-    if (junk >= itemCosts.trashBag) {
-      setJunk(prev => prev - itemCosts.trashBag);
-      setNotifications(prev => [...prev, "Scrap Bag purchased!"]);
-      setClickMultiplier(prev => prev + 1);
-      setItemCosts(prev => ({...prev, trashBag: Math.floor(prev.trashBag * 1.1)}));
-      setOwnedItems(prev => ({...prev, trashBag: prev.trashBag + 1}));
-      setHasUpgrade(true);
-    }
-  };
+      for(let i = 0; i < 10; i++){
+        totalCost += currentCost;
+        currentCost *= 1.1;
+        console.log(totalCost);
+      }
+      return Math.floor(totalCost);    
+  }
+
+
 
   const handleBuyPicker = () => {
     if (junk >= itemCosts.trashPicker) {
@@ -836,8 +843,11 @@ export default function App() {
         <Store 
           credits={junk}
           setPassiveIncome = {setPassiveIncome}
+          calculate10xPriceJunkClicker={calculate10xPriceJunkClicker}
+          setBulkBuy={setBulkBuy}
           setJunk= {setJunk}
           itemCosts={itemCosts}
+          bulkBuy={bulkBuy}
           setNotifictations={setNotifications}
           ownedItems={ownedItems}
           craftingInventory={craftingInventory}
