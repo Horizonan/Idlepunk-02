@@ -1669,6 +1669,7 @@ button.locked {
   padding: 20px;
   z-index: 1000;
   text-align: center;
+  overflow: visible !important;
 }
 
 .slot-machine-header {
