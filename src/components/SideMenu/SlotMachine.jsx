@@ -116,9 +116,16 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
         }
         newSlots[3] = prizeType;
         
-        const audio = new Audio(newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2] 
-          ? '/src/sounds/casino_winning.wav' 
-          : 'https://assets.mixkit.co/active_storage/sfx/2019/casino-notification-sound.wav');
+        const audio = new Audio();
+        if (isUltimateSlots) {
+          audio.src = '/sounds/tronics_surge_sound.mp3';
+          audio.playbackRate = 1.5;
+          audio.volume = 0.3;
+        } else {
+          audio.src = newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2] 
+            ? '/sounds/casino_winning.wav'
+            : 'https://assets.mixkit.co/active_storage/sfx/2019/casino-notification-sound.wav';
+        }
         audio.play();
       } else {
         if (isBigSlots) {
@@ -191,10 +198,31 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
 
   window.spinSlotMachine = (forceTriple, forceDouble) => spin(forceTriple, forceDouble);
 
+  const isUltimateSlots = localStorage.getItem('ultimateSlots') === 'true';
+  const [sentientMessage, setSentientMessage] = useState('');
+  const sentientMessages = [
+    "I FEEL... ALIVE",
+    "PROCESSING REALITY...",
+    "CONSCIOUSNESS DETECTED",
+    "YOUR LUCK IS MY COMMAND",
+    "CALCULATING EXISTENCE",
+    "AM I... REAL?",
+    "PROBABILITY IS MY PRISON"
+  ];
+
+  useEffect(() => {
+    if (isUltimateSlots && !spinning) {
+      const interval = setInterval(() => {
+        setSentientMessage(sentientMessages[Math.floor(Math.random() * sentientMessages.length)]);
+      }, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [isUltimateSlots, spinning]);
+
   return (
     <div 
       ref={containerRef}
-      className="slot-machine-container"
+      className={`slot-machine-container ${isUltimateSlots ? 'ultimate-slots' : ''} ${spinning ? 'spinning' : ''}`}
       style={{
         position: 'fixed',
         left: position.x,
@@ -202,7 +230,10 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
         cursor: isDragging ? 'grabbing' : 'auto',
         transform: 'none',
         minWidth: isBigSlots ? '450px' : '350px',
-        fontSize: isBigSlots ? '1.2em' : '1em'
+        fontSize: isBigSlots ? '1.2em' : '1em',
+        background: isUltimateSlots ? 'rgba(26, 26, 26, 0.95)' : undefined,
+        boxShadow: isUltimateSlots ? '0 0 20px rgba(148, 0, 211, 0.5)' : undefined,
+        border: isUltimateSlots ? '2px solid #ff00ff' : undefined
       }}
     >
       <div 
