@@ -287,6 +287,34 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
             <p>Bigger reels. Bigger risks. Bigger... maybe wins?</p>
           </div>
         </button>
+
+        {localStorage.getItem('bigSlots') === 'true' && craftingInventory['Luck Engine'] && (
+          <button
+            onClick={() => {
+              if (credits >= 300 && !localStorage.getItem('ultimateSlots')) {
+                onSetCredits(prev => prev - 300);
+                localStorage.setItem('ultimateSlots', 'true');
+                onSetNotification(prev => [...prev, "Ultimate Slots activated! The machine... it's alive?"]);
+                window.dispatchEvent(new CustomEvent('nextNews', { 
+                  detail: { message: "A sentient slot machine emerges from the scrap..." }
+                }));
+              }
+            }}
+            disabled={credits < 300 || localStorage.getItem('ultimateSlots')}
+            className="store-item"
+          >
+            <div className="item-header">
+              <strong>🎰 Ultimate Slots</strong>
+              <span>300 Credits</span>
+            </div>
+            <div className="item-info">
+              <p>The final evolution of risk and reward.</p>
+              <p>Cost per spin: 10,000,000 Junk or 1 Electro Shard</p>
+              <p>A glitched-out masterpiece of dubious engineering.</p>
+              <p style={{color: '#ff00ff'}}>{"<ERROR: CONSCIOUSNESS_DETECTED>"}</p>
+            </div>
+          </button>
+        )}
       </div>
 
       {localStorage.getItem('hasPrestiged') === 'true' && (
