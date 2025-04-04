@@ -34,13 +34,19 @@ export default function Settings({
       <div className="settings-options">
         <div className="stats-section">
           <h3>Stats</h3>
+          <h4>Clicking</h4>
           <p>Total Clicks: {clickCount.toLocaleString()}</p>
-          <p>Average JPS: {Math.floor((passiveIncome * globalJpsMultiplier)).toLocaleString()}</p>
+          <p>Total Tronics Clicks: {totalTronicsClicks.toLocaleString()}</p> 
+          <h4>Multipliers</h4>
           <p>Global JPS Multiplier: {(1 + (globalJpsMultiplier - 1) + (craftingInventory['Compression Pack'] ? 0.25 : 0)).toFixed(2)}x</p>
+          <h4>Counters</h4>
           <p>Trash Surges Completed: {surgeCount.toLocaleString()}</p>
           <p>Times Prestiged: {prestigeCount}</p>
+          <h4>Others</h4>
           <p>Crystal Time Reduction: {Math.min(10, parseInt(localStorage.getItem('beaconCount') || '0'))}%</p>
-          <p>Total Tronics Clicks: {totalTronicsClicks.toLocaleString()}</p> {/* Use the fetched value */}
+          <p>Average JPS: {Math.floor((passiveIncome * globalJpsMultiplier)).toLocaleString()}</p>
+          <p>Permanent AutoClicks: { localStorage.getItem('permanentAutoClicks').toLocaleString()}</p>
+          
         </div>
         {preservedHelper && (
           <div className="stats-section">

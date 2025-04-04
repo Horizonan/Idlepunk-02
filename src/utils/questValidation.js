@@ -21,10 +21,10 @@ export const validateQuests = ({
   const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks'));
   const electroStoreUpgrades = localStorage.getItem('upgradeCount');
 
-  // If prestiged, show new questline instead of original
+
   if (hasPrestiged) {
 
-    // System Memory Detected Quest Validation
+
     if (junk >= 25000000 && !localStorage.getItem('quest_sync_System Memory Detected')) {
       localStorage.setItem('quest_sync_System Memory Detected', 'true');
       setCraftingInventory(prev => ({
@@ -39,7 +39,7 @@ export const validateQuests = ({
       return;
     }
 
-    //Tap the Pulse Quest Validation
+  
       if (totalTronicsClicks >= 5000 && !localStorage.getItem('quest_sync_Tap the Pulse')) {
         localStorage.setItem('quest_sync_Tap the Pulse', 'true');
         setAutoClicks(prev => prev + 5);
@@ -52,7 +52,7 @@ export const validateQuests = ({
       }
 
 
-      //Upgrade Cascade Quest Validation
+      
       if (electroStoreUpgrades >= 10 && !localStorage.getItem('quest_sync_Upgrade Cascade')) {
         localStorage.setItem('quest_sync_Upgrade Cascade', 'true');
         setCraftingInventory(prev => ({
@@ -67,7 +67,7 @@ export const validateQuests = ({
       return;
     }
 
-    //Beacon Protocol Quest Validation
+ 
     if (localStorage.getItem('beaconCount') == 10 && !localStorage.getItem('quest_sync_Beacon Protocol')) {
       localStorage.setItem('quest_sync_Beacon Protocol', 'true');
       setCraftingInventory(prev => ({
@@ -82,7 +82,7 @@ export const validateQuests = ({
       return;
     }
 
-    //Forge the Overcrystal Quest
+  
     if (craftingInventory['Overcharged Prestige Crystal'] >= 1 && !localStorage.getItem('quest_sync_Forge the Overcrystal')) {
       localStorage.setItem('prestigeUnlocked', 'true');
       localStorage.setItem('quest_sync_Forge the Overcrystal', 'true');
@@ -93,10 +93,10 @@ export const validateQuests = ({
       }));
       return;
     }
-    return; // Skip other quests if prestiged
+    return; 
   }
 
-  // Original pre-prestige quests
+ 
   const hasAnyUpgrade = ownedItems.trashBag > 0 || ownedItems.trashPicker > 0;
   const totalPassiveIncome = Math.floor(passiveIncome * globalJpsMultiplier + (autoClicks * clickMultiplier));
 
@@ -153,6 +153,15 @@ export const validateQuests = ({
           return newValue;
         });
         setNotifications(prev => [...prev, "Quest Completed: Surge Rider - Received 1x Electro Shard!"]);
+      }
+    },
+    {
+      title: "Automation Punk",
+      condition: autoClicks >= 10,
+      category: 'ascension',
+      onComplete: () => {
+        localStorage.setItem('permanentAutoClicks', prev + 1);
+        setNotifications(prev => [...prev, "Quest Completed: Automation Punk - Received +1 Permanent AutoClick!"]);
       }
     },
     {

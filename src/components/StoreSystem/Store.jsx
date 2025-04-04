@@ -53,9 +53,9 @@ export default function Store({
 
   const formatNumber = (num) => {
     if (num >= 1000000) {
-      return `${num / 1000000}mil`;
+      return `${(num / 1000000).toFixed(2)}mil`;
     } else if (num >= 1000) {
-      return `${num / 1000}k`;
+      return `${(num / 1000).toFixed(2)}k`;
     }
     return num;
   };

@@ -4,6 +4,7 @@
 @import 'src/components/Effects/surges/TrashSurge.css';
 @import 'src/components/Effects/UiElements/electroBeacon.css';
 @import 'src/components/SideMenu/slotMachine.css';
+@import 'src/components/SideMenu/settingsMenu/settings.css';
 
 .uncraftable {
   opacity: 0.7;
@@ -355,126 +356,7 @@ button {
   background: #7B00AD;
 }
 
-.settings-menu {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(26, 26, 26, 0.95);
-  border: 2px solid #9400D3;
-  border-radius: 8px;
-  padding: 20px;
-  z-index: 1000;
-  width: 500px;
-  color: #00FF00;
-}
 
-.settings-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.settings-options {
-  padding: 20px;
-}
-
-.stats-section {
-  background: rgba(148, 0, 211, 0.1);
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  border: 1px solid #9400D3;
-}
-
-.stats-section h3 {
-  margin: 0 0 10px 0;
-  color: #9400D3;
-}
-
-.stats-section p {
-  margin: 5px 0;
-  color: #00FF00;
-}
-
-.reset-section {
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid #9400D3;
-}
-
-.reset-warning {
-  color: #ff4444;
-  font-size: 0.9em;
-  margin: 10px 0;
-}
-
-.reset-button {
-  background: #ff4444;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 100%;
-  margin-top: 10px;
-}
-
-.reset-button:hover {
-  background: #ff0000;
-}
-
-.setting-option {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 10px 0;
-  color: #00FF00;
-}
-
-.settings-section h3 {
-  color: #00FF00;
-  margin-bottom: 10px;
-  padding: 5px;
-  background: rgba(90, 34, 139, 0.5);
-  border-radius: 4px;
-}
-
-.settings-section h3:hover {
-  background:rgba(148, 0, 211, 0.5);
-}
-
-.ui-settings {
-  padding: 10px;
-  border-left: 2px solid #9400D3;
-  margin-left: 10px;
-}
-
-.setting-option label {
-  flex: 1;
-}
-
-.setting-option input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-}
-
-.setting-option input[type="number"] {
-  width: 60px;
-  background: #222;
-  border: 1px solid #9400D3;
-  color: #00FF00;
-  padding: 4px;
-  text-align: center;
-}
-
-.setting-option input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-}
 
 .tutorial-buttons {
   display: flex;
