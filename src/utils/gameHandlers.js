@@ -196,7 +196,7 @@ export const gameHandlers = (gameState, setGameState) => {
 
   const handleBuyAutoClickerV2 = () => {
     console.log("Auto Clicker V2 purchased!");
-    console.log("AutoClicker V1 Count:",  Number(localStorage.getItem(gameState.autoClickerV1Count)));
+    console.log("AutoClicker V1 Count:", gameState.autoClickerV1Count);
     
     if (gameState.junk >= gameState.itemCosts.autoClickerV2 && gameState.autoClickerV1Count >= 1) { 
       const cost = gameState.bulkBuy ? calculate10xPriceBillBoard(gameState.itemCosts.autoClickerV2) : gameState.itemCosts.autoClickerV2;

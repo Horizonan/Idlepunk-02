@@ -86,6 +86,7 @@ export default function App() {
     itemCosts,
     setClickEnhancerLevel,
     clickEnhancerLevel,
+    autoClickerV1Count
   }, {
     setJunk, setNotifications, setClickMultiplier, setItemCosts, setOwnedItems, setHasUpgrade,
     setClickEnhancerLevel,clickEnhancerLevel, setPassiveIncome, setHasHelper, setGlobalJpsMultiplier, setAutoClicks,
