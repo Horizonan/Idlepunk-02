@@ -5,6 +5,7 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
   const [slots, setSlots] = useState(['?', '?', '?', '']);
   const [lastWin, setLastWin] = useState(null);
   const isBigSlots = localStorage.getItem('bigSlots') === 'true';
+  const isUltimateSlots = localStorage.getItem('ultimateSlots') === 'true';
   const [useShardCost, setUseShardCost] = useState(false);
   const spinCost = isUltimateSlots ? (useShardCost ? 'shard' : 10000000) : (isBigSlots ? 1000000 : 1000);
   
