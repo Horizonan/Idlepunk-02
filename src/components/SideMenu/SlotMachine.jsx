@@ -143,7 +143,32 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
           const prizeType = newSlots[3];
           let winMessage = '';
 
-          if (!isBigSlots || prizeType === '💰') {
+          if (isUltimateSlots) {
+            if (useShardCost) {
+              // Electro Shard cost rewards
+              onSpin(-200000000); // +200M Junk
+              if (setElectroShards) {
+                setElectroShards(prev => prev + 5); // 5 Electro Shards
+              }
+              // Random special material reward
+              const specialMaterials = ['Stabilized Capacitor', 'Voltage Node', 'Encrypted Coil'];
+              const randomMaterial = specialMaterials[Math.floor(Math.random() * specialMaterials.length)];
+              setCraftingInventory(prev => ({
+                ...prev,
+                [randomMaterial]: (prev[randomMaterial] || 0) + 1
+              }));
+              winMessage = `Jackpot! You won 200M Junk, 5 Electro Shards, and 1 ${randomMaterial}!`;
+            } else {
+              // Junk cost rewards
+              onSpin(-50000000); // +50M Junk
+              if (setElectroShards) {
+                setElectroShards(prev => prev + 1); // 1 Electro Shard
+              }
+              // Set global JPS boost
+              localStorage.setItem('global_jps_boost', (parseFloat(localStorage.getItem('global_jps_boost') || '1.0') + 0.05).toString());
+              winMessage = `Jackpot! You won 50M Junk, 1 Electro Shard, and +5% Global JPS Boost!`;
+            }
+          } else if (!isBigSlots || prizeType === '💰') {
             // Basic junk reward
             onSpin(-winnings);
             winMessage = `Congratulations! You won ${winnings} Junk!`;
