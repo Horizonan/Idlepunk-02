@@ -143,6 +143,7 @@ export default function Store({
         credits >= 10000000 && (craftingInventory?.["Scrap Core"] || 0) >= 5,
       purchasedCount: ownedItems.shardMiner || 0,
       action: onBuyShardMiner,
+      onetime: true, //added
     },
   ];
 
@@ -174,8 +175,32 @@ export default function Store({
   const renderItems = (items) => (
     <div className="store-items">
       {items.map((item) => (
+        renderItem(item)
+      ))}
+    </div>
+  );
+
+  const calculateTotalCost = (cost, quantity) => {
+    let totalCost = 0;
+    if (typeof cost === 'object') {
+      totalCost = cost.junk;
+    } else {
+      totalCost = cost;
+    }
+    let multiplier = 1;
+    for (let i = 1; i < quantity; i++){
+      multiplier *= 1.1;
+    }
+    return Math.floor(totalCost * multiplier);
+  };
+
+  const renderItem = (item) => {
+    const isMultiPurchase = !item.onetime;
+    const cost10x = isMultiPurchase ? calculateTotalCost(item.cost, 10) : 0;
+
+    return (
+      <div key={item.name} className="store-item-container">
         <button
-          key={item.name}
           onClick={item.action}
           disabled={credits < (item.cost.junk || item.cost)}
           className={`store-item ${item.disabled ? "disabled" : ""}`}
@@ -196,9 +221,23 @@ export default function Store({
             <p className="owned">Owned: {item.purchasedCount}</p>
           </div>
         </button>
-      ))}
-    </div>
-  );
+        {isMultiPurchase && (
+          <button
+            onClick={() => {
+              for (let i = 0; i < 10; i++) {
+                item.action();
+              }
+            }}
+            disabled={credits < cost10x}
+            className="buy-10x-button"
+          >
+            Buy 10x ({formatNumber(cost10x)} Junk)
+          </button>
+        )}
+      </div>
+    );
+  };
+
 
   return (
     <div className="store-container">
