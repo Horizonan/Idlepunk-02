@@ -170,58 +170,33 @@ export default function Store({
     },
   ];
 
-  const calculateBulkCost = (baseCost) => {
-    let totalCost = 0;
-    let currentCost = baseCost;
-    for (let i = 0; i < 10; i++) {
-      totalCost += currentCost;
-      currentCost = Math.floor(currentCost * 1.1);
-    }
-    return totalCost;
-  };
-
   // Combined Items for rendering
   const renderItems = (items) => (
     <div className="store-items">
-      {items.map((item) => {
-        const isClickUpgrade = item.description?.includes('Junk/Click');
-        const baseCost = item.cost.junk || item.cost;
-        const bulkCost = isClickUpgrade ? calculateBulkCost(baseCost) : 0;
-        
-        return (
-          <div key={item.name} className={`store-item-container ${isClickUpgrade ? 'with-bulk' : ''}`}>
-            <button
-              onClick={item.action}
-              disabled={credits < baseCost}
-              className={`store-item ${item.disabled ? "disabled" : ""}`}
-            >
-              <div className="item-header">
-                <strong>{item.name}</strong>
-              </div>
-              <div className="item-info">
-                <p>{item.description}</p>
-                <p>{item.info}</p>
-                <p className="owned">Owned: {item.purchasedCount}</p>
-                <p className="cost">Cost: {formatNumber(baseCost)} Junk</p>
-              </div>
-            </button>
-            {isClickUpgrade && (
-              <button
-                onClick={() => {
-                  for (let i = 0; i < 10; i++) {
-                    item.action();
-                  }
-                }}
-                disabled={credits < bulkCost}
-                className="buy-10x-button"
-                title={`Buy 10x (${formatNumber(bulkCost)} Junk)`}
-              >
-                10x
-              </button>
-            )}
+      {items.map((item) => (
+        <button
+          key={item.name}
+          onClick={item.action}
+          disabled={credits < (item.cost.junk || item.cost)}
+          className={`store-item ${item.disabled ? "disabled" : ""}`}
+        >
+          <div className="item-header">
+            <strong>{item.name}</strong>
+            <span className="cost">
+              ({typeof item.cost === 'object' ? formatNumber(item.cost.junk) : formatNumber(item.cost)} Junk
+              {item.cost.scrapCores
+                ? ` + ${item.cost.scrapCores} Scrap Cores`
+                : ""}
+              )
+            </span>
           </div>
-        );
-      })}
+          <div className="item-info">
+            <p>{item.description}</p>
+            <p>{item.info}</p>
+            <p className="owned">Owned: {item.purchasedCount}</p>
+          </div>
+        </button>
+      ))}
     </div>
   );
 
