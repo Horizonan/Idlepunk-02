@@ -241,9 +241,30 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
         style={{ cursor: 'grab' }}
         onMouseDown={handleMouseDown}
       >
-        <h2>Junk Slots</h2>
+        <h2 style={{ 
+          fontSize: isUltimateSlots ? '1.8em' : '1.4em',
+          color: isUltimateSlots ? '#ff00ff' : '#00FF00',
+          textShadow: isUltimateSlots ? '0 0 10px #ff00ff' : 'none'
+        }}>
+          {isUltimateSlots ? 'The Ultimate Slots' : 'Junk Slots'}
+        </h2>
         <button onClick={onClose}>Close</button>
       </div>
+      {isUltimateSlots && (
+        <div className="sentient-message-box" style={{
+          background: 'rgba(0, 0, 0, 0.7)',
+          border: '2px solid #ff00ff',
+          padding: '10px',
+          margin: '10px 0',
+          borderRadius: '5px',
+          color: '#ff00ff',
+          textShadow: '0 0 5px #ff00ff',
+          fontFamily: 'monospace',
+          textAlign: 'center'
+        }}>
+          {sentientMessage}
+        </div>
+      )}
       <div className="slot-display" style={{ padding: '20px 0' }}>
         {slots.slice(0, 3).map((symbol, index) => (
           <div 
