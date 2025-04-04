@@ -15,7 +15,7 @@ export const validateQuests = ({
   setElectroShards,
   setNotifications,
   setCraftingInventory,
-  setAutoClicks
+  setAutoClicks, setPermanentAutoClicks
 }) => {
   const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
   const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks'));
@@ -160,8 +160,7 @@ export const validateQuests = ({
       condition: autoClicks >= 10,
       category: 'ascension',
       onComplete: () => {
-        const currentAutoClicks = parseInt(localStorage.getItem('permanentAutoClicks') || '0');
-        localStorage.setItem('permanentAutoClicks', currentAutoClicks + 1);
+        setPermanentAutoClicks(prev => prev + 1);
         setNotifications(prev => [...prev, "Quest Completed: Automation Punk - Received +1 Permanent AutoClick!"]);
       }
     },

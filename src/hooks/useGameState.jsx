@@ -99,8 +99,12 @@ export const useGameState = () => {
   //Auto Clicks
   const [autoClicks, setAutoClicks] = useState(() => {
     const saved = Number(localStorage.getItem('autoClicks')) || 0;
-    const permanent = Number(localStorage.getItem('permanentAutoClicks')) || 0;
-    return saved + permanent;
+    return saved;
+  });
+
+  const [permanentAutoClicks, setPermanentAutoClicks] = useState(() => {
+    const saved = Number(localStorage.getItem('permanentAutoClicks')) || 0;
+    return saved;
   });
 
   //Item Costs
@@ -205,6 +209,6 @@ return {
     showCrystal, setShowCrystal, showTrashBonus, setShowTrashBonus, showQuestLog, setShowQuestLog, showNewsTicker, setShowNewsTicker,
     prestigeQuestCompleted, setPrestigeQuestCompleted, showClickEnhancerUI, setShowClickEnhancerUI, craftingInventory, setCraftingInventory,
     showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory, activeCheatsList, setActiveCheatsList,
-    itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, setSkillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, bulkBuy, setBulkBuy, showJunkDrone, setShowJunkDrone, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup,
+    itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, setSkillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, bulkBuy, setBulkBuy, showJunkDrone, setShowJunkDrone, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup, permanentAutoClicks, setPermanentAutoClicks
   };
 };

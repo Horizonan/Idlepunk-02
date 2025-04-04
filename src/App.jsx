@@ -72,7 +72,7 @@ export default function App() {
     prestigeQuestCompleted, setPrestigeQuestCompleted, showClickEnhancerUI, setShowClickEnhancerUI, craftingInventory, setCraftingInventory,
     showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory, activeCheatsList, setActiveCheatsList,
     itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, showJunkDrone, setShowJunkDrone,
-    bulkBuy, setBulkBuy, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup
+    bulkBuy, setBulkBuy, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup, permanentAutoClicks, setPermanentAutoClicks
   } = useGameState();
   
   const {
@@ -331,15 +331,15 @@ export default function App() {
       }
 
       if (autoClicks > 0) {
-        setJunk(prev => prev + (autoClicks  * clickMultiplier));
-        setClickCount(prev => prev + autoClicks );
+        setJunk(prev => prev + ((autoClicks + permanentAutoClicks)  * clickMultiplier));
+        setClickCount(prev => prev + (autoClicks + permanentAutoClicks) );
         
         if (electronicsUnlock) {
           const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
           const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
           const tronicsPerClick = 1 + boostICount + (boostIICount * 2);
-          setTronics(prev => prev + (autoClicks * tronicsPerClick));
-          setTotalTronicsClicks(prev => prev + autoClicks);
+          setTronics(prev => prev + ((autoClicks + permanentAutoClicks) * tronicsPerClick));
+          setTotalTronicsClicks(prev => prev + (autoClicks + permanentAutoClicks));
         }
       }
     }, 1000);
@@ -352,7 +352,8 @@ export default function App() {
   }, [craftingInventory]);
 
   useEffect(() => {
-    const totalPassiveIncome = passiveIncome * globalJpsMultiplier + (autoClicks * clickMultiplier);
+    const totalPassiveIncome = passiveIncome * globalJpsMultiplier + ((autoClicks + permanentAutoClicks) * clickMultiplier);
+    console.log(permanentAutoClicks);
     if ((totalPassiveIncome >= 100 || junk >= 1000000)) {
       localStorage.setItem('prestigeUnlocked', 'true');
     }
@@ -393,7 +394,7 @@ export default function App() {
       setElectroShards,
       setNotifications,
       setCraftingInventory,
-      setAutoClicks
+      setAutoClicks, setPermanentAutoClicks
     });
   };
 
@@ -591,6 +592,7 @@ export default function App() {
         tronics={tronics}
         electroShards={electroShards}
         autoClickerV1Count={autoClickerV1Count} 
+        permanentAutoClicks= {permanentAutoClicks}
       />
       <Menu onStoreSelect={(type) => {
         switch(type) {
@@ -1021,6 +1023,7 @@ export default function App() {
           setEnableTrashPickup= {setEnableTrashPickup}
           setUiSettingsCollapsed={setUiSettingsCollapsed}
           uiSettingsCollapsed={uiSettingsCollapsed}
+          permanentAutoClicks= {permanentAutoClicks}
           onClose={() => setShowSettings(false)}
         />
       )}

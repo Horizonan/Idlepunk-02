@@ -20,7 +20,7 @@ export default function Settings({
   setShowChangelog,
   setShowSettings, setShowJunkDrone, showHoverDrone, setShowHoverDrone,
   onClose, setUiSettingsCollapsed, uiSettingsCollapsed, showJunkDrone, showAutoclickers, setShowAutoclickers,
-  enableTrashPickup,
+  enableTrashPickup, permanentAutoClicks,
   setEnableTrashPickup
 }) {
   const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
@@ -45,7 +45,7 @@ export default function Settings({
           <h4>Others</h4>
           <p>Crystal Time Reduction: {Math.min(10, parseInt(localStorage.getItem('beaconCount') || '0'))}%</p>
           <p>Average JPS: {Math.floor((passiveIncome * globalJpsMultiplier)).toLocaleString()}</p>
-          <p>Permanent AutoClicks: { localStorage.getItem('permanentAutoClicks').toLocaleString()}</p>
+          <p>Permanent AutoClicks: {permanentAutoClicks}</p>
           
         </div>
         {preservedHelper && (
