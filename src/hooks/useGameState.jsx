@@ -62,7 +62,8 @@ export const useGameState = () => {
   const [enableHoloBillboard, setEnableHoloBillboard] = useState(() => localStorage.getItem('enableHoloBillboard') !== 'false');
   const [showNewsTicker, setShowNewsTicker] = useState(() => localStorage.getItem('showNewsTicker') !== 'false');
   const [showJunkDrone, setShowJunkDrone] = useState(() => localStorage.getItem('showDrones') !== 'false');
-  const [showClickEnhancerUI, setShowClickEnhancerUI] = useState(true);
+  const [showClickEnhancerUI, setShowClickEnhancerUI] = useState(() => localStorage.getItem('showClickEnhancerUI') !== 'false');
+  const [showHoverDrone, setShowHoverDrone] = useState(() => localStorage.getItem('showHoverDrone') !== 'false');
 
 
   //Other Settings gamestates

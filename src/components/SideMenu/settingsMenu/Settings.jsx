@@ -62,9 +62,9 @@ export default function Settings({
                 type="checkbox"
                 checked={showClickEnhancerUI}
                 onChange={(e) => {
-                  localStorage.setItem('showClickEnhancerUI', e.target.checked)
-                  setShowClickEnhancerUI(e.target.checked);               
-                                 }}
+                  localStorage.setItem('showClickEnhancerUI', e.target.checked);
+                  setShowClickEnhancerUI(e.target.checked);
+                }}
               />
             </label>
             <label className="setting-option">
@@ -83,9 +83,9 @@ export default function Settings({
                 type="checkbox"
                 checked={showJunkDrone}
                 onChange={(e) => {
-                  localStorage.setItem('showDrones', e.target.checked)
-                  setShowJunkDrone(e.target.checked);               
-                                 }}
+                  localStorage.setItem('showDrones', e.target.checked);
+                  setShowJunkDrone(e.target.checked);
+                }}
               />
             </label>
             <label className="setting-option">
@@ -104,8 +104,8 @@ export default function Settings({
                 type="checkbox"
                 checked={showNewsTicker}
                 onChange={(e) => {
-                  setShowNewsTicker(e.target.checked);
                   localStorage.setItem('showNewsTicker', e.target.checked);
+                  setShowNewsTicker(e.target.checked);
                 }}
               />
             </label>
@@ -115,8 +115,8 @@ export default function Settings({
                 type="checkbox"
                 checked={showBeaconVisual}
                 onChange={(e) => {
-                  setShowBeaconVisual(e.target.checked);
                   localStorage.setItem('showBeaconVisual', e.target.checked);
+                  setShowBeaconVisual(e.target.checked);
                 }}
               />
             </label>
@@ -126,8 +126,8 @@ export default function Settings({
                 type="checkbox"
                 checked={enableHoloBillboard}
                 onChange={(e) => {
-                  setEnableHoloBillboard(e.target.checked);
                   localStorage.setItem('enableHoloBillboard', e.target.checked);
+                  setEnableHoloBillboard(e.target.checked);
                 }}
               />
             </label>
@@ -135,8 +135,11 @@ export default function Settings({
               <span>Show Hover Drone</span>
               <input
                 type="checkbox"
-                checked={localStorage.getItem('showHoverDrone') !== 'false'}
-                onChange={(e) => localStorage.setItem('showHoverDrone', e.target.checked)}
+                checked={showHoverDrone}
+                onChange={(e) => {
+                  localStorage.setItem('showHoverDrone', e.target.checked);
+                  setShowHoverDrone(e.target.checked);
+                }}
               />
             </label>
             <button 
