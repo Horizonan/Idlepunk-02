@@ -155,8 +155,12 @@ export default function QuestLog({ tutorialStage, onClose }) {
               className={`quest-item ${questStates[quest.title] ? 'completed' : 'active'}`}
             >
               <div className="quest-title">{quest.title}</div>
-              <div className="quest-task">{quest.task}</div>
-              {quest.reward && <div className="quest-reward">Reward: {quest.reward}</div>}
+              {!questStates[quest.title] && (
+                <>
+                  <div className="quest-task">{quest.task}</div>
+                  {quest.reward && <div className="quest-reward">Reward: {quest.reward}</div>}
+                </>
+              )}
             </div>
           ))}
         </div>
