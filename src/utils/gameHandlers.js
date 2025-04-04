@@ -33,9 +33,20 @@ export const gameHandlers = (gameState, setGameState) => {
     return totalCost;
   };
 
+  const handleBuyPicker = () => {
+    if (gameState.junk >= gameState.itemCosts.trashPicker) {
+      setGameState.setJunk(prev => prev - gameState.itemCosts.trashPicker);
+      setGameState.setNotifications(prev => [...prev, "Trash Picker purchased!"]);
+      setGameState.setClickMultiplier(prev => prev + 3);
+      setGameState.setItemCosts(prev => ({...prev, trashPicker: Math.floor(prev.trashPicker * 1.1)}));
+      setGameState.setOwnedItems(prev => ({...prev, trashPicker: prev.trashPicker + 1}));
+    }
+  };
+
   return {
     collectJunk,
     handleBuyTrashBag,
+    handleBuyPicker,
     calculate10xPriceJunkClicker
   };
 };
