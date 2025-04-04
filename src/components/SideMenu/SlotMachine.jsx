@@ -8,6 +8,7 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
   const isUltimateSlots = localStorage.getItem('ultimateSlots') === 'true';
   const [useShardCost, setUseShardCost] = useState(false);
   const spinCost = isUltimateSlots ? (useShardCost ? 'shard' : 10000000) : (isBigSlots ? 1000000 : 1000);
+  const electroShard = localStorage.getItem('electroShard');
   
   const containerRef = useRef(null);
 
@@ -200,7 +201,6 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
 
   window.spinSlotMachine = (forceTriple, forceDouble) => spin(forceTriple, forceDouble);
 
-  const isUltimateSlots = localStorage.getItem('ultimateSlots') === 'true';
   const [sentientMessage, setSentientMessage] = useState('');
   const sentientMessages = [
     "I FEEL... ALIVE",
