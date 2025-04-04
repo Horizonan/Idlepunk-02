@@ -65,6 +65,7 @@ export const useGameState = () => {
   const [showClickEnhancerUI, setShowClickEnhancerUI] = useState(() => localStorage.getItem('showClickEnhancerUI') !== 'false');
   const [showHoverDrone, setShowHoverDrone] = useState(() => localStorage.getItem('showHoverDrone') !== 'false');
   const [showAutoclickers, setShowAutoclickers] = useState(() => localStorage.getItem('showAutoclickers') !== 'false');
+  const [enableTrashPickup, setEnableTrashPickup] = useState(() => localStorage.getItem('enableTrashPickup') !== 'false');
 
 
   //Other Settings gamestates
@@ -204,6 +205,6 @@ return {
     showCrystal, setShowCrystal, showTrashBonus, setShowTrashBonus, showQuestLog, setShowQuestLog, showNewsTicker, setShowNewsTicker,
     prestigeQuestCompleted, setPrestigeQuestCompleted, showClickEnhancerUI, setShowClickEnhancerUI, craftingInventory, setCraftingInventory,
     showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory, activeCheatsList, setActiveCheatsList,
-    itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, setSkillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, bulkBuy, setBulkBuy, showJunkDrone, setShowJunkDrone, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers,
+    itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, setSkillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, bulkBuy, setBulkBuy, showJunkDrone, setShowJunkDrone, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup,
   };
 };

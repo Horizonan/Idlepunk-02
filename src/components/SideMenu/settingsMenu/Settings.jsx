@@ -19,7 +19,9 @@ export default function Settings({
   preservedHelper,
   setShowChangelog,
   setShowSettings, setShowJunkDrone, showHoverDrone, setShowHoverDrone,
-  onClose, setUiSettingsCollapsed, uiSettingsCollapsed, showJunkDrone, showAutoclickers, setShowAutoclickers
+  onClose, setUiSettingsCollapsed, uiSettingsCollapsed, showJunkDrone, showAutoclickers, setShowAutoclickers,
+  enableTrashPickup,
+  setEnableTrashPickup
 }) {
   const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
 
@@ -153,6 +155,17 @@ export default function Settings({
                 }}
               />
             </label>
+            <label className="setting-option">
+              <span>Enable Trash Pickup</span>
+              <input
+                type="checkbox"
+                checked={enableTrashPickup}
+                onChange={(e) => {
+                  localStorage.setItem('enableTrashPickup', e.target.checked);
+                  setEnableTrashPickup(e.target.checked);
+                }}
+              />
+            </label>
             <button 
               className="ui-reset-button"
               onClick={() => {
@@ -172,6 +185,7 @@ export default function Settings({
                 localStorage.setItem('showNewsTicker', 'false');
                 localStorage.setItem('showBeaconVisual', 'false');
                 localStorage.setItem('sidebarLocked', 'false');
+                localStorage.setItem('enableTrashPickup', 'false'); // Added reset for enableTrashPickup
 
                 // Force refresh
                 window.location.reload();
