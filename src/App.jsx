@@ -331,8 +331,8 @@ export default function App() {
       }
 
       if (autoClicks > 0) {
-        setJunk(prev => prev + (autoClicks * clickMultiplier));
-        setClickCount(prev => prev + autoClicks);
+        setJunk(prev => prev + (autoClicks  * clickMultiplier));
+        setClickCount(prev => prev + autoClicks );
         
         if (electronicsUnlock) {
           const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
