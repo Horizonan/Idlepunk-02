@@ -236,6 +236,16 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
         border: isUltimateSlots ? '2px solid #ff00ff' : undefined
       }}
     >
+      {isUltimateSlots && (
+        <div className="machine-eyes">
+          <div className="eye-socket">
+            <div className="eye-pupil"></div>
+          </div>
+          <div className="eye-socket">
+            <div className="eye-pupil"></div>
+          </div>
+        </div>
+      )}
       <div 
         className="slot-machine-header"
         style={{ cursor: 'grab' }}
