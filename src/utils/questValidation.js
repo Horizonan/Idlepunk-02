@@ -160,7 +160,8 @@ export const validateQuests = ({
       condition: autoClicks >= 10,
       category: 'ascension',
       onComplete: () => {
-        localStorage.setItem('permanentAutoClicks', prev + 1);
+        const currentAutoClicks = parseInt(localStorage.getItem('permanentAutoClicks') || '0');
+        localStorage.setItem('permanentAutoClicks', currentAutoClicks + 1);
         setNotifications(prev => [...prev, "Quest Completed: Automation Punk - Received +1 Permanent AutoClick!"]);
       }
     },
