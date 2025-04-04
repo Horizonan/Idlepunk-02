@@ -76,7 +76,7 @@ export default function App() {
   } = useGameState();
   
   const {
-    handleBuyTrashBag
+    handleBuyTrashBag, calculate10xPriceJunkClicker
   } = gameHandlers({
     junk,
     bulkBuy,
@@ -461,29 +461,6 @@ export default function App() {
     }
   };
 
-  const calculate10xPriceJunkClicker = (baseCost) => {
-      let totalCost = 0;
-      let currentCost = baseCost;
-
-      for(let i = 0; i < 10; i++){
-        totalCost += currentCost;
-        currentCost *= 1.1;
-        console.log(totalCost);
-      }
-      return Math.floor(totalCost);    
-  }
-
-
-
-  const handleBuyPicker = () => {
-    if (junk >= itemCosts.trashPicker) {
-      setJunk(prev => prev - itemCosts.trashPicker);
-      setNotifications(prev => [...prev, "Trash Picker purchased!"]);
-      setClickMultiplier(prev => prev + 3);
-      setItemCosts(prev => ({...prev, trashPicker: Math.floor(prev.trashPicker * 1.1)}));
-      setOwnedItems(prev => ({...prev, trashPicker: prev.trashPicker + 1}));
-    }
-  };
 
   const handleBuyStreetrat = () => {
     if (junk >= itemCosts.streetrat) {

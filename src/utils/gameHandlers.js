@@ -1,4 +1,3 @@
-import { useGameState } from '../hooks/useGameState';
 
 export const gameHandlers = (gameState, setGameState) => {
   const collectJunk = (isSurgeActive = false) => {
