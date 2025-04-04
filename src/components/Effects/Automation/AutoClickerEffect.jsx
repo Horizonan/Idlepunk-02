@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 
 export default function AutoClickerEffect({ autoClicks = 0 }) {
+  const showAutoclickers = localStorage.getItem('showAutoclickers') !== 'false';
+  if (!showAutoclickers) return null;
   const [cursors, setCursors] = useState([]);
 
   useEffect(() => {

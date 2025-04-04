@@ -23,17 +23,17 @@ export const useGameState = () => {
 
   //Junk Store Specific 
   const [bulkBuy, setBulkBuy] = useState(false);
-  
+
   //Beacons
   const [beaconCount, setBeaconCount] = useState(() => Number(localStorage.getItem('beaconCount')) || 0);
   const [showBeacon, setShowBeacon] = useState(false);
   const [showBeaconVisual, setShowBeaconVisual] = useState(() => localStorage.getItem('showBeaconVisual') !== 'false');
-  
+
   //Autoclickers
   const [autoClickerV1Count, setAutoClickerV1Count] = useState(() => Number(localStorage.getItem('autoClickerV1Count')) || 0);
   const [autoClickerV2Count, setAutoClickerV2Count] = useState(() => Number(localStorage.getItem('autoClickerV2Count')) || 0);
-  
-  
+
+
   //Trash Surge 
   const [surgeCount, setSurgeCount] = useState(() => Number(localStorage.getItem('surgeCount')) || 0);  
   const [hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge] = useState(false);
@@ -64,11 +64,12 @@ export const useGameState = () => {
   const [showJunkDrone, setShowJunkDrone] = useState(() => localStorage.getItem('showDrones') !== 'false');
   const [showClickEnhancerUI, setShowClickEnhancerUI] = useState(() => localStorage.getItem('showClickEnhancerUI') !== 'false');
   const [showHoverDrone, setShowHoverDrone] = useState(() => localStorage.getItem('showHoverDrone') !== 'false');
+  const [showAutoclickers, setShowAutoclickers] = useState(() => localStorage.getItem('showAutoclickers') !== 'false');
 
 
   //Other Settings gamestates
   const [uiSettingsCollapsed, setUiSettingsCollapsed] = useState(() => localStorage.getItem('uiSettingsCollapsed') === 'true');
-  
+
   //Effects
   const [showCrystal, setShowCrystal] = useState(false);
   const [showTrashBonus, setShowTrashBonus] = useState(false);
@@ -142,7 +143,7 @@ export const useGameState = () => {
     };
   });
 
-  
+
   useEffect(() => {
     localStorage.setItem('credits', credits);
     localStorage.setItem('junk', junk);
@@ -163,9 +164,11 @@ export const useGameState = () => {
     localStorage.setItem('surgeCount', surgeCount);
     localStorage.setItem('cogfatherLore', JSON.stringify(cogfatherLore));
     localStorage.setItem('uiSettingsCollapsed', uiSettingsCollapsed);
+    localStorage.setItem('showAutoclickers', showAutoclickers);
+
   }, [junk, credits, clickCount, tronics, autoClicks, clickMultiplier, passiveIncome, globalJpsMultiplier, 
       electronicsUnlock, clickEnhancerLevel, tutorialStage, prestigeCount, electroShards, beaconCount, 
-      surgeCount, cogfatherLore, uiSettingsCollapsed]);
+      surgeCount, cogfatherLore, uiSettingsCollapsed, showAutoclickers]);
 
   const [manualTronicsClicks, setManualTronicsClicks] = useState(() => 
   parseInt(localStorage.getItem('manualTronicsClicks') || '0')
@@ -201,6 +204,6 @@ return {
     showCrystal, setShowCrystal, showTrashBonus, setShowTrashBonus, showQuestLog, setShowQuestLog, showNewsTicker, setShowNewsTicker,
     prestigeQuestCompleted, setPrestigeQuestCompleted, showClickEnhancerUI, setShowClickEnhancerUI, craftingInventory, setCraftingInventory,
     showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory, activeCheatsList, setActiveCheatsList,
-    itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, setSkillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, bulkBuy, setBulkBuy, showJunkDrone, setShowJunkDrone, showHoverDrone, setShowHoverDrone,
+    itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, setSkillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, bulkBuy, setBulkBuy, showJunkDrone, setShowJunkDrone, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers,
   };
 };

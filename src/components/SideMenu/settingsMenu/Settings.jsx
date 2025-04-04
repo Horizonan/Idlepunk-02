@@ -142,6 +142,17 @@ export default function Settings({
                 }}
               />
             </label>
+            <label className="setting-option">
+              <span>Show Autoclickers</span>
+              <input
+                type="checkbox"
+                checked={showAutoclickers}
+                onChange={(e) => {
+                  localStorage.setItem('showAutoclickers', e.target.checked);
+                  setShowAutoclickers(e.target.checked);
+                }}
+              />
+            </label>
             <button 
               className="ui-reset-button"
               onClick={() => {
