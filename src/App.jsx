@@ -835,7 +835,10 @@ export default function App() {
       {activeStore === 'store' && (
         <Store 
           credits={junk}
+          setPassiveIncome = {setPassiveIncome}
+          setJunk= {setJunk}
           itemCosts={itemCosts}
+          setNotifictations={setNotifications}
           ownedItems={ownedItems}
           craftingInventory={craftingInventory}
           onBuyTrashBag={handleBuyTrashBag}

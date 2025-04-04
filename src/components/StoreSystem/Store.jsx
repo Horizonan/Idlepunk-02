@@ -2,19 +2,12 @@ import React, { useState } from "react";
 import "./Store.css";
 
 export default function Store({
-  credits,
-  itemCosts,
-  ownedItems,
-  craftingInventory,
-  onBuyTrashBag,
-  onBuyPicker,
-  onBuyStreetrat,
-  onBuyCart,
-  onBuyJunkMagnet,
-  onBuyUrbanRecycler,
-  onBuyScrapDrone,
-  onBuyHoloBillboard,
-  onBuyJunkRefinery,
+  credits, itemCosts, ownedItems,
+  craftingInventory, onBuyTrashBag,
+  onBuyPicker, onBuyStreetrat,
+  onBuyCart, onBuyJunkMagnet,
+  onBuyUrbanRecycler, onBuyScrapDrone,
+  onBuyHoloBillboard, onBuyJunkRefinery,
   onBuyShardMiner,
   globalJpsMultiplier,
   passiveIncome,
@@ -27,7 +20,7 @@ export default function Store({
   canAffordV2,
   onGetAutoClickersV2,
   onBuyAutoClickerV2,
-  onBack,
+  onBack, setJunk, setPassiveIncome, setNotifictations
 }) {
   const [selectedTab, setSelectedTab] = useState("prePres");
   const [activeTab, setActiveTab] = useState("prePres"); // Added state for premium tab
@@ -275,7 +268,7 @@ export default function Store({
                       !localStorage.getItem("modularScrapperPurchased")
                     ) {
                       setJunk((prev) => prev - 2500000);
-                      passiveIncome((prev) => prev * 2);
+                      setPassiveIncome((prev) => prev * 2);
                       localStorage.setItem("modularScrapperPurchased", "true");
                       setNotifications((prev) => [
                         ...prev,
