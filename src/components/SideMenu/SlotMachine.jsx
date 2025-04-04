@@ -5,7 +5,8 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
   const [slots, setSlots] = useState(['?', '?', '?', '']);
   const [lastWin, setLastWin] = useState(null);
   const isBigSlots = localStorage.getItem('bigSlots') === 'true';
-  const spinCost = isBigSlots ? 1000000 : 1000;
+  const [useShardCost, setUseShardCost] = useState(false);
+  const spinCost = isUltimateSlots ? (useShardCost ? 'shard' : 10000000) : (isBigSlots ? 1000000 : 1000);
   
   const containerRef = useRef(null);
 
@@ -303,12 +304,28 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
           </div>
         )}
       </div>
+      {isUltimateSlots && (
+        <button
+          onClick={() => setUseShardCost(!useShardCost)}
+          style={{ 
+            width: '80%', 
+            margin: '10px auto', 
+            display: 'block',
+            background: '#1a1a1a',
+            border: '2px solid #ff00ff',
+            color: '#ff00ff',
+            padding: '5px'
+          }}
+        >
+          Switch to {useShardCost ? 'Junk' : 'Shard'} Cost
+        </button>
+      )}
       <button 
         onClick={() => spin()} 
-        disabled={spinning || junk < spinCost}
+        disabled={spinning || (spinCost === 'shard' ? !electroShard : junk < spinCost)}
         style={{ width: '80%', margin: '10px auto', display: 'block' }}
       >
-        Spin ({spinCost} Junk)
+        Spin ({spinCost === 'shard' ? '1 Electro Shard' : `${spinCost.toLocaleString()} Junk`})
       </button>
     </div>
   );
