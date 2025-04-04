@@ -96,6 +96,7 @@ export default function App() {
     const handleUpdateSurgeCount = () => {
       setSurgeCount(3);
     };
+    console.log(autoClickerV1Count);
 
     window.addEventListener('updateSurgeCount', handleUpdateSurgeCount);
 
