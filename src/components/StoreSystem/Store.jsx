@@ -24,6 +24,7 @@ export default function Store({
 }) {
   const [selectedTab, setSelectedTab] = useState("prePres");
   const [activeTab, setActiveTab] = useState("prePres"); // Added state for premium tab
+  const [bulkBuy, setBulkBuy] = useState(false);
 
   const showClickEnhancer = purchasedUpgrades >= 3 || clickCount >= 1000;
 
@@ -215,7 +216,15 @@ export default function Store({
     <div className="store-container">
       <div className="store-header">
         <h2>Junk Store</h2>
-        <button onClick={onBack}>Close</button>
+        <div className="store-controls">
+          <button 
+            onClick={() => setBulkBuy(!bulkBuy)} 
+            className="bulk-buy-toggle"
+          >
+            {bulkBuy ? '10x' : '1x'}
+          </button>
+          <button onClick={onBack}>Close</button>
+        </div>
       </div>
       <div className="crafting-tabs">
         {tabs.map((tab) => (

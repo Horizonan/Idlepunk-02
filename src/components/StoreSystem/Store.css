@@ -104,11 +104,22 @@
   position: relative;
 }
 
-.store-header button {
+.store-header .store-controls {
   position: absolute;
   right: 0;
+  display: flex;
+  gap: 10px;
+}
+
+.store-header button {
   margin: 0;
   padding: 8px 16px;
+}
+
+.bulk-buy-toggle {
+  background: #222;
+  color: #00FF00;
+  border: 2px solid #9400D3;
 }
 
 .store-header h2 {
