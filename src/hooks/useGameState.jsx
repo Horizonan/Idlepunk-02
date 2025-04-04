@@ -98,9 +98,9 @@ export const useGameState = () => {
 
   //Auto Clicks
   const [autoClicks, setAutoClicks] = useState(() => {
-    const savedAutoClicks = parseInt(localStorage.getItem('autoClicks') || '0');
-    const permanentAutoClicks = parseInt(localStorage.getItem('permanentAutoClicks') || '0');
-    return savedAutoClicks + permanentAutoClicks;
+    const saved = Number(localStorage.getItem('autoClicks')) || 0;
+    const permanent = Number(localStorage.getItem('permanentAutoClicks')) || 0;
+    return saved + permanent;
   });
 
   //Item Costs
