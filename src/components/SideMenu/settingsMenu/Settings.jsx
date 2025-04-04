@@ -18,8 +18,8 @@ export default function Settings({
   prestigeCount,
   preservedHelper,
   setShowChangelog,
-  setShowSettings,
-  onClose, setUiSettingsCollapsed, uiSettingsCollapsed
+  setShowSettings, setShowJunkDrone,
+  onClose, setUiSettingsCollapsed, uiSettingsCollapsed, showJunkDrone
 }) {
   const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
 
@@ -61,7 +61,10 @@ export default function Settings({
               <input
                 type="checkbox"
                 checked={showClickEnhancerUI}
-                onChange={() => setShowClickEnhancerUI(prev => !prev)}
+                onChange={(e) => {
+                  localStorage.setItem('showClickEnhancerUI', e.target.checked)
+                  setShowClickEnhancerUI(e.target.checked);               
+                                 }}
               />
             </label>
             <label className="setting-option">
@@ -78,8 +81,11 @@ export default function Settings({
               <span>Show Drones</span>
               <input
                 type="checkbox"
-                checked={localStorage.getItem('showDrones') !== 'false'}
-                onChange={(e) => localStorage.setItem('showDrones', e.target.checked)}
+                checked={showJunkDrone}
+                onChange={(e) => {
+                  localStorage.setItem('showDrones', e.target.checked)
+                  setShowJunkDrone(e.target.checked);               
+                                 }}
               />
             </label>
             <label className="setting-option">
@@ -147,6 +153,7 @@ export default function Settings({
 
                 // Reset toggleable settings
                 localStorage.setItem('showDrones', 'false');
+                localStorage.setItem('showClickEnhancerUI', 'false');
                 localStorage.setItem('enableHoloBillboard', 'false');
                 localStorage.setItem('showNewsTicker', 'false');
                 localStorage.setItem('showBeaconVisual', 'false');
@@ -160,7 +167,7 @@ export default function Settings({
             </button>
           </div>
         </div>
-        <button class="changelog-button" onClick={() => {
+        <button className="changelog-button" onClick={() => {
           setShowChangelog(prev => !prev);
           setShowSettings(false);
         }}>Show Changelog</button>

@@ -61,6 +61,9 @@ export const useGameState = () => {
   //Enable Settings Gamestates
   const [enableHoloBillboard, setEnableHoloBillboard] = useState(() => localStorage.getItem('enableHoloBillboard') !== 'false');
   const [showNewsTicker, setShowNewsTicker] = useState(() => localStorage.getItem('showNewsTicker') !== 'false');
+  const [showJunkDrone, setShowJunkDrone] = useState(() => localStorage.getItem('showDrones') !== 'false');
+  const [showClickEnhancerUI, setShowClickEnhancerUI] = useState(true);
+
 
   //Other Settings gamestates
   const [uiSettingsCollapsed, setUiSettingsCollapsed] = useState(() => localStorage.getItem('uiSettingsCollapsed') === 'true');
@@ -68,7 +71,7 @@ export const useGameState = () => {
   //Effects
   const [showCrystal, setShowCrystal] = useState(false);
   const [showTrashBonus, setShowTrashBonus] = useState(false);
-  const [showClickEnhancerUI, setShowClickEnhancerUI] = useState(true);
+
 
   //Quest Check
   const [prestigeQuestCompleted, setPrestigeQuestCompleted] = useState(() => 
@@ -197,6 +200,6 @@ return {
     showCrystal, setShowCrystal, showTrashBonus, setShowTrashBonus, showQuestLog, setShowQuestLog, showNewsTicker, setShowNewsTicker,
     prestigeQuestCompleted, setPrestigeQuestCompleted, showClickEnhancerUI, setShowClickEnhancerUI, craftingInventory, setCraftingInventory,
     showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory, activeCheatsList, setActiveCheatsList,
-    itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, setSkillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, bulkBuy, setBulkBuy
+    itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, setSkillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, bulkBuy, setBulkBuy, showJunkDrone, setShowJunkDrone
   };
 };
