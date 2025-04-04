@@ -70,7 +70,7 @@ export default function App() {
     showCrystal, setShowCrystal, showTrashBonus, setShowTrashBonus, showQuestLog, setShowQuestLog, showNewsTicker, setShowNewsTicker,
     prestigeQuestCompleted, setPrestigeQuestCompleted, showClickEnhancerUI, setShowClickEnhancerUI, craftingInventory, setCraftingInventory,
     showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory, activeCheatsList, setActiveCheatsList,
-    itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels
+    itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, uiSettingsCollapsed, setUiSettingsCollapsed
   } = useGameState();
   
 
@@ -1134,6 +1134,8 @@ export default function App() {
           setShowTechTree={setShowTechTree}
           setShowChangelog={setShowChangelog}
           setShowSettings={setShowSettings}
+          setUiSettingsCollapsed={setUiSettingsCollapsed}
+          uiSettingsCollapsed={uiSettingsCollapsed}
           onClose={() => setShowSettings(false)}
         />
       )}

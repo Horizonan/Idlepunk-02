@@ -25,11 +25,20 @@
   cursor: not-allowed;
 }
 
-#trashClicker, .tronics {
+.tronics {
   width: 150px;
   height: 150px;
   cursor: pointer;
   transition: transform 0.2s;
+  margin-bottom: 40px;
+}
+
+#trashClicker{
+  width: 220px;
+  height: 220px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  margin-bottom: -30px;
 }
 
 .click-hint {

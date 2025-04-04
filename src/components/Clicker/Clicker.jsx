@@ -45,7 +45,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
         )}  
         {activeClicker === 'trash' && (
           <img 
-            src="Icons/TrashButtonBig.png" 
+            src="Icons/TrashButtonBig.svg" 
             alt="Trash Clicker" 
             id="trashClicker" 
             className={`click-hint ${localStorage.getItem('firstClick') ? 'clicked' : ''}`}

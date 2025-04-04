@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default function Changelog({ onClose }) {
-  const [expandedVersion, setExpandedVersion] = useState('0.0.6/2');
+  const [expandedVersion, setExpandedVersion] = useState('0.0.7');
 
   const toggleVersion = (version) => {
     setExpandedVersion(expandedVersion === version ? null : version);
@@ -16,6 +16,45 @@ export default function Changelog({ onClose }) {
       </div>
       
       <div className="changelog-content">
+
+        <div className="changelog-entry">
+          <h3 onClick={() => toggleVersion('0.0.7')} style={{ cursor: 'pointer' }}>
+            🔧 Gameplay, UI and Bug Fixes – Update Log 0.0.7 {expandedVersion === '0.0.7' ? '▼' : '▶'}
+          </h3>
+          {expandedVersion === '0.0.7' && (
+            <>
+              <p>Thank you for your continued support and patience! 💛</p>
+              <div className="changelog-section">
+                <h3>🖥️ UI & UX Improvements</h3>
+                <p>🖥️ Updated Trash Clicker to new design</p>
+                <p>🖥️ Fixed styling issues in Junk Store</p>
+                <p>🖥️ Made Settings collapsible for better screen space</p>
+                <p>🖥️ Added Reset UI Layout button</p>
+                <p>🖥️ Added several new News Ticker lines</p>
+                <p>🖥️ UI Settings state is now saved across sessions</p>
+                <p>🖥️ Added Scrap formatting improvements for better readability</p>
+                <h3>🎮 Gameplay & Content</h3>
+                <p>🎮 Added new event at 50 clicks to spice up early gameplay</p>
+                <p>🎮 Added new progression quest</p>
+                <p>🎮 Changed parts of the Ascension Questline for clarity and balance</p>
+                <p>🎮 Added new item: Glitched Scrap Core</p>
+                <p>🎮 Introduced the Luck Engine (teased mechanic)</p>
+                <h3>🎰 Slot Machine System</h3>
+                <p>🎰 Added Big Slots (larger UI + new reward tier)</p>
+                <p>🎰 Added Tronics Surge sound effect</p>
+                <p>🎰 Fixed Tronics Surge timer not being removed properly</p>
+                <h3>🧠 Systems & Technical Improvements</h3>
+                <p>🧠 Refactored: moved many game states into gameStates.js, away from App.jsx</p>
+                <p>🧠 Removed old, unused code and cleaned up redundant functions</p>
+                <p>🧠 Fixed Autoclickers not saving properly</p>
+                <p>🧠 Autoclickers now: Only count toward Tronics Clicks when unlocked, Also contribute to Normal Clicks</p>
+                <p>🧠 Fixed bug where Capacitors didn’t exist at all</p>
+                <p>🧠 Found and removed duplicate code overriding achievement validation</p>
+              </div>
+              <p className="changelog-footer">Thanks again for playing and sharing your feedback — it really helps shape each version. More content and polish coming soon! If you want to help please make sure to mail me itscolord@gmail.com 🚀</p>
+            </>
+          )}
+        </div>
 
         <div className="changelog-entry">
           <h3 onClick={() => toggleVersion('0.0.6/2')} style={{ cursor: 'pointer' }}>

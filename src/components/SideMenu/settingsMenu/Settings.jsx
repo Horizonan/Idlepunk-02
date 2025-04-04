@@ -19,7 +19,7 @@ export default function Settings({
   preservedHelper,
   setShowChangelog,
   setShowSettings,
-  onClose
+  onClose, setUiSettingsCollapsed, uiSettingsCollapsed
 }) {
   const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
 
@@ -48,12 +48,14 @@ export default function Settings({
         )}
         <div className="settings-section">
           <h3 onClick={() => {
-            const section = document.querySelector('.ui-settings');
-            section.style.display = section.style.display === 'none' ? 'block' : 'none';
+            const newState = !uiSettingsCollapsed;
+            console.log(uiSettingsCollapsed);
+            setUiSettingsCollapsed(newState);
+            localStorage.setItem('uiSettingsCollapsed', newState);
           }} style={{ cursor: 'pointer' }}>
-            🎮 UI Settings ▼
+            🎮 UI Settings {uiSettingsCollapsed ? '▼' : '▲'}
           </h3>
-          <div className="ui-settings">
+             <div className="ui-settings" style={{ display: uiSettingsCollapsed ? 'none' : 'block' }}>
             <label className="setting-option">
               <span>Show Click Enhancer Effect</span>
               <input

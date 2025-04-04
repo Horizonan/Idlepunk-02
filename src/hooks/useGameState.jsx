@@ -56,6 +56,9 @@ export const useGameState = () => {
   //Enable Settings Gamestates
   const [enableHoloBillboard, setEnableHoloBillboard] = useState(() => localStorage.getItem('enableHoloBillboard') !== 'false');
   const [showNewsTicker, setShowNewsTicker] = useState(() => localStorage.getItem('showNewsTicker') !== 'false');
+
+  //Other Settings gamestates
+  const [uiSettingsCollapsed, setUiSettingsCollapsed] = useState(() => localStorage.getItem('uiSettingsCollapsed') === 'true');
   
   //Effects
   const [showCrystal, setShowCrystal] = useState(false);
@@ -149,9 +152,10 @@ export const useGameState = () => {
     localStorage.setItem('beaconCount', beaconCount);
     localStorage.setItem('surgeCount', surgeCount);
     localStorage.setItem('cogfatherLore', JSON.stringify(cogfatherLore));
+    localStorage.setItem('uiSettingsCollapsed', uiSettingsCollapsed);
   }, [junk, credits, clickCount, tronics, autoClicks, clickMultiplier, passiveIncome, globalJpsMultiplier, 
       electronicsUnlock, clickEnhancerLevel, tutorialStage, prestigeCount, electroShards, beaconCount, 
-      surgeCount, cogfatherLore]);
+      surgeCount, cogfatherLore, uiSettingsCollapsed]);
 
   const [manualTronicsClicks, setManualTronicsClicks] = useState(() => 
   parseInt(localStorage.getItem('manualTronicsClicks') || '0')
@@ -187,6 +191,6 @@ return {
     showCrystal, setShowCrystal, showTrashBonus, setShowTrashBonus, showQuestLog, setShowQuestLog, showNewsTicker, setShowNewsTicker,
     prestigeQuestCompleted, setPrestigeQuestCompleted, showClickEnhancerUI, setShowClickEnhancerUI, craftingInventory, setCraftingInventory,
     showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory, activeCheatsList, setActiveCheatsList,
-    itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, setSkillLevels
+    itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, setSkillLevels, uiSettingsCollapsed, setUiSettingsCollapsed
   };
 };
