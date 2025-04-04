@@ -72,7 +72,7 @@ export default function App() {
     prestigeQuestCompleted, setPrestigeQuestCompleted, showClickEnhancerUI, setShowClickEnhancerUI, craftingInventory, setCraftingInventory,
     showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory, activeCheatsList, setActiveCheatsList,
     itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, showJunkDrone, setShowJunkDrone,
-    bulkBuy, setBulkBuy, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers
+    bulkBuy, setBulkBuy, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup
   } = useGameState();
   
   const {
@@ -1017,6 +1017,8 @@ export default function App() {
           setShowHoverDrone= {setShowHoverDrone}
           showAutoclickers = {showAutoclickers}
           setShowAutoclickers= {setShowAutoclickers}
+          enableTrashPickup= {enableTrashPickup}
+          setEnableTrashPickup= {setEnableTrashPickup}
           setUiSettingsCollapsed={setUiSettingsCollapsed}
           uiSettingsCollapsed={uiSettingsCollapsed}
           onClose={() => setShowSettings(false)}
