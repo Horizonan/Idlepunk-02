@@ -12,23 +12,16 @@ export default function Store({
   globalJpsMultiplier,
   passiveIncome,
   onBuyClickEnhancer,
-  clickCount,
-  purchasedUpgrades,
   onBuyAutoClicker,
   onGetAutoClickersV1,
   canAffordV1,
   canAffordV2,
   onGetAutoClickersV2,
   onBuyAutoClickerV2, calculate10xPriceJunkClicker,
-  onBack, setJunk, setPassiveIncome, setNotifictations, bulkBuy,
-  setBulkBuy
+  onBack, setJunk, setPassiveIncome, setNotifications, bulkBuy,
+  setBulkBuy, calculate10xPriceJPS, calculate10xPriceBillBoard
 }) {
   const [selectedTab, setSelectedTab] = useState("prePres");
-  const [activeTab, setActiveTab] = useState("prePres"); // Added state for premium tab
-  
-
-  const showClickEnhancer = purchasedUpgrades >= 3 || clickCount >= 1000;
-
   
   
   const clickItems = [
@@ -42,11 +35,19 @@ export default function Store({
     },
     {
       name: "Trash Picker",
-      cost: itemCosts.trashPicker,
+      cost: bulkBuy ?calculate10xPriceJunkClicker(itemCosts.trashPicker) :  itemCosts.trashPicker,
       description: "+3 Junk/Click, +10% Cost",
       info: "Professional tool that triples your junk collection efficiency",
       action: onBuyPicker,
       purchasedCount: ownedItems.trashPicker || 0,
+    },
+    {
+      name: "Click Enhancer",
+      cost: bulkBuy ?calculate10xPriceJunkClicker(itemCosts.clickEnhancer) :  itemCosts.clickEnhancer,
+      description: "+10 Junk/Click, +10% Cost",
+      info: '"Built from a broken microwave and spite."',
+      action: onBuyClickEnhancer,
+      purchasedCount: ownedItems.clickEnhancer || 0,
     },
   ];
 
@@ -59,21 +60,11 @@ export default function Store({
     return num;
   };
 
-  if (showClickEnhancer) {
-    clickItems.push({
-      name: "Click Enhancer",
-      cost: itemCosts.clickEnhancer,
-      description: "+10 Junk/Click, +10% Cost",
-      info: '"Built from a broken microwave and spite."',
-      action: onBuyClickEnhancer,
-      purchasedCount: ownedItems.clickEnhancer || 0,
-    });
-  }
 
   const passiveItems = [
     {
       name: "Streetrat",
-      cost: itemCosts.streetrat,
+      cost: bulkBuy ? calculate10xPriceJPS(itemCosts.streetrat) : itemCosts.streetrat,
       description: `+${Math.floor(1 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
       info: "Hire a local to automatically collect junk for you",
       action: onBuyStreetrat,
@@ -81,7 +72,7 @@ export default function Store({
     },
     {
       name: "Shopping Cart",
-      cost: itemCosts.cart,
+      cost: bulkBuy ? calculate10xPriceJPS(itemCosts.cart) : itemCosts.cart,
       description: `+${Math.floor(5 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
       info: "Large capacity cart that greatly increases automatic collection",
       action: onBuyCart,
@@ -89,7 +80,7 @@ export default function Store({
     },
     {
       name: "Junk Magnet",
-      cost: itemCosts.junkMagnet,
+      cost: bulkBuy ? calculate10xPriceJPS(itemCosts.junkMagnet) : itemCosts.junkMagnet,
       description: `+${Math.floor(10 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
       info: "Electromagnetic device that attracts valuable junk automatically",
       action: onBuyJunkMagnet,
@@ -97,7 +88,7 @@ export default function Store({
     },
     {
       name: "Urban Recycler",
-      cost: itemCosts.urbanRecycler,
+      cost: bulkBuy ? calculate10xPriceJPS(itemCosts.urbanRecycler) : itemCosts.urbanRecycler,
       description: `+${Math.floor(20 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
       info: "Automated system that processes urban waste into valuable junk",
       action: onBuyUrbanRecycler,
@@ -105,7 +96,7 @@ export default function Store({
     },
     {
       name: "Scrap Drone",
-      cost: itemCosts.scrapDrone,
+      cost: bulkBuy ? calculate10xPriceJPS(itemCosts.scrapDrone) : itemCosts.scrapDrone,
       description: `+${Math.floor(25 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
       info: "Autonomous drone that scans the area for valuable junk",
       action: onBuyScrapDrone,
@@ -113,7 +104,7 @@ export default function Store({
     },
     {
       name: "Holo Billboard",
-      cost: itemCosts.holoBillboard || 15000,
+      cost: bulkBuy ? calculate10xPriceBillBoard(itemCosts.holoBillboard) : itemCosts.holoBillboard,
       description: "+10% global Junk/sec boost",
       info: "A massive holographic display that attracts more scrappers to your territory",
       action: onBuyHoloBillboard,
@@ -154,7 +145,7 @@ export default function Store({
   const automationItems = [
     {
       name: "Auto Clicker Bot",
-      cost: { junk: itemCosts.autoClicker },
+      cost: { junk: bulkBuy ? calculate10xPriceJPS(itemCosts.autoClicker) : itemCosts.autoClicker },
       description:
         "+1 Automatic Click per second (counts towards manual clicks)",
       disabled: !canAffordV1,
@@ -164,7 +155,7 @@ export default function Store({
     },
     {
       name: "Auto Clicker Bot V2",
-      cost: { junk: itemCosts.autoClickerV2 },
+      cost: { junk: bulkBuy ? calculate10xPriceBillBoard(itemCosts.autoClickerV2) : itemCosts.autoClickerV2 },
       description:
         "Auto Clicker Bot v2.0 – Upgraded to 2 clicks/sec. Now 12% less annoying.",
       disabled: !canAffordV2,

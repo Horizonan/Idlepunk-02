@@ -6,14 +6,14 @@ export default function VersionPopup({ onClose }) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const hasSeenUpdate = localStorage.getItem('seen_update_0.0.7');
+    const hasSeenUpdate = localStorage.getItem('seen_update_0.0.7/1');
     if (!hasSeenUpdate) {
       setShow(true);
     }
   }, []);
 
   const handleClose = () => {
-    localStorage.setItem('seen_update_0.0.7', 'true');
+    localStorage.setItem('seen_update_0.0.7/1', 'true');
     setShow(false);
     onClose();
   };
@@ -23,12 +23,12 @@ export default function VersionPopup({ onClose }) {
   return (
     <div className="version-popup-overlay">
       <div className="version-popup">
-        <h2>🎮 New Version Available: 0.0.7</h2>
+        <h2>🎮 New Version Available: 0.0.7/1</h2>
         <div className="version-content">
           <h3>What's New:</h3>
           <ul>
-            <li>✨ New Slot Machine Upgrades</li>
-            <li>✨ Lots of UI Changes</li>
+            <li>✨ 10x Purchase Option Junk Store only</li>
+            <li>✨ Code Refactoring</li>
             <li>🔧 Some Bugfixes</li>
           </ul>
           <p>Check the Changelog for more Information or join the Discord!</p>

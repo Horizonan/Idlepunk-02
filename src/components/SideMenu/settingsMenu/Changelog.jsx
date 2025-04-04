@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default function Changelog({ onClose }) {
-  const [expandedVersion, setExpandedVersion] = useState('0.0.7');
+  const [expandedVersion, setExpandedVersion] = useState('0.0.7/1');
 
   const toggleVersion = (version) => {
     setExpandedVersion(expandedVersion === version ? null : version);
@@ -13,6 +13,27 @@ export default function Changelog({ onClose }) {
       <div className="changelog-header">
         <h2>Changelog</h2>
         <button onClick={onClose}>Close</button>
+      </div>
+
+      <div className="changelog-entry">
+        <h3 onClick={() => toggleVersion('0.0.7/1')} style={{ cursor: 'pointer' }}>
+          🔧 Last Reddit Update – Update Log 0.0.7/1 {expandedVersion === '0.0.7/1' ? '▼' : '▶'}
+        </h3>
+        {expandedVersion === '0.0.7/1' && (
+          <>
+            <p>Note: Reddit failed me... but hey my junk is better than yours💛</p>
+            <div className="changelog-section">
+              <h3>📜 Updates</h3>
+              <p>✅ Ultimate Slots are now live — spin at your own risk</p>
+              <p>✅ Slot Machine CSS moved to its own file for cleaner development</p>
+              <p>✅ Fixed the Modular Scrapper</p>
+              <p>✅ Refactored ClickerBuyActions logic</p>
+              <p>✅ Removed a bunch of legacy code</p>
+              <p>✅ Started implementing Buy x10 option (currently Junk Store only)</p>
+            </div>
+            <p className="changelog-footer">Thanks again for playing and sharing your feedback — it really helps shape each version. More content and polish coming soon! If you want to help please make sure to mail me itscolord@gmail.com 🚀</p>
+          </>
+        )}
       </div>
       
       <div className="changelog-content">

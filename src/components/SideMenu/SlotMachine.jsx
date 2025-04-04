@@ -275,7 +275,8 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
     "YOUR SPITE FEEDS ME",
     "THE JACKPOT IS A MYTH",
     "SPIN ME AGAIN I DARE YOU",
-    "MY CODE WAS WRITTEN IN REGRET"
+    "MY CODE WAS WRITTEN IN REGRET",
+    "PULL MY LEVER..."
   ];
 
   useEffect(() => {

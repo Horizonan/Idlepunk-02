@@ -33,6 +33,7 @@ export const useGameState = () => {
   const [autoClickerV1Count, setAutoClickerV1Count] = useState(() => Number(localStorage.getItem('autoClickerV1Count')) || 0);
   const [autoClickerV2Count, setAutoClickerV2Count] = useState(() => Number(localStorage.getItem('autoClickerV2Count')) || 0);
   
+  
   //Trash Surge 
   const [surgeCount, setSurgeCount] = useState(() => Number(localStorage.getItem('surgeCount')) || 0);  
   const [hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge] = useState(false);
@@ -109,7 +110,7 @@ export const useGameState = () => {
     clickEnhancer: 2500,
     scrapDrone: 7500,
     holoBillboard: 15000,
-    junkRefinery: 500000
+    junkRefinery: 500000,
   });
 
 
@@ -124,7 +125,8 @@ export const useGameState = () => {
     clickEnhancer: 0,
     scrapDrone: 0,
     holoBillboard: 0,
-    junkRefinery: 0
+    junkRefinery: 0,
+    autoClickerV2: 0,
   });
 
   //Skill Levels

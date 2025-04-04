@@ -76,18 +76,20 @@ export default function App() {
   } = useGameState();
   
   const {
-    handleBuyTrashBag, calculate10xPriceJunkClicker
+    handleBuyTrashBag, calculate10xPriceJunkClicker,
+    handleBuyPicker, handleBuyClickEnhancer, calculate10xPriceJPS, handleBuyStreetrat,
+    handleBuyCart, handleBuyJunkMagnet, handleBuyUrbanRecycler, handleBuyScrapDrone,
+    handleBuyHoloBillboard, calculate10xPriceBillBoard, handleBuyAutoClicker, handleBuyAutoClickerV2
   } = gameHandlers({
     junk,
     bulkBuy,
-    itemCosts
+    itemCosts,
+    setClickEnhancerLevel,
+    clickEnhancerLevel,
   }, {
-    setJunk,
-    setNotifications,
-    setClickMultiplier,
-    setItemCosts,
-    setOwnedItems,
-    setHasUpgrade
+    setJunk, setNotifications, setClickMultiplier, setItemCosts, setOwnedItems, setHasUpgrade,
+    setClickEnhancerLevel,clickEnhancerLevel, setPassiveIncome, setHasHelper, setGlobalJpsMultiplier, setAutoClicks,
+    setAutoClickerV1Count
   });
   
   useEffect(() => {
@@ -177,7 +179,7 @@ export default function App() {
 
   const checkShardMilestones = (shardCount) => {
     
-    // Check for 3 shard milestone
+   
     if (shardCount === 3) {
       window.dispatchEvent(new CustomEvent('nextNews', { 
         detail: { message: "Cogfather: The circuit is almost loud enough to listen to." }
@@ -185,7 +187,7 @@ export default function App() {
     }
   };
 
-  // Close store when opening other menus
+ 
   useEffect(() => {
     const handleUpgradeStats = () => {
       setShowUpgradeStats(prev => {
@@ -195,23 +197,22 @@ export default function App() {
           setShowAchievements(false);
           setShowSettings(false);
           setShowQuestLog(false);
-          setShowTooltips(false); // Added setShowTooltips
+          setShowTooltips(false); 
         }
         return !prev;
       });
     };
     window.addEventListener('toggleUpgradeStats', handleUpgradeStats);
 
-    if (showSlotMachine || showAchievements || showSettings || showQuestLog || showTooltips) { // Added showTooltips
+    if (showSlotMachine || showAchievements || showSettings || showQuestLog || showTooltips) {
       setActiveStore(null);
       setShowUpgradeStats(false);
     }
 
     return () => window.removeEventListener('toggleUpgradeStats', handleUpgradeStats);
-  }, [showSlotMachine, showAchievements, showSettings, showQuestLog, showTooltips]); // Added showTooltips
+  }, [showSlotMachine, showAchievements, showSettings, showQuestLog, showTooltips]); 
 
-
-  // Close upgrade stats when opening a store
+  
   useEffect(() => {
     if (activeStore) {
       setShowUpgradeStats(false);
@@ -219,11 +220,11 @@ export default function App() {
   }, [activeStore]);
 
   useEffect(() => {
-    const maxBeacons = Math.min(10, beaconCount); // Cap at 10 beacons
+    const maxBeacons = Math.min(10, beaconCount); 
     const hasBeaconCore = localStorage.getItem('beacon_core_purchased') === 'true';
-    const beaconBaseReduction = hasBeaconCore ? 0.25 : 0; // 25% base reduction if core is purchased
-    const beaconStackReduction = maxBeacons * 0.01; // 1% per beacon
-    const totalReduction = Math.min(0.9, beaconBaseReduction + beaconStackReduction); // Cap at 90% reduction
+    const beaconBaseReduction = hasBeaconCore ? 0.25 : 0; 
+    const beaconStackReduction = maxBeacons * 0.01; 
+    const totalReduction = Math.min(0.9, beaconBaseReduction + beaconStackReduction); 
     const beaconMultiplier = 1 - totalReduction;
     const crystalInterval = setInterval(() => {
       if (Math.random() < 0.5) {
@@ -231,11 +232,11 @@ export default function App() {
         setShowBeacon(true);
         setTimeout(() => setShowBeacon(false), 3000);
       }
-    }, (900000 + Math.random() * 900000) * beaconMultiplier); // Reduced by beacon effect
+    }, (900000 + Math.random() * 900000) * beaconMultiplier);
 
     const spawnTrashBonus = () => {
       setShowTrashBonus(true);
-      const nextSpawnTime = 120000 + Math.random() * 360000; // Random between 2-8 minutes
+      const nextSpawnTime = 120000 + Math.random() * 360000; 
       setTimeout(spawnTrashBonus, nextSpawnTime);
     };
 
@@ -253,10 +254,9 @@ export default function App() {
       window.surgeStartTime = Date.now();
       const isTronicsSurgeUnlocked = localStorage.getItem('electro_surge_node_purchased') === 'true';
 
-      // 50/50 chance between trash and tronics surge if unlocked
       const randomVal = Math.random();
       console.log("Number is: " + randomVal);
-      const isTronicsSurge = isTronicsSurgeUnlocked; //&& randomVal < 0.5
+      const isTronicsSurge = isTronicsSurgeUnlocked; 
       console.log("Is Tronics Surge: " + isTronicsSurge);
 
       if (isTronicsSurge) {
@@ -322,18 +322,15 @@ export default function App() {
       const totalMultiplier = 1 + circuitOptBonus + (craftingInventory['Compression Pack'] ? 0.25 : 0) + greaseDisciplineBonus + holoBillboardBonus;
       setGlobalJpsMultiplier(totalMultiplier);
 
-      // Only add passive income, not clicking
       if (passiveIncome > 0) {
         setJunk(prev => prev + (passiveIncome * totalMultiplier));
         
       }
 
-      // Handle auto clicks separately
       if (autoClicks > 0) {
         setJunk(prev => prev + (autoClicks * clickMultiplier));
         setClickCount(prev => prev + autoClicks);
         
-        // Generate tronics if electronics are unlocked
         if (electronicsUnlock) {
           const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
           const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
@@ -347,7 +344,6 @@ export default function App() {
     return () => clearInterval(updateInterval);
   }, [passiveIncome, autoClicks, clickMultiplier, globalJpsMultiplier, craftingInventory]);
 
-  // Save special resources whenever craftingInventory changes
   useEffect(() => {
     localStorage.setItem('craftingInventory', JSON.stringify(craftingInventory));
   }, [craftingInventory]);
@@ -405,7 +401,7 @@ export default function App() {
 
     // Random material finding
     const random = Math.random();
-    if (random < 0.0001) { // 0.01% chance for basic materials
+    if (random < 0.0001) { 
       const materials = ['Wires', 'Metal Plates', 'Gear Bits'];
       const randomMaterial = materials[Math.floor(Math.random() * materials.length)];
       setCraftingInventory(prev => ({
@@ -413,7 +409,7 @@ export default function App() {
         [randomMaterial]: (prev[randomMaterial] || 0) + 1
       }));
       setNotifications(prev => [...prev, `Found a ${randomMaterial}!`]);
-    } else if (random < 0.00001) { // 0.001% chance for power core
+    } else if (random < 0.00001) { 
       setCraftingInventory(prev => ({
         ...prev,
         'Scrap Core': (prev['Scrap Core'] || 0) + 1
@@ -421,7 +417,6 @@ export default function App() {
       setNotifications(prev => [...prev, 'Found a Scrap Core!']);
     }
 
-    // Check for capacitor during surge
     if (isSurgeActive && !hasFoundCapacitorThisSurge && (activeCheatsList['Guaranteed Capacitor'] || Math.random() < 0.01)) {
       setCraftingInventory(prev => ({
         ...prev,
@@ -442,7 +437,7 @@ export default function App() {
 
   const collectTronics = (amount) => {
     if (electronicsUnlock) {  
-      // Handle manual clicks
+     
       if (amount === 1) {
       }
 
@@ -460,101 +455,7 @@ export default function App() {
       }
     }
   };
-
-
-  const handleBuyStreetrat = () => {
-    if (junk >= itemCosts.streetrat) {
-      setJunk(prev => prev - itemCosts.streetrat);
-      setNotifications(prev => [...prev, "Streetrat hired!"]);
-      setPassiveIncome(prev => prev + 1);
-      setItemCosts(prev => ({...prev, streetrat: Math.floor(prev.streetrat * 1.15)}));
-      setOwnedItems(prev => ({...prev, streetrat: prev.streetrat + 1}));
-      setHasHelper(true);
-    }
-  };
-
-  const handleBuyCart = () => {
-    if (junk >= itemCosts.cart) {
-      setJunk(prev => prev - itemCosts.cart);
-      setNotifications(prev => [...prev, "Shopping Cart purchased!"]);
-      setPassiveIncome(prev => prev + 5);
-      setItemCosts(prev => ({...prev, cart: Math.floor(prev.cart * 1.15)}));
-      setOwnedItems(prev => ({...prev, cart: prev.cart + 1}));
-    }
-  };
-
-  const handleBuyJunkMagnet = () => {
-    if (junk >= itemCosts.junkMagnet) {
-      setJunk(prev => prev - itemCosts.junkMagnet);
-      setNotifications(prev => [...prev, "Junk Magnet purchased!"]);
-      setPassiveIncome(prev => prev + 10);
-      setItemCosts(prev => ({...prev, junkMagnet: Math.floor(prev.junkMagnet * 1.15)}));
-      setOwnedItems(prev => ({...prev, junkMagnet: prev.junkMagnet + 1}));
-    }
-  };
-
-  const handleBuyUrbanRecycler = () => {
-    if (junk >= itemCosts.urbanRecycler) {
-            setJunk(prev => prev - itemCosts.urbanRecycler);
-      setNotifications(prev => [...prev, "Urban Recycler purchased!"]);
-      setPassiveIncome(prev => prev + 20);
-      setItemCosts(prev => ({...prev, urbanRecycler: Math.floor(prev.urbanRecycler * 1.15)}));
-      setOwnedItems(prev => ({...prev, urbanRecycler: prev.urbanRecycler + 1}));
-    }
-  };
-
-  const handleBuyScrapDrone = () => {
-    if (junk >= itemCosts.scrapDrone) {
-      setJunk(prev => prev - itemCosts.scrapDrone);
-      setNotifications(prev => [...prev, "Scrap Drone Deployed – +25 JPS"]);
-      setPassiveIncome(prev => prev + 25);
-      setItemCosts(prev => ({...prev, scrapDrone: Math.floor(prev.scrapDrone * 1.15)}));
-      setOwnedItems(prev => ({...prev, scrapDrone: (prev.scrapDrone || 0) + 1}));
-
-      if (!ownedItems.scrapDrone) {
-        window.dispatchEvent(new CustomEvent('nextNews', { 
-          detail: { message: "Cogfather: You've got drones now? Look at you, corporate overlord in the making." }
-        }));
-        window.dispatchEvent(new CustomEvent('addNews', {
-          detail: { message: "Automated helper deployed. Don't expect it to take breaks." }
-        }));
-      }
-    }
-  };
-
-  const handleBuyHoloBillboard = () => {
-    if (junk >= (itemCosts.holoBillboard || 15000)) {
-      setJunk(prev => prev - (itemCosts.holoBillboard || 15000));
-      setNotifications(prev => [...prev, "Holo Billboard Online – City scrappers stare in awe (+10% Junk/sec globally)!"]);
-      setGlobalJpsMultiplier(prev => {
-        const newValue = prev + 0.1;
-        localStorage.setItem('globalJpsMultiplier', newValue);
-        return newValue;
-      });
-      setItemCosts(prev => ({...prev, holoBillboard: Math.floor((prev.holoBillboard || 15000) * 1.2)}));
-      setOwnedItems(prev => ({...prev, holoBillboard: (prev.holoBillboard || 0) + 1}));
-
-      if (!ownedItems.holoBillboard) {
-        window.dispatchEvent(new CustomEvent('nextNews', { 
-          detail: { message: "Cogfather nods approvingly: 'Advertising your junk empire now? Ambitious, kid. I like it.'" }
-        }));
-      }
-    }
-  };
-
-  //Buy Automation Items
-  const handleBuyAutoClicker = () =>{
-    if (junk >= itemCosts.autoClicker) {
-      setJunk(prev => prev - itemCosts.autoClicker);
-      setAutoClicks(prev => prev + 1);
-      setAutoClickerV1Count(prev => prev + 1); //Increment v1 count
-      setItemCosts(prev => ({...prev, autoClicker: Math.floor(prev.autoClicker * 1.15)}));
-      setNotifications(prev => [...prev, "Auto Clicker Bot purchased!"]);
-      window.dispatchEvent(new CustomEvent('nextNews', { 
-        detail: { message: "Cogfather whispers: 'Sit back, kid. Let the bots handle it from here.'" }
-      }));
-    }}
-
+  
   const canAffordV1 = () => {
     return junk >= itemCosts.autoClicker;
   }
@@ -563,43 +464,25 @@ export default function App() {
     return junk >= itemCosts.autoClickerV2;
   }
 
-  const handleBuyAutoClickerV2 = () => {
-      const baseV2Cost = 10000;
-      const currentCost = itemCosts.autoClickerV2 || baseV2Cost;
 
-      if (junk >= currentCost && autoClickerV1Count >= 1) { 
-        setJunk(prev => prev - currentCost);
-        setAutoClicks(prev => prev + 1); 
-        setAutoClickerV1Count(prev => prev - 1); 
-        setAutoClickerV2Count(prev => prev + 1); 
-        setItemCosts(prev => ({
-          ...prev, 
-          autoClickerV2: Math.floor((prev.autoClickerV2 || baseV2Cost) * 1.2)
-        }));
-        setNotifications(prev => [...prev, "Auto Clicker Bot v2.0 purchased! (Consumed 1 Auto Clicker Bot)"]);
-        window.dispatchEvent(new CustomEvent('nextNews', { 
-          detail: { message: "Cogfather: 'Twice the clicks, twice the profits. Now that's efficiency!'" }
-        }));
-      }
-  }
   
 
   useEffect(() => {
     localStorage.setItem('tutorialStage', tutorialStage);
     validateQuestsAndAchievements();
 
-    // Check for 1M junk milestone
+  
     if (junk >= 1000000) {
       if (!localStorage.getItem('shown_questlog_hint')) {
         localStorage.setItem('shown_questlog_hint', 'true');
 
-        // Add pulsing animation class to both quest log buttons
+       
         const questLogBtn = document.querySelector('.quest-log-toggle');
         const mainQuestLog = document.querySelector('.quest-log');
         if (questLogBtn) questLogBtn.classList.add('quest-log-attention');
         if (mainQuestLog) mainQuestLog.classList.add('quest-log-attention');
 
-        // Add Cogfather popup message
+       
         const cogfatherMessage = (
           <div className="cogfather-message-popup">
             <img src="Icons/NPCs/Cogfather.jfif" alt="Cogfather" />
@@ -615,7 +498,7 @@ export default function App() {
     }
   }, [tutorialStage, junk]);
 
-  // Validate on major game events
+ 
   useEffect(() => {
     validateQuestsAndAchievements();
   }, [passiveIncome, ownedItems.streetrat, clickMultiplier, globalJpsMultiplier]);
@@ -643,7 +526,7 @@ export default function App() {
     }
   };
 
-  // Update prestige state when quest completes
+ 
   useEffect(() => {
     if (localStorage.getItem('quest_sync_Forge the Future') === 'true' || 
         (craftingInventory && craftingInventory['Prestige Crystal'] >= 1)) {
@@ -704,7 +587,7 @@ export default function App() {
         globalJpsMultiplier={globalJpsMultiplier}
         tronics={tronics}
         electroShards={electroShards}
-        autoClickerV1Count={autoClickerV1Count} // Pass to StatsDisplay
+        autoClickerV1Count={autoClickerV1Count} 
       />
       <Menu onStoreSelect={(type) => {
         switch(type) {
@@ -805,7 +688,7 @@ export default function App() {
             const newLocked = !isLocked;
             localStorage.setItem('sidebarLocked', newLocked);
             document.querySelector('.sidebar').classList.toggle('locked');
-            // Force a re-render by toggling a class
+          
             document.querySelector('.sidebar').classList.toggle('temp');
             setTimeout(() => document.querySelector('.sidebar').classList.toggle('temp'), 0);
           }}
@@ -832,6 +715,8 @@ export default function App() {
           credits={junk}
           setPassiveIncome = {setPassiveIncome}
           calculate10xPriceJunkClicker={calculate10xPriceJunkClicker}
+          calculate10xPriceJPS = {calculate10xPriceJPS}
+          calculate10xPriceBillBoard= {calculate10xPriceBillBoard}
           setBulkBuy={setBulkBuy}
           setJunk= {setJunk}
           itemCosts={itemCosts}
@@ -870,22 +755,7 @@ export default function App() {
           onBuyHoloBillboard={handleBuyHoloBillboard} 
           globalJpsMultiplier={globalJpsMultiplier}
           passiveIncome={passiveIncome}
-          onBuyClickEnhancer={() => {
-            if (junk >= itemCosts.clickEnhancer) {
-              setJunk(prev => prev - itemCosts.clickEnhancer);
-              setClickMultiplier(prev => prev + 10);
-              setClickEnhancerLevel(prev => prev + 1);
-              setItemCosts(prev => ({...prev, clickEnhancer: Math.floor(prev.clickEnhancer * 1.1)}));
-              setOwnedItems(prev => ({...prev, clickEnhancer: (prev.clickEnhancer || 0) + 1}));
-              setNotifications(prev => [...prev, "Click Enhancer purchased!"]);
-              if (clickEnhancerLevel === 0) {
-                setNotifications(prev => [...prev, "Finger strength increasing! Bet you never thought clicking would become your day job."]);
-                window.dispatchEvent(new CustomEvent('nextNews', { 
-                  detail: { message: "Cogfather nods approvingly: 'Clicks mean business. Keep 'em coming.'" }
-                }));
-              }
-            }
-          }}
+          onBuyClickEnhancer={handleBuyClickEnhancer}
           clickCount={clickCount}
           purchasedUpgrades={Object.values(itemCosts).filter(cost => cost > 0).length}
           onBack={() => {
@@ -933,7 +803,7 @@ export default function App() {
               const newBoostCount = (parseInt(localStorage.getItem('tronics_boost_count') || '0') + 1);
               localStorage.setItem('tronics_boost_count', newBoostCount);
 
-              // Update cost
+            
               const currentCost = parseInt(localStorage.getItem('tronics_boost_cost') || '250');
               const newCost = Math.floor(currentCost * 1.1);
               localStorage.setItem('tronics_boost_cost', newCost);
@@ -1193,7 +1063,7 @@ export default function App() {
             passiveIncome,
             autoClicks,
             clickEnhancerLevel,
-            autoClickerV1Count // Add to stats
+            autoClickerV1Count 
           }}
           onClose={() => setShowPrestigePopup(false)}
           onConfirm={() => {
@@ -1210,11 +1080,11 @@ export default function App() {
             });
 
 
-            // Keep track of preserved helpers before reset
+           
             const preservedHelpersList = preservedHelper ? preservedHelper.split(', ') : [];
             let preservedAutoClicks = 0;
 
-            // Count preserved Auto Clicker Bots
+           
             preservedHelpersList.forEach(helper => {
               if (helper === 'Auto Clicker Bot') preservedAutoClicks++;
             });
@@ -1222,9 +1092,9 @@ export default function App() {
             setJunk(0);
             setClickMultiplier(1);
             setPassiveIncome(0);
-            setAutoClicks(preservedAutoClicks); // Set preserved auto clickers
+            setAutoClicks(preservedAutoClicks); 
             setClickEnhancerLevel(0);
-            setAutoClickerV1Count(0); // Reset v1 count on prestige
+            setAutoClickerV1Count(0); 
 
             setItemCosts({
               trashBag: 10,
@@ -1237,6 +1107,7 @@ export default function App() {
               autoClicker: 5000,
               scrapDrone: 7500,
               holoBillboard: 15000,
+              autoClickerV2: 10000,
               junkRefinery: 500000
             });
 
