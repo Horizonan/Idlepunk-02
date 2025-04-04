@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventory }) {
+export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventory, setElectroShards }) {
   const [spinning, setSpinning] = useState(false);
   const [slots, setSlots] = useState(['?', '?', '?', '']);
   const [lastWin, setLastWin] = useState(null);
