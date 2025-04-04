@@ -186,8 +186,8 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
                   winMessage = `Jackpot! You won 1 Electro Shard!`;
                   break;
                 case '📦':
-                  localStorage.setItem('global_jps_boost', 
-                    (parseFloat(localStorage.getItem('global_jps_boost') || '1.0') + 0.05).toString()
+                  localStorage.setItem('globalJpsMultiplier', 
+                    (parseFloat(localStorage.getItem('globalJpsMultiplier') || '1.0') + 0.05).toString()
                   );
                   winMessage = `Jackpot! You gained +5% Global JPS Boost!`;
                   break;
