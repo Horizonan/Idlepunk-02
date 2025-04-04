@@ -55,6 +55,16 @@ export default function Store({
     return num;
   };
 
+  const calculateBulkCost = (baseCost, amount) => {
+    let totalCost = 0;
+    let currentCost = baseCost;
+    for (let i = 0; i < amount; i++) {
+      totalCost += currentCost;
+      currentCost = Math.floor(currentCost * 1.1);
+    }
+    return totalCost;
+  };
+
   if (showClickEnhancer) {
     clickItems.push({
       name: "Click Enhancer",
@@ -173,30 +183,47 @@ export default function Store({
   // Combined Items for rendering
   const renderItems = (items) => (
     <div className="store-items">
-      {items.map((item) => (
-        <button
-          key={item.name}
-          onClick={item.action}
-          disabled={credits < (item.cost.junk || item.cost)}
-          className={`store-item ${item.disabled ? "disabled" : ""}`}
-        >
-          <div className="item-header">
-            <strong>{item.name}</strong>
-            <span className="cost">
-              ({typeof item.cost === 'object' ? formatNumber(item.cost.junk) : formatNumber(item.cost)} Junk
-              {item.cost.scrapCores
-                ? ` + ${item.cost.scrapCores} Scrap Cores`
-                : ""}
-              )
-            </span>
+      {items.map((item) => {
+        const baseCost = typeof item.cost === 'object' ? item.cost.junk : item.cost;
+        const bulkCost = calculateBulkCost(baseCost, 10);
+        const isClickUpgrade = item.description?.includes('Junk/Click');
+
+        return (
+          <div key={item.name} className="store-item-container">
+            <button
+              onClick={item.action}
+              disabled={credits < baseCost}
+              className={`store-item ${item.disabled ? "disabled" : ""} ${isClickUpgrade ? 'with-bulk' : ''}`}
+            >
+              <div className="item-header">
+                <strong>{item.name}</strong>
+              </div>
+              <div className="item-info">
+                <p>{item.description}</p>
+                <p>{item.info}</p>
+                <p className="owned">Owned: {item.purchasedCount}</p>
+                <p className="cost">Cost: {formatNumber(baseCost)} Junk</p>
+              </div>
+            </button>
+            {isClickUpgrade && (
+              <button
+                onClick={() => {
+                  for (let i = 0; i < 10; i++) {
+                    item.action();
+                  }
+                }}
+                disabled={credits < bulkCost}
+                className="buy-10x-button"
+              >
+                Buy 10x
+                <div className="item-info">
+                  <p>Total cost: {formatNumber(bulkCost)} Junk</p>
+                </div>
+              </button>
+            )}
           </div>
-          <div className="item-info">
-            <p>{item.description}</p>
-            <p>{item.info}</p>
-            <p className="owned">Owned: {item.purchasedCount}</p>
-          </div>
-        </button>
-      ))}
+        );
+      })}
     </div>
   );
 
