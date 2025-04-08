@@ -121,7 +121,7 @@ export const useGameState = () => {
     scrapDrone: 7500,
     holoBillboard: 15000,
     junkRefinery: 500000,    
-    modularScrapper: 2500000,
+    modularScrapper: 2500000
   });
 
 
