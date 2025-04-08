@@ -14,7 +14,7 @@
   border: 2px solid #9400D3;
   border-radius: 8px;
   padding: 20px;
-  z-index: 1000;
+  z-index: 9999;
   text-align: center;
   overflow: visible !important;
 }

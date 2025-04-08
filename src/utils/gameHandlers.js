@@ -58,7 +58,7 @@ export const gameHandlers = (gameState, setGameState) => {
       setGameState.setNotifications(prev => [...prev, "Scrap Bag purchased!"]);
       setGameState.setClickMultiplier(prev => prev + (gameState.bulkBuy ? 10 : 1));
       setGameState.setItemCosts(prev => ({...prev, trashBag: Math.floor(cost * 1.1)}));
-      setGameState.setOwnedItems(prev => ({...prev, trashBag: prev.trashBag + (gameState.bulkBuy ? 10 : 1)}));
+      setGameState.setOwnedItems(prev => ({...prev, trashBag: (prev.trashBag || 0)  + (gameState.bulkBuy ? 10 : 1)}));
       setGameState.setHasUpgrade(true);
     }
   };
@@ -70,7 +70,7 @@ export const gameHandlers = (gameState, setGameState) => {
       setGameState.setNotifications(prev => [...prev, "Trash Picker purchased!"]);
       setGameState.setClickMultiplier(prev => prev + (gameState.bulkBuy ? 30 : 3));
       setGameState.setItemCosts(prev => ({...prev, trashPicker: Math.floor(cost * 1.1)}));
-      setGameState.setOwnedItems(prev => ({...prev, trashPicker: prev.trashPicker + (gameState.bulkBuy ? 10 : 1)}));
+      setGameState.setOwnedItems(prev => ({...prev, trashPicker: (prev.trashPicker || 0) + (gameState.bulkBuy ? 10 : 1)}));
     }
   };
 
@@ -101,19 +101,19 @@ export const gameHandlers = (gameState, setGameState) => {
       setGameState.setNotifications(prev => [...prev, "Streetrat hired!"]);
       setGameState.setPassiveIncome(prev => prev + gameState.bulkBuy ? 10 : 1);
       setGameState.setItemCosts(prev => ({...prev, streetrat: Math.floor(cost * 1.15)}));
-      setGameState.setOwnedItems(prev => ({...prev, streetrat: prev.streetrat + (gameState.bulkBuy ? 10 : 1)}));
+      setGameState.setOwnedItems(prev => ({...prev, streetrat: (prev.streetrat || 0) + (gameState.bulkBuy ? 10 : 1)}));
       setGameState.setHasHelper(true);
     }
   };
 
   const handleBuyCart = () => {
     if (gameState.junk >= gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.cart) : gameState.itemCosts.cart) {
-      const cost = gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.cart) : itemCosts.cart;
+      const cost = gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.cart) : gameState.itemCosts.cart;
       setGameState.setJunk(prev => prev - cost);
       setGameState.setNotifications(prev => [...prev, "Shopping Cart purchased!"]);
       setGameState.setPassiveIncome(prev => prev + (gameState.bulkBuy ? 50 : 5));
       setGameState.setItemCosts(prev => ({...prev, cart: Math.floor(cost* 1.15)}));
-      setGameState.setOwnedItems(prev => ({...prev, cart: prev.cart + (gameState.bulkBuy ? 10 : 1)}));
+      setGameState.setOwnedItems(prev => ({...prev, cart: (prev.cart || 0) + (gameState.bulkBuy ? 10 : 1)}));
     }
   };
 
@@ -124,7 +124,7 @@ export const gameHandlers = (gameState, setGameState) => {
       setGameState.setNotifications(prev => [...prev, "Junk Magnet purchased!"]);
       setGameState.setPassiveIncome(prev => prev + (gameState.bulkBuy ? 100 : 10));
       setGameState.setItemCosts(prev => ({...prev, junkMagnet: Math.floor(cost * 1.15)}));
-      setGameState.setOwnedItems(prev => ({...prev, junkMagnet: prev.junkMagnet + (gameState.bulkBuy ? 10 : 1)}));
+      setGameState.setOwnedItems(prev => ({...prev, junkMagnet: (prev.junkMagnet || 0) + (gameState.bulkBuy ? 10 : 1)}));
     }
   };
 
@@ -135,7 +135,7 @@ export const gameHandlers = (gameState, setGameState) => {
       setGameState.setNotifications(prev => [...prev, "Urban Recycler purchased!"]);
       setGameState.setPassiveIncome(prev => prev + (gameState.bulkBuy ? 200 : 20));
       setGameState.setItemCosts(prev => ({...prev, urbanRecycler: Math.floor(cost * 1.15)}));
-      setGameState.setOwnedItems(prev => ({...prev, urbanRecycler: prev.urbanRecycler + (gameState.bulkBuy ? 10 : 1)}));
+      setGameState.setOwnedItems(prev => ({...prev, urbanRecycler: (prev.urbanRecycler || 0) + (gameState.bulkBuy ? 10 : 1)}));
     }
   };
 
@@ -170,7 +170,7 @@ export const gameHandlers = (gameState, setGameState) => {
         return newValue;
       });
       setGameState.setItemCosts(prev => ({...prev, holoBillboard: Math.floor(cost * 1.2)}));
-      setGameState.setOwnedItems(prev => ({...prev, holoBillboard: (prev.holoBillboard) + (gameState.bulkBuy ? 10 : 1)}));
+      setGameState.setOwnedItems(prev => ({...prev, holoBillboard: (prev.holoBillboard || 0) + (gameState.bulkBuy ? 10 : 1)}));
 
       if (!gameState.holoBillboard) {
         window.dispatchEvent(new CustomEvent('nextNews', { 
@@ -193,7 +193,7 @@ export const gameHandlers = (gameState, setGameState) => {
         detail: { message: "Cogfather whispers: 'Sit back, kid. Let the bots handle it from here.'" }
       }));
     }};
-
+  
   const handleBuyAutoClickerV2 = () => { 
     if (gameState.junk >= (gameState.bulkBuy ? calculate10xPriceBillBoard(gameState.itemCosts.autoClickerV2) : gameState.itemCosts.autoClickerV2) && gameState.autoClickerV1Count >= (gameState.bulkBuy ? 10 : 1)) { 
       const cost = gameState.bulkBuy ? calculate10xPriceBillBoard(gameState.itemCosts.autoClickerV2) : gameState.itemCosts.autoClickerV2;

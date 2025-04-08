@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default function Changelog({ onClose }) {
-  const [expandedVersion, setExpandedVersion] = useState('0.0.7/1');
+  const [expandedVersion, setExpandedVersion] = useState('0.0.7/2');
 
   const toggleVersion = (version) => {
     setExpandedVersion(expandedVersion === version ? null : version);
@@ -15,28 +15,56 @@ export default function Changelog({ onClose }) {
         <button onClick={onClose}>Close</button>
       </div>
 
-      <div className="changelog-entry">
-        <h3 onClick={() => toggleVersion('0.0.7/1')} style={{ cursor: 'pointer' }}>
-          🔧 Last Reddit Update – Update Log 0.0.7/1 {expandedVersion === '0.0.7/1' ? '▼' : '▶'}
-        </h3>
-        {expandedVersion === '0.0.7/1' && (
-          <>
-            <p>Note: Reddit failed me... but hey my junk is better than yours💛</p>
-            <div className="changelog-section">
-              <h3>📜 Updates</h3>
-              <p>✅ Ultimate Slots are now live — spin at your own risk</p>
-              <p>✅ Slot Machine CSS moved to its own file for cleaner development</p>
-              <p>✅ Fixed the Modular Scrapper</p>
-              <p>✅ Refactored ClickerBuyActions logic</p>
-              <p>✅ Removed a bunch of legacy code</p>
-              <p>✅ Started implementing Buy x10 option (currently Junk Store only)</p>
-            </div>
-            <p className="changelog-footer">Thanks again for playing and sharing your feedback — it really helps shape each version. More content and polish coming soon! If you want to help please make sure to mail me itscolord@gmail.com 🚀</p>
-          </>
-        )}
-      </div>
-      
+
       <div className="changelog-content">
+
+
+        <div className="changelog-entry">
+          <h3 onClick={() => toggleVersion('0.0.7/2')} style={{ cursor: 'pointer' }}>
+            🔧 Last Reddit Update – Update Log 0.0.7/2 {expandedVersion === '0.0.7/2' ? '▼' : '▶'}
+          </h3>
+          {expandedVersion === '0.0.7/2' && (
+            <>
+              <p>Note: Reddit failed me... but hey my junk is better than yours💛</p>
+              <div className="changelog-section">
+                <h3>📜 Updates</h3>
+                <p>✅ Added 10x Buy Option to Automation Store</p>
+                <p>✅ Fixed Scrap Drone not saving properly</p>
+                <p>✅ Fixed UI Settings save/load behavior</p>
+                <p>✅ Added toggle for AutoClickers</p>
+                <p>✅ Added option to disable Trash Pickups</p>
+                <p>✅ Cleaned up number formatting in Junk Store</p>
+                <p>✅ Reworked Settings Menu CSS</p>
+                <p>✅ Added new quest to highlight click automation</p>
+                <p>✅ Fixed a bug that broke the Junk Store (my bad)</p>
+                <p>✅ Changed styling for Quest Completion feedback</p>
+              </div>
+              <p className="changelog-footer">Thanks again for playing and sharing your feedback — it really helps shape each version. More content and polish coming soon! If you want to help please make sure to mail me itscolord@gmail.com 🚀</p>
+            </>
+          )}
+        </div>
+
+
+        <div className="changelog-entry">
+          <h3 onClick={() => toggleVersion('0.0.7/1')} style={{ cursor: 'pointer' }}>
+            🔧 Last Reddit Update – Update Log 0.0.7/1 {expandedVersion === '0.0.7/1' ? '▼' : '▶'}
+          </h3>
+          {expandedVersion === '0.0.7/1' && (
+            <>
+              <p>Note: Reddit failed me... but hey my junk is better than yours💛</p>
+              <div className="changelog-section">
+                <h3>📜 Updates</h3>
+                <p>✅ Ultimate Slots are now live — spin at your own risk</p>
+                <p>✅ Slot Machine CSS moved to its own file for cleaner development</p>
+                <p>✅ Fixed the Modular Scrapper</p>
+                <p>✅ Refactored ClickerBuyActions logic</p>
+                <p>✅ Removed a bunch of legacy code</p>
+                <p>✅ Started implementing Buy x10 option (currently Junk Store only)</p>
+              </div>
+              <p className="changelog-footer">Thanks again for playing and sharing your feedback — it really helps shape each version. More content and polish coming soon! If you want to help please make sure to mail me itscolord@gmail.com 🚀</p>
+            </>
+          )}
+        </div>
 
         <div className="changelog-entry">
           <h3 onClick={() => toggleVersion('0.0.7')} style={{ cursor: 'pointer' }}>
