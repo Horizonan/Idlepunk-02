@@ -212,6 +212,50 @@ export const gameHandlers = (gameState, setGameState) => {
       }
   };
 
+
+  //After Prestige
+  const handleBuyJunkRefinery = () => {
+    if (gameState.junk >= gameState.bulkBuy ? calculate10xPriceBillBoard(gameState.itemCosts.junkRefinery) : gameState.itemCosts.junkRefinery) {
+      const cost = gameState.bulkBuy ? calculate10xPriceBillBoard(gameState.itemCosts.junkRefinery) : gameState.itemCosts.junkRefinery;
+      setGameState.setJunk(prev => prev - cost);
+      setGameState.setPassiveIncome(prev => prev + (gameState.bulkBuy ? 500 : 50));
+      setGameState.setOwnedItems(prev => ({...prev, junkRefinery: (prev.junkRefinery || 0) + gameState.bulkBuy ? 10:1}));
+      setGameState.setItemCosts(prev => ({...prev, junkRefinery: Math.floor(cost * 1.2)}));
+      setGameState.setNotifications(prev => [...prev, "Junk Refinery purchased! +50 Junk/sec"]);
+
+      if (!ownedItems.junkRefinery) {
+        window.dispatchEvent(new CustomEvent('nextNews', { 
+          detail: { message: "Cogfather: A Refinery? Now you're thinking industrial scale." }
+        }));
+      }
+    }
+  };
+
+
+  const handleBuyModularScrapper = () => {
+    if (gameState.junk >= gameState.itemCosts.modularScrapper && !localStorage.getItem("modularScrapperPurchased")){
+
+      setGameState.setJunk(prev => prev - gameState.itemCosts.modularScrapper);
+      setGameState.setPassiveIncome(prev => prev * 2);
+      setGameState.setOwnedItems(prev => ({...prev, modularScrapper: 1}));
+      setGameState.setNotifications(prev => [...prev, "Modular Scrapper Rig installed! Junk/sec doubled!"]);
+      localStorage.setItem("modularScrapperPurchased", "true");
+
+      window.dispatchEvent(
+        new CustomEvent("nextNews", {
+          detail: {
+            message:
+              "Cogfather: Now that's what I call an upgrade. Your operation just got serious.",
+          }
+        })
+      )
+    }
+  }
+  
+  
+       
+
+
   return {
     collectJunk,
     handleBuyTrashBag,
@@ -228,5 +272,7 @@ export const gameHandlers = (gameState, setGameState) => {
     handleBuyHoloBillboard,
     handleBuyAutoClicker,
     handleBuyAutoClickerV2,
+    handleBuyJunkRefinery,  
+    handleBuyModularScrapper
   };
 };

@@ -120,7 +120,8 @@ export const useGameState = () => {
     clickEnhancer: 2500,
     scrapDrone: 7500,
     holoBillboard: 15000,
-    junkRefinery: 500000,
+    junkRefinery: 500000,    
+    modularScrapper: 2500000,
   });
 
 
@@ -137,6 +138,8 @@ export const useGameState = () => {
     holoBillboard: 0,
     junkRefinery: 0,
     autoClickerV2: 0,
+    autoClickerV1: 0,
+    modularScrapper: 0
   });
 
   //Skill Levels
@@ -157,6 +160,7 @@ export const useGameState = () => {
     localStorage.setItem('autoClicks', autoClicks);
     localStorage.setItem('autoClickerV1Count', autoClickerV1Count);
     localStorage.setItem('autoClickerV2Count', autoClickerV2Count);
+    localStorage.setItem('modularScrapperPurchased', ownedItems.modularScrapper);
     localStorage.setItem('clickMultiplier', clickMultiplier);
     localStorage.setItem('passiveIncome', passiveIncome);
     localStorage.setItem('globalJpsMultiplier', globalJpsMultiplier);

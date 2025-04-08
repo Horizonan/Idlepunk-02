@@ -2,24 +2,14 @@ import React, { useState } from "react";
 import "./Store.css";
 
 export default function Store({
-  credits, itemCosts, ownedItems,
-  craftingInventory, onBuyTrashBag,
-  onBuyPicker, onBuyStreetrat,
-  onBuyCart, onBuyJunkMagnet,
-  onBuyUrbanRecycler, onBuyScrapDrone,
-  onBuyHoloBillboard, onBuyJunkRefinery,
-  onBuyShardMiner,
-  globalJpsMultiplier,
-  passiveIncome,
-  onBuyClickEnhancer,
-  onBuyAutoClicker,
-  onGetAutoClickersV1,
-  canAffordV1,
-  canAffordV2,
-  onGetAutoClickersV2,
-  onBuyAutoClickerV2, calculate10xPriceJunkClicker,
-  onBack, setJunk, setPassiveIncome, setNotifications, bulkBuy,
-  setBulkBuy, calculate10xPriceJPS, calculate10xPriceBillBoard
+  credits, itemCosts, ownedItems, craftingInventory, onBuyTrashBag,
+  onBuyPicker, onBuyStreetrat,onBuyCart, onBuyJunkMagnet,
+  onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, onBuyJunkRefinery,
+  onBuyShardMiner, globalJpsMultiplier, passiveIncome, onBuyClickEnhancer,
+  onBuyAutoClicker, onGetAutoClickersV1, canAffordV1, canAffordV2,
+  onGetAutoClickersV2, onBuyAutoClickerV2, calculate10xPriceJunkClicker,
+  onBack, bulkBuy, setBulkBuy, calculate10xPriceJPS, calculate10xPriceBillBoard,
+  onBuyModularScrapper
 }) {
   const [selectedTab, setSelectedTab] = useState("prePres");
   
@@ -61,6 +51,8 @@ export default function Store({
   };
 
 
+
+  //Junk store
   const passiveItems = [
     {
       name: "Streetrat",
@@ -116,17 +108,8 @@ export default function Store({
     },
   ];
 
-  const tabs = [
-    { id: "prePres", label: "Pre-Prestige" },
-    { id: "premium", label: "Premium" },
-    { id: "automation", label: "Automation" },
-    {
-      id: "firstAsc",
-      label: "First Ascension",
-      unlockCondition: () => localStorage.getItem("hasPrestiged") === "true",
-    },
-  ];
 
+  //Premium Items
   const premiumItems = [
     {
       name: "Shard Miner",
@@ -140,6 +123,7 @@ export default function Store({
       action: onBuyShardMiner,
     },
   ];
+
 
   // Automation Menu
   const automationItems = [
@@ -164,6 +148,42 @@ export default function Store({
       action: onBuyAutoClickerV2,
     },
   ];
+  
+
+  //First Ascencion
+  const firstAsc = [
+    {
+      name: "🔹 Junk Refinery",
+      cost: { junk: bulkBuy ? calculate10xPriceBillBoard(itemCosts.junkRefinery) : itemCosts.junkRefinery},
+      description: "+50 Junk/sec",
+      info: "A high-tech facility that processes junk more efficiently.",
+      unlockCondition: () =>
+        credits >= bulkBuy ? calculate10xPriceBillBoard(itemCosts.junkRefinery) : itemCosts.junkRefinery,
+      purchasedCount: ownedItems.junkRefinery,
+      action: onBuyJunkRefinery,
+    },
+    {
+      name: "🔹 Modular Scrapper",
+      cost: { junk: itemCosts.modularScrapper},
+      description: "Doubles current Junk/sec",
+      info: "One-time purchase per prestige.",
+      unlockCondition: () => credits >= itemCosts.modularScrapper,
+      purchasedCount: ownedItems.modularScrapper,
+      action: onBuyModularScrapper,
+    },
+  ];
+
+  const tabs = [
+    { id: "prePres", label: "Pre-Prestige" },
+    { id: "premium", label: "Premium" },
+    { id: "automation", label: "Automation" },
+    {
+      id: "firstAsc",
+      label: "First Ascension",
+      unlockCondition: () => localStorage.getItem("hasPrestiged") === "true",
+    },
+  ];
+
 
   // Combined Items for rendering
   const renderItems = (items) => (
@@ -264,65 +284,9 @@ export default function Store({
                 First Ascension
               </h3>
               <div className="store-items">
-                <button
-                  onClick={() => {
-                    if (
-                      credits >= 2500000 &&
-                      !localStorage.getItem("modularScrapperPurchased")
-                    ) {
-                      setJunk((prev) => prev - 2500000);
-                      setPassiveIncome((prev) => prev * 2);
-                      localStorage.setItem("modularScrapperPurchased", "true");
-                      setNotifications((prev) => [
-                        ...prev,
-                        "Modular Scrapper Rig installed! Junk/sec doubled!",
-                      ]);
-                      window.dispatchEvent(
-                        new CustomEvent("nextNews", {
-                          detail: {
-                            message:
-                              "Cogfather: Now that's what I call an upgrade. Your operation just got serious.",
-                          },
-                        }),
-                      );
-                    }
-                  }}
-                  disabled={
-                    credits < 2500000 ||
-                    localStorage.getItem("modularScrapperPurchased")
-                  }
-                  className="store-item"
-                >
-                  <div className="item-header">
-                    <strong>🔹 Modular Scrapper Rig</strong>
-                    <span className="cost">(2.5M Junk)</span>
-                  </div>
-                  <div className="item-info">
-                    <p>Doubles current Junk/sec</p>
-                    <p>One-time purchase per prestige</p>
-                    <p className="owned">
-                      Owned:{" "}
-                      {localStorage.getItem("modularScrapperPurchased")
-                        ? "1"
-                        : "0"}
-                    </p>
-                  </div>
-                </button>
-                <button
-                  className={`store-item ${credits < (itemCosts.junkRefinery || 500000) ? "disabled" : ""}`}
-                  onClick={onBuyJunkRefinery}
-                  disabled={credits < (itemCosts.junkRefinery || 500000)}
-                >
-                  <div className="item-header">
-                    <strong>🔹 Junk Refinery</strong>
-                  </div>
-                  <div>{itemCosts.junkRefinery || 500000} Junk</div>
-                  <div className="item-info">
-                    <p>+50 Junk/sec</p>
-                    <p>Owned: {ownedItems.junkRefinery || 0}</p>A high-tech
-                    facility that processes junk more efficiently.
-                  </div>
-                </button>
+               
+                {renderItems(firstAsc)}
+                
               </div>
             </div>
           )}

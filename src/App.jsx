@@ -79,7 +79,7 @@ export default function App() {
     handleBuyTrashBag, calculate10xPriceJunkClicker,
     handleBuyPicker, handleBuyClickEnhancer, calculate10xPriceJPS, handleBuyStreetrat,
     handleBuyCart, handleBuyJunkMagnet, handleBuyUrbanRecycler, handleBuyScrapDrone,
-    handleBuyHoloBillboard, calculate10xPriceBillBoard, handleBuyAutoClicker, handleBuyAutoClickerV2
+    handleBuyHoloBillboard, calculate10xPriceBillBoard, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper
   } = gameHandlers({
     junk,
     bulkBuy,
@@ -98,7 +98,7 @@ export default function App() {
     const handleUpdateSurgeCount = () => {
       setSurgeCount(3);
     };
-    console.log(autoClickerV1Count);
+
 
     window.addEventListener('updateSurgeCount', handleUpdateSurgeCount);
 
@@ -257,13 +257,9 @@ export default function App() {
       window.surgeStartTime = Date.now();
       const isTronicsSurgeUnlocked = localStorage.getItem('electro_surge_node_purchased') === 'true';
 
-      const randomVal = Math.random();
-      console.log("Number is: " + randomVal);
       const isTronicsSurge = isTronicsSurgeUnlocked; 
-      console.log("Is Tronics Surge: " + isTronicsSurge);
 
       if (isTronicsSurge) {
-        console.log("Triggering Tronics Surge");
         setTronicsSurgeActive(true);
         setTimeout(() => {
           setTronicsSurgeActive(false);
@@ -274,7 +270,6 @@ export default function App() {
           });
         }, parseInt(localStorage.getItem('surge_duration_bonus') || '5') * 1000);
       } else {
-        console.log("Triggering Trash Surge");
         setIsSurgeActive(true);
         setHasFoundCapacitorThisSurge(false);
         localStorage.setItem('hadFirstSurge', 'true');
@@ -353,7 +348,6 @@ export default function App() {
 
   useEffect(() => {
     const totalPassiveIncome = passiveIncome * globalJpsMultiplier + ((autoClicks + permanentAutoClicks) * clickMultiplier);
-    console.log(permanentAutoClicks);
     if ((totalPassiveIncome >= 100 || junk >= 1000000)) {
       localStorage.setItem('prestigeUnlocked', 'true');
     }
@@ -512,24 +506,6 @@ export default function App() {
     const hasCraftedOneTime = onetimeItems.some(item => (craftingInventory[item] || 0) > 0);
     setShowInventory(hasCraftedOneTime);
   }, [craftingInventory]);
-
-
-  const handleBuyJunkRefinery = () => {
-    if (junk >= (itemCosts.junkRefinery || 500000)) {
-      setJunk(prev => prev - (itemCosts.junkRefinery || 500000));
-      setPassiveIncome(prev => prev + 50);
-      setOwnedItems(prev => ({...prev, junkRefinery: (prev.junkRefinery || 0) + 1}));
-      setItemCosts(prev => ({...prev, junkRefinery: Math.floor((prev.junkRefinery || 500000) * 1.2)}));
-      setNotifications(prev => [...prev, "Junk Refinery purchased! +50 Junk/sec"]);
-
-      if (!ownedItems.junkRefinery) {
-        window.dispatchEvent(new CustomEvent('nextNews', { 
-          detail: { message: "Cogfather: A Refinery? Now you're thinking industrial scale." }
-        }));
-      }
-    }
-  };
-
  
   useEffect(() => {
     if (localStorage.getItem('quest_sync_Forge the Future') === 'true' || 
@@ -761,6 +737,7 @@ export default function App() {
           globalJpsMultiplier={globalJpsMultiplier}
           passiveIncome={passiveIncome}
           onBuyClickEnhancer={handleBuyClickEnhancer}
+          onBuyModularScrapper={handleBuyModularScrapper}
           clickCount={clickCount}
           purchasedUpgrades={Object.values(itemCosts).filter(cost => cost > 0).length}
           onBack={() => {

@@ -13,7 +13,9 @@ export const useItemState = () => {
     autoClickerV2: 10000,
     clickEnhancer: 2500,
     scrapDrone: 7500,
-    holoBillboard: 15000
+    holoBillboard: 15000,
+    junkRefinery: 500000,
+    modularScrapper: 2500000,
   });
 
   const [ownedItems, setOwnedItems] = useState(() => JSON.parse(localStorage.getItem('ownedItems')) || {
@@ -25,7 +27,11 @@ export const useItemState = () => {
     urbanRecycler: 0,
     clickEnhancer: 0,
     scrapDrone: 0,
-    holoBillboard: 0
+    holoBillboard: 0,
+    autoClickerV2: 0,
+    autoClickerV1: 0,
+    junkRefinery: 0,
+    modularScrapper: 0,
   });
 
   useEffect(() => {
