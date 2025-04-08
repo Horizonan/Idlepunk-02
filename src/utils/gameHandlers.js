@@ -1,5 +1,3 @@
-import ItemInventory from "../components/StoreSystem/ItemInventory";
-
 export const gameHandlers = (gameState, setGameState) => {
   
   
@@ -215,6 +213,7 @@ export const gameHandlers = (gameState, setGameState) => {
 
   //After Prestige
   const handleBuyJunkRefinery = () => {
+    console.log(!localStorage.getItem("modularScrapperPurchased"))
     if (gameState.junk >= gameState.bulkBuy ? calculate10xPriceBillBoard(gameState.itemCosts.junkRefinery) : gameState.itemCosts.junkRefinery) {
       const cost = gameState.bulkBuy ? calculate10xPriceBillBoard(gameState.itemCosts.junkRefinery) : gameState.itemCosts.junkRefinery;
       setGameState.setJunk(prev => prev - cost);
@@ -223,7 +222,7 @@ export const gameHandlers = (gameState, setGameState) => {
       setGameState.setItemCosts(prev => ({...prev, junkRefinery: Math.floor(cost * 1.2)}));
       setGameState.setNotifications(prev => [...prev, "Junk Refinery purchased! +50 Junk/sec"]);
 
-      if (!ownedItems.junkRefinery) {
+      if (!gameState.ownedItems.junkRefinery) {
         window.dispatchEvent(new CustomEvent('nextNews', { 
           detail: { message: "Cogfather: A Refinery? Now you're thinking industrial scale." }
         }));
@@ -233,6 +232,8 @@ export const gameHandlers = (gameState, setGameState) => {
 
 
   const handleBuyModularScrapper = () => {
+    console.log("Hello world");
+
     if (gameState.junk >= gameState.itemCosts.modularScrapper && !localStorage.getItem("modularScrapperPurchased")){
 
       setGameState.setJunk(prev => prev - gameState.itemCosts.modularScrapper);

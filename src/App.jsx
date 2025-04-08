@@ -87,6 +87,7 @@ export default function App() {
     setClickEnhancerLevel,
     clickEnhancerLevel,
     autoClickerV1Count,
+    ownedItems
    
   }, {
     setJunk, setNotifications, setClickMultiplier, setItemCosts, setOwnedItems, setHasUpgrade,
@@ -1101,7 +1102,8 @@ export default function App() {
               scrapDrone: 7500,
               holoBillboard: 15000,
               autoClickerV2: 10000,
-              junkRefinery: 500000
+              junkRefinery: 500000,
+              modularScrapper: 2500000,
             });
 
 
@@ -1115,7 +1117,8 @@ export default function App() {
               clickEnhancer: 0,
               scrapDrone: 0,
               holoBillboard: 0,
-              junkRefinery: 0
+              junkRefinery: 0,
+              modularScrapper: 0,
             };
             setOwnedItems(resetOwnedItems);
 

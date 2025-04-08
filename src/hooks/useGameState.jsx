@@ -160,7 +160,6 @@ export const useGameState = () => {
     localStorage.setItem('autoClicks', autoClicks);
     localStorage.setItem('autoClickerV1Count', autoClickerV1Count);
     localStorage.setItem('autoClickerV2Count', autoClickerV2Count);
-    localStorage.setItem('modularScrapperPurchased', ownedItems.modularScrapper);
     localStorage.setItem('clickMultiplier', clickMultiplier);
     localStorage.setItem('passiveIncome', passiveIncome);
     localStorage.setItem('globalJpsMultiplier', globalJpsMultiplier);

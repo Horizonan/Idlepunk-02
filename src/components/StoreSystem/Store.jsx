@@ -150,6 +150,7 @@ export default function Store({
   ];
   
 
+  
   //First Ascencion
   const firstAsc = [
     {
@@ -167,7 +168,7 @@ export default function Store({
       cost: { junk: itemCosts.modularScrapper},
       description: "Doubles current Junk/sec",
       info: "One-time purchase per prestige.",
-      unlockCondition: () => credits >= itemCosts.modularScrapper,
+      unlockCondition: () => (localStorage.getItem("modularScrapperPurchased") != "true" && credits >= itemCosts.modularScrapper),
       purchasedCount: ownedItems.modularScrapper,
       action: onBuyModularScrapper,
     },
@@ -284,7 +285,6 @@ export default function Store({
                 First Ascension
               </h3>
               <div className="store-items">
-               
                 {renderItems(firstAsc)}
                 
               </div>
