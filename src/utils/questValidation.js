@@ -84,9 +84,8 @@ export const validateQuests = ({
 
   
     if (craftingInventory['Overcharged Prestige Crystal'] >= 1 && !localStorage.getItem('quest_sync_Forge the Overcrystal')) {
-      localStorage.setItem('prestigeUnlocked', 'true');
+      localStorage.setItem('prestige1Unlocked', 'true');
       localStorage.setItem('quest_sync_Forge the Overcrystal', 'true');
-      localStorage.setItem('hasPrestiged', 'true');
       setNotifications(prev => [...prev, "The Prestige System has been unlocked!"]);
       window.dispatchEvent(new CustomEvent('nextNews', { 
         detail: { message: "The signal breaks through. You're no longer just salvaging — you're rewriting the system" }

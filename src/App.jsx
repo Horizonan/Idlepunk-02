@@ -313,6 +313,7 @@ export default function App() {
 
   useEffect(() => {
     const updateInterval = setInterval(() => {
+      console.log(localStorage.getItem('prestige1Unlocked') == "true");
       const skillLevels = JSON.parse(localStorage.getItem('skillLevels')) || { greaseDiscipline: 0 };
       const greaseDisciplineBonus = skillLevels.greaseDiscipline * 0.5 / 100;
       const circuitOptCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
@@ -1043,6 +1044,18 @@ export default function App() {
           className={`prestige-button ${!prestigeQuestCompleted ? 'locked' : ''}`}
           onClick={() => {
             if (prestigeQuestCompleted) {
+              setShowPrestigePopup(true);
+            }
+          }}>
+          Prestige
+        </button>
+      )}
+
+      {(junk >= 25000000 &&
+        <button 
+          className={`prestige-button ${(localStorage.getItem('prestige1Unlocked') != "true") ? 'locked' : ''}`}
+          onClick={() => {
+            if (localStorage.getItem('prestigeUnlocked') != "true") {
               setShowPrestigePopup(true);
             }
           }}>
