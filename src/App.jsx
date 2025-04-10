@@ -444,7 +444,7 @@ export default function App() {
       const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
       const quantumProc = hasQuantumTap && Math.random() < 0.03;
 
-      setTronics(prev => { prev + (quantumProc ? amount * 3 : amount); });
+      setTronics(prev => prev + (quantumProc ? amount * 3 : amount));
 
       if (quantumProc) {
         setNotifications(prev => [...prev, "Quantum Tap triggered! 3x Tronics gained!"]);
