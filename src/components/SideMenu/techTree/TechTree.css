@@ -70,7 +70,7 @@
   color: #FF00FF;
 }
 
-.tech-cost:purchased {
+.tech-cost.purchased {
   display: none;
   visibility: hidden;
 }
