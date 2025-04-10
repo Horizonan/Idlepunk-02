@@ -16,7 +16,7 @@ export default function StatsDisplay({ credits, junk, passiveIncome, globalJpsMu
       <p>Junk/sec: {Math.floor((passiveIncome * globalJpsMultiplier) + ((autoClicks + permanentAutoClicks) * clickMultiplier)).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
       {hasPrestiged && (
         <>
-          <p>Tronics: {tronics.toFixed(2)}</p>
+          <p>Tronics: {Math.floor(tronics).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
           <p>Tronics/sec: {tronicsPerSecond.toFixed(1)}</p>
         </>
       )}
