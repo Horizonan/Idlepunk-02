@@ -33,18 +33,7 @@ export default function ElectroStore({
       info: !localStorage.getItem('unlocked_tronics_boost') 
         ? "Unlock with 3 Electro Shards, then purchase for Tronics"
         : "Basic boost to tronics generation",
-      action: () => {
-        if (!localStorage.getItem('unlocked_tronics_boost')) {
-          if (electroShards >= 3) {
-            onBuyTronicsBoost();
-            localStorage.setItem('unlocked_tronics_boost', 'true');
-            incrementUpgradeCount();
-          }
-        } else if (tronics >= tronicsBoostCost) {
-          onBuyTronicsBoost();
-          incrementUpgradeCount();
-        }
-      },
+      action: onBuyTronicsBoost,
       purchasedCount: parseInt(localStorage.getItem('tronics_boost_count') || '0'),
       unlockCondition: () => true
     },

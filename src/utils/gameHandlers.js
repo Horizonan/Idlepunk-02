@@ -232,8 +232,6 @@ export const gameHandlers = (gameState, setGameState) => {
 
 
   const handleBuyModularScrapper = () => {
-    console.log("Hello world");
-
     if (gameState.junk >= gameState.itemCosts.modularScrapper && !localStorage.getItem("modularScrapperPurchased")){
 
       setGameState.setJunk(prev => prev - gameState.itemCosts.modularScrapper);
@@ -253,7 +251,34 @@ export const gameHandlers = (gameState, setGameState) => {
     }
   }
   
-  
+
+
+  //Tronics Store
+  const handleBuyTronicsBoost = () => {
+    console.log(gameState.tronics);
+    
+    if (!localStorage.getItem('unlocked_tronics_boost') === "true" && electroShards >= 3) {
+      console.log("Inside Unlock");
+      gameState.setElectroShards(prev => {
+        const newValue = prev - 3;
+        localStorage.setItem('electroShards', newValue.toString());
+        return newValue;
+      });
+      
+      setNotifications(prev => [...prev, "Tronics Click Boost I unlocked!"]);
+      
+      } else if(gameState.tronics >= gameState.itemCosts.tronicsBoost){
+      
+          setGameState.setTronics(prev => prev - gameState.itemCosts.tronicsBoost);
+          setGameState.setClickMultiplier(prev => prev + 1);
+          setGameState.setItemCosts(prev => ({...prev, tronicsBoost: Math.floor(gameState.itemCosts.tronicsBoost * 1.1)}));
+      
+          const newBoostCount = (parseInt(localStorage.getItem('tronics_boost_count') || '0') + 1);
+      
+          localStorage.setItem('tronics_boost_count', newBoostCount);
+          setGameState.setNotifications(prev => [...prev, "Tronics Click Boost I purchased! +1 Tronics per click"]);
+    }
+  }
        
 
 
@@ -274,6 +299,7 @@ export const gameHandlers = (gameState, setGameState) => {
     handleBuyAutoClicker,
     handleBuyAutoClickerV2,
     handleBuyJunkRefinery,  
-    handleBuyModularScrapper
+    handleBuyModularScrapper,
+    handleBuyTronicsBoost
   };
 };

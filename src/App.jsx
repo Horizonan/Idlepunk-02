@@ -79,7 +79,7 @@ export default function App() {
     handleBuyTrashBag, calculate10xPriceJunkClicker,
     handleBuyPicker, handleBuyClickEnhancer, calculate10xPriceJPS, handleBuyStreetrat,
     handleBuyCart, handleBuyJunkMagnet, handleBuyUrbanRecycler, handleBuyScrapDrone,
-    handleBuyHoloBillboard, calculate10xPriceBillBoard, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper
+    handleBuyHoloBillboard, calculate10xPriceBillBoard, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost
   } = gameHandlers({
     junk,
     bulkBuy,
@@ -92,7 +92,7 @@ export default function App() {
   }, {
     setJunk, setNotifications, setClickMultiplier, setItemCosts, setOwnedItems, setHasUpgrade,
     setClickEnhancerLevel,clickEnhancerLevel, setPassiveIncome, setHasHelper, setGlobalJpsMultiplier, setAutoClicks,
-    setAutoClickerV1Count, autoClickerV1Count, setAutoClickerV2Count
+    setAutoClickerV1Count, autoClickerV1Count, setAutoClickerV2Count, 
   });
   
   useEffect(() => {
@@ -775,29 +775,8 @@ export default function App() {
               setNotifications(prev => [...prev, "Quantum Tap Circuit installed! You now have a 3% chance to get 3x Tronics per click."]);
             }
           }}
-          onBuyTronicsBoost={() => {
-            const isUnlocked = localStorage.getItem('unlocked_tronics_boost') === 'true';
-            if (!isUnlocked && electroShards >= 3) {
-              setElectroShards(prev => {
-                const newValue = prev - 3;
-                localStorage.setItem('electroShards', newValue.toString());
-                return newValue;
-              });
-              setNotifications(prev => [...prev, "Tronics Click Boost I unlocked!"]);
-            } else if (isUnlocked && tronics >= 250) {
-              setClickMultiplier(prev => prev + 1);
-              const newBoostCount = (parseInt(localStorage.getItem('tronics_boost_count') || '0') + 1);
-              localStorage.setItem('tronics_boost_count', newBoostCount);
-
-            
-              const currentCost = parseInt(localStorage.getItem('tronics_boost_cost') || '250');
-              const newCost = Math.floor(currentCost * 1.1);
-              localStorage.setItem('tronics_boost_cost', newCost);
-              setTronics(prev => prev - currentCost);
-
-              setNotifications(prev => [...prev, "Tronics Click Boost I purchased! +1 Tronics per click"]);
-            }
-          }}
+          onBuyTronicsBoost={handleBuyTronicsBoost}
+          
           onBack={() => {
             setActiveStore(null);
             localStorage.setItem('activeStore', null);
@@ -1118,6 +1097,7 @@ export default function App() {
               autoClickerV2: 10000,
               junkRefinery: 500000,
               modularScrapper: 2500000,
+              tronicsBoost: 250
             });
 
 

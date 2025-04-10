@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export const useGameState = () => {
-  const [junk, setJunk] = useState(() => Math.floor(Number(localStorage.getItem('junk')) || 0));
-  const [credits, setCredits] = useState(() => Math.floor(Number(localStorage.getItem('credits')) || 0));
-  const [tronics, setTronics] = useState(() => Number(localStorage.getItem('tronics')) || 0);
+  
   const [clickMultiplier, setClickMultiplier] = useState(() => Number(localStorage.getItem('clickMultiplier')) || 1);
   const [passiveIncome, setPassiveIncome] = useState(() => Number(localStorage.getItem('passiveIncome')) || 0);
   const [globalJpsMultiplier, setGlobalJpsMultiplier] = useState(() => Number(localStorage.getItem('globalJpsMultiplier')) || 1);
@@ -20,6 +18,11 @@ export const useGameState = () => {
   const [cogfatherLore, setCogfatherLore] = useState(() => JSON.parse(localStorage.getItem('cogfatherLore')) || []);
   const [preservedHelper, setPreservedHelper] = useState(() => localStorage.getItem('preservedHelper') || null);
 
+
+  //Currencies
+  const [junk, setJunk] = useState(() => Math.floor(Number(localStorage.getItem('junk')) || 0));
+  const [credits, setCredits] = useState(() => Math.floor(Number(localStorage.getItem('credits')) || 0));
+  const [tronics, setTronics] = useState(() => Number(localStorage.getItem('tronics')) || 0);
 
   //Junk Store Specific 
   const [bulkBuy, setBulkBuy] = useState(false);
@@ -121,7 +124,8 @@ export const useGameState = () => {
     scrapDrone: 7500,
     holoBillboard: 15000,
     junkRefinery: 500000,    
-    modularScrapper: 2500000
+    modularScrapper: 2500000,
+    tronicsBoost: 250
   });
 
 
@@ -139,7 +143,8 @@ export const useGameState = () => {
     junkRefinery: 0,
     autoClickerV2: 0,
     autoClickerV1: 0,
-    modularScrapper: 0
+    modularScrapper: 0,
+    tronicsBoost: 0
   });
 
   //Skill Levels
