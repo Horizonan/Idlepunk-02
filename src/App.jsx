@@ -966,6 +966,7 @@ export default function App() {
               }));
               setElectronicsUnlock(true);
               localStorage.setItem('hasPrestiged', 'true');
+              localStorage.setItem('tronicsClicker', 'true');
               setNotifications(prev => [...prev, "Tronics Clicker and ElectroShop Unlocked!"]);
             }
           }}
@@ -1051,7 +1052,7 @@ export default function App() {
         </button>
       )}
 
-      {(junk >= 25000000 &&
+      {(junk >= 25000000 || (localStorage.getItem('prestige1Unlocked') === "true")&&
         <button 
           className={`prestige-button ${(localStorage.getItem('prestige1Unlocked') != "true") ? 'locked' : ''}`}
           onClick={() => {
