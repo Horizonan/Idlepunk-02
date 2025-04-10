@@ -3,6 +3,8 @@ import React from 'react';
 import './TechTree.css';
 
 export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
+  const hasTronicsClicker = localStorage.getItem('tronicsClicker') === 'true';
+
   return (
     <div className="tech-tree-container">
       <div className="tech-tree-header">
@@ -15,10 +17,9 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
         <div className="tech-tier">
           <h3>Tier 1 - Root Node</h3>
           <div className="tech-node root-node">
-            
             <button 
               onClick={() => onUnlock('tronicsClicker')}
-              disabled={prestigeTokens < 1}
+              disabled={prestigeTokens < 1 || hasTronicsClicker}
               className="tech-button"
             >
               <span>Unlock Tronics Clicker</span>
@@ -42,17 +43,17 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
         </div>
         
         <div className="tech-tier">
-          <div className="tech-node locked">
+          <div className="tech-node">
             <button 
-              onClick={() => onUnlock('tronicsClicker')}
-              disabled={prestigeTokens < 1}
+              onClick={() => onUnlock('scraptagon')}
+              disabled={!hasTronicsClicker || prestigeTokens < 1}
               className="tech-button"
             >
               <span>Unlocks Scraptagon</span>
               <div className="tech-cost">Cost: 1 Token</div>
               <div className="required-label">Optional</div>
               <div className="item-info">
-                <p>“You’ve built the junk. Now prove you can survive it.” Unlocks:</p>
+                <p>"You've built the junk. Now prove you can survive it." Unlocks:</p>
                 <ul>
                   <li>Access to Combat Grounds (passive combat system)</li>
                   <li>Adds Training Dummies for Combat XP</li>
@@ -61,17 +62,17 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
               </div>
             </button>
           </div>
-          <div className="tech-node locked">
+          <div className="tech-node">
             <button 
-              onClick={() => onUnlock('tronicsClicker')}
-              disabled={prestigeTokens < 1}
+              onClick={() => onUnlock('craftingBenchV2')}
+              disabled={!hasTronicsClicker || prestigeTokens < 1}
               className="tech-button"
             >
               <span>Unlocks Crafting Bench v2</span>
               <div className="tech-cost">Cost: 1 Token</div>
               <div className="required-label">Optional</div>
               <div className="item-info">
-                <p>“More advanced parts, fewer duct-tape miracles.” Unlocks:</p>
+                <p>"More advanced parts, fewer duct-tape miracles." Unlocks:</p>
                 <ul>
                   <li>Access to new items</li>
                   <li>Recipes show full item info and rarity</li>
@@ -79,17 +80,17 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
               </div>
             </button>
           </div>
-          <div className="tech-node locked">
+          <div className="tech-node">
             <button 
-              onClick={() => onUnlock('tronicsClicker')}
-              disabled={prestigeTokens < 1}
+              onClick={() => onUnlock('modcrafting')}
+              disabled={!hasTronicsClicker || prestigeTokens < 1}
               className="tech-button"
             >
               <span>Unlocks Modcrafting Station</span>
               <div className="tech-cost">Cost: 1 Token</div>
               <div className="required-label">Optional</div>
               <div className="item-info">
-                <p>“You’ve shaped the world — now shape yourself.” Unlocks:</p>
+                <p>"You've shaped the world — now shape yourself." Unlocks:</p>
                 <ul>
                   <li>Craft and equip passive mods with unique effects</li>
                   <li>Mod rarity, synergy, and future expansion planned</li>
