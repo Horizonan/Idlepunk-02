@@ -1055,7 +1055,7 @@ export default function App() {
         <button 
           className={`prestige-button ${(localStorage.getItem('prestige1Unlocked') != "true") ? 'locked' : ''}`}
           onClick={() => {
-            if (localStorage.getItem('prestigeUnlocked') != "true") {
+            if (localStorage.getItem('prestige1Unlocked') != "false") {
               setShowPrestigePopup(true);
             }
           }}>

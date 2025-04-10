@@ -23,8 +23,10 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
               className="tech-button"
             >
               <span>Unlock Tronics Clicker</span>
-              <div className="tech-cost">Cost: 1 Token</div>
-              <div className="required-label">REQUIRED</div>
+              
+              <div className={`tech-cost ${(localStorage.getItem('tronicsClicker') === "true") ? 'purchased' : ''}`}>Cost: 1 Token</div>
+              <div className="tech-cost">Purchased</div>
+              <div className="required-label">REQUIRED</div> 
               <div className="item-info">
                 <p>Unlocks the Tronics Clicker - essential for late-game progression:</p>
                 <ul>
