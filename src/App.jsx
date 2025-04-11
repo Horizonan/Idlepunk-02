@@ -82,6 +82,7 @@ export default function App() {
     handleBuyHoloBillboard, calculate10xPriceBillBoard, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost
   } = gameHandlers({
     junk,
+    tronics,
     bulkBuy,
     itemCosts,
     setClickEnhancerLevel,
@@ -90,7 +91,7 @@ export default function App() {
     ownedItems
    
   }, {
-    setJunk, setNotifications, setClickMultiplier, setItemCosts, setOwnedItems, setHasUpgrade,
+    setJunk, tronics, setTronics, setNotifications, setClickMultiplier, setItemCosts, setOwnedItems, setHasUpgrade,
     setClickEnhancerLevel,clickEnhancerLevel, setPassiveIncome, setHasHelper, setGlobalJpsMultiplier, setAutoClicks,
     setAutoClickerV1Count, autoClickerV1Count, setAutoClickerV2Count, 
   });
@@ -1109,6 +1110,7 @@ export default function App() {
               holoBillboard: 0,
               junkRefinery: 0,
               modularScrapper: 0,
+              tronicsBoost: 0,
             };
             setOwnedItems(resetOwnedItems);
 

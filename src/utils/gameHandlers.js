@@ -255,7 +255,7 @@ export const gameHandlers = (gameState, setGameState) => {
 
   //Tronics Store
   const handleBuyTronicsBoost = () => {
-    console.log(gameState.tronics);
+    console.log(gameState.itemCosts.tronicsBoost);
     
     if (!localStorage.getItem('unlocked_tronics_boost') === "true" && electroShards >= 3) {
       console.log("Inside Unlock");

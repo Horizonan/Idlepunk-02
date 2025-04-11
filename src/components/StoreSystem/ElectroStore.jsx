@@ -35,7 +35,7 @@ export default function ElectroStore({
         : "Basic boost to tronics generation",
       action: onBuyTronicsBoost,
       purchasedCount: parseInt(localStorage.getItem('tronics_boost_count') || '0'),
-      unlockCondition: () => true
+      unlockCondition: () => !localStorage.getItem('unlocked_tronics_boost') ? electroShards >= 3 : true
     },
     {
       name: "⚡ Tronics Click Boost II",
