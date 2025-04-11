@@ -35,7 +35,8 @@ export default function ElectroStore({
         : "Basic boost to tronics generation",
       action: onBuyTronicsBoost,
       purchasedCount: parseInt(localStorage.getItem('tronics_boost_count') || '0'),
-      unlockCondition: () => !localStorage.getItem('unlocked_tronics_boost') ? electroShards >= 3 : true
+      unlockCondition: () => !localStorage.getItem('unlocked_tronics_boost') ? electroShards >= 3 : true,
+      locked: !localStorage.getItem('unlocked_tronics_boost')
     },
     {
       name: "⚡ Tronics Click Boost II",
@@ -53,7 +54,8 @@ export default function ElectroStore({
         }
       },
       purchasedCount: parseInt(localStorage.getItem('tronics_boost_II_count') || '0'),
-      unlockCondition: () => localStorage.getItem('unlocked_tronics_boost') && localStorage.getItem('tronics_boost_count')
+      unlockCondition: () => localStorage.getItem('unlocked_tronics_boost') && localStorage.getItem('tronics_boost_count'),
+      locked: false
     },
     {
       name: "⚡ High-Frequency Tap Chip",
@@ -70,7 +72,8 @@ export default function ElectroStore({
         }
       },
       purchasedCount: localStorage.getItem('high_freq_tap_purchased') === 'true' ? 1 : 0,
-      unlockCondition: () => localStorage.getItem('tronics_boost_II_count') && !localStorage.getItem('high_freq_tap_purchased')
+      unlockCondition: () => localStorage.getItem('tronics_boost_II_count') && !localStorage.getItem('high_freq_tap_purchased'),
+      locked: false
     }
   ];
 
@@ -90,7 +93,8 @@ export default function ElectroStore({
         }
       },
       purchasedCount: localStorage.getItem('flow_regulator_purchased') === 'true' ? 1 : 0,
-      unlockCondition: () => !localStorage.getItem('flow_regulator_purchased')
+      unlockCondition: () => !localStorage.getItem('flow_regulator_purchased'),
+      locked: false
     },
     {
       name: "⚡ Quantum Tap Circuit",
@@ -106,7 +110,8 @@ export default function ElectroStore({
         }
       },
       purchasedCount: localStorage.getItem('quantum_tap_purchased') === 'true' ? 1 : 0,
-      unlockCondition: () => localStorage.getItem('unlocked_tronics_boost') && !localStorage.getItem('quantum_tap_purchased')
+      unlockCondition: () => localStorage.getItem('unlocked_tronics_boost') && !localStorage.getItem('quantum_tap_purchased'),
+      locked: false
     },
     {
       name: "⚡ Electro Surge Node",
@@ -124,7 +129,8 @@ export default function ElectroStore({
         }
       },
       purchasedCount: localStorage.getItem('electro_surge_node_purchased') === 'true' ? 1 : 0,
-      unlockCondition: () => !localStorage.getItem('electro_surge_node_purchased')
+      unlockCondition: () => !localStorage.getItem('electro_surge_node_purchased'),
+      locked: false
     },
     {
       name: "🔦 Electro Beacon Core",
@@ -142,7 +148,8 @@ export default function ElectroStore({
         }
       },
       purchasedCount: localStorage.getItem('beacon_core_purchased') === 'true' ? 1 : 0,
-      unlockCondition: () => parseInt(localStorage.getItem('beaconCount') || '0') >= 10 && !localStorage.getItem('beacon_core_purchased')
+      unlockCondition: () => parseInt(localStorage.getItem('beaconCount') || '0') >= 10 && !localStorage.getItem('beacon_core_purchased'),
+      locked: false
     },
     {
       name: "🧠 Circuit Optimization Unit",
@@ -150,7 +157,7 @@ export default function ElectroStore({
       description: "Global Junk/sec increased by 25%",
       info: "An overclocked mesh of recycled processors fine-tunes your entire junk economy.",
       action: () => {
-        const currentCost = parseInt(localStorage.getItem('circuit_optimization_cost') || '25000');
+        const currentCost = parseInt(localStorage.getItem('circuit_optimization_cost') || '25000'));
         const currentCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
 
         if (tronics >= currentCost && electroShards >= 5 && currentCount < 4) {
@@ -172,7 +179,8 @@ export default function ElectroStore({
         }
       },
       purchasedCount: parseInt(localStorage.getItem('circuit_optimization_count') || '0'),
-      unlockCondition: () => localStorage.getItem('unlocked_tronics_boost') && tronics >= 25000 && electroShards >= 5 && (parseInt(localStorage.getItem('circuit_optimization_count') || '0') < 4)
+      unlockCondition: () => localStorage.getItem('unlocked_tronics_boost') && tronics >= 25000 && electroShards >= 5 && (parseInt(localStorage.getItem('circuit_optimization_count') || '0') < 4),
+      locked: false
     }
   ];
 
@@ -190,8 +198,8 @@ export default function ElectroStore({
           <button
             key={item.name}
             onClick={item.action}
-            disabled={!canAfford || !item.unlockCondition()}
-            className={`store-item ${!canAfford || !item.unlockCondition() ? 'disabled' : ''}`}
+            disabled={!canAfford || (item.locked && !item.unlockCondition())}
+            className={`store-item ${!canAfford || (item.locked && !item.unlockCondition()) ? 'disabled' : ''} ${item.locked ? 'locked' : ''}`}
           >
             <div className="item-header">
               <strong>{item.name}</strong>
