@@ -227,30 +227,39 @@ export const gameHandlers = (gameState, setGameState) => {
   };
 
   //Automation
-  const handleBuyAutoClicker = () =>{
-    if (gameState.junk >= gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.autoClicker) : gameState.itemCosts.autoClicker) {
-      const cost = gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.autoClicker) : gameState.itemCosts.autoClicker;
-      setGameState.setJunk(prev => prev - cost);
+  const handleBuyAutoClicker = () => {
+    const costData = gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.autoClicker) : {
+      totalCost: gameState.itemCosts.autoClicker,
+      endCost: Math.floor(gameState.itemCosts.autoClicker * 1.15)
+    };
+
+    if (gameState.junk >= costData.totalCost) {
+      setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setAutoClicks(prev => prev + (gameState.bulkBuy ? 10 : 1));
       setGameState.setAutoClickerV1Count(prev => prev + (gameState.bulkBuy ? 10 : 1)); 
-      setGameState.setItemCosts(prev => ({...prev, autoClicker: Math.floor(cost * 1.15)}));
+      setGameState.setItemCosts(prev => ({...prev, autoClicker: costData.endCost}));
       setGameState.setNotifications(prev => [...prev, "Auto Clicker Bot purchased!"]);
       window.dispatchEvent(new CustomEvent('nextNews', { 
         detail: { message: "Cogfather whispers: 'Sit back, kid. Let the bots handle it from here.'" }
       }));
-    }};
+    }
+  };
 
-  const handleBuyAutoClickerV2 = () => { 
-    if (gameState.junk >= (gameState.bulkBuy ? calculate10x02(gameState.itemCosts.autoClickerV2) : gameState.itemCosts.autoClickerV2) && gameState.autoClickerV1Count >= (gameState.bulkBuy ? 10 : 1)) { 
-      const cost = gameState.bulkBuy ? calculate10x02(gameState.itemCosts.autoClickerV2) : gameState.itemCosts.autoClickerV2;
-      setGameState.setJunk(prev => prev - cost);
+  const handleBuyAutoClickerV2 = () => {
+    const costData = gameState.bulkBuy ? calculate10x02(gameState.itemCosts.autoClickerV2) : {
+      totalCost: gameState.itemCosts.autoClickerV2,
+      endCost: Math.floor(gameState.itemCosts.autoClickerV2 * 1.2)
+    };
+
+    if (gameState.junk >= costData.totalCost && gameState.autoClickerV1Count >= (gameState.bulkBuy ? 10 : 1)) {
+      setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setAutoClicks(prev => prev + (gameState.bulkBuy ? 10 : 1)); 
       setGameState.setAutoClickerV1Count(prev => prev - (gameState.bulkBuy ? 10 : 1)); 
       setGameState.setAutoClickerV2Count(prev => prev + (gameState.bulkBuy ? 10 : 1)); 
-        setGameState.setItemCosts(prev => ({
-          ...prev, 
-          autoClickerV2: Math.floor(cost * 1.2)
-        }));
+      setGameState.setItemCosts(prev => ({
+        ...prev, 
+        autoClickerV2: costData.endCost
+      }));
         setGameState.setNotifications(prev => [...prev, "Auto Clicker Bot v2.0 purchased! (Consumed 1 Auto Clicker Bot)"]);
         window.dispatchEvent(new CustomEvent('nextNews', { 
           detail: { message: "Cogfather: 'Twice the clicks, twice the profits. Now that's efficiency!'" }
