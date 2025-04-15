@@ -125,7 +125,8 @@ export const useGameState = () => {
     holoBillboard: 15000,
     junkRefinery: 500000,    
     modularScrapper: 2500000,
-    tronicsBoost: 250
+    tronicsBoost: 250,
+    tronicsBoostII: 750,
   });
 
 
@@ -144,7 +145,8 @@ export const useGameState = () => {
     autoClickerV2: 0,
     autoClickerV1: 0,
     modularScrapper: 0,
-    tronicsBoost: 0
+    tronicsBoost: 0,
+    tronicsBoostII: 0,
   });
 
   //Skill Levels

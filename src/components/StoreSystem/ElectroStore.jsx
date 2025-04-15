@@ -4,11 +4,9 @@ import './Store.css';
 export default function ElectroStore({ 
   electroShards, onRemoveElectroShard, tronics, setTronics, 
   setNotifications, onBuyTronicsBoost, onBuyQuantumTap, 
-  onBack, bulkBuy, setBulkBuy 
+  onBack, bulkBuy, setBulkBuy, itemCosts, calculate10xPrice01, onBuyTronicsBoostII, caluclatePricex02
 }) {
   const [selectedTab, setSelectedTab] = useState("basic");
-  const tronicsBoostCost = parseInt(localStorage.getItem('tronics_boost_cost') || '250');
-  const tronicsBoostIICost = parseInt(localStorage.getItem('tronics_boost_II_cost') || '750');
 
   const formatNumber = (num) => {
     if (num >= 1000000) {
@@ -19,18 +17,21 @@ export default function ElectroStore({
     return num;
   };
 
-  const incrementUpgradeCount = () => {
-    const upgradeCount = parseInt(localStorage.getItem('upgradeCount') || '0');
-    const newCount = upgradeCount + 1;
-    localStorage.setItem('upgradeCount', newCount);
-  };
+
 
   const basicItems = [
     {
       name: "⚡ Tronics Click Boost I",
-      cost: { tronics: tronicsBoostCost, shards: !localStorage.getItem('unlocked_tronics_boost') ? 3 : 0 },
+      cost: {
+        tronics: !localStorage.getItem('unlocked_tronics_boost')
+          ? 0
+          : (bulkBuy 
+              ? (calculate10xPrice01(itemCosts.tronicsBoost)) 
+              : itemCosts.tronicsBoost),
+        shards: !localStorage.getItem('unlocked_tronics_boost') ? 3 : 0 
+      },
       description: "+1 Tronics per click",
-      info: !localStorage.getItem('unlocked_tronics_boost') 
+      info: (!localStorage.getItem('unlocked_tronics_boost') !== null)
         ? "Unlock with 3 Electro Shards, then purchase for Tronics"
         : "Basic boost to tronics generation",
       action: onBuyTronicsBoost,
@@ -39,21 +40,12 @@ export default function ElectroStore({
     },
     {
       name: "⚡ Tronics Click Boost II",
-      cost: { tronics: tronicsBoostIICost },
+      cost: { tronics: bulkBuy ? caluclatePricex02(itemCosts.tronicsBoostII) : itemCosts.tronicsBoostII, },
       description: "+2 Tronics per click",
       info: "Now with extra voltage. May void warranty.",
-      action: () => {
-        if (tronics >= tronicsBoostIICost) {
-          const currentCost = parseInt(localStorage.getItem('tronics_boost_II_cost') || '750');
-          localStorage.setItem('tronics_boost_II_count', (parseInt(localStorage.getItem('tronics_boost_II_count') || '0') + 1).toString());
-          localStorage.setItem('tronics_boost_II_cost', Math.floor(currentCost * 1.2).toString());
-          setTronics(prev => prev - currentCost);
-          setNotifications(prev => [...prev, "Tronics Click Boost II purchased! +2 Tronics per click"]);
-          incrementUpgradeCount();
-        }
-      },
+      action: onBuyTronicsBoostII,
       purchasedCount: parseInt(localStorage.getItem('tronics_boost_II_count') || '0'),
-      unlockCondition: () => localStorage.getItem('unlocked_tronics_boost') && localStorage.getItem('tronics_boost_count')
+      unlockCondition: () => localStorage.getItem('unlocked_tronics_boost') && localStorage.getItem('tronics_boost_count') && tronics >= itemCosts.tronicsBoostII
     },
     {
       name: "⚡ High-Frequency Tap Chip",
@@ -216,6 +208,12 @@ export default function ElectroStore({
       <div className="store-header">
         <h2>Tronics Store</h2>
         <div className="store-controls">
+          <button 
+            onClick={() => setBulkBuy(!bulkBuy)} 
+            className="bulk-buy-toggle"
+          >
+            {bulkBuy ? '10x' : '1x'}
+          </button>
           <button onClick={onBack}>Close</button>
         </div>
       </div>

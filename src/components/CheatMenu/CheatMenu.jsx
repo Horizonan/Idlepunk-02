@@ -93,23 +93,27 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
           </button>
           {openCategories.resources && (
             <div className="category-content">
-              <button onClick={() => onAddJunk(1000)}>Add 1k Junk</button>
-              <button onClick={() => onAddJunk(10000)}>Add 10k Junk</button>
-              <button onClick={() => onAddJunk(100000)}>Add 100k Junk</button>
               <button onClick={() => onAddJunk(1000000)}>Add 1M Junk</button>
               <button onClick={() => onAddJunk(10000000)}>Add 10M Junk</button>
+              <button onClick={() => onAddJunk(100000000)}>Add 100M Junk</button>
               <button onClick={() => onAddTronics(1000)}>Add 1k Tronics</button>
               <button onClick={() => onAddTronics(10000)}>Add 10k Tronics</button>
               <button onClick={() => onAddTronics(100000)}>Add 100k Tronics</button>
+              
               <button onClick= {() => setCraftingInventory(prev => ({
                 ...prev,
                 'Glitched Scrap Core': (prev['Glitched Scrap Core'] || 0) + 1
-              }))}>Add 1 Glitched Core</button>
+              }))}>Add 1 Glitched Core
+              </button>
+              
               <button onClick= {() => setCraftingInventory(prev => ({
                 ...prev,
                 'Capacitor': (prev['Capacitor'] || 0) + 10
-              }))}>Add 10 Capacitors</button>
+              }))}>Add 10 Capacitors
+              </button>
+              
               <button onClick={() => onAddSetPrestige(1)}>Set Prestige 1</button>
+              
               <button onClick={() => {
                 const materials = ['Wires', 'Metal Plates', 'Gear Bits'];
                 materials.forEach(material => {
@@ -124,6 +128,16 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
                 localStorage.setItem('hadFirstSurge', 'true');
                 window.dispatchEvent(new Event('updateSurgeCount'));
               }}>Set to 3 Surges</button>
+
+
+              <button onClick={() => {
+                localStorage.setItem('surgeCount', '3');
+                localStorage.setItem('hadFirstSurge', 'true');
+                window.dispatchEvent(new Event('updateSurgeCount'));
+                onAddJunk(100000000);
+                onAddElectroShard(10);
+              
+              }}>Get all for 1st Prestige</button>
             </div>
           )}
         </div>

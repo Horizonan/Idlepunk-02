@@ -76,13 +76,14 @@ export default function App() {
   } = useGameState();
   
   const {
-    handleBuyTrashBag, calculate10xPriceJunkClicker,
+    handleBuyTrashBag, calculate10xPriceJunkClicker: calculate10xPrice01,
     handleBuyPicker, handleBuyClickEnhancer, calculate10xPriceJPS, handleBuyStreetrat,
     handleBuyCart, handleBuyJunkMagnet, handleBuyUrbanRecycler, handleBuyScrapDrone,
-    handleBuyHoloBillboard, calculate10xPriceBillBoard, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost
+    handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII
   } = gameHandlers({
     junk,
     tronics,
+    electroShards,
     bulkBuy,
     itemCosts,
     setClickEnhancerLevel,
@@ -93,7 +94,7 @@ export default function App() {
   }, {
     setJunk, tronics, setTronics, setNotifications, setClickMultiplier, setItemCosts, setOwnedItems, setHasUpgrade,
     setClickEnhancerLevel,clickEnhancerLevel, setPassiveIncome, setHasHelper, setGlobalJpsMultiplier, setAutoClicks,
-    setAutoClickerV1Count, autoClickerV1Count, setAutoClickerV2Count, 
+    setAutoClickerV1Count, autoClickerV1Count, setAutoClickerV2Count, setElectroShards, setNotifications
   });
   
   useEffect(() => {
@@ -694,9 +695,9 @@ export default function App() {
         <Store 
           credits={junk}
           setPassiveIncome = {setPassiveIncome}
-          calculate10xPriceJunkClicker={calculate10xPriceJunkClicker}
+          calculate10xPriceJunkClicker={calculate10xPrice01}
           calculate10xPriceJPS = {calculate10xPriceJPS}
-          calculate10xPriceBillBoard= {calculate10xPriceBillBoard}
+          calculate10xPriceBillBoard= {calculate10x02}
           setBulkBuy={setBulkBuy}
           setJunk= {setJunk}
           itemCosts={itemCosts}
@@ -766,6 +767,9 @@ export default function App() {
           setNotifications={setNotifications}
           bulkBuy={bulkBuy}
           setBulkBuy= {setBulkBuy}
+          itemCosts={itemCosts}
+          calculate10xPrice01={calculate10xPrice01}
+          caluclatePricex02={calculate10x02}
           onBuyQuantumTap={() => {
             if (tronics >= 1250) {
               setTronics(prev => prev - 1250);
@@ -773,6 +777,7 @@ export default function App() {
             }
           }}
           onBuyTronicsBoost={handleBuyTronicsBoost}
+          onBuyTronicsBoostII={handleBuyTronicsBoostII}
           
           onBack={() => {
             setActiveStore(null);
@@ -1094,7 +1099,8 @@ export default function App() {
               autoClickerV2: 10000,
               junkRefinery: 500000,
               modularScrapper: 2500000,
-              tronicsBoost: 250
+              tronicsBoost: 250,
+              tronicsBoostII: 750,
             });
 
 
@@ -1111,6 +1117,7 @@ export default function App() {
               junkRefinery: 0,
               modularScrapper: 0,
               tronicsBoost: 0,
+              tronicsBoostII: 0,
             };
             setOwnedItems(resetOwnedItems);
 
