@@ -75,23 +75,31 @@ export const gameHandlers = (gameState, setGameState) => {
   };
 
   const handleBuyPicker = () => {
-    if (gameState.junk >= (gameState.bulkBuy ? calculate10xPrice01(gameState.itemCosts.trashPicker, true) : gameState.itemCosts.trashPicker)) {
-      const cost = gameState.bulkBuy ? calculate10xPrice01(gameState.itemCosts.trashPicker, true) : gameState.itemCosts.trashPicker;
-      setGameState.setJunk(prev => prev - cost);
+    const costData = gameState.bulkBuy ? calculate10xPrice01(gameState.itemCosts.trashPicker) : {
+      totalCost: gameState.itemCosts.trashPicker,
+      endCost: Math.floor(gameState.itemCosts.trashPicker * 1.1)
+    };
+
+    if (gameState.junk >= costData.totalCost) {
+      setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setNotifications(prev => [...prev, "Trash Picker purchased!"]);
       setGameState.setClickMultiplier(prev => prev + (gameState.bulkBuy ? 30 : 3));
-      setGameState.setItemCosts(prev => ({...prev, trashPicker: Math.floor(cost * 1.1)}));
+      setGameState.setItemCosts(prev => ({...prev, trashPicker: costData.endCost}));
       setGameState.setOwnedItems(prev => ({...prev, trashPicker: (prev.trashPicker || 0) + (gameState.bulkBuy ? 10 : 1)}));
     }
   };
 
   const handleBuyClickEnhancer = () => {
-    if (gameState.junk >= (gameState.bulkBuy ? calculate10xPrice01(gameState.itemCosts.clickEnhancer, true) : gameState.itemCosts.clickEnhancer)) {
-      const cost = gameState.bulkBuy ? calculate10xPrice01(gameState.itemCosts.clickEnhancer, true) : gameState.itemCosts.clickEnhancer;
-      setGameState.setJunk(prev => prev - cost);
+    const costData = gameState.bulkBuy ? calculate10xPrice01(gameState.itemCosts.clickEnhancer) : {
+      totalCost: gameState.itemCosts.clickEnhancer,
+      endCost: Math.floor(gameState.itemCosts.clickEnhancer * 1.1)
+    };
+
+    if (gameState.junk >= costData.totalCost) {
+      setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setClickMultiplier(prev => prev + (gameState.bulkBuy ? 100 : 10));
       setGameState.setClickEnhancerLevel(prev => prev + 1);
-      setGameState.setItemCosts(prev => ({...prev, clickEnhancer: Math.floor(cost * 1.1)}));
+      setGameState.setItemCosts(prev => ({...prev, clickEnhancer: costData.endCost}));
       setGameState.setOwnedItems(prev => ({...prev, clickEnhancer: (prev.clickEnhancer || 0) + (gameState.bulkBuy ? 10 : 1)}));
       setGameState.setNotifications(prev => [...prev, "Click Enhancer purchased!"]);
       if (setGameState.clickEnhancerLevel === 0) {
