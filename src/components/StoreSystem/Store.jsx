@@ -56,7 +56,7 @@ export default function Store({
   const passiveItems = [
     {
       name: "Streetrat",
-      cost: bulkBuy ? calculate10xPriceJPS(itemCosts.streetrat) : itemCosts.streetrat,
+      cost: bulkBuy ? calculate10xPriceJPS(itemCosts.streetrat).totalCost : itemCosts.streetrat,
       description: `+${Math.floor(1 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
       info: "Hire a local to automatically collect junk for you",
       action: onBuyStreetrat,
@@ -64,7 +64,7 @@ export default function Store({
     },
     {
       name: "Shopping Cart",
-      cost: bulkBuy ? calculate10xPriceJPS(itemCosts.cart) : itemCosts.cart,
+      cost: bulkBuy ? calculate10xPriceJPS(itemCosts.cart).totalCost  : itemCosts.cart,
       description: `+${Math.floor(5 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
       info: "Large capacity cart that greatly increases automatic collection",
       action: onBuyCart,
@@ -72,7 +72,7 @@ export default function Store({
     },
     {
       name: "Junk Magnet",
-      cost: bulkBuy ? calculate10xPriceJPS(itemCosts.junkMagnet) : itemCosts.junkMagnet,
+      cost: bulkBuy ? calculate10xPriceJPS(itemCosts.junkMagnet).totalCost  : itemCosts.junkMagnet,
       description: `+${Math.floor(10 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
       info: "Electromagnetic device that attracts valuable junk automatically",
       action: onBuyJunkMagnet,
@@ -80,7 +80,7 @@ export default function Store({
     },
     {
       name: "Urban Recycler",
-      cost: bulkBuy ? calculate10xPriceJPS(itemCosts.urbanRecycler) : itemCosts.urbanRecycler,
+      cost: bulkBuy ? calculate10xPriceJPS(itemCosts.urbanRecycler).totalCost  : itemCosts.urbanRecycler,
       description: `+${Math.floor(20 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
       info: "Automated system that processes urban waste into valuable junk",
       action: onBuyUrbanRecycler,
@@ -88,7 +88,7 @@ export default function Store({
     },
     {
       name: "Scrap Drone",
-      cost: bulkBuy ? calculate10xPriceJPS(itemCosts.scrapDrone) : itemCosts.scrapDrone,
+      cost: bulkBuy ? calculate10xPriceJPS(itemCosts.scrapDrone).totalCost  : itemCosts.scrapDrone,
       description: `+${Math.floor(25 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
       info: "Autonomous drone that scans the area for valuable junk",
       action: onBuyScrapDrone,
