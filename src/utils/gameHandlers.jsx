@@ -1,6 +1,6 @@
 export const gameHandlers = (gameState, setGameState) => {
-  
-  
+
+
   const collectJunk = (isSurgeActive = false) => {
     const surgeMultiplier = isSurgeActive ? 2 : 1;
     setGameState.setJunk(prev => prev + (gameState.clickMultiplier * surgeMultiplier));
@@ -24,7 +24,10 @@ export const gameHandlers = (gameState, setGameState) => {
       }
     }
     console.log("Total Cost: " + totalCost + " End Cost: " + endCost);
-    return endCost, adjustForBulk ? Math.floor(totalCost * 1.1) : totalCost;
+    return {
+      totalCost: adjustForBulk ? Math.floor(totalCost * 1.1) : totalCost,
+      endCost: endCost
+    };
   };
 
   const calculate10xPriceJPS = (baseCost, adjustForBulk = false) => {
@@ -54,15 +57,18 @@ export const gameHandlers = (gameState, setGameState) => {
 
   //Manual Clicker Upgrades
   const handleBuyTrashBag = () => {
-    if (gameState.junk >= (gameState.bulkBuy ? calculate10xPrice01(gameState.itemCosts.trashBag) : gameState.itemCosts.trashBag)) {
-      const cost = gameState.bulkBuy  ? calculate10xPrice01(gameState.itemCosts.trashBag)[1] : gameState.itemCosts.trashBag;
-      const endCost = gameState.bulkBuy  ? calculate10xPrice01(gameState.itemCosts.trashBag)[0] : gameState.itemCosts.trashBag;;
-      console.log("Cost: " + cost + " End Cost: " + endCost);
-      
-      setGameState.setJunk(prev => prev - cost);
+    const costData = gameState.bulkBuy ? calculate10xPrice01(gameState.itemCosts.trashBag) : {
+      totalCost: gameState.itemCosts.trashBag,
+      endCost: Math.floor(gameState.itemCosts.trashBag * 1.1)
+    };
+
+    if (gameState.junk >= costData.totalCost) {
+      console.log("Cost: " + costData.totalCost + " End Cost: " + costData.endCost);
+
+      setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setNotifications(prev => [...prev, "Scrap Bag purchased!"]);
       setGameState.setClickMultiplier(prev => prev + (gameState.bulkBuy ? 10 : 1));
-      setGameState.setItemCosts(prev => ({...prev, trashBag: Math.floor(endCost * 1.1)}));
+      setGameState.setItemCosts(prev => ({...prev, trashBag: costData.endCost}));
       setGameState.setOwnedItems(prev => ({...prev, trashBag: (prev.trashBag || 0)  + (gameState.bulkBuy ? 10 : 1)}));
       setGameState.setHasUpgrade(true);
     }
@@ -152,7 +158,7 @@ export const gameHandlers = (gameState, setGameState) => {
       setGameState.setPassiveIncome(prev => prev + (gameState.bulkBuy ? 250 : 25));
       setGameState.setItemCosts(prev => ({...prev, scrapDrone: Math.floor(cost * 1.15)}));
       setGameState.setOwnedItems(prev => ({...prev, scrapDrone: (prev.scrapDrone || 0) + (gameState.bulkBuy ? 10 : 1)}));
-      
+
       if (!gameState.scrapDrone) {
         window.dispatchEvent(new CustomEvent('nextNews', { 
           detail: { message: "Cogfather: You've got drones now? Look at you, corporate overlord in the making." }
@@ -198,7 +204,7 @@ export const gameHandlers = (gameState, setGameState) => {
         detail: { message: "Cogfather whispers: 'Sit back, kid. Let the bots handle it from here.'" }
       }));
     }};
-  
+
   const handleBuyAutoClickerV2 = () => { 
     if (gameState.junk >= (gameState.bulkBuy ? calculate10x02(gameState.itemCosts.autoClickerV2) : gameState.itemCosts.autoClickerV2) && gameState.autoClickerV1Count >= (gameState.bulkBuy ? 10 : 1)) { 
       const cost = gameState.bulkBuy ? calculate10x02(gameState.itemCosts.autoClickerV2) : gameState.itemCosts.autoClickerV2;
@@ -257,7 +263,7 @@ export const gameHandlers = (gameState, setGameState) => {
       )
     }
   }
-  
+
 
 
   //Tronics Store
@@ -268,11 +274,11 @@ export const gameHandlers = (gameState, setGameState) => {
     const newCount = upgradeCount + 1;
     localStorage.setItem('upgradeCount', newCount);
   };
-  
+
   const handleBuyTronicsBoost = () => {
     console.log("Is unlcoked:" + !localStorage.getItem('unlocked_tronics_boost') + gameState.electroShards);
-    
-    
+
+
     if (!localStorage.getItem('unlocked_tronics_boost') && gameState.electroShards >= 3) {
       localStorage.setItem("unlocked_tronics_boost", true)
       setGameState.setElectroShards(prev => {
@@ -280,19 +286,19 @@ export const gameHandlers = (gameState, setGameState) => {
         localStorage.setItem('electroShards', newValue.toString());
         return newValue;
       });
-      
+
       setGameState.setNotifications(prev => [...prev, "Tronics Click Boost I unlocked!"]);
-      
+
       } else if(gameState.tronics >= gameState.itemCosts.tronicsBoost){
 
           const cost = gameState.bulkBuy ? calculate10xPrice01(gameState.itemCosts.tronicsBoost, true) : gameState.itemCosts.tronicsBoost;
-      
+
           setGameState.setTronics(prev => prev - cost);
           setGameState.setClickMultiplier(prev => prev + (gameState.bulkBuy ? 10 : 1));
           setGameState.setItemCosts(prev => ({...prev, tronicsBoost: Math.floor(cost * 1.1)}));
-      
+
           const newBoostCount = (parseInt(localStorage.getItem('tronics_boost_count') || '0') + (gameState.bulkBuy ? 10 : 1));
-      
+
           localStorage.setItem('tronics_boost_count', newBoostCount);
           setGameState.setNotifications(prev => [...prev, "Tronics Click Boost I purchased! +1 Tronics per click"]);
           incrementUpgradeCount();
@@ -305,7 +311,7 @@ export const gameHandlers = (gameState, setGameState) => {
 
           if (gameState.tronics >= gameState.itemCosts.tronicsBoostII) {
             const cost = gameState.bulkBuy ? calculate10x02(gameState.itemCosts.tronicsBoostII, true) : gameState.itemCosts.tronicsBoostII;
-            
+
             localStorage.setItem('tronics_boost_II_count', (parseInt(localStorage.getItem('tronics_boost_II_count') || '0') + 1).toString());
             setGameState.setItemCosts(prev => ({...prev, tronicsBoostII: Math.floor(cost * 1.2)}));
             setGameState.setTronics(prev => prev - cost);
