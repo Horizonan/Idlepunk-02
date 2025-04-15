@@ -17,7 +17,7 @@ export default function Store({
   const clickItems = [
     {
       name: "Scrap Bag",
-      cost: bulkBuy ?calculate10xPriceJunkClicker(itemCosts.trashBag) :  itemCosts.trashBag,
+      cost: bulkBuy ? calculate10xPriceJunkClicker(itemCosts.trashBag).totalCost :  itemCosts.trashBag,
       description: "+1 Junk/Click, +10% Cost per purchase",
       info: "A sturdy bag that helps you collect more junk with each click",
       action: onBuyTrashBag,
@@ -25,7 +25,7 @@ export default function Store({
     },
     {
       name: "Trash Picker",
-      cost: bulkBuy ?calculate10xPriceJunkClicker(itemCosts.trashPicker) :  itemCosts.trashPicker,
+      cost: bulkBuy ?calculate10xPriceJunkClicker(itemCosts.trashPicker).totalCost :  itemCosts.trashPicker,
       description: "+3 Junk/Click, +10% Cost",
       info: "Professional tool that triples your junk collection efficiency",
       action: onBuyPicker,
@@ -33,7 +33,7 @@ export default function Store({
     },
     {
       name: "Click Enhancer",
-      cost: bulkBuy ?calculate10xPriceJunkClicker(itemCosts.clickEnhancer) :  itemCosts.clickEnhancer,
+      cost: bulkBuy ?calculate10xPriceJunkClicker(itemCosts.clickEnhancer).totalCost :  itemCosts.clickEnhancer,
       description: "+10 Junk/Click, +10% Cost",
       info: '"Built from a broken microwave and spite."',
       action: onBuyClickEnhancer,
