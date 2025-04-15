@@ -52,13 +52,20 @@ export const gameHandlers = (gameState, setGameState) => {
   const calculate10x02 = (baseCost, adjustForBulk = false) => {
     let totalCost = 0;
     let currentCost = baseCost;
+    let endCost = 0;
 
     for(let i = 0; i < 10; i++) {
       totalCost += currentCost;
       currentCost = Math.floor(currentCost * 1.2);
+      if(i == 9) {
+        endCost = currentCost;
+      }
     }
 
-    return adjustForBulk ? Math.floor(totalCost * 1.2) : totalCost;
+    return {
+      totalCost: adjustForBulk ? Math.floor(totalCost * 1.2) : totalCost,
+      endCost: endCost
+    };
   };
 
 
@@ -206,16 +213,20 @@ export const gameHandlers = (gameState, setGameState) => {
   };
 
   const handleBuyHoloBillboard = () => {
-    if (gameState.junk >= gameState.bulkBuy ? calculate10x02(gameState.itemCosts.holoBillboard) : gameState.itemCosts.holoBillboard) {
-      const cost = gameState.bulkBuy ? calculate10x02(gameState.itemCosts.holoBillboard) : gameState.itemCosts.holoBillboard;
-      setGameState.setJunk(prev => prev - cost);
+    const costData = gameState.bulkBuy ? calculate10x02(gameState.itemCosts.holoBillboard) : {
+      totalCost: gameState.itemCosts.holoBillboard,
+      endCost: Math.floor(gameState.itemCosts.holoBillboard * 1.2)
+    };
+    
+    if (gameState.junk >= costData.totalCost) {
+      setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setNotifications(prev => [...prev, "Holo Billboard Online – City scrappers stare in awe (+10% Junk/sec globally)!"]);
       setGameState.setGlobalJpsMultiplier(prev => {
         const newValue = prev + (gameState.bulkBuy ? 1 : 0.1);
         localStorage.setItem('globalJpsMultiplier', newValue);
         return newValue;
       });
-      setGameState.setItemCosts(prev => ({...prev, holoBillboard: Math.floor(cost * 1.2)}));
+      setGameState.setItemCosts(prev => ({...prev, holoBillboard: costData.endCost}));
       setGameState.setOwnedItems(prev => ({...prev, holoBillboard: (prev.holoBillboard || 0) + (gameState.bulkBuy ? 10 : 1)}));
 
       if (!gameState.holoBillboard) {
