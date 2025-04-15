@@ -33,13 +33,20 @@ export const gameHandlers = (gameState, setGameState) => {
   const calculate10xPriceJPS = (baseCost, adjustForBulk = false) => {
     let totalCost = 0;
     let currentCost = baseCost;
+    let endCost = 0;
 
     for(let i = 0; i < 10; i++) {
       totalCost += currentCost;
       currentCost = Math.floor(currentCost * 1.15);
+      if(i == 9) {
+        endCost = currentCost;
+      }
     }
 
-    return adjustForBulk ? Math.floor(totalCost * 1.15) : totalCost;
+    return {
+      totalCost: adjustForBulk ? Math.floor(totalCost * 1.15) : totalCost,
+      endCost: endCost
+    };
   };
 
   const calculate10x02 = (baseCost, adjustForBulk = false) => {
@@ -114,57 +121,77 @@ export const gameHandlers = (gameState, setGameState) => {
 
   //JPS Upgrades
   const handleBuyStreetrat = () => {
-    if (gameState.junk >= gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.streetrat) : gameState.itemCosts.streetrat) {
-      const cost = gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.streetrat) : gameState.itemCosts.streetrat;
-      setGameState.setJunk(prev => prev - cost);
+    const costData = gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.streetrat) : {
+      totalCost: gameState.itemCosts.streetrat,
+      endCost: Math.floor(gameState.itemCosts.streetrat * 1.15)
+    };
+
+    if (gameState.junk >= costData.totalCost) {
+      setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setNotifications(prev => [...prev, "Streetrat hired!"]);
-      setGameState.setPassiveIncome(prev => prev + gameState.bulkBuy ? 10 : 1);
-      setGameState.setItemCosts(prev => ({...prev, streetrat: Math.floor(cost * 1.15)}));
+      setGameState.setPassiveIncome(prev => prev + (gameState.bulkBuy ? 10 : 1));
+      setGameState.setItemCosts(prev => ({...prev, streetrat: costData.endCost}));
       setGameState.setOwnedItems(prev => ({...prev, streetrat: (prev.streetrat || 0) + (gameState.bulkBuy ? 10 : 1)}));
       setGameState.setHasHelper(true);
     }
   };
 
   const handleBuyCart = () => {
-    if (gameState.junk >= gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.cart) : gameState.itemCosts.cart) {
-      const cost = gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.cart) : gameState.itemCosts.cart;
-      setGameState.setJunk(prev => prev - cost);
+    const costData = gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.cart) : {
+      totalCost: gameState.itemCosts.cart,
+      endCost: Math.floor(gameState.itemCosts.cart * 1.15)
+    };
+
+    if (gameState.junk >= costData.totalCost) {
+      setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setNotifications(prev => [...prev, "Shopping Cart purchased!"]);
       setGameState.setPassiveIncome(prev => prev + (gameState.bulkBuy ? 50 : 5));
-      setGameState.setItemCosts(prev => ({...prev, cart: Math.floor(cost* 1.15)}));
+      setGameState.setItemCosts(prev => ({...prev, cart: costData.endCost}));
       setGameState.setOwnedItems(prev => ({...prev, cart: (prev.cart || 0) + (gameState.bulkBuy ? 10 : 1)}));
     }
   };
 
   const handleBuyJunkMagnet = () => {
-    if (gameState.junk >= gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.junkMagnet) : gameState.itemCosts.junkMagnet) {
-      const cost = gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.junkMagnet) : gameState.itemCosts.junkMagnet;
-      setGameState.setJunk(prev => prev - cost);
+    const costData = gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.junkMagnet) : {
+      totalCost: gameState.itemCosts.junkMagnet,
+      endCost: Math.floor(gameState.itemCosts.junkMagnet * 1.15)
+    };
+
+    if (gameState.junk >= costData.totalCost) {
+      setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setNotifications(prev => [...prev, "Junk Magnet purchased!"]);
       setGameState.setPassiveIncome(prev => prev + (gameState.bulkBuy ? 100 : 10));
-      setGameState.setItemCosts(prev => ({...prev, junkMagnet: Math.floor(cost * 1.15)}));
+      setGameState.setItemCosts(prev => ({...prev, junkMagnet: costData.endCost}));
       setGameState.setOwnedItems(prev => ({...prev, junkMagnet: (prev.junkMagnet || 0) + (gameState.bulkBuy ? 10 : 1)}));
     }
   };
 
   const handleBuyUrbanRecycler = () => {
-    if (gameState.junk >= gameState.buyBulk ? calculate10xPriceJPS(gameState.itemCosts.urbanRecycler) : gameState.itemCosts.urbanRecycler) {
-      const cost = gameState.buyBulk ? calculate10xPriceJPS(gameState.itemCosts.urbanRecycler) : gameState.itemCosts.urbanRecycler;
-      setGameState.setJunk(prev => prev - cost);
+    const costData = gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.urbanRecycler) : {
+      totalCost: gameState.itemCosts.urbanRecycler,
+      endCost: Math.floor(gameState.itemCosts.urbanRecycler * 1.15)
+    };
+
+    if (gameState.junk >= costData.totalCost) {
+      setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setNotifications(prev => [...prev, "Urban Recycler purchased!"]);
       setGameState.setPassiveIncome(prev => prev + (gameState.bulkBuy ? 200 : 20));
-      setGameState.setItemCosts(prev => ({...prev, urbanRecycler: Math.floor(cost * 1.15)}));
+      setGameState.setItemCosts(prev => ({...prev, urbanRecycler: costData.endCost}));
       setGameState.setOwnedItems(prev => ({...prev, urbanRecycler: (prev.urbanRecycler || 0) + (gameState.bulkBuy ? 10 : 1)}));
     }
   };
 
   const handleBuyScrapDrone = () => {
-    if (gameState.junk >= (gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.scrapDrone) : gameState.itemCosts.scrapDrone)) {
-      const cost = gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.scrapDrone) : gameState.itemCosts.scrapDrone;
-      setGameState.setJunk(prev => prev - cost);
+    const costData = gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.scrapDrone) : {
+      totalCost: gameState.itemCosts.scrapDrone,
+      endCost: Math.floor(gameState.itemCosts.scrapDrone * 1.15)
+    };
+
+    if (gameState.junk >= costData.totalCost) {
+      setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setNotifications(prev => [...prev, "Scrap Drone Deployed – +25 JPS"]);
       setGameState.setPassiveIncome(prev => prev + (gameState.bulkBuy ? 250 : 25));
-      setGameState.setItemCosts(prev => ({...prev, scrapDrone: Math.floor(cost * 1.15)}));
+      setGameState.setItemCosts(prev => ({...prev, scrapDrone: costData.endCost}));
       setGameState.setOwnedItems(prev => ({...prev, scrapDrone: (prev.scrapDrone || 0) + (gameState.bulkBuy ? 10 : 1)}));
 
       if (!gameState.scrapDrone) {
