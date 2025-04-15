@@ -129,7 +129,7 @@ export default function Store({
   const automationItems = [
     {
       name: "Auto Clicker Bot",
-      cost: { junk: bulkBuy ? calculate10xPriceJPS(itemCosts.autoClicker) : itemCosts.autoClicker },
+      cost: { junk: bulkBuy ? calculate10xPriceJPS(itemCosts.autoClicker).totalCost : itemCosts.autoClicker },
       description:
         "+1 Automatic Click per second (counts towards manual clicks)",
       disabled: !canAffordV1,
