@@ -216,26 +216,6 @@ export default function Store({
     </div>
   );
 
-  // Filter out maxed items before rendering
-  const filteredPassiveItems = passiveItems.filter(item => {
-    // Keep showing items that don't have max limits
-    if (!item.maxCount) return true;
-    // Hide items that have reached their max count
-    return item.purchasedCount < (item.maxCount || Infinity);
-  });
-
-  const filteredActiveItems = activeItems.filter(item => {
-    if (!item.maxCount) return true;
-    return item.purchasedCount < (item.maxCount || Infinity);
-  });
-
-  const filteredPremiumItems = premiumItems.filter(item => {
-    // Hide one-time purchase items that are already bought
-    if (item.purchasedCount >= 1 && !item.maxCount) return false;
-    if (item.maxCount && item.purchasedCount >= item.maxCount) return false;
-    return true;
-  });
-
   return (
     <div className="store-container">
       <div className="store-header">
