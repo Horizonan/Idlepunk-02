@@ -138,7 +138,17 @@ export default function ElectroStore({
 
   const renderItems = (items) => (
     <div className="store-items">
-      {items.map((item) => {
+      {items.filter(item => {
+        // Hide one-time purchases that are already bought
+        if (item.purchasedCount === 1 && item.info.includes("One-time purchase")) {
+          return false;
+        }
+        // Hide Circuit Optimization when max count reached
+        if (item.name === "🧠 Circuit Optimization Unit" && item.purchasedCount >= 4) {
+          return false;
+        }
+        return true;
+      }).map((item) => {
         const canAfford = (item.cost.tronics ? tronics >= item.cost.tronics : true) && 
                          (item.cost.shards ? electroShards >= item.cost.shards : true);
         return (
