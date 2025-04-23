@@ -334,31 +334,35 @@ export const gameHandlers = (gameState, setGameState) => {
   };
 
   const handleBuyTronicsBoost = () => {
+    console.log("Is unlocked:" + !localStorage.getItem('unlocked_tronics_boost') + gameState.electroShards);
+
+
     if (!localStorage.getItem('unlocked_tronics_boost') && gameState.electroShards >= 3) {
-      localStorage.setItem("unlocked_tronics_boost", "true");
+      localStorage.setItem("unlocked_tronics_boost", true)
       setGameState.setElectroShards(prev => {
         const newValue = prev - 3;
         localStorage.setItem('electroShards', newValue.toString());
         return newValue;
       });
+
       setGameState.setNotifications(prev => [...prev, "Tronics Click Boost I unlocked!"]);
-    } else if (gameState.tronics >= gameState.itemCosts.tronicsBoost) {
+
+      } else if(gameState.tronics >= gameState.itemCosts.tronicsBoost){
+
       const costData = gameState.bulkBuy ? calculate10xPrice01(gameState.itemCosts.tronicsBoost) : {
         totalCost: gameState.itemCosts.tronicsBoost,
         endCost: Math.floor(gameState.itemCosts.tronicsBoost * 1.1)
       };
 
-      if (gameState.tronics >= costData.totalCost) {
-        setGameState.setTronics(prev => prev - costData.totalCost);
-        setGameState.setClickMultiplier(prev => prev + (gameState.bulkBuy ? 10 : 1));
-        setGameState.setItemCosts(prev => ({...prev, tronicsBoost: costData.endCost}));
+          setGameState.setTronics(prev => prev - costData.totalCost);
+          setGameState.setClickMultiplier(prev => prev + (gameState.bulkBuy ? 10 : 1));
+          setGameState.setItemCosts(prev => ({...prev, tronicsBoost: Math.floor(costData.endCost)}));
 
-        const newBoostCount = parseInt(localStorage.getItem('tronics_boost_count') || '0') + (gameState.bulkBuy ? 10 : 1);
-        localStorage.setItem('tronics_boost_count', newBoostCount.toString());
-        
-        setGameState.setNotifications(prev => [...prev, "Tronics Click Boost I purchased! +1 Tronics per click"]);
-        incrementUpgradeCount();
-      }
+          const newBoostCount = (parseInt(localStorage.getItem('tronics_boost_count') || '0') + (gameState.bulkBuy ? 10 : 1));
+
+          localStorage.setItem('tronics_boost_count', newBoostCount);
+          setGameState.setNotifications(prev => [...prev, "Tronics Click Boost I purchased! +1 Tronics per click"]);
+          incrementUpgradeCount();
     }
   }
 
