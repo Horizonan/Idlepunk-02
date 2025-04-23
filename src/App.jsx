@@ -204,20 +204,20 @@ export default function App() {
           setShowSettings(false);
           setShowQuestLog(false);
           setShowTooltips(false); 
-          setShowCoinFlip(false); // Added this line
+          setShowCoinFlip(false); 
         }
         return !prev;
       });
     };
     window.addEventListener('toggleUpgradeStats', handleUpgradeStats);
 
-    if (showSlotMachine || showAchievements || showSettings || showQuestLog || showTooltips || showCoinFlip) { // Added showCoinFlip here
+    if (showSlotMachine || showAchievements || showSettings || showQuestLog || showTooltips || showCoinFlip) { 
       setActiveStore(null);
       setShowUpgradeStats(false);
     }
 
     return () => window.removeEventListener('toggleUpgradeStats', handleUpgradeStats);
-  }, [showSlotMachine, showAchievements, showSettings, showQuestLog, showTooltips, showCoinFlip]); // Added showCoinFlip here
+  }, [showSlotMachine, showAchievements, showSettings, showQuestLog, showTooltips, showCoinFlip]); 
 
 
   useEffect(() => {
@@ -515,6 +515,8 @@ export default function App() {
     }
   }, [craftingInventory]);
 
+  const [showCoinFlip, setShowCoinFlip] = useState(false); // Added showCoinFlip state
+
   return (
     <main>
       <VersionPopup onClose={() => {}} />
@@ -607,7 +609,7 @@ export default function App() {
           case 'upgradeStats':
             setShowUpgradeStats(prev => !prev);
             break;
-          case 'coinflip': // Added this case
+          case 'coinflip': 
             setShowCoinFlip(prev => !prev);
             break;
         }
@@ -803,7 +805,7 @@ export default function App() {
                 }));
                 setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
               }
-            } else {
+            }} else {
               const canCraft = Object.entries(item.requirements).every(
                 ([mat, count]) => (craftingInventory[mat] || 0) >= count
               ) && (!item.onetime || !(craftingInventory[item.name] || 0)) && junk >= (item.cost || 0);
