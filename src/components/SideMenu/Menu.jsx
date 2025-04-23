@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 
 export default function Menu({ onStoreSelect }) {
@@ -20,7 +19,7 @@ export default function Menu({ onStoreSelect }) {
         { id: 'marketplace', label: 'Junktown Nexus' },
         { id: 'scraptagon', label: 'The Scraptagon 🔒', disabled: true, tooltip: 'Under Construction' },
         { id: 'slotMachine', label: 'Slot Machine' },
-        { id: 'coinFlip', label: 'Junk Flip' }
+        { id: 'coinFlip', label: 'Junk Flip' } // Added coinFlip button
       ]
     },
     help: {
@@ -44,8 +43,15 @@ export default function Menu({ onStoreSelect }) {
             {buttons.map(button => (
               <button
                 key={button.id}
-                className={`menu-button ${button.id}-btn`}
-                onClick={() => onStoreSelect(button.id)}>
+                className={`menu-button ${button.id}-btn ${button.disabled ? 'disabled' : ''}`}
+                onClick={() => {
+                  if (!button.disabled) {
+                    onStoreSelect(button.id);
+                  }
+                }}
+                disabled={button.disabled}
+                title={button.tooltip}
+              >
                 {button.label}
               </button>
             ))}
