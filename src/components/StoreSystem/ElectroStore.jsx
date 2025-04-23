@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import './Store.css';
 
 export default function ElectroStore({ 
-  electroShards, tronics, setTronics, 
-  setNotifications, onBuyTronicsBoost, onBuyQuantumTap, 
+  electroShards, tronics, onBuyTronicsBoost, onBuyQuantumTap, 
   onBack, bulkBuy, setBulkBuy, itemCosts, calculate10xPrice01, onBuyTronicsBoostII, caluclatePricex02, onBuyFlowRegulator, onBuyElectroSurgeNode, onBuyElectroBeaconCore,
-  onBuyCircuitOptimization,
+  onBuyCircuitOptimization,onBuyFrequencyTap,
 }) {
   const [selectedTab, setSelectedTab] = useState("basic");
 
@@ -117,15 +116,7 @@ export default function ElectroStore({
       },
       description: "Clicker fires twice per manual click",
       info: "Requires Tronics Boost II",
-      action: () => {
-        if (electroShards >= 2 && tronics >= 10000 && localStorage.getItem('tronics_boost_II_count') && !localStorage.getItem('high_freq_tap_purchased')) {
-          setTronics(prev => prev - 10000);
-          localStorage.setItem('electroShards', electroShards - 2);
-          localStorage.setItem('high_freq_tap_purchased', 'true');
-          setNotifications(prev => [...prev, 'High-Frequency Tap Chip installed!']);
-          incrementUpgradeCount();
-        }
-      },
+      action: onBuyFrequencyTap,
       purchasedCount: localStorage.getItem('high_freq_tap_purchased') === 'true' ? 1 : 0,
       unlockCondition: () => localStorage.getItem('tronics_boost_II_count') && !localStorage.getItem('high_freq_tap_purchased')
     }
