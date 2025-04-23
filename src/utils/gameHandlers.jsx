@@ -387,18 +387,34 @@ export const gameHandlers = (gameState, setGameState) => {
 
     const handleBuyFlowRegulator = () => {
       if (gameState.tronics >= 3000 && !localStorage.getItem('flow_regulator_purchased')) {
-        
         setGameState.setTronics(prev => prev - gameState.itemCosts.flowRegulator);
-        
         localStorage.setItem('flow_regulator_purchased', 'true');
         setGameState.setOwnedItems(prev => ({...prev, flowRegulator: (prev.flowRegulator) + 1}));
-        
         localStorage.setItem('globalTronicsMultiplier', '1.1');
-        
         setGameState.setNotifications(prev => [...prev, "Flow Regulator purchased! +10% Tronics per click"]);
         incrementUpgradeCount();
-    }}
+      }
+    }
 
+    const handleBuyQuantumTap = () => {
+      if (gameState.tronics >= 1250 && !localStorage.getItem('quantum_tap_purchased')) {
+        setGameState.setTronics(prev => prev - 1250);
+        localStorage.setItem('quantum_tap_purchased', 'true');
+        setGameState.setNotifications(prev => [...prev, "Quantum Tap Circuit purchased! You now have a 3% chance to get 3x Tronics per click."]);
+        incrementUpgradeCount();
+      }
+    }
+
+    const handleBuyElectroSurgeNode = () => {
+      if (gameState.tronics >= 35000 && gameState.electroShards >= 8 && !localStorage.getItem('electro_surge_node_purchased')) {
+        setGameState.setTronics(prev => prev - 35000);
+        setGameState.setElectroShards(prev => prev - 8);
+        localStorage.setItem('electro_surge_node_purchased', 'true');
+        localStorage.setItem('surge_duration_bonus', '5');
+        setGameState.setNotifications(prev => [...prev, "⚡ Electro Surge Node installed! All surge durations increased by 5 seconds."]);
+        incrementUpgradeCount();
+      }
+    }
 
   return {
     collectJunk,
@@ -420,6 +436,8 @@ export const gameHandlers = (gameState, setGameState) => {
     handleBuyModularScrapper,
     handleBuyTronicsBoost,
     handleBuyTronicsBoostII,
-    handleBuyFlowRegulator
+    handleBuyFlowRegulator,
+    handleBuyQuantumTap,
+    handleBuyElectroSurgeNode
   };
 }}
