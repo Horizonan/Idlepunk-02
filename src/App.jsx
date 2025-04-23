@@ -770,7 +770,7 @@ export default function App() {
           itemCosts={itemCosts}
           calculate10xPrice01={calculate10xPrice01}
           caluclatePricex02={calculate10x02}
-          TronicsBoost={handleBuyTronicsBoost}
+          onBuyTronicsBoost={handleBuyTronicsBoost}
           onBuyTronicsBoostII={handleBuyTronicsBoostII}
           onBuyFlowRegulator={handleBuyFlowRegulator}
           onBuyQuantumTap={handleBuyQuantumTap}
