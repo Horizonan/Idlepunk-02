@@ -4,7 +4,7 @@ import './Store.css';
 export default function ElectroStore({ 
   electroShards, onRemoveElectroShard, tronics, setTronics, 
   setNotifications, onBuyTronicsBoost, onBuyQuantumTap, 
-  onBack, bulkBuy, setBulkBuy, itemCosts, calculate10xPrice01, onBuyTronicsBoostII, caluclatePricex02, onBuyFlowRegulator, onBuyElectroSurgeNode
+  onBack, bulkBuy, setBulkBuy, itemCosts, calculate10xPrice01, onBuyTronicsBoostII, caluclatePricex02, onBuyFlowRegulator, onBuyElectroSurgeNode, onBuyElectroBeaconCore
 }) {
   const [selectedTab, setSelectedTab] = useState("basic");
 
@@ -84,19 +84,15 @@ export default function ElectroStore({
     },
     {
       name: "🔦 Electro Beacon Core",
-      cost: { tronics: 500000, shards: 15 },
+      cost: {
+        tronics: !localStorage.getItem('beacon_core_purchased')
+          ? 0
+          : 500000,
+        shards: !localStorage.getItem('beacon_core_purchased') ? 15 : 0
+      },
       description: "Decrease Electro Shard floating pickup spawn time by 25%",
       info: "Requires 10 Electro Shard Beacons",
-      action: () => {
-        if (tronics >= 500000 && electroShards >= 15 && !localStorage.getItem('beacon_core_purchased') && parseInt(localStorage.getItem('beaconCount') || '0') >= 10) {
-          setTronics(prev => prev - 500000);
-          onRemoveElectroShard(15);
-          localStorage.setItem('beacon_core_purchased', 'true');
-          setNotifications(prev => [...prev, "⚡ Electro Beacon Core installed! Electro Shard spawn time decreased by 25%"]);
-          window.dispatchEvent(new Event('storage'));
-          incrementUpgradeCount();
-        }
-      },
+      action: onBuyElectroBeaconCore,
       purchasedCount: localStorage.getItem('beacon_core_purchased') === 'true' ? 1 : 0,
       unlockCondition: () => parseInt(localStorage.getItem('beaconCount') || '0') >= 10 && !localStorage.getItem('beacon_core_purchased')
     },
