@@ -1014,6 +1014,13 @@ export default function App() {
           }}
         />
       )}
+      {showCoinFlip && (
+        <CoinFlip
+          junk={junk}
+          onBet={(amount) => setJunk(prev => prev + amount)}
+          onClose={() => setShowCoinFlip(false)}
+        />
+      )}
       {showTrashBonus && (
         <TrashBonus
           passiveIncome={passiveIncome}
