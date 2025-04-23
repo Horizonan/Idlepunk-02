@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import './Store.css';
 
 export default function ElectroStore({ 
-  electroShards, onRemoveElectroShard, tronics, setTronics, 
+  electroShards, tronics, setTronics, 
   setNotifications, onBuyTronicsBoost, onBuyQuantumTap, 
-  onBack, bulkBuy, setBulkBuy, itemCosts, calculate10xPrice01, onBuyTronicsBoostII, caluclatePricex02, onBuyFlowRegulator, onBuyElectroSurgeNode, onBuyElectroBeaconCore
+  onBack, bulkBuy, setBulkBuy, itemCosts, calculate10xPrice01, onBuyTronicsBoostII, caluclatePricex02, onBuyFlowRegulator, onBuyElectroSurgeNode, onBuyElectroBeaconCore,
+  onBuyCircuitOptimization,
 }) {
   const [selectedTab, setSelectedTab] = useState("basic");
 
@@ -98,37 +99,22 @@ export default function ElectroStore({
     },
     {
       name: "🧠 Circuit Optimization Unit",
-      cost: { tronics: parseInt(localStorage.getItem('circuit_optimization_cost') || '25000'), shards: 5 },
+      cost: {
+        tronics: !localStorage.getItem('circuit_optimization_purchased') ? 0 : parseInt(localStorage.getItem('circuit_optimization_cost') || '25000'),
+        shards: !localStorage.getItem('circuit_optimization_purchased') ? 5 : 0
+      },
       description: "Global Junk/sec increased by 25%",
       info: "An overclocked mesh of recycled processors fine-tunes your entire junk economy.",
-      action: () => {
-        const currentCost = parseInt(localStorage.getItem('circuit_optimization_cost') || '25000');
-        const currentCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
-
-        if (tronics >= currentCost && electroShards >= 5 && currentCount < 4) {
-          setTronics(prev => prev - currentCost);
-          onRemoveElectroShard(5);
-          const newCount = currentCount + 1;
-          localStorage.setItem('circuit_optimization_count', newCount);
-          const newCost = Math.floor(currentCost * 1.2);
-          localStorage.setItem('circuit_optimization_cost', newCost);
-          setNotifications(prev => [...prev, "Circuit Optimization Unit installed! Global Junk/sec increased by 25%"]);
-          window.dispatchEvent(new Event('storage'));
-          incrementUpgradeCount();
-        } else {
-          if (tronics < currentCost) {
-            setNotifications(prev => [...prev, "Not enough Tronics!"]);
-          } else {
-            setNotifications(prev => [...prev, "Not enough Electro Shards! Need 5 shards."]);
-          }
-        }
-      },
+      action: onBuyCircuitOptimization,
       purchasedCount: parseInt(localStorage.getItem('circuit_optimization_count') || '0'),
       unlockCondition: () => localStorage.getItem('unlocked_tronics_boost') && tronics >= 25000 && electroShards >= 5 && (parseInt(localStorage.getItem('circuit_optimization_count') || '0') < 4)
     },
     {
       name: "⚡ High-Frequency Tap Chip",
-      cost: { tronics: 10000, shards: 2 },
+      cost: {
+        tronics: !localStorage.getItem('high_freq_tap_purchased') ? 0 : 10000,
+        shards: !localStorage.getItem('high_freq_tap_purchased') ? 2 : 0
+      },
       description: "Clicker fires twice per manual click",
       info: "Requires Tronics Boost II",
       action: () => {

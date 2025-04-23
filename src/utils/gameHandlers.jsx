@@ -411,6 +411,7 @@ export const gameHandlers = (gameState, setGameState) => {
           localStorage.setItem('electroShards', newValue.toString());
           return newValue;
         });
+        return;
       }
       
       if (gameState.tronics >= 35000 && gameState.electroShards >= 8 && !localStorage.getItem('electro_surge_node_purchased')) {
@@ -422,10 +423,17 @@ export const gameHandlers = (gameState, setGameState) => {
     }
 
     const handleBuyElectroBeaconCore = () => {
-      if (gameState.tronics >= 500000 && gameState.electroShards >= 15 && !localStorage.getItem('beacon_core_purchased') && parseInt(localStorage.getItem('beaconCount') || '0') >= 10) {
+
+        if (!localStorage.getItem('beacon_core_purchased')  && gameState.electroShards >= 15) {
+          localStorage.setItem('beacon_core_purchased', 'true');
+          setGameState.setElectroShards(prev => prev - 15);
+          setGameState.setNotifications(prev => [...prev, "⚡ Electro Beacon Core Unlocked"]);
+          return;
+        }
+
+        
+      if (gameState.tronics >= 500000 && parseInt(localStorage.getItem('beaconCount') || '0') >= 10) {
         setGameState.setTronics(prev => prev - 500000);
-        setGameState.setElectroShards(prev => prev - 15);
-        localStorage.setItem('beacon_core_purchased', 'true');
         setGameState.setNotifications(prev => [...prev, "⚡ Electro Beacon Core installed! Electro Shard spawn time decreased by 25%"]);
         window.dispatchEvent(new Event('storage'));
         incrementUpgradeCount();
@@ -433,12 +441,20 @@ export const gameHandlers = (gameState, setGameState) => {
     }
 
     const handleBuyCircuitOptimization = () => {
+
+      if (!localStorage.getItem('circuit_optimization_purchased')  && gameState.electroShards >= 5) {
+        localStorage.setItem('circuit_optimization_purchased', 'true');
+        setGameState.setElectroShards(prev => prev - 5);
+        setGameState.setNotifications(prev => [...prev, "⚡ Circuit Optimization Unit Unlocked"]);
+        return;
+      }
+
+      
       const currentCost = parseInt(localStorage.getItem('circuit_optimization_cost') || '25000');
       const currentCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
 
-      if (gameState.tronics >= currentCost && gameState.electroShards >= 5 && currentCount < 4) {
+      if (gameState.tronics >= currentCost && currentCount < 4) {
         setGameState.setTronics(prev => prev - currentCost);
-        setGameState.setElectroShards(prev => prev - 5);
         const newCount = currentCount + 1;
         localStorage.setItem('circuit_optimization_count', newCount);
         const newCost = Math.floor(currentCost * 1.2);
@@ -450,9 +466,17 @@ export const gameHandlers = (gameState, setGameState) => {
     }
 
     const handleBuyHighFreqTap = () => {
-      if (gameState.electroShards >= 2 && gameState.tronics >= 10000 && localStorage.getItem('tronics_boost_II_count') && !localStorage.getItem('high_freq_tap_purchased')) {
-        setGameState.setTronics(prev => prev - 10000);
+
+      if (!localStorage.getItem('high_freq_tap_purchased')  && gameState.electroShards >= 2) {
+        localStorage.setItem('high_freq_tap_purchased', 'true');
         setGameState.setElectroShards(prev => prev - 2);
+        setGameState.setNotifications(prev => [...prev, "⚡ High Frequency Tapper Unlocked"]);
+        return;
+      }
+
+      
+      if (gameState.tronics >= 10000 && localStorage.getItem('tronics_boost_II_count') && !localStorage.getItem('high_freq_tap_purchased')) {
+        setGameState.setTronics(prev => prev - 10000);
         localStorage.setItem('high_freq_tap_purchased', 'true');
         setGameState.setNotifications(prev => [...prev, 'High-Frequency Tap Chip installed!']);
         incrementUpgradeCount();
