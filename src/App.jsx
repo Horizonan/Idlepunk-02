@@ -74,7 +74,7 @@ export default function App() {
     itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, showJunkDrone, setShowJunkDrone,
     bulkBuy, setBulkBuy, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup, permanentAutoClicks, setPermanentAutoClicks
   } = useGameState();
-  
+
   const {
     handleBuyTrashBag, calculate10xPriceJunkClicker: calculate10xPrice01,
     handleBuyPicker, handleBuyClickEnhancer, calculate10xPriceJPS, handleBuyStreetrat,
@@ -90,13 +90,13 @@ export default function App() {
     clickEnhancerLevel,
     autoClickerV1Count,
     ownedItems
-   
+
   }, {
     setJunk, tronics, setTronics, setNotifications, setClickMultiplier, setItemCosts, setOwnedItems, setHasUpgrade,
     setClickEnhancerLevel,clickEnhancerLevel, setPassiveIncome, setHasHelper, setGlobalJpsMultiplier, setAutoClicks,
     setAutoClickerV1Count, autoClickerV1Count, setAutoClickerV2Count, setElectroShards, setNotifications
   });
-  
+
   useEffect(() => {
     const handleUpdateSurgeCount = () => {
       setSurgeCount(3);
@@ -184,8 +184,8 @@ export default function App() {
   const checkAchievements = validateAchievements;
 
   const checkShardMilestones = (shardCount) => {
-    
-   
+
+
     if (shardCount === 3) {
       window.dispatchEvent(new CustomEvent('nextNews', { 
         detail: { message: "Cogfather: The circuit is almost loud enough to listen to." }
@@ -193,7 +193,7 @@ export default function App() {
     }
   };
 
- 
+
   useEffect(() => {
     const handleUpgradeStats = () => {
       setShowUpgradeStats(prev => {
@@ -204,21 +204,22 @@ export default function App() {
           setShowSettings(false);
           setShowQuestLog(false);
           setShowTooltips(false); 
+          setShowCoinFlip(false); // Added this line
         }
         return !prev;
       });
     };
     window.addEventListener('toggleUpgradeStats', handleUpgradeStats);
 
-    if (showSlotMachine || showAchievements || showSettings || showQuestLog || showTooltips) {
+    if (showSlotMachine || showAchievements || showSettings || showQuestLog || showTooltips || showCoinFlip) { // Added showCoinFlip here
       setActiveStore(null);
       setShowUpgradeStats(false);
     }
 
     return () => window.removeEventListener('toggleUpgradeStats', handleUpgradeStats);
-  }, [showSlotMachine, showAchievements, showSettings, showQuestLog, showTooltips]); 
+  }, [showSlotMachine, showAchievements, showSettings, showQuestLog, showTooltips, showCoinFlip]); // Added showCoinFlip here
 
-  
+
   useEffect(() => {
     if (activeStore) {
       setShowUpgradeStats(false);
@@ -326,13 +327,13 @@ export default function App() {
 
       if (passiveIncome > 0) {
         setJunk(prev => prev + (passiveIncome * totalMultiplier));
-        
+
       }
 
       if (autoClicks > 0) {
         setJunk(prev => prev + ((autoClicks + permanentAutoClicks)  * clickMultiplier));
         setClickCount(prev => prev + (autoClicks + permanentAutoClicks) );
-        
+
         if (electronicsUnlock) {
           const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
           const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
@@ -439,7 +440,7 @@ export default function App() {
 
   const collectTronics = (amount) => {
     if (electronicsUnlock) {  
-     
+
       if (amount === 1) {
       }
 
@@ -453,34 +454,34 @@ export default function App() {
       }
     }
   };
-  
+
   const canAffordV1 = () => {
     return junk >= itemCosts.autoClicker;
   }
-  
+
   const canAffordV2 = () => {
     return junk >= itemCosts.autoClickerV2;
   }
 
 
-  
+
 
   useEffect(() => {
     localStorage.setItem('tutorialStage', tutorialStage);
     validateQuestsAndAchievements();
 
-  
+
     if (junk >= 1000000) {
       if (!localStorage.getItem('shown_questlog_hint')) {
         localStorage.setItem('shown_questlog_hint', 'true');
 
-       
+
         const questLogBtn = document.querySelector('.quest-log-toggle');
         const mainQuestLog = document.querySelector('.quest-log');
         if (questLogBtn) questLogBtn.classList.add('quest-log-attention');
         if (mainQuestLog) mainQuestLog.classList.add('quest-log-attention');
 
-       
+
         const cogfatherMessage = (
           <div className="cogfather-message-popup">
             <img src="Icons/NPCs/Cogfather.jfif" alt="Cogfather" />
@@ -496,7 +497,7 @@ export default function App() {
     }
   }, [tutorialStage, junk]);
 
- 
+
   useEffect(() => {
     validateQuestsAndAchievements();
   }, [passiveIncome, ownedItems.streetrat, clickMultiplier, globalJpsMultiplier]);
@@ -506,7 +507,7 @@ export default function App() {
     const hasCraftedOneTime = onetimeItems.some(item => (craftingInventory[item] || 0) > 0);
     setShowInventory(hasCraftedOneTime);
   }, [craftingInventory]);
- 
+
   useEffect(() => {
     if (localStorage.getItem('quest_sync_Forge the Future') === 'true' || 
         (craftingInventory && craftingInventory['Prestige Crystal'] >= 1)) {
@@ -606,6 +607,9 @@ export default function App() {
           case 'upgradeStats':
             setShowUpgradeStats(prev => !prev);
             break;
+          case 'coinflip': // Added this case
+            setShowCoinFlip(prev => !prev);
+            break;
         }
       }} />
       {showTooltips && <Tooltips onClose={() => setShowTooltips(false)} />}
@@ -669,7 +673,7 @@ export default function App() {
             const newLocked = !isLocked;
             localStorage.setItem('sidebarLocked', newLocked);
             document.querySelector('.sidebar').classList.toggle('locked');
-          
+
             document.querySelector('.sidebar').classList.toggle('temp');
             setTimeout(() => document.querySelector('.sidebar').classList.toggle('temp'), 0);
           }}
@@ -690,7 +694,7 @@ export default function App() {
           onClose={() => setShowUpgradeStats(false)}
         />
       )}
-      
+
       {activeStore === 'store' && (
         <Store 
           credits={junk}
@@ -778,7 +782,7 @@ export default function App() {
           onBuyElectroBeaconCore={handleBuyElectroBeaconCore}
           onBuyCircuitOptimization={handleBuyCircuitOptimization}
           onBuyFrequencyTap={handleBuyHighFreqTap}
-          
+
           onBack={() => {
             setActiveStore(null);
             localStorage.setItem('activeStore', null);
@@ -1069,11 +1073,11 @@ export default function App() {
             });
 
 
-           
+
             const preservedHelpersList = preservedHelper ? preservedHelper.split(', ') : [];
             let preservedAutoClicks = 0;
 
-           
+
             preservedHelpersList.forEach(helper => {
               if (helper === 'Auto Clicker Bot') preservedAutoClicks++;
             });
