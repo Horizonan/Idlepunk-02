@@ -79,7 +79,7 @@ export default function App() {
     handleBuyTrashBag, calculate10xPriceJunkClicker: calculate10xPrice01,
     handleBuyPicker, handleBuyClickEnhancer, calculate10xPriceJPS, handleBuyStreetrat,
     handleBuyCart, handleBuyJunkMagnet, handleBuyUrbanRecycler, handleBuyScrapDrone,
-    handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator,
+    handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator, handleBuyQuantumTap, handleBuyElectroSurgeNode,
   } = gameHandlers({
     junk,
     tronics,
@@ -770,15 +770,11 @@ export default function App() {
           itemCosts={itemCosts}
           calculate10xPrice01={calculate10xPrice01}
           caluclatePricex02={calculate10x02}
-          onBuyQuantumTap={() => {
-            if (tronics >= 1250) {
-              setTronics(prev => prev - 1250);
-              setNotifications(prev => [...prev, "Quantum Tap Circuit installed! You now have a 3% chance to get 3x Tronics per click."]);
-            }
-          }}
-          onBuyTronicsBoost={handleBuyTronicsBoost}
+          TronicsBoost={handleBuyTronicsBoost}
           onBuyTronicsBoostII={handleBuyTronicsBoostII}
           onBuyFlowRegulator={handleBuyFlowRegulator}
+          onBuyQuantumTap={handleBuyQuantumTap}
+          onBuyElectroSurgeNode={handleBuyElectroSurgeNode}
           
           onBack={() => {
             setActiveStore(null);
@@ -1103,6 +1099,8 @@ export default function App() {
               tronicsBoost: 250,
               tronicsBoostII: 750,
               flowRegulator: 3000,
+              quantumTap: 1250,
+              electroSurgeNode: 35000,
             });
 
 
@@ -1121,6 +1119,8 @@ export default function App() {
               tronicsBoost: 0,
               tronicsBoostII: 0,
               flowRegulator: 0,
+              quantumTap: 0,
+              electroSurgeNode: 0
             };
             setOwnedItems(resetOwnedItems);
 

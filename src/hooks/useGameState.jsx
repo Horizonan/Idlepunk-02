@@ -127,6 +127,9 @@ export const useGameState = () => {
     modularScrapper: 2500000,
     tronicsBoost: 250,
     tronicsBoostII: 750,
+    flowRegulator: 3000,
+    quantumTap: 1250,
+    electroSurgeNode: 35000,
   });
 
 
@@ -147,6 +150,9 @@ export const useGameState = () => {
     modularScrapper: 0,
     tronicsBoost: 0,
     tronicsBoostII: 0,
+    flowRegulator: 0,
+    quantumTap: 0,
+    electroSurgeNode: 0
   });
 
   //Skill Levels

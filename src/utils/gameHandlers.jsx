@@ -334,8 +334,6 @@ export const gameHandlers = (gameState, setGameState) => {
   };
 
   const handleBuyTronicsBoost = () => {
-    console.log("Is unlocked:" + !localStorage.getItem('unlocked_tronics_boost') + gameState.electroShards);
-
 
     if (!localStorage.getItem('unlocked_tronics_boost') && gameState.electroShards >= 3) {
       localStorage.setItem("unlocked_tronics_boost", true)
@@ -406,15 +404,27 @@ export const gameHandlers = (gameState, setGameState) => {
     }
 
     const handleBuyElectroSurgeNode = () => {
+
+
+      if (!localStorage.getItem('electro_surge_node_purchased') && gameState.electroShards >= 8) {
+        localStorage.setItem("electro_surge_node_purchased", 'true')
+        setGameState.setElectroShards(prev => {
+          const newValue = prev - 8;
+          localStorage.setItem('electroShards', newValue.toString());
+          return newValue;
+        });
+      }
+
+      
       if (gameState.tronics >= 35000 && gameState.electroShards >= 8 && !localStorage.getItem('electro_surge_node_purchased')) {
         setGameState.setTronics(prev => prev - 35000);
-        setGameState.setElectroShards(prev => prev - 8);
-        localStorage.setItem('electro_surge_node_purchased', 'true');
         localStorage.setItem('surge_duration_bonus', '5');
         setGameState.setNotifications(prev => [...prev, "⚡ Electro Surge Node installed! All surge durations increased by 5 seconds."]);
         incrementUpgradeCount();
       }
     }
+
+
 
   return {
     collectJunk,

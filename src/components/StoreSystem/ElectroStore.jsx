@@ -4,7 +4,7 @@ import './Store.css';
 export default function ElectroStore({ 
   electroShards, onRemoveElectroShard, tronics, setTronics, 
   setNotifications, onBuyTronicsBoost, onBuyQuantumTap, 
-  onBack, bulkBuy, setBulkBuy, itemCosts, calculate10xPrice01, onBuyTronicsBoostII, caluclatePricex02, onBuyFlowRegulator,
+  onBack, bulkBuy, setBulkBuy, itemCosts, calculate10xPrice01, onBuyTronicsBoostII, caluclatePricex02, onBuyFlowRegulator, onBuyElectroSurgeNode
 }) {
   const [selectedTab, setSelectedTab] = useState("basic");
 
@@ -64,32 +64,21 @@ export default function ElectroStore({
       cost: { tronics: 1250 },
       description: "3% chance per click to gain 3x Tronics",
       info: "One-time purchase that adds chance for bonus tronics",
-      action: () => {
-        if (tronics >= 1250 && !localStorage.getItem('quantum_tap_purchased')) {
-          onBuyQuantumTap();
-          localStorage.setItem('quantum_tap_purchased', 'true');
-          setNotifications(prev => [...prev, "Quantum Tap Circuit purchased! You now have a 3% chance to get 3x Tronics per click."]);
-          incrementUpgradeCount();
-        }
-      },
+      action: onBuyQuantumTap,
       purchasedCount: localStorage.getItem('quantum_tap_purchased') === 'true' ? 1 : 0,
       unlockCondition: () => localStorage.getItem('unlocked_tronics_boost') && !localStorage.getItem('quantum_tap_purchased')
     },
     {
       name: "⚡ Electro Surge Node",
-      cost: { tronics: 35000, shards: 8 },
+      cost: {
+        tronics: !localStorage.getItem('electro_surge_node_purchased')
+          ? 0
+          : 35000,
+        shards: !localStorage.getItem('electro_surge_node_purchased') ? 8 : 0
+      },
       description: "Increases all Surge durations by +5 seconds and unlocks tronics surge",
       info: "One-time purchase",
-      action: () => {
-        if (tronics >= 35000 && electroShards >= 8 && !localStorage.getItem('electro_surge_node_purchased')) {
-          setTronics(prev => prev - 35000);
-          onRemoveElectroShard(8);
-          localStorage.setItem('electro_surge_node_purchased', 'true');
-          localStorage.setItem('surge_duration_bonus', '5');
-          setNotifications(prev => [...prev, "⚡ Electro Surge Node installed! All surge durations increased by 5 seconds."]);
-          incrementUpgradeCount();
-        }
-      },
+      action: onBuyElectroSurgeNode,
       purchasedCount: localStorage.getItem('electro_surge_node_purchased') === 'true' ? 1 : 0,
       unlockCondition: () => !localStorage.getItem('electro_surge_node_purchased')
     },
