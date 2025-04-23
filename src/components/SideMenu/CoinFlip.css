@@ -4,13 +4,15 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #1a1a1a;
-  padding: 20px;
-  border-radius: 10px;
-  border: 2px solid #444;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  background: rgba(26, 26, 26, 0.95);
+  padding: 25px;
+  border-radius: 15px;
+  border: 3px solid #00ff4c;
+  box-shadow: 0 0 20px rgba(0, 255, 76, 0.2);
   z-index: 1000;
-  min-width: 300px;
+  min-width: 400px;
+  color: #fff;
+  font-family: 'Courier New', monospace;
 }
 
 .coin-flip-header {
@@ -18,22 +20,50 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  border-bottom: 2px solid #00ff4c;
+  padding-bottom: 10px;
+}
+
+.coin-flip-header h2 {
+  color: #00ff4c;
+  text-shadow: 0 0 10px rgba(0, 255, 76, 0.5);
+  margin: 0;
 }
 
 .close-button {
   background: none;
-  border: none;
-  color: #fff;
+  border: 2px solid #00ff4c;
+  color: #00ff4c;
   font-size: 24px;
   cursor: pointer;
+  border-radius: 5px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.close-button:hover {
+  background: #00ff4c;
+  color: #1a1a1a;
+}
+
+.coin-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
 .coin {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   margin: 20px auto;
   position: relative;
   transform-style: preserve-3d;
+  cursor: pointer;
 }
 
 .coin.flipping {
@@ -55,8 +85,9 @@
   justify-content: center;
   font-size: 50px;
   background: #2a2a2a;
-  border: 2px solid #444;
+  border: 3px solid #00ff4c;
   backface-visibility: hidden;
+  box-shadow: 0 0 15px rgba(0, 255, 76, 0.3);
 }
 
 .back {
@@ -65,43 +96,88 @@
 
 .bet-controls {
   display: flex;
-  gap: 10px;
+  gap: 15px;
   margin-top: 20px;
+  width: 100%;
 }
 
 .bet-controls input {
   flex: 1;
-  padding: 8px;
-  border: 1px solid #444;
-  background: #2a2a2a;
+  padding: 12px;
+  border: 2px solid #00ff4c;
+  background: rgba(42, 42, 42, 0.8);
   color: #fff;
-  border-radius: 4px;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+}
+
+.bet-controls input:focus {
+  box-shadow: 0 0 10px rgba(0, 255, 76, 0.3);
 }
 
 .bet-controls button {
-  padding: 8px 20px;
-  background: #4a4a4a;
+  padding: 12px 30px;
+  background: #00ff4c;
   border: none;
-  border-radius: 4px;
-  color: #fff;
+  border-radius: 8px;
+  color: #1a1a1a;
   cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+
+.bet-controls button:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 255, 76, 0.5);
 }
 
 .bet-controls button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  background: #4a4a4a;
 }
 
 .street-rat-comment {
   margin-top: 20px;
-  padding: 10px;
-  background: #2a2a2a;
-  border-radius: 8px;
+  padding: 15px;
+  background: rgba(42, 42, 42, 0.8);
+  border-radius: 10px;
+  border: 2px solid #00ff4c;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .rat-icon {
-  font-size: 24px;
+  font-size: 30px;
+}
+
+.stats-display {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(42, 42, 42, 0.8);
+  border-radius: 10px;
+  border: 2px solid #00ff4c;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  color: #00ff4c;
+  font-size: 1.2em;
+  font-weight: bold;
 }
