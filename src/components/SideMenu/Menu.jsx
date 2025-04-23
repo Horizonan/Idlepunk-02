@@ -20,7 +20,7 @@ export default function Menu({ onStoreSelect }) {
         { id: 'marketplace', label: 'Junktown Nexus' },
         { id: 'scraptagon', label: 'The Scraptagon 🔒', disabled: true, tooltip: 'Under Construction' },
         { id: 'slotMachine', label: 'Slot Machine' },
-        { id: 'coinFlip', label: 'Junk Flip' }
+        { id: 'coinflip', label: 'Junk Flip' }
       ]
     },
     help: {

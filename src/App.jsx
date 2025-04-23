@@ -607,12 +607,14 @@ export default function App() {
             break;
           case 'tooltips':
             setShowTooltips(prev => !prev);
+            console.log("Help");
             break;
           case 'upgradeStats':
             setShowUpgradeStats(prev => !prev);
             break;
-          case 'coinflip': // Added this case
+          case 'coinflip': 
             setShowCoinFlip(prev => !prev);
+            console.log("Help");
             break;
         }
       }} />
