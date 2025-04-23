@@ -371,15 +371,33 @@ export const gameHandlers = (gameState, setGameState) => {
     const handleBuyTronicsBoostII = () => {
 
           if (gameState.tronics >= gameState.itemCosts.tronicsBoostII) {
-            const cost = gameState.bulkBuy ? calculate10x02(gameState.itemCosts.tronicsBoostII, true) : gameState.itemCosts.tronicsBoostII;
+            
+            const costData = gameState.bulkBuy ? calculate10xPrice01(gameState.itemCosts.tronicsBoostII) : {
+              totalCost: gameState.itemCosts.tronicsBoostII,
+              endCost: Math.floor(gameState.itemCosts.tronicsBoostII * 1.2)
+            };
 
-            localStorage.setItem('tronics_boost_II_count', (parseInt(localStorage.getItem('tronics_boost_II_count') || '0') + 1).toString());
-            setGameState.setItemCosts(prev => ({...prev, tronicsBoostII: Math.floor(cost * 1.2)}));
-            setGameState.setTronics(prev => prev - cost);
+            localStorage.setItem('tronics_boost_II_count', (parseInt(localStorage.getItem('tronics_boost_II_count') || '0') + (gameState.bulkBuy ? 10 : 1)).toString());
+            setGameState.setItemCosts(prev => ({...prev, tronicsBoostII: Math.floor(costData.endCost)}));
+            setGameState.setTronics(prev => prev - costData.totalCost);
             setGameState.setNotifications(prev => [...prev, "Tronics Click Boost II purchased! +2 Tronics per click"]);
             incrementUpgradeCount();
           }
     }
+
+    const handleBuyFlowRegulator = () => {
+      if (gameState.tronics >= 3000 && !localStorage.getItem('flow_regulator_purchased')) {
+        
+        setGameState.setTronics(prev => prev - gameState.itemCosts.flowRegulator);
+        
+        localStorage.setItem('flow_regulator_purchased', 'true');
+        setGameState.setOwnedItems(prev => ({...prev, flowRegulator: (prev.flowRegulator) + 1}));
+        
+        localStorage.setItem('globalTronicsMultiplier', '1.1');
+        
+        setGameState.setNotifications(prev => [...prev, "Flow Regulator purchased! +10% Tronics per click"]);
+        incrementUpgradeCount();
+    }}
 
 
   return {
@@ -401,6 +419,7 @@ export const gameHandlers = (gameState, setGameState) => {
     handleBuyJunkRefinery,  
     handleBuyModularScrapper,
     handleBuyTronicsBoost,
-    handleBuyTronicsBoostII
+    handleBuyTronicsBoostII,
+    handleBuyFlowRegulator
   };
 }}

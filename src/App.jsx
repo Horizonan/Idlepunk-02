@@ -79,7 +79,7 @@ export default function App() {
     handleBuyTrashBag, calculate10xPriceJunkClicker: calculate10xPrice01,
     handleBuyPicker, handleBuyClickEnhancer, calculate10xPriceJPS, handleBuyStreetrat,
     handleBuyCart, handleBuyJunkMagnet, handleBuyUrbanRecycler, handleBuyScrapDrone,
-    handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII
+    handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator,
   } = gameHandlers({
     junk,
     tronics,
@@ -778,6 +778,7 @@ export default function App() {
           }}
           onBuyTronicsBoost={handleBuyTronicsBoost}
           onBuyTronicsBoostII={handleBuyTronicsBoostII}
+          onBuyFlowRegulator={handleBuyFlowRegulator}
           
           onBack={() => {
             setActiveStore(null);
@@ -1101,6 +1102,7 @@ export default function App() {
               modularScrapper: 2500000,
               tronicsBoost: 250,
               tronicsBoostII: 750,
+              flowRegulator: 3000,
             });
 
 
@@ -1118,6 +1120,7 @@ export default function App() {
               modularScrapper: 0,
               tronicsBoost: 0,
               tronicsBoostII: 0,
+              flowRegulator: 0,
             };
             setOwnedItems(resetOwnedItems);
 

@@ -17,7 +17,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
 
         {activeClicker === 'electronics' && electronicsUnlock && (
           <img 
-            src="Icons/electroClicker/electronic-waste.png" 
+            src="public/Icons/electroClicker/electricIcon.svg" 
             alt="Electro Clicker" 
             onClick={() => {       
               const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');

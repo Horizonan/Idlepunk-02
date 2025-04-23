@@ -4,7 +4,7 @@ import './Store.css';
 export default function ElectroStore({ 
   electroShards, onRemoveElectroShard, tronics, setTronics, 
   setNotifications, onBuyTronicsBoost, onBuyQuantumTap, 
-  onBack, bulkBuy, setBulkBuy, itemCosts, calculate10xPrice01, onBuyTronicsBoostII, caluclatePricex02
+  onBack, bulkBuy, setBulkBuy, itemCosts, calculate10xPrice01, onBuyTronicsBoostII, caluclatePricex02, onBuyFlowRegulator,
 }) {
   const [selectedTab, setSelectedTab] = useState("basic");
 
@@ -46,24 +46,7 @@ export default function ElectroStore({
       action: onBuyTronicsBoostII,
       purchasedCount: parseInt(localStorage.getItem('tronics_boost_II_count') || '0'),
       unlockCondition: () => localStorage.getItem('unlocked_tronics_boost') && localStorage.getItem('tronics_boost_count') && tronics >= itemCosts.tronicsBoostII
-    },
-    {
-      name: "⚡ High-Frequency Tap Chip",
-      cost: { tronics: 10000, shards: 2 },
-      description: "Clicker fires twice per manual click",
-      info: "Requires Tronics Boost II",
-      action: () => {
-        if (electroShards >= 2 && tronics >= 10000 && localStorage.getItem('tronics_boost_II_count') && !localStorage.getItem('high_freq_tap_purchased')) {
-          setTronics(prev => prev - 10000);
-          localStorage.setItem('electroShards', electroShards - 2);
-          localStorage.setItem('high_freq_tap_purchased', 'true');
-          setNotifications(prev => [...prev, 'High-Frequency Tap Chip installed!']);
-          incrementUpgradeCount();
-        }
-      },
-      purchasedCount: localStorage.getItem('high_freq_tap_purchased') === 'true' ? 1 : 0,
-      unlockCondition: () => localStorage.getItem('tronics_boost_II_count') && !localStorage.getItem('high_freq_tap_purchased')
-    }
+    } 
   ];
 
   const advancedItems = [
@@ -72,15 +55,7 @@ export default function ElectroStore({
       cost: { tronics: 3000 },
       description: "+10% Tronics per click",
       info: "One-time purchase that optimizes tronics flow",
-      action: () => {
-        if (tronics >= 3000 && !localStorage.getItem('flow_regulator_purchased')) {
-          setTronics(prev => prev - 3000);
-          localStorage.setItem('flow_regulator_purchased', 'true');
-          localStorage.setItem('globalTronicsMultiplier', '1.1');
-          setNotifications(prev => [...prev, "Flow Regulator purchased! +10% Tronics per click"]);
-          incrementUpgradeCount();
-        }
-      },
+      action: onBuyFlowRegulator,
       purchasedCount: localStorage.getItem('flow_regulator_purchased') === 'true' ? 1 : 0,
       unlockCondition: () => !localStorage.getItem('flow_regulator_purchased')
     },
@@ -165,6 +140,23 @@ export default function ElectroStore({
       },
       purchasedCount: parseInt(localStorage.getItem('circuit_optimization_count') || '0'),
       unlockCondition: () => localStorage.getItem('unlocked_tronics_boost') && tronics >= 25000 && electroShards >= 5 && (parseInt(localStorage.getItem('circuit_optimization_count') || '0') < 4)
+    },
+    {
+      name: "⚡ High-Frequency Tap Chip",
+      cost: { tronics: 10000, shards: 2 },
+      description: "Clicker fires twice per manual click",
+      info: "Requires Tronics Boost II",
+      action: () => {
+        if (electroShards >= 2 && tronics >= 10000 && localStorage.getItem('tronics_boost_II_count') && !localStorage.getItem('high_freq_tap_purchased')) {
+          setTronics(prev => prev - 10000);
+          localStorage.setItem('electroShards', electroShards - 2);
+          localStorage.setItem('high_freq_tap_purchased', 'true');
+          setNotifications(prev => [...prev, 'High-Frequency Tap Chip installed!']);
+          incrementUpgradeCount();
+        }
+      },
+      purchasedCount: localStorage.getItem('high_freq_tap_purchased') === 'true' ? 1 : 0,
+      unlockCondition: () => localStorage.getItem('tronics_boost_II_count') && !localStorage.getItem('high_freq_tap_purchased')
     }
   ];
 
