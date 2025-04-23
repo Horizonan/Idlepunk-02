@@ -404,8 +404,8 @@ export const gameHandlers = (gameState, setGameState) => {
     }
 
     const handleBuyElectroSurgeNode = () => {
-      if (!localStorage.getItem('electro_surge_node_purchased') && gameState.electroShards >= 8) {
-        localStorage.setItem("electro_surge_node_purchased", 'true')
+      if (!localStorage.getItem('electro_surge_node_unlocked') && gameState.electroShards >= 8) {
+        localStorage.setItem("electro_surge_node_unlocked", 'true')
         setGameState.setElectroShards(prev => {
           const newValue = prev - 8;
           localStorage.setItem('electroShards', newValue.toString());
@@ -414,8 +414,9 @@ export const gameHandlers = (gameState, setGameState) => {
         return;
       }
       
-      if (gameState.tronics >= 35000 && gameState.electroShards >= 8 && !localStorage.getItem('electro_surge_node_purchased')) {
+      if (gameState.tronics >= 35000 && gameState.electroShards >= 8) {
         setGameState.setTronics(prev => prev - 35000);
+        localStorage.setItem("electro_surge_node_purchased", 'true')
         localStorage.setItem('surge_duration_bonus', '5');
         setGameState.setNotifications(prev => [...prev, "⚡ Electro Surge Node installed! All surge durations increased by 5 seconds."]);
         incrementUpgradeCount();
@@ -467,15 +468,14 @@ export const gameHandlers = (gameState, setGameState) => {
 
     const handleBuyHighFreqTap = () => {
 
-      if (!localStorage.getItem('high_freq_tap_purchased')  && gameState.electroShards >= 2) {
-        localStorage.setItem('high_freq_tap_purchased', 'true');
+      if (!localStorage.getItem('high_freq_tap_unlocked') && gameState.electroShards >= 2) {
+        localStorage.setItem('high_freq_tap_unlocked', 'true');
         setGameState.setElectroShards(prev => prev - 2);
         setGameState.setNotifications(prev => [...prev, "⚡ High Frequency Tapper Unlocked"]);
         return;
       }
-
       
-      if (gameState.tronics >= 10000 && localStorage.getItem('tronics_boost_II_count') && !localStorage.getItem('high_freq_tap_purchased')) {
+      if (gameState.tronics >= 10000 && localStorage.getItem('tronics_boost_II_count')) {
         setGameState.setTronics(prev => prev - 10000);
         localStorage.setItem('high_freq_tap_purchased', 'true');
         setGameState.setNotifications(prev => [...prev, 'High-Frequency Tap Chip installed!']);

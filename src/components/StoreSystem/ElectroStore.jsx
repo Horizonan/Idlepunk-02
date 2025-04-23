@@ -71,10 +71,10 @@ export default function ElectroStore({
     {
       name: "⚡ Electro Surge Node",
       cost: {
-        tronics: !localStorage.getItem('electro_surge_node_purchased')
+        tronics: !localStorage.getItem('electro_surge_node_unlocked')
           ? 0
           : 35000,
-        shards: !localStorage.getItem('electro_surge_node_purchased') ? 8 : 0
+        shards: !localStorage.getItem('electro_surge_node_unlocked') ? 8 : 0
       },
       description: "Increases all Surge durations by +5 seconds and unlocks tronics surge",
       info: "One-time purchase",
@@ -111,8 +111,8 @@ export default function ElectroStore({
     {
       name: "⚡ High-Frequency Tap Chip",
       cost: {
-        tronics: !localStorage.getItem('high_freq_tap_purchased') ? 0 : 10000,
-        shards: !localStorage.getItem('high_freq_tap_purchased') ? 2 : 0
+        tronics: !localStorage.getItem('high_freq_tap_unlocked') ? 0 : 10000,
+        shards: !localStorage.getItem('high_freq_tap_unlocked') ? 2 : 0
       },
       description: "Clicker fires twice per manual click",
       info: "Requires Tronics Boost II",

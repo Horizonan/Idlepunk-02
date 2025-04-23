@@ -777,7 +777,7 @@ export default function App() {
           onBuyElectroSurgeNode={handleBuyElectroSurgeNode}
           onBuyElectroBeaconCore={handleBuyElectroBeaconCore}
           onBuyCircuitOptimization={handleBuyCircuitOptimization}
-          onBuyFreuqencyTap={handleBuyHighFreqTap}
+          onBuyFrequencyTap={handleBuyHighFreqTap}
           
           onBack={() => {
             setActiveStore(null);

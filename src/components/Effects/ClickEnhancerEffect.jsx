@@ -47,14 +47,14 @@ export default function ClickEnhancerEffect({ level = 1 }) {
       {positions.map((pos, index) => (
         <img
           key={index}
-          src="Icons/Upgrades/clickenhancer.png"
+          src="public/Icons/Upgrades/clickenhancer.svg"
           alt={`Click Enhancer ${index + 1}`}
           style={{
             position: 'fixed',
             left: pos.x,
             top: pos.y,
-            width: '32px',
-            height: '32px',
+            width: '110px',
+            height: '110px',
             pointerEvents: 'none',
             animation: isClicking[index] ? 'clickAnimation 1s forwards' : 'none',
             zIndex: 1000,
