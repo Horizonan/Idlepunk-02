@@ -55,6 +55,7 @@ import ItemInventory from './components/StoreSystem/ItemInventory';
 import PrestigePopup from './components/PrestigePopup';
 import Tooltips from './components/SideMenu/Tooltips';
 import ShardMiner from './components/Effects/ShardMiner';
+import CoinFlip from './components/SideMenu/CoinFlip';
 
 export default function App() {
   const { 
@@ -72,7 +73,7 @@ export default function App() {
     prestigeQuestCompleted, setPrestigeQuestCompleted, showClickEnhancerUI, setShowClickEnhancerUI, craftingInventory, setCraftingInventory,
     showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory, activeCheatsList, setActiveCheatsList,
     itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, showJunkDrone, setShowJunkDrone,
-    bulkBuy, setBulkBuy, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup, permanentAutoClicks, setPermanentAutoClicks
+    bulkBuy, setBulkBuy, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup, permanentAutoClicks, setPermanentAutoClicks, 
   } = useGameState();
 
   const {
@@ -97,6 +98,8 @@ export default function App() {
     setAutoClickerV1Count, autoClickerV1Count, setAutoClickerV2Count, setElectroShards, setNotifications
   });
 
+  const [showCoinFlip, setShowCoinFlip] = useState(false);
+  
   useEffect(() => {
     const handleUpdateSurgeCount = () => {
       setSurgeCount(3);
@@ -193,6 +196,7 @@ export default function App() {
     }
   };
 
+  
 
   useEffect(() => {
     const handleUpgradeStats = () => {

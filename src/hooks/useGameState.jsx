@@ -17,6 +17,7 @@ export const useGameState = () => {
   const [electroShards, setElectroShards] = useState(() => Number(localStorage.getItem('electroShards')) || 0);
   const [cogfatherLore, setCogfatherLore] = useState(() => JSON.parse(localStorage.getItem('cogfatherLore')) || []);
   const [preservedHelper, setPreservedHelper] = useState(() => localStorage.getItem('preservedHelper') || null);
+   const [showCoinFlip, setShowCoinFlip] = useState(false); 
 
 
   //Currencies
@@ -225,6 +226,7 @@ return {
     showCrystal, setShowCrystal, showTrashBonus, setShowTrashBonus, showQuestLog, setShowQuestLog, showNewsTicker, setShowNewsTicker,
     prestigeQuestCompleted, setPrestigeQuestCompleted, showClickEnhancerUI, setShowClickEnhancerUI, craftingInventory, setCraftingInventory,
     showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory, activeCheatsList, setActiveCheatsList,
-    itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, setSkillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, bulkBuy, setBulkBuy, showJunkDrone, setShowJunkDrone, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup, permanentAutoClicks, setPermanentAutoClicks
+    itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, setSkillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, bulkBuy, setBulkBuy, showJunkDrone, setShowJunkDrone, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup, permanentAutoClicks, setPermanentAutoClicks,
+  
   };
 };
