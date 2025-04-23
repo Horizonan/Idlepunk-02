@@ -283,11 +283,14 @@ export const gameHandlers = (gameState, setGameState) => {
   const handleBuyJunkRefinery = () => {
     console.log(!localStorage.getItem("modularScrapperPurchased"))
     if (gameState.junk >= gameState.bulkBuy ? calculate10x02(gameState.itemCosts.junkRefinery) : gameState.itemCosts.junkRefinery) {
-      const cost = gameState.bulkBuy ? calculate10x02(gameState.itemCosts.junkRefinery) : gameState.itemCosts.junkRefinery;
-      setGameState.setJunk(prev => prev - cost);
+      const costData = gameState.bulkBuy ? calculate10x02(gameState.itemCosts.junkRefinery) : {
+        totalCost: gameState.itemCosts.junkRefinery,
+        endCost: Math.floor(gameState.itemCosts.junkRefinery * 1.2)
+      };
+      setGameState.setJunk(prev => prev - costData.cost);
       setGameState.setPassiveIncome(prev => prev + (gameState.bulkBuy ? 500 : 50));
       setGameState.setOwnedItems(prev => ({...prev, junkRefinery: (prev.junkRefinery || 0) + gameState.bulkBuy ? 10:1}));
-      setGameState.setItemCosts(prev => ({...prev, junkRefinery: Math.floor(cost * 1.2)}));
+      setGameState.setItemCosts(prev => ({...prev, junkRefinery: Math.floor(costData.endCost * 1.2)}));
       setGameState.setNotifications(prev => [...prev, "Junk Refinery purchased! +50 Junk/sec"]);
 
       if (!gameState.ownedItems.junkRefinery) {
@@ -331,7 +334,7 @@ export const gameHandlers = (gameState, setGameState) => {
   };
 
   const handleBuyTronicsBoost = () => {
-    console.log("Is unlcoked:" + !localStorage.getItem('unlocked_tronics_boost') + gameState.electroShards);
+    console.log("Is unlocked:" + !localStorage.getItem('unlocked_tronics_boost') + gameState.electroShards);
 
 
     if (!localStorage.getItem('unlocked_tronics_boost') && gameState.electroShards >= 3) {
@@ -346,11 +349,14 @@ export const gameHandlers = (gameState, setGameState) => {
 
       } else if(gameState.tronics >= gameState.itemCosts.tronicsBoost){
 
-          const cost = gameState.bulkBuy ? calculate10xPrice01(gameState.itemCosts.tronicsBoost, true) : gameState.itemCosts.tronicsBoost;
+      const costData = gameState.bulkBuy ? calculate10xPrice01(gameState.itemCosts.tronicsBoost) : {
+        totalCost: gameState.itemCosts.tronicsBoost,
+        endCost: Math.floor(gameState.itemCosts.tronicsBoost * 1.1)
+      };
 
-          setGameState.setTronics(prev => prev - cost);
+          setGameState.setTronics(prev => prev - costData.totalCost);
           setGameState.setClickMultiplier(prev => prev + (gameState.bulkBuy ? 10 : 1));
-          setGameState.setItemCosts(prev => ({...prev, tronicsBoost: Math.floor(cost * 1.1)}));
+          setGameState.setItemCosts(prev => ({...prev, tronicsBoost: Math.floor(costData.endCost)}));
 
           const newBoostCount = (parseInt(localStorage.getItem('tronics_boost_count') || '0') + (gameState.bulkBuy ? 10 : 1));
 

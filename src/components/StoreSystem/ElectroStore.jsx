@@ -26,7 +26,7 @@ export default function ElectroStore({
         tronics: !localStorage.getItem('unlocked_tronics_boost')
           ? 0
           : (bulkBuy 
-              ? (calculate10xPrice01(itemCosts.tronicsBoost)) 
+              ? (calculate10xPrice01(itemCosts.tronicsBoost).totalCost) 
               : itemCosts.tronicsBoost),
         shards: !localStorage.getItem('unlocked_tronics_boost') ? 3 : 0 
       },
@@ -40,7 +40,7 @@ export default function ElectroStore({
     },
     {
       name: "⚡ Tronics Click Boost II",
-      cost: { tronics: bulkBuy ? caluclatePricex02(itemCosts.tronicsBoostII) : itemCosts.tronicsBoostII, },
+      cost: { tronics: bulkBuy ? caluclatePricex02(itemCosts.tronicsBoostII).totalCost : itemCosts.tronicsBoostII, },
       description: "+2 Tronics per click",
       info: "Now with extra voltage. May void warranty.",
       action: onBuyTronicsBoostII,

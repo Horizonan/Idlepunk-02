@@ -96,7 +96,7 @@ export default function Store({
     },
     {
       name: "Holo Billboard",
-      cost: bulkBuy ? calculate10xPriceBillBoard(itemCosts.holoBillboard) : itemCosts.holoBillboard,
+      cost: bulkBuy ? calculate10xPriceBillBoard(itemCosts.holoBillboard).totalCost : itemCosts.holoBillboard,
       description: "+10% global Junk/sec boost",
       info: "A massive holographic display that attracts more scrappers to your territory",
       action: onBuyHoloBillboard,
@@ -139,7 +139,7 @@ export default function Store({
     },
     {
       name: "Auto Clicker Bot V2",
-      cost: { junk: bulkBuy ? calculate10xPriceBillBoard(itemCosts.autoClickerV2) : itemCosts.autoClickerV2 },
+      cost: { junk: bulkBuy ? calculate10xPriceBillBoard(itemCosts.autoClickerV2).totalCost : itemCosts.autoClickerV2 },
       description:
         "Auto Clicker Bot v2.0 – Upgraded to 2 clicks/sec. Now 12% less annoying.",
       disabled: !canAffordV2,
@@ -155,7 +155,7 @@ export default function Store({
   const firstAsc = [
     {
       name: "🔹 Junk Refinery",
-      cost: { junk: bulkBuy ? calculate10xPriceBillBoard(itemCosts.junkRefinery) : itemCosts.junkRefinery},
+      cost: { junk: bulkBuy ? calculate10xPriceBillBoard(itemCosts.junkRefinery).totalCost : itemCosts.junkRefinery},
       description: "+50 Junk/sec",
       info: "A high-tech facility that processes junk more efficiently.",
       unlockCondition: () =>
