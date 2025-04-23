@@ -129,7 +129,28 @@ export default function ElectroStore({
 
   const renderItems = (items) => (
     <div className="store-items">
-      {items.map((item) => {
+      {items.filter(item => {
+        // Hide one-time purchases that are already bought
+        if (item.name.includes("Flow Regulator") && localStorage.getItem('flow_regulator_purchased') === 'true') {
+          return false;
+        }
+        if (item.name.includes("Quantum Tap") && localStorage.getItem('quantum_tap_purchased') === 'true') {
+          return false;
+        }
+        if (item.name.includes("Electro Surge Node") && localStorage.getItem('electro_surge_node_purchased') === 'true') {
+          return false;
+        }
+        if (item.name.includes("Electro Beacon Core") && localStorage.getItem('beacon_core_purchased') === 'true') {
+          return false;
+        }
+        if (item.name.includes("Circuit Optimization") && parseInt(localStorage.getItem('circuit_optimization_count') || '0') >= 4) {
+          return false;
+        }
+        if (item.name.includes("High-Frequency Tap") && localStorage.getItem('high_freq_tap_purchased') === 'true') {
+          return false;
+        }
+        return true;
+      }).map((item) => {
         const canAfford = (item.cost.tronics ? tronics >= item.cost.tronics : true) && 
                          (item.cost.shards ? electroShards >= item.cost.shards : true);
         return (
