@@ -1,0 +1,104 @@
+Implement a real-time combat system post-prestige, with animated combat visuals, dynamic enemy interactions, and equipment-based stat progression. Combat begins in the Scraptagon, where players fight bizarre cyber-waste creatures — starting with the iconic Sentient Trash Pile.
+
+🔓 Unlock Flow
+Requires Prestige 1 and unlocking the Tech Tree node: “The Scraptagon”
+
+Adds new tab in Activities Menu
+
+Optional intro via Cogfather:
+“Even garbage has teeth when you stack it wrong…”
+
+🧱 Core Combat Loop
+Player enters arena → fight begins in real-time → visualized health bars and attack animations
+
+Combat is automatic, but the player can equip gear that modifies:
+
+Attack speed
+
+Damage
+
+Defense / armor
+
+Passive effects (bleed, regen, crit chance in later updates)
+
+First Enemy: “Trash Pile (Sentient)”
+
+HP: 150
+
+Damage: 5
+
+Visual: wobbling animated heap of blinking junk with glowing eyes
+
+Player Base Stats:
+
+HP: 100
+
+Attack: 10 (1/sec base)
+
+Defense: 5
+
+Combat Level: 1
+
+Equipped gear modifies these
+
+Combat Outcome:
+
+Win = +Fighting XP, +Loot Drop
+
+Lose = no loot, but player heals slowly over time or after cooldown
+
+Visual log and status effects shown under the arena display
+
+🎮 UI Integration
+New Scraptagon Panel includes:
+
+Animated combat zone (SVG or simple sprite animation)
+
+Enemy visual and name
+
+Player + enemy HP bars
+
+Action log with attack rollouts and crits
+
+Loot preview window (grayed until unlocked)
+
+Equip/unequip panel on right (basic loadout)
+
+🎒 Inventory Changes
+Add new Combat Inventory tab with:
+
+Gear slots (Weapon, Armor, Mod [locked at first])
+
+Hover tooltips: name, stats, rarity, flavor
+
+Equipment only affects Scraptagon fights
+
+📊 Stats Menu Additions
+Add new section: Combat Stats
+
+Fighting Level & XP
+
+Total Wins / Losses
+
+Damage Dealt (lifetime)
+
+Highest Enemy Defeated (e.g., “Trash Pile”)
+
+🧠 Gameplay Notes
+First fight is extremely simple but meant to be a visual spectacle
+
+Future enemies scale with Fighting Level
+
+Cooldown between fights unless player has regen booster
+
+Loot drop includes: Scrap Gears, Tech Dust, low-rarity Gear, and Fighting XP
+
+🧪 Test Milestone
+1v1 battle between Player and Trash Pile runs to completion
+
+Visual feedback for damage (hit flashes, HP ticks)
+
+Victory/defeat screens with XP and loot summary
+
+Equip system reflects stats before fight begins
+
