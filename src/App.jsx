@@ -635,6 +635,21 @@ export default function App() {
           onClose={() => setShowSlotMachine(false)}
         />
       )}
+      {showCombat && (
+        <scrapCombat
+          playerStats={{
+            maxHealth: 100,
+            attack: 10,
+            defense: 5,
+            attackSpeed: 1
+          }}
+          onCombatEnd={(victory) => {
+            if (victory) {
+              setNotifications(prev => [...prev, "Combat Victory!"]);
+            }
+          }}
+        />
+      )}
       {showAchievements && (
         <Achievements 
           achievements={achievements}
