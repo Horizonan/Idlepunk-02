@@ -56,6 +56,7 @@ import PrestigePopup from './components/PrestigePopup';
 import Tooltips from './components/SideMenu/Tooltips';
 import ShardMiner from './components/Effects/ShardMiner';
 import CoinFlip from './components/SideMenu/CoinFlip';
+import scrapCombat from './components/Combat/scrapCombat';
 
 export default function App() {
   const { 
@@ -73,7 +74,7 @@ export default function App() {
     prestigeQuestCompleted, setPrestigeQuestCompleted, showClickEnhancerUI, setShowClickEnhancerUI, craftingInventory, setCraftingInventory,
     showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory, activeCheatsList, setActiveCheatsList,
     itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, showJunkDrone, setShowJunkDrone,
-    bulkBuy, setBulkBuy, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup, permanentAutoClicks, setPermanentAutoClicks, 
+    bulkBuy, setBulkBuy, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup, permanentAutoClicks, setPermanentAutoClicks, showCombat, setShowCombat
   } = useGameState();
 
   const {
@@ -208,20 +209,21 @@ export default function App() {
           setShowSettings(false);
           setShowQuestLog(false);
           setShowTooltips(false); 
-          setShowCoinFlip(false); // Added this line
+          setShowCoinFlip(false);
+          setShowCombat(false);
         }
         return !prev;
       });
     };
     window.addEventListener('toggleUpgradeStats', handleUpgradeStats);
 
-    if (showSlotMachine || showAchievements || showSettings || showQuestLog || showTooltips || showCoinFlip) { // Added showCoinFlip here
+    if (showSlotMachine || showAchievements || showSettings || showQuestLog || showTooltips || showCoinFlip || showCombat) {
       setActiveStore(null);
       setShowUpgradeStats(false);
     }
 
     return () => window.removeEventListener('toggleUpgradeStats', handleUpgradeStats);
-  }, [showSlotMachine, showAchievements, showSettings, showQuestLog, showTooltips, showCoinFlip]); // Added showCoinFlip here
+  }, [showSlotMachine, showAchievements, showSettings, showQuestLog, showTooltips, showCoinFlip, showCombat]); e
 
 
   useEffect(() => {
@@ -614,8 +616,12 @@ export default function App() {
             break;
           case 'coinflip': 
             setShowCoinFlip(prev => !prev);
-            console.log("Help");
             break;
+          case 'combat':
+            if (localStorage.getItem('prestige1Unlocked') === 'true') {
+            setShowCombat(prev => !prev);
+            break;
+            }
         }
       }} />
       {showTooltips && <Tooltips onClose={() => setShowTooltips(false)} />}

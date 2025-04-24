@@ -18,6 +18,7 @@ export const useGameState = () => {
   const [cogfatherLore, setCogfatherLore] = useState(() => JSON.parse(localStorage.getItem('cogfatherLore')) || []);
   const [preservedHelper, setPreservedHelper] = useState(() => localStorage.getItem('preservedHelper') || null);
    const [showCoinFlip, setShowCoinFlip] = useState(false); 
+  const [showCombat, setShowCombat] = useState(false);
 
 
   //Currencies
@@ -227,6 +228,6 @@ return {
     prestigeQuestCompleted, setPrestigeQuestCompleted, showClickEnhancerUI, setShowClickEnhancerUI, craftingInventory, setCraftingInventory,
     showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory, activeCheatsList, setActiveCheatsList,
     itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, setSkillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, bulkBuy, setBulkBuy, showJunkDrone, setShowJunkDrone, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup, permanentAutoClicks, setPermanentAutoClicks,
-  
+  showCombat, setShowCombat
   };
 };
