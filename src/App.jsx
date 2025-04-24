@@ -223,7 +223,7 @@ export default function App() {
     }
 
     return () => window.removeEventListener('toggleUpgradeStats', handleUpgradeStats);
-  }, [showSlotMachine, showAchievements, showSettings, showQuestLog, showTooltips, showCoinFlip, showCombat]); e
+  }, [showSlotMachine, showAchievements, showSettings, showQuestLog, showTooltips, showCoinFlip, showCombat]);
 
 
   useEffect(() => {
