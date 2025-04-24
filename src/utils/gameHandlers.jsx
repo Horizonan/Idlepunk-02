@@ -1,5 +1,3 @@
-import useJunkState from '../hooks/useJunkState';
-
 export const gameHandlers = (gameState, setGameState) => {
 
 

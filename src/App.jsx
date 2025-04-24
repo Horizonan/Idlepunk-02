@@ -58,20 +58,9 @@ import ShardMiner from './components/Effects/ShardMiner';
 import CoinFlip from './components/SideMenu/CoinFlip';
 import ScraptagonCombat from './components/Combat/scrapCombat';
 
-//Zustand
-import useJunkState from './hooks/useJunkState';
-
 export default function App() {
-
-  const {
-    junk,
-    setJunk,
-    clickMultiplier,
-    setClickMultiplier
-  } = useJunkState();
-  
   const { 
-    credits, setCredits, clickCount, setClickCount, tronics, setTronics, autoClicks, setAutoClicks, passiveIncome, 
+    junk, setJunk, credits, setCredits, clickCount, setClickCount, tronics, setTronics, autoClicks, setAutoClicks, clickMultiplier, setClickMultiplier, passiveIncome, 
     setPassiveIncome, globalJpsMultiplier, setGlobalJpsMultiplier, notifications, setNotifications,
     electronicsUnlock, setElectronicsUnlock,  activeStore, setActiveStore, menuOpen, setMenuOpen, clickEnhancerLevel, setClickEnhancerLevel,
     tutorialStage, setTutorialStage, hasUpgrade, setHasUpgrade, showPrestigePopup, setShowPrestigePopup, prestigeCount, setPrestigeCount,
@@ -379,6 +368,7 @@ export default function App() {
     }
 
     localStorage.setItem('credits', credits);
+    localStorage.setItem('junk', junk);
     localStorage.setItem('electronicsUnlock', electronicsUnlock);
     localStorage.setItem('clickMultiplier', clickMultiplier);
     localStorage.setItem('passiveIncome', passiveIncome);
