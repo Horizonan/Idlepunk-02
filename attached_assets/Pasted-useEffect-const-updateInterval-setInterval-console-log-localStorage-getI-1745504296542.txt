@@ -1,0 +1,61 @@
+useEffect(() => {
+    const updateInterval = setInterval(() => {
+      console.log(localStorage.getItem('prestige1Unlocked') == "true");
+      const skillLevels = JSON.parse(localStorage.getItem('skillLevels')) || { greaseDiscipline: 0 };
+      const greaseDisciplineBonus = skillLevels.greaseDiscipline * 0.5 / 100;
+      const circuitOptCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
+      const circuitOptBonus = circuitOptCount * 0.25;
+      const holoBillboardBonus = (ownedItems.holoBillboard || 0) * 0.1;
+      const totalMultiplier = 1 + circuitOptBonus + (craftingInventory['Compression Pack'] ? 0.25 : 0) + greaseDisciplineBonus + holoBillboardBonus;
+      setGlobalJpsMultiplier(totalMultiplier);
+
+      if (passiveIncome > 0) {
+        setJunk(prev => prev + (passiveIncome * totalMultiplier));
+
+      }
+
+      if (autoClicks > 0) {
+        setJunk(prev => prev + ((autoClicks + permanentAutoClicks)  * clickMultiplier));
+        setClickCount(prev => prev + (autoClicks + permanentAutoClicks) );
+
+        if (electronicsUnlock) {
+          const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
+          const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
+          const tronicsPerClick = 1 + boostICount + (boostIICount * 2);
+          setTronics(prev => prev + ((autoClicks + permanentAutoClicks) * tronicsPerClick));
+          setTotalTronicsClicks(prev => prev + (autoClicks + permanentAutoClicks));
+        }
+      }
+    }, 1000);
+
+    return () => clearInterval(updateInterval);
+  }, [passiveIncome, autoClicks, clickMultiplier, globalJpsMultiplier, craftingInventory]);
+
+  useEffect(() => {
+    localStorage.setItem('craftingInventory', JSON.stringify(craftingInventory));
+  }, [craftingInventory]);
+
+  useEffect(() => {
+    const totalPassiveIncome = passiveIncome * globalJpsMultiplier + ((autoClicks + permanentAutoClicks) * clickMultiplier);
+    if ((totalPassiveIncome >= 100 || junk >= 1000000)) {
+      localStorage.setItem('prestigeUnlocked', 'true');
+    }
+    if ((totalPassiveIncome >= 100 || junk >= 1000000) && !localStorage.getItem('cogfatherEvent')) {
+      setNotifications(prev => [...prev, "The Cogfather wants to speak with you about your progress..."]);
+      localStorage.setItem('cogfatherEvent', 'true');
+    }
+
+    localStorage.setItem('credits', credits);
+    localStorage.setItem('electronicsUnlock', electronicsUnlock);
+    localStorage.setItem('clickMultiplier', clickMultiplier);
+    localStorage.setItem('passiveIncome', passiveIncome);
+    localStorage.setItem('itemCosts', JSON.stringify(itemCosts));
+    localStorage.setItem('autoClicks', autoClicks);
+    localStorage.setItem('clickCount', clickCount);
+    localStorage.setItem('achievements', JSON.stringify(achievements));
+    localStorage.setItem('clickEnhancerLevel', clickEnhancerLevel);
+    localStorage.setItem('ownedItems', JSON.stringify(ownedItems));
+    localStorage.setItem('craftingInventory', JSON.stringify(craftingInventory));
+    localStorage.setItem('globalJpsMultiplier', globalJpsMultiplier);
+    localStorage.setItem('autoClickerV1Count', autoClickerV1Count); 
+  }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts, autoClicks, clickCount, achievements, ownedItems, clickEnhancerLevel, globalJpsMultiplier, autoClickerV1Count]);
