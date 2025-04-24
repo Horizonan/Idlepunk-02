@@ -8,8 +8,17 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
     enemyHealth: 150,
     combatLog: [],
     victory: false,
-    statusEffects: []
+    statusEffects: [],
+    playerAttacking: false,
+    criticalHit: false
   });
+
+  const triggerPlayerAttack = (isCritical = false) => {
+    setCombatState(prev => ({ ...prev, playerAttacking: true, criticalHit: isCritical }));
+    setTimeout(() => {
+      setCombatState(prev => ({ ...prev, playerAttacking: false, criticalHit: false }));
+    }, isCritical ? 700 : 500);
+  };
 
   const enemy = {
     name: "CYBER-SCRAPPER MK.III",
@@ -33,13 +42,20 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
     if (combatState.inProgress) {
       const playerInterval = setInterval(() => {
         setCombatState(prev => {
-          const damage = playerStats.attack * (1 - enemy.defense / 100);
+          const isCritical = Math.random() < 0.2;
+          const damage = playerStats.attack * (1 - enemy.defense / 100) * (isCritical ? 1.5 : 1);
           const newEnemyHealth = Math.max(0, prev.enemyHealth - damage);
+          
+          triggerPlayerAttack(isCritical);
 
           return {
             ...prev,
             enemyHealth: newEnemyHealth,
-            combatLog: [...prev.combatLog, `Player deals ${damage.toFixed(1)} damage!`]
+            combatLog: [...prev.combatLog, 
+              isCritical 
+                ? `CRITICAL HIT! Player deals ${damage.toFixed(1)} damage!` 
+                : `Player deals ${damage.toFixed(1)} damage!`
+            ]
           };
         });
       }, 1000 / playerStats.attackSpeed);
@@ -107,7 +123,11 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
         </div>
 
         <div className="combat-visuals">
-          <div className="player-sprite"></div>
+          <div className={`player-sprite ${
+            combatState.victory ? 'victory' : 
+            combatState.playerAttacking ? 'attacking' :
+            combatState.criticalHit ? 'critical' : ''
+          }`}></div>
           <div className={`enemy-sprite ${combatState.inProgress ? 'animated' : ''}`}></div>
         </div>
 
