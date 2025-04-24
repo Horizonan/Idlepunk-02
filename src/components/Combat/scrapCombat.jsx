@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import './scrapCombat.css'
 
-export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd }) {
+export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, onClose }) {
   const [combatState, setCombatState] = useState({
     inProgress: false,
-    playerHealth: 100,
+    playerHealth: playerStats?.maxHealth || 100,
     enemyHealth: 150,
     combatLog: [],
-    victory: false
+    victory: false,
+    statusEffects: []
   });
 
   const enemy = {
-    name: "Trash Pile (Sentient)",
+    name: "CYBER-SCRAPPER MK.III",
     maxHealth: 150,
     damage: 5,
-    attackSpeed: 1000 // 1 attack per second
+    attackSpeed: 1000, // 1 attack per second
+    defense: 10
   };
 
   const startCombat = () => {
@@ -84,6 +86,14 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd }
 
   return (
     <div className="scraptagon-combat">
+      <div className="combat-header">
+        <h2>SCRAPTAGON COMBAT v2.077</h2>
+        <button className="close-combat" onClick={onClose}>Close</button>
+      </div>
+      <div className="combat-stats">
+        <div>PLAYER: [LVL {playerStats?.level || 1}] {playerStats?.name || 'UNKNOWN'}</div>
+        <div>COMBAT RATING: {playerStats?.attack || 0} DMG / {playerStats?.defense || 0} DEF</div>
+      </div>
       <div className="combat-arena">
         <div className="health-bars">
           <div className="health-bar player">
@@ -103,7 +113,13 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd }
 
         <div className="combat-log">
           {combatState.combatLog.slice(-5).map((log, index) => (
-            <div key={index} className="log-entry">{log}</div>
+            <div key={index} className="log-entry">
+              {log.includes('CRITICAL') || log.includes('SYSTEM') ? (
+                <span className="status-effect">{log}</span>
+              ) : (
+                log
+              )}
+            </div>
           ))}
         </div>
 
