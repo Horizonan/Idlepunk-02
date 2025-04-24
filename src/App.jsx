@@ -618,8 +618,9 @@ export default function App() {
             setShowCoinFlip(prev => !prev);
             break;
           case 'combat':
-            if (localStorage.getItem('prestige1Unlocked') === 'true') {
+            if (localStorage.getItem('hasPrestiged')) {
             setShowCombat(prev => !prev);
+              console.log("help");
             break;
             }
         }
