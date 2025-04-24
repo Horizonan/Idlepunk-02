@@ -56,7 +56,7 @@ import PrestigePopup from './components/PrestigePopup';
 import Tooltips from './components/SideMenu/Tooltips';
 import ShardMiner from './components/Effects/ShardMiner';
 import CoinFlip from './components/SideMenu/CoinFlip';
-import scrapCombat from './components/Combat/scrapCombat';
+import ScraptagonCombat from './components/Combat/scrapCombat';
 
 export default function App() {
   const { 
@@ -636,7 +636,7 @@ export default function App() {
         />
       )}
       {showCombat && (
-        <scrapCombat
+        <ScraptagonCombat
           playerStats={{
             maxHealth: 100,
             attack: 10,

@@ -5,7 +5,7 @@
 @import 'src/components/Effects/UiElements/electroBeacon.css';
 @import 'src/components/SideMenu/slotMachine.css';
 @import 'src/components/SideMenu/settingsMenu/settings.css';
-@import 'src/components/Combat/scrapCombat.css'
+
 
 .uncraftable {
   opacity: 0.7;
