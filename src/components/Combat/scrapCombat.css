@@ -1,12 +1,19 @@
 
 .scraptagon-combat {
-  background: rgba(0, 0, 0, 0.9);
-  border: 2px solid #9400D3;
-  border-radius: 10px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.95);
+  border: 2px solid #00ff41;
+  box-shadow: 0 0 20px #00ff41, inset 0 0 10px rgba(0, 255, 65, 0.5);
+  border-radius: 5px;
   padding: 20px;
   width: 800px;
   height: 600px;
-  margin: 20px auto;
+  z-index: 1000;
+  color: #00ff41;
+  font-family: 'Courier New', monospace;
 }
 
 .combat-arena {
@@ -25,21 +32,22 @@
 .health-bar {
   flex: 1;
   height: 30px;
-  background: rgba(0, 0, 0, 0.5);
-  border: 2px solid #9400D3;
-  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #00ff41;
+  box-shadow: 0 0 5px #00ff41;
+  border-radius: 3px;
   position: relative;
   overflow: hidden;
 }
 
 .health-fill {
   height: 100%;
-  background: #00FF00;
+  background: linear-gradient(90deg, #00ff41 0%, #00ff9d 100%);
   transition: width 0.3s ease;
 }
 
 .enemy .health-fill {
-  background: #FF0000;
+  background: linear-gradient(90deg, #ff003c 0%, #ff6b6b 100%);
 }
 
 .health-text {
@@ -47,8 +55,9 @@
   width: 100%;
   text-align: center;
   line-height: 30px;
-  color: white;
-  text-shadow: 1px 1px 2px black;
+  color: #fff;
+  text-shadow: 0 0 5px #00ff41;
+  font-weight: bold;
 }
 
 .combat-visuals {
@@ -57,55 +66,90 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px;
+  background: rgba(0, 255, 65, 0.05);
+  border: 1px solid #00ff41;
+  border-radius: 5px;
 }
 
 .player-sprite, .enemy-sprite {
-  width: 100px;
-  height: 100px;
-  background: #9400D3;
-  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(45deg, #00ff41, #00a8ff);
+  border: 2px solid #00ff41;
+  box-shadow: 0 0 15px #00ff41;
+  border-radius: 10px;
+  position: relative;
 }
 
 .enemy-sprite {
-  background: #FF0000;
+  background: linear-gradient(45deg, #ff003c, #ff6b6b);
+  border-color: #ff003c;
+  box-shadow: 0 0 15px #ff003c;
 }
 
 .enemy-sprite.animated {
-  animation: wobble 2s infinite;
+  animation: glitch 1s infinite;
 }
 
-@keyframes wobble {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px) rotate(-5deg); }
-  75% { transform: translateX(5px) rotate(5deg); }
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
 }
 
 .combat-log {
   height: 150px;
   overflow-y: auto;
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid #9400D3;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #00ff41;
+  box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.3);
   border-radius: 5px;
   padding: 10px;
 }
 
 .log-entry {
-  color: #00FF00;
+  color: #00ff41;
   margin: 5px 0;
-  font-family: monospace;
+  font-family: 'Courier New', monospace;
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
 }
 
 .start-combat {
-  background: #9400D3;
-  color: white;
-  border: none;
-  padding: 10px 20px;
+  background: transparent;
+  color: #00ff41;
+  border: 2px solid #00ff41;
+  padding: 10px 30px;
   border-radius: 5px;
   cursor: pointer;
   margin: 10px auto;
   display: block;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
 }
 
 .start-combat:hover {
-  background: #7B00AD;
+  background: #00ff41;
+  color: black;
+  box-shadow: 0 0 20px #00ff41;
+}
+
+/* Scrollbar styling */
+.combat-log::-webkit-scrollbar {
+  width: 8px;
+}
+
+.combat-log::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+}
+
+.combat-log::-webkit-scrollbar-thumb {
+  background: #00ff41;
+  border-radius: 4px;
+  box-shadow: 0 0 5px #00ff41;
 }
