@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 
-export default function ScrapCombat({ playerStats, equipment, onCombatEnd }) {
+export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd }) {
   const [combatState, setCombatState] = useState({
     inProgress: false,
     playerHealth: 100,

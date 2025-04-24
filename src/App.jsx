@@ -636,7 +636,7 @@ export default function App() {
         />
       )}
       {showCombat && (
-        <ScrapCombat
+        <scrapCombat
           playerStats={{
             maxHealth: 100,
             attack: 10,
