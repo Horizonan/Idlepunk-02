@@ -68,10 +68,10 @@ export default function App() {
     setJunk,
     clickMultiplier,
     setClickMultiplier
-  } = useJunkState();
+  } = useJunkStore();
   
   const { 
-    credits, setCredits, clickCount, setClickCount, tronics, setTronics, autoClicks, setAutoClicks, passiveIncome, 
+    junk, setJunk, credits, setCredits, clickCount, setClickCount, tronics, setTronics, autoClicks, setAutoClicks, clickMultiplier, setClickMultiplier, passiveIncome, 
     setPassiveIncome, globalJpsMultiplier, setGlobalJpsMultiplier, notifications, setNotifications,
     electronicsUnlock, setElectronicsUnlock,  activeStore, setActiveStore, menuOpen, setMenuOpen, clickEnhancerLevel, setClickEnhancerLevel,
     tutorialStage, setTutorialStage, hasUpgrade, setHasUpgrade, showPrestigePopup, setShowPrestigePopup, prestigeCount, setPrestigeCount,
