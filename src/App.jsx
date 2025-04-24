@@ -379,7 +379,6 @@ export default function App() {
     }
 
     localStorage.setItem('credits', credits);
-    localStorage.setItem('junk', junk);
     localStorage.setItem('electronicsUnlock', electronicsUnlock);
     localStorage.setItem('clickMultiplier', clickMultiplier);
     localStorage.setItem('passiveIncome', passiveIncome);
