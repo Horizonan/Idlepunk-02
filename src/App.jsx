@@ -258,8 +258,8 @@ export default function App() {
     const trashBonusTimer = setTimeout(spawnTrashBonus, initialSpawnTime);
 
     return () => {
-      clearInterval(crystalInterval);
       clearTimeout(trashBonusTimer);
+      cleanup();
     };
   }, []);
 
