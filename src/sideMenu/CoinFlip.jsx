@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import './CoinFlip.css';
 
 export default function CoinFlip({ junk, onBet, onClose }) {
   const [betAmount, setBetAmount] = useState('');

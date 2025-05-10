@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './UpgradeStats.css';
+import '../styles/UpgradeStats.css';
 
 // Create a shared interval ID to prevent multiple intervals
 let globalXpInterval = null;

@@ -1,10 +1,13 @@
 @import './mobile.css';
-@import 'src/components/Notifications.css';
-@import 'src/components/Clicker/Clicker.css';
-@import 'src/components/Effects/surges/TrashSurge.css';
-@import 'src/components/Effects/UiElements/electroBeacon.css';
-@import 'src/components/SideMenu/slotMachine.css';
-@import 'src/components/SideMenu/settingsMenu/settings.css';
+@import './styles/Notifications.css';
+@import './styles/Clicker.css';
+@import './components/Effects/surges/TrashSurge.css';
+@import './components/Effects/UiElements/electroBeacon.css';
+@import './styles/slotMachine.css';
+@import './components/SideMenu/settingsMenu/settings.css';
+@import './styles/Tooltips.css';
+@import './styles/CoinFlip.css';
+@import './styles/TechTree.css';
 
 
 .uncraftable {

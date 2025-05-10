@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Store.css';
+import '../styles/Store.css';
 
 export default function ElectroStore({ 
   electroShards, tronics, onBuyTronicsBoost, onBuyQuantumTap, 

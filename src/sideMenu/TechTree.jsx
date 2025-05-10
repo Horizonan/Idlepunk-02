@@ -1,6 +1,5 @@
 
 import React from 'react';
-import './TechTree.css';
 
 export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
   const hasTronicsClicker = localStorage.getItem('tronicsClicker') === 'true';

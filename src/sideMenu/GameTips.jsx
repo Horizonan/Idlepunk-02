@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import './Tooltips.css';
+
 
 export default function Tooltips({ onClose }) {
   const [expandedTip, setExpandedTip] = useState(null);
