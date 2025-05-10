@@ -1,5 +1,4 @@
-
-import { create } from 'zustand';
+import { create } from "zustand";
 
 export const useCrystalZustand = create((set, get) => ({
   showCrystal: false,
@@ -7,25 +6,29 @@ export const useCrystalZustand = create((set, get) => ({
   setShowCrystal: (show) => set({ showCrystal: show }),
   initializeCrystalTimer: () => {
     const calculateNextSpawnTime = () => {
-      const hasBeaconCore = localStorage.getItem('beacon_core_purchased') === 'true';
-      const beaconCount = parseInt(localStorage.getItem('beaconCount') || '0');
+      const hasBeaconCore =
+        localStorage.getItem("beacon_core_purchased") === "true";
+      const beaconCount = parseInt(localStorage.getItem("beaconCount") || "0");
       const maxBeacons = Math.min(10, beaconCount);
       const beaconBaseReduction = hasBeaconCore ? 0.25 : 0;
       const beaconStackReduction = maxBeacons * 0.01;
-      const totalReduction = Math.min(0.9, beaconBaseReduction + beaconStackReduction);
+      const totalReduction = Math.min(
+        0.9,
+        beaconBaseReduction + beaconStackReduction,
+      );
       const beaconMultiplier = 1 - totalReduction;
 
-      return Math.floor((10 + Math.random() * 10) * beaconMultiplier);
+      return Math.floor((900 + Math.random() * 900) * beaconMultiplier);
     };
 
     const timer = setInterval(() => {
-      set(state => {
+      set((state) => {
         if (state.timeUntilNext <= 0) {
-          window.dispatchEvent(new CustomEvent('showCrystal'));
+          window.dispatchEvent(new CustomEvent("showCrystal"));
           const nextTime = calculateNextSpawnTime();
-          return { 
+          return {
             showCrystal: true,
-            timeUntilNext: nextTime 
+            timeUntilNext: nextTime,
           };
         }
         return { timeUntilNext: state.timeUntilNext - 1 };
@@ -36,5 +39,5 @@ export const useCrystalZustand = create((set, get) => ({
     set({ timeUntilNext: initialTime, showCrystal: false });
 
     return () => clearInterval(timer);
-  }
+  },
 }));
