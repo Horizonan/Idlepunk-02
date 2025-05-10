@@ -1,1 +1,0 @@
-<h2>Skills Center</h2>
