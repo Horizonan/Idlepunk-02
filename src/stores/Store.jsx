@@ -175,7 +175,7 @@ export default function Store({
   ];
 
   const tabs = [
-    { id: "prePres", label: "Pre-Prestige" },
+    { id: "prePres", label: "Scrap Collectors" },
     { id: "premium", label: "Premium" },
     { id: "automation", label: "Automation" },
     {

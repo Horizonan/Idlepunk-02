@@ -19,7 +19,7 @@
   transform: translate(-50%, -50%);
   color: #ff00ff;
   font-weight: bold;
-  text-shadow: 0 0 3px #ff00ff, 0 0 5px rgba(255, 0, 255, 0.5);
+  text-shadow: 0 0 5px #ff00ff, 0 0 7px rgba(255, 0, 255, 0.5);
   animation: neon-pulse 2s ease-in-out infinite;
   width: 90%;
   text-align: center;
