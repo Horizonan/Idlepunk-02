@@ -1,4 +1,3 @@
-
 import { create } from 'zustand';
 
 export const useCrystalZustand = create((set, get) => ({
@@ -22,15 +21,17 @@ export const useCrystalZustand = create((set, get) => ({
       set(state => {
         if (state.timeUntilNext <= 0) {
           set({ showCrystal: true });
-          return { timeUntilNext: calculateNextSpawnTime() };
+          const nextTime = calculateNextSpawnTime();
+          return { timeUntilNext: nextTime };
         }
         return { timeUntilNext: state.timeUntilNext - 1 };
       });
     }, 1000);
 
     const initialTime = calculateNextSpawnTime();
-    set({ timeUntilNext: initialTime });
+    set({ timeUntilNext: initialTime, showCrystal: false });
 
     return () => clearInterval(timer);
-  }
+  },
+  setShowCrystal: (show) => set({ showCrystal: show })
 }));

@@ -239,8 +239,21 @@ export default function App() {
     }
   }, [activeStore]);
 
+  const showCrystal = useCrystalZustand(state => state.showCrystal);
+  
   useEffect(() => {
     const cleanup = useCrystalZustand.getState().initializeCrystalTimer();
+    
+    if (showCrystal) {
+      const crystal = document.createElement('div');
+      crystal.id = 'flying-crystal';
+      document.body.appendChild(crystal);
+      
+      return () => {
+        document.body.removeChild(crystal);
+        useCrystalZustand.getState().setShowCrystal(false);
+      };
+    }
 
     const spawnTrashBonus = () => {
       setShowTrashBonus(true);
