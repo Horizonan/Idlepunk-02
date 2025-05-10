@@ -1,118 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import '../styles/UpgradeStats.css';
-
-// Create a shared interval ID to prevent multiple intervals
-let globalXpInterval = null;
-
-const updateXp = () => {
-  const activeSkill = localStorage.getItem('activeSkill');
-  let skillXp = JSON.parse(localStorage.getItem('skillXp'));
-  if (!skillXp || typeof skillXp !== 'object') {
-    skillXp = {
-      scavengingFocus: 0,
-      greaseDiscipline: 0
-    };
-  }
-  const skillLevels = JSON.parse(localStorage.getItem('skillLevels')) || {
-    scavengingFocus: 0,
-    greaseDiscipline: 0
-  };
-
-  if (activeSkill && skillLevels[activeSkill] < 10) {
-    if (skillLevels[activeSkill] >= 10) {
-      return;
-    }
-    const currentXp = skillXp[activeSkill] || 0;
-    const newXp = currentXp + 1;
-    const baseXp = 10;
-    const requiredXp = Math.floor(baseXp * Math.pow(1.25, skillLevels[activeSkill]));
-
-    if (newXp >= requiredXp) {
-      skillLevels[activeSkill]++;
-      localStorage.setItem('skillLevels', JSON.stringify(skillLevels));
-      skillXp[activeSkill] = 0;
-    } else {
-      skillXp[activeSkill] = newXp;
-    }
-    localStorage.setItem('skillXp', JSON.stringify(skillXp));
-  }
-};
-
-// Start the global XP interval when the module loads
-if (!globalXpInterval) {
-  globalXpInterval = setInterval(updateXp, 10000);
-}
+import { useSkillsStore } from '../utils/skillsStore';
 
 export default function UpgradeStats({ onClose }) {
-  const [skillXp, setSkillXp] = useState(() => JSON.parse(localStorage.getItem('skillXp')) || {
-    scavengingFocus: 0,
-    greaseDiscipline: 0
-  });
-  const [activeSkill, setActiveSkill] = useState(() => localStorage.getItem('activeSkill') || '');
-  const [skillLevels, setSkillLevels] = useState(() => {
-    const saved = localStorage.getItem('skillLevels');
-    return saved ? JSON.parse(saved) : {
-      scavengingFocus: 0,
-      greaseDiscipline: 0
-    };
-  });
+  const { skillXp, skillLevels, activeSkill, setActiveSkill, updateXp } = useSkillsStore();
 
   useEffect(() => {
-    localStorage.setItem('skillLevels', JSON.stringify(skillLevels));
-  }, [skillLevels]);
+    const interval = setInterval(() => {
+      if (activeSkill && skillLevels[activeSkill] < 10) {
+        updateXp(activeSkill);
+      }
+    }, 10000);
 
-  useEffect(() => {
-    localStorage.setItem('activeSkill', activeSkill);
-  }, [activeSkill]);
-
-  // Update local state from localStorage every second
-  useEffect(() => {
-    const updateLocalState = () => {
-      setSkillXp(JSON.parse(localStorage.getItem('skillXp')) || {
-        scavengingFocus: 0,
-        greaseDiscipline: 0
-      });
-      setSkillLevels(JSON.parse(localStorage.getItem('skillLevels')));
-    };
-    
-    const interval = setInterval(updateLocalState, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [activeSkill, skillLevels, updateXp]);
 
   const getRequiredXp = (skill) => {
     const baseXp = 10;
     const level = skillLevels[skill];
     return Math.floor(baseXp * Math.pow(1.25, level));
   };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (activeSkill && skillLevels[activeSkill] < 10) {
-        const currentSkillXp = JSON.parse(localStorage.getItem('skillXp')) || {
-          scavengingFocus: 0,
-          greaseDiscipline: 0
-        };
-        
-        const newXp = (currentSkillXp[activeSkill] || 0) + 1;
-        const requiredXp = getRequiredXp(activeSkill);
-
-        if (newXp >= requiredXp) {
-          setSkillLevels(prevLevels => ({
-            ...prevLevels,
-            [activeSkill]: prevLevels[activeSkill] + 1
-          }));
-          currentSkillXp[activeSkill] = 0;
-        } else {
-          currentSkillXp[activeSkill] = newXp;
-        }
-        
-        localStorage.setItem('skillXp', JSON.stringify(currentSkillXp));
-        setSkillXp(currentSkillXp);
-      }
-    }, 10000);
-
-    return () => clearInterval(interval);
-  }, [activeSkill]);
 
   const getProgressPercentage = (skill) => {
     if (!skill) return 0;
