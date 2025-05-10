@@ -21,9 +21,7 @@ export const useCrystalZustand = create((set, get) => ({
     const timer = setInterval(() => {
       set(state => {
         if (state.timeUntilNext <= 0) {
-          if (Math.random() < 0.5) {
-            set({ showCrystal: true });
-          }
+          set({ showCrystal: true });
           return { timeUntilNext: calculateNextSpawnTime() };
         }
         return { timeUntilNext: state.timeUntilNext - 1 };
