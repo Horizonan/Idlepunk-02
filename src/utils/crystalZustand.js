@@ -1,7 +1,7 @@
 
 import { create } from 'zustand';
 
-export const useCrystaZustand = create((set, get) => ({
+export const useCrystalZustand = create((set, get) => ({
   showCrystal: false,
   timeUntilNext: null,
   setShowCrystal: (show) => set({ showCrystal: show }),

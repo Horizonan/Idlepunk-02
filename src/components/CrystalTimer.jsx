@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useCrystalZustand } from '../../utils/crystalZustand';
+import { useCrystalZustand } from '../utils/crystalZustand';
 
 export default function CrystalTimer() {
   const timeUntilNext = useCrystalZustand(state => state.timeUntilNext);
