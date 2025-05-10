@@ -1,6 +1,8 @@
 import React from 'react';
 
-export default function CredStore({ credits, junk, craftingInventory, onBuyHoverDrone, onBuyBooster, onBuyReclaimer, autoClicks, onBack, creditStoreItems, onSetCredits, onSetJunk, onSetNotification, onSetBeaconCount, onSetShowBeacon, onSetCreditStoreItems, onSetShowCrystal, onSetCraftingInventory, onSetPreservedHelper, useCrystalZustand }) {
+import { useCrystalZustand } from '../utils/crystalZustand';
+
+export default function CredStore({ credits, junk, craftingInventory, onBuyHoverDrone, onBuyBooster, onBuyReclaimer, autoClicks, onBack, creditStoreItems, onSetCredits, onSetJunk, onSetNotification, onSetBeaconCount, onSetShowBeacon, onSetCreditStoreItems, onSetShowCrystal, onSetCraftingInventory, onSetPreservedHelper }) {
 
 
   // 100,000 junk = 1 credit
