@@ -21,15 +21,19 @@ export const useCrystalZustand = create((set, get) => ({
     const timer = setInterval(() => {
       set(state => {
         if (state.timeUntilNext <= 0) {
-          set({ showCrystal: true });
-          return { timeUntilNext: calculateNextSpawnTime() };
+          window.dispatchEvent(new CustomEvent('showCrystal'));
+          const nextTime = calculateNextSpawnTime();
+          return { 
+            showCrystal: true,
+            timeUntilNext: nextTime 
+          };
         }
         return { timeUntilNext: state.timeUntilNext - 1 };
       });
     }, 1000);
 
     const initialTime = calculateNextSpawnTime();
-    set({ timeUntilNext: initialTime });
+    set({ timeUntilNext: initialTime, showCrystal: false });
 
     return () => clearInterval(timer);
   }

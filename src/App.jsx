@@ -241,7 +241,13 @@ export default function App() {
 
   useEffect(() => {
     const cleanup = useCrystalZustand.getState().initializeCrystalTimer();
+    
+    const handleShowCrystal = () => {
+      setShowCrystal(true);
+    };
 
+    window.addEventListener('showCrystal', handleShowCrystal);
+    
     const spawnTrashBonus = () => {
       setShowTrashBonus(true);
       const nextSpawnTime = 120000 + Math.random() * 360000; 
