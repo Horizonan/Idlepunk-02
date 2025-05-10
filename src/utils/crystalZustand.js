@@ -15,7 +15,7 @@ export const useCrystalZustand = create((set, get) => ({
       const totalReduction = Math.min(0.9, beaconBaseReduction + beaconStackReduction);
       const beaconMultiplier = 1 - totalReduction;
 
-      return Math.floor((900 + Math.random() * 900) * beaconMultiplier);
+      return Math.floor((10 + Math.random() * 10) * beaconMultiplier);
     };
 
     const timer = setInterval(() => {

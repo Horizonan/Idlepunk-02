@@ -240,12 +240,6 @@ export default function App() {
   }, [activeStore]);
 
   useEffect(() => {
-    const maxBeacons = Math.min(10, beaconCount); 
-    const hasBeaconCore = localStorage.getItem('beacon_core_purchased') === 'true';
-    const beaconBaseReduction = hasBeaconCore ? 0.25 : 0; 
-    const beaconStackReduction = maxBeacons * 0.01; 
-    const totalReduction = Math.min(0.9, beaconBaseReduction + beaconStackReduction); 
-    const beaconMultiplier = 1 - totalReduction;
     const cleanup = useCrystalZustand.getState().initializeCrystalTimer();
 
     const spawnTrashBonus = () => {
