@@ -33,6 +33,7 @@ import ScraptagonCombat from './components/Combat/scrapCombat';
 //Components
 import { VersionPopup, StatsDisplay, Clicker, CheatMenu, CredStore, NewsContainer, Notifications, TutorialSystem, ActiveCheats, ItemInventory, PrestigePopup } from './components/PrestigePopup';
 
+
 export default function App() {
   const { 
     junk, setJunk, credits, setCredits, clickCount, setClickCount, tronics, setTronics, autoClicks, setAutoClicks, clickMultiplier, setClickMultiplier, passiveIncome, 
