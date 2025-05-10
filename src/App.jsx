@@ -1128,6 +1128,9 @@ export default function App() {
             setClickEnhancerLevel(0);
             setAutoClickerV1Count(0); 
 
+            //Reset Zustand
+            useCrystalZustand.getState().setHasChronoCrystalTimer(false);
+
             setItemCosts({
               trashBag: 10,
               trashPicker: 100,
