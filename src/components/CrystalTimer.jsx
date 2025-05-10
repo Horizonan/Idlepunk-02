@@ -1,11 +1,13 @@
 
 import React from 'react';
 import { useCrystalZustand } from '../utils/crystalZustand';
+import '../styles/UiTimers/crystalTimer.css';
 
 export default function CrystalTimer() {
   const timeUntilNext = useCrystalZustand(state => state.timeUntilNext);
+  const hasChronoCrystalTimer = useCrystalZustand(state => state.hasChronoCrystalTimer);
 
-  if (timeUntilNext === null) return null;
+  if (!hasChronoCrystalTimer || timeUntilNext === null) return null;
 
   const minutes = Math.floor(timeUntilNext / 60);
   const seconds = timeUntilNext % 60;

@@ -3,7 +3,9 @@ import { create } from "zustand";
 export const useCrystalZustand = create((set, get) => ({
   showCrystal: false,
   timeUntilNext: null,
+  hasChronoCrystalTimer: false,
   setShowCrystal: (show) => set({ showCrystal: show }),
+  setHasChronoCrystalTimer: (has) => set({ hasChronoCrystalTimer: has }),
   initializeCrystalTimer: () => {
     const calculateNextSpawnTime = () => {
       const hasBeaconCore =

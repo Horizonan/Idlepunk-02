@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default function CredStore({ credits, junk, craftingInventory, onBuyHoverDrone, onBuyBooster, onBuyReclaimer, autoClicks, onBack, creditStoreItems, onSetCredits, onSetJunk, onSetNotification, onSetBeaconCount, onSetShowBeacon, onSetCreditStoreItems, onSetShowCrystal, onSetCraftingInventory, onSetPreservedHelper }) {
-  
-  
+export default function CredStore({ credits, junk, craftingInventory, onBuyHoverDrone, onBuyBooster, onBuyReclaimer, autoClicks, onBack, creditStoreItems, onSetCredits, onSetJunk, onSetNotification, onSetBeaconCount, onSetShowBeacon, onSetCreditStoreItems, onSetShowCrystal, onSetCraftingInventory, onSetPreservedHelper, useCrystalZustand }) {
+
+
   // 100,000 junk = 1 credit
   const baseRate = 100000; 
 
@@ -133,7 +133,7 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
       }));
     }
   }
-  
+
   return (
     <div className="store-container">
       <div className="store-header">
@@ -259,6 +259,27 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
             Keep 1 random helper or crafting bonus after Prestige.
             Energy shield technology that preserves automation through ascension.
             Can be purchased twice. ({(craftingInventory['Ascension Reclaimer'] || 0)}/2)
+          </div>
+        </button>
+
+        <button
+          onClick={() => {
+            if (credits >= 200) {
+              onSetCredits(prev => prev - 200);
+              useCrystalZustand.getState().setHasChronoCrystalTimer(true);
+              onSetNotification(prev => [...prev, "Chrono Crystal Timer purchased! You can now see when the next crystal will appear."]);
+            }
+          }}
+          disabled={credits < 200 || useCrystalZustand.getState().hasChronoCrystalTimer}
+          className="store-item"
+        >
+          <div className="item-header">
+            <strong>⌛ Chrono Crystal Timer</strong>
+          </div>
+          <div>200 Credits</div>
+          <div className="item-info">
+            A high-tech device that tracks and displays the countdown for the next Flying Crystal to appear.
+            Uses Junk-Time Synergies to feel when the next Crystal is approaching.
           </div>
         </button>
 
