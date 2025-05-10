@@ -60,7 +60,7 @@ export default function CoinFlip({ junk, onBet, onClose }) {
     <div className="coin-flip-container">
       <div className="coin-flip-header">
         <h2>🎲 Junk Flip 🎲</h2>
-        <button className="close-button" onClick={onClose}>×</button>
+        <button className="close-button" onClick={onClose}>Close</button>
       </div>
       
       <div className="coin-game">
