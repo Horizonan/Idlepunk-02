@@ -526,6 +526,7 @@ export default function App() {
     <main>
       <VersionPopup onClose={() => {}} />
       {showQuestLog && <QuestLog tutorialStage={tutorialStage} onClose={() => setShowQuestLog(false)} />}
+      <CrystalTimer />
       <TutorialSystem
         junk={junk}
         hasUpgrade={hasUpgrade}
