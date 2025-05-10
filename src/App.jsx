@@ -5,19 +5,32 @@ import './App.css';
 import { gameHandlers } from './utils/gameHandlers';
 
 // Import StoreMenu
-import { CraftingStore, MenuButtons, UpgradeStats, Store, ElectroStore } from './stores/ElectroStore.jsx';
+import CraftingStore from './stores/CraftingStore';
+import MenuButtons from './stores/MenuButtons';
+import UpgradeStats from './stores/UpgradeStats';
+import Store from './stores/Store';
+import ElectroStore from './stores/ElectroStore';
 
 //Autoclickers
 import AutoClickerEffect from './components/Effects/Automation/AutoClickerEffect';
 
 //Surges
-import { TrashSurge, TronicsSurge } from './components/Effects/surges/TronicsSurge';
+import TrashSurge from './components/Effects/surges/TrashSurge';
+import TronicsSurge from './components/Effects/surges/TronicsSurge';
 
 //Side Menu
-import { QuestLog, Achievements, TechTree, Menu, Marketplace, SlotMachine, CoinFlip, Tooltips } from './sideMenu/GameTips.jsx';
+import QuestLog from './sideMenu/QuestLog';
+import Achievements from './sideMenu/Achievements';
+import TechTree from './sideMenu/TechTree';
+import Menu from './sideMenu/Menu';
+import Marketplace from './sideMenu/Marketplace';
+import SlotMachine from './sideMenu/SlotMachine';
+import CoinFlip from './sideMenu/CoinFlip';
+import Tooltips from './sideMenu/GameTips';
 
 //Settings Menu
-import { Settings, Changelog } from './components/SideMenu/settingsMenu/Changelog';
+import Settings from './components/SideMenu/settingsMenu/Settings';
+import Changelog from './components/SideMenu/settingsMenu/Changelog';
 
 //Utility imports
 import { useAchievements } from './hooks/useAchievements';
@@ -25,13 +38,29 @@ import { validateQuests } from './utils/questValidation';
 import { useGameState } from './hooks/useGameState';
 
 //Effects/Animations
-import { ClickEnhancerEffect, DroneEffect, HoverDroneEffect, FlyingCrystal, HoloBillboard, TrashBonus, ShardMiner } from './components/Effects/ShardMiner';
+import ClickEnhancerEffect from './components/Effects/ClickEnhancerEffect';
+import DroneEffect from './components/Effects/DroneEffect';
+import HoverDroneEffect from './components/Effects/HoverDroneEffect';
+import FlyingCrystal from './components/Effects/FlyingCrystal';
+import HoloBillboard from './components/Effects/HoloBillboard';
+import TrashBonus from './components/Effects/TrashBonus';
+import ShardMiner from './components/Effects/ShardMiner';
 
 //Combat
 import ScraptagonCombat from './components/Combat/scrapCombat';
 
 //Components
-import { VersionPopup, StatsDisplay, Clicker, CheatMenu, CredStore, NewsContainer, Notifications, TutorialSystem, ActiveCheats, ItemInventory, PrestigePopup } from './components/PrestigePopup';
+import VersionPopup from './components/VersionPopup/VersionPopup';
+import StatsDisplay from './components/StatsDisplay';
+import Clicker from './components/Clicker';
+import CheatMenu from './components/CheatMenu/CheatMenu';
+import CredStore from './stores/CredStore';
+import NewsContainer from './components/NewsContainer';
+import Notifications from './components/Notifications';
+import TutorialSystem from './components/TutorialSystem';
+import ActiveCheats from './components/CheatMenu/ActiveCheats';
+import ItemInventory from './stores/ItemInventory';
+import PrestigePopup from './components/PrestigePopup';
 
 
 export default function App() {
