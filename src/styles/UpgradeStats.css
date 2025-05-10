@@ -1,10 +1,9 @@
 
 .upgrade-stats {
-  background-color: #1a1a1a;
-  border: 1px solid #333;
-  padding: 20px;
+  background: rgba(26, 26, 26, 0.95);
+  border: 2px solid #9400D3;
   border-radius: 8px;
-  color: #fff;
+  padding: 20px;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -12,6 +11,7 @@
   width: 400px;
   max-width: 90vw;
   z-index: 1000;
+  color: #00FF00;
 }
 
 .upgrade-header {
@@ -19,6 +19,27 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #9400D3;
+}
+
+.upgrade-header h2 {
+  color: #9400D3;
+  margin: 0;
+}
+
+.upgrade-header button {
+  background: #222;
+  border: 1px solid #9400D3;
+  color: #00FF00;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.upgrade-header button:hover {
+  background: #9400D3;
+  color: #222;
 }
 
 .progress-container {
@@ -28,35 +49,42 @@
 .progress-bar {
   width: 100%;
   height: 10px;
-  background-color: #333;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #9400D3;
   border-radius: 5px;
   overflow: hidden;
 }
 
 .xp-text {
   font-size: 12px;
-  color: #888;
+  color: #00FF00;
   text-align: center;
   margin-top: 4px;
 }
 
 .progress {
   height: 100%;
-  background-color: #9400D3;
+  background: #9400D3;
   transition: width 0.3s ease;
+  box-shadow: 0 0 10px rgba(148, 0, 211, 0.5);
 }
 
 .skill-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
 }
 
 .skill-item {
-  background-color: #2a2a2a;
+  background: rgba(34, 34, 34, 0.9);
+  border: 1px solid #9400D3;
   padding: 15px;
   border-radius: 6px;
-  border: 1px solid #444;
+  transition: all 0.3s ease;
+}
+
+.skill-item:hover {
+  box-shadow: 0 0 15px rgba(148, 0, 211, 0.3);
 }
 
 .skill-item h3 {
@@ -66,7 +94,8 @@
 
 .flavor-text {
   font-style: italic;
-  color: #888;
+  color: #00FF00;
+  opacity: 0.8;
   margin: 10px 0;
 }
 
@@ -79,18 +108,27 @@
 .skill-controls button {
   flex: 1;
   padding: 8px;
-  border: none;
+  background: #222;
+  border: 1px solid #9400D3;
+  color: #00FF00;
   border-radius: 4px;
-  background-color: #333;
-  color: white;
   cursor: pointer;
+  transition: all 0.3s;
+}
+
+.skill-controls button:hover:not(:disabled) {
+  background: #9400D3;
+  color: #222;
 }
 
 .skill-controls button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  border-color: #666;
 }
 
 .skill-controls button.active {
-  background-color: #9400D3;
+  background: #9400D3;
+  color: #222;
+  box-shadow: 0 0 10px rgba(148, 0, 211, 0.5);
 }
