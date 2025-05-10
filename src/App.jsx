@@ -3,6 +3,8 @@ import './App.css';
 
 //import gamehandlers
 import { gameHandlers } from './utils/gameHandlers';
+import { useCrystalZustand } from './utils/crystalZustand';
+import CrystalTimer from './components/Effects/CrystalTimer';
 
 // Import StoreMenu
 import CraftingStore from './stores/CraftingStore';
@@ -244,13 +246,7 @@ export default function App() {
     const beaconStackReduction = maxBeacons * 0.01; 
     const totalReduction = Math.min(0.9, beaconBaseReduction + beaconStackReduction); 
     const beaconMultiplier = 1 - totalReduction;
-    const crystalInterval = setInterval(() => {
-      if (Math.random() < 0.5) {
-        setShowCrystal(true);
-        setShowBeacon(true);
-        setTimeout(() => setShowBeacon(false), 3000);
-      }
-    }, (900000 + Math.random() * 900000) * beaconMultiplier);
+    const cleanup = useCrystalStore.getState().initializeCrystalTimer();
 
     const spawnTrashBonus = () => {
       setShowTrashBonus(true);

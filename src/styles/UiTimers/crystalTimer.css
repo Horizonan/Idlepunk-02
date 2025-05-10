@@ -1,0 +1,15 @@
+.crystal-timer {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #9400D3;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  font-family: monospace;
+  z-index: 1000;
+  box-shadow: 0 0 10px rgba(148, 0, 211, 0.3);
+}
