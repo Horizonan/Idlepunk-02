@@ -241,6 +241,7 @@ export default function App() {
 
   useEffect(() => {
     const cleanup = useCrystalZustand.getState().initializeCrystalTimer();
+    useFlavorEvents.getState().initializeFlavorEvents();
     
     const handleShowCrystal = () => {
       setShowCrystal(true);

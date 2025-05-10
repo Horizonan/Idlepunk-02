@@ -1,8 +1,10 @@
 
 import React from 'react';
+import { useFlavorEvents } from '../utils/flavorEventsStore';
 
 export default function StatsDisplay({ credits, junk, passiveIncome, globalJpsMultiplier, autoClicks, clickMultiplier, tronics, electroShards, permanentAutoClicks }) {
   const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
+  const showJunkError = useFlavorEvents(state => state.showJunkError);
 
   const tronicsPerSecond = hasPrestiged ? ((autoClicks + permanentAutoClicks) * (
     (parseInt(localStorage.getItem('tronics_boost_count') || '1')) + 
@@ -12,7 +14,7 @@ export default function StatsDisplay({ credits, junk, passiveIncome, globalJpsMu
   return (
     <div className="stats">
       <p>Money: {Math.floor(credits).toLocaleString('en-US', {maximumFractionDigits: 0})} C</p>
-      <p>Junk: {Math.floor(junk).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
+      <p>Junk: {showJunkError ? "ERROR" : Math.floor(junk).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
       <p>Junk/sec: {Math.floor((passiveIncome * globalJpsMultiplier) + ((autoClicks + permanentAutoClicks) * clickMultiplier)).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
       {hasPrestiged && (
         <>
