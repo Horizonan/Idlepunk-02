@@ -463,9 +463,10 @@ button.locked {
 .news-bar {
   display: flex;
   align-items: center;
-  background-color: #1a1a1a;
+  background: linear-gradient(90deg, rgba(26,26,26,0.95) 0%, rgba(26,26,26,0.9) 100%);
   border-bottom: 2px solid #9400D3;
-  padding: 8px 0;
+  padding: 10px 0;
+  box-shadow: 0 2px 10px rgba(148, 0, 211, 0.2);
 }
 
 .stats {
@@ -513,22 +514,32 @@ button.locked {
 .news-label {
   color: #9400D3;
   font-weight: bold;
-  padding: 0 20px;
+  padding: 0 25px;
   border-right: 2px solid #9400D3;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9em;
+  background: rgba(148, 0, 211, 0.1);
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .news-content-wrapper {
   overflow: hidden;
   flex: 1;
   position: relative;
+  padding: 0 15px;
 }
 
 .news-content {
   color: #00FF00;
   padding: 0 20px;
   white-space: nowrap;
-  animation: slide 20s linear, fade-out 2s ease-out 17.5s forwards;
-  opacity: 1;
+  font-family: 'Poppins', sans-serif;
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+  font-size: 0.95em;
+  transition: opacity 0.3s ease;
 }
 
 
