@@ -524,11 +524,15 @@ button.locked {
 }
 
 .news-content {
-  color: #00FF00;
-  padding: 0 20px;
   white-space: nowrap;
-  animation: slide 20s linear, fade-out 2s ease-out 17.5s forwards;
-  opacity: 1;
+  padding: 0 20px;
+  color: #00ff00;
+  font-family: 'Courier New', monospace;
+}
+
+.news-content-wrapper {
+  overflow: hidden;
+  width: 100%;
 }
 
 
