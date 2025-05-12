@@ -69,9 +69,14 @@ export default function HeistMenu({ onBack }) {
     reputation
   } = useHeistStore();
 
-  const { showHiringDialog, showConfirmationDialog } = useHeistStore((state) => state.uiState);
-  const setUiState = useHeistStore((state) => state.setUiState);
-  const crewMembers = useHeistStore((state) => state.crewMembers);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showHiring, setShowHiring] = useState(false);
+
+  const availableRecruits = [
+    { id: 'recruit1', name: 'Ghost', stealth: 85, combat: 35, skill: 70, cost: 150000, reqRep: 75 },
+    { id: 'recruit2', name: 'Tank', stealth: 25, combat: 90, skill: 65, cost: 200000, reqRep: 100 },
+    { id: 'recruit3', name: 'Hacker', stealth: 70, combat: 30, skill: 90, cost: 250000, reqRep: 125 },
+  ];
 
   useEffect(() => {
     if (heistProgress > 0 && heistProgress < 100) {
@@ -109,14 +114,14 @@ export default function HeistMenu({ onBack }) {
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, borderBottom: '2px solid #9400D3', pb: 2 }}>
         <Typography variant="h5" sx={{ color: '#00FF00' }}>Tech Shop Heist</Typography>
         <Box sx={{ display: 'flex', gap: 2 }}>
-          <StyledButton onClick={() => setUiState({ showHiringDialog: true })}>Hire Crew</StyledButton>
+          <StyledButton onClick={() => setShowHiring(true)}>Hire Crew</StyledButton>
           <StyledButton onClick={onBack}>Close</StyledButton>
         </Box>
       </Box>
 
       <Dialog 
-        open={showHiringDialog} 
-        onClose={() => setUiState({ showHiringDialog: false })}
+        open={showHiring} 
+        onClose={() => setShowHiring(false)}
         maxWidth="md"
         fullWidth
         PaperProps={{
@@ -131,7 +136,7 @@ export default function HeistMenu({ onBack }) {
         <DialogTitle sx={{ color: '#00FF00' }}>Hire New Crew Members</DialogTitle>
         <DialogContent>
           <Grid container spacing={2}>
-            {crewMembers.filter(crew => !crew.hired).map((crew) => (
+            {availableRecruits.map((recruit) => (
               <Grid item xs={12} key={recruit.id}>
                 <StyledCard>
                   <CardContent>
