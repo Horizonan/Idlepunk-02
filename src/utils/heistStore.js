@@ -6,6 +6,10 @@ export const useHeistStore = create(
   persist(
     (set, get) => ({
       reputation: 0,
+      uiState: {
+        showHiringDialog: false,
+        showConfirmationDialog: false
+      },
       crewMembers: [
         { id: 1, name: 'ByteMe', stealth: 35, combat: 25, skill: 30, available: true, reqRep: 0 },
         { id: 2, name: 'Nullz R Us', stealth: 20, combat: 40, skill: 25, available: true, reqRep: 0 },
@@ -15,8 +19,12 @@ export const useHeistStore = create(
         { id: 6, name: 'Bruiser', stealth: 30, combat: 85, skill: 55, available: true, reqRep: 75 },
         { id: 7, name: 'Tech', stealth: 65, combat: 35, skill: 80, available: true, reqRep: 100 },
       ],
+      availableRecruits: [],
       activeHeist: null,
       assignedCrew: [],
+      setUiState: (newState) => set(state => ({
+        uiState: { ...state.uiState, ...newState }
+      })),
       heistProgress: 0,
       heistCooldown: 0,
       
