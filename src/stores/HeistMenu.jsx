@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useHeistStore } from '../utils/heistStore';
 import {
@@ -116,8 +117,7 @@ export default function HeistMenu({ onBack }) {
       <Grid container spacing={3}>
         <Grid item xs={6}>
           <Typography variant="h6" sx={{ color: '#9400D3', mb: 2 }}>Available Crew</Typography>
-          <Box sx={{ overflow: 'auto', flex: 1, pr: 1 }}>
-            <Grid container spacing={2}>
+          <Grid container spacing={2}>
             {crewMembers.map(crew => (
               <Grid item xs={12} key={crew.id}>
                 <StyledCard 
@@ -136,13 +136,11 @@ export default function HeistMenu({ onBack }) {
               </Grid>
             ))}
           </Grid>
-          </Box>
         </Grid>
 
         <Grid item xs={6}>
           <Typography variant="h6" sx={{ color: '#9400D3', mb: 2 }}>Selected Crew</Typography>
-          <Box sx={{ overflow: 'auto', flex: 1, pr: 1 }}>
-            <Grid container spacing={2}>
+          <Grid container spacing={2}>
             {assignedCrew.map(crew => (
               <Grid item xs={12} key={crew.id}>
                 <StyledCard onClick={() => removeCrewMember(crew.id)}>
@@ -158,7 +156,6 @@ export default function HeistMenu({ onBack }) {
               </Grid>
             ))}
           </Grid>
-          </Box>
         </Grid>
       </Grid>
 
