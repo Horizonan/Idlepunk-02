@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 
 export default function Menu({ onStoreSelect }) {
-  const [showMenu, setShowMenu] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const prestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
 
   const menuCategories = {
     progress: {
@@ -32,10 +36,11 @@ export default function Menu({ onStoreSelect }) {
   };
 
   return (
-    <div className={`menu-container ${showMenu ? '' : 'collapsed'}`}>
-      <button className="menu-toggle" onClick={() => setShowMenu(prev => !prev)}>
-        {showMenu ? 'Close' : '≡'}
+    <>
+      <button className="menu-toggle-button" onClick={toggleMenu}>
+        {isOpen ? 'Close Menu' : 'Open Menu'}
       </button>
+      <div className={`menu-container ${isOpen ? 'open' : ''}`}>
       <div className="menu-buttons">
         {Object.entries(menuCategories).map(([category, { header, buttons }]) => (
           <div key={category} className="menu-category">
@@ -52,5 +57,6 @@ export default function Menu({ onStoreSelect }) {
         ))}
       </div>
     </div>
+    </>
   );
 }
