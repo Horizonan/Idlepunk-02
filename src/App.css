@@ -611,14 +611,20 @@ button.locked {
   background: rgba(26, 26, 26, 0.95);
   border: 2px solid #9400D3;
   border-radius: 8px;
-  transition: opacity 0.3s, visibility 0.3s;
+  transition: all 0.3s;
   z-index: 999;
   padding: 15px;
-  opacity: 0;
-  visibility: hidden;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.sidebar.open {
+  left: 0;
+  opacity: 1;
+  pointer-events: all;
 }
 
 .sidebar-buttons {
