@@ -92,24 +92,80 @@ export default function HeistMenu({ onBack }) {
         <StyledButton onClick={onBack}>Close</StyledButton>
       </Box>
 
-      <Box sx={{ mb: 3, p: 2, background: 'rgba(0,0,0,0.2)', borderRadius: 2 }}>
-        <Grid container spacing={2}>
+      <Box sx={{ 
+        mb: 3, 
+        p: 3, 
+        background: 'linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 100%)',
+        borderRadius: 2,
+        border: '1px solid rgba(148, 0, 211, 0.3)',
+        boxShadow: '0 0 10px rgba(148, 0, 211, 0.1)'
+      }}>
+        <Grid container spacing={3}>
           <Grid item xs={6}>
-            <Typography sx={{ color: '#00FF00' }}>
-              Required Crew: <span style={{ color: '#9400D3' }}>3</span>
-              {assignedCrew.length > 0 && ` (${assignedCrew.length}/3)`}
-            </Typography>
-            <Typography sx={{ color: '#00FF00' }}>
-              Difficulty: <span style={{ color: '#9400D3' }}>Medium</span>
-            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <Typography sx={{ 
+                color: '#00FF00',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                '& span': {
+                  color: '#9400D3',
+                  fontWeight: 'bold',
+                  fontSize: '1.1em'
+                }
+              }}>
+                Required Crew: <span>3</span>
+                {assignedCrew.length > 0 && 
+                  <Box sx={{ 
+                    ml: 1,
+                    color: assignedCrew.length === 3 ? '#00FF00' : '#FF4444',
+                    fontSize: '0.9em'
+                  }}>
+                    ({assignedCrew.length}/3)
+                  </Box>
+                }
+              </Typography>
+              <Typography sx={{ 
+                color: '#00FF00',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                '& span': {
+                  color: '#9400D3',
+                  fontWeight: 'bold'
+                }
+              }}>
+                Difficulty: <span>Medium</span>
+              </Typography>
+            </Box>
           </Grid>
           <Grid item xs={6}>
-            <Typography sx={{ color: '#00FF00' }}>
-              Base Reward: <span style={{ color: '#9400D3' }}>100 Credits</span>
-            </Typography>
-            <Typography sx={{ color: '#00FF00' }}>
-              Loot Drop Chance: <span style={{ color: '#9400D3' }}>15%</span>
-            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <Typography sx={{ 
+                color: '#00FF00',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                '& span': {
+                  color: '#9400D3',
+                  fontWeight: 'bold'
+                }
+              }}>
+                Base Reward: <span>100 Credits</span>
+              </Typography>
+              <Typography sx={{ 
+                color: '#00FF00',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                '& span': {
+                  color: '#9400D3',
+                  fontWeight: 'bold'
+                }
+              }}>
+                Loot Drop Chance: <span>15%</span>
+              </Typography>
+            </Box>
           </Grid>
         </Grid>
       </Box>
