@@ -607,19 +607,25 @@ button.locked {
   left: 20px;
   z-index: 1000;
   cursor: pointer;
-  transition: transform 0.3s;
+  transition: all 0.3s;
+  background: #222;
+  border: 2px solid #9400D3;
+  color: #00FF00;
+  padding: 10px 20px;
+  width: 200px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .burger-menu:hover {
-  transform: scale(1.1);
+  background: rgba(148, 0, 211, 0.6);
 }
 
-.burger-menu div {
-  width: 25px;
-  height: 3px;
-  background-color: #9400D3;
-  margin: 5px 0;
-  transition: 0.4s;
+.burger-menu span {
+  color: #00FF00;
+  font-size: 1.2em;
 }
 
 .sidebar {
