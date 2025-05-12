@@ -626,19 +626,19 @@ button.locked {
   position: fixed;
   left: -300px;
   top: 250px;
+  height: 500px;
   width: 300px;
   background: rgba(26, 26, 26, 0.95);
   border: 2px solid #9400D3;
-  border-radius: 8px;
+  border-radius: 0 8px 8px 0;
   transition: opacity 0.3s, visibility 0.3s;
   z-index: 999;
-  padding: 15px;
+  padding: 20px;
   opacity: 0;
   visibility: hidden;
+  cursor: move;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  resize: none;
 }
 
 .sidebar.locked {
@@ -646,60 +646,32 @@ button.locked {
 }
 
 .lock-button {
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0;
-  text-align: center;
-  background: #222;
-  border: 1px solid #9400D3;
-  color: #00FF00;
-  border-radius: 4px;
-  transition: all 0.3s ease;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #9400D3;
+  padding: 5px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 20px;
+  margin: 0;
+  box-shadow: none;
 }
 
 .lock-button:hover {
-  background: #9400D3;
-  color: #222;
-}
-
-.sidebar-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.sidebar-category {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.sidebar-category-header {
-  color: #9400D3;
-  font-size: 0.9em;
-  margin: 0;
-  padding: 0;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  opacity: 0.8;
-}
-
-.sidebar-button {
-  width: 100%;
-  text-align: center;
-  padding: 10px;
-  margin: 0;
-  background: #222;
-  border: 1px solid #9400D3;
   color: #00FF00;
-  border-radius: 4px;
-  transition: all 0.3s ease;
+  background: none;
+  border: none;
 }
 
-.sidebar-button:hover {
-  background: rgba(148, 0, 211, 0.6);
+.sidebar::before,
+.sidebar::after {
+  content: '';
+  display: block;
+  height: 2px;
+  background: #9400D3;
+  margin: 10px 0;
 }
 
 .store-container {
