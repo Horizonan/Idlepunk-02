@@ -12,8 +12,8 @@ export default function Store({
   onBuyModularScrapper
 }) {
   const [selectedTab, setSelectedTab] = useState("prePres");
-  
-  
+
+
   const clickItems = [
     {
       name: "Scrap Bag",
@@ -148,9 +148,9 @@ export default function Store({
       action: onBuyAutoClickerV2,
     },
   ];
-  
 
-  
+
+
   //First Ascencion
   const firstAsc = [
     {
@@ -227,7 +227,7 @@ export default function Store({
           >
             {bulkBuy ? '10x' : '1x'}
           </button>
-          <button onClick={onBack}>Close</button>
+          <button className="menu-toggle" onClick={onBack}>Close</button>
         </div>
       </div>
       <div className="crafting-tabs">
@@ -286,7 +286,7 @@ export default function Store({
               </h3>
               <div className="store-items">
                 {renderItems(firstAsc)}
-                
+
               </div>
             </div>
           )}
