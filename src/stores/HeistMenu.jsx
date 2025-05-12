@@ -1,12 +1,30 @@
 
 import React, { useState, useEffect } from 'react';
 import { useHeistStore } from '../utils/heistStore';
-import '../styles/HeistMenu.css';
+import {
+  Box,
+  Typography,
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  LinearProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Paper,
+  Chip
+} from '@mui/material';
+import PersonIcon from '@mui/icons-material/Person';
+import SecurityIcon from '@mui/icons-material/Security';
+import BuildIcon from '@mui/icons-material/Build';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 export default function HeistMenu({ onBack }) {
-  const { 
-    crewMembers, 
-    assignedCrew, 
+  const {
+    crewMembers,
+    assignedCrew,
     heistProgress,
     heistCooldown,
     assignCrewMember,
@@ -17,7 +35,7 @@ export default function HeistMenu({ onBack }) {
   } = useHeistStore();
 
   const [showConfirmation, setShowConfirmation] = useState(false);
-  
+
   useEffect(() => {
     if (heistProgress > 0 && heistProgress < 100) {
       const timer = setInterval(() => updateHeistProgress(), 1000);
@@ -38,107 +56,131 @@ export default function HeistMenu({ onBack }) {
   };
 
   return (
-    <div className="store-container heist-menu">
-      <div className="store-header">
-        <h2>Store Robbery: Tech Shop</h2>
-        <button onClick={onBack}>Close</button>
-      </div>
+    <Box sx={{ maxWidth: 1200, margin: '0 auto', p: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
+        <Typography variant="h4" color="primary">Store Robbery: Tech Shop</Typography>
+        <Button variant="outlined" onClick={onBack}>Close</Button>
+      </Box>
 
-      <div className="heist-details">
-        <div className="detail-item">
-          <span>Required Crew:</span> 3
-        </div>
-        <div className="detail-item">
-          <span>Difficulty:</span> Medium
-        </div>
-        <div className="detail-item">
-          <span>Base Reward:</span> 100 Credits
-        </div>
-        <div className="detail-item">
-          <span>Loot Drop Chance:</span> 15%
-        </div>
-      </div>
+      <Paper sx={{ p: 2, mb: 3 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={3}>
+            <Typography variant="subtitle1">Required Crew: 3</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography variant="subtitle1">Difficulty: Medium</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography variant="subtitle1">Base Reward: 100 Credits</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography variant="subtitle1">Loot Drop: 15%</Typography>
+          </Grid>
+        </Grid>
+      </Paper>
 
-      <div className="crew-section">
-        <div className="available-crew">
-          <h3>Available Crew</h3>
-          <div className="crew-grid">
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
+          <Typography variant="h6" sx={{ mb: 2 }}>Available Crew</Typography>
+          <Grid container spacing={2}>
             {crewMembers.map(crew => (
-              <div 
-                key={crew.id} 
-                className={`crew-member ${!crew.available ? 'unavailable' : ''}`}
-                onClick={() => crew.available && assignCrewMember(crew.id)}
-              >
-                <h4>{crew.name}</h4>
-                <div className="crew-stats">
-                  <div>Stealth: {crew.stealth}</div>
-                  <div>Combat: {crew.combat}</div>
-                  <div>Skill: {crew.skill}</div>
-                  <div>Cost: {crew.cost} Junk</div>
-                </div>
-              </div>
+              <Grid item xs={12} key={crew.id}>
+                <Card 
+                  sx={{ 
+                    cursor: crew.available ? 'pointer' : 'not-allowed',
+                    opacity: crew.available ? 1 : 0.6,
+                    '&:hover': crew.available ? {
+                      transform: 'translateY(-2px)',
+                      boxShadow: 3
+                    } : {}
+                  }}
+                  onClick={() => crew.available && assignCrewMember(crew.id)}
+                >
+                  <CardContent>
+                    <Typography variant="h6">{crew.name}</Typography>
+                    <Box sx={{ mt: 1 }}>
+                      <Chip icon={<SecurityIcon />} label={`Stealth: ${crew.stealth}`} sx={{ mr: 1 }} />
+                      <Chip icon={<BuildIcon />} label={`Combat: ${crew.combat}`} sx={{ mr: 1 }} />
+                      <Chip icon={<PersonIcon />} label={`Skill: ${crew.skill}`} />
+                    </Box>
+                    <Typography variant="body2" sx={{ mt: 1 }}>
+                      Cost: {crew.cost} Junk
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
             ))}
-          </div>
-        </div>
+          </Grid>
+        </Grid>
 
-        <div className="assigned-crew">
-          <h3>Assigned Crew</h3>
-          <div className="crew-grid">
+        <Grid item xs={6}>
+          <Typography variant="h6" sx={{ mb: 2 }}>Assigned Crew</Typography>
+          <Grid container spacing={2}>
             {assignedCrew.map(crew => (
-              <div 
-                key={crew.id} 
-                className="crew-member"
-                onClick={() => removeCrewMember(crew.id)}
-              >
-                <h4>{crew.name}</h4>
-                <div className="crew-stats">
-                  <div>Stealth: {crew.stealth}</div>
-                  <div>Combat: {crew.combat}</div>
-                  <div>Skill: {crew.skill}</div>
-                </div>
-              </div>
+              <Grid item xs={12} key={crew.id}>
+                <Card 
+                  sx={{ 
+                    cursor: 'pointer',
+                    '&:hover': {
+                      transform: 'translateY(-2px)',
+                      boxShadow: 3
+                    }
+                  }}
+                  onClick={() => removeCrewMember(crew.id)}
+                >
+                  <CardContent>
+                    <Typography variant="h6">{crew.name}</Typography>
+                    <Box sx={{ mt: 1 }}>
+                      <Chip icon={<SecurityIcon />} label={`Stealth: ${crew.stealth}`} sx={{ mr: 1 }} />
+                      <Chip icon={<BuildIcon />} label={`Combat: ${crew.combat}`} sx={{ mr: 1 }} />
+                      <Chip icon={<PersonIcon />} label={`Skill: ${crew.skill}`} />
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Grid>
             ))}
-          </div>
-        </div>
-      </div>
+          </Grid>
+        </Grid>
+      </Grid>
 
       {heistProgress > 0 && (
-        <div className="heist-progress">
-          <div className="progress-bar">
-            <div 
-              className="progress-fill" 
-              style={{width: `${heistProgress}%`}}
-            />
-          </div>
-          <div>Heist in Progress: {heistProgress}%</div>
-        </div>
+        <Box sx={{ mt: 3 }}>
+          <Typography variant="body1" sx={{ mb: 1 }}>Heist Progress: {heistProgress}%</Typography>
+          <LinearProgress variant="determinate" value={heistProgress} sx={{ height: 10, borderRadius: 5 }} />
+        </Box>
       )}
 
       {heistCooldown > 0 && (
-        <div className="heist-cooldown">
+        <Typography 
+          variant="body1" 
+          color="error" 
+          sx={{ mt: 2, textAlign: 'center' }}
+        >
           Cooldown: {Math.floor(heistCooldown / 60)}:{(heistCooldown % 60).toString().padStart(2, '0')}
-        </div>
+        </Typography>
       )}
 
-      <button 
-        className="start-heist-button"
+      <Button
+        variant="contained"
+        fullWidth
+        sx={{ mt: 3 }}
         disabled={assignedCrew.length < 3 || heistProgress > 0 || heistCooldown > 0}
         onClick={() => setShowConfirmation(true)}
       >
         Start Heist
-      </button>
+      </Button>
 
-      {showConfirmation && (
-        <div className="confirmation-popup">
-          <h3>Start Store Robbery?</h3>
-          <p>Difficulty: Medium</p>
-          <p>Potential Reward: 100 Credits</p>
-          <div className="confirmation-buttons">
-            <button onClick={() => setShowConfirmation(false)}>Cancel</button>
-            <button onClick={handleStartHeist}>Start Heist</button>
-          </div>
-        </div>
-      )}
-    </div>
+      <Dialog open={showConfirmation} onClose={() => setShowConfirmation(false)}>
+        <DialogTitle>Start Store Robbery?</DialogTitle>
+        <DialogContent>
+          <Typography>Difficulty: Medium</Typography>
+          <Typography>Potential Reward: 100 Credits</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShowConfirmation(false)}>Cancel</Button>
+          <Button onClick={handleStartHeist} variant="contained">Start Heist</Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
   );
 }
