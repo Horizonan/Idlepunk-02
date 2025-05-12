@@ -803,19 +803,15 @@ button.locked {
 
 .main.collapsed {
   width: auto;
+  background: none;
+  border: none;
+  padding: 0;
+  box-shadow: none;
 }
 
 .main.collapsed .menu-button,
 .main.collapsed button:not(.menu-toggle) {
   display: none;
-}
-
-.main.collapsed {
-  background: none;
-  border: none;
-  padding: 0;
-  width: auto;
-  box-shadow: none;
 }
 
 .main .menu-toggle {
