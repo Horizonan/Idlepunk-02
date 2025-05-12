@@ -607,19 +607,18 @@ button.locked {
   left: 20px;
   z-index: 1000;
   cursor: pointer;
-  transition: transform 0.3s;
+  transition: all 0.3s;
+  background: #222;
+  border: 2px solid #9400D3;
+  color: #00FF00;
+  padding: 10px 20px;
+  border-radius: 4px;
 }
 
 .burger-menu:hover {
-  transform: scale(1.1);
-}
-
-.burger-menu div {
-  width: 25px;
-  height: 3px;
-  background-color: #9400D3;
-  margin: 5px 0;
-  transition: 0.4s;
+  background: #9400D3;
+  color: #222;
+  transform: scale(1.05);
 }
 
 .sidebar {
@@ -858,18 +857,6 @@ button.locked {
   visibility: visible;
 }
 
-.burger-menu.open div:nth-child(1) {
-  transform: rotate(-45deg) translate(-5px, 6px);
-}
-
-.burger-menu.open div:nth-child(2) {
-  opacity: 0;
-}
-
-.burger-menu.open div:nth-child(3) {
-  transform: rotate(45deg) translate(-5px, -6px);
-}
-
 .achievements-header {
   display: flex;
   justify-content: space-between;
@@ -1072,8 +1059,7 @@ button.locked {
 
 .inventory-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));gap: 15px;
   margin-bottom: 20px;
   width: 100%;
 }

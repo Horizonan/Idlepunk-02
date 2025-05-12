@@ -660,14 +660,12 @@ export default function App() {
           onClose={() => setShowAchievements(false)}
         />
       )}
-      <div className={`burger-menu ${menuOpen ? 'open' : ''}`} onClick={() => {
+      <button className="burger-menu" onClick={() => {
         setMenuOpen(!menuOpen);
         localStorage.setItem('menuOpen', !menuOpen);
       }}>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
+        {menuOpen ? 'Close Menu' : 'Open Menu'}
+      </button>
       <div 
         className={`sidebar ${menuOpen ? 'open' : ''} ${localStorage.getItem('sidebarLocked') === 'true' ? 'locked' : ''}`}
         style={{
