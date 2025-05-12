@@ -29,14 +29,15 @@
   gap: 8px;
 }
 
-.sidebar-category-header {
+.menu-category-header {
   color: #9400D3;
   font-size: 0.9em;
-  margin: 0;
+  margin: 10px 0 5px 0;
   padding: 0;
   text-transform: uppercase;
   letter-spacing: 1px;
   opacity: 0.8;
+  font-weight: bold;
 }
 
 .mainStore {
