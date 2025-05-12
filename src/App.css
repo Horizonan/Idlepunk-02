@@ -603,28 +603,29 @@ button.locked {
 
 .burger-menu {
   position: fixed;
-  top: 140px;
-  left: 20px;
+  top: 120px;
+  left: 0;
   z-index: 1000;
   cursor: pointer;
   transition: all 0.3s;
   background: #222;
   border: 2px solid #9400D3;
+  border-left: none;
   color: #00FF00;
-  padding: 10px 20px;
-  border-radius: 4px;
+  padding: 10px 15px;
+  border-radius: 0 4px 4px 0;
+  width: auto;
 }
 
 .burger-menu:hover {
   background: #9400D3;
   color: #222;
-  transform: scale(1.05);
 }
 
 .sidebar {
   position: fixed;
   left: -300px;
-  top: 250px;
+  top: 180px;
   width: 300px;
   background: rgba(26, 26, 26, 0.95);
   border: 2px solid #9400D3;
