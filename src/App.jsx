@@ -59,6 +59,7 @@ import VersionPopup from './components/VersionPopup/VersionPopup';
 import StatsDisplay from './components/StatsDisplay';
 import Clicker from './components/Clicker';
 import CheatMenu from './components/CheatMenu/CheatMenu';
+import CredStore from './stores/CredStore';
 import NewsContainer from './components/NewsContainer';
 import Notifications from './components/Notifications';
 import TutorialSystem from './components/TutorialSystem';
