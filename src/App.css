@@ -601,44 +601,43 @@ button.locked {
   width: 90%;
 }
 
-.menu-toggle-button {
+.burger-menu {
   position: fixed;
   top: 140px;
   left: 20px;
   z-index: 1000;
-  background: #222;
-  border: 2px solid #9400D3;
-  color: #00FF00;
-  padding: 10px 20px;
-  border-radius: 4px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.3s;
 }
 
-.menu-toggle-button:hover {
-  background: #9400D3;
-  color: #222;
-  transform: scale(1.05);
+.burger-menu:hover {
+  transform: scale(1.1);
 }
 
-.menu-container {
+.burger-menu div {
+  width: 25px;
+  height: 3px;
+  background-color: #9400D3;
+  margin: 5px 0;
+  transition: 0.4s;
+}
+
+.sidebar {
   position: fixed;
   left: -300px;
-  top: 200px;
+  top: 250px;
   width: 300px;
   background: rgba(26, 26, 26, 0.95);
   border: 2px solid #9400D3;
   border-radius: 8px;
-  transition: transform 0.3s ease;
+  transition: opacity 0.3s, visibility 0.3s;
   z-index: 999;
   padding: 15px;
+  opacity: 0;
+  visibility: hidden;
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-.menu-container.open {
-  transform: translateX(320px);
 }
 
 .sidebar-buttons {
