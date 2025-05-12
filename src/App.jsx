@@ -660,12 +660,6 @@ export default function App() {
           onClose={() => setShowAchievements(false)}
         />
       )}
-      <button className="burger-menu" onClick={() => {
-        setMenuOpen(!menuOpen);
-        localStorage.setItem('menuOpen', !menuOpen);
-      }}>
-        {menuOpen ? 'Close Menu' : 'Open Menu'}
-      </button>
       <div 
         className={`sidebar ${menuOpen ? 'open' : ''} ${localStorage.getItem('sidebarLocked') === 'true' ? 'locked' : ''}`}
         style={{
@@ -673,7 +667,6 @@ export default function App() {
           top: localStorage.getItem('sidebarTop') || '250px',
           bottom: 'auto'
         }}
-        
       >
        
         <MenuButtons 
