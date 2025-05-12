@@ -4,7 +4,7 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
   const [showMenu, setShowMenu] = useState(true);
 
   return (
-    <div className={`main ${showMenu ? '' : 'collapsed'}`}>
+    <div className={`main ${!showMenu ? 'collapsed' : ''}`}>
       <button className="menu-toggle" onClick={() => setShowMenu(prev => !prev)}>
         {showMenu ? 'Close' : '≡'}
       </button>
