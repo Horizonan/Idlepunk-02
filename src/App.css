@@ -809,6 +809,7 @@ button.locked {
   border: none;
   padding: 0;
   width: auto;
+  box-shadow: none;
 }
 
 .main .menu-toggle {
