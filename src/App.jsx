@@ -660,21 +660,21 @@ export default function App() {
           onClose={() => setShowAchievements(false)}
         />
       )}
-      <div className="sidebar-container">
-        <button className="burger-menu" onClick={() => {
-          setMenuOpen(!menuOpen);
-          localStorage.setItem('menuOpen', !menuOpen);
-        }}>
-          {menuOpen ? 'Close Menu' : 'Open Menu'}
-        </button>
-        <div 
-          className={`sidebar ${menuOpen ? 'open' : ''} ${localStorage.getItem('sidebarLocked') === 'true' ? 'locked' : ''}`}
-          style={{
-            left: menuOpen ? (localStorage.getItem('sidebarLeft') || '0px') : '-300px',
-            top: localStorage.getItem('sidebarTop') || '250px',
-            bottom: 'auto'
-          }}
-        >
+      <button className="burger-menu" onClick={() => {
+        setMenuOpen(!menuOpen);
+        localStorage.setItem('menuOpen', !menuOpen);
+      }}>
+        {menuOpen ? 'Close Menu' : 'Open Menu'}
+      </button>
+      <div 
+        className={`sidebar ${menuOpen ? 'open' : ''} ${localStorage.getItem('sidebarLocked') === 'true' ? 'locked' : ''}`}
+        style={{
+          left: menuOpen ? (localStorage.getItem('sidebarLeft') || '0px') : '-300px',
+          top: localStorage.getItem('sidebarTop') || '250px',
+          bottom: 'auto'
+        }}
+        
+      >
        
         <MenuButtons 
           onStoreSelect={(store) => {
