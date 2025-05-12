@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 
 export default function MenuButtons({ onStoreSelect, showInventory }) {
+  const [showMenu, setShowMenu] = useState(true);
 
   return (
-    <div className="main">
+    <div className={`main ${showMenu ? '' : 'collapsed'}`}>
+      <button className="menu-toggle" onClick={() => setShowMenu(prev => !prev)}>
+        {showMenu ? 'Close' : '≡'}
+      </button>
       <button onClick={() => {
         const activeStore = localStorage.getItem('activeStore');
         onStoreSelect(activeStore === 'store' ? null : 'store');
