@@ -818,6 +818,12 @@ button.locked {
   box-shadow: none;
 }
 
+.main.collapsed .menu-toggle {
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
 .main .menu-toggle {
   width: 100%;
   padding: 10px;
