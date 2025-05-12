@@ -86,7 +86,24 @@ export default function HeistMenu({ onBack }) {
   }, [heistCooldown]);
 
   return (
-    <Box className="store-container" sx={{ p: 3, background: 'rgba(26, 26, 26, 0.95)', border: '2px solid #9400D3', borderRadius: '8px' }}>
+    <Box className="store-container" sx={{ 
+      p: 3, 
+      background: 'rgba(26, 26, 26, 0.95)', 
+      border: '2px solid #9400D3', 
+      borderRadius: '8px',
+      maxHeight: '90vh',
+      overflowY: 'auto',
+      '&::-webkit-scrollbar': {
+        width: '8px'
+      },
+      '&::-webkit-scrollbar-track': {
+        background: 'rgba(0,0,0,0.1)'
+      },
+      '&::-webkit-scrollbar-thumb': {
+        background: '#9400D3',
+        borderRadius: '4px'
+      }
+    }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3, borderBottom: '2px solid #9400D3', pb: 2 }}>
         <Typography variant="h5" sx={{ color: '#00FF00' }}>Tech Shop Heist</Typography>
         <StyledButton onClick={onBack}>Close</StyledButton>
@@ -183,8 +200,8 @@ export default function HeistMenu({ onBack }) {
         </Grid>
       </Box>
 
-      <Grid container spacing={3}>
-        <Grid item xs={6}>
+      <Grid container spacing={3} sx={{ flexWrap: 'wrap' }}>
+        <Grid item xs={12} md={6}>
           <Typography variant="h6" sx={{ color: '#9400D3', mb: 2 }}>Available Crew</Typography>
           <Grid container spacing={2}>
             {crewMembers.map(crew => (
@@ -219,7 +236,7 @@ export default function HeistMenu({ onBack }) {
           </Grid>
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <Typography variant="h6" sx={{ color: '#9400D3', mb: 2 }}>Selected Crew</Typography>
           <Grid container spacing={2}>
             {assignedCrew.map(crew => (
