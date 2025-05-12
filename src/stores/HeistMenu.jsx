@@ -70,6 +70,13 @@ export default function HeistMenu({ onBack }) {
   } = useHeistStore();
 
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showHiring, setShowHiring] = useState(false);
+
+  const availableRecruits = [
+    { id: 'recruit1', name: 'Ghost', stealth: 85, combat: 35, skill: 70, cost: 150000, reqRep: 75 },
+    { id: 'recruit2', name: 'Tank', stealth: 25, combat: 90, skill: 65, cost: 200000, reqRep: 100 },
+    { id: 'recruit3', name: 'Hacker', stealth: 70, combat: 30, skill: 90, cost: 250000, reqRep: 125 },
+  ];
 
   useEffect(() => {
     if (heistProgress > 0 && heistProgress < 100) {
@@ -104,10 +111,64 @@ export default function HeistMenu({ onBack }) {
         borderRadius: '4px'
       }
     }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3, borderBottom: '2px solid #9400D3', pb: 2 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, borderBottom: '2px solid #9400D3', pb: 2 }}>
         <Typography variant="h5" sx={{ color: '#00FF00' }}>Tech Shop Heist</Typography>
-        <StyledButton onClick={onBack}>Close</StyledButton>
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <StyledButton onClick={() => setShowHiring(true)}>Hire Crew</StyledButton>
+          <StyledButton onClick={onBack}>Close</StyledButton>
+        </Box>
       </Box>
+
+      <Dialog 
+        open={showHiring} 
+        onClose={() => setShowHiring(false)}
+        maxWidth="md"
+        fullWidth
+        PaperProps={{
+          style: {
+            backgroundColor: 'rgba(26, 26, 26, 0.95)',
+            border: '2px solid #9400D3',
+            color: '#00FF00',
+            maxHeight: '80vh'
+          }
+        }}
+      >
+        <DialogTitle sx={{ color: '#00FF00' }}>Hire New Crew Members</DialogTitle>
+        <DialogContent>
+          <Grid container spacing={2}>
+            {availableRecruits.map((recruit) => (
+              <Grid item xs={12} key={recruit.id}>
+                <StyledCard>
+                  <CardContent>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Box>
+                        <Typography variant="h6" sx={{ color: '#00FF00' }}>{recruit.name}</Typography>
+                        <Box sx={{ mt: 1, display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                          <StyledChip icon={<SecurityIcon />} label={`Stealth: ${recruit.stealth}`} />
+                          <StyledChip icon={<BuildIcon />} label={`Tech: ${recruit.combat}`} />
+                          <StyledChip icon={<PersonIcon />} label={`Skill: ${recruit.skill}`} />
+                        </Box>
+                      </Box>
+                      <StyledButton 
+                        disabled={reputation < recruit.reqRep}
+                        onClick={() => {
+                          // Logic to hire crew member
+                          setShowHiring(false);
+                        }}
+                      >
+                        Hire ({recruit.cost} Credits)
+                      </StyledButton>
+                    </Box>
+                  </CardContent>
+                </StyledCard>
+              </Grid>
+            ))}
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <StyledButton onClick={() => setShowHiring(false)}>Close</StyledButton>
+        </DialogActions>
+      </Dialog>
 
       <Box sx={{ 
         mb: 3, 

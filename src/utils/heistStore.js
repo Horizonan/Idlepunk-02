@@ -55,7 +55,10 @@ export const useHeistStore = create(
       addReputation: (amount) => set((state) => ({
         reputation: state.reputation + amount
       })),
-      getReputation: () => get().reputation
+      getReputation: () => get().reputation,
+      hireCrewMember: (newCrew) => set((state) => ({
+        crewMembers: [...state.crewMembers, { ...newCrew, available: true }]
+      }))
     }),
     {
       name: 'heist-storage'
