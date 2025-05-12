@@ -664,7 +664,7 @@ export default function App() {
         className={`sidebar ${menuOpen ? 'open' : ''}`}
         style={{
           left: menuOpen ? '0px' : '-300px',
-          top: '250px',
+          top: '105px',
           bottom: 'auto'
         }}
       >
