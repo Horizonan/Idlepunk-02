@@ -762,16 +762,18 @@ button.locked {
   flex-direction: column;
   gap: 10px;
   min-width: 200px;
+  transition: all 0.3s ease;
 }
 
-.menu-container.collapsed {
+.menu-container.closed {
   width: auto;
+  min-width: unset;
   padding: 0;
   background: none;
   border: none;
 }
 
-.menu-container.collapsed .menu-buttons {
+.menu-container.closed .menu-buttons {
   display: none;
 }
 
@@ -835,14 +837,21 @@ button.locked {
 
 .menu-toggle {
   width: 100%;
-  padding: 10px;
-  margin: 5px 0;
+  padding: 10px 20px;
+  margin: 0;
   text-align: center;
   background: #222;
-  border: 1px solid #9400D3;
+  border: 2px solid #9400D3;
   color: #00FF00;
   border-radius: 4px;
   transition: all 0.3s ease;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.menu-container.closed .menu-toggle {
+  border-radius: 4px;
+  width: auto;
 }
 
 .menu-toggle:hover {
