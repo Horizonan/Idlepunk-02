@@ -177,8 +177,11 @@ export default function HeistMenu({ onBack }) {
             {crewMembers.map(crew => (
               <Grid item xs={12} key={crew.id}>
                 <StyledCard 
-                  sx={{ opacity: crew.available ? 1 : 0.6 }}
-                  onClick={() => crew.available && assignCrewMember(crew.id)}
+                  sx={{ 
+                    opacity: crew.available && reputation >= crew.reqRep ? 1 : 0.6,
+                    cursor: crew.available && reputation >= crew.reqRep ? 'pointer' : 'not-allowed'
+                  }}
+                  onClick={() => crew.available && reputation >= crew.reqRep && assignCrewMember(crew.id)}
                 >
                   <CardContent>
                     <Typography variant="h6" sx={{ color: '#00FF00' }}>{crew.name}</Typography>
@@ -186,6 +189,15 @@ export default function HeistMenu({ onBack }) {
                       <StyledChip icon={<SecurityIcon />} label={`Stealth: ${crew.stealth}`} />
                       <StyledChip icon={<BuildIcon />} label={`Tech: ${crew.combat}`} />
                       <StyledChip icon={<PersonIcon />} label={`Skill: ${crew.skill}`} />
+                      {crew.reqRep > 0 && (
+                        <StyledChip 
+                          label={`Required Rep: ${crew.reqRep}`}
+                          sx={{ 
+                            backgroundColor: reputation >= crew.reqRep ? 'rgba(0, 255, 0, 0.1)' : 'rgba(255, 0, 0, 0.1)',
+                            borderColor: reputation >= crew.reqRep ? '#00FF00' : '#FF0000'
+                          }}
+                        />
+                      )}
                     </Box>
                   </CardContent>
                 </StyledCard>
