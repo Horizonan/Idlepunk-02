@@ -69,8 +69,8 @@ export default function HeistMenu({ onBack }) {
     reputation
   } = useHeistStore();
 
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [showHiring, setShowHiring] = useState(false);
+  const { showHiringDialog, showConfirmationDialog } = useHeistStore((state) => state.uiState);
+  const setUiState = useHeistStore((state) => state.setUiState);
 
   const availableRecruits = [
     { id: 'recruit1', name: 'Ghost', stealth: 85, combat: 35, skill: 70, cost: 150000, reqRep: 75 },
@@ -114,14 +114,14 @@ export default function HeistMenu({ onBack }) {
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, borderBottom: '2px solid #9400D3', pb: 2 }}>
         <Typography variant="h5" sx={{ color: '#00FF00' }}>Tech Shop Heist</Typography>
         <Box sx={{ display: 'flex', gap: 2 }}>
-          <StyledButton onClick={() => setShowHiring(true)}>Hire Crew</StyledButton>
+          <StyledButton onClick={() => setUiState({ showHiringDialog: true })}>Hire Crew</StyledButton>
           <StyledButton onClick={onBack}>Close</StyledButton>
         </Box>
       </Box>
 
       <Dialog 
-        open={showHiring} 
-        onClose={() => setShowHiring(false)}
+        open={showHiringDialog} 
+        onClose={() => setUiState({ showHiringDialog: false })}
         maxWidth="md"
         fullWidth
         PaperProps={{
@@ -348,14 +348,14 @@ export default function HeistMenu({ onBack }) {
         fullWidth
         sx={{ mt: 3 }}
         disabled={assignedCrew.length < 3 || heistProgress > 0 || heistCooldown > 0}
-        onClick={() => setShowConfirmation(true)}
+        onClick={() => setUiState({ showConfirmationDialog: true })}
       >
         Start Heist
       </StyledButton>
 
       <Dialog 
-        open={showConfirmation} 
-        onClose={() => setShowConfirmation(false)}
+        open={showConfirmationDialog} 
+        onClose={() => setUiState({ showConfirmationDialog: false })}
         PaperProps={{
           style: {
             backgroundColor: 'rgba(26, 26, 26, 0.95)',

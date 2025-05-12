@@ -1,4 +1,3 @@
-
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -17,14 +16,21 @@ export const useHeistStore = create(
       ],
       activeHeist: null,
       assignedCrew: [],
+      uiState: {
+        showHiringDialog: false,
+        showConfirmationDialog: false
+      },
+      setUiState: (newState) => set((state) => ({
+        uiState: { ...state.uiState, ...newState }
+      })),
       heistProgress: 0,
       heistCooldown: 0,
-      
+
       setActiveHeist: (heist) => set({ activeHeist: heist }),
       assignCrewMember: (crewId) => set((state) => {
         const crew = state.crewMembers.find(c => c.id === crewId);
         if (!crew || !crew.available) return state;
-        
+
         return {
           assignedCrew: [...state.assignedCrew, crew],
           crewMembers: state.crewMembers.map(c => 
