@@ -661,10 +661,10 @@ export default function App() {
         />
       )}
       <div 
-        className={`sidebar ${menuOpen ? 'open' : ''} ${localStorage.getItem('sidebarLocked') === 'true' ? 'locked' : ''}`}
+        className={`sidebar ${menuOpen ? 'open' : ''}`}
         style={{
-          left: menuOpen ? (localStorage.getItem('sidebarLeft') || '0px') : '-300px',
-          top: localStorage.getItem('sidebarTop') || '250px',
+          left: menuOpen ? '0px' : '-300px',
+          top: '250px',
           bottom: 'auto'
         }}
       >
