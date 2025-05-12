@@ -33,9 +33,9 @@ export default function Menu({ onStoreSelect }) {
 
   return (
     <div className={`menu-container ${showMenu ? '' : 'collapsed'}`}>
-      <div className={`burger-menu ${showMenu ? 'open' : ''}`} onClick={() => setShowMenu(prev => !prev)}>
-        <span>≡</span>
-      </div>
+      <button className="menu-toggle" onClick={() => setShowMenu(prev => !prev)}>
+        {showMenu ? 'Close' : '≡'}
+      </button>
       <div className="menu-buttons">
         {Object.entries(menuCategories).map(([category, { header, buttons }]) => (
           <div key={category} className="menu-category">
