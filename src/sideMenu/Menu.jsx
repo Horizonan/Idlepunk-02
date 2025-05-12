@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export default function Menu({ onStoreSelect }) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showMenu, setShowMenu] = useState(true);
   const prestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
 
   const menuCategories = {
@@ -32,9 +32,9 @@ export default function Menu({ onStoreSelect }) {
   };
 
   return (
-    <div className={`menu-container ${isMenuOpen ? 'open' : 'closed'}`}>
-      <button className="menu-toggle" onClick={() => setIsMenuOpen(prev => !prev)}>
-        {isMenuOpen ? 'Close' : 'Menu'}
+    <div className={`menu-container ${showMenu ? '' : 'collapsed'}`}>
+      <button className="menu-toggle" onClick={() => setShowMenu(prev => !prev)}>
+        {showMenu ? 'Close' : '≡'}
       </button>
       <div className="menu-buttons">
         {Object.entries(menuCategories).map(([category, { header, buttons }]) => (
