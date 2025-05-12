@@ -41,6 +41,14 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
             const event = new CustomEvent('toggleUpgradeStats');
             window.dispatchEvent(event);
           }
+        },
+        {
+          label: 'Heists',
+          onClick: () => {
+            const activeStore = localStorage.getItem('activeStore');
+            onStoreSelect(activeStore === 'heists' ? null : 'heists');
+          },
+          locked: true
         }
       ]
     },
