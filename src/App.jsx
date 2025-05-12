@@ -13,6 +13,8 @@ import MenuButtons from './stores/MenuButtons';
 import UpgradeStats from './stores/UpgradeStats';
 import Store from './stores/Store';
 import ElectroStore from './stores/ElectroStore';
+import CredStore from './stores/CredStore';
+import HeistMenu from './stores/HeistMenu';
 
 //Autoclickers
 import AutoClickerEffect from './components/Effects/Automation/AutoClickerEffect';
@@ -108,7 +110,7 @@ export default function App() {
   });
 
   const [showCoinFlip, setShowCoinFlip] = useState(false);
-  
+
   useEffect(() => {
     const handleUpdateSurgeCount = () => {
       setSurgeCount(3);
@@ -205,7 +207,7 @@ export default function App() {
     }
   };
 
-  
+
 
   useEffect(() => {
     const handleUpgradeStats = () => {
@@ -243,13 +245,13 @@ export default function App() {
   useEffect(() => {
     const cleanup = useCrystalZustand.getState().initializeCrystalTimer();
     useFlavorEvents.getState().initializeFlavorEvents();
-    
+
     const handleShowCrystal = () => {
       setShowCrystal(true);
     };
 
     window.addEventListener('showCrystal', handleShowCrystal);
-    
+
     const spawnTrashBonus = () => {
       setShowTrashBonus(true);
       const nextSpawnTime = 120000 + Math.random() * 360000; 
@@ -668,7 +670,7 @@ export default function App() {
           bottom: 'auto'
         }}
       >
-       
+
         <MenuButtons 
           onStoreSelect={(store) => {
             setActiveStore(store);
@@ -808,7 +810,7 @@ export default function App() {
                 if (item.cost) setJunk(prev => prev - item.cost);
                 if (item.name === 'Click Rig Mk I') {
                   setClickMultiplier(prev => prev * 1.25);
-                  setNotifications(prev => [...prev, "Click power increased by 25%!"]);
+                  setNotifications(prev => prev => [...prev, "Click power increased by 25%!"]);
                 }
                 if (item.name === 'Auto Toolkit') {
                   setAutoClicks(prev => Math.floor(prev * 1.25));
@@ -889,6 +891,7 @@ export default function App() {
           }}
         />
       )}
+      {activeStore === 'heists' && <HeistMenu onBack={() => setActiveStore(null)} />}
       <Clicker 
         collectJunk={collectJunk} 
         collectTronics={collectTronics}

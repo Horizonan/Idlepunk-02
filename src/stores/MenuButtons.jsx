@@ -47,8 +47,7 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
           onClick: () => {
             const activeStore = localStorage.getItem('activeStore');
             onStoreSelect(activeStore === 'heists' ? null : 'heists');
-          },
-          locked: true
+          }
         }
       ]
     },
