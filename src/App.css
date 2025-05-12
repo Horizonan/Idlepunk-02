@@ -603,7 +603,7 @@ button.locked {
 
 
 
-.main {
+.sidebar {
   position: fixed;
   left: -300px;
   top: 250px;
@@ -621,25 +621,25 @@ button.locked {
   opacity: 0;
 }
 
-.main:not(.collapsed) {
+.sidebar.open {
   left: 0;
   opacity: 1;
   pointer-events: all;
 }
 
-.menu-buttons {
+.sidebar-buttons {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.menu-category {
+.sidebar-category {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.menu-category-header {
+.sidebar-category-header {
   color: #9400D3;
   font-size: 0.9em;
   margin: 0;
@@ -649,7 +649,7 @@ button.locked {
   opacity: 0.8;
 }
 
-.menu-button {
+.sidebar-button {
   width: 100%;
   text-align: center;
   padding: 10px;
@@ -661,7 +661,7 @@ button.locked {
   transition: all 0.3s ease;
 }
 
-.menu-button:hover {
+.sidebar-button:hover {
   background: rgba(148, 0, 211, 0.6);
 }
 
