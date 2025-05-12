@@ -675,43 +675,9 @@ export default function App() {
           top: localStorage.getItem('sidebarTop') || '250px',
           bottom: 'auto'
         }}
-        onMouseDown={(e) => {
-          if (localStorage.getItem('sidebarLocked') === 'true' || e.target.className === 'lock-button') return;
-
-          const sidebar = e.currentTarget;
-          const startX = e.clientX - sidebar.offsetLeft;
-          const rect = sidebar.getBoundingClientRect();
-          const startY = e.clientY - rect.top;
-
-          const handleMouseMove = (e) => {
-            const newTop = e.clientY - startY;
-            sidebar.style.top = `${newTop}px`;
-          };
-
-          const handleMouseUp = () => {
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', handleMouseUp);
-            localStorage.setItem('sidebarTop', sidebar.style.top);
-          };
-
-          document.addEventListener('mousemove', handleMouseMove);
-          document.addEventListener('mouseup', handleMouseUp);
-        }}
+        
       >
-        <button 
-          className="lock-button"
-          onClick={() => {
-            const isLocked = localStorage.getItem('sidebarLocked') === 'true';
-            const newLocked = !isLocked;
-            localStorage.setItem('sidebarLocked', newLocked);
-            document.querySelector('.sidebar').classList.toggle('locked');
-
-            document.querySelector('.sidebar').classList.toggle('temp');
-            setTimeout(() => document.querySelector('.sidebar').classList.toggle('temp'), 0);
-          }}
-        >
-          {localStorage.getItem('sidebarLocked') === 'true' ? '🔒' : '🔓'}
-        </button>
+       
         <MenuButtons 
           onStoreSelect={(store) => {
             setActiveStore(store);
