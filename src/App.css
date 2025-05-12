@@ -601,6 +601,27 @@ button.locked {
   width: 90%;
 }
 
+.burger-menu {
+  position: fixed;
+  top: 140px;
+  left: 20px;
+  z-index: 1000;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.burger-menu:hover {
+  transform: scale(1.1);
+}
+
+.burger-menu div {
+  width: 25px;
+  height: 3px;
+  background-color: #9400D3;
+  margin: 5px 0;
+  transition: 0.4s;
+}
+
 .sidebar {
   position: fixed;
   left: -300px;
@@ -810,15 +831,14 @@ button.locked {
 }
 
 .menu-toggle {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 1000;
-  background: rgba(26, 26, 26, 0.9);
-  border: 2px solid #9400D3;
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  text-align: center;
+  background: #222;
+  border: 1px solid #9400D3;
   color: #00FF00;
-  padding: 10px 20px;
-  cursor: pointer;
+  border-radius: 4px;
   transition: all 0.3s ease;
 }
 

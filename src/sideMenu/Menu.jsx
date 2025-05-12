@@ -33,31 +33,25 @@ export default function Menu({ onStoreSelect }) {
   };
 
   return (
-    <div className="menu-container">
-      <button className="store-control-button menu-toggle" onClick={() => setShowMenu(prev => !prev)}>
-        {showMenu ? '← Close Menu' : 'Open Menu →'}
+    <div className={`menu-container ${showMenu ? '' : 'collapsed'}`}>
+      <button className="menu-toggle" onClick={() => setShowMenu(prev => !prev)}>
+        {showMenu ? 'Close' : '≡'}
       </button>
-      {showMenu && (
-        <div className="menu-buttons store-container">
-          {Object.entries(menuCategories).map(([category, { header, buttons }]) => (
-            <div key={category} className="store-category">
-              <h3>{header}</h3>
-              <div className="store-items">
-                {buttons.map(button => (
-                  <button
-                    key={button.id}
-                    className="store-item"
-                    onClick={() => onStoreSelect(button.id)}>
-                    <div className="item-header">
-                      <strong>{button.label}</strong>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="menu-buttons">
+        {Object.entries(menuCategories).map(([category, { header, buttons }]) => (
+          <div key={category} className="menu-category">
+            <h3 className="menu-category-header">{header}</h3>
+            {buttons.map(button => (
+              <button
+                key={button.id}
+                className={`menu-button ${button.id}-btn`}
+                onClick={() => onStoreSelect(button.id)}>
+                {button.label}
+              </button>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
