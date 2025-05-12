@@ -13,13 +13,48 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Paper,
   Chip
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import PersonIcon from '@mui/icons-material/Person';
 import SecurityIcon from '@mui/icons-material/Security';
 import BuildIcon from '@mui/icons-material/Build';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+
+const StyledCard = styled(Card)({
+  background: 'rgba(34, 34, 34, 0.95)',
+  border: '2px solid #9400D3',
+  color: '#00FF00',
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    transform: 'translateY(-2px)',
+    boxShadow: '0 0 15px rgba(148, 0, 211, 0.3)',
+  }
+});
+
+const StyledChip = styled(Chip)({
+  background: 'rgba(148, 0, 211, 0.1)',
+  border: '1px solid #9400D3',
+  color: '#00FF00',
+  '& .MuiSvgIcon-root': {
+    color: '#00FF00'
+  }
+});
+
+const StyledButton = styled(Button)({
+  background: '#222',
+  border: '2px solid #9400D3',
+  color: '#00FF00',
+  '&:hover': {
+    background: '#9400D3',
+    color: '#222',
+    borderColor: '#00FF00'
+  },
+  '&.Mui-disabled': {
+    background: '#800000',
+    color: '#666',
+    borderColor: '#444'
+  }
+});
 
 export default function HeistMenu({ onBack }) {
   const {
@@ -50,93 +85,52 @@ export default function HeistMenu({ onBack }) {
     }
   }, [heistCooldown]);
 
-  const handleStartHeist = () => {
-    setShowConfirmation(false);
-    startHeist();
-  };
-
   return (
-    <Box sx={{ maxWidth: 1200, margin: '0 auto', p: 3 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
-        <Typography variant="h4" color="primary">Store Robbery: Tech Shop</Typography>
-        <Button variant="outlined" onClick={onBack}>Close</Button>
+    <Box className="store-container" sx={{ p: 3, background: 'rgba(26, 26, 26, 0.95)', border: '2px solid #9400D3', borderRadius: '8px' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3, borderBottom: '2px solid #9400D3', pb: 2 }}>
+        <Typography variant="h5" sx={{ color: '#00FF00' }}>Tech Shop Heist</Typography>
+        <StyledButton onClick={onBack}>Close</StyledButton>
       </Box>
-
-      <Paper sx={{ p: 2, mb: 3 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={3}>
-            <Typography variant="subtitle1">Required Crew: 3</Typography>
-          </Grid>
-          <Grid item xs={3}>
-            <Typography variant="subtitle1">Difficulty: Medium</Typography>
-          </Grid>
-          <Grid item xs={3}>
-            <Typography variant="subtitle1">Base Reward: 100 Credits</Typography>
-          </Grid>
-          <Grid item xs={3}>
-            <Typography variant="subtitle1">Loot Drop: 15%</Typography>
-          </Grid>
-        </Grid>
-      </Paper>
 
       <Grid container spacing={3}>
         <Grid item xs={6}>
-          <Typography variant="h6" sx={{ mb: 2 }}>Available Crew</Typography>
+          <Typography variant="h6" sx={{ color: '#9400D3', mb: 2 }}>Available Crew</Typography>
           <Grid container spacing={2}>
             {crewMembers.map(crew => (
               <Grid item xs={12} key={crew.id}>
-                <Card 
-                  sx={{ 
-                    cursor: crew.available ? 'pointer' : 'not-allowed',
-                    opacity: crew.available ? 1 : 0.6,
-                    '&:hover': crew.available ? {
-                      transform: 'translateY(-2px)',
-                      boxShadow: 3
-                    } : {}
-                  }}
+                <StyledCard 
+                  sx={{ opacity: crew.available ? 1 : 0.6 }}
                   onClick={() => crew.available && assignCrewMember(crew.id)}
                 >
                   <CardContent>
-                    <Typography variant="h6">{crew.name}</Typography>
-                    <Box sx={{ mt: 1 }}>
-                      <Chip icon={<SecurityIcon />} label={`Stealth: ${crew.stealth}`} sx={{ mr: 1 }} />
-                      <Chip icon={<BuildIcon />} label={`Combat: ${crew.combat}`} sx={{ mr: 1 }} />
-                      <Chip icon={<PersonIcon />} label={`Skill: ${crew.skill}`} />
+                    <Typography variant="h6" sx={{ color: '#00FF00' }}>{crew.name}</Typography>
+                    <Box sx={{ mt: 1, display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                      <StyledChip icon={<SecurityIcon />} label={`Stealth: ${crew.stealth}`} />
+                      <StyledChip icon={<BuildIcon />} label={`Tech: ${crew.combat}`} />
+                      <StyledChip icon={<PersonIcon />} label={`Skill: ${crew.skill}`} />
                     </Box>
-                    <Typography variant="body2" sx={{ mt: 1 }}>
-                      Cost: {crew.cost} Junk
-                    </Typography>
                   </CardContent>
-                </Card>
+                </StyledCard>
               </Grid>
             ))}
           </Grid>
         </Grid>
 
         <Grid item xs={6}>
-          <Typography variant="h6" sx={{ mb: 2 }}>Assigned Crew</Typography>
+          <Typography variant="h6" sx={{ color: '#9400D3', mb: 2 }}>Selected Crew</Typography>
           <Grid container spacing={2}>
             {assignedCrew.map(crew => (
               <Grid item xs={12} key={crew.id}>
-                <Card 
-                  sx={{ 
-                    cursor: 'pointer',
-                    '&:hover': {
-                      transform: 'translateY(-2px)',
-                      boxShadow: 3
-                    }
-                  }}
-                  onClick={() => removeCrewMember(crew.id)}
-                >
+                <StyledCard onClick={() => removeCrewMember(crew.id)}>
                   <CardContent>
-                    <Typography variant="h6">{crew.name}</Typography>
-                    <Box sx={{ mt: 1 }}>
-                      <Chip icon={<SecurityIcon />} label={`Stealth: ${crew.stealth}`} sx={{ mr: 1 }} />
-                      <Chip icon={<BuildIcon />} label={`Combat: ${crew.combat}`} sx={{ mr: 1 }} />
-                      <Chip icon={<PersonIcon />} label={`Skill: ${crew.skill}`} />
+                    <Typography variant="h6" sx={{ color: '#00FF00' }}>{crew.name}</Typography>
+                    <Box sx={{ mt: 1, display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                      <StyledChip icon={<SecurityIcon />} label={`Stealth: ${crew.stealth}`} />
+                      <StyledChip icon={<BuildIcon />} label={`Tech: ${crew.combat}`} />
+                      <StyledChip icon={<PersonIcon />} label={`Skill: ${crew.skill}`} />
                     </Box>
                   </CardContent>
-                </Card>
+                </StyledCard>
               </Grid>
             ))}
           </Grid>
@@ -145,40 +139,60 @@ export default function HeistMenu({ onBack }) {
 
       {heistProgress > 0 && (
         <Box sx={{ mt: 3 }}>
-          <Typography variant="body1" sx={{ mb: 1 }}>Heist Progress: {heistProgress}%</Typography>
-          <LinearProgress variant="determinate" value={heistProgress} sx={{ height: 10, borderRadius: 5 }} />
+          <Typography sx={{ color: '#00FF00', mb: 1 }}>
+            Heist Progress: {heistProgress}%
+          </Typography>
+          <LinearProgress 
+            variant="determinate" 
+            value={heistProgress} 
+            sx={{ 
+              height: 10, 
+              borderRadius: 5,
+              backgroundColor: 'rgba(148, 0, 211, 0.2)',
+              '& .MuiLinearProgress-bar': {
+                backgroundColor: '#9400D3'
+              }
+            }} 
+          />
         </Box>
       )}
 
       {heistCooldown > 0 && (
-        <Typography 
-          variant="body1" 
-          color="error" 
-          sx={{ mt: 2, textAlign: 'center' }}
-        >
+        <Typography sx={{ mt: 2, textAlign: 'center', color: '#ff4444' }}>
           Cooldown: {Math.floor(heistCooldown / 60)}:{(heistCooldown % 60).toString().padStart(2, '0')}
         </Typography>
       )}
 
-      <Button
-        variant="contained"
+      <StyledButton
         fullWidth
         sx={{ mt: 3 }}
         disabled={assignedCrew.length < 3 || heistProgress > 0 || heistCooldown > 0}
         onClick={() => setShowConfirmation(true)}
       >
         Start Heist
-      </Button>
+      </StyledButton>
 
-      <Dialog open={showConfirmation} onClose={() => setShowConfirmation(false)}>
-        <DialogTitle>Start Store Robbery?</DialogTitle>
+      <Dialog 
+        open={showConfirmation} 
+        onClose={() => setShowConfirmation(false)}
+        PaperProps={{
+          style: {
+            backgroundColor: 'rgba(26, 26, 26, 0.95)',
+            border: '2px solid #9400D3',
+            color: '#00FF00'
+          }
+        }}
+      >
+        <DialogTitle sx={{ color: '#00FF00' }}>Start Tech Shop Heist?</DialogTitle>
         <DialogContent>
-          <Typography>Difficulty: Medium</Typography>
-          <Typography>Potential Reward: 100 Credits</Typography>
+          <Typography sx={{ color: '#00FF00' }}>Difficulty: Medium</Typography>
+          <Typography sx={{ color: '#00FF00' }}>Potential Reward: 100 Credits</Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setShowConfirmation(false)}>Cancel</Button>
-          <Button onClick={handleStartHeist} variant="contained">Start Heist</Button>
+          <StyledButton onClick={() => setShowConfirmation(false)}>Cancel</StyledButton>
+          <StyledButton onClick={() => { startHeist(); setShowConfirmation(false); }}>
+            Start Heist
+          </StyledButton>
         </DialogActions>
       </Dialog>
     </Box>
