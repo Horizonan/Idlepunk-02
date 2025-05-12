@@ -30,12 +30,16 @@ export default function Menu({ onStoreSelect }) {
       ]
     }
   };
+  const [menuOpen, setMenuOpen] = useState(localStorage.getItem('menuOpen') === 'true');
 
   return (
     <div className={`menu-container ${showMenu ? '' : 'collapsed'}`}>
-      <button className="menu-toggle" onClick={() => setShowMenu(prev => !prev)}>
-        {showMenu ? 'Close' : '≡'}
-      </button>
+      <div className={`burger-menu ${menuOpen ? 'open' : ''}`} onClick={() => {
+        setMenuOpen(!menuOpen);
+        localStorage.setItem('menuOpen', !menuOpen);
+      }}>
+        <span>≡</span>
+      </div>
       <div className="menu-buttons">
         {Object.entries(menuCategories).map(([category, { header, buttons }]) => (
           <div key={category} className="menu-category">
