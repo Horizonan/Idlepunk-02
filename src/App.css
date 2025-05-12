@@ -755,7 +755,7 @@ button.locked {
   top: 120px;
   right: 20px;
   z-index: 900;
-  background: rgba(18, 18, 18, 0.95);
+  background: rgba(26, 26, 26, 0.95);
   border: 2px solid #9400D3;
   border-radius: 8px;
   padding: 15px;
@@ -763,7 +763,6 @@ button.locked {
   flex-direction: column;
   gap: 10px;
   min-width: 200px;
-  box-shadow: 0 0 10px rgba(148, 0, 211, 0.3);
 }
 
 .menu-container.collapsed {
@@ -771,6 +770,10 @@ button.locked {
   padding: 0;
   background: none;
   border: none;
+}
+
+.menu-container.collapsed .menu-buttons {
+  display: none;
 }
 
 .menu-buttons {
@@ -787,34 +790,28 @@ button.locked {
 
 .menu-category-header {
   color: #9400D3;
-  font-size: 1em;
-  margin: 10px 0 5px 0;
+  font-size: 0.9em;
+  margin: 0;
   padding: 0;
   text-transform: uppercase;
   letter-spacing: 1px;
-  text-align: left;
+  opacity: 0.8;
 }
 
 .menu-button {
   width: 100%;
   text-align: center;
-  padding: 12px;
-  margin: 2px 0;
-  background: transparent;
-  border: 2px solid #9400D3;
+  padding: 10px;
+  margin: 0;
+  background: #222;
+  border: 1px solid #9400D3;
   color: #00FF00;
   border-radius: 4px;
   transition: all 0.3s ease;
-  font-size: 1em;
 }
 
 .menu-button:hover {
-  background: rgba(148, 0, 211, 0.2);
-}
-
-.menu-button[disabled] {
-  opacity: 0.7;
-  cursor: not-allowed;
+  background: rgba(148, 0, 211, 0.6);
 }
 
 .menu-button[disabled] {
@@ -842,16 +839,16 @@ button.locked {
   padding: 10px;
   margin: 5px 0;
   text-align: center;
-  background: transparent;
-  border: 2px solid #9400D3;
+  background: #222;
+  border: 1px solid #9400D3;
   color: #00FF00;
   border-radius: 4px;
   transition: all 0.3s ease;
-  font-size: 1.1em;
 }
 
 .menu-toggle:hover {
-  background: rgba(148, 0, 211, 0.2);
+  background: #9400D3;
+  color: #222;
 }
 
 
