@@ -7,9 +7,13 @@ export const useHeistStore = create(
     (set, get) => ({
       reputation: 0,
       crewMembers: [
-        { id: 1, name: 'Shadow', stealth: 75, combat: 45, skill: 60, cost: 50000, available: true, reqRep: 0 },
-        { id: 2, name: 'Bruiser', stealth: 30, combat: 85, skill: 55, cost: 75000, available: true, reqRep: 25 },
-        { id: 3, name: 'Tech', stealth: 65, combat: 35, skill: 80, cost: 100000, available: true, reqRep: 50 },
+        { id: 1, name: 'ByteMe', stealth: 35, combat: 25, skill: 30, available: true, reqRep: 0 },
+        { id: 2, name: 'Nullz R Us', stealth: 20, combat: 40, skill: 25, available: true, reqRep: 0 },
+        { id: 3, name: 'LagSwitch', stealth: 30, combat: 30, skill: 35, available: true, reqRep: 0 },
+        { id: 4, name: '404Dude', stealth: 25, combat: 35, skill: 30, available: true, reqRep: 0 },
+        { id: 5, name: 'Shadow', stealth: 75, combat: 45, skill: 60, available: true, reqRep: 50 },
+        { id: 6, name: 'Bruiser', stealth: 30, combat: 85, skill: 55, available: true, reqRep: 75 },
+        { id: 7, name: 'Tech', stealth: 65, combat: 35, skill: 80, available: true, reqRep: 100 },
       ],
       activeHeist: null,
       assignedCrew: [],
