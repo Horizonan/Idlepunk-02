@@ -43,7 +43,8 @@ export const useHeistStore = create(
           return { 
             heistProgress: 0,
             assignedCrew: [],
-            crewMembers: state.crewMembers.map(c => ({...c, available: true}))
+            crewMembers: state.crewMembers.map(c => ({...c, available: true})),
+            reputation: state.reputation + 5 // Add 5 reputation per successful heist
           };
         }
         return { heistProgress: state.heistProgress + 1 };

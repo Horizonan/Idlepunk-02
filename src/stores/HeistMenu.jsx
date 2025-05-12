@@ -165,6 +165,19 @@ export default function HeistMenu({ onBack }) {
               }}>
                 Loot Drop Chance: <span>15%</span>
               </Typography>
+              <Typography sx={{ 
+                color: '#00FF00',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                mt: 1,
+                '& span': {
+                  color: '#9400D3',
+                  fontWeight: 'bold'
+                }
+              }}>
+                Your Reputation: <span>{reputation}</span> (+5 per successful heist)
+              </Typography>
             </Box>
           </Grid>
         </Grid>
