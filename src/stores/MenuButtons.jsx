@@ -70,7 +70,7 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
       <button className="menu-toggle" onClick={() => setShowMenu(prev => !prev)}>
         {showMenu ? 'Close' : '≡'}
       </button>
-      {Object.entries(menuCategories).map(([category, { header, buttons }]) => (
+      {showMenu && Object.entries(menuCategories).map(([category, { header, buttons }]) => (
         <div key={category} className="menu-category">
           <h3 className="menu-category-header">{header}</h3>
           {buttons.map((button, index) => (
