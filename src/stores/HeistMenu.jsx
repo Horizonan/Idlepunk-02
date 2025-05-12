@@ -92,6 +92,28 @@ export default function HeistMenu({ onBack }) {
         <StyledButton onClick={onBack}>Close</StyledButton>
       </Box>
 
+      <Box sx={{ mb: 3, p: 2, background: 'rgba(0,0,0,0.2)', borderRadius: 2 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <Typography sx={{ color: '#00FF00' }}>
+              Required Crew: <span style={{ color: '#9400D3' }}>3</span>
+              {assignedCrew.length > 0 && ` (${assignedCrew.length}/3)`}
+            </Typography>
+            <Typography sx={{ color: '#00FF00' }}>
+              Difficulty: <span style={{ color: '#9400D3' }}>Medium</span>
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography sx={{ color: '#00FF00' }}>
+              Base Reward: <span style={{ color: '#9400D3' }}>100 Credits</span>
+            </Typography>
+            <Typography sx={{ color: '#00FF00' }}>
+              Loot Drop Chance: <span style={{ color: '#9400D3' }}>15%</span>
+            </Typography>
+          </Grid>
+        </Grid>
+      </Box>
+
       <Grid container spacing={3}>
         <Grid item xs={6}>
           <Typography variant="h6" sx={{ color: '#9400D3', mb: 2 }}>Available Crew</Typography>
