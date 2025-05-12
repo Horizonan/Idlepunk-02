@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useHeistStore } from '../utils/heistStore';
 import {
@@ -66,7 +65,8 @@ export default function HeistMenu({ onBack }) {
     removeCrewMember,
     startHeist,
     updateHeistProgress,
-    updateCooldown
+    updateCooldown,
+    reputation
   } = useHeistStore();
 
   const [showConfirmation, setShowConfirmation] = useState(false);
