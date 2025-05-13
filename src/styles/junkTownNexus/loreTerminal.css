@@ -1,0 +1,32 @@
+.terminal-container {
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #00FF00;
+  padding: 20px;
+  border-radius: 5px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.lore-terminal {
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #00FF00;
+  border-radius: 4px;
+}
+
+.lore-fragments {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.lore-fragment {
+  padding: 0.5rem;
+  border: 1px solid #333;
+  border-radius: 4px;
+}
+
+.lore-fragment h4 {
+  color: #00FF00;
+  margin: 0 0 0.5rem 0;
+}
