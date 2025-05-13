@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-
+import './JunkTerminal.css';
 
 export default function JunkTerminal() {
   const [emails] = useState([

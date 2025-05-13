@@ -1,8 +1,7 @@
 
 import React, { useState } from 'react';
 import '../styles/Store.css';
-import JunkTerminal from './junkTownNexus/JunkTerminal'
-
+import JunkTerminal from '../components/JunkTerminal';
 
 export default function Marketplace({ onClose }) {
   const [selectedCharacter, setSelectedCharacter] = useState(null);
