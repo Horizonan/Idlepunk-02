@@ -113,7 +113,7 @@ export default function QuestLog({ tutorialStage, onClose }) {
       onMouseLeave={handleMouseUp}
     >
       <div className="quest-log-content">
-        <div className="quest-header">
+        <div className="quest-header sticky">
           <h3>Quest Log</h3>
           <button className="close-button" onClick={onClose}>Close</button>
         </div>
