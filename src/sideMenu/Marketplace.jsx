@@ -4,6 +4,7 @@ import '../styles/Store.css';
 
 export default function Marketplace({ onBack }) {
   const [selectedCharacter, setSelectedCharacter] = useState(null);
+  const [selectedResponse, setSelectedResponse] = useState(null);
   const [loreFragments] = useState([
     { id: 1, title: "The Great Collapse", content: "In the wake of the techno-industrial collapse, the junk trade became the new currency of power..." },
     { id: 2, title: "Rise of the Cogfather", content: "From the ashes of the old world rose the mysterious Cogfather, a figure who saw potential in what others discarded..." },
@@ -25,8 +26,6 @@ export default function Marketplace({ onBack }) {
   );
 
   const renderCogfather = () => {
-    const [selectedResponse, setSelectedResponse] = useState(null);
-    
     const dialogueOptions = [
       {
         id: 'crystal',
