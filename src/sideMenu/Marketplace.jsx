@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import '../styles/Store.css';
 
-export default function Marketplace({ onBack }) {
+export default function Marketplace({ onClose }) {
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [selectedResponse, setSelectedResponse] = useState(null);
   const [loreFragments] = useState([
@@ -75,7 +75,7 @@ export default function Marketplace({ onBack }) {
     <div className="store-container">
       <div className="store-header">
         <h2>Junktown Nexus</h2>
-        <button onClick={onBack}>Close</button>
+        <button onClick={onClose}>Close</button>
       </div>
       
       <div className="nexus-options">
