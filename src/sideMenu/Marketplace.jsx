@@ -24,15 +24,53 @@ export default function Marketplace({ onBack }) {
     </div>
   );
 
-  const renderCogfather = () => (
-    <div className="cogfather-dialogue">
-      <h3 style={{ color: '#00FF00' }}>🎭 The Cogfather</h3>
-      <div className="dialogue-content">
-        <img src="/Icons/NPCs/Cogfather.jfif" alt="Cogfather" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
-        <p>"Ah, another scrapper seeking fortune in the wastes. Remember, in this world of rust and ruin, knowledge is as valuable as the junk you collect..."</p>
+  const renderCogfather = () => {
+    const [selectedResponse, setSelectedResponse] = useState(null);
+    
+    const dialogueOptions = [
+      {
+        id: 'crystal',
+        text: "Ask about crystal shards",
+        response: "Ever felt the hum of the city? There's power in the ether, waiting to be harnessed."
+      },
+      {
+        id: 'city',
+        text: "Tell me about the city",
+        response: "This place... it's a living, breathing machine. Every piece of scrap has a story, every alley a secret."
+      },
+      {
+        id: 'business',
+        text: "How's business?",
+        response: "The flow of scrap never stops in this city. Always something to salvage, always something to trade."
+      }
+    ];
+
+    return (
+      <div className="cogfather-dialogue">
+        <h3 style={{ color: '#00FF00' }}>🎭 The Cogfather</h3>
+        <div className="dialogue-content">
+          <img src="/Icons/NPCs/Cogfather.jfif" alt="Cogfather" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
+          <p>"Ah, another scrapper seeking fortune in the wastes. Remember, in this world of rust and ruin, knowledge is as valuable as the junk you collect..."</p>
+        </div>
+        <div className="dialogue-options">
+          {dialogueOptions.map(option => (
+            <button
+              key={option.id}
+              onClick={() => setSelectedResponse(option.response)}
+              className="dialogue-button"
+            >
+              {option.text}
+            </button>
+          ))}
+        </div>
+        {selectedResponse && (
+          <div className="dialogue-response">
+            {selectedResponse}
+          </div>
+        )}
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div className="store-container">

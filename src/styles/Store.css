@@ -202,3 +202,33 @@
   font-style: italic;
   color: #ccc;
 }
+
+.dialogue-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.dialogue-button {
+  background: rgba(0, 255, 0, 0.1);
+  border: 1px solid #00FF00;
+  color: #00FF00;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.dialogue-button:hover {
+  background: rgba(0, 255, 0, 0.2);
+}
+
+.dialogue-response {
+  margin-top: 15px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #333;
+  color: #ccc;
+  font-style: italic;
+};
+}
