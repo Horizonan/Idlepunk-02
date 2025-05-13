@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import '../styles/Store.css';
+import JunkTerminal from '../components/JunkTerminal';
 
 export default function Marketplace({ onClose }) {
   const [selectedCharacter, setSelectedCharacter] = useState(null);
@@ -102,11 +103,24 @@ export default function Marketplace({ onClose }) {
             <p>Access archived knowledge about the world</p>
           </div>
         </button>
+
+        <button 
+          className={`store-item ${selectedCharacter === 'junkmail' ? 'selected' : ''}`}
+          onClick={() => setSelectedCharacter('junkmail')}
+        >
+          <div className="item-header">
+            <strong>📧 Junk Terminal</strong>
+          </div>
+          <div className="item-info">
+            <p>Check messages from contacts in the network</p>
+          </div>
+        </button>
       </div>
 
       <div className="nexus-content">
         {selectedCharacter === 'cogfather' && renderCogfather()}
         {selectedCharacter === 'terminal' && renderLoreTerminal()}
+        {selectedCharacter === 'junkmail' && <JunkTerminal />}
       </div>
     </div>
   );

@@ -97,6 +97,80 @@
 .store-header {
   display: flex;
   justify-content: center;
+
+.terminal-container {
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #00FF00;
+  padding: 20px;
+  border-radius: 5px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.email-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.email-item {
+  background: rgba(0, 255, 0, 0.1);
+  border: 1px solid #333;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.email-item:hover {
+  background: rgba(0, 255, 0, 0.2);
+}
+
+.email-item.selected {
+  border-color: #00FF00;
+}
+
+.email-item.unread {
+  border-left: 3px solid #00FF00;
+}
+
+.email-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.email-from {
+  color: #00FF00;
+  font-weight: bold;
+}
+
+.email-timestamp {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.email-subject {
+  color: #ccc;
+}
+
+.email-content {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #333;
+}
+
+.email-sender {
+  color: #888;
+  margin-bottom: 15px;
+}
+
+.email-body {
+  color: #ccc;
+  line-height: 1.5;
+}
+
   align-items: center;
   margin-bottom: 20px;
   position: sticky;
