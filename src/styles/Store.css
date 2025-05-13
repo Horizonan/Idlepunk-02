@@ -306,27 +306,3 @@
   font-style: italic;
 };
 }
-.store-container {
-  padding: 20px;
-  background: rgba(0, 0, 0, 0.9);
-  border: 2px solid #00FF00;
-  border-radius: 5px;
-  color: #00FF00;
-  max-height: 80vh;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #00FF00 rgba(0, 0, 0, 0.3);
-}
-
-.store-container::-webkit-scrollbar {
-  width: 8px;
-}
-
-.store-container::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.3);
-}
-
-.store-container::-webkit-scrollbar-thumb {
-  background-color: #00FF00;
-  border-radius: 4px;
-}
