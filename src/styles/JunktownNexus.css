@@ -1,0 +1,35 @@
+
+.nexus-options {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.nexus-options .store-item {
+  flex: 1;
+}
+
+.nexus-content {
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #00FF00;
+  border-radius: 4px;
+  max-height: 60vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #00FF00 rgba(0, 0, 0, 0.3);
+}
+
+.nexus-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.nexus-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.nexus-content::-webkit-scrollbar-thumb {
+  background-color: #00FF00;
+  border-radius: 4px;
+}
