@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import './JunkTerminal.css';
 
 export default function JunkTerminal() {
   const [emails] = useState([
@@ -25,7 +26,9 @@ export default function JunkTerminal() {
 
   return (
     <div className="terminal-container">
-      <h3 style={{ color: '#00FF00' }}>📧 Junk Terminal</h3>
+      <div className="terminal-header">
+        <h3>📧 JUNK TERMINAL v1.0</h3>
+      </div>
       <div className="email-list">
         {emails.map(email => (
           <div 
