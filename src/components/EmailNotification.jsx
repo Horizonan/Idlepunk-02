@@ -1,37 +1,32 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './EmailNotification.css';
 
 export default function EmailNotification({ email, onClose }) {
   const [isVisible, setIsVisible] = useState(true);
-  const [shouldClose, setShouldClose] = useState(false);
 
   useEffect(() => {
-    const visibilityTimer = setTimeout(() => {
+    const timer = setTimeout(() => {
       setIsVisible(false);
-      setShouldClose(true);
     }, 5000);
 
-    return () => clearTimeout(visibilityTimer);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    if (shouldClose) {
-      const closeTimer = setTimeout(onClose, 300);
-      return () => clearTimeout(closeTimer);
+    if (!isVisible) {
+      const timer = setTimeout(onClose, 300);
+      return () => clearTimeout(timer);
     }
-  }, [shouldClose, onClose]);
+  }, [isVisible, onClose]);
 
   return (
     <div className={`email-notification ${isVisible ? 'visible' : 'hiding'}`}>
-      <div className="email-notification-content">
-        <div className="email-notification-header">
-          <span className="notification-dot">●</span>
-          <span className="notification-from">{email.from}</span>
-          <button className="notification-close" onClick={() => setIsVisible(false)}>×</button>
-        </div>
-        <div className="email-notification-subject">{email.subject}</div>
+      <div className="email-header">
+        <span className="email-from">{email.from}</span>
+        <button className="close-button" onClick={() => setIsVisible(false)}>×</button>
       </div>
+      <div className="email-subject">{email.subject}</div>
     </div>
   );
 }
