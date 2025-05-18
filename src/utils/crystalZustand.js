@@ -5,6 +5,7 @@ import { persist } from "zustand/middleware";
 export const useCrystalZustand = create(
   persist(
     (set, get) => ({
+      version: 1, // Add version to force storage reset on changes
       showCrystal: false,
       timeUntilNext: null,
       hasChronoCrystalTimer: false,

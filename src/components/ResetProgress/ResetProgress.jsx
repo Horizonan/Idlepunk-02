@@ -36,11 +36,14 @@ export default function ResetProgress({ onReset }) {
     localStorage.removeItem('email-storage'); // Clear email storage
     localStorage.removeItem('crystal-storage'); // Clear crystal timer storage
 
-    // Reset Zustand stores
+    // Reset Zustand stores and their storages
     useCrystalZustand.getState().setShowCrystal(false);
     useCrystalZustand.getState().setHasChronoCrystalTimer(false);
+    useCrystalZustand.persist.clearStorage();
+    
     useEmailStore.getState().emails = [];
     useEmailStore.getState().latestEmail = null;
+    useEmailStore.persist.clearStorage();
 
     //Force page reload to ensure all states are reset
     window.location.reload();
