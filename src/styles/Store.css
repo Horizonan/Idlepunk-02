@@ -38,6 +38,19 @@
   display: block;
 }
 
+.store-item:hover {
+  background: rgba(0, 255, 0, 0.2);
+  transform: scale(1.02);
+}
+
+.unread-dot {
+  color: #00FF00;
+  font-size: 0.8em;
+  margin-left: 5px;
+  display: inline-block;
+  animation: pulse 2s infinite;
+}
+
 .item-info {
   display: none;
   position: fixed;

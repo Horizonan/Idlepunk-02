@@ -110,7 +110,12 @@ export default function Marketplace({ onClose }) {
           onClick={() => setSelectedCharacter('junkmail')}
         >
           <div className="item-header">
-            <strong>📧 Junk Terminal</strong>
+            <strong>
+              📧 Junk Terminal
+              {useEmailStore.getState().emails.some(email => !email.read) && 
+                <span className="unread-dot">●</span>
+              }
+            </strong>
           </div>
           <div className="item-info">
             <p>Check messages from contacts in the network</p>
