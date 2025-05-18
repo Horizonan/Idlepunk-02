@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import '../styles/JunktownNexus.css';
 import '../styles/Store.css';
+import JunkTerminal from '../components/JunkTerminal';
 import { useEmailStore } from '../utils/emailStore';
 
 export default function Marketplace({ onClose }) {
@@ -126,11 +127,7 @@ export default function Marketplace({ onClose }) {
       <div className="nexus-content">
         {selectedCharacter === 'cogfather' && renderCogfather()}
         {selectedCharacter === 'terminal' && renderLoreTerminal()}
-        {selectedCharacter === 'junkmail' && (
-          <div className="nexus-content">
-            <p>Please check your Junk Terminal from the main interface.</p>
-          </div>
-        )}
+        {selectedCharacter === 'junkmail' && <JunkTerminal />}
       </div>
     </div>
   );
