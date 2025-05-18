@@ -64,6 +64,7 @@ import TutorialSystem from './components/TutorialSystem';
 import ActiveCheats from './components/CheatMenu/ActiveCheats';
 import ItemInventory from './stores/ItemInventory';
 import PrestigePopup from './components/PrestigePopup';
+import { useEmailStore } from './utils/emailStore';
 
 
 export default function App() {
