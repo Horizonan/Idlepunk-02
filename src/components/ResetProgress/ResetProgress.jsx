@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './ResetProgress.css';
+import { useCrystalZustand } from '../../utils/crystalZustand';
+import { useEmailStore } from '../../utils/emailStore';
 
 const defaultAchievements = []; // Add default achievements array
 
