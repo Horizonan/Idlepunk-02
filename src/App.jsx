@@ -60,7 +60,6 @@ import CheatMenu from './components/CheatMenu/CheatMenu';
 import CredStore from './stores/CredStore';
 import NewsContainer from './components/NewsContainer';
 import Notifications from './components/Notifications';
-import EmailNotification from './components/EmailNotification';
 import TutorialSystem from './components/TutorialSystem';
 import ActiveCheats from './components/CheatMenu/ActiveCheats';
 import ItemInventory from './stores/ItemInventory';
@@ -990,12 +989,7 @@ export default function App() {
         />
       )}
       <Notifications notifications={notifications} />
-      {useEmailStore(state => state.latestEmail) && (
-        <EmailNotification 
-          email={useEmailStore(state => state.latestEmail)} 
-          onClose={() => useEmailStore.getState().clearLatestEmail()}
-        />
-      )}
+      
       {ownedItems.shardMiner && (
         <ShardMiner
           onCollect={(amount) => {
