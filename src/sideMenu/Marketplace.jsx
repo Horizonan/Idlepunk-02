@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import '../styles/JunktownNexus.css';
 import '../styles/Store.css';
-import JunkTerminal from '../components/JunkTerminal';
 import { useEmailStore } from '../utils/emailStore';
 
 export default function Marketplace({ onClose }) {
