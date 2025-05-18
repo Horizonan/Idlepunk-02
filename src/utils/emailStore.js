@@ -24,9 +24,15 @@ export const useEmailStore = create(
           content: "Warning: Local junk processing systems operating at reduced efficiency. Maintenance recommended.",
         }
       ],
-      addEmail: (email) => set((state) => ({
-        emails: [...state.emails, { ...email, id: Date.now(), timestamp: new Date().toLocaleString(), read: false }]
-      })),
+      latestEmail: null,
+      addEmail: (email) => set((state) => {
+        const newEmail = { ...email, id: Date.now(), timestamp: new Date().toLocaleString(), read: false };
+        return {
+          emails: [...state.emails, newEmail],
+          latestEmail: newEmail
+        };
+      }),
+      clearLatestEmail: () => set({ latestEmail: null }),
       markAsRead: (id) => set((state) => ({
         emails: state.emails.map(email => 
           email.id === id ? { ...email, read: true } : email
