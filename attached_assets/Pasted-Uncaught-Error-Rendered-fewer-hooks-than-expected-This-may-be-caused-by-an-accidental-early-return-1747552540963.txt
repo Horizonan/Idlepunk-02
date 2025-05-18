@@ -1,0 +1,41 @@
+Uncaught Error: Rendered fewer hooks than expected. This may be caused by an accidental early return statement.
+    at renderWithHooks (react-dom_client.js?v=06e8e5a5:12198:19)
+    at updateFunctionComponent (react-dom_client.js?v=06e8e5a5:14557:28)
+    at beginWork (react-dom_client.js?v=06e8e5a5:15892:22)
+    at HTMLUnknownElement.callCallback2 (react-dom_client.js?v=06e8e5a5:3674:22)
+    at Object.invokeGuardedCallbackDev (react-dom_client.js?v=06e8e5a5:3699:24)
+    at invokeGuardedCallback (react-dom_client.js?v=06e8e5a5:3733:39)
+    at beginWork$1 (react-dom_client.js?v=06e8e5a5:19733:15)
+    at performUnitOfWork (react-dom_client.js?v=06e8e5a5:19166:20)
+    at workLoopSync (react-dom_client.js?v=06e8e5a5:19105:13)
+    at renderRootSync (react-dom_client.js?v=06e8e5a5:19084:15)
+renderWithHooks @ react-dom_client.js?v=06e8e5a5:12198
+updateFunctionComponent @ react-dom_client.js?v=06e8e5a5:14557
+beginWork @ react-dom_client.js?v=06e8e5a5:15892
+callCallback2 @ react-dom_client.js?v=06e8e5a5:3674
+invokeGuardedCallbackDev @ react-dom_client.js?v=06e8e5a5:3699
+invokeGuardedCallback @ react-dom_client.js?v=06e8e5a5:3733
+beginWork$1 @ react-dom_client.js?v=06e8e5a5:19733
+performUnitOfWork @ react-dom_client.js?v=06e8e5a5:19166
+workLoopSync @ react-dom_client.js?v=06e8e5a5:19105
+renderRootSync @ react-dom_client.js?v=06e8e5a5:19084
+recoverFromConcurrentError @ react-dom_client.js?v=06e8e5a5:18704
+performSyncWorkOnRoot @ react-dom_client.js?v=06e8e5a5:18847
+flushSyncCallbacks @ react-dom_client.js?v=06e8e5a5:9119
+(anonymous) @ react-dom_client.js?v=06e8e5a5:18595
+setTimeout
+(anonymous) @ EmailNotification.jsx:20
+commitHookEffectListMount @ react-dom_client.js?v=06e8e5a5:16883
+commitPassiveMountOnFiber @ react-dom_client.js?v=06e8e5a5:18124
+commitPassiveMountEffects_complete @ react-dom_client.js?v=06e8e5a5:18097
+commitPassiveMountEffects_begin @ react-dom_client.js?v=06e8e5a5:18087
+commitPassiveMountEffects @ react-dom_client.js?v=06e8e5a5:18077
+flushPassiveEffectsImpl @ react-dom_client.js?v=06e8e5a5:19458
+flushPassiveEffects @ react-dom_client.js?v=06e8e5a5:19415
+(anonymous) @ react-dom_client.js?v=06e8e5a5:19296
+workLoop @ react-dom_client.js?v=06e8e5a5:197
+flushWork @ react-dom_client.js?v=06e8e5a5:176
+performWorkUntilDeadline @ react-dom_client.js?v=06e8e5a5:384
+EmailNotification.jsx:20 The above error occurred in the <App> component:
+
+    at App (https://cb9b14e4-0b00-4cc2-8434-4986bfa5356b-00-17ta6igptpd0e.kirk.replit.dev/src/App.jsx?t=1747552497585:188:7)
