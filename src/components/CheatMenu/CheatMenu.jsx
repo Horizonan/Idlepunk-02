@@ -192,10 +192,9 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
               <button onClick={setNextSurgeTimer}>Set Next Surge 10s</button>
               <button onClick={setNextTronicsSurgeTimer}>Set Next Tronics Surge 10s</button>
               <button onClick={() => {
-                const addEmail = useEmailStore.getState().addEmail;
-                const templates = useEmailStore.getState().emailTemplates;
-                const randomTemplate = templates[Math.floor(Math.random() * templates.length)];
-                addEmail(randomTemplate);
+                const emailStore = useEmailStore.getState();
+                const randomTemplate = emailStore.emailTemplates[Math.floor(Math.random() * emailStore.emailTemplates.length)];
+                emailStore.addEmail(randomTemplate);
               }}>Trigger Next Email</button>
             </div>
           )}
