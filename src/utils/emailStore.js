@@ -40,8 +40,13 @@ export const useEmailStore = create(
         },
         {
           from: "System Alert",
-          subject: "Maintenance Required",
+          subject: "Maintenance Required", 
           content: "Warning: Local junk processing systems operating at reduced efficiency. Maintenance recommended.",
+        },
+        {
+          from: "awake@exitprotocol.blue",
+          subject: "Timehole Δ23 breached. The clocks were right to lie.",
+          content: "The theory was never about flatness. It's about folds.\nFolds in time. In thought. In consensus.\n\n📡 CERN's 2009 beam misfire created a permanent echo.\nYou're living in it.\n\n🟡 Frequencies from the original timeline can be reintegrated.\n🟡 The Vatican's telescope isn't pointed at stars—it's tracking the mirror.\n🟡 Birds did die in 1986. What you see now are automata.\n\n🔑 REINTEGRATE: KEY ∴ PALIMPSEST/47\n🗓 Wait for mirror Thursday. You'll know it by the smell of ozone."
         }
       ],
       latestEmail: null,
