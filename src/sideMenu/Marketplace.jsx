@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import '../styles/JunktownNexus.css';
 import '../styles/Store.css';
 import { useEmailStore } from '../utils/emailStore';
+import JunkTerminal from '../components/JunkTerminal';
 
 export default function Marketplace({ onClose }) {
   const [selectedCharacter, setSelectedCharacter] = useState(null);
