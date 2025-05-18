@@ -9,6 +9,19 @@
   font-family: 'Courier New', monospace;
 }
 
+.email-section {
+  margin-bottom: 20px;
+}
+
+.section-header {
+  color: #00FF00;
+  border-bottom: 1px solid #004400;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  font-size: 0.9em;
+  text-transform: uppercase;
+}
+
 .terminal-header {
   color: #00FF00;
   border-bottom: 1px solid #00FF00;
