@@ -65,26 +65,40 @@ export const useEmailStore = create(
         )
       })),
       initializeEmailSystem: () => {
+        let emailTimer = null;
+
         const scheduleNextEmail = () => {
           const state = get();
           const now = Date.now();
           const timeSinceLastEmail = now - state.lastEmailTime;
-          const minDelay = 9000; // 15 minutes
-          const maxDelay = 18000; // 30 minutes
+          const minDelay = 9000;
+          const maxDelay = 18000;
           const randomDelay = minDelay + Math.random() * (maxDelay - minDelay);
-          
           const adjustedDelay = Math.max(0, randomDelay - timeSinceLastEmail);
-          
-          setTimeout(() => {
-            const templates = state.emailTemplates;
+
+          if (emailTimer) {
+            clearTimeout(emailTimer);
+          }
+
+          emailTimer = setTimeout(() => {
+            const currentState = get();
+            const templates = currentState.emailTemplates;
             const randomTemplate = templates[Math.floor(Math.random() * templates.length)];
-            state.addEmail(randomTemplate);
-            set({ lastEmailTime: Date.now() });
+            set(state => ({
+              ...state,
+              lastEmailTime: Date.now()
+            }));
+            currentState.addEmail(randomTemplate);
             scheduleNextEmail();
           }, adjustedDelay);
         };
 
         scheduleNextEmail();
+        return () => {
+          if (emailTimer) {
+            clearTimeout(emailTimer);
+          }
+        };
       }
     }),
     {
