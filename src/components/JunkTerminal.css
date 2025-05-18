@@ -4,15 +4,9 @@
   border: 2px solid #00FF00;
   padding: 20px;
   border-radius: 5px;
-  height: 800px;
-  overflow-y: hidden;
-  font-family: 'Courier New', monospace;
-}
-
-.email-list {
-  height: calc(100% - 60px);
+  max-height: 600px;
   overflow-y: auto;
-  padding-right: 10px;
+  font-family: 'Courier New', monospace;
 }
 
 .email-section {
