@@ -9,41 +9,62 @@ export default function ResetProgress({ onReset }) {
   const [showConfirm, setShowConfirm] = useState(false);
 
   const handleReset = () => {
-    // Clear ALL localStorage items
-    localStorage.clear();
-
-    // Reset specific game states to ensure complete cleanup
-    localStorage.setItem('clickCount', '0');
-    localStorage.setItem('junk', '0');
-    localStorage.setItem('credits', '0');
-    localStorage.setItem('tronics', '0');
-    localStorage.setItem('electroShards', '0');
-    localStorage.setItem('clickMultiplier', '1');
-    localStorage.setItem('passiveIncome', '0');
-    localStorage.setItem('autoClicks', '0');
-    localStorage.setItem('permanentAutoClicks', '0');
-    localStorage.setItem('globalJpsMultiplier', '1');
-    localStorage.setItem('surgeCount', '0');
-    localStorage.setItem('beaconCount', '0');
-    localStorage.setItem('prestigeCount', '0');
-    localStorage.setItem('skillLevels', JSON.stringify({
-      scavengingFocus: 0,
-      greaseDiscipline: 0
-    }));
-    localStorage.setItem('ownedItems', JSON.stringify({}));
-    localStorage.setItem('craftingInventory', JSON.stringify({}));
-    localStorage.setItem('achievements', JSON.stringify(defaultAchievements)); // Set achievements to default
-    localStorage.removeItem('email-storage'); // Clear email storage
-    localStorage.removeItem('crystal-storage'); // Clear crystal timer storage
-
-    // Reset Zustand stores and their storages
-    useCrystalZustand.getState().setShowCrystal(false);
-    useCrystalZustand.getState().setHasChronoCrystalTimer(false);
+    // First clear all Zustand persistent stores
     useCrystalZustand.persist.clearStorage();
-    
-    useEmailStore.getState().emails = [];
-    useEmailStore.getState().latestEmail = null;
     useEmailStore.persist.clearStorage();
+
+    // Reset Zustand states
+    useCrystalZustand.setState({
+      showCrystal: false,
+      timeUntilNext: null,
+      hasChronoCrystalTimer: false
+    });
+
+    useEmailStore.setState({
+      emails: [],
+      lastEmailTime: 0,
+      latestEmail: null
+    });
+
+    // Clear ALL localStorage items
+    for (const key in localStorage) {
+      if (localStorage.hasOwnProperty(key)) {
+        localStorage.removeItem(key);
+      }
+    }
+
+    // Set default values
+    const defaultValues = {
+      'clickCount': '0',
+      'junk': '0',
+      'credits': '0',
+      'tronics': '0',
+      'electroShards': '0',
+      'clickMultiplier': '1',
+      'passiveIncome': '0',
+      'autoClicks': '0',
+      'permanentAutoClicks': '0',
+      'globalJpsMultiplier': '1',
+      'surgeCount': '0',
+      'beaconCount': '0',
+      'prestigeCount': '0',
+      'skillLevels': JSON.stringify({
+        scavengingFocus: 0,
+        greaseDiscipline: 0
+      }),
+      'ownedItems': '{}',
+      'craftingInventory': '{}',
+      'achievements': JSON.stringify(defaultAchievements)
+    };
+
+    // Set all default values
+    Object.entries(defaultValues).forEach(([key, value]) => {
+      localStorage.setItem(key, value);
+    });
+
+    // Clear Zustand storage keys explicitly
+    localStorage.removeItem('email-storage');
+    localStorage.removeItem('crystal-storage');
 
     //Force page reload to ensure all states are reset
     window.location.reload();
