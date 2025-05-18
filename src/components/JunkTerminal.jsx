@@ -26,27 +26,28 @@ export default function JunkTerminal() {
       </div>
       <div className="email-list">
         {emails.map(email => (
-          <div 
-            key={email.id} 
-            className={`email-item ${!email.read ? 'unread' : ''} ${selectedEmail?.id === email.id ? 'selected' : ''}`}
-            onClick={() => handleEmailSelect(email)}
-          >
-            {!email.read && <span className="unread-dot">●</span>}
-            <div className="email-header">
-              <span className="email-from">{email.from}</span>
-              <span className="email-timestamp">{email.timestamp}</span>
+          <div key={email.id}>
+            <div 
+              className={`email-item ${!email.read ? 'unread' : ''} ${selectedEmail?.id === email.id ? 'selected' : ''}`}
+              onClick={() => handleEmailSelect(email)}
+            >
+              {!email.read && <span className="unread-dot">●</span>}
+              <div className="email-header">
+                <span className="email-from">{email.from}</span>
+                <span className="email-timestamp">{email.timestamp}</span>
+              </div>
+              <div className="email-subject">{email.subject}</div>
             </div>
-            <div className="email-subject">{email.subject}</div>
+            {selectedEmail?.id === email.id && (
+              <div className="email-content">
+                <h4>{selectedEmail.subject}</h4>
+                <p className="email-sender">From: {selectedEmail.from}</p>
+                <p className="email-body">{selectedEmail.content}</p>
+              </div>
+            )}
           </div>
         ))}
       </div>
-      {selectedEmail && (
-        <div className="email-content">
-          <h4>{selectedEmail.subject}</h4>
-          <p className="email-sender">From: {selectedEmail.from}</p>
-          <p className="email-body">{selectedEmail.content}</p>
-        </div>
-      )}
     </div>
   );
 }
