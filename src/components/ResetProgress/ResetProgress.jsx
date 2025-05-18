@@ -48,6 +48,7 @@ export default function ResetProgress({ onReset }) {
       'surgeCount': '0',
       'beaconCount': '0',
       'prestigeCount': '0',
+      'chrono_crystal_timer_purchased': 'false',
       'skillLevels': JSON.stringify({
         scavengingFocus: 0,
         greaseDiscipline: 0
