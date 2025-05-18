@@ -243,6 +243,7 @@ export default function App() {
   useEffect(() => {
     const cleanup = useCrystalZustand.getState().initializeCrystalTimer();
     useFlavorEvents.getState().initializeFlavorEvents();
+    useEmailStore.getState().initializeEmailSystem();
     
     const handleShowCrystal = () => {
       setShowCrystal(true);
