@@ -4,28 +4,19 @@ import './EmailNotification.css';
 
 export default function EmailNotification({ email, onClose }) {
   const [isVisible, setIsVisible] = useState(true);
-  const [mounted, setMounted] = useState(true);
 
   useEffect(() => {
-    const hideTimer = setTimeout(() => {
+    if (!isVisible) {
+      const cleanupTimer = setTimeout(onClose, 300);
+      return () => clearTimeout(cleanupTimer);
+    }
+
+    const visibilityTimer = setTimeout(() => {
       setIsVisible(false);
     }, 5000);
 
-    return () => clearTimeout(hideTimer);
-  }, []);
-
-  useEffect(() => {
-    if (!isVisible && mounted) {
-      const closeTimer = setTimeout(() => {
-        setMounted(false);
-        onClose();
-      }, 300);
-
-      return () => clearTimeout(closeTimer);
-    }
-  }, [isVisible, onClose, mounted]);
-
-  if (!mounted) return null;
+    return () => clearTimeout(visibilityTimer);
+  }, [isVisible, onClose]);
 
   return (
     <div className={`email-notification ${isVisible ? 'visible' : 'hiding'}`}>
