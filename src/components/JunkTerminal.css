@@ -5,8 +5,13 @@
   padding: 20px;
   border-radius: 5px;
   height: 600px;
-  overflow-y: auto;
+  overflow-y: hidden;
   font-family: 'Courier New', monospace;
+}
+
+.email-list {
+  height: calc(100% - 50px);
+  overflow-y: auto;
 }
 
 .email-section {
