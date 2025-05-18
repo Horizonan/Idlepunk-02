@@ -32,6 +32,13 @@ export default function ResetProgress({ onReset }) {
     localStorage.setItem('craftingInventory', JSON.stringify({}));
     localStorage.setItem('achievements', JSON.stringify(defaultAchievements)); // Set achievements to default
     localStorage.removeItem('email-storage'); // Clear email storage
+    localStorage.removeItem('crystal-storage'); // Clear crystal timer storage
+
+    // Reset Zustand stores
+    useCrystalZustand.getState().setShowCrystal(false);
+    useCrystalZustand.getState().setHasChronoCrystalTimer(false);
+    useEmailStore.getState().emails = [];
+    useEmailStore.getState().latestEmail = null;
 
     //Force page reload to ensure all states are reset
     window.location.reload();
