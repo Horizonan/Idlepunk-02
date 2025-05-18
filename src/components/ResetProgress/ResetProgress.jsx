@@ -14,11 +14,14 @@ export default function ResetProgress({ onReset }) {
     useEmailStore.persist.clearStorage();
 
     // Reset Zustand states
+    // Clear crystal state
     useCrystalZustand.setState({
       showCrystal: false,
       timeUntilNext: null,
-      hasChronoCrystalTimer: false
+      hasChronoCrystalTimer: false,
+      version: 1
     });
+    localStorage.removeItem('chrono_crystal_timer_purchased');
 
     useEmailStore.setState({
       emails: [],
