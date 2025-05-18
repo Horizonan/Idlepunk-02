@@ -1,4 +1,3 @@
-
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -52,17 +51,13 @@ export const useEmailStore = create(
             existingEmail.subject === email.subject && 
             existingEmail.content === email.content
         );
-        
+
         if (isDuplicate) {
           return state; // Return unchanged state if duplicate
         }
-        
+
         const newEmail = { ...email, id: Date.now(), timestamp: new Date().toLocaleString(), read: false };
-        setTimeout(() => {
-          window.dispatchEvent(new CustomEvent('notification', { 
-            detail: `New email from ${newEmail.from}: ${newEmail.subject}`
-          }));
-        }, 100);
+        setNotifications(prev => [...prev, `📧 New email from ${newEmail.from}: ${newEmail.subject}. Check Junktown Nexus!`]);
         return {
           emails: [...state.emails, newEmail],
           latestEmail: newEmail
