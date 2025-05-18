@@ -1,28 +1,9 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useEmailStore } from '../utils/emailStore';
 import './JunkTerminal.css';
 
-const terminalInstances = new Set();
-
 export default function JunkTerminal() {
-  const instanceRef = useRef(null);
-
-  useEffect(() => {
-    if (terminalInstances.size === 0) {
-      instanceRef.current = Symbol();
-      terminalInstances.add(instanceRef.current);
-      return () => {
-        terminalInstances.delete(instanceRef.current);
-      };
-    } else {
-      return;
-    }
-  }, []);
-
-  if (terminalInstances.size > 0 && !terminalInstances.has(instanceRef.current)) {
-    return null;
-  }
   const emails = useEmailStore((state) => state.emails);
   const markAsRead = useEmailStore((state) => state.markAsRead);
   const [selectedEmail, setSelectedEmail] = useState(null);
