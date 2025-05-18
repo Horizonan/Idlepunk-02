@@ -190,6 +190,12 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
               }}>Max Grease Discipline</button>
               <button onClick={setNextSurgeTimer}>Set Next Surge 10s</button>
               <button onClick={setNextTronicsSurgeTimer}>Set Next Tronics Surge 10s</button>
+              <button onClick={() => {
+                const state = useEmailStore.getState();
+                const templates = state.emailTemplates;
+                const randomTemplate = templates[Math.floor(Math.random() * templates.length)];
+                state.addEmail(randomTemplate);
+              }}>Trigger Next Email</button>
             </div>
           )}
         </div>
