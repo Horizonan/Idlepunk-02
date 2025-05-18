@@ -15,11 +15,11 @@ export default function JunkTerminal() {
   const handleEmailSelect = (email) => {
     if (selectedEmail?.id === email.id) {
       setSelectedEmail(null);
-    } else {
-      setSelectedEmail(email);
       if (!email.read) {
         markAsRead(email.id);
       }
+    } else {
+      setSelectedEmail(email);
     }
   };
 
