@@ -47,6 +47,11 @@ export const useEmailStore = create(
           from: "awake@exitprotocol.blue",
           subject: "Timehole Δ23 breached. The clocks were right to lie.",
           content: "The theory was never about flatness. It's about folds.\nFolds in time. In thought. In consensus.\n\n📡 CERN's 2009 beam misfire created a permanent echo.\nYou're living in it.\n\n🟡 Frequencies from the original timeline can be reintegrated.\n🟡 The Vatican's telescope isn't pointed at stars—it's tracking the mirror.\n🟡 Birds did die in 1986. What you see now are automata.\n\n🔑 REINTEGRATE: KEY ∴ PALIMPSEST/47\n🗓 Wait for mirror Thursday. You'll know it by the smell of ozone."
+        },
+        {
+          from: "craterwatch@lunarveil.pro",
+          subject: "Earth's second scar—They never told you about the first",
+          content: "They hollowed it in 14,031 BCE. That's why it rings when struck.\nBuzz knew. Stanley helped cover it.\n\n🛰️ Apollo 20 was real—launched without press\n🧬 DNA recovered from inside the craft matched Homo floresiensis\n🐚 Lunar dust contains microscopic bleeding artifacts\n\nThe moon doesn't orbit.\nIt watches."
         }
       ],
       latestEmail: null,
@@ -63,7 +68,7 @@ export const useEmailStore = create(
         }
 
         const newEmail = { ...email, id: Date.now(), timestamp: new Date().toLocaleString(), read: false };
-     
+
         return {
           emails: [...state.emails, newEmail],
           latestEmail: newEmail
