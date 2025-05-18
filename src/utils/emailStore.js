@@ -58,6 +58,9 @@ export const useEmailStore = create(
         }
         
         const newEmail = { ...email, id: Date.now(), timestamp: new Date().toLocaleString(), read: false };
+        window.dispatchEvent(new CustomEvent('notification', { 
+          detail: `New email from ${newEmail.from}: ${newEmail.subject}`
+        }));
         return {
           emails: [...state.emails, newEmail],
           latestEmail: newEmail

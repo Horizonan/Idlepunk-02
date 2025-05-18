@@ -1,11 +1,12 @@
-import { useState } from 'react';
+
+import React, { useState } from 'react';
+import '../styles/Notifications.css';
 
 export default function Notifications({ notifications }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const displayNotifications = isExpanded ? notifications : notifications.slice(-5);
 
-  // If notifications are not visible, show the reopen button
   if (!isVisible) {
     return (
       <button 
@@ -35,7 +36,9 @@ export default function Notifications({ notifications }) {
       </div>
       <div className="notifications-list">
         {displayNotifications.map((msg, i) => (
-          <div key={i} className="notification">{msg}</div>
+          <div key={i} className="notification">
+            {typeof msg === 'string' ? msg : msg.content || msg.message}
+          </div>
         ))}
       </div>
     </div>
