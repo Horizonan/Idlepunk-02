@@ -28,6 +28,22 @@
   padding: 15px;
   cursor: pointer;
   transition: all 0.2s ease;
+  position: relative;
+}
+
+.unread-dot {
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #00FF00;
+  font-size: 12px;
+}
+
+.email-item.unread {
+  background: rgba(0, 255, 0, 0.1);
+  border-left: 3px solid #00FF00;
+  padding-left: 25px;
 }
 
 .email-item:hover {

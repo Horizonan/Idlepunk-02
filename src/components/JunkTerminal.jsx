@@ -31,6 +31,7 @@ export default function JunkTerminal() {
             className={`email-item ${!email.read ? 'unread' : ''} ${selectedEmail?.id === email.id ? 'selected' : ''}`}
             onClick={() => handleEmailSelect(email)}
           >
+            {!email.read && <span className="unread-dot">●</span>}
             <div className="email-header">
               <span className="email-from">{email.from}</span>
               <span className="email-timestamp">{email.timestamp}</span>
