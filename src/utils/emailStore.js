@@ -9,6 +9,11 @@ export const useEmailStore = create(
       lastEmailTime: 0,
       emailTemplates: [
         {
+          from: "cubeadmin@realitypromo.net",
+          subject: "[REDEEM NOW] MYSTERY DEVICE AWAITS",
+          content: "You've been selected to receive a pre-release Reality Alignment Tool (Model v13).\n\n📦 Contains:\n\n1x stabilized cube\n\n1x red filament (do NOT touch)\n\n1x data-cracked driver for 6th-layer rendering\n\n🎁 Click here to redeem ➜ [hyperlink corrupted]\n⛔ [WARNING]: Previous claimants report audio bleed, nosebleeds, and \"phantom harmonics\"",
+        },
+        {
           from: "futureorganics@healer404.biz",
           subject: "👁️ This Offer Was Not Approved by the FDA",
           content: "🚫ARE_Y0U_𝔏𝔈𝔙𝔈𝔏3_ACCESS?\nThis isn't skincare. It's refracted evolution.\n\nNanogel-X39™ implants subdermally\n\nQuartz-strand overlay: repel surface optics\n\nSide effect: dream-bleed from 2nd reality\n\n💥 Offer ends after 199 microinteractions\n🧬 Tap to complete sequence: uv93S@3r_ek%L9\n\n\"My eyes see the code now. The old light is GONE.\" – Verified User",
