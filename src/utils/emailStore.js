@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+
 export const useEmailStore = create(
   persist(
     (set, get) => ({
@@ -57,7 +58,7 @@ export const useEmailStore = create(
         }
 
         const newEmail = { ...email, id: Date.now(), timestamp: new Date().toLocaleString(), read: false };
-        setNotifications(prev => [...prev, `📧 New email from ${newEmail.from}: ${newEmail.subject}. Check Junktown Nexus!`]);
+     
         return {
           emails: [...state.emails, newEmail],
           latestEmail: newEmail
@@ -76,8 +77,8 @@ export const useEmailStore = create(
           const state = get();
           const now = Date.now();
           const timeSinceLastEmail = now - state.lastEmailTime;
-          const minDelay = 900; // 15 minutes
-          const maxDelay = 1800; // 30 minutes
+          const minDelay = 900000; // 15 minutes
+          const maxDelay = 1800000; // 30 minutes
           const randomDelay = minDelay + Math.random() * (maxDelay - minDelay);
           const adjustedDelay = Math.max(0, randomDelay - timeSinceLastEmail);
 
