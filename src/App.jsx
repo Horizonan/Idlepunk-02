@@ -68,11 +68,6 @@ import { useEmailStore } from './utils/emailStore';
 
 
 export default function App() {
-  const [activeCheatsList, setActiveCheatsList] = useState({
-    'Force Triple Win': false,
-    'Force Double Win': false
-  });
-  const [showCrewMenu, setShowCrewMenu] = useState(false);
   const { 
     junk, setJunk, credits, setCredits, clickCount, setClickCount, tronics, setTronics, autoClicks, setAutoClicks, clickMultiplier, setClickMultiplier, passiveIncome, 
     setPassiveIncome, globalJpsMultiplier, setGlobalJpsMultiplier, notifications, setNotifications,
@@ -114,7 +109,7 @@ export default function App() {
   });
 
   const [showCoinFlip, setShowCoinFlip] = useState(false);
-
+  
   useEffect(() => {
     const handleUpdateSurgeCount = () => {
       setSurgeCount(3);
@@ -211,7 +206,7 @@ export default function App() {
     }
   };
 
-
+  
 
   useEffect(() => {
     const handleUpgradeStats = () => {
@@ -250,13 +245,13 @@ export default function App() {
     const cleanup = useCrystalZustand.getState().initializeCrystalTimer();
     useFlavorEvents.getState().initializeFlavorEvents();
     useEmailStore.getState().initializeEmailSystem();
-
+    
     const handleShowCrystal = () => {
       setShowCrystal(true);
     };
 
     window.addEventListener('showCrystal', handleShowCrystal);
-
+    
     const spawnTrashBonus = () => {
       setShowTrashBonus(true);
       const nextSpawnTime = 120000 + Math.random() * 360000; 
@@ -675,7 +670,7 @@ export default function App() {
           bottom: 'auto'
         }}
       >
-
+       
         <MenuButtons 
           onStoreSelect={(store) => {
             setActiveStore(store);
@@ -994,7 +989,7 @@ export default function App() {
         />
       )}
       <Notifications notifications={notifications} />
-
+      
       {ownedItems.shardMiner && (
         <ShardMiner
           onCollect={(amount) => {
