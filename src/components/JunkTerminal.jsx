@@ -13,9 +13,13 @@ export default function JunkTerminal() {
   }, []);
 
   const handleEmailSelect = (email) => {
-    setSelectedEmail(email);
-    if (!email.read) {
-      markAsRead(email.id);
+    if (selectedEmail?.id === email.id) {
+      setSelectedEmail(null); // Close if clicking the same email
+    } else {
+      setSelectedEmail(email);
+      if (!email.read) {
+        markAsRead(email.id);
+      }
     }
   };
 
