@@ -1,4 +1,3 @@
-import { defaultAchievements } from '../hooks/useAchievements';
 
 export const validateQuests = ({
   junk,
@@ -115,7 +114,7 @@ export const validateQuests = ({
     },
     { 
       title: "First Steps", 
-      condition: clickCount > 0,
+      condition: clickCount > 9,
       category: 'progression'
     },
     { 
