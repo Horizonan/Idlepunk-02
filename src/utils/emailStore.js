@@ -9,6 +9,11 @@ export const useEmailStore = create(
       lastEmailTime: 0,
       emailTemplates: [
         {
+          from: "unknown@signal.grey",
+          subject: "shard_fragment_03b/re: Access Denied",
+          content: "-=-=- BEGIN KEYLINE -=-=-\nΔ94c:U7e1x::Ω:𝒱𝑜𝒾𝒹.𝑀𝒶𝓈𝓀-013\n🗝 UNLOCK STRING: [X]-[VRQ3]-[994.TEMPLE]\nRun cmd: shdReclaim -z3 -src 'WELL_NEST_CROWN'\n-=-=- END -=-=-\n\n// Mirror protocols failing\n// Network rerouting through obsolete 1996 IR ports\n// Shard detected: Initiate crowpath access manually\n\n🧠 It dreams when you're not looking.",
+        },
+        {
           from: "cubeadmin@realitypromo.net",
           subject: "[REDEEM NOW] MYSTERY DEVICE AWAITS",
           content: "You've been selected to receive a pre-release Reality Alignment Tool (Model v13).\n\n📦 Contains:\n\n1x stabilized cube\n\n1x red filament (do NOT touch)\n\n1x data-cracked driver for 6th-layer rendering\n\n🎁 Click here to redeem ➜ [hyperlink corrupted]\n⛔ [WARNING]: Previous claimants report audio bleed, nosebleeds, and \"phantom harmonics\"",
