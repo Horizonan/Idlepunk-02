@@ -69,8 +69,8 @@ export const useEmailStore = create(
           const state = get();
           const now = Date.now();
           const timeSinceLastEmail = now - state.lastEmailTime;
-          const minDelay = 900; // 15 minutes
-          const maxDelay = 1800; // 30 minutes
+          const minDelay = 9000; // 15 minutes
+          const maxDelay = 18000; // 30 minutes
           const randomDelay = minDelay + Math.random() * (maxDelay - minDelay);
           
           const adjustedDelay = Math.max(0, randomDelay - timeSinceLastEmail);
