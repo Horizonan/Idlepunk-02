@@ -5,7 +5,7 @@ import '../styles/Notifications.css';
 export default function Notifications({ notifications }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const displayNotifications = isExpanded ? notifications : notifications.slice(-5);
+  const displayNotifications = isExpanded ? notifications : (notifications || []).slice(-5);
 
   if (!isVisible) {
     return (
