@@ -1,28 +1,23 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useEmailStore } from '../utils/emailStore';
 import './JunkTerminal.css';
 
 export default function JunkTerminal() {
-  const [emails] = useState([
-    {
-      id: 1,
-      from: "The Cogfather",
-      subject: "Welcome to the Network",
-      content: "Welcome to the Junk Network, scrapper. Keep your eyes on this terminal - important intel flows through here like electricity through circuits.",
-      timestamp: "2 hours ago",
-      read: false
-    },
-    {
-      id: 2,
-      from: "Anonymous Streetrat",
-      subject: "Hot Tip",
-      content: "Hey boss, heard some whispers about a surge coming soon. Might want to keep your clickers ready...",
-      timestamp: "1 hour ago",
-      read: false
-    }
-  ]);
-
+  const emails = useEmailStore((state) => state.emails);
+  const markAsRead = useEmailStore((state) => state.markAsRead);
   const [selectedEmail, setSelectedEmail] = useState(null);
+
+  useEffect(() => {
+    useEmailStore.getState().initializeEmailSystem();
+  }, []);
+
+  const handleEmailSelect = (email) => {
+    setSelectedEmail(email);
+    if (!email.read) {
+      markAsRead(email.id);
+    }
+  };
 
   return (
     <div className="terminal-container">
@@ -34,7 +29,7 @@ export default function JunkTerminal() {
           <div 
             key={email.id} 
             className={`email-item ${!email.read ? 'unread' : ''} ${selectedEmail?.id === email.id ? 'selected' : ''}`}
-            onClick={() => setSelectedEmail(email)}
+            onClick={() => handleEmailSelect(email)}
           >
             <div className="email-header">
               <span className="email-from">{email.from}</span>
