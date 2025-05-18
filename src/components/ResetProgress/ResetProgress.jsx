@@ -31,6 +31,7 @@ export default function ResetProgress({ onReset }) {
     localStorage.setItem('ownedItems', JSON.stringify({}));
     localStorage.setItem('craftingInventory', JSON.stringify({}));
     localStorage.setItem('achievements', JSON.stringify(defaultAchievements)); // Set achievements to default
+    localStorage.removeItem('email-storage'); // Clear email storage
 
     //Force page reload to ensure all states are reset
     window.location.reload();
