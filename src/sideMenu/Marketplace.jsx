@@ -113,7 +113,7 @@ export default function Marketplace({ onClose }) {
           <div className="item-header">
             <strong>
               📧 Junk Terminal
-              {useEmailStore.getState().emails.some(email => !email.read) && 
+              {useEmailStore(state => state.emails.some(email => !email.read)) && 
                 <span className="unread-dot">●</span>
               }
             </strong>
