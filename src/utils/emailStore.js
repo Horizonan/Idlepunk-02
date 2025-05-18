@@ -26,6 +26,17 @@ export const useEmailStore = create(
       ],
       latestEmail: null,
       addEmail: (email) => set((state) => {
+        // Check if an email with same subject and content exists
+        const isDuplicate = state.emails.some(
+          existingEmail => 
+            existingEmail.subject === email.subject && 
+            existingEmail.content === email.content
+        );
+        
+        if (isDuplicate) {
+          return state; // Return unchanged state if duplicate
+        }
+        
         const newEmail = { ...email, id: Date.now(), timestamp: new Date().toLocaleString(), read: false };
         return {
           emails: [...state.emails, newEmail],
