@@ -9,6 +9,11 @@ export const useEmailStore = create(
       lastEmailTime: 0,
       emailTemplates: [
         {
+          from: "redpill.dispatch@nomail.void",
+          subject: "[SPAM] You Were Never Supposed to See This",
+          content: "⚠️ THEY'RE WATCHING. DO NOT FORWARD.\nTop-tier whistleblowers confirm the 1977 blackout wasn't a power surge. The moon blinked. Sensors picked up movement under the lunar surface. NASA denied the tapes existed. We have them.\n\n🚫 Encrypted dump attached (access denied—until 03:33 UTC)\n🟥 Keyphrase for unlock: SABLE.RIFT.DC-38\n\nYou're one of 12 chosen to receive this message.\nDeactivate your smart speaker. They listen.\n\n~ YHVH Override Taskforce\n\"The veil burns brightest before the tear.\"",
+        },
+        {
           from: "The Cogfather",
           subject: "Market Fluctuations",
           content: "Keep an eye on the markets, scrapper. I've noticed some interesting patterns in junk values lately.",
