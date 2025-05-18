@@ -72,3 +72,28 @@
   max-height: 200px;
   overflow-y: auto;
 }
+
+.email-notification {
+  padding: 10px;
+  border-left: 3px solid #00FF00;
+}
+
+.notification-header {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #00FF00;
+}
+
+.notification-content {
+  margin: 5px 0;
+}
+
+.notification-content p {
+  margin: 2px 0;
+}
+
+.notification-footer {
+  font-size: 0.9em;
+  color: #888;
+  margin-top: 5px;
+}

@@ -58,9 +58,23 @@ export const useEmailStore = create(
         }
         
         const newEmail = { ...email, id: Date.now(), timestamp: new Date().toLocaleString(), read: false };
+        const notificationContent = (
+          <div className="email-notification">
+            <div className="notification-header">
+              <span>📧 New Message</span>
+            </div>
+            <div className="notification-content">
+              <p><strong>From:</strong> {newEmail.from}</p>
+              <p><strong>Subject:</strong> {newEmail.subject}</p>
+            </div>
+            <div className="notification-footer">
+              Check Junktown Nexus to read
+            </div>
+          </div>
+        );
         setTimeout(() => {
           window.dispatchEvent(new CustomEvent('notification', { 
-            detail: `New email from ${newEmail.from}: ${newEmail.subject}`
+            detail: notificationContent
           }));
         }, 100);
         return {
