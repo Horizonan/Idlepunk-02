@@ -9,6 +9,11 @@ export const useEmailStore = create(
       lastEmailTime: 0,
       emailTemplates: [
         {
+          from: "futureorganics@healer404.biz",
+          subject: "👁️ This Offer Was Not Approved by the FDA",
+          content: "🚫ARE_Y0U_𝔏𝔈𝔙𝔈𝔏3_ACCESS?\nThis isn't skincare. It's refracted evolution.\n\nNanogel-X39™ implants subdermally\n\nQuartz-strand overlay: repel surface optics\n\nSide effect: dream-bleed from 2nd reality\n\n💥 Offer ends after 199 microinteractions\n🧬 Tap to complete sequence: uv93S@3r_ek%L9\n\n\"My eyes see the code now. The old light is GONE.\" – Verified User",
+        },
+        {
           from: "redpill.dispatch@nomail.void",
           subject: "[SPAM] You Were Never Supposed to See This",
           content: "⚠️ THEY'RE WATCHING. DO NOT FORWARD.\nTop-tier whistleblowers confirm the 1977 blackout wasn't a power surge. The moon blinked. Sensors picked up movement under the lunar surface. NASA denied the tapes existed. We have them.\n\n🚫 Encrypted dump attached (access denied—until 03:33 UTC)\n🟥 Keyphrase for unlock: SABLE.RIFT.DC-38\n\nYou're one of 12 chosen to receive this message.\nDeactivate your smart speaker. They listen.\n\n~ YHVH Override Taskforce\n\"The veil burns brightest before the tear.\"",
