@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import ResetProgress from '../ResetProgress/ResetProgress';
+import { useEmailStore } from '../../utils/emailStore';
 
 function setNextSurgeTimer() {
   const nextTime = Date.now() + 10000; // 10 seconds
@@ -191,10 +192,10 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
               <button onClick={setNextSurgeTimer}>Set Next Surge 10s</button>
               <button onClick={setNextTronicsSurgeTimer}>Set Next Tronics Surge 10s</button>
               <button onClick={() => {
-                const state = useEmailStore.getState();
-                const templates = state.emailTemplates;
+                const addEmail = useEmailStore.getState().addEmail;
+                const templates = useEmailStore.getState().emailTemplates;
                 const randomTemplate = templates[Math.floor(Math.random() * templates.length)];
-                state.addEmail(randomTemplate);
+                addEmail(randomTemplate);
               }}>Trigger Next Email</button>
             </div>
           )}
