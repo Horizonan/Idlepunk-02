@@ -43,12 +43,12 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
           }
         },
         {
-          label: 'Heists',
+          label: 'Crew',
           onClick: () => {
             const activeStore = localStorage.getItem('activeStore');
-            onStoreSelect(activeStore === 'heists' ? null : 'heists');
+            onStoreSelect(activeStore === 'crew' ? null : 'crew');
           },
-          locked: true
+          locked: false
         }
       ]
     },
