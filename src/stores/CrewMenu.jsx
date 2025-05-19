@@ -58,7 +58,7 @@ export default function CrewMenu({ onClose }) {
                   🔍 Search for Recruits (100 Credits)
                 </button>
               </div>
-            )}
+            
           <div className="recruit-list">
             <div className="recruit-card">
               <div className="recruit-stats">
