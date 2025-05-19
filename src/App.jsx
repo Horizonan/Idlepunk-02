@@ -755,6 +755,7 @@ export default function App() {
       )}
       {activeStore === 'crew' && (
         <CrewMenu
+          setCredits={setCredits}
           onClose={() => {
             setActiveStore(null);
             localStorage.setItem('activeStore', null);

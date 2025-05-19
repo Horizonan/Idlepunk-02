@@ -3,7 +3,7 @@ import '../styles/CrewMenu.css';
 import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
 import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
 
-export default function CrewMenu({ onClose }) {
+export default function CrewMenu({ onClose, setCredits, credits }) {
   const [activeTab, setActiveTab] = useState('view');
   const isRunning = useRecruitmentZustand(state => state.isRunning);
   const startGame = useRecruitmentZustand(state => state.startGame);
@@ -44,7 +44,12 @@ export default function CrewMenu({ onClose }) {
               )}
                 <button 
                   type="button"
-                  onClick={startGame} 
+                  onClick={() => {
+                  if(credits >= 100){
+                    setCredits(prev => prev - 100);
+                    startGame();
+                  }
+                  }}
                   className="search-recruits-button" >
                   🔍 Search for Recruits (100 Credits)
                 </button>
