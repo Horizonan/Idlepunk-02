@@ -5,7 +5,8 @@ import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
 
 export default function CrewMenu({ onClose }) {
   const [activeTab, setActiveTab] = useState('view');
- 
+  const isRunning = useRecruitmentZustand(state => state.isRunning);
+  const startGame = useRecruitmentZustand(state => state.startGame);
 
   const TabContent = () => {
     switch(activeTab) {
@@ -34,7 +35,7 @@ export default function CrewMenu({ onClose }) {
           <div className="crew-content">
             <h3>Available Recruits</h3>
             <div className="search-section">
-              {useRecruitmentZustand.getState().isRunning && (
+              {isRunning && (
                 <div className="recruitment-modal">
                   <div className="recruitment-modal-content">
                     <RecruitmentGame />
@@ -43,17 +44,7 @@ export default function CrewMenu({ onClose }) {
               )}
                 <button 
                   type="button"
-                  onClick={() => {
-                    console.log('Recruitment button clicked');
-                    try {
-                      const startGame = useRecruitmentZustand.getState().startGame;
-                      console.log('Got startGame function:', !!startGame);
-                      startGame();
-                      console.log('Recruitment game started successfully');
-                    } catch (error) {
-                      console.error('Error starting recruitment game:', error);
-                    }
-                  }} 
+                  onClick={startGame} 
                   className="search-recruits-button" >
                   🔍 Search for Recruits (100 Credits)
                 </button>
