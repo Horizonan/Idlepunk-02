@@ -37,7 +37,7 @@ export default function CrewMenu({ onClose }) {
               <button 
                 type="button"
                 onClick={() => {
-                  const { startGame } = useRecruitmentZustand.getState();
+                  const startGame = useRecruitmentZustand.getState().startGame;
                   startGame();
                 }} 
                 className="search-recruits-button" >
