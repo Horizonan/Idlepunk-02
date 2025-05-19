@@ -753,6 +753,14 @@ export default function App() {
           cogfatherLore={cogfatherLore}
         />
       )}
+      {activeStore === 'crew' && (
+        <CrewMenu
+          onClose={() => {
+            setActiveStore(null);
+            localStorage.setItem('activeStore', null);
+          }}
+        />
+      )}
       {activeStore === 'electrostore' && (
         <ElectroStore 
           onRemoveElectroShard={(amount) => setElectroShards(prev => prev - amount)}
