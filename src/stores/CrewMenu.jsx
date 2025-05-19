@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import '../styles/CrewMenu.css';
+import { useRecruitmentZustand } from './stores/crewRecruitment/recruitmentZustand.js'
 
 export default function CrewMenu({ onClose }) {
   const [activeTab, setActiveTab] = useState('view');
+  const startRecGame = useRecruitmentZustand(state => state.startGame)
 
   const TabContent = () => {
     switch(activeTab) {
@@ -31,7 +33,7 @@ export default function CrewMenu({ onClose }) {
           <div className="crew-content">
             <h3>Available Recruits</h3>
             <div className="search-section">
-            <button className="search-recruits-button">
+            <button onClick={startRecGame} className="search-recruits-button">
               🔍 Search for Recruits (100 Credits)
             </button>
           </div>
