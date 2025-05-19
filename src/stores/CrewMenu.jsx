@@ -33,14 +33,10 @@ export default function CrewMenu({ onClose }) {
         return (
           <div className="crew-content">
             <h3>Available Recruits</h3>
-            <div className="search-section">
-              {useRecruitmentZustand.getState().isRunning && (
-                <div className="recruitment-modal">
-                  <div className="recruitment-modal-content">
-                    <RecruitmentGame />
-                  </div>
-                </div>
-              )}
+            {useRecruitmentZustand.getState().isRunning ? (
+              <RecruitmentGame />
+            ) : (
+              <div className="search-section">
                 <button 
                   type="button"
                   onClick={() => {
