@@ -4,7 +4,7 @@ import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand.js";
 
 export default function CrewMenu({ onClose }) {
   const [activeTab, setActiveTab] = useState('view');
-  const startRecGame = useRecruitmentZustand(state => state.startGame)
+ 
 
   const TabContent = () => {
     switch(activeTab) {
@@ -37,10 +37,8 @@ export default function CrewMenu({ onClose }) {
               <button 
                 type="button"
                 onClick={() => {
-                  alert('clicked');
-                  console.log('before start');
-                  startRecGame(); // <- hier kracht's
-                  console.log('after start');
+                  const { startGame } = useRecruitmentZustand.getState();
+                  startGame();
                 }} 
                 className="search-recruits-button" >
                 🔍 Search for Recruits (100 Credits)
