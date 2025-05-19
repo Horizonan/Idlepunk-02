@@ -11,6 +11,7 @@ export function RecruitmentGame() {
     timeLeft,
     isRunning,
     startGame,
+    handleGameEnd,
     act,
     tick,
   } = useRecruitmentZustand()
@@ -24,12 +25,21 @@ export function RecruitmentGame() {
 
   const profile = profiles[currentIndex]
 
-  if(!isRunning) {
-    return(
+  if (!isRunning) {
+    const isGameOver = currentIndex >= profiles.length
+
+    return (
       <div>
-        <h2>Crinder</h2>
+        <h2>{isGameOver ? 'Game Over' : 'Crinder'}</h2>
         <p>Final Score: {score}</p>
-        <button onClick={startGame}>Start Swiping</button>
+
+        {isGameOver && score >= 10 && (
+          <p>🎉 You unlocked a legendary crew member!</p>
+        )}
+
+        <button onClick={isGameOver ? resetGame : startGame}>
+          {isGameOver ? 'Try Again' : 'Start Swiping'}
+        </button>
       </div>
     )
   }
@@ -44,7 +54,7 @@ export function RecruitmentGame() {
       <h2>{profile.name}</h2>
       <p><strong>Background:</strong> {profile.background}</p>
       <p><strong>Skills:</strong> {profile.skills.join(', ')}</p>
-      <p><strong>Work Permit:</strong> {profile.workPermit}</p>
+      <p><strong>Work Permit:</strong> {profile.workPermit.validUntil}</p>
 
       {profile.flags && (
         <p style={{ color: 'red' }}>⚠️ {profile.flags.join(', ')}</p>

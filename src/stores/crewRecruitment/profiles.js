@@ -30,8 +30,24 @@ export function generateRandomProfile() {
   }
 
 function generateRandomWorkPermitDate() {
+
+  const random = Math.random();
+  
   const now = new Date()
-  const offsetDays = Math.floor(Math.random() * 3650) - 1825 // ±5 Jahre
-  const futureDate = new Date(now.getTime() + offsetDays * 86400000)
-  return futureDate.toISOString().split('T')[0] // z. B. "2080-05-22"
+  const futureForged = new Date(now.getFullYear(), 1, 30)
+
+  if(random < 0.15) return {status: 'missing'}
+  if(random < 0.30) return {
+      status: 'forged',
+      validUntil: futureForged,
+  }
+  
+  const offsetDays = Math.floor(Math.random() * 3650) - 1000
+  const validDate = new Date(Date.now() + offsetDays * 86400000)
+  const isExpired = validDate < new Date()
+  
+  return {
+    validUntil: validDate.toISOString().split('T')[0],
+    status: isExpired ? 'expired' : 'ok'
+  }
 }
