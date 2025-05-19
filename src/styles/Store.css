@@ -109,37 +109,26 @@
 
 .store-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 25px;
-  border-bottom: 2px solid #9400D3;
-  padding: 15px 10px 15px 20px;
-  background: rgba(20, 20, 20, 0.7);
-  border-radius: 8px 8px 0 0;
+  margin-bottom: 20px;
+  position: sticky;
+  top: 0;
+  background: rgba(26, 26, 26, 0.9);
+  padding: 20px;
+  z-index: 100;
 }
 
-.store-header h2 {
-  color: #9400D3;
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: 1.5em;
+.store-header .store-controls {
+  position: absolute;
+  right: 0;
+  display: flex;
+  gap: 10px;
 }
 
 .store-header button {
-  background: #222;
-  border: 2px solid #9400D3;
-  color: #00FF00;
-  cursor: pointer;
+  margin: 0;
   padding: 8px 16px;
-  margin-left: 15px;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-  font-size: 16px;
-}
-
-.store-header button:hover {
-  background: rgba(148, 0, 211, 0.2);
 }
 
 .bulk-buy-toggle {
