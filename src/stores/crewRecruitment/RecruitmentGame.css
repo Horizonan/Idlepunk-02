@@ -1,0 +1,115 @@
+
+.crinder-container {
+  background: #1a1a1a;
+  border-radius: 12px;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.crinder-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #9400D3;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #00FF00;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0 8px;
+}
+
+.close-button:hover {
+  color: #9400D3;
+}
+
+.timer, .score {
+  color: #00FF00;
+  font-size: 1.2em;
+}
+
+.profile-card {
+  background: #222;
+  border: 2px solid #9400D3;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  min-height: 300px;
+}
+
+.profile-card h2 {
+  color: #9400D3;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.profile-info {
+  color: #00FF00;
+  margin-bottom: 15px;
+}
+
+.warning-flags {
+  color: #ff4444;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 68, 68, 0.3);
+}
+
+.swipe-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.swipe-buttons button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.swipe-buttons button:hover {
+  transform: scale(1.1);
+}
+
+.swipe-left {
+  background: #ff4444;
+  color: white;
+}
+
+.swipe-skip {
+  background: #666;
+  color: white;
+}
+
+.swipe-right {
+  background: #44ff44;
+  color: white;
+}
+
+.start-button {
+  background: #9400D3;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 20px;
+  font-size: 1.2em;
+}
+
+.start-button:hover {
+  background: #7b00b3;
+}

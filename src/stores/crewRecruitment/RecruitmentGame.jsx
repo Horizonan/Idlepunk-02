@@ -1,5 +1,7 @@
+
 import { useEffect } from 'react';
 import { useRecruitmentZustand } from './recruitmentZustand';
+import './RecruitmentGame.css';
 
 export function RecruitmentGame() {
   const {
@@ -11,6 +13,7 @@ export function RecruitmentGame() {
     startGame,
     act,
     tick,
+    resetGame
   } = useRecruitmentZustand()
 
   useEffect(() => {
@@ -24,10 +27,13 @@ export function RecruitmentGame() {
 
   if(!isRunning) {
     return(
-      <div>
-        <h2>Crinder</h2>
+      <div className="crinder-container">
+        <div className="crinder-header">
+          <h2>Crinder</h2>
+          <button className="close-button" onClick={resetGame}>×</button>
+        </div>
         <p>Final Score: {score}</p>
-        <button onClick={startGame}>Start Swiping</button>
+        <button className="start-button" onClick={startGame}>Start Swiping</button>
       </div>
     )
   }
@@ -35,25 +41,34 @@ export function RecruitmentGame() {
   if (!profile) return <p>Loading Profile....</p>
 
   return (
-    <div className="game-card">
-      <div>⏱ {timeLeft}s</div>
-
-      <h2>{profile.name}</h2>
-      <p><strong>Background:</strong> {profile.background}</p>
-      <p><strong>Skills:</strong> {profile.skills.join(', ')}</p>
-
-      {profile.flags && (
-        <p style={{ color: 'red' }}>⚠️ {profile.flags.join(', ')}</p>
-      )}
-
-      <div className="buttons">
-        <button onClick={() => act('recruit')}>Recruit</button>
-        <button onClick={() => act('trash')}>Trash</button>
-        <button onClick={() => act('skip')}>Skip</button>
+    <div className="crinder-container">
+      <div className="crinder-header">
+        <div className="timer">⏱ {timeLeft}s</div>
+        <div className="score">Score: {score}</div>
+        <button className="close-button" onClick={resetGame}>×</button>
       </div>
 
-       <div>Score: {score}</div>
+      <div className="profile-card">
+        <h2>{profile.name}</h2>
+        <div className="profile-info">
+          <p><strong>Background:</strong> {profile.background}</p>
+          <p><strong>Skills:</strong> {profile.skills.join(', ')}</p>
+        </div>
+
+        {profile.flags && (
+          <div className="warning-flags">
+            {profile.flags.map((flag, index) => (
+              <p key={index}>⚠️ {flag}</p>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="swipe-buttons">
+        <button className="swipe-left" onClick={() => act('trash')}>✗</button>
+        <button className="swipe-skip" onClick={() => act('skip')}>⟳</button>
+        <button className="swipe-right" onClick={() => act('recruit')}>✓</button>
+      </div>
     </div>
-    
   )
 }
