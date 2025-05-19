@@ -14,8 +14,6 @@ export function RecruitmentGame() {
     handleGameEnd,
     act,
     tick,
-    set,
-    get
   } = useRecruitmentZustand()
 
   useEffect(() => {
@@ -47,23 +45,6 @@ export function RecruitmentGame() {
   }
 
   if (!profile) return <p>Loading Profile....</p>
-
-  const isPermitExpired = new Date(profile.workPermit.validUntil) < new Date()
-  let delta = 0
-
-  if(!isPermitExpired){
-    delta = profile.isReal ? 2 : -2
-  } else {
-    delta -= 2
-  }
-
-  const finalScore = score + delta
-  if (currentIndex === 7) {
-    console.log("🎉 Game finished! Final score:", finalScore)
-    set({ isRunning: false })
-    get().handleGameEnd(finalScore)
-    return
-  }
 
   return (
     <div className="game-card">
