@@ -1,5 +1,5 @@
 import {create} from 'zustand'
-import {generateRandomProfile} from '../../profiles'
+import {generateRandomProfile} from './profiles'
 
 export const useRecruitmentZustand = create((set, get) => ({
   profiles: [],
