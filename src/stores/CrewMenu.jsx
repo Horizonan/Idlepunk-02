@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/CrewMenu.css';
 import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
+import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
 
 export default function CrewMenu({ onClose }) {
   const [activeTab, setActiveTab] = useState('view');
