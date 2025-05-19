@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import { useRecruitmentZustand } from './recruitmentZustand';
 import './RecruitmentGame.css';
@@ -15,64 +14,41 @@ export function RecruitmentGame() {
     handleGameEnd,
     act,
     tick,
-  } = useRecruitmentZustand();
+  } = useRecruitmentZustand()
 
   useEffect(() => {
     if (isRunning) {
-      const timer = setInterval(tick, 1000);
-      return () => clearInterval(timer);
+      const timer = setInterval(tick, 1000)
+      return () => clearInterval(timer)
     }
-  }, [isRunning, tick]);
+  }, [isRunning, tick])
 
-  const profile = profiles[currentIndex];
+  const profile = profiles[currentIndex]
 
   if (!isRunning) {
-    const isGameOver = currentIndex >= 8;
+    const isGameOver = currentIndex >= profiles.length
 
     return (
-      <div className="game-card">
-        <button onClick={resetGame} className="close-button">×</button>
-        <div className="game-over-screen">
-          <h2>{isGameOver ? 'Game Over!' : 'Crinder'}</h2>
-          <p>Final Score: {score}</p>
+      <div>
+        <h2>{isGameOver ? 'Game Over' : 'Crinder'}</h2>
+        <p>Final Score: {score}</p>
 
-          {isGameOver && score >= 10 && (
-            <div className="reward-message">
-              <p>🎉 Congratulations!</p>
-              <p>You unlocked a legendary crew member!</p>
-            </div>
-          )}
+        {isGameOver && score >= 10 && (
+          <p>🎉 You unlocked a legendary crew member!</p>
+        )}
 
-          {isGameOver && score >= 5 && score < 10 && (
-            <div className="reward-message">
-              <p>✨ Well done!</p>
-              <p>A new crew member joined your team!</p>
-            </div>
-          )}
-
-          {isGameOver && score < 5 && (
-            <div className="reward-message">
-              <p>😔 Better luck next time!</p>
-              <p>Keep practicing to improve your recruiting skills.</p>
-            </div>
-          )}
-
-          <button 
-            onClick={isGameOver ? resetGame : startGame}
-            className="game-button"
-          >
-            {isGameOver ? 'Try Again' : 'Start Swiping'}
-          </button>
-        </div>
+        <button onClick={isGameOver ? resetGame : startGame}>
+          {isGameOver ? 'Try Again' : 'Start Swiping'}
+        </button>
       </div>
-    );
+    )
   }
 
-  if (!profile) return <p>Loading Profile....</p>;
+  if (!profile) return <p>Loading Profile....</p>
 
   return (
     <div className="game-card">
-      <button onClick={resetGame} className="close-button">×</button>
+      <button onClick={resetGame}>Close</button>
       <div>⏱ {timeLeft}s</div>
 
       <h2>{profile.name}</h2>
@@ -90,7 +66,8 @@ export function RecruitmentGame() {
         <button onClick={() => act('skip')}>Skip</button>
       </div>
 
-      <div>Score: {score}</div>
+       <div>Score: {score}</div>
     </div>
-  );
+
+  )
 }
