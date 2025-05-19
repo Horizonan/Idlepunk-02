@@ -32,25 +32,28 @@ export default function CrewMenu({ onClose }) {
         return (
           <div className="crew-content">
             <h3>Available Recruits</h3>
-            <div className="search-section">
-              
-              <button 
-                type="button"
-                onClick={() => {
-                  console.log('Recruitment button clicked');
-                  try {
-                    const startGame = useRecruitmentZustand.getState().startGame;
-                    console.log('Got startGame function:', !!startGame);
-                    startGame();
-                    console.log('Recruitment game started successfully');
-                  } catch (error) {
-                    console.error('Error starting recruitment game:', error);
-                  }
-                }} 
-                className="search-recruits-button" >
-                🔍 Search for Recruits (100 Credits)
-              </button>
-          </div>
+            {useRecruitmentZustand.getState().isRunning ? (
+              <RecruitmentGame />
+            ) : (
+              <div className="search-section">
+                <button 
+                  type="button"
+                  onClick={() => {
+                    console.log('Recruitment button clicked');
+                    try {
+                      const startGame = useRecruitmentZustand.getState().startGame;
+                      console.log('Got startGame function:', !!startGame);
+                      startGame();
+                      console.log('Recruitment game started successfully');
+                    } catch (error) {
+                      console.error('Error starting recruitment game:', error);
+                    }
+                  }} 
+                  className="search-recruits-button" >
+                  🔍 Search for Recruits (100 Credits)
+                </button>
+              </div>
+            )}
           <div className="recruit-list">
             <div className="recruit-card">
               <div className="recruit-stats">
