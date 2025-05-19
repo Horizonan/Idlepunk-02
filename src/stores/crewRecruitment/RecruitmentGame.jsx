@@ -24,13 +24,19 @@ export function RecruitmentGame() {
   }, [isRunning, tick])
 
   const profile = profiles[currentIndex]
+  let gameEnded = 0;
 
   if (!isRunning || currentIndex >= 8) {
     const finalScore = score
-    handleGameEnd(finalScore)
 
+    if(gameEnded = 0){
+      handleGameEnd(finalScore)
+      gameEnded +1
+      }
+      
     return (
       <div>
+        <button onClick={resetGame}>Close</button>
         <h2>Game Over</h2>
         <p>Final Score: {finalScore}</p>
 
@@ -56,10 +62,6 @@ export function RecruitmentGame() {
       <p><strong>Background:</strong> {profile.background}</p>
       <p><strong>Skills:</strong> {profile.skills.join(', ')}</p>
       <p><strong>Work Permit:</strong> {profile.workPermit.validUntil}</p>
-
-      {profile.flags && (
-        <p style={{ color: 'red' }}>⚠️ {profile.flags.join(', ')}</p>
-      )}
 
       <div className="buttons">
         <button onClick={() => act('recruit')}>Recruit</button>
