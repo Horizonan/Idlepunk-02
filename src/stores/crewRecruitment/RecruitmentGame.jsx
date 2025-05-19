@@ -13,7 +13,7 @@ export function RecruitmentGame() {
     startGame,
     handleGameEnd,
     act,
-    tick,
+    tick
   } = useRecruitmentZustand()
 
   useEffect(() => {
@@ -25,20 +25,21 @@ export function RecruitmentGame() {
 
   const profile = profiles[currentIndex]
 
-  if (!isRunning) {
-    const isGameOver = currentIndex >= profiles.length
+  if (!isRunning || currentIndex >= 8) {
+    const finalScore = score
+    handleGameEnd(finalScore)
 
     return (
       <div>
-        <h2>{isGameOver ? 'Game Over' : 'Crinder'}</h2>
-        <p>Final Score: {score}</p>
+        <h2>Game Over</h2>
+        <p>Final Score: {finalScore}</p>
 
-        {isGameOver && score >= 10 && (
+        {finalScore >= 10 && (
           <p>🎉 You unlocked a legendary crew member!</p>
         )}
 
-        <button onClick={isGameOver ? resetGame : startGame}>
-          {isGameOver ? 'Try Again' : 'Start Swiping'}
+        <button onClick={resetGame}>
+          Try Again
         </button>
       </div>
     )
