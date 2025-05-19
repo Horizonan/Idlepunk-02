@@ -35,25 +35,20 @@
   font-size: 1.5em;
 }
 
-.close-button {
-  background: none;
-  border: 2px solid transparent;
-  color: #9400D3;
-  font-size: 24px;
+.crew-header button {
+  background: #222;
+  border: 2px solid #9400D3;
+  color: #00FF00;
   cursor: pointer;
-  padding: 5px 15px;
+  padding: 8px 16px;
   margin-left: 15px;
   border-radius: 4px;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  font-size: 16px;
 }
 
-.close-button:hover {
-  border-color: #9400D3;
-  background: rgba(148, 0, 211, 0.1);
-}
-
-.close-button:hover {
-  color: #00FF00;
+.crew-header button:hover {
+  background: rgba(148, 0, 211, 0.2);
 }
 
 .crew-tabs {

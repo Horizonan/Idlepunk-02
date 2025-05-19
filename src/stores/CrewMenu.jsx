@@ -118,7 +118,7 @@ export default function CrewMenu({ onClose }) {
     <div className="crew-menu">
       <div className="crew-header">
         <h2>Crew Management</h2>
-        <button className="close-button" onClick={onClose}>×</button>
+        <button className="store-item" onClick={onClose}>Close</button>
       </div>
 
       <div className="crew-tabs">
