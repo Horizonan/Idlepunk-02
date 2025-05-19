@@ -9,8 +9,11 @@ export const useRecruitmentZustand = create((set, get) => ({
   isRunning: false,
 
   startGame: () => {
-    const generated = Array.from({length: 8}, generateRandomProfile)
-    set({profiles: generated, currentIndex: 0, score: 0, timeLeft: 60, isRunning: true})
+    console.log('Starting recruitment game');
+    const generated = Array.from({length: 8}, generateRandomProfile);
+    console.log('Generated profiles:', generated);
+    set({profiles: generated, currentIndex: 0, score: 0, timeLeft: 60, isRunning: true});
+    console.log('Game state initialized');
   },
 
   act: (action) => {

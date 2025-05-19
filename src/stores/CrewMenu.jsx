@@ -37,8 +37,15 @@ export default function CrewMenu({ onClose }) {
               <button 
                 type="button"
                 onClick={() => {
-                  const startGame = useRecruitmentZustand.getState().startGame;
-                  startGame();
+                  console.log('Recruitment button clicked');
+                  try {
+                    const startGame = useRecruitmentZustand.getState().startGame;
+                    console.log('Got startGame function:', !!startGame);
+                    startGame();
+                    console.log('Recruitment game started successfully');
+                  } catch (error) {
+                    console.error('Error starting recruitment game:', error);
+                  }
                 }} 
                 className="search-recruits-button" >
                 🔍 Search for Recruits (100 Credits)
