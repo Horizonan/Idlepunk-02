@@ -174,3 +174,35 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.crafting-tabs {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.tab-button {
+  background: rgba(34, 34, 34, 0.9);
+  color: #00FF00;
+  border: 2px solid #9400D3;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9em;
+  border-radius: 4px;
+}
+
+.tab-button:hover:not(.locked) {
+  background: rgba(148, 0, 211, 0.2);
+}
+
+.tab-button.active {
+  background: rgba(148, 0, 211, 0.3);
+  border-color: #00FF00;
+}
+
+.tab-button.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
