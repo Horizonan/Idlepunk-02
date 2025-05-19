@@ -68,6 +68,11 @@ import { useEmailStore } from './utils/emailStore';
 
 
 export default function App() {
+  const [activeCheatsList, setActiveCheatsList] = useState({
+    'Force Triple Win': false,
+    'Force Double Win': false
+  });
+  const [showCrewMenu, setShowCrewMenu] = useState(false);
   const { 
     junk, setJunk, credits, setCredits, clickCount, setClickCount, tronics, setTronics, autoClicks, setAutoClicks, clickMultiplier, setClickMultiplier, passiveIncome, 
     setPassiveIncome, globalJpsMultiplier, setGlobalJpsMultiplier, notifications, setNotifications,
@@ -109,7 +114,7 @@ export default function App() {
   });
 
   const [showCoinFlip, setShowCoinFlip] = useState(false);
-  
+
   useEffect(() => {
     const handleUpdateSurgeCount = () => {
       setSurgeCount(3);
@@ -206,7 +211,7 @@ export default function App() {
     }
   };
 
-  
+
 
   useEffect(() => {
     const handleUpgradeStats = () => {
@@ -245,13 +250,13 @@ export default function App() {
     const cleanup = useCrystalZustand.getState().initializeCrystalTimer();
     useFlavorEvents.getState().initializeFlavorEvents();
     useEmailStore.getState().initializeEmailSystem();
-    
+
     const handleShowCrystal = () => {
       setShowCrystal(true);
     };
 
     window.addEventListener('showCrystal', handleShowCrystal);
-    
+
     const spawnTrashBonus = () => {
       setShowTrashBonus(true);
       const nextSpawnTime = 120000 + Math.random() * 360000; 
@@ -420,7 +425,7 @@ export default function App() {
       const randomMaterial = materials[Math.floor(Math.random() * materials.length)];
       setCraftingInventory(prev => ({
         ...prev,
-        [randomMaterial]: (prev[randomMaterial] || 0) + 1
+        [randomMaterial]: (prev[randomMaterial] || 0) + amount
       }));
       setNotifications(prev => [...prev, `Found a ${randomMaterial}!`]);
     } else if (random < 0.00001) { 
@@ -670,7 +675,7 @@ export default function App() {
           bottom: 'auto'
         }}
       >
-       
+
         <MenuButtons 
           onStoreSelect={(store) => {
             setActiveStore(store);
@@ -806,7 +811,7 @@ export default function App() {
                   });
                   newInventory[item.name] = (newInventory[item.name] || 0) + 1;
                   return newInventory;
-                });
+The code adds crew menu functionality by introducing a state variable to control its visibility and integrating it into the main application.                });
                 if (item.cost) setJunk(prev => prev - item.cost);
                 if (item.name === 'Click Rig Mk I') {
                   setClickMultiplier(prev => prev * 1.25);
@@ -989,7 +994,7 @@ export default function App() {
         />
       )}
       <Notifications notifications={notifications} />
-      
+
       {ownedItems.shardMiner && (
         <ShardMiner
           onCollect={(amount) => {
