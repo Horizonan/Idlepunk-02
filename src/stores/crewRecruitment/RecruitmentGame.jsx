@@ -59,6 +59,7 @@ export function RecruitmentGame() {
       <div>⏱ {timeLeft}s</div>
 
       <h2>{profile.name}</h2>
+      <p><strong>Age:</strong> {profile.age}</p>
       <p><strong>Background:</strong> {profile.background}</p>
       <p><strong>Skills:</strong> {profile.skills.join(', ')}</p>
       <p><strong>Work Permit:</strong> {profile.workPermit.validUntil instanceof Date ? profile.workPermit.validUntil.toLocaleDateString() : profile.workPermit.validUntil}</p>
