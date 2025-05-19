@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import '../styles/CrewMenu.css';
 
@@ -31,23 +30,28 @@ export default function CrewMenu({ onClose }) {
         return (
           <div className="crew-content">
             <h3>Available Recruits</h3>
-            <div className="recruit-list">
-              <div className="recruit-card">
-                <div className="recruit-stats">
-                  <span>💪 5</span>
-                  <span>🛡️ 3</span>
-                  <span>⚡ 2</span>
-                </div>
-                <h4>Street Runner</h4>
-                <p>Fast and agile scrap collector</p>
-                <button className="recruit-button" disabled>Recruit (500 Credits)</button>
+            <div className="search-section">
+            <button className="search-recruits-button">
+              🔍 Search for Recruits (100 Credits)
+            </button>
+          </div>
+          <div className="recruit-list">
+            <div className="recruit-card">
+              <div className="recruit-stats">
+                <span>💪 5</span>
+                <span>🛡️ 3</span>
+                <span>⚡ 2</span>
               </div>
-              <div className="recruit-card locked">
-                <div className="recruit-lock">🔒</div>
-                <h4>???</h4>
-                <p>Complete more missions to unlock</p>
-              </div>
+              <h4>Street Runner</h4>
+              <p>Fast and agile scrap collector</p>
+              <button className="recruit-button" disabled>Recruit (500 Credits)</button>
             </div>
+            <div className="recruit-card locked">
+              <div className="recruit-lock">🔒</div>
+              <h4>???</h4>
+              <p>Complete more missions to unlock</p>
+            </div>
+          </div>
           </div>
         );
       case 'missions':
@@ -101,7 +105,7 @@ export default function CrewMenu({ onClose }) {
         <h2>Crew Management</h2>
         <button className="close-button" onClick={onClose}>×</button>
       </div>
-      
+
       <div className="crew-tabs">
         <button 
           className={`tab-button ${activeTab === 'view' ? 'active' : ''}`}

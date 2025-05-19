@@ -120,6 +120,34 @@
   border-color: #666;
 }
 
+.search-section {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.search-recruits-button {
+  background: #222;
+  color: #00FF00;
+  border: 2px solid #9400D3;
+  padding: 12px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.search-recruits-button:hover {
+  background: rgba(148, 0, 211, 0.2);
+  transform: scale(1.02);
+}
+
+.search-recruits-button:disabled {
+  background: #666;
+  border-color: #666;
+  color: #999;
+  cursor: not-allowed;
+}
+
 .recruit-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
