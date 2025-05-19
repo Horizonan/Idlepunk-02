@@ -328,7 +328,6 @@ export default function App() {
 
   useEffect(() => {
     const updateInterval = setInterval(() => {
-      console.log(localStorage.getItem('prestige1Unlocked') == "true");
       const skillLevels = JSON.parse(localStorage.getItem('skillLevels')) || { greaseDiscipline: 0 };
       const greaseDisciplineBonus = skillLevels.greaseDiscipline * 0.5 / 100;
       const circuitOptCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');

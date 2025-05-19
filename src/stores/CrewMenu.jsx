@@ -33,9 +33,18 @@ export default function CrewMenu({ onClose }) {
           <div className="crew-content">
             <h3>Available Recruits</h3>
             <div className="search-section">
-            <button onClick={startRecGame} className="search-recruits-button">
-              🔍 Search for Recruits (100 Credits)
-            </button>
+              
+              <button 
+                type="button"
+                onClick={() => {
+                  alert('clicked');
+                  console.log('before start');
+                  startRecGame(); // <- hier kracht's
+                  console.log('after start');
+                }} 
+                className="search-recruits-button" >
+                🔍 Search for Recruits (100 Credits)
+              </button>
           </div>
           <div className="recruit-list">
             <div className="recruit-card">
