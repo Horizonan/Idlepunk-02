@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/CrewMenu.css';
-import { useRecruitmentZustand } from './stores/crewRecruitment/recruitmentZustand.js'
+import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand.js";
 
 export default function CrewMenu({ onClose }) {
   const [activeTab, setActiveTab] = useState('view');
