@@ -44,7 +44,7 @@ export function RecruitmentGame() {
       <h2>{profile.name}</h2>
       <p><strong>Background:</strong> {profile.background}</p>
       <p><strong>Skills:</strong> {profile.skills.join(', ')}</p>
-      <p><strong>Skills:</strong> {profile.workPermit.join(', ')}</p>
+      <p><strong>Work Permit:</strong> {profile.workPermit}</p>
 
       {profile.flags && (
         <p style={{ color: 'red' }}>⚠️ {profile.flags.join(', ')}</p>
