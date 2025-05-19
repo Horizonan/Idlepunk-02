@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useRecruitmentZustand } from '../../utils/recruitmentZustand';
+import { useRecruitmentZustand } from './recruitmentZustand';
 
 export function RecruitmentGame() {
   const {
