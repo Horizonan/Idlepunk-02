@@ -68,11 +68,6 @@ import { useEmailStore } from './utils/emailStore';
 
 
 export default function App() {
-  const [activeCheatsList, setActiveCheatsList] = useState({
-    'Force Triple Win': false,
-    'Force Double Win': false
-  });
-  const [showCrewMenu, setShowCrewMenu] = useState(false);
   const { 
     junk, setJunk, credits, setCredits, clickCount, setClickCount, tronics, setTronics, autoClicks, setAutoClicks, clickMultiplier, setClickMultiplier, passiveIncome, 
     setPassiveIncome, globalJpsMultiplier, setGlobalJpsMultiplier, notifications, setNotifications,
