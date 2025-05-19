@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import { useRecruitmentZustand } from './recruitmentZustand';
+import './RecruitmentGame.css';
 
 export function RecruitmentGame() {
   const {
+    resetGame,
     profiles,
     currentIndex,
     score,
@@ -36,6 +38,7 @@ export function RecruitmentGame() {
 
   return (
     <div className="game-card">
+      <button onClick={resetGame}>Close</button>
       <div>⏱ {timeLeft}s</div>
 
       <h2>{profile.name}</h2>
@@ -54,6 +57,6 @@ export function RecruitmentGame() {
 
        <div>Score: {score}</div>
     </div>
-    
+
   )
 }
