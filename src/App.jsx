@@ -13,6 +13,7 @@ import MenuButtons from './stores/MenuButtons';
 import UpgradeStats from './stores/UpgradeStats';
 import Store from './stores/Store';
 import ElectroStore from './stores/ElectroStore';
+import CrewMenu from './stores/CrewMenu';
 
 //Autoclickers
 import AutoClickerEffect from './components/Effects/Automation/AutoClickerEffect';
