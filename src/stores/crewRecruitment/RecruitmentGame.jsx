@@ -13,7 +13,8 @@ export function RecruitmentGame() {
     startGame,
     handleGameEnd,
     act,
-    tick
+    tick,
+    selectedCrew
   } = useRecruitmentZustand()
 
   useEffect(() => {
@@ -34,7 +35,7 @@ export function RecruitmentGame() {
       gameEnded +1
       }
       
-    const selectedCrew = useRecruitmentZustand(state => state.selectedCrew);
+    
     
     return (
       <div className="game-over">
