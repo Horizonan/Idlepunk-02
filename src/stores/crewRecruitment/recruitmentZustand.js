@@ -67,13 +67,35 @@ export const useRecruitmentZustand = create((set, get) => ({
   },
 
   handleGameEnd: (finalScore) => {
-    if (finalScore >= 10) {
-      console.log("🚀 Reward: Legendary Crew unlocked!")
-      // trigger unlock, give item, etc.
-    } else if (finalScore >= 5) {
-      console.log("✅ Reward: Regular crew member joined")
+    const crewDatabase = require('./crewMembers').crewDatabase;
+    
+    let eligibleCrew;
+    if (finalScore >= 80) {
+      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'legendary');
+      console.log("🚀 Legendary tier reached!");
+    } else if (finalScore >= 60) {
+      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'epic');
+      console.log("⭐ Epic tier reached!");
+    } else if (finalScore >= 40) {
+      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'rare');
+      console.log("💫 Rare tier reached!");
+    } else if (finalScore >= 20) {
+      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'uncommon');
+      console.log("✨ Uncommon tier reached!");
+    } else if (finalScore >= 1) {
+      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'common');
+      console.log("👥 Common tier reached!");
     } else {
-      console.log("❌ No reward: insufficient score")
+      console.log("❌ No reward: insufficient score");
+      return;
+    }
+
+    if (eligibleCrew && eligibleCrew.length > 0) {
+      const randomIndex = Math.floor(Math.random() * eligibleCrew.length);
+      const selectedCrew = eligibleCrew[randomIndex];
+      console.log(`🎉 Recruited ${selectedCrew.name} (${selectedCrew.rarity})!`);
+      // Here you can add the crew member to the player's roster
+      // Implementation depends on how you're storing the player's crew
     }
   },
 }))
