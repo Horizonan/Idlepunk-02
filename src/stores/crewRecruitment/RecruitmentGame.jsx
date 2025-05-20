@@ -26,15 +26,15 @@ export function RecruitmentGame() {
   const profile = profiles[currentIndex]
   let gameEnded = 0;
 
+  const recruitedCrew = useRecruitmentZustand(state => state.recruitedCrew);
+
   if (!isRunning || currentIndex >= 8) {
     const finalScore = score
 
-    if(gameEnded = 0){
+    if(gameEnded === 0){
       handleGameEnd(finalScore)
-      gameEnded +1
-      }
-      
-    const recruitedCrew = useRecruitmentZustand(state => state.recruitedCrew);
+      gameEnded += 1
+    }
     
     return (
       <div className="game-over">
