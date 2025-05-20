@@ -1,4 +1,4 @@
-const crewDatabase = [
+export const crewDatabase = [
   {
     id: 'c1',
     name: 'Rivet',
