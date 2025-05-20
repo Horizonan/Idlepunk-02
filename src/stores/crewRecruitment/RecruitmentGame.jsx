@@ -26,38 +26,22 @@ export function RecruitmentGame() {
   const profile = profiles[currentIndex]
   let gameEnded = 0;
 
-  const recruitedCrew = useRecruitmentZustand(state => state.recruitedCrew);
-
   if (!isRunning || currentIndex >= 8) {
     const finalScore = score
 
-    if(gameEnded === 0){
+    if(gameEnded = 0){
       handleGameEnd(finalScore)
-      gameEnded += 1
-    }
-    
+      gameEnded +1
+      }
+      
     return (
-      <div className="game-over">
+      <div>
         <button onClick={resetGame}>Close</button>
         <h2>Game Over</h2>
         <p>Final Score: {finalScore}</p>
 
-        {recruitedCrew ? (
-          <div className="recruited-crew">
-            <h3>🎉 New Crew Member Recruited!</h3>
-            <div className="crew-card">
-              <h4>{recruitedCrew.name}</h4>
-              <p className="crew-role">{recruitedCrew.role}</p>
-              <p className="crew-rarity">{recruitedCrew.rarity}</p>
-              <div className="crew-perks">
-                {recruitedCrew.perks.map((perk, index) => (
-                  <p key={index}>{perk}</p>
-                ))}
-              </div>
-            </div>
-          </div>
-        ) : (
-          <p>❌ No crew member recruited this time</p>
+        {finalScore >= 10 && (
+          <p>🎉 You unlocked a legendary crew member!</p>
         )}
 
         <button onClick={resetGame}>

@@ -14,42 +14,5 @@
   color: #00FF00;
 }
 
-.recruited-crew {
-  margin: 20px 0;
-  text-align: center;
-}
-
-.crew-card {
-  background: rgba(0, 0, 0, 0.8);
-  border: 2px solid #9400D3;
-  border-radius: 8px;
-  padding: 20px;
-  margin: 10px auto;
-  max-width: 300px;
-}
-
-.crew-card h4 {
-  color: #00FF00;
-  margin: 0 0 10px 0;
-}
-
-.crew-role {
-  color: #9400D3;
-  font-style: italic;
-}
-
-.crew-rarity {
-  color: #FFD700;
-  text-transform: uppercase;
-  font-weight: bold;
-}
-
-.crew-perks {
-  margin-top: 10px;
-  padding: 10px;
-  background: rgba(148, 0, 211, 0.1);
-  border-radius: 4px;
-}
-
 .game-card {
   position: relative;

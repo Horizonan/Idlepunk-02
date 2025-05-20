@@ -8,7 +8,6 @@ export const useRecruitmentZustand = create((set, get) => ({
   score: 0,
   timeLeft: 60,
   isRunning: false,
-  recruitedCrew: null,
 
   startGame: () => {
     console.log('Starting recruitment game');
@@ -94,7 +93,8 @@ export const useRecruitmentZustand = create((set, get) => ({
       const randomIndex = Math.floor(Math.random() * eligibleCrew.length);
       const selectedCrew = eligibleCrew[randomIndex];
       console.log(`🎉 Recruited ${selectedCrew.name} (${selectedCrew.rarity})!`);
-      set({ recruitedCrew: selectedCrew });
+      // Here you can add the crew member to the player's roster
+      // Implementation depends on how you're storing the player's crew
     }
   },
 }))
