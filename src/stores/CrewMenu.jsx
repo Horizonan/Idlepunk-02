@@ -65,7 +65,25 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                 <p>{crew.role}</p>
                 <p className="crew-rarity">{crew.rarity}</p>
                 <p className="crew-perks">{crew.perks}</p>
-                <button className="recruit-button">Add to Active Crew</button>
+                <div className="unlock-cost">
+                  <p>Unlock Cost: {crew.unlockCost?.amount || 0} {crew.unlockCost?.type || 'junk'}</p>
+                  {crew.unlockCost?.items?.length > 0 && (
+                    <p>Required Items: {crew.unlockCost.items.join(', ')}</p>
+                  )}
+                </div>
+                <button 
+                  className="recruit-button"
+                  onClick={() => {
+                    if (credits >= (crew.unlockCost?.amount || 0)) {
+                      setCredits(prev => prev - (crew.unlockCost?.amount || 0));
+                      // Here you would add the crew member to active crew
+                      // and handle required items if needed
+                    }
+                  }}
+                  disabled={credits < (crew.unlockCost?.amount || 0)}
+                >
+                  Add to Active Crew
+                </button>
               </div>
             ))}
             <div className="recruit-card locked">

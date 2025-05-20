@@ -183,6 +183,21 @@
   gap: 20px;
 }
 
+
+.unlock-cost {
+  margin: 10px 0;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  border: 1px solid #9400D3;
+}
+
+.unlock-cost p {
+  color: #00FF00;
+  margin: 4px 0;
+  font-size: 0.9em;
+}
+
 .recruit-card {
   background: #222;
   border: 2px solid #9400D3;
