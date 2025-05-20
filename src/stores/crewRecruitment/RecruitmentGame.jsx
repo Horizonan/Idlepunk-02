@@ -39,10 +39,7 @@ export function RecruitmentGame() {
         <button onClick={resetGame}>Close</button>
         <h2>Game Over</h2>
         <p>Final Score: {finalScore}</p>
-
-        {finalScore >= 10 && (
-          <p>🎉 You unlocked a legendary crew member!</p>
-        )}
+        <p>Crew Member unlocked: {crewMember}</p>
 
         <button onClick={resetGame}>
           Try Again
