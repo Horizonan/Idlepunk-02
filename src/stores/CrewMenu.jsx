@@ -61,7 +61,6 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                 <div className="recruit-stats">
                   <span>💪 {crew.name}</span>
                 </div>
-                <h4>{crew.name}</h4>
                 <p>{crew.role}</p>
                 <p className="crew-rarity">{crew.rarity}</p>
                 <p className="crew-perks">{crew.perks}</p>
