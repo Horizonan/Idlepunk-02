@@ -10,6 +10,11 @@ export const crewDatabase = [
       requiresItems: ['Reinforced Harness'],
       minCrew: 0,
     },
+    unlockCost: {
+      type: 'junk',
+      amount: 200000,
+      items: [],
+    }
   },
   {
     id: 'u1',
