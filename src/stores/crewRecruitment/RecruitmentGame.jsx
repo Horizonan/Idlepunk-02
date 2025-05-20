@@ -34,12 +34,27 @@ export function RecruitmentGame() {
       gameEnded +1
       }
       
+    const selectedCrew = useRecruitmentZustand(state => state.selectedCrew);
+    
     return (
-      <div>
+      <div className="game-over">
         <button onClick={resetGame}>Close</button>
         <h2>Game Over</h2>
         <p>Final Score: {finalScore}</p>
-        <p>Crew Member unlocked: {crewMember}</p>
+        
+        {selectedCrew ? (
+          <div className="crew-unlock">
+            <h3>Crew Member Unlocked!</h3>
+            <div className="crew-details">
+              <h4>{selectedCrew.name}</h4>
+              <p className="crew-role">{selectedCrew.role}</p>
+              <p className="crew-rarity">{selectedCrew.rarity}</p>
+              <p className="crew-perks">{selectedCrew.perks}</p>
+            </div>
+          </div>
+        ) : (
+          <p>No crew member unlocked. Try to get a higher score!</p>
+        )}
 
         <button onClick={resetGame}>
           Try Again

@@ -64,6 +64,7 @@ export const useRecruitmentZustand = create((set, get) => ({
       score: 0,
       timeLeft: 60,
       isRunning: false,
+      selectedCrew: null
     })
   },
 
