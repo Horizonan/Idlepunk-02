@@ -94,8 +94,7 @@ export const useRecruitmentZustand = create((set, get) => ({
       const randomIndex = Math.floor(Math.random() * eligibleCrew.length);
       const selectedCrew = eligibleCrew[randomIndex];
       console.log(`🎉 Recruited ${selectedCrew.name} (${selectedCrew.rarity})!`);
-      // Here you can add the crew member to the player's roster
-      // Implementation depends on how you're storing the player's crew
+      set({ selectedCrew });
     }
   },
 }))
