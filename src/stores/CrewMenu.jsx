@@ -56,16 +56,18 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
               </div>
             
           <div className="recruit-list">
-            <div className="recruit-card">
-              <div className="recruit-stats">
-                <span>💪 5</span>
-                <span>🛡️ 3</span>
-                <span>⚡ 2</span>
+            {useRecruitmentZustand(state => state.unlockedCrew).map((crew) => (
+              <div key={crew.id} className="recruit-card">
+                <div className="recruit-stats">
+                  <span>💪 {crew.name}</span>
+                </div>
+                <h4>{crew.name}</h4>
+                <p>{crew.role}</p>
+                <p className="crew-rarity">{crew.rarity}</p>
+                <p className="crew-perks">{crew.perks}</p>
+                <button className="recruit-button">Add to Active Crew</button>
               </div>
-              <h4>Street Runner</h4>
-              <p>Fast and agile scrap collector</p>
-              <button className="recruit-button" disabled>Recruit (500 Credits)</button>
-            </div>
+            ))}
             <div className="recruit-card locked">
               <div className="recruit-lock">🔒</div>
               <h4>???</h4>
