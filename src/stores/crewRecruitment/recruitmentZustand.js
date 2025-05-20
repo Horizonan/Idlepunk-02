@@ -8,6 +8,7 @@ export const useRecruitmentZustand = create((set, get) => ({
   score: 0,
   timeLeft: 60,
   isRunning: false,
+  unlockedCrew: [],
 
   startGame: () => {
     console.log('Starting recruitment game');
@@ -94,7 +95,13 @@ export const useRecruitmentZustand = create((set, get) => ({
       const randomIndex = Math.floor(Math.random() * eligibleCrew.length);
       const selectedCrew = eligibleCrew[randomIndex];
       console.log(`🎉 Recruited ${selectedCrew.name} (${selectedCrew.rarity})!`);
-      set({ selectedCrew });
+      
+      // Add to unlocked crew and remove from eligible pool
+      const updatedUnlockedCrew = [...get().unlockedCrew, selectedCrew];
+      set({ 
+        selectedCrew,
+        unlockedCrew: updatedUnlockedCrew
+      });
     }
   },
 }))
