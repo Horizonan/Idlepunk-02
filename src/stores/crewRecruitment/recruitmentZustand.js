@@ -1,8 +1,12 @@
 import {create} from 'zustand'
+import {persist} from 'zustand/middleware'
 import {generateRandomProfile} from './profiles'
 import {crewDatabase} from './crewMembers'
 
-export const useRecruitmentZustand = create((set, get) => ({
+export const useRecruitmentZustand = create(
+  persist(
+    (set, get) => ({
+      unlockedCrew: [],
   profiles: [],
   currentIndex: 0,
   score: 0,
@@ -69,21 +73,23 @@ export const useRecruitmentZustand = create((set, get) => ({
   },
 
   handleGameEnd: (finalScore) => {
+    const unlockedCrew = get().unlockedCrew;
     let eligibleCrew;
+    
     if (finalScore >= 80) {
-      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'legendary');
+      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'legendary' && !unlockedCrew.some(u => u.id === crew.id));
       console.log("🚀 Legendary tier reached!");
     } else if (finalScore >= 60) {
-      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'epic');
+      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'epic' && !unlockedCrew.some(u => u.id === crew.id));
       console.log("⭐ Epic tier reached!");
     } else if (finalScore >= 40) {
-      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'rare');
+      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'rare' && !unlockedCrew.some(u => u.id === crew.id));
       console.log("💫 Rare tier reached!");
     } else if (finalScore >= 20) {
-      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'uncommon');
+      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'uncommon' && !unlockedCrew.some(u => u.id === crew.id));
       console.log("✨ Uncommon tier reached!");
     } else if (finalScore >= 1) {
-      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'common');
+      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'common' && !unlockedCrew.some(u => u.id === crew.id));
       console.log("👥 Common tier reached!");
     } else {
       console.log("❌ No reward: insufficient score");
@@ -94,7 +100,16 @@ export const useRecruitmentZustand = create((set, get) => ({
       const randomIndex = Math.floor(Math.random() * eligibleCrew.length);
       const selectedCrew = eligibleCrew[randomIndex];
       console.log(`🎉 Recruited ${selectedCrew.name} (${selectedCrew.rarity})!`);
-      set({ selectedCrew });
+      set({ 
+        selectedCrew,
+        unlockedCrew: [...unlockedCrew, selectedCrew]
+      });
     }
   },
-}))
+}),
+    {
+      name: 'crew-storage',
+      getStorage: () => localStorage,
+    }
+  )
+)
