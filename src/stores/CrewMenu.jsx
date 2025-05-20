@@ -65,9 +65,9 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                 <p className="crew-rarity">{crew.rarity}</p>
                 <p className="crew-perks">{crew.perks}</p>
                 <div className="unlock-cost">
-                  <p>Recruitment Cost: {crew.amount} junk</p>
-                  {crew.unlockConditions?.requiresItems?.length > 0 && (
-                    <p>Required Items: {crew.unlockConditions.requiresItems.join(', ')}</p>
+                  <p>Unlock Cost: {crew.unlockCost?.amount || 0} {crew.unlockCost?.type}</p>
+                  {crew.unlockCost?.items?.length > 0 && (
+                    <p>Required Items: {crew.unlockCost.items.join(', ')}</p>
                   )}
                 </div>
                 <button 
