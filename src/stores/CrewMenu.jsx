@@ -76,8 +76,6 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                   onClick={() => {
                     if (credits >= (crew.unlockCost?.amount || 0)) {
                       setCredits(prev => prev - (crew.unlockCost?.amount || 0));
-                      // Here you would add the crew member to active crew
-                      // and handle required items if needed
                     }
                   }}
                   disabled={credits < (crew.unlockCost?.amount || 0)}
