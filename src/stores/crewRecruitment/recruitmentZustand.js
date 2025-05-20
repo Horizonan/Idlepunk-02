@@ -1,5 +1,6 @@
 import {create} from 'zustand'
 import {generateRandomProfile} from './profiles'
+import {crewDatabase} from './crewMembers'
 
 export const useRecruitmentZustand = create((set, get) => ({
   profiles: [],
@@ -67,8 +68,6 @@ export const useRecruitmentZustand = create((set, get) => ({
   },
 
   handleGameEnd: (finalScore) => {
-    const crewDatabase = require('./crewMembers').crewDatabase;
-    
     let eligibleCrew;
     if (finalScore >= 80) {
       eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'legendary');
