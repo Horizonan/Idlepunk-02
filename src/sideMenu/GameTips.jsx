@@ -107,6 +107,44 @@ export default function Tooltips({ onClose }) {
           )}
         </div>
 
+
+        <div className="tooltip-entry">
+          <h3 onClick={() => toggleTip('mailTerminal')}>
+            ✉️ What Is The Mail Terminal? {expandedTip === 'mailTerminal' ? '▼' : '▶'}
+          </h3>
+          {expandedTip === 'mailTerminal' && (
+            <div className="tooltip-section">
+              <p>“Your inbox is a battlefield—contracts, threats, encrypted rumors. Some messages even read you back.”</p>
+              <p>📥 What you can do here: </p>
+              <ul>
+                <li>Read incoming messages</li>
+                <li>Claim rewards, trigger events, receive mission info</li>
+                <li>Spot hidden codes, patterns, or recruit offers </li>
+              </ul>
+              <p className="tooltip-tip">💡 Tip: “A bad scan costs more than time. It costs trust.”</p>
+            </div>
+          )}
+        </div>
+
+        <div className="tooltip-entry">
+          <h3 onClick={() => toggleTip('crewRec')}>
+            👥 What Is The Crew Recruitment? {expandedTip === 'crewRec' ? '▼' : '▶'}
+          </h3>
+          {expandedTip === 'crewRec' && (
+            <div className="tooltip-section">
+              <p>“Buried in static and noise are identity fragments. Some are real. Most are not.”</p>
+              <p>🔍 Objective: Sort through intercepted profiles and decide who's real.</p>
+              <ul>
+                <li>Accept real candidates</li>
+                <li>Reject fake ones</li>
+                <li>The better your accuracy, the higher your chance of recruiting a useful crew member.</li>
+                <li> Fakes can be convincing. Watch for suspicious skills, missing data, or impossible backstories.</li>
+              </ul>
+              <p className="tooltip-tip">💡 Tip: “Some mail is harmless. Some rewrites the map.”</p>
+            </div>
+          )}
+        </div>
+
         <div className="tooltip-entry">
           <h3 onClick={() => toggleTip('prestige')}>
             🔁 How Prestige Works {expandedTip === 'prestige' ? '▼' : '▶'}

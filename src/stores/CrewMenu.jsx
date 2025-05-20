@@ -45,7 +45,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                 <button 
                   type="button"
                   onClick={() => {
-                  if(credits >= 100){
+                  if(Number(localStorage.getItem('credits')) >= 100){
                     setCredits(prev => prev - 100);
                     startGame();
                   }
@@ -128,25 +128,25 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
 
       <div className="crew-tabs">
         <button 
-          className={`tab-button ${activeTab === 'view' ? 'active' : ''}`}
+          className={`crew-tab-button ${activeTab === 'view' ? 'active' : ''}`}
           onClick={() => setActiveTab('view')}
         >
           View Crew
         </button>
         <button 
-          className={`tab-button ${activeTab === 'recruit' ? 'active' : ''}`}
+          className={`crew-tab-button ${activeTab === 'recruit' ? 'active' : ''}`}
           onClick={() => setActiveTab('recruit')}
         >
           Recruit
         </button>
         <button 
-          className={`tab-button ${activeTab === 'missions' ? 'active' : ''}`}
+          className={`crew-tab-button ${activeTab === 'missions' ? 'active' : ''}`}
           onClick={() => setActiveTab('missions')}
         >
           Missions
         </button>
         <button 
-          className={`tab-button ${activeTab === 'loadouts' ? 'active' : ''}`}
+          className={`crew-tab-button ${activeTab === 'loadouts' ? 'active' : ''}`}
           onClick={() => setActiveTab('loadouts')}
         >
           Loadouts

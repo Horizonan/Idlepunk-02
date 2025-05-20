@@ -38,7 +38,6 @@
 .crew-header button {
   background: #222;
   border: 2px solid #9400D3;
-  color: #00FF00;
   cursor: pointer;
   padding: 8px 16px;
   margin-left: 15px;
@@ -57,9 +56,8 @@
   margin-bottom: 20px;
 }
 
-.tab-button {
+.crew-tab-button {
   background: #222;
-  color: #00FF00;
   border: 2px solid #9400D3;
   padding: 10px 20px;
   font-size: 16px;
@@ -71,11 +69,11 @@
   border-radius: 4px;
 }
 
-.tab-button:hover {
+.crew-tab-button:hover {
   background: rgba(148, 0, 211, 0.2);
 }
 
-.tab-button.active {
+.crew-tab-button.active {
   background: #9400D3;
   color: #222;
 }
