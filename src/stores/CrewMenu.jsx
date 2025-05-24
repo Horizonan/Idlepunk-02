@@ -330,7 +330,12 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                   </div>
                   <div className="mission-progress">
                     <div className="progress-bar">
-                      <div className="progress-fill" style={{width: '30%'}}></div>
+                      <div 
+                        className="progress-fill" 
+                        style={{
+                          width: `${((activeMission.duration - timeLeft) / activeMission.duration) * 100}%`
+                        }}
+                      ></div>
                     </div>
                     <div className="time-remaining">
                       Time Remaining: {Math.ceil(timeLeft / 60)}min {Math.ceil(timeLeft % 60)}s
