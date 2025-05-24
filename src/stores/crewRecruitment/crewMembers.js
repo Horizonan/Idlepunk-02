@@ -5,6 +5,13 @@ export const crewDatabase = [
     rarity: 'common',
     role: 'Scrap Hauler',
     perks: ['+20% junk gained from short missions'],
+    stats: {
+      tech: 2,
+      grit: 7,
+      stealth: 2,
+      luck: 4,
+      psyche: 1, // Total: 16
+    },
     unlockConditions: {
       minGameScore: 10,
       requiresItems: ['Reinforced Harness'],
@@ -22,6 +29,13 @@ export const crewDatabase = [
     rarity: 'uncommon',
     role: 'Saboteur',
     perks: ['+15% chance to reduce mission timers'],
+    stats: {
+      tech: 4,
+      grit: 5,
+      stealth: 6,
+      luck: 4,
+      psyche: 2, // Total: 21
+    },
     unlockConditions: {
       minGameScore: 25,
       requiresItems: [],
@@ -34,6 +48,13 @@ export const crewDatabase = [
     rarity: 'rare',
     role: 'Signal Scraper',
     perks: ['+10% Electro Shard obtain chance'],
+    stats: {
+      tech: 8,
+      grit: 2,
+      stealth: 5,
+      luck: 4,
+      psyche: 8, // Total: 27
+    },
     unlockConditions: {
       minGameScore: 80,
       requiresItems: ['Signal Scanner'],
@@ -46,6 +67,13 @@ export const crewDatabase = [
     rarity: 'rare',
     role: 'Signal Interceptor',
     perks: ['Chance to discover hidden missions when returning from completed ones'],
+    stats: {
+      tech: 8,
+      grit: 3,
+      stealth: 6,
+      luck: 5,
+      psyche: 5, // Total: 27
+    },
     unlockConditions: {
       minGameScore: 45,
       requiresItems: ['Signal Scanner'],
@@ -58,6 +86,13 @@ export const crewDatabase = [
     rarity: 'epic',
     role: 'Glitch Surgeon',
     perks: ['Once per day, prevents mission failure on risky runs'],
+    stats: {
+      tech: 7,
+      grit: 4,
+      stealth: 4,
+      luck: 6,
+      psyche: 10, // Total: 31
+    },
     unlockConditions: {
       minGameScore: 60,
       requiresItems: ['Neuro Patch Kit'],
@@ -70,6 +105,13 @@ export const crewDatabase = [
     rarity: 'legendary',
     role: 'Core Diver',
     perks: ['Doubles reward from data extraction missions'],
+    stats: {
+      tech: 10,
+      grit: 6,
+      stealth: 7,
+      luck: 8,
+      psyche: 8, // Total: 39
+    },
     unlockConditions: {
       minGameScore: 75,
       requiresItems: ['Core Access Spike', 'Encrypted Map'],
