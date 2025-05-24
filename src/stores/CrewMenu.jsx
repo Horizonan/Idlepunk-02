@@ -90,8 +90,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
 
           <div className="recruit-list">
             {useRecruitmentZustand(state => state.unlockedCrew).map((crew) => (
-              <div key={crew.id} className="recruit-card">
-                <div onClick={() => setSelectedCrew(crew)}>
+              <div key={crew.id} className="recruit-card" onClick={() => setSelectedCrew(crew)}>
                 <div className="recruit-stats">
                   <span>💪 {crew.name}</span>
                 </div>
@@ -106,7 +105,8 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                 </div>
                 <button 
                   className="recruit-button"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     const cost = crew.unlockCost?.amount || 0;
                     const costType = crew.unlockCost?.type || 'credits';
 
