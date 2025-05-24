@@ -94,19 +94,7 @@ export const useRecruitmentZustand = create(
     })
   },
 
-  startMission: (mission, selectedCrew) => {
-    const successRate = calculateMissionSuccess(
-      get().hiredCrew
-        .filter(crew => selectedCrew.includes(crew.id))
-        .reduce((stats, crew) => {
-          Object.entries(mission.requirements).forEach(([stat]) => {
-            stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + (crew.stats?.[stat.toLowerCase()] || 0);
-          });
-          return stats;
-        }, {}),
-      mission.requirements
-    );
-
+  startMission: (mission, selectedCrew, successRate) => {
     set({
       activeMission: { ...mission, successRate },
       missionStartTime: Date.now(),
