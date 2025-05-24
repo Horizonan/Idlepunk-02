@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../styles/CrewMenu.css';
 import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
 import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
+import { useJunkStore } from "../junkStore";
 
 export default function CrewMenu({ onClose, setCredits, credits }) {
   const [activeTab, setActiveTab] = useState('view');
@@ -55,7 +56,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                   🔍 Search for Recruits (100 Credits)
                 </button>
               </div>
-            
+
           <div className="recruit-list">
             {useRecruitmentZustand(state => state.unlockedCrew).map((crew) => (
               <div key={crew.id} className="recruit-card">
@@ -76,19 +77,22 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                   onClick={() => {
                     const cost = crew.unlockCost?.amount || 0;
                     const costType = crew.unlockCost?.type || 'credits';
-                    
+
                     console.log('Attempting to hire crew:', crew.name);
                     console.log('Cost:', cost, 'Type:', costType);
                     console.log('Current credits:', credits);
-                    
+
+                    const junkAmount = localStorage.getItem('junk-storage') ? JSON.parse(localStorage.getItem('junk-storage')).state.junk : 0;
+                    console.log('Current junk:', junkAmount);
+
                     let canAfford = false;
                     if (costType === 'credits' && credits >= cost) {
                       console.log('Can afford with credits');
                       setCredits(prev => prev - cost);
                       canAfford = true;
-                    } else if (costType === 'junk' && credits >= cost) {
+                    } else if (costType === 'junk' && junkAmount >= cost) {
                       console.log('Can afford with junk');
-                      setCredits(prev => prev - cost);
+                      useJunkStore.getState().removeJunk(cost);
                       canAfford = true;
                     } else {
                       console.log('Cannot afford:', costType === 'credits' ? 'Insufficient credits' : 'Insufficient junk');
@@ -108,7 +112,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                   }}
                   disabled={
                     (crew.unlockCost?.type === 'credits' && credits < crew.unlockCost?.amount) ||
-                    (crew.unlockCost?.type === 'junk' && credits < crew.unlockCost?.amount) ||
+                    (crew.unlockCost?.type === 'junk' && junkAmount < crew.unlockCost?.amount) ||
                     useRecruitmentZustand(state => state.hiredCrew).length >= 3
                   }
                 >
