@@ -43,9 +43,9 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
     const crewStats = useRecruitmentZustand.getState().hiredCrew
       .filter(crew => selectedCrew.includes(crew.id))
       .reduce((stats, crew) => {
-        Object.entries(mission.requirements).forEach(([stat]) => {
-          stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + (crew.stats?.[stat.toLowerCase()] || 0);
-        });
+        for (const stat in crew.stats) {
+          stats[stat] = (stats[stat] || 0) + (crew.stats[stat] || 0);
+        }
         return stats;
       }, {});
       
