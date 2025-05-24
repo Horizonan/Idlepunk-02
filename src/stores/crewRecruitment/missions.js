@@ -1,4 +1,3 @@
-
 export const missions = {
   scrapScout: {
     id: 'scout_1',
@@ -112,13 +111,14 @@ export const missions = {
 export function calculateMissionSuccess(crewStats, missionRequirements) {
   let totalScore = 0;
   let maxScore = 0;
-  
+
   for (const [stat, requirement] of Object.entries(missionRequirements)) {
-    if (crewStats[stat]) {
-      totalScore += Math.min(crewStats[stat], requirement);
+    const statName = stat.toLowerCase();
+    if (crewStats[statName]) {
+      totalScore += Math.min(crewStats[statName], requirement);
     }
     maxScore += requirement;
   }
-  
-  return (totalScore / maxScore) * 100; // Returns percentage of success chance
+
+  return (totalScore / maxScore) * 100;
 }
