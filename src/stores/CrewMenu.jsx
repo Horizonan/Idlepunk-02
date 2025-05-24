@@ -15,18 +15,19 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
           <div className="crew-content">
             <h3>Current Crew</h3>
             <div className="crew-grid">
-              <div className="crew-slot empty">
-                <div className="slot-icon">?</div>
-                <p>Empty Slot</p>
-              </div>
-              <div className="crew-slot empty">
-                <div className="slot-icon">?</div>
-                <p>Empty Slot</p>
-              </div>
-              <div className="crew-slot locked">
-                <div className="slot-icon">🔒</div>
-                <p>Locked</p>
-              </div>
+              {useRecruitmentZustand(state => state.hiredCrew).map((crew) => (
+                <div key={crew.id} className="crew-slot active">
+                  <h4>{crew.name}</h4>
+                  <p>{crew.role}</p>
+                  <p className="crew-rarity">{crew.rarity}</p>
+                </div>
+              ))}
+              {[...Array(3 - useRecruitmentZustand(state => state.hiredCrew).length)].map((_, i) => (
+                <div key={i} className="crew-slot empty">
+                  <div className="slot-icon">?</div>
+                  <p>Empty Slot</p>
+                </div>
+              ))}
             </div>
           </div>
         );
@@ -73,11 +74,17 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                 <button 
                   className="recruit-button"
                   onClick={() => {
-                    if (credits >= (crew.unlockCost?.amount || 0)) {
-                      setCredits(prev => prev - (crew.unlockCost?.amount || 0));
+                    if (credits >= (crew.amount || 0)) {
+                      setCredits(prev => prev - (crew.amount || 0));
+                      const currentUnlocked = useRecruitmentZustand.getState().unlockedCrew;
+                      const currentHired = useRecruitmentZustand.getState().hiredCrew;
+                      useRecruitmentZustand.setState({
+                        unlockedCrew: currentUnlocked.filter(c => c.id !== crew.id),
+                        hiredCrew: [...currentHired, crew]
+                      });
                     }
                   }}
-                  disabled={credits < (crew.unlockCost?.amount || 0)}
+                  disabled={credits < (crew.amount || 0) || useRecruitmentZustand(state => state.hiredCrew).length >= 3}
                 >
                   Add to Active Crew
                 </button>

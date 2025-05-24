@@ -7,6 +7,7 @@ export const useRecruitmentZustand = create(
   persist(
     (set, get) => ({
       unlockedCrew: [],
+      hiredCrew: [],
   profiles: [],
   currentIndex: 0,
   score: 0,

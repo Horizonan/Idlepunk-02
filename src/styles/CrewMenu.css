@@ -124,6 +124,16 @@
   border-color: #666;
 }
 
+.crew-slot.active {
+  background: rgba(148, 0, 211, 0.2);
+  border-color: #00FF00;
+}
+
+.crew-slot.active h4 {
+  color: #00FF00;
+  margin: 0 0 10px 0;
+}
+
 .search-section {
   margin-bottom: 20px;
   text-align: center;
