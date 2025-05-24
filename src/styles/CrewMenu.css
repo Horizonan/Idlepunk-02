@@ -344,6 +344,13 @@
   border-radius: 4px;
 }
 
+.stat-entry {
+  padding: 4px;
+  color: #00FF00;
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+  font-size: 0.9em;
+}
+
 .mission-requirements-display {
   background: rgba(148, 0, 211, 0.1);
   padding: 15px;
