@@ -33,11 +33,12 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
   const TabContent = () => {
     switch(activeTab) {
       case 'view':
+        const hiredCrew = useRecruitmentZustand(state => state.hiredCrew);
         return (
           <div className="crew-content">
             <h3>Current Crew</h3>
             <div className="crew-grid">
-              {useRecruitmentZustand(state => state.hiredCrew).map((crew) => (
+              {hiredCrew.map((crew) => (
                 <div key={crew.id} className="crew-slot active">
                   <h4>{crew.name}</h4>
                   <p className="crew-role">{crew.role}</p>
@@ -48,7 +49,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                   </div>
                 </div>
               ))}
-              {[...Array(3 - useRecruitmentZustand(state => state.hiredCrew).length)].map((_, i) => (
+              {[...Array(3 - hiredCrew.length)].map((_, i) => (
                 <div key={i} className="crew-slot empty">
                   <div className="slot-icon">?</div>
                   <p>Empty Slot</p>
