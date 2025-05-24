@@ -40,19 +40,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
   };
 
   const startMission = (mission) => {
-    const selectedCrewMembers = useRecruitmentZustand.getState().hiredCrew
-      .filter(crew => selectedCrew.includes(crew.id));
-    
-    const crewStats = selectedCrewMembers.reduce((stats, crew) => {
-      Object.entries(mission.requirements).forEach(([stat]) => {
-        const statLower = stat.toLowerCase();
-        stats[statLower] = (stats[statLower] || 0) + (crew.stats?.[statLower] || 0);
-      });
-      return stats;
-    }, {});
-
-    const successRate = calculateMissionSuccess(crewStats, mission.requirements);
-    useRecruitmentZustand.getState().startMission(mission, selectedCrew, successRate);
+    useRecruitmentZustand.getState().startMission(mission, selectedCrew);
     setShowCrewSelect(false);
     setSelectedCrew([]);
   };
