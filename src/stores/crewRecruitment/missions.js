@@ -6,7 +6,7 @@ export const missions = {
     difficulty: 'Easy',
     description: 'Scout the outskirts for valuable junk',
     maxCrew: 2,
-    duration: 300, // 5 minutes in seconds
+    duration: 1, // 5 minutes in seconds
     baseRewards: {
       credits: 100,
       junk: 1000
