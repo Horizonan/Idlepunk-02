@@ -52,6 +52,18 @@
 }
 
 
+.store-item {
+  position: relative;
+}
+
+.store-item .item-info {
+  position: absolute;
+  left: 105%;
+  top: 0;
+  width: 200px;
+  z-index: 1100;
+}
+
 .store-item:hover .item-info {
   display: block;
 }
