@@ -60,7 +60,41 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
 
           <div className="recruit-list">
             {useRecruitmentZustand(state => state.unlockedCrew).map((crew) => (
-              <div key={crew.id} className="recruit-card">
+              <div key={crew.id} className="recruit-card" onClick={() => {
+                const modal = document.createElement('div');
+                modal.className = 'crew-stats-modal';
+                modal.innerHTML = `
+                  <div class="crew-stats-content">
+                    <h2>${crew.name}</h2>
+                    <div class="crew-stat-row">
+                      <span class="stat-label">Role:</span>
+                      <span class="stat-value">${crew.role}</span>
+                    </div>
+                    <div class="crew-stat-row">
+                      <span class="stat-label">Rarity:</span>
+                      <span class="stat-value ${crew.rarity}">${crew.rarity}</span>
+                    </div>
+                    <div class="crew-stat-row">
+                      <span class="stat-label">Perks:</span>
+                      <span class="stat-value">${crew.perks}</span>
+                    </div>
+                    <div class="crew-stat-row">
+                      <span class="stat-label">Unlock Cost:</span>
+                      <span class="stat-value">${crew.unlockCost?.amount || 0} ${crew.unlockCost?.type || ''}</span>
+                    </div>
+                    <button class="close-stats">Close</button>
+                  </div>
+                `;
+                document.body.appendChild(modal);
+                modal.querySelector('.close-stats').onclick = () => {
+                  document.body.removeChild(modal);
+                };
+                modal.onclick = (e) => {
+                  if (e.target === modal) {
+                    document.body.removeChild(modal);
+                  }
+                };
+              }}>
                 <div className="recruit-stats">
                   <span>💪 {crew.name}</span>
                 </div>
