@@ -312,6 +312,59 @@
   margin: 10px 0;
 }
 
+.crew-selection-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(20, 20, 20, 0.95);
+  border: 2px solid #9400D3;
+  padding: 20px;
+  border-radius: 8px;
+  width: 600px;
+  z-index: 1002;
+}
+
+.crew-selection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #9400D3;
+}
+
+.crew-selection-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.crew-selection-item {
+  background: rgba(34, 34, 34, 0.8);
+  border: 1px solid #9400D3;
+  padding: 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.crew-selection-item:hover {
+  background: rgba(148, 0, 211, 0.2);
+}
+
+.crew-selection-item.selected {
+  border-color: #00FF00;
+  background: rgba(0, 255, 0, 0.1);
+}
+
+.crew-selection-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
 .mission-button {
   width: 100%;
   background: #222;

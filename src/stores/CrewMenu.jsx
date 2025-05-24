@@ -8,6 +8,25 @@ import { missions } from "./crewRecruitment/missions";
 export default function CrewMenu({ onClose, setCredits, credits }) {
   const [activeTab, setActiveTab] = useState('view');
   const [junkAmount, setJunkAmount] = useState(Number(localStorage.getItem('junk')) || 0);
+  const [showCrewSelect, setShowCrewSelect] = useState(false);
+  const [selectedCrew, setSelectedCrew] = useState([]);
+  const [activeMission, setActiveMission] = useState(null);
+
+  const toggleCrewSelection = (crewId) => {
+    setSelectedCrew(prev => 
+      prev.includes(crewId) 
+        ? prev.filter(id => id !== crewId)
+        : [...prev, crewId]
+    );
+  };
+
+  const startMission = (mission) => {
+    // Here you can implement the mission start logic
+    console.log('Starting mission:', mission.name);
+    console.log('Selected crew:', selectedCrew);
+    setShowCrewSelect(false);
+    setSelectedCrew([]);
+  };
   const isRunning = useRecruitmentZustand(state => state.isRunning);
   const startGame = useRecruitmentZustand(state => state.startGame);
 
@@ -167,9 +186,43 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                   <button 
                     className="mission-button" 
                     disabled={useRecruitmentZustand(state => state.hiredCrew).length === 0}
+                    onClick={() => {
+                      setActiveMission(mission);
+                      setShowCrewSelect(true);
+                    }}
                   >
                     {useRecruitmentZustand(state => state.hiredCrew).length === 0 ? 'No Crew Available' : 'Start Mission'}
                   </button>
+                  {showCrewSelect && activeMission?.id === mission.id && (
+                    <div className="crew-selection-modal">
+                      <div className="crew-selection-header">
+                        <h3>Select Crew for {mission.name}</h3>
+                        <button onClick={() => setShowCrewSelect(false)}>×</button>
+                      </div>
+                      <div className="crew-selection-list">
+                        {useRecruitmentZustand(state => state.hiredCrew).map((crew) => (
+                          <div
+                            key={crew.id}
+                            className={`crew-selection-item ${selectedCrew.includes(crew.id) ? 'selected' : ''}`}
+                            onClick={() => toggleCrewSelection(crew.id)}
+                          >
+                            <h4>{crew.name}</h4>
+                            <p>{crew.role}</p>
+                            <p>{crew.perks}</p>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="crew-selection-actions">
+                        <button onClick={() => setShowCrewSelect(false)}>Cancel</button>
+                        <button 
+                          onClick={() => startMission(mission)}
+                          disabled={selectedCrew.length === 0}
+                        >
+                          Start Mission
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
