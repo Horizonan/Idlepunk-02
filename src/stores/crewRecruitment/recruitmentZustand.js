@@ -83,6 +83,10 @@ export const useRecruitmentZustand = create(
     });
   },
 
+  setActiveMission: (mission) => {
+    set({ activeMission: mission });
+  },
+
   handleGameEnd: (finalScore) => {
     const unlockedCrew = get().unlockedCrew;
     let eligibleCrew;
