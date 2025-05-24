@@ -45,6 +45,13 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                   <h4>{crew.name}</h4>
                   <p className="crew-role">{crew.role}</p>
                   <p className="crew-rarity">{crew.rarity}</p>
+                  <div className="crew-stats">
+                    <div>Tech: {crew.stats?.tech || 0}</div>
+                    <div>Grit: {crew.stats?.grit || 0}</div>
+                    <div>Stealth: {crew.stats?.stealth || 0}</div>
+                    <div>Luck: {crew.stats?.luck || 0}</div>
+                    <div>Psyche: {crew.stats?.psyche || 0}</div>
+                  </div>
                   <div className="crew-perks">
                     <p>Perks:</p>
                     <p>{crew.perks}</p>
@@ -93,6 +100,13 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                 </div>
                 <p>{crew.role}</p>
                 <p className="crew-rarity">{crew.rarity}</p>
+                <div className="crew-stats">
+                  <div>Tech: {crew.stats?.tech || 0}</div>
+                  <div>Grit: {crew.stats?.grit || 0}</div>
+                  <div>Stealth: {crew.stats?.stealth || 0}</div>
+                  <div>Luck: {crew.stats?.luck || 0}</div>
+                  <div>Psyche: {crew.stats?.psyche || 0}</div>
+                </div>
                 <p className="crew-perks">{crew.perks}</p>
                 <div className="unlock-cost">
                   <p>Unlock Cost: {crew.unlockCost?.amount || 0} {crew.unlockCost?.type}</p>
