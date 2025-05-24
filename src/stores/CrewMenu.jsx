@@ -362,19 +362,8 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                         <button 
                           className="complete-mission-button"
                           onClick={() => {
-                            const successRate = calculateMissionSuccess(
-                              useRecruitmentZustand.getState().hiredCrew
-                                .filter(crew => selectedCrew.includes(crew.id))
-                                .reduce((stats, crew) => {
-                                  Object.entries(activeMission.requirements).forEach(([stat]) => {
-                                    stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + (crew.stats?.[stat.toLowerCase()] || 0);
-                                  });
-                                  return stats;
-                                }, {}),
-                              activeMission.requirements
-                            );
-                            
-                            const success = Math.random() * 100 < successRate;
+                            const missionSuccessRate = useRecruitmentZustand.getState().activeMission?.successRate || 0;
+                            const success = Math.random() * 100 < missionSuccessRate;
                             
                             const missionWindow = document.createElement('div');
                             missionWindow.className = 'mission-completion-window';
