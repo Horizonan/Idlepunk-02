@@ -205,7 +205,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                           {Object.entries(mission.requirements).map(([stat, value]) => {
                             const selectedCrewStats = useRecruitmentZustand(state => state.hiredCrew)
                               .filter(crew => selectedCrew.includes(crew.id))
-                              .reduce((total, crew) => total + (crew[stat.toLowerCase()] || 0), 0);
+                              .reduce((total, crew) => total + (crew.stats?.[stat.toLowerCase()] || 0), 0);
                             
                             return (
                               <div key={stat} className={`stat-row ${selectedCrewStats >= value ? 'met' : 'unmet'}`}>
@@ -221,7 +221,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                               .filter(crew => selectedCrew.includes(crew.id))
                               .reduce((stats, crew) => {
                                 Object.entries(mission.requirements).forEach(([stat]) => {
-                                  stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + (crew[stat.toLowerCase()] || 0);
+                                  stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + (crew.stats?.[stat.toLowerCase()] || 0);
                                 });
                                 return stats;
                               }, {}),
