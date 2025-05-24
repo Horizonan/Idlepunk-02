@@ -6,6 +6,7 @@ import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
 
 export default function CrewMenu({ onClose, setCredits, credits }) {
   const [activeTab, setActiveTab] = useState('view');
+  const [junkAmount, setJunkAmount] = useState(Number(localStorage.getItem('junk')) || 0);
   const isRunning = useRecruitmentZustand(state => state.isRunning);
   const startGame = useRecruitmentZustand(state => state.startGame);
 
@@ -92,7 +93,9 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                       canAfford = true;
                     } else if (costType === 'junk' && junkAmount >= cost) {
                       console.log('Can afford with junk');
-                      localStorage.setItem('junk', junkAmount - cost);
+                      const newJunkAmount = junkAmount - cost;
+                      localStorage.setItem('junk', newJunkAmount);
+                      setJunkAmount(newJunkAmount);
                       canAfford = true;
                     } else {
                       console.log('Cannot afford:', costType === 'credits' ? 'Insufficient credits' : 'Insufficient junk');
