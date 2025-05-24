@@ -74,19 +74,32 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                 <button 
                   className="recruit-button"
                   onClick={() => {
-                    if (credits >= (crew.amount || 0)) {
-                      setCredits(prev => prev - (crew.amount || 0));
-                      const currentUnlocked = useRecruitmentZustand.getState().unlockedCrew;
-                      const currentHired = useRecruitmentZustand.getState().hiredCrew;
-                      useRecruitmentZustand.setState({
-                        unlockedCrew: currentUnlocked.filter(c => c.id !== crew.id),
-                        hiredCrew: [...currentHired, crew]
-                      });
+                    const cost = crew.unlockCost?.amount || 0;
+                    const costType = crew.unlockCost?.type || 'credits';
+                    
+                    let canAfford = false;
+                    if (costType === 'credits' && credits >= cost) {
+                      setCredits(prev => prev - cost);
+                      canAfford = true;
+                    } else if (costType === 'junk' && credits >= cost) {
+                      setCredits(prev => prev - cost);
+                      canAfford = true;
+                    }
+
+                    if (canAfford) {
+                      useRecruitmentZustand.setState(state => ({
+                        unlockedCrew: state.unlockedCrew.filter(c => c.id !== crew.id),
+                        hiredCrew: [...state.hiredCrew, crew]
+                      }));
                     }
                   }}
-                  disabled={credits < (crew.amount || 0) || useRecruitmentZustand(state => state.hiredCrew).length >= 3}
+                  disabled={
+                    (crew.unlockCost?.type === 'credits' && credits < crew.unlockCost?.amount) ||
+                    (crew.unlockCost?.type === 'junk' && credits < crew.unlockCost?.amount) ||
+                    useRecruitmentZustand(state => state.hiredCrew).length >= 3
+                  }
                 >
-                  Add to Active Crew
+                  Add to Active Crew ({crew.unlockCost?.amount} {crew.unlockCost?.type})
                 </button>
               </div>
             ))}
