@@ -120,22 +120,29 @@ export const useRecruitmentZustand = create(
 
   handleGameEnd: (finalScore) => {
     const unlockedCrew = get().unlockedCrew;
+    const hiredCrew = get().hiredCrew;
     let eligibleCrew;
     
+    // Helper function to check if crew is already unlocked or hired
+    const isCrewAvailable = (crew) => {
+      return !unlockedCrew.some(u => u.id === crew.id) && 
+             !hiredCrew.some(h => h.id === crew.id);
+    };
+    
     if (finalScore >= 80) {
-      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'legendary' && !unlockedCrew.some(u => u.id === crew.id));
+      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'legendary' && isCrewAvailable(crew));
       console.log("🚀 Legendary tier reached!");
     } else if (finalScore >= 60) {
-      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'epic' && !unlockedCrew.some(u => u.id === crew.id));
+      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'epic' && isCrewAvailable(crew));
       console.log("⭐ Epic tier reached!");
     } else if (finalScore >= 40) {
-      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'rare' && !unlockedCrew.some(u => u.id === crew.id));
+      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'rare' && isCrewAvailable(crew));
       console.log("💫 Rare tier reached!");
     } else if (finalScore >= 20) {
-      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'uncommon' && !unlockedCrew.some(u => u.id === crew.id));
+      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'uncommon' && isCrewAvailable(crew));
       console.log("✨ Uncommon tier reached!");
     } else if (finalScore >= 1) {
-      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'common' && !unlockedCrew.some(u => u.id === crew.id));
+      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'common' && isCrewAvailable(crew));
       console.log("👥 Common tier reached!");
     } else {
       console.log("❌ No reward: insufficient score");
@@ -150,6 +157,9 @@ export const useRecruitmentZustand = create(
         selectedCrew,
         unlockedCrew: [...unlockedCrew, selectedCrew]
       });
+    } else {
+      console.log("🚫 No available crew members to unlock in this tier");
+      set({ selectedCrew: null });
     }
   },
 }),
