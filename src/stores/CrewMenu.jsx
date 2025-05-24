@@ -146,7 +146,12 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                   <span>💰 100-200</span>
                   <span>⚡ 1-2</span>
                 </div>
-                <button className="mission-button" disabled>No Crew Available</button>
+                <button 
+                  className="mission-button" 
+                  disabled={useRecruitmentZustand(state => state.hiredCrew).length === 0}
+                >
+                  {useRecruitmentZustand(state => state.hiredCrew).length === 0 ? 'No Crew Available' : 'Start Mission'}
+                </button>
               </div>
             </div>
           </div>
