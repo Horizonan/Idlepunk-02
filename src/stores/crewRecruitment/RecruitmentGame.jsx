@@ -69,7 +69,10 @@ export function RecruitmentGame() {
   return (
     <div className="game-card">
       <button onClick={resetGame}>Close</button>
-      <div>⏱ {timeLeft}s</div>
+      <div className="game-stats">
+        <div>⏱ {timeLeft}s</div>
+        <div>Progress: {currentIndex + 1}/8</div>
+      </div>
 
       <h2>{profile.name}</h2>
       <p><strong>Age:</strong> {profile.age}</p>
