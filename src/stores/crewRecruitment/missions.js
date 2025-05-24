@@ -1,41 +1,43 @@
 
 export const missions = {
-  scrapScout: {
-    id: 'scout_1',
-    name: 'Scrap Scout',
+  greaseRun: {
+    id: 'grease_1',
+    name: 'Grease Run',
     difficulty: 'Easy',
-    description: 'Scout the outskirts for valuable junk',
-    maxCrew: 2,
-    duration: 1, // 5 minutes in seconds
+    description: 'Retrieve "usable lubricant" from a condemned deep fryer facility. Bring gloves. Or don’t.',
+    maxCrew: 1,
+    duration: 300, // 5 minutes
     baseRewards: {
-      credits: 10,
-      junk: 1000
+      credits: 12,
+      junk: 800
     },
     bonusRewards: {
-      electroShard: {
-        chance: 0.1, // 10% chance
-        amount: 1
-      },
-      rareJunk: {
-        chance: 0.2,
-        amount: 500
+      loadout: {
+        chance: 0.3,
+        item: 'Grease-Stained Gloves'
       },
       rareCredits: {
-        chance: 0.2,
-        amount: 10
+        chance: 0.1,
+        amount: 25
       }
     },
     requirements: {
       tech: 3,
-      grit: 2,
-      stealth: 1,
-      luck: 1,
-      psyche: 1
+      grit: 4,
+      stealth: 2,
+      luck: 3,
+      psyche: 5
     },
     penalties: {
       failure: {
         credits: -5,
-        crewStamina: -20
+        crewStamina: -15,
+        messagePool: [
+          'Slipped on the job. Literally.',
+          'Turns out "edible grease" isn’t a regulated term.',
+          'Got into a slap fight with a rat named Dennis.',
+          'Fryer ghost whispered forbidden recipes.'
+        ]
       }
     }
   },
