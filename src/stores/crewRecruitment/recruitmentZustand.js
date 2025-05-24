@@ -2,6 +2,7 @@ import {create} from 'zustand'
 import {persist} from 'zustand/middleware'
 import {generateRandomProfile} from './profiles'
 import {crewDatabase} from './crewMembers'
+import {calculateMissionSuccess} from './missions'
 
 export const useRecruitmentZustand = create(
   persist(
