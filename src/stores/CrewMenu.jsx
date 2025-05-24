@@ -31,13 +31,16 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
   const startGame = useRecruitmentZustand(state => state.startGame);
 
   const TabContent = () => {
+    const hiredCrew = useRecruitmentZustand(state => state.hiredCrew);
+    const unlockedCrew = useRecruitmentZustand(state => state.unlockedCrew);
+    
     switch(activeTab) {
       case 'view':
         return (
           <div className="crew-content">
             <h3>Current Crew</h3>
             <div className="crew-grid">
-              {useRecruitmentZustand(state => state.hiredCrew).map((crew) => (
+              {hiredCrew.map((crew) => (
                 <div key={crew.id} className="crew-slot active">
                   <h4>{crew.name}</h4>
                   <p className="crew-role">{crew.role}</p>
@@ -48,7 +51,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                   </div>
                 </div>
               ))}
-              {[...Array(3 - useRecruitmentZustand(state => state.hiredCrew).length)].map((_, i) => (
+              {[...Array(3 - hiredCrew.length)].map((_, i) => (
                 <div key={i} className="crew-slot empty">
                   <div className="slot-icon">?</div>
                   <p>Empty Slot</p>
@@ -83,7 +86,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
               </div>
 
           <div className="recruit-list">
-            {useRecruitmentZustand(state => state.unlockedCrew).map((crew) => (
+            {unlockedCrew.map((crew) => (
               <div key={crew.id} className="recruit-card">
                 <div className="recruit-stats">
                   <span>💪 {crew.name}</span>
