@@ -139,7 +139,7 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
   return (
     <div className="store-container">
       <div className="store-header">
-        <h2>Credit Store</h2>
+        <h2>Scrat Store</h2>
         <button onClick={onBack}>Close</button>
       </div>
       <div className="store-items">
