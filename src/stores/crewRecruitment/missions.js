@@ -39,43 +39,61 @@ export const missions = {
           'Fryer ghost whispered forbidden recipes.'
         ]
       }
-    }
+    },
+    successMessages: [
+      'Came back slick and triumphant.',
+      'Grease acquired. Pride? Optional.',
+      'Crew members now smells like profit.',
+      'Successfully harvested oil of unknown origin.'
+    ]
   },
   
-  dataHeist: {
+  coinOpHeist: {
     id: 'heist_1',
-    name: 'Data Heist',
-    difficulty: 'Medium',
-    description: 'Infiltrate a forgotten data center',
+    name: 'Coin-Op Heist',
+    difficulty: 'Easy',
+    description: 'Break into an abandoned arcade to salvage coin trays. Tokens accepted nowhere.',
     maxCrew: 2,
-    duration: 600, // 10 minutes
+    duration: 420, // 7 minutes
     baseRewards: {
-      credits: 250,
-      junk: 2000
+      credits: 18,
+      junk: 500
     },
     bonusRewards: {
-      electroShard: {
+      loadout: {
         chance: 0.25,
-        amount: 2
+        item: 'Sticky Token Belt'
       },
-      encryptedCoil: {
-        chance: 0.1,
+      electroShard: {
+        chance: 0.05,
         amount: 1
       }
     },
     requirements: {
-      tech: 5,
-      grit: 3,
+      tech: 3,
+      grit: 2,
       stealth: 4,
       luck: 2,
-      psyche: 2
+      psyche: 1
     },
     penalties: {
       failure: {
-        credits: -125,
-        crewStamina: -40
+        credits: -10,
+        crewStamina: -20,
+        messagePool: [
+          'Spent 3 minutes stuck in a claw machine.',
+          'Got emotionally attached to a DanceBot 3000.',
+          'Discovered "Free Play Mode" was a trap.',
+          'Triggered pinball multiball defense system.'
+        ]
       }
-    }
+    },
+    successMessages: [
+      'Jackpotted a full tray of crusty coins!',
+      'Arcade looted. DanceBot left undisturbed.',
+      'Tokens secured. Morals compromised.',
+      'Left a high score and took the loot.'
+    ]
   },
   
   voidRun: {
@@ -112,6 +130,7 @@ export const missions = {
         crewStamina: -60
       }
     }
+    
   }
 };
 
