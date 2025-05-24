@@ -13,8 +13,6 @@
 @import './styles/storeMenu.css';
 
 
-
-
 .uncraftable {
   opacity: 0.7;
   cursor: default !important;
