@@ -10,6 +10,24 @@ export const useRecruitmentZustand = create(
       hiredCrew: [],
       activeMission: null,
       missionStartTime: null,
+      lastStaminaUpdate: Date.now(),
+
+      updateStamina: () => {
+        const now = Date.now();
+        const state = get();
+        const timeSinceLastUpdate = now - state.lastStaminaUpdate;
+        const staminaGain = Math.floor(timeSinceLastUpdate / (30 * 60 * 1000)) * 10;
+
+        if (staminaGain > 0) {
+          set(state => ({
+            hiredCrew: state.hiredCrew.map(crew => ({
+              ...crew,
+              stamina: Math.min(100, (crew.stamina || 100) + staminaGain)
+            })),
+            lastStaminaUpdate: now
+          }));
+        }
+      },
   profiles: [],
   currentIndex: 0,
   score: 0,

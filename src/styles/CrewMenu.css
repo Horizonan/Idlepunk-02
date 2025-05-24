@@ -371,6 +371,29 @@
   border-radius: 4px;
 }
 
+.stamina-bar {
+  grid-column: 1 / -1;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.stamina-fill {
+  background: #00FF00;
+  height: 20px;
+  transition: width 0.3s ease;
+}
+
+.stamina-bar div:first-child {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  line-height: 20px;
+  color: white;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+}
+
 .mission-requirements-display {
   background: rgba(148, 0, 211, 0.1);
   padding: 15px;

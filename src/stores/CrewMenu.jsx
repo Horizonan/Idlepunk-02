@@ -21,12 +21,12 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
         const elapsed = (Date.now() - missionStartTime) / 1000;
         const remaining = Math.max(0, activeMission.duration - elapsed);
         setTimeLeft(remaining);
-        
+
         if (remaining <= 0) {
           clearInterval(timer);
         }
       }, 1000);
-      
+
       return () => clearInterval(timer);
     }
   }, [activeMission, missionStartTime]);
@@ -68,6 +68,10 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                     <div>Stealth: {crew.stats?.stealth || 0}</div>
                     <div>Luck: {crew.stats?.luck || 0}</div>
                     <div>Psyche: {crew.stats?.psyche || 0}</div>
+                    <div className="stamina-bar">
+                      <div>Stamina: {crew.stamina || 100}</div>
+                      <div className="stamina-fill" style={{width: `${crew.stamina || 100}%`}}></div>
+                    </div>
                   </div>
                   <div className="crew-perks">
                     <p>Perks:</p>
@@ -123,6 +127,10 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                   <div>Stealth: {crew.stats?.stealth || 0}</div>
                   <div>Luck: {crew.stats?.luck || 0}</div>
                   <div>Psyche: {crew.stats?.psyche || 0}</div>
+                  <div className="stamina-bar">
+                    <div>Stamina: {crew.stamina || 100}</div>
+                    <div className="stamina-fill" style={{width: `${crew.stamina || 100}%`}}></div>
+                  </div>
                 </div>
                 <p className="crew-perks">{crew.perks}</p>
                 <div className="unlock-cost">
@@ -285,6 +293,10 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                               <div>Stealth: {crew.stats?.stealth || 0}</div>
                               <div>Luck: {crew.stats?.luck || 0}</div>
                               <div>Psyche: {crew.stats?.psyche || 0}</div>
+                              <div className="stamina-bar">
+                                <div>Stamina: {crew.stamina || 100}</div>
+                                <div className="stamina-fill" style={{width: `${crew.stamina || 100}%`}}></div>
+                              </div>
                             </div>
                             <p>{crew.perks}</p>
                           </div>
