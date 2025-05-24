@@ -13,9 +13,7 @@
 @import './styles/storeMenu.css';
 
 
-.store-category{
-  margin-top: 15px;
-}
+
 
 .uncraftable {
   opacity: 0.7;
