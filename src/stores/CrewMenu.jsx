@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../styles/CrewMenu.css';
 import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
 import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
-import { missions } from "./crewRecruitment/missions";
+import { missions, calculateMissionSuccess } from "./crewRecruitment/missions";
 
 
 export default function CrewMenu({ onClose, setCredits, credits }) {
