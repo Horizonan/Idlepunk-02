@@ -40,7 +40,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
           <div className="crew-content">
             <h3>Current Crew</h3>
             <div className="crew-grid">
-              {hiredCrew.map((crew) => (
+              {Array.isArray(hiredCrew) && hiredCrew.map((crew) => (
                 <div key={crew.id} className="crew-slot active">
                   <h4>{crew.name}</h4>
                   <p className="crew-role">{crew.role}</p>
@@ -51,7 +51,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                   </div>
                 </div>
               ))}
-              {[...Array(3 - hiredCrew.length)].map((_, i) => (
+              {Array.isArray(hiredCrew) && [...Array(3 - hiredCrew.length)].map((_, i) => (
                 <div key={i} className="crew-slot empty">
                   <div className="slot-icon">?</div>
                   <p>Empty Slot</p>
@@ -86,7 +86,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
               </div>
 
           <div className="recruit-list">
-            {unlockedCrew.map((crew) => (
+            {Array.isArray(unlockedCrew) && unlockedCrew.map((crew) => (
               <div key={crew.id} className="recruit-card">
                 <div className="recruit-stats">
                   <span>💪 {crew.name}</span>
