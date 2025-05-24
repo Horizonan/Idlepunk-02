@@ -7,38 +7,8 @@ import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
 export default function CrewMenu({ onClose, setCredits, credits }) {
   const [activeTab, setActiveTab] = useState('view');
   const [junkAmount, setJunkAmount] = useState(Number(localStorage.getItem('junk')) || 0);
-  const [selectedCrew, setSelectedCrew] = useState(null);
   const isRunning = useRecruitmentZustand(state => state.isRunning);
   const startGame = useRecruitmentZustand(state => state.startGame);
-
-  const CrewStatsModal = ({ crew, onClose }) => {
-    if (!crew) return null;
-    
-    return (
-      <div className="crew-stats-modal" onClick={onClose}>
-        <div className="crew-stats-content" onClick={e => e.stopPropagation()}>
-          <h2>{crew.name}</h2>
-          <div className="crew-stat-row">
-            <span className="stat-label">Role:</span>
-            <span className="stat-value">{crew.role}</span>
-          </div>
-          <div className="crew-stat-row">
-            <span className="stat-label">Rarity:</span>
-            <span className={`stat-value ${crew.rarity}`}>{crew.rarity}</span>
-          </div>
-          <div className="crew-stat-row">
-            <span className="stat-label">Perks:</span>
-            <span className="stat-value">{crew.perks}</span>
-          </div>
-          <div className="crew-stat-row">
-            <span className="stat-label">Unlock Cost:</span>
-            <span className="stat-value">{crew.unlockCost?.amount || 0} {crew.unlockCost?.type || ''}</span>
-          </div>
-          <button className="close-stats" onClick={onClose}>Close</button>
-        </div>
-      </div>
-    );
-  };
 
   const TabContent = () => {
     switch(activeTab) {
@@ -90,7 +60,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
 
           <div className="recruit-list">
             {useRecruitmentZustand(state => state.unlockedCrew).map((crew) => (
-              <div key={crew.id} className="recruit-card" onClick={() => setSelectedCrew(crew)}>
+              <div key={crew.id} className="recruit-card">
                 <div className="recruit-stats">
                   <span>💪 {crew.name}</span>
                 </div>
@@ -105,8 +75,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                 </div>
                 <button 
                   className="recruit-button"
-                  onClick={(e) => {
-                    e.stopPropagation();
+                  onClick={() => {
                     const cost = crew.unlockCost?.amount || 0;
                     const costType = crew.unlockCost?.type || 'credits';
 
@@ -247,7 +216,6 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
       </div>
 
       <TabContent />
-      {selectedCrew && <CrewStatsModal crew={selectedCrew} onClose={() => setSelectedCrew(null)} />}
     </div>
   );
 }
