@@ -229,7 +229,10 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                     className="mission-button" 
                     disabled={useRecruitmentZustand(state => state.hiredCrew).length === 0 || activeMission !== null}
                     onClick={() => {
-                      setShowCrewSelect(true);
+                      if (!activeMission) {
+                        setActiveMission(mission);
+                        setShowCrewSelect(true);
+                      }
                     }}
                   >
                     {useRecruitmentZustand(state => state.hiredCrew).length === 0 
