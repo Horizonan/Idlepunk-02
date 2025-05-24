@@ -37,22 +37,18 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
           <div className="crew-content">
             <h3>Current Crew</h3>
             <div className="crew-grid">
-              {(() => {
-                const hiredCrew = useRecruitmentZustand(state => state.hiredCrew);
-                return (
-                  <>
-                    {hiredCrew.map((crew) => (
-                      <div key={crew.id} className="crew-slot active">
-                        <h4>{crew.name}</h4>
-                        <p className="crew-role">{crew.role}</p>
-                        <p className="crew-rarity">{crew.rarity}</p>
-                        <div className="crew-perks">
-                          <p>Perks:</p>
-                          <p>{crew.perks}</p>
-                        </div>
-                      </div>
-                    ))}
-                    {[...Array(3 - hiredCrew.length)].map((_, i) => (
+              {useRecruitmentZustand(state => state.hiredCrew).map((crew) => (
+                <div key={crew.id} className="crew-slot active">
+                  <h4>{crew.name}</h4>
+                  <p className="crew-role">{crew.role}</p>
+                  <p className="crew-rarity">{crew.rarity}</p>
+                  <div className="crew-perks">
+                    <p>Perks:</p>
+                    <p>{crew.perks}</p>
+                  </div>
+                </div>
+              ))}
+              {[...Array(3 - useRecruitmentZustand(state => state.hiredCrew).length)].map((_, i) => (
                 <div key={i} className="crew-slot empty">
                   <div className="slot-icon">?</div>
                   <p>Empty Slot</p>
@@ -209,7 +205,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                           {Object.entries(mission.requirements).map(([stat, value]) => {
                             const selectedCrewStats = useRecruitmentZustand(state => state.hiredCrew)
                               .filter(crew => selectedCrew.includes(crew.id))
-                              .reduce((total, crew) => total + (crew.stats?.[stat.toLowerCase()] || 0), 0);
+                              .reduce((total, crew) => total + (crew[stat.toLowerCase()] || 0), 0);
                             
                             return (
                               <div key={stat} className={`stat-row ${selectedCrewStats >= value ? 'met' : 'unmet'}`}>
@@ -225,7 +221,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                               .filter(crew => selectedCrew.includes(crew.id))
                               .reduce((stats, crew) => {
                                 Object.entries(mission.requirements).forEach(([stat]) => {
-                                  stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + (crew.stats?.[stat.toLowerCase()] || 0);
+                                  stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + (crew[stat.toLowerCase()] || 0);
                                 });
                                 return stats;
                               }, {}),
@@ -243,11 +239,11 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                             <h4>{crew.name}</h4>
                             <p>{crew.role}</p>
                             <div className="crew-stats">
-                              <div>Tech: {crew.stats?.tech || 0}</div>
-                              <div>Grit: {crew.stats?.grit || 0}</div>
-                              <div>Stealth: {crew.stats?.stealth || 0}</div>
-                              <div>Luck: {crew.stats?.luck || 0}</div>
-                              <div>Psyche: {crew.stats?.psyche || 0}</div>
+                              <div>Tech: {crew.tech || 0}</div>
+                              <div>Grit: {crew.grit || 0}</div>
+                              <div>Stealth: {crew.stealth || 0}</div>
+                              <div>Luck: {crew.luck || 0}</div>
+                              <div>Psyche: {crew.psyche || 0}</div>
                             </div>
                             <p>{crew.perks}</p>
                           </div>
