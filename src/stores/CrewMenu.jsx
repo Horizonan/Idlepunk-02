@@ -22,14 +22,16 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                   <h4>{crew.name}</h4>
                   <p className="crew-role">{crew.role}</p>
                   <p className="crew-rarity">{crew.rarity}</p>
-                  <div className="crew-stats">
-                    <p>Stats:</p>
-                    <p>Tech: {crew.stats.tech}</p>
-                    <p>Grit: {crew.stats.grit}</p>
-                    <p>Stealth: {crew.stats.stealth}</p>
-                    <p>Luck: {crew.stats.luck}</p>
-                    <p>Psyche: {crew.stats.psyche}</p>
-                  </div>
+                  {crew.stats && (
+                    <div className="crew-stats">
+                      <p>Stats:</p>
+                      <p>Tech: {crew.stats.tech || 0}</p>
+                      <p>Grit: {crew.stats.grit || 0}</p>
+                      <p>Stealth: {crew.stats.stealth || 0}</p>
+                      <p>Luck: {crew.stats.luck || 0}</p>
+                      <p>Psyche: {crew.stats.psyche || 0}</p>
+                    </div>
+                  )}
                   <div className="crew-perks">
                     <p>Perks:</p>
                     <p>{crew.perks}</p>
@@ -77,13 +79,15 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                   <span>💪 {crew.name}</span>
                   <p>{crew.role}</p>
                   <p className="crew-rarity">{crew.rarity}</p>
-                  <div className="stat-grid">
-                    <p>Tech: {crew.stats.tech}</p>
-                    <p>Grit: {crew.stats.grit}</p>
-                    <p>Stealth: {crew.stats.stealth}</p>
-                    <p>Luck: {crew.stats.luck}</p>
-                    <p>Psyche: {crew.stats.psyche}</p>
-                  </div>
+                  {crew.stats && (
+                    <div className="stat-grid">
+                      <p>Tech: {crew.stats.tech || 0}</p>
+                      <p>Grit: {crew.stats.grit || 0}</p>
+                      <p>Stealth: {crew.stats.stealth || 0}</p>
+                      <p>Luck: {crew.stats.luck || 0}</p>
+                      <p>Psyche: {crew.stats.psyche || 0}</p>
+                    </div>
+                  )}
                   <p className="crew-perks">{crew.perks}</p>
                 </div>
                 <div className="unlock-cost">
