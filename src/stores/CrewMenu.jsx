@@ -362,9 +362,57 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                         <button 
                           className="complete-mission-button"
                           onClick={() => {
+                            const success = Math.random() < (calculateMissionSuccess(
+                              useRecruitmentZustand.getState().hiredCrew
+                                .filter(crew => selectedCrew.includes(crew.id))
+                                .reduce((stats, crew) => {
+                                  Object.entries(activeMission.requirements).forEach(([stat]) => {
+                                    stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + (crew.stats?.[stat.toLowerCase()] || 0);
+                                  });
+                                  return stats;
+                                }, {}),
+                              activeMission.requirements
+                            ) / 100);
+
+                            // Update crew stamina and mission rewards
+                            useRecruitmentZustand.setState(state => ({
+                              hiredCrew: state.hiredCrew.map(crew => {
+                                if (selectedCrew.includes(crew.id)) {
+                                  return {
+                                    ...crew,
+                                    stamina: Math.max(0, (crew.stamina || 100) - (success ? 20 : activeMission.penalties.failure.crewStamina))
+                                  };
+                                }
+                                return crew;
+                              })
+                            }));
+
+                            if (success) {
+                              // Apply base rewards
+                              setCredits(prev => prev + activeMission.baseRewards.credits);
+                              localStorage.setItem('junk', Number(localStorage.getItem('junk')) + activeMission.baseRewards.junk);
+
+                              // Check for bonus rewards
+                              Object.entries(activeMission.bonusRewards || {}).forEach(([item, {chance, amount}]) => {
+                                if (Math.random() < chance) {
+                                  // Handle bonus rewards here
+                                  console.log(`Bonus reward: ${amount}x ${item}`);
+                                }
+                              });
+                            } else {
+                              // Apply penalties
+                              setCredits(prev => prev + activeMission.penalties.failure.credits);
+                            }
+
+                            // Show mission result
+                            alert(
+                              success 
+                                ? `Mission Successful!\nCredits: +${activeMission.baseRewards.credits}\nJunk: +${activeMission.baseRewards.junk}`
+                                : `Mission Failed!\nCredits: ${activeMission.penalties.failure.credits}\nCrew Stamina: -${activeMission.penalties.failure.crewStamina}`
+                            );
+
                             setActiveMission(null);
                             setSelectedCrew([]);
-                            // Add reward logic here
                           }}
                         >
                           Complete Mission
