@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/CrewMenu.css';
 import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
 import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
