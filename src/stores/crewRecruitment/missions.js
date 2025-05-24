@@ -8,7 +8,7 @@ export const missions = {
     maxCrew: 2,
     duration: 1, // 5 minutes in seconds
     baseRewards: {
-      credits: 100,
+      credits: 10,
       junk: 1000
     },
     bonusRewards: {
@@ -19,6 +19,10 @@ export const missions = {
       rareJunk: {
         chance: 0.2,
         amount: 500
+      },
+      rareCredits: {
+        chance: 0.2,
+        amount: 10
       }
     },
     requirements: {
@@ -30,7 +34,7 @@ export const missions = {
     },
     penalties: {
       failure: {
-        credits: -50,
+        credits: -5,
         crewStamina: -20
       }
     }

@@ -10,11 +10,62 @@ export const crewDatabase = [
       grit: 7,
       stealth: 2,
       luck: 4,
-      psyche: 1, // Total: 16
+      psyche: 1, 
     },
+    description: 'Used to be a very succesfull trucker, then trucking got automated now hes hauling scrap from one place to another',
     unlockConditions: {
       minGameScore: 10,
       requiresItems: ['Reinforced Harness'],
+      minCrew: 0,
+    },
+    unlockCost: {
+      type: 'junk',
+      amount: 400000,
+      items: [],
+    }
+  },
+  {
+    id: 'c2',
+    name: 'Greasetrap',
+    rarity: 'common',
+    role: 'Dumpster Navigator',
+    perks: ['+2% junk yield from failed missions'],
+    stats: {
+      tech: 1,
+      grit: 4,
+      stealth: 1,
+      luck: 2,
+      psyche: 2, 
+    },
+    description: 'Used to live in a cafeteria grease chute. Smells like burnt oil and bad decisions. Claims he can "hear the trash talk.',
+    unlockConditions: {
+      minGameScore: 5,
+      requiresItems: [],
+      minCrew: 0,
+    },
+    unlockCost: {
+      type: 'junk',
+      amount: 100000,
+      items: [],
+    }
+  },
+  {
+    id: 'c3',
+    name: 'Lintlock',
+    rarity: 'common',
+    role: 'Pocket Thief (Retired)',
+    perks: ['+5% chance to find useless items during missions'],
+    stats: {
+      tech: 1,
+      grit: 3,
+      stealth: 3,
+      luck: 2,
+      psyche: 2,
+    },
+    description: 'Once tried to pickpocket a vending machine. Mostly collects lint and suspicious IOUs. Swears he "almost made it big in Dust League.',
+    unlockConditions: {
+      minGameScore: 8,
+      requiresItems: [],
       minCrew: 0,
     },
     unlockCost: {

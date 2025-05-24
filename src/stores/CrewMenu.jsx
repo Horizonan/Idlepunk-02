@@ -4,10 +4,8 @@ import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
 import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
 import { missions, calculateMissionSuccess } from "./crewRecruitment/missions";
 
-
-export default function CrewMenu({ onClose, setCredits, credits }) {
+export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }) {
   const [activeTab, setActiveTab] = useState('view');
-  const [junkAmount, setJunkAmount] = useState(Number(localStorage.getItem('junk')) || 0);
   const [showCrewSelect, setShowCrewSelect] = useState(false);
   const [selectedCrew, setSelectedCrew] = useState([]);
   const activeMission = useRecruitmentZustand(state => state.activeMission);
@@ -148,20 +146,16 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                     console.log('Attempting to hire crew:', crew.name);
                     console.log('Cost:', cost, 'Type:', costType);
                     console.log('Current credits:', credits);
-
-                    const junkAmount = Number(localStorage.getItem('junk')) || 0;
-                    console.log('Current junk:', junkAmount);
+                    console.log('Current junk:', junk);
 
                     let canAfford = false;
                     if (costType === 'credits' && credits >= cost) {
                       console.log('Can afford with credits');
                       setCredits(prev => prev - cost);
                       canAfford = true;
-                    } else if (costType === 'junk' && junkAmount >= cost) {
+                    } else if (costType === 'junk' && junk >= cost) {
                       console.log('Can afford with junk');
-                      const newJunkAmount = junkAmount - cost;
-                      localStorage.setItem('junk', newJunkAmount);
-                      setJunkAmount(newJunkAmount);
+                      setJunk(prev =>prev - cost);
                       canAfford = true;
                     } else {
                       console.log('Cannot afford:', costType === 'credits' ? 'Insufficient credits' : 'Insufficient junk');
@@ -181,7 +175,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                   }}
                   disabled={
                     (crew.unlockCost?.type === 'credits' && credits < crew.unlockCost?.amount) ||
-                    (crew.unlockCost?.type === 'junk' && junkAmount < crew.unlockCost?.amount) ||
+                    (crew.unlockCost?.type === 'junk' && junk < crew.unlockCost?.amount) ||
                     hiredCrew.length >= 3
                   }
                 >
@@ -419,7 +413,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                             
                             // Update credits and junk
                             setCredits(prev => prev + creditsReward);
-                            setJunkAmount(prev => prev + junkReward);
+                            setJunk(prev => prev + junkReward);
                             localStorage.setItem('junk', Number(localStorage.getItem('junk') || 0) + junkReward);
                             
                             const missionWindow = document.createElement('div');
