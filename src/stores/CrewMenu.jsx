@@ -239,11 +239,11 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                             <h4>{crew.name}</h4>
                             <p>{crew.role}</p>
                             <div className="crew-stats">
-                              {crew.stats && Object.entries(crew.stats).map(([stat, value]) => (
-                                <div key={stat} className="stat-entry">
-                                  {stat.charAt(0).toUpperCase() + stat.slice(1)}: {value}
-                                </div>
-                              ))}
+                              <div>Tech: {crew.stats?.tech || 0}</div>
+                              <div>Grit: {crew.stats?.grit || 0}</div>
+                              <div>Stealth: {crew.stats?.stealth || 0}</div>
+                              <div>Luck: {crew.stats?.luck || 0}</div>
+                              <div>Psyche: {crew.stats?.psyche || 0}</div>
                             </div>
                             <p>{crew.perks}</p>
                           </div>
