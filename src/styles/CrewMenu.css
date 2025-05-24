@@ -334,6 +334,57 @@
   border-bottom: 1px solid #9400D3;
 }
 
+.crew-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin: 10px 0;
+  padding: 8px;
+  background: rgba(0, 255, 0, 0.1);
+  border-radius: 4px;
+}
+
+.mission-requirements-display {
+  background: rgba(148, 0, 211, 0.1);
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.stat-comparison {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.stat-row.met {
+  background: rgba(0, 255, 0, 0.2);
+  color: #00FF00;
+}
+
+.stat-row.unmet {
+  background: rgba(255, 0, 0, 0.2);
+  color: #FF0000;
+}
+
+.success-chance {
+  text-align: center;
+  font-size: 1.2em;
+  margin-top: 15px;
+  padding: 10px;
+  background: rgba(0, 255, 0, 0.1);
+  border-radius: 4px;
+  color: #00FF00;
+}
+
 .crew-selection-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

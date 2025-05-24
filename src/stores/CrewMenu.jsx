@@ -199,6 +199,36 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                         <h3>Select Crew for {mission.name}</h3>
                         <button onClick={() => setShowCrewSelect(false)}>×</button>
                       </div>
+                      <div className="mission-requirements-display">
+                        <h4>Required Stats:</h4>
+                        <div className="stat-comparison">
+                          {Object.entries(mission.requirements).map(([stat, value]) => {
+                            const selectedCrewStats = useRecruitmentZustand(state => state.hiredCrew)
+                              .filter(crew => selectedCrew.includes(crew.id))
+                              .reduce((total, crew) => total + (crew[stat.toLowerCase()] || 0), 0);
+                            
+                            return (
+                              <div key={stat} className={`stat-row ${selectedCrewStats >= value ? 'met' : 'unmet'}`}>
+                                <span className="stat-name">{stat}:</span>
+                                <span className="stat-value">{selectedCrewStats} / {value}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div className="success-chance">
+                          Success Chance: {calculateMissionSuccess(
+                            useRecruitmentZustand(state => state.hiredCrew)
+                              .filter(crew => selectedCrew.includes(crew.id))
+                              .reduce((stats, crew) => {
+                                Object.entries(mission.requirements).forEach(([stat]) => {
+                                  stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + (crew[stat.toLowerCase()] || 0);
+                                });
+                                return stats;
+                              }, {}),
+                            mission.requirements
+                          ).toFixed(1)}%
+                        </div>
+                      </div>
                       <div className="crew-selection-list">
                         {useRecruitmentZustand(state => state.hiredCrew).map((crew) => (
                           <div
@@ -208,6 +238,13 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                           >
                             <h4>{crew.name}</h4>
                             <p>{crew.role}</p>
+                            <div className="crew-stats">
+                              <div>Tech: {crew.tech || 0}</div>
+                              <div>Grit: {crew.grit || 0}</div>
+                              <div>Stealth: {crew.stealth || 0}</div>
+                              <div>Luck: {crew.luck || 0}</div>
+                              <div>Psyche: {crew.psyche || 0}</div>
+                            </div>
                             <p>{crew.perks}</p>
                           </div>
                         ))}
