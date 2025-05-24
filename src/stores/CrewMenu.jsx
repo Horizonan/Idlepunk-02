@@ -315,10 +315,11 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                   <div className="mission-crew">
                     <h5>Assigned Crew:</h5>
                     <div className="assigned-crew-list">
-                      {selectedCrew.map(crewId => {
-                        const crew = useRecruitmentZustand(state => 
-                          state.hiredCrew.find(c => c.id === crewId)
-                        );
+                      {useRecruitmentZustand(state => 
+                        state.hiredCrew.filter(crew => 
+                          state.selectedCrew?.includes(crew.id)
+                        )
+                      ).map(crew => {
                         return (
                           <div key={crewId} className="assigned-crew-member">
                             <h6>{crew.name}</h6>
