@@ -289,11 +289,27 @@
   font-size: 14px;
 }
 
-.mission-rewards {
+.mission-rewards, .mission-requirements {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
   margin: 15px 0;
   color: #00FF00;
+  background: rgba(0, 255, 0, 0.1);
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.mission-rewards h5, .mission-requirements h5 {
+  width: 100%;
+  margin: 0 0 5px 0;
+  color: #9400D3;
+}
+
+.mission-duration {
+  color: #00FF00;
+  font-size: 0.9em;
+  margin: 10px 0;
 }
 
 .mission-button {

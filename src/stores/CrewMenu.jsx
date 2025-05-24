@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../styles/CrewMenu.css';
 import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
 import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
+import { missions } from "./crewRecruitment/missions";
 
 
 export default function CrewMenu({ onClose, setCredits, credits }) {
@@ -140,23 +141,37 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
           <div className="crew-content">
             <h3>Available Missions</h3>
             <div className="mission-list">
-              <div className="mission-card">
-                <div className="mission-header">
-                  <h4>Scrap Scout</h4>
-                  <span className="mission-difficulty">Easy</span>
+              {Object.values(missions).map((mission) => (
+                <div key={mission.id} className="mission-card">
+                  <div className="mission-header">
+                    <h4>{mission.name}</h4>
+                    <span className="mission-difficulty">{mission.difficulty}</span>
+                  </div>
+                  <p>{mission.description}</p>
+                  <div className="mission-requirements">
+                    <h5>Required Stats:</h5>
+                    {Object.entries(mission.requirements).map(([stat, value]) => (
+                      <span key={stat}>
+                        {stat}: {value}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="mission-rewards">
+                    <h5>Base Rewards:</h5>
+                    <span>💰 {mission.baseRewards.credits}</span>
+                    <span>🗑️ {mission.baseRewards.junk}</span>
+                  </div>
+                  <div className="mission-duration">
+                    Duration: {Math.floor(mission.duration / 60)}min
+                  </div>
+                  <button 
+                    className="mission-button" 
+                    disabled={useRecruitmentZustand(state => state.hiredCrew).length === 0}
+                  >
+                    {useRecruitmentZustand(state => state.hiredCrew).length === 0 ? 'No Crew Available' : 'Start Mission'}
+                  </button>
                 </div>
-                <p>Scout the outskirts for valuable junk</p>
-                <div className="mission-rewards">
-                  <span>💰 100-200</span>
-                  <span>⚡ 1-2</span>
-                </div>
-                <button 
-                  className="mission-button" 
-                  disabled={useRecruitmentZustand(state => state.hiredCrew).length === 0}
-                >
-                  {useRecruitmentZustand(state => state.hiredCrew).length === 0 ? 'No Crew Available' : 'Start Mission'}
-                </button>
-              </div>
+              ))}
             </div>
           </div>
         );
