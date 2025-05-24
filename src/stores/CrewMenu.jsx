@@ -369,13 +369,22 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                             
                             const crewStats = selectedCrewMembers.reduce((stats, crew) => {
                               Object.entries(activeMission.requirements).forEach(([stat]) => {
-                                stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + (crew.stats?.[stat.toLowerCase()] || 0);
+                                const crewStat = crew.stats?.[stat.toLowerCase()] || 0;
+                                stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + crewStat;
+                                console.log(`Crew member ${crew.name} contributes ${crewStat} to ${stat}`);
                               });
                               return stats;
                             }, {});
 
+                            console.log('Final crew stats:', crewStats);
+                            console.log('Mission requirements:', activeMission.requirements);
+                            
                             const successRate = calculateMissionSuccess(crewStats, activeMission.requirements);
-                            const success = Math.random() * 100 < successRate;
+                            console.log(`Success rate calculation: ${successRate.toFixed(1)}%`);
+                            
+                            const randomRoll = Math.random() * 100;
+                            console.log(`Random roll: ${randomRoll.toFixed(1)} vs required: ${successRate.toFixed(1)}`);
+                            const success = randomRoll < successRate;
                             
                             const missionWindow = document.createElement('div');
                             missionWindow.className = 'mission-completion-window';
