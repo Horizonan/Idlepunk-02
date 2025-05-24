@@ -69,6 +69,7 @@ export default function ResetProgress({ onReset }) {
     // Clear Zustand storage keys explicitly
     localStorage.removeItem('email-storage');
     localStorage.removeItem('crystal-storage');
+    localStorage.removeItem('crew-storage');
 
     //Force page reload to ensure all states are reset
     window.location.reload();
