@@ -134,6 +134,24 @@
   margin: 0 0 10px 0;
 }
 
+.crew-slot .crew-perks {
+  margin-top: 10px;
+  padding: 8px;
+  background: rgba(0, 255, 0, 0.1);
+  border-radius: 4px;
+}
+
+.crew-slot .crew-perks p {
+  margin: 5px 0;
+  font-size: 0.9em;
+  color: #00FF00;
+}
+
+.crew-slot .crew-perks p:first-child {
+  font-weight: bold;
+  color: #9400D3;
+}
+
 .search-section {
   margin-bottom: 20px;
   text-align: center;

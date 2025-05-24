@@ -20,8 +20,12 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
               {useRecruitmentZustand(state => state.hiredCrew).map((crew) => (
                 <div key={crew.id} className="crew-slot active">
                   <h4>{crew.name}</h4>
-                  <p>{crew.role}</p>
+                  <p className="crew-role">{crew.role}</p>
                   <p className="crew-rarity">{crew.rarity}</p>
+                  <div className="crew-perks">
+                    <p>Perks:</p>
+                    <p>{crew.perks}</p>
+                  </div>
                 </div>
               ))}
               {[...Array(3 - useRecruitmentZustand(state => state.hiredCrew).length)].map((_, i) => (
