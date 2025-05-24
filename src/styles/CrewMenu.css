@@ -216,8 +216,6 @@
   position: relative;
 }
 
-.recruit-stats {
-
 .crew-stats-modal {
   position: fixed;
   top: 0;
@@ -294,6 +292,7 @@
   transform: scale(1.02);
 }
 
+.recruit-stats {
   display: flex;
   justify-content: space-around;
   margin-bottom: 15px;
