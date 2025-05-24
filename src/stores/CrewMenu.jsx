@@ -40,9 +40,9 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
   };
 
   const startMission = (mission) => {
-    useRecruitmentZustand.getState().startMission(mission, selectedCrew);
+    const selectedCrewMembers = selectedCrew;
+    useRecruitmentZustand.getState().startMission(mission, selectedCrewMembers);
     setShowCrewSelect(false);
-    setSelectedCrew([]);
   };
   const isRunning = useRecruitmentZustand(state => state.isRunning);
   const startGame = useRecruitmentZustand(state => state.startGame);
