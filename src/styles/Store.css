@@ -54,17 +54,19 @@
 .item-info {
   display: none;
   position: absolute;
-  background: rgba(26, 26, 26, 0.95);
+  background: rgba(0, 0, 0, 0.95);
   border: 1px solid #9400D3;
   padding: 10px;
   border-radius: 4px;
-  width: 200px;
-  right: -220px;
-  top: 0;
+  min-width: 200px;
+  left: -20px;
+  top: 100%;
+  margin-top: 5px;
   z-index: 1100;
   color: #00FF00;
   pointer-events: none;
   box-shadow: 0 0 10px rgba(148, 0, 211, 0.3);
+  font-size: 0.9em;
 }
 
 .store-item {
