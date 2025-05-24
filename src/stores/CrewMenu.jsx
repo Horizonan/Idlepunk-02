@@ -370,7 +370,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                             missionWindow.innerHTML = `
                               <div class="mission-result ${success ? 'success' : 'failure'}">
                                 <h2>${success ? 'Mission Successful!' : 'Mission Failed'}</h2>
-                                <p>Success Rate: ${successRate.toFixed(1)}%</p>
+                                <p>Success Rate: ${missionSuccessRate.toFixed(1)}%</p>
                                 <button onclick="this.parentElement.parentElement.remove()">Close</button>
                               </div>
                             `;
