@@ -319,14 +319,12 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                         state.hiredCrew.filter(crew => 
                           state.selectedCrew?.includes(crew.id)
                         )
-                      ).map(crew => {
-                        return (
-                          <div key={crewId} className="assigned-crew-member">
-                            <h6>{crew.name}</h6>
-                            <p>{crew.role}</p>
-                          </div>
-                        );
-                      })}
+                      ).map(crew => (
+                        <div key={crew.id} className="assigned-crew-member">
+                          <h6>{crew.name}</h6>
+                          <p>{crew.role}</p>
+                        </div>
+                      ))}
                     </div>
                   </div>
                   <div className="mission-progress">
