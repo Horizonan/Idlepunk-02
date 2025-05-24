@@ -239,8 +239,10 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                             <h4>{crew.name}</h4>
                             <p>{crew.role}</p>
                             <div className="crew-stats">
+                              {console.log('Full crew object:', crew)}
+                              {console.log('Crew stats:', crew.stats)}
                               {crew.stats && Object.entries(crew.stats).map(([stat, value]) => {
-                                console.log(`Stats for ${crew.name} - ${stat}: ${value}`);
+                                console.log(`Processing stat for ${crew.name} - ${stat}: ${value}`);
                                 return (
                                   <div key={stat} className="stat-entry">
                                     {stat.charAt(0).toUpperCase() + stat.slice(1)}: {value}
