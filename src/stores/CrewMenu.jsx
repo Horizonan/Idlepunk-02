@@ -283,6 +283,52 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
             </div>
           </div>
         );
+      case 'ongoing':
+        return (
+          <div className="crew-content">
+            <h3>Ongoing Missions</h3>
+            <div className="ongoing-missions-list">
+              {activeMission ? (
+                <div className="ongoing-mission">
+                  <div className="mission-header">
+                    <h4>{activeMission.name}</h4>
+                    <span className="mission-difficulty">{activeMission.difficulty}</span>
+                  </div>
+                  <p>{activeMission.description}</p>
+                  <div className="mission-crew">
+                    <h5>Assigned Crew:</h5>
+                    <div className="assigned-crew-list">
+                      {selectedCrew.map(crewId => {
+                        const crew = useRecruitmentZustand(state => 
+                          state.hiredCrew.find(c => c.id === crewId)
+                        );
+                        return (
+                          <div key={crewId} className="assigned-crew-member">
+                            <h6>{crew.name}</h6>
+                            <p>{crew.role}</p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  <div className="mission-progress">
+                    <div className="progress-bar">
+                      <div className="progress-fill" style={{width: '30%'}}></div>
+                    </div>
+                    <div className="time-remaining">
+                      Time Remaining: {Math.ceil(activeMission.duration / 60)}min
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="no-missions">
+                  <p>No active missions</p>
+                  <p>Visit the Missions tab to start one</p>
+                </div>
+              )}
+            </div>
+          </div>
+        );
       case 'loadouts':
         return (
           <div className="crew-content">
@@ -333,6 +379,12 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
           onClick={() => setActiveTab('missions')}
         >
           Missions
+        </button>
+        <button 
+          className={`crew-tab-button ${activeTab === 'ongoing' ? 'active' : ''}`}
+          onClick={() => setActiveTab('ongoing')}
+        >
+          Ongoing Missions
         </button>
         <button 
           className={`crew-tab-button ${activeTab === 'loadouts' ? 'active' : ''}`}
