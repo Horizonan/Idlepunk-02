@@ -419,8 +419,8 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                             
                             // Update credits and junk
                             setCredits(prev => prev + creditsReward);
-                            const currentJunk = Number(localStorage.getItem('junk')) || 0;
-                            localStorage.setItem('junk', currentJunk + junkReward);
+                            setJunkAmount(prev => prev + junkReward);
+                            localStorage.setItem('junk', Number(localStorage.getItem('junk') || 0) + junkReward);
                             
                             const missionWindow = document.createElement('div');
                             missionWindow.className = 'mission-completion-window';
