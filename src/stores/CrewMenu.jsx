@@ -105,13 +105,13 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                 <button 
                   type="button"
                   onClick={() => {
-                  if(Number(localStorage.getItem('credits')) >= 100){
-                    setCredits(prev => prev - 100);
+                  if(Number(localStorage.getItem('credits')) >= 10){
+                    setCredits(prev => prev - 10);
                     startGame();
                   }
                   }}
                   className="search-recruits-button" >
-                  🔍 Search for Recruits (100 Credits)
+                  🔍 Search for Recruits (10 Credits)
                 </button>
               </div>
 
