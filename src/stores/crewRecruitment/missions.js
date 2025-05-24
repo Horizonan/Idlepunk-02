@@ -1,3 +1,4 @@
+
 export const missions = {
   scrapScout: {
     id: 'scout_1',
@@ -5,7 +6,7 @@ export const missions = {
     difficulty: 'Easy',
     description: 'Scout the outskirts for valuable junk',
     maxCrew: 2,
-    duration: 1, // 5 minutes in seconds
+    duration: 300, // 5 minutes in seconds
     baseRewards: {
       credits: 100,
       junk: 1000
@@ -111,14 +112,13 @@ export const missions = {
 export function calculateMissionSuccess(crewStats, missionRequirements) {
   let totalScore = 0;
   let maxScore = 0;
-
+  
   for (const [stat, requirement] of Object.entries(missionRequirements)) {
-    const statName = stat.toLowerCase();
-    if (crewStats[statName]) {
-      totalScore += Math.min(crewStats[statName], requirement);
+    if (crewStats[stat]) {
+      totalScore += Math.min(crewStats[stat], requirement);
     }
     maxScore += requirement;
   }
-
-  return (totalScore / maxScore) * 100;
+  
+  return (totalScore / maxScore) * 100; // Returns percentage of success chance
 }
