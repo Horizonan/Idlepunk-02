@@ -10,7 +10,8 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
   const [junkAmount, setJunkAmount] = useState(Number(localStorage.getItem('junk')) || 0);
   const [showCrewSelect, setShowCrewSelect] = useState(false);
   const [selectedCrew, setSelectedCrew] = useState([]);
-  const activeMission = useRecruitmentZustand(state => state.activeMission);
+  const [activeMission, setActiveMission] = useState(null);
+  const missionState = useRecruitmentZustand(state => state.activeMission);
   const missionStartTime = useRecruitmentZustand(state => state.missionStartTime);
   const [timeLeft, setTimeLeft] = useState(0);
 
