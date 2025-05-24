@@ -157,7 +157,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                   disabled={
                     (crew.unlockCost?.type === 'credits' && credits < crew.unlockCost?.amount) ||
                     (crew.unlockCost?.type === 'junk' && junkAmount < crew.unlockCost?.amount) ||
-                    useRecruitmentZustand(state => state.hiredCrew).length >= 3
+                    hiredCrew.length >= 3
                   }
                 >
                   Add to Active Crew ({crew.unlockCost?.amount} {crew.unlockCost?.type})
