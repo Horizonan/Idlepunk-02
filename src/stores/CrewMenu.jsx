@@ -11,7 +11,6 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
   const [showCrewSelect, setShowCrewSelect] = useState(false);
   const [selectedCrew, setSelectedCrew] = useState([]);
   const [activeMission, setActiveMission] = useState(null);
-  const [missionProgress, setMissionProgress] = useState(0);
 
   const toggleCrewSelection = (crewId) => {
     setSelectedCrew(prev => 
@@ -178,8 +177,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
           <div className="crew-content">
             <h3>Available Missions</h3>
             <div className="mission-list">
-              {!activeMission ? (
-              Object.values(missions).map((mission) => (
+              {Object.values(missions).map((mission) => (
                 <div key={mission.id} className="mission-card">
                   <div className="mission-header">
                     <h4>{mission.name}</h4>
@@ -281,30 +279,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                     </div>
                   )}
                 </div>
-              ))
-            ) : (
-              <div className="ongoing-mission">
-                <div className="mission-header">
-                  <h4>{activeMission.name}</h4>
-                  <span className="mission-difficulty">{activeMission.difficulty}</span>
-                </div>
-                <p>{activeMission.description}</p>
-                <div className="mission-progress">
-                  <div className="progress-bar">
-                    <div 
-                      className="progress-fill" 
-                      style={{width: `${missionProgress}%`}}
-                    ></div>
-                  </div>
-                  <div className="progress-text">
-                    {Math.round(missionProgress)}% Complete
-                  </div>
-                  <div className="time-remaining">
-                    Time Remaining: {Math.ceil((activeMission.duration - (missionProgress/100 * activeMission.duration))/60)}m
-                  </div>
-                </div>
-              </div>
-            )}
+              ))}
             </div>
           </div>
         );
