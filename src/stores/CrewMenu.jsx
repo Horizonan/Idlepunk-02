@@ -429,7 +429,9 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                               <div class="mission-result ${success ? 'success' : 'failure'}">
                                 <h2>${success ? 'Mission Successful!' : 'Mission Failed'}</h2>
                                 <p>Success Rate: ${successRate.toFixed(1)}%</p>
-                                ${!success && activeMission.penalties.failure.messagePool ? 
+                                ${success ? 
+                                  `<p class="success-message">${activeMission.successMessages[Math.floor(Math.random() * activeMission.successMessages.length)]}</p>` :
+                                  activeMission.penalties.failure.messagePool ?
                                   `<p class="failure-message">${activeMission.penalties.failure.messagePool[Math.floor(Math.random() * activeMission.penalties.failure.messagePool.length)]}</p>` 
                                   : ''}
                                 <div class="mission-rewards-display">
