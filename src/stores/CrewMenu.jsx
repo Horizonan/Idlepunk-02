@@ -297,7 +297,10 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         ))}
                       </div>
                       <div className="crew-selection-actions">
-                        <button onClick={() => setShowCrewSelect(false)}>Cancel</button>
+                        <button onClick={() => {
+                          setShowCrewSelect(false);
+                          setActiveMission(null);
+                        }}>Cancel</button>
                         <button 
                           onClick={() => startMission(mission)}
                           disabled={selectedCrew.length === 0}
