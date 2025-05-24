@@ -153,8 +153,8 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
           </div>
           <div>1 Credit</div>
           <div className="item-info">
-            Sell {formatAmount(baseRate)} Junk for 1 Credit
-            Convert your excess junk into valuable credits at the standard exchange rate.
+            Sell {formatAmount(baseRate)} Junk for 1 Scratz
+            Convert your excess junk into valuable scratz at the standard exchange rate.
             Perfect for small transactions.
           </div>
         </button>
@@ -169,7 +169,7 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
           </div>
           <div>10 Credits</div>
           <div className="item-info">
-            Sell {formatAmount(baseRate * 10)} Junk for 10 Credits
+            Sell {formatAmount(baseRate * 10)} Junk for 10 Scratz
             A more efficient way to exchange larger amounts of junk.
             Save time by converting in bulk!
           </div>
@@ -185,7 +185,7 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
           </div>
           <div>100 Credits</div>
           <div className="item-info">
-            Sell {formatAmount(baseRate * 100)} Junk for 100 Credits
+            Sell {formatAmount(baseRate * 100)} Junk for 100 Scratz
             The ultimate exchange option for serious junk collectors.
             Perfect for large-scale operations.
           </div>
