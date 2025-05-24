@@ -5,6 +5,7 @@ export const missions = {
     name: 'Scrap Scout',
     difficulty: 'Easy',
     description: 'Scout the outskirts for valuable junk',
+    maxCrew: 2,
     duration: 300, // 5 minutes in seconds
     baseRewards: {
       credits: 100,
@@ -40,6 +41,7 @@ export const missions = {
     name: 'Data Heist',
     difficulty: 'Medium',
     description: 'Infiltrate a forgotten data center',
+    maxCrew: 2,
     duration: 600, // 10 minutes
     baseRewards: {
       credits: 250,
@@ -75,6 +77,7 @@ export const missions = {
     name: 'Void Run',
     difficulty: 'Hard',
     description: 'Venture into the unstable void zones',
+    maxCrew: 3,
     duration: 900, // 15 minutes
     baseRewards: {
       credits: 500,

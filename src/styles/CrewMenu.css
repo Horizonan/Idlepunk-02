@@ -334,6 +334,15 @@
   border-bottom: 1px solid #9400D3;
 }
 
+.crew-count {
+  color: #00FF00;
+  font-size: 0.9em;
+  padding: 4px 8px;
+  background: rgba(0, 255, 0, 0.1);
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
 .crew-stats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

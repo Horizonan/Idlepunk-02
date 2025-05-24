@@ -33,7 +33,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
   const TabContent = () => {
     const hiredCrew = useRecruitmentZustand(state => state.hiredCrew);
     const unlockedCrew = useRecruitmentZustand(state => state.unlockedCrew);
-    
+
     switch(activeTab) {
       case 'view':
         return (
@@ -214,6 +214,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                     <div className="crew-selection-modal">
                       <div className="crew-selection-header">
                         <h3>Select Crew for {mission.name}</h3>
+                        <div className="crew-count">Selected: {selectedCrew.length} / {mission.maxCrew}</div>
                         <button onClick={() => setShowCrewSelect(false)}>×</button>
                       </div>
                       <div className="mission-requirements-display">
@@ -223,7 +224,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                             const selectedCrewStats = useRecruitmentZustand(state => state.hiredCrew)
                               .filter(crew => selectedCrew.includes(crew.id))
                               .reduce((total, crew) => total + (crew.stats?.[stat.toLowerCase()] || 0), 0);
-                            
+
                             return (
                               <div key={stat} className={`stat-row ${selectedCrewStats >= value ? 'met' : 'unmet'}`}>
                                 <span className="stat-name">{stat}:</span>
