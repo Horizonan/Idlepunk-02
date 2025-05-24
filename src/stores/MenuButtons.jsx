@@ -24,7 +24,7 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
           locked: !localStorage.getItem('hasPrestiged')
         },
         {
-          label: 'Credit Store',
+          label: 'Scratz Store',
           onClick: () => {
             const activeStore = localStorage.getItem('activeStore');
             onStoreSelect(activeStore === 'credstore' ? null : 'credstore');
