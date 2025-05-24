@@ -312,38 +312,6 @@
   margin: 10px 0;
 }
 
-.ongoing-mission {
-  background: #222;
-  border: 2px solid #9400D3;
-  padding: 20px;
-  border-radius: 4px;
-  margin: 20px 0;
-}
-
-.mission-timer {
-  color: #00FF00;
-  font-size: 1.2em;
-  margin: 10px 0;
-  text-align: center;
-}
-
-.mission-status {
-  margin: 15px 0;
-}
-
-.progress-bar {
-  background: rgba(0, 255, 0, 0.1);
-  height: 20px;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.progress {
-  background: #00FF00;
-  height: 100%;
-  transition: width 1s linear;
-}
-
 .crew-selection-modal {
   position: fixed;
   top: 50%;
