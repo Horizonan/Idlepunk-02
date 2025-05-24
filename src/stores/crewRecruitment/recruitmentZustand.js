@@ -49,26 +49,33 @@ export const useRecruitmentZustand = create(
     
     let delta = 0
 
-    if (action === 'recruit'){
-     
-      //Check Permit
-      const now = new Date()
-      const permit = new Date(profile.workPermit)
-      const isPermitExpired = permit < now
-
-      if (currentIndex == 7) {
-        console.log("🎉 Game finished! Final score:", score + delta)
-
-        get().handleGameEnd(score + delta)
-      }
-      
-      if(!isPermitExpired){
-        delta = profile.isReal ? 2 : -2
+    if (action === 'recruit') {
+      if (profile.workPermit.status === 'missing') {
+        // Penalize recruiting someone with missing permit
+        delta = -2;
       } else {
-        delta -= 2
+        // Normal permit checking logic
+        const isPermitExpired = profile.workPermit.status === 'expired';
+        
+        if (!isPermitExpired) {
+          delta = profile.isReal ? 2 : -2;
+        } else {
+          delta -= 2;
+        }
       }
     } else if (action === 'trash') {
-      delta = profile.isReal ? -1 : 1
+      if (profile.workPermit.status === 'missing') {
+        // Reward trashing profiles with missing permits
+        delta = profile.isReal ? 1 : 1;
+      } else {
+        // Normal trash logic
+        delta = profile.isReal ? -1 : 1;
+      }
+    }
+
+    if (currentIndex == 7) {
+      console.log("🎉 Game finished! Final score:", score + delta);
+      get().handleGameEnd(score + delta);
     }
 
     set({score: score + delta, currentIndex: currentIndex + 1})  
