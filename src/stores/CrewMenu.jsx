@@ -386,12 +386,52 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                             console.log(`Random roll: ${randomRoll.toFixed(1)} vs required: ${successRate.toFixed(1)}`);
                             const success = randomRoll < successRate;
                             
+                            // Calculate rewards
+                            let creditsReward = 0;
+                            let junkReward = 0;
+                            
+                            if (success) {
+                              creditsReward = activeMission.baseRewards.credits;
+                              junkReward = activeMission.baseRewards.junk;
+                              
+                              // Calculate bonus rewards
+                              if (activeMission.bonusRewards) {
+                                Object.entries(activeMission.bonusRewards).forEach(([item, bonus]) => {
+                                  if (Math.random() < bonus.chance) {
+                                    if (item === 'electroShard') creditsReward += 50 * bonus.amount;
+                                    if (item === 'rareJunk') junkReward += bonus.amount;
+                                  }
+                                });
+                              }
+                            } else {
+                              // Apply failure penalties
+                              creditsReward = activeMission.penalties.failure.credits;
+                              // Update crew stamina
+                              const staminaPenalty = activeMission.penalties.failure.crewStamina;
+                              useRecruitmentZustand.setState(state => ({
+                                hiredCrew: state.hiredCrew.map(crew => 
+                                  selectedCrew.includes(crew.id) 
+                                    ? {...crew, stamina: Math.max(0, (crew.stamina || 100) + staminaPenalty)}
+                                    : crew
+                                )
+                              }));
+                            }
+                            
+                            // Update credits and junk
+                            setCredits(prev => prev + creditsReward);
+                            const currentJunk = Number(localStorage.getItem('junk')) || 0;
+                            localStorage.setItem('junk', currentJunk + junkReward);
+                            
                             const missionWindow = document.createElement('div');
                             missionWindow.className = 'mission-completion-window';
                             missionWindow.innerHTML = `
                               <div class="mission-result ${success ? 'success' : 'failure'}">
                                 <h2>${success ? 'Mission Successful!' : 'Mission Failed'}</h2>
                                 <p>Success Rate: ${successRate.toFixed(1)}%</p>
+                                <div class="mission-rewards-display">
+                                  <p>Credits: ${creditsReward > 0 ? '+' : ''}${creditsReward}</p>
+                                  <p>Junk: ${junkReward > 0 ? '+' : ''}${junkReward}</p>
+                                </div>
                                 <button onclick="this.parentElement.parentElement.remove()">Close</button>
                               </div>
                             `;
