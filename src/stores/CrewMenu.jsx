@@ -203,18 +203,21 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                       <div className="mission-requirements-display">
                         <h4>Required Stats:</h4>
                         <div className="stat-comparison">
-                          {Object.entries(mission.requirements).map(([stat, value]) => {
-                            const selectedCrewStats = useRecruitmentZustand(state => state.hiredCrew)
-                              .filter(crew => selectedCrew.includes(crew.id))
-                              .reduce((total, crew) => total + (crew[stat.toLowerCase()] || 0), 0);
-                            
-                            return (
-                              <div key={stat} className={`stat-row ${selectedCrewStats >= value ? 'met' : 'unmet'}`}>
-                                <span className="stat-name">{stat}:</span>
-                                <span className="stat-value">{selectedCrewStats} / {value}</span>
-                              </div>
-                            );
-                          })}
+                          {(() => {
+                            const hiredCrew = useRecruitmentZustand(state => state.hiredCrew);
+                            return Object.entries(mission.requirements).map(([stat, value]) => {
+                              const selectedCrewStats = hiredCrew
+                                .filter(crew => selectedCrew.includes(crew.id))
+                                .reduce((total, crew) => total + (crew[stat.toLowerCase()] || 0), 0);
+                              
+                              return (
+                                <div key={stat} className={`stat-row ${selectedCrewStats >= value ? 'met' : 'unmet'}`}>
+                                  <span className="stat-name">{stat}:</span>
+                                  <span className="stat-value">{selectedCrewStats} / {value}</span>
+                                </div>
+                              );
+                            });
+                          })()}
                         </div>
                         <div className="success-chance">
                           Success Chance: {calculateMissionSuccess(
