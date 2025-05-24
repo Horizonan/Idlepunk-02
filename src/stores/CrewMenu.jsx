@@ -362,15 +362,27 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                         <button 
                           className="complete-mission-button"
                           onClick={() => {
-                            const missionSuccessRate = useRecruitmentZustand.getState().activeMission?.successRate || 0;
-                            const success = Math.random() * 100 < missionSuccessRate;
+                            const activeMission = useRecruitmentZustand.getState().activeMission;
+                            const selectedCrewMembers = selectedCrew.map(id => 
+                              useRecruitmentZustand.getState().hiredCrew.find(c => c.id === id)
+                            );
+                            
+                            const crewStats = selectedCrewMembers.reduce((stats, crew) => {
+                              Object.entries(activeMission.requirements).forEach(([stat]) => {
+                                stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + (crew.stats?.[stat.toLowerCase()] || 0);
+                              });
+                              return stats;
+                            }, {});
+
+                            const successRate = calculateMissionSuccess(crewStats, activeMission.requirements);
+                            const success = Math.random() * 100 < successRate;
                             
                             const missionWindow = document.createElement('div');
                             missionWindow.className = 'mission-completion-window';
                             missionWindow.innerHTML = `
                               <div class="mission-result ${success ? 'success' : 'failure'}">
                                 <h2>${success ? 'Mission Successful!' : 'Mission Failed'}</h2>
-                                <p>Success Rate: ${missionSuccessRate.toFixed(1)}%</p>
+                                <p>Success Rate: ${successRate.toFixed(1)}%</p>
                                 <button onclick="this.parentElement.parentElement.remove()">Close</button>
                               </div>
                             `;
