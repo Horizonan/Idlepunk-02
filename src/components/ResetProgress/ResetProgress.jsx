@@ -70,6 +70,17 @@ export default function ResetProgress({ onReset }) {
     localStorage.removeItem('email-storage');
     localStorage.removeItem('crystal-storage');
     localStorage.removeItem('crew-storage');
+    
+    // Reset crew state
+    useRecruitmentZustand.setState({
+      unlockedCrew: [],
+      hiredCrew: [],
+      profiles: [],
+      currentIndex: 0,
+      score: 0,
+      timeLeft: 60,
+      isRunning: false
+    });
 
     //Force page reload to ensure all states are reset
     window.location.reload();
