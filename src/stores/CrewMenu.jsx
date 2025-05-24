@@ -10,7 +10,25 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
   const [junkAmount, setJunkAmount] = useState(Number(localStorage.getItem('junk')) || 0);
   const [showCrewSelect, setShowCrewSelect] = useState(false);
   const [selectedCrew, setSelectedCrew] = useState([]);
-  const [activeMission, setActiveMission] = useState(null);
+  const activeMission = useRecruitmentZustand(state => state.activeMission);
+  const missionStartTime = useRecruitmentZustand(state => state.missionStartTime);
+  const [timeLeft, setTimeLeft] = useState(0);
+
+  useEffect(() => {
+    if (activeMission && missionStartTime) {
+      const timer = setInterval(() => {
+        const elapsed = (Date.now() - missionStartTime) / 1000;
+        const remaining = Math.max(0, activeMission.duration - elapsed);
+        setTimeLeft(remaining);
+        
+        if (remaining <= 0) {
+          clearInterval(timer);
+        }
+      }, 1000);
+      
+      return () => clearInterval(timer);
+    }
+  }, [activeMission, missionStartTime]);
 
   const toggleCrewSelection = (crewId) => {
     setSelectedCrew(prev => 
@@ -21,9 +39,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
   };
 
   const startMission = (mission) => {
-    // Here you can implement the mission start logic
-    console.log('Starting mission:', mission.name);
-    console.log('Selected crew:', selectedCrew);
+    useRecruitmentZustand.getState().startMission(mission, selectedCrew);
     setShowCrewSelect(false);
     setSelectedCrew([]);
   };
@@ -316,7 +332,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                       <div className="progress-fill" style={{width: '30%'}}></div>
                     </div>
                     <div className="time-remaining">
-                      Time Remaining: {Math.ceil(activeMission.duration / 60)}min
+                      Time Remaining: {Math.ceil(timeLeft / 60)}min {Math.ceil(timeLeft % 60)}s
                     </div>
                   </div>
                 </div>

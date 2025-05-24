@@ -8,6 +8,8 @@ export const useRecruitmentZustand = create(
     (set, get) => ({
       unlockedCrew: [],
       hiredCrew: [],
+      activeMission: null,
+      missionStartTime: null,
   profiles: [],
   currentIndex: 0,
   score: 0,
@@ -71,6 +73,14 @@ export const useRecruitmentZustand = create(
       isRunning: false,
       selectedCrew: null
     })
+  },
+
+  startMission: (mission, selectedCrew) => {
+    set({
+      activeMission: mission,
+      missionStartTime: Date.now(),
+      selectedCrew: selectedCrew
+    });
   },
 
   handleGameEnd: (finalScore) => {
