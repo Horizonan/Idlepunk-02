@@ -77,20 +77,33 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                     const cost = crew.unlockCost?.amount || 0;
                     const costType = crew.unlockCost?.type || 'credits';
                     
+                    console.log('Attempting to hire crew:', crew.name);
+                    console.log('Cost:', cost, 'Type:', costType);
+                    console.log('Current credits:', credits);
+                    
                     let canAfford = false;
                     if (costType === 'credits' && credits >= cost) {
+                      console.log('Can afford with credits');
                       setCredits(prev => prev - cost);
                       canAfford = true;
                     } else if (costType === 'junk' && credits >= cost) {
+                      console.log('Can afford with junk');
                       setCredits(prev => prev - cost);
                       canAfford = true;
+                    } else {
+                      console.log('Cannot afford:', costType === 'credits' ? 'Insufficient credits' : 'Insufficient junk');
                     }
 
                     if (canAfford) {
-                      useRecruitmentZustand.setState(state => ({
-                        unlockedCrew: state.unlockedCrew.filter(c => c.id !== crew.id),
-                        hiredCrew: [...state.hiredCrew, crew]
-                      }));
+                      console.log('Updating crew state...');
+                      useRecruitmentZustand.setState(state => {
+                        console.log('Current unlocked crew:', state.unlockedCrew.length);
+                        console.log('Current hired crew:', state.hiredCrew.length);
+                        return {
+                          unlockedCrew: state.unlockedCrew.filter(c => c.id !== crew.id),
+                          hiredCrew: [...state.hiredCrew, crew]
+                        };
+                      });
                     }
                   }}
                   disabled={
