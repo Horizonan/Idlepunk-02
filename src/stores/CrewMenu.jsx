@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../styles/CrewMenu.css';
 import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
 import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
-import { useJunkStore } from "../junkStore";
+
 
 export default function CrewMenu({ onClose, setCredits, credits }) {
   const [activeTab, setActiveTab] = useState('view');
@@ -82,7 +82,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                     console.log('Cost:', cost, 'Type:', costType);
                     console.log('Current credits:', credits);
 
-                    const junkAmount = localStorage.getItem('junk-storage') ? JSON.parse(localStorage.getItem('junk-storage')).state.junk : 0;
+                    const junkAmount = Number(localStorage.getItem('junk')) || 0;
                     console.log('Current junk:', junkAmount);
 
                     let canAfford = false;
@@ -92,7 +92,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                       canAfford = true;
                     } else if (costType === 'junk' && junkAmount >= cost) {
                       console.log('Can afford with junk');
-                      useJunkStore.getState().removeJunk(cost);
+                      localStorage.setItem('junk', junkAmount - cost);
                       canAfford = true;
                     } else {
                       console.log('Cannot afford:', costType === 'credits' ? 'Insufficient credits' : 'Insufficient junk');
