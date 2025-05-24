@@ -547,3 +547,19 @@
   font-size: 0.9em;
   text-align: center;
 }
+
+.complete-mission-button {
+  background: #00FF00;
+  color: #222;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.complete-mission-button:hover {
+  background: #00CC00;
+  transform: scale(1.05);
+}

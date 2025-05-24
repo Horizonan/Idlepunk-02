@@ -338,7 +338,20 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                       ></div>
                     </div>
                     <div className="time-remaining">
-                      Time Remaining: {Math.ceil(timeLeft / 60)}min {Math.ceil(timeLeft % 60)}s
+                      {timeLeft > 0 ? (
+                        `Time Remaining: ${Math.ceil(timeLeft / 60)}min ${Math.ceil(timeLeft % 60)}s`
+                      ) : (
+                        <button 
+                          className="complete-mission-button"
+                          onClick={() => {
+                            setActiveMission(null);
+                            setSelectedCrew([]);
+                            // Add reward logic here
+                          }}
+                        >
+                          Complete Mission
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
