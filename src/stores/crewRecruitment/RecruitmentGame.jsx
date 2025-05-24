@@ -75,7 +75,12 @@ export function RecruitmentGame() {
       <p><strong>Age:</strong> {profile.age}</p>
       <p><strong>Background:</strong> {profile.background}</p>
       <p><strong>Skills:</strong> {profile.skills.join(', ')}</p>
-      <p><strong>Work Permit:</strong> {profile.workPermit.validUntil instanceof Date ? profile.workPermit.validUntil.toLocaleDateString() : profile.workPermit.validUntil}</p>
+      <p><strong>Work Permit:</strong> {profile.workPermit.status === 'missing' ? 
+        'MISSING DOCUMENTATION' : 
+        profile.workPermit.validUntil instanceof Date ? 
+          profile.workPermit.validUntil.toLocaleDateString() : 
+          profile.workPermit.validUntil
+      }</p>
 
       <div className="buttons">
         <button onClick={() => act('recruit')}>Recruit</button>
