@@ -629,6 +629,15 @@
   color: #FF0000;
 }
 
+.failure-message {
+  color: #FF6666;
+  font-style: italic;
+  margin: 10px 0;
+  padding: 8px;
+  background: rgba(255, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
 .mission-result button {
   margin-top: 20px;
   padding: 10px 20px;
