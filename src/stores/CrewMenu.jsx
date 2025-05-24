@@ -153,7 +153,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
             </div>
           </div>
           </div>
-        );
+         );
       case 'missions':
         return (
           <div className="crew-content">
