@@ -130,13 +130,12 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
 
                     if (canAfford) {
                       console.log('Updating crew state...');
-                      useRecruitmentZustand.setState(state => {
-                        console.log('Current unlocked crew:', state.unlockedCrew.length);
-                        console.log('Current hired crew:', state.hiredCrew.length);
-                        return {
-                          unlockedCrew: state.unlockedCrew.filter(c => c.id !== crew.id),
-                          hiredCrew: [...state.hiredCrew, crew]
-                        };
+                      const updateState = useRecruitmentZustand.getState();
+                      const newUnlockedCrew = updateState.unlockedCrew.filter(c => c.id !== crew.id);
+                      const newHiredCrew = [...updateState.hiredCrew, crew];
+                      useRecruitmentZustand.setState({
+                        unlockedCrew: newUnlockedCrew,
+                        hiredCrew: newHiredCrew
                       });
                     }
                   }}
