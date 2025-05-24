@@ -2,43 +2,33 @@ import React, { useState } from 'react';
 import '../styles/CrewMenu.css';
 import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
 import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
+import { missions, calculateMissionSuccess } from "./crewRecruitment/missions";
 
 
 export default function CrewMenu({ onClose, setCredits, credits }) {
   const [activeTab, setActiveTab] = useState('view');
   const [junkAmount, setJunkAmount] = useState(Number(localStorage.getItem('junk')) || 0);
-  const [selectedCrew, setSelectedCrew] = useState(null);
-  const isRunning = useRecruitmentZustand(state => state.isRunning);
-  const startGame = useRecruitmentZustand(state => state.startGame);
+  const [showCrewSelect, setShowCrewSelect] = useState(false);
+  const [selectedCrew, setSelectedCrew] = useState([]);
+  const [activeMission, setActiveMission] = useState(null);
 
-  const CrewStatsModal = ({ crew, onClose }) => {
-    if (!crew) return null;
-    
-    return (
-      <div className="crew-stats-modal" onClick={onClose}>
-        <div className="crew-stats-content" onClick={e => e.stopPropagation()}>
-          <h2>{crew.name}</h2>
-          <div className="crew-stat-row">
-            <span className="stat-label">Role:</span>
-            <span className="stat-value">{crew.role}</span>
-          </div>
-          <div className="crew-stat-row">
-            <span className="stat-label">Rarity:</span>
-            <span className={`stat-value ${crew.rarity}`}>{crew.rarity}</span>
-          </div>
-          <div className="crew-stat-row">
-            <span className="stat-label">Perks:</span>
-            <span className="stat-value">{crew.perks}</span>
-          </div>
-          <div className="crew-stat-row">
-            <span className="stat-label">Unlock Cost:</span>
-            <span className="stat-value">{crew.unlockCost?.amount || 0} {crew.unlockCost?.type || ''}</span>
-          </div>
-          <button className="close-stats" onClick={onClose}>Close</button>
-        </div>
-      </div>
+  const toggleCrewSelection = (crewId) => {
+    setSelectedCrew(prev => 
+      prev.includes(crewId) 
+        ? prev.filter(id => id !== crewId)
+        : [...prev, crewId]
     );
   };
+
+  const startMission = (mission) => {
+    // Here you can implement the mission start logic
+    console.log('Starting mission:', mission.name);
+    console.log('Selected crew:', selectedCrew);
+    setShowCrewSelect(false);
+    setSelectedCrew([]);
+  };
+  const isRunning = useRecruitmentZustand(state => state.isRunning);
+  const startGame = useRecruitmentZustand(state => state.startGame);
 
   const TabContent = () => {
     switch(activeTab) {
@@ -47,14 +37,22 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
           <div className="crew-content">
             <h3>Current Crew</h3>
             <div className="crew-grid">
-              {useRecruitmentZustand(state => state.hiredCrew).map((crew) => (
-                <div key={crew.id} className="crew-slot active">
-                  <h4>{crew.name}</h4>
-                  <p>{crew.role}</p>
-                  <p className="crew-rarity">{crew.rarity}</p>
-                </div>
-              ))}
-              {[...Array(3 - useRecruitmentZustand(state => state.hiredCrew).length)].map((_, i) => (
+              {(() => {
+                const hiredCrew = useRecruitmentZustand(state => state.hiredCrew);
+                return (
+                  <>
+                    {hiredCrew.map((crew) => (
+                      <div key={crew.id} className="crew-slot active">
+                        <h4>{crew.name}</h4>
+                        <p className="crew-role">{crew.role}</p>
+                        <p className="crew-rarity">{crew.rarity}</p>
+                        <div className="crew-perks">
+                          <p>Perks:</p>
+                          <p>{crew.perks}</p>
+                        </div>
+                      </div>
+                    ))}
+                    {[...Array(3 - hiredCrew.length)].map((_, i) => (
                 <div key={i} className="crew-slot empty">
                   <div className="slot-icon">?</div>
                   <p>Empty Slot</p>
@@ -90,7 +88,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
 
           <div className="recruit-list">
             {useRecruitmentZustand(state => state.unlockedCrew).map((crew) => (
-              <div key={crew.id} className="recruit-card" onClick={() => setSelectedCrew(crew)}>
+              <div key={crew.id} className="recruit-card">
                 <div className="recruit-stats">
                   <span>💪 {crew.name}</span>
                 </div>
@@ -105,8 +103,7 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
                 </div>
                 <button 
                   className="recruit-button"
-                  onClick={(e) => {
-                    e.stopPropagation();
+                  onClick={() => {
                     const cost = crew.unlockCost?.amount || 0;
                     const costType = crew.unlockCost?.type || 'credits';
 
@@ -167,23 +164,108 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
           <div className="crew-content">
             <h3>Available Missions</h3>
             <div className="mission-list">
-              <div className="mission-card">
-                <div className="mission-header">
-                  <h4>Scrap Scout</h4>
-                  <span className="mission-difficulty">Easy</span>
+              {Object.values(missions).map((mission) => (
+                <div key={mission.id} className="mission-card">
+                  <div className="mission-header">
+                    <h4>{mission.name}</h4>
+                    <span className="mission-difficulty">{mission.difficulty}</span>
+                  </div>
+                  <p>{mission.description}</p>
+                  <div className="mission-requirements">
+                    <h5>Required Stats:</h5>
+                    {Object.entries(mission.requirements).map(([stat, value]) => (
+                      <span key={stat}>
+                        {stat}: {value}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="mission-rewards">
+                    <h5>Base Rewards:</h5>
+                    <span>💰 {mission.baseRewards.credits}</span>
+                    <span>🗑️ {mission.baseRewards.junk}</span>
+                  </div>
+                  <div className="mission-duration">
+                    Duration: {Math.floor(mission.duration / 60)}min
+                  </div>
+                  <button 
+                    className="mission-button" 
+                    disabled={useRecruitmentZustand(state => state.hiredCrew).length === 0}
+                    onClick={() => {
+                      setActiveMission(mission);
+                      setShowCrewSelect(true);
+                    }}
+                  >
+                    {useRecruitmentZustand(state => state.hiredCrew).length === 0 ? 'No Crew Available' : 'Start Mission'}
+                  </button>
+                  {showCrewSelect && activeMission?.id === mission.id && (
+                    <div className="crew-selection-modal">
+                      <div className="crew-selection-header">
+                        <h3>Select Crew for {mission.name}</h3>
+                        <button onClick={() => setShowCrewSelect(false)}>×</button>
+                      </div>
+                      <div className="mission-requirements-display">
+                        <h4>Required Stats:</h4>
+                        <div className="stat-comparison">
+                          {Object.entries(mission.requirements).map(([stat, value]) => {
+                            const selectedCrewStats = useRecruitmentZustand(state => state.hiredCrew)
+                              .filter(crew => selectedCrew.includes(crew.id))
+                              .reduce((total, crew) => total + (crew.stats?.[stat.toLowerCase()] || 0), 0);
+                            
+                            return (
+                              <div key={stat} className={`stat-row ${selectedCrewStats >= value ? 'met' : 'unmet'}`}>
+                                <span className="stat-name">{stat}:</span>
+                                <span className="stat-value">{selectedCrewStats} / {value}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div className="success-chance">
+                          Success Chance: {calculateMissionSuccess(
+                            useRecruitmentZustand(state => state.hiredCrew)
+                              .filter(crew => selectedCrew.includes(crew.id))
+                              .reduce((stats, crew) => {
+                                Object.entries(mission.requirements).forEach(([stat]) => {
+                                  stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + (crew.stats?.[stat.toLowerCase()] || 0);
+                                });
+                                return stats;
+                              }, {}),
+                            mission.requirements
+                          ).toFixed(1)}%
+                        </div>
+                      </div>
+                      <div className="crew-selection-list">
+                        {useRecruitmentZustand(state => state.hiredCrew).map((crew) => (
+                          <div
+                            key={crew.id}
+                            className={`crew-selection-item ${selectedCrew.includes(crew.id) ? 'selected' : ''}`}
+                            onClick={() => toggleCrewSelection(crew.id)}
+                          >
+                            <h4>{crew.name}</h4>
+                            <p>{crew.role}</p>
+                            <div className="crew-stats">
+                              <div>Tech: {crew.stats?.tech || 0}</div>
+                              <div>Grit: {crew.stats?.grit || 0}</div>
+                              <div>Stealth: {crew.stats?.stealth || 0}</div>
+                              <div>Luck: {crew.stats?.luck || 0}</div>
+                              <div>Psyche: {crew.stats?.psyche || 0}</div>
+                            </div>
+                            <p>{crew.perks}</p>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="crew-selection-actions">
+                        <button onClick={() => setShowCrewSelect(false)}>Cancel</button>
+                        <button 
+                          onClick={() => startMission(mission)}
+                          disabled={selectedCrew.length === 0}
+                        >
+                          Start Mission
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
-                <p>Scout the outskirts for valuable junk</p>
-                <div className="mission-rewards">
-                  <span>💰 100-200</span>
-                  <span>⚡ 1-2</span>
-                </div>
-                <button 
-                  className="mission-button" 
-                  disabled={useRecruitmentZustand(state => state.hiredCrew).length === 0}
-                >
-                  {useRecruitmentZustand(state => state.hiredCrew).length === 0 ? 'No Crew Available' : 'Start Mission'}
-                </button>
-              </div>
+              ))}
             </div>
           </div>
         );
@@ -247,7 +329,6 @@ export default function CrewMenu({ onClose, setCredits, credits }) {
       </div>
 
       <TabContent />
-      {selectedCrew && <CrewStatsModal crew={selectedCrew} onClose={() => setSelectedCrew(null)} />}
     </div>
   );
 }
