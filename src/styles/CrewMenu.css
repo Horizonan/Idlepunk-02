@@ -306,6 +306,50 @@
   color: #9400D3;
 }
 
+.ongoing-mission {
+  background: #222;
+  border: 2px solid #9400D3;
+  padding: 20px;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.mission-crew {
+  margin: 15px 0;
+}
+
+.assigned-crew-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.assigned-crew-member {
+  background: rgba(148, 0, 211, 0.1);
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #9400D3;
+}
+
+.crew-stats-mini {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+  font-size: 0.9em;
+  color: #00FF00;
+}
+
+.mission-timer {
+  text-align: center;
+  font-size: 1.2em;
+  margin-top: 15px;
+  padding: 10px;
+  background: rgba(0, 255, 0, 0.1);
+  border-radius: 4px;
+  color: #00FF00;
+}
+
 .mission-duration {
   color: #00FF00;
   font-size: 0.9em;
