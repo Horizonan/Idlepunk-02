@@ -30,11 +30,15 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   }, [activeMission, missionStartTime]);
 
   const toggleCrewSelection = (crewId) => {
-    setSelectedCrew(prev => 
-      prev.includes(crewId) 
-        ? prev.filter(id => id !== crewId)
-        : [...prev, crewId]
-    );
+    setSelectedCrew(prev => {
+      if (prev.includes(crewId)) {
+        return prev.filter(id => id !== crewId);
+      }
+      if (prev.length >= activeMission?.maxCrew) {
+        return prev;
+      }
+      return [...prev, crewId];
+    });
   };
 
   const startMission = (mission) => {
