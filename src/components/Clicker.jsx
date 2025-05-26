@@ -7,108 +7,70 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
   const [isHolding, setIsHolding] = useState(false); // Added state for hold-to-click
 
   useEffect(() => {
-    let lastClickTime = 0;
-    let isKeyHeld = false;
-    let holdInterval = null;
-
-    const performClick = () => {
-      if (activeClicker === 'trash') {
-        // Trigger visual animation
-        const clickerElement = document.getElementById('trashClicker');
-        if (clickerElement) {
-          // Add scale animation
-          clickerElement.style.transform = 'scale(0.95)';
-          setTimeout(() => {
-            clickerElement.style.transform = 'scale(1)';
-          }, 100);
-          
-          if (!localStorage.getItem('firstClick')) {
-            localStorage.setItem('firstClick', 'true');
-            clickerElement.classList.add('clicked');
-          }
-        }
-        
-        setClickCount(prev => {
-          const newCount = prev + 1;
-          if (newCount === 50) {
-            setShowGlitch(true);
-            setTimeout(() => setShowGlitch(false), 5000);
-          }
-          return newCount;
-        });
-        collectJunk();
-      } else if (activeClicker === 'electronics' && electronicsUnlock) {
-        // Trigger visual animation for electronics clicker
-        const electroElement = document.querySelector('.tronics');
-        if (electroElement) {
-          electroElement.style.transform = 'scale(0.95)';
-          setTimeout(() => {
-            electroElement.style.transform = 'scale(1)';
-          }, 100);
-        }
-        
-        // Simulate electronics clicker click
-        const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
-        const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
-        const amount = 1;
-        const totalBoost = boostICount + (boostIICount * 2);
-
-        // Update manual click count and total clicks
-        window.dispatchEvent(new CustomEvent('manualTronicsClick'));
-        const currentTotal = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
-        localStorage.setItem('totalTronicsClicks', (currentTotal + 1).toString());
-
-        if(totalBoost >= 1){
-          const amount = (1 * totalBoost) + 1;
-          collectTronics(amount);
-        } else {
-          collectTronics(amount);
-        }
-      }
-    };
-
-    const handleKeyDown = (e) => {
+    const handleKeyPress = (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         
-        const currentTime = Date.now();
-        
-        // Perform immediate click if not held or if 1 second has passed
-        if (!isKeyHeld || currentTime - lastClickTime >= 1000) {
-          performClick();
-          lastClickTime = currentTime;
+        if (activeClicker === 'trash') {
+          // Trigger visual animation
+          const clickerElement = document.getElementById('trashClicker');
+          if (clickerElement) {
+            // Add scale animation
+            clickerElement.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+              clickerElement.style.transform = 'scale(1)';
+            }, 100);
+            
+            if (!localStorage.getItem('firstClick')) {
+              localStorage.setItem('firstClick', 'true');
+              clickerElement.classList.add('clicked');
+            }
+          }
           
-          // If not already holding, start the interval
-          if (!isKeyHeld) {
-            isKeyHeld = true;
-            holdInterval = setInterval(() => {
-              performClick();
-              lastClickTime = Date.now();
-            }, 1000); // 1 click per second
+          setClickCount(prev => {
+            const newCount = prev + 1;
+            if (newCount === 50) {
+              setShowGlitch(true);
+              setTimeout(() => setShowGlitch(false), 5000);
+            }
+            return newCount;
+          });
+          collectJunk();
+        } else if (activeClicker === 'electronics' && electronicsUnlock) {
+          // Trigger visual animation for electronics clicker
+          const electroElement = document.querySelector('.tronics');
+          if (electroElement) {
+            electroElement.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+              electroElement.style.transform = 'scale(1)';
+            }, 100);
+          }
+          
+          // Simulate electronics clicker click
+          const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
+          const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
+          const amount = 1;
+          const totalBoost = boostICount + (boostIICount * 2);
+
+          // Update manual click count and total clicks
+          window.dispatchEvent(new CustomEvent('manualTronicsClick'));
+          const currentTotal = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
+          localStorage.setItem('totalTronicsClicks', (currentTotal + 1).toString());
+
+          if(totalBoost >= 1){
+            const amount = (1 * totalBoost) + 1;
+            collectTronics(amount);
+          } else {
+            collectTronics(amount);
           }
         }
       }
     };
 
-    const handleKeyUp = (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        isKeyHeld = false;
-        if (holdInterval) {
-          clearInterval(holdInterval);
-          holdInterval = null;
-        }
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
+    window.addEventListener('keydown', handleKeyPress);
     
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
-      if (holdInterval) {
-        clearInterval(holdInterval);
-      }
+      window.removeEventListener('keydown', handleKeyPress);
     };
   }, [activeClicker, electronicsUnlock, collectJunk, collectTronics]);
 
