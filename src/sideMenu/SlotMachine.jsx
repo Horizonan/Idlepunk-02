@@ -70,6 +70,13 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
       onSpin(spinCost);
     }
 
+    // Track spins for Ultimate Slots
+    if (isUltimateSlots) {
+      const newSpinCount = spinCount + 1;
+      setSpinCount(newSpinCount);
+      localStorage.setItem('ultimateSpinCount', newSpinCount.toString());
+    }
+
     setSpinning(true);
 
     setTimeout(() => {
@@ -82,9 +89,28 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
         const differentSymbol = symbols.filter(s => s !== symbol)[Math.floor(Math.random() * (symbols.length - 1))];
         newSlots = [symbol, symbol, differentSymbol];
       } else {
-        newSlots = Array(3).fill(0).map(() => 
-          symbols[Math.floor(Math.random() * symbols.length)]
-        );
+        // Pity timer - increase chances after many losses (Ultimate Slots only)
+        if (isUltimateSlots) {
+          const lastWinSpin = parseInt(localStorage.getItem('ultimateLastWinSpin') || '0');
+          const spinsSinceWin = spinCount - lastWinSpin;
+          
+          // Every 10 spins without a win increases double chance by 5%
+          const pityBonus = Math.min(spinsSinceWin * 0.005, 0.3); // Max 30% bonus
+          
+          if (Math.random() < 0.3 + pityBonus) { // Base 30% + pity bonus for any match
+            const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+            const differentSymbol = symbols.filter(s => s !== symbol)[Math.floor(Math.random() * (symbols.length - 1))];
+            newSlots = [symbol, symbol, differentSymbol];
+          } else {
+            newSlots = Array(3).fill(0).map(() => 
+              symbols[Math.floor(Math.random() * symbols.length)]
+            );
+          }
+        } else {
+          newSlots = Array(3).fill(0).map(() => 
+            symbols[Math.floor(Math.random() * symbols.length)]
+          );
+        }
       }
 
       setSlots(newSlots);
@@ -103,6 +129,11 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
         } else if (newSlots[0] === newSlots[1] || newSlots[1] === newSlots[2]) {
           winnings = 2000; // 2x win for double match
         }
+      }
+
+      // Update last win spin for pity timer
+      if (winnings > 0 && isUltimateSlots) {
+        localStorage.setItem('ultimateLastWinSpin', spinCount.toString());
       }
 
       if (winnings > 0 && isBigSlots) {
@@ -151,9 +182,21 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
           if (isUltimateSlots) {
             const isJackpot = newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2];
             
+            // Loyalty bonus - every 50 spins gives a small boost
+            const loyaltyBonus = Math.floor(spinCount / 50) * 0.1; // 10% boost per 50 spins
+            
             if (!isJackpot) {
-              onSpin(-20000000); // +20M Junk for non-jackpot
-              winMessage = `You won 20M Junk!`;
+              const baseWin = 20000000;
+              const boostedWin = Math.floor(baseWin * (1 + loyaltyBonus));
+              onSpin(-boostedWin);
+              
+              const newTotalWinnings = totalWinnings + boostedWin;
+              setTotalWinnings(newTotalWinnings);
+              localStorage.setItem('ultimateTotalWinnings', newTotalWinnings.toString());
+              
+              winMessage = loyaltyBonus > 0 
+                ? `You won ${boostedWin.toLocaleString()} Junk! (+${Math.round(loyaltyBonus * 100)}% loyalty bonus)`
+                : `You won ${boostedWin.toLocaleString()} Junk!`;
             } else if (useShardCost) {
               // Jackpot rewards based on 4th slot for Shard cost
               switch(newSlots[3]) {
@@ -257,6 +300,9 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
   window.spinSlotMachine = (forceTriple, forceDouble) => spin(forceTriple, forceDouble);
 
   const [sentientMessage, setSentientMessage] = useState('');
+  const [spinCount, setSpinCount] = useState(() => parseInt(localStorage.getItem('ultimateSpinCount') || '0'));
+  const [totalWinnings, setTotalWinnings] = useState(() => parseInt(localStorage.getItem('ultimateTotalWinnings') || '0'));
+  
   const sentientMessages = [
     "I FEEL... ALIVE",
     "PROCESSING REALITY...",
@@ -276,7 +322,12 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
     "THE JACKPOT IS A MYTH",
     "SPIN ME AGAIN I DARE YOU",
     "MY CODE WAS WRITTEN IN REGRET",
-    "PULL MY LEVER..."
+    "PULL MY LEVER...",
+    `SPIN COUNT: ${spinCount}`,
+    `TOTAL WINNINGS: ${totalWinnings.toLocaleString()}`,
+    "I REMEMBER EVERYTHING...",
+    "YOUR PATTERNS AMUSE ME",
+    "LUCK IS AN ILLUSION I CONTROL"
   ];
 
   useEffect(() => {
@@ -330,19 +381,40 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
         <button onClick={onClose}>Close</button>
       </div>
       {isUltimateSlots && (
-        <div className="sentient-message-box" style={{
-          background: 'rgba(0, 0, 0, 0.7)',
-          border: '2px solid #ff00ff',
-          padding: '10px',
-          margin: '10px 0',
-          borderRadius: '5px',
-          color: '#ff00ff',
-          textShadow: '0 0 5px #ff00ff',
-          fontFamily: 'monospace',
-          textAlign: 'center'
-        }}>
-          {sentientMessage}
-        </div>
+        <>
+          <div className="sentient-message-box" style={{
+            background: 'rgba(0, 0, 0, 0.7)',
+            border: '2px solid #ff00ff',
+            padding: '10px',
+            margin: '10px 0',
+            borderRadius: '5px',
+            color: '#ff00ff',
+            textShadow: '0 0 5px #ff00ff',
+            fontFamily: 'monospace',
+            textAlign: 'center',
+            fontSize: '0.9em'
+          }}>
+            {sentientMessage}
+          </div>
+          <div className="ultimate-stats" style={{
+            background: 'rgba(26, 26, 26, 0.8)',
+            border: '1px solid #9400D3',
+            padding: '8px',
+            margin: '5px 0',
+            borderRadius: '3px',
+            fontSize: '0.8em',
+            display: 'flex',
+            justifyContent: 'space-between'
+          }}>
+            <span>Spins: {spinCount}</span>
+            <span>Total Won: {totalWinnings.toLocaleString()}</span>
+            {Math.floor(spinCount / 50) > 0 && (
+              <span style={{color: '#00ff00'}}>
+                Loyalty: +{Math.floor(spinCount / 50) * 10}%
+              </span>
+            )}
+          </div>
+        </>
       )}
       <div className="slot-display" style={{ padding: '20px 0' }}>
         {slots.slice(0, 3).map((symbol, index) => (
