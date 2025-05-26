@@ -1333,6 +1333,8 @@ export default function App() {
             if (prestigeCount === 0) {
               // Use setTimeout to ensure the message appears after the prestige reset
               setTimeout(() => {
+                console.log("Notifications after setting the cogfather message:", notifications);
+
                 const cogfatherMessage = (
                   <div className="cogfather-message-popup">
                     <img src="Icons/NPCs/Cogfather.jfif" alt="Cogfather" />
