@@ -21,7 +21,9 @@ export default function Settings({
   setShowSettings, setShowJunkDrone, showHoverDrone, setShowHoverDrone,
   onClose, setUiSettingsCollapsed, uiSettingsCollapsed, showJunkDrone, showAutoclickers, setShowAutoclickers,
   enableTrashPickup, permanentAutoClicks,
-  setEnableTrashPickup
+  setEnableTrashPickup,
+  enableHoldToClick,
+  setEnableHoldToClick
 }) {
   const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
 
@@ -172,6 +174,17 @@ export default function Settings({
                 }}
               />
             </label>
+            <label className="setting-option">
+              <span>Enable Hold to Click</span>
+              <input
+                type="checkbox"
+                checked={enableHoldToClick}
+                onChange={(e) => {
+                  localStorage.setItem('enableHoldToClick', e.target.checked);
+                  setEnableHoldToClick(e.target.checked);
+                }}
+              />
+            </label>
             <button 
               className="ui-reset-button"
               onClick={() => {
@@ -192,6 +205,7 @@ export default function Settings({
                 localStorage.setItem('showBeaconVisual', 'false');
                 localStorage.setItem('sidebarLocked', 'false');
                 localStorage.setItem('enableTrashPickup', 'false'); // Added reset for enableTrashPickup
+                localStorage.setItem('enableHoldToClick', 'true'); // Reset hold-to-click to enabled
 
                 // Force refresh
                 window.location.reload();

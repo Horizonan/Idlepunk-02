@@ -84,7 +84,7 @@ export default function App() {
     prestigeQuestCompleted, setPrestigeQuestCompleted, showClickEnhancerUI, setShowClickEnhancerUI, craftingInventory, setCraftingInventory,
     showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory, activeCheatsList, setActiveCheatsList,
     itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, showJunkDrone, setShowJunkDrone,
-    bulkBuy, setBulkBuy, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup, permanentAutoClicks, setPermanentAutoClicks, showCombat, setShowCombat
+    bulkBuy, setBulkBuy, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup, permanentAutoClicks, setPermanentAutoClicks, showCombat, setShowCombat, enableHoldToClick, setEnableHoldToClick
   } = useGameState();
 
   const {
@@ -110,7 +110,7 @@ export default function App() {
   });
 
   const [showCoinFlip, setShowCoinFlip] = useState(false);
-  
+
   useEffect(() => {
     const handleUpdateSurgeCount = () => {
       setSurgeCount(3);
@@ -207,7 +207,7 @@ export default function App() {
     }
   };
 
-  
+
 
   useEffect(() => {
     const handleUpgradeStats = () => {
@@ -246,13 +246,13 @@ export default function App() {
     const cleanup = useCrystalZustand.getState().initializeCrystalTimer();
     useFlavorEvents.getState().initializeFlavorEvents();
     useEmailStore.getState().initializeEmailSystem();
-    
+
     const handleShowCrystal = () => {
       setShowCrystal(true);
     };
 
     window.addEventListener('showCrystal', handleShowCrystal);
-    
+
     const spawnTrashBonus = () => {
       setShowTrashBonus(true);
       const nextSpawnTime = 120000 + Math.random() * 360000; 
@@ -570,7 +570,7 @@ export default function App() {
             setNotifications(prev => [...prev, "The electro shard vanished into the void..."]);
           }}
         />
-      )}
+      }
       <StatsDisplay 
         credits={credits}
         junk={junk}
@@ -670,7 +670,7 @@ export default function App() {
           bottom: 'auto'
         }}
       >
-       
+
         <MenuButtons 
           onStoreSelect={(store) => {
             setActiveStore(store);
@@ -906,6 +906,7 @@ export default function App() {
         collectJunk={collectJunk} 
         collectTronics={collectTronics}
         electronicsUnlock={electronicsUnlock}
+        enableHoldToClick={enableHoldToClick}
       />
       {showClickEnhancerUI && clickEnhancerLevel > 0 && <ClickEnhancerEffect level={clickEnhancerLevel} />}
       {autoClicks > 0 && <AutoClickerEffect autoClicks={autoClicks} />}
@@ -988,6 +989,8 @@ export default function App() {
           setShowAutoclickers= {setShowAutoclickers}
           enableTrashPickup= {enableTrashPickup}
           setEnableTrashPickup= {setEnableTrashPickup}
+          enableHoldToClick={enableHoldToClick}
+          setEnableHoldToClick={setEnableHoldToClick}
           setUiSettingsCollapsed={setUiSettingsCollapsed}
           uiSettingsCollapsed={uiSettingsCollapsed}
           permanentAutoClicks= {permanentAutoClicks}
@@ -1000,7 +1003,7 @@ export default function App() {
         />
       )}
       <Notifications notifications={notifications} />
-      
+
       {ownedItems.shardMiner && (
         <ShardMiner
           onCollect={(amount) => {

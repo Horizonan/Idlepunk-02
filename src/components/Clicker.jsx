@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-export default function Clickers({ collectJunk, collectTronics, electronicsUnlock }) {
+export default function Clickers({ collectJunk, collectTronics, electronicsUnlock, enableHoldToClick }) {
   const [activeClicker, setActiveClicker] = useState('trash');
   const [showGlitch, setShowGlitch] = useState(false);
   const [clickCount, setClickCount] = useState(0);
@@ -14,6 +14,8 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
 
   // Handle keyboard events for Enter key hold-to-click
   useEffect(() => {
+    if (!enableHoldToClick) return;
+
     const handleKeyDown = (e) => {
       if (e.key === 'Enter' && !isHolding) {
         e.preventDefault();
@@ -37,7 +39,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [isHolding]);
+  }, [isHolding, enableHoldToClick]);
 
   // Handle hold-to-click functionality
   useEffect(() => {
@@ -105,15 +107,21 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
   }, [isHolding, activeClicker, electronicsUnlock, collectJunk, collectTronics, holdClickDelay, holdClickAmount]);
 
   const handleMouseDown = () => {
-    setIsHolding(true);
+    if (enableHoldToClick) {
+      setIsHolding(true);
+    }
   };
 
   const handleMouseUp = () => {
-    setIsHolding(false);
+    if (enableHoldToClick) {
+      setIsHolding(false);
+    }
   };
 
   const handleMouseLeave = () => {
-    setIsHolding(false);
+    if (enableHoldToClick) {
+      setIsHolding(false);
+    }
   };
 
   return (
