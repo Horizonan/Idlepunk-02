@@ -703,7 +703,7 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
             border: '1px solid #9400D3',
             minWidth: '60px',
             textAlign: 'center',
-            zIndex: 10000
+            zIndex: 100011
           }}>
             {robotMessage}
             <div style={{
