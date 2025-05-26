@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useEmailStore } from '../utils/emailStore';
 import './JunkTerminal.css';
@@ -7,6 +6,7 @@ export default function JunkTerminal() {
   const emails = useEmailStore((state) => state.emails);
   const markAsRead = useEmailStore((state) => state.markAsRead);
   const [selectedEmail, setSelectedEmail] = useState(null);
+  const [revealedLoreFragments, setRevealedLoreFragments] = useState([]);
 
   useEffect(() => {
     useEmailStore.getState().initializeEmailSystem();
@@ -23,6 +23,10 @@ export default function JunkTerminal() {
     }
   };
 
+  const handleLoreReveal = (email) => {
+    setRevealedLoreFragments([...revealedLoreFragments, { emailId: email.id }]);
+  };
+
   const unreadEmails = emails.filter(email => !email.read);
   const readEmails = emails.filter(email => email.read);
 
@@ -31,7 +35,7 @@ export default function JunkTerminal() {
       <div className="terminal-header">
         <h3>📧 JUNK TERMINAL v1.0</h3>
       </div>
-      
+
       {unreadEmails.length > 0 && (
         <div className="email-section">
           <h4 className="section-header">Unread Messages</h4>
@@ -54,6 +58,17 @@ export default function JunkTerminal() {
                     <h4>{selectedEmail.subject}</h4>
                     <p className="email-sender">From: {selectedEmail.from}</p>
                     <p className="email-body">{selectedEmail.content}</p>
+                    {selectedEmail.hasLoreFragment && (
+                      <button 
+                        className="lore-reveal-btn"
+                        onClick={() => handleLoreReveal(selectedEmail)}
+                        disabled={revealedLoreFragments.some(fragment => fragment.emailId === selectedEmail.id)}
+                      >
+                        {revealedLoreFragments.some(fragment => fragment.emailId === selectedEmail.id) 
+                          ? "✓ Lore Fragment Revealed" 
+                          : "▶️ READ FULL SIGNAL: ORIGIN-CITY.HEX"}
+                      </button>
+                    )}
                   </div>
                 )}
               </div>
@@ -83,6 +98,17 @@ export default function JunkTerminal() {
                     <h4>{selectedEmail.subject}</h4>
                     <p className="email-sender">From: {selectedEmail.from}</p>
                     <p className="email-body">{selectedEmail.content}</p>
+                    {selectedEmail.hasLoreFragment && (
+                      <button 
+                        className="lore-reveal-btn"
+                        onClick={() => handleLoreReveal(selectedEmail)}
+                        disabled={revealedLoreFragments.some(fragment => fragment.emailId === selectedEmail.id)}
+                      >
+                        {revealedLoreFragments.some(fragment => fragment.emailId === selectedEmail.id) 
+                          ? "✓ Lore Fragment Revealed" 
+                          : "▶️ READ FULL SIGNAL: ORIGIN-CITY.HEX"}
+                      </button>
+                    )}
                   </div>
                 )}
               </div>
