@@ -692,8 +692,8 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
           <div style={{
             position: 'absolute',
             top: '-35px',
-            left: '50%',
-            transform: 'translateX(-50%)',
+            left: '-50px',
+            transform: 'none',
             background: 'rgba(0, 0, 0, 0.9)',
             color: '#00FF00',
             padding: '4px 8px',
