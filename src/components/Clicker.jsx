@@ -5,43 +5,62 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
   const [showGlitch, setShowGlitch] = useState(false);
   const [clickCount, setClickCount] = useState(0);
   const [isHolding, setIsHolding] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const holdIntervalRef = useRef(null);
+
+  // Hold-to-click configuration variables
+  const [holdClickDelay, setHoldClickDelay] = useState(1000); // ms between clicks when holding
+  const [holdClickAmount, setHoldClickAmount] = useState(1); // number of clicks per hold interval
 
   // Handle hold-to-click functionality
   useEffect(() => {
     if (isHolding && activeClicker === 'trash') {
-      // Start clicking every second while holding
+      // Start clicking based on configured delay and amount
       holdIntervalRef.current = setInterval(() => {
-        setClickCount(prev => {
-          const newCount = prev + 1;
-          if (newCount === 50) {
-            setShowGlitch(true);
-            setTimeout(() => setShowGlitch(false), 5000);
-          }
-          return newCount;
-        });
-        collectJunk();
-      }, 1000);
+        // Trigger animation
+        setIsAnimating(true);
+        setTimeout(() => setIsAnimating(false), 200);
+
+        // Process multiple clicks if holdClickAmount > 1
+        for (let i = 0; i < holdClickAmount; i++) {
+          setClickCount(prev => {
+            const newCount = prev + 1;
+            if (newCount === 50) {
+              setShowGlitch(true);
+              setTimeout(() => setShowGlitch(false), 5000);
+            }
+            return newCount;
+          });
+          collectJunk();
+        }
+      }, holdClickDelay);
     } else if (isHolding && activeClicker === 'electronics' && electronicsUnlock) {
       // Handle electronics hold-to-click
       holdIntervalRef.current = setInterval(() => {
-        const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
-        const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
-        const amount = 1;
-        const totalBoost = boostICount + (boostIICount * 2);
+        // Trigger animation
+        setIsAnimating(true);
+        setTimeout(() => setIsAnimating(false), 200);
 
-        // Update manual click count and total clicks
-        window.dispatchEvent(new CustomEvent('manualTronicsClick'));
-        const currentTotal = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
-        localStorage.setItem('totalTronicsClicks', (currentTotal + 1).toString());
+        // Process multiple clicks if holdClickAmount > 1
+        for (let i = 0; i < holdClickAmount; i++) {
+          const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
+          const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
+          const amount = 1;
+          const totalBoost = boostICount + (boostIICount * 2);
 
-        if(totalBoost >= 1){
-          const amount = (1 * totalBoost) + 1;
-          collectTronics(amount);
-        } else {
-          collectTronics(amount);
+          // Update manual click count and total clicks
+          window.dispatchEvent(new CustomEvent('manualTronicsClick'));
+          const currentTotal = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
+          localStorage.setItem('totalTronicsClicks', (currentTotal + 1).toString());
+
+          if(totalBoost >= 1){
+            const amount = (1 * totalBoost) + 1;
+            collectTronics(amount);
+          } else {
+            collectTronics(amount);
+          }
         }
-      }, 1000);
+      }, holdClickDelay);
     } else {
       // Clear interval when not holding
       if (holdIntervalRef.current) {
@@ -56,7 +75,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
         clearInterval(holdIntervalRef.current);
       }
     };
-  }, [isHolding, activeClicker, electronicsUnlock, collectJunk, collectTronics]);
+  }, [isHolding, activeClicker, electronicsUnlock, collectJunk, collectTronics, holdClickDelay, holdClickAmount]);
 
   const handleMouseDown = () => {
     setIsHolding(true);
