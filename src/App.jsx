@@ -84,7 +84,7 @@ export default function App() {
     prestigeQuestCompleted, setPrestigeQuestCompleted, showClickEnhancerUI, setShowClickEnhancerUI, craftingInventory, setCraftingInventory,
     showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory, activeCheatsList, setActiveCheatsList,
     itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, showJunkDrone, setShowJunkDrone,
-    bulkBuy, setBulkBuy, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup, permanentAutoClicks, setPermanentAutoClicks, showCombat, setShowCombat, enableHoldToClick, setEnableHoldToClick
+    bulkBuy, setBulkBuy, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup, permanentAutoClicks, setPermanentAutoClicks, showCombat, setShowCombat, enableHoldToClick, setEnableHoldToClick, setElectroMultiplier, electroMultiplier
   } = useGameState();
 
   const {
@@ -106,7 +106,7 @@ export default function App() {
   }, {
     setJunk, tronics, setTronics, setNotifications, setClickMultiplier, setItemCosts, setOwnedItems, setHasUpgrade,
     setClickEnhancerLevel,clickEnhancerLevel, setPassiveIncome, setHasHelper, setGlobalJpsMultiplier, setAutoClicks,
-    setAutoClickerV1Count, autoClickerV1Count, setAutoClickerV2Count, setElectroShards
+    setAutoClickerV1Count, autoClickerV1Count, setAutoClickerV2Count, setElectroShards, setElectroMultiplier
   });
 
   const [showCoinFlip, setShowCoinFlip] = useState(false);
@@ -633,7 +633,7 @@ export default function App() {
       const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
       const quantumProc = hasQuantumTap && Math.random() < 0.03;
 
-      setTronics(prev => prev + (quantumProc ? amount * 3 : amount));
+      setTronics(prev => prev + ((quantumProc ? amount * 3 : amount) * electroMultiplier));
 
       if (quantumProc) {
         setNotifications(prev => [...prev, "Quantum Tap triggered! 3x Tronics gained!"]);
@@ -1169,6 +1169,7 @@ export default function App() {
           setUiSettingsCollapsed={setUiSettingsCollapsed}
           uiSettingsCollapsed={uiSettingsCollapsed}
           permanentAutoClicks= {permanentAutoClicks}
+          electroMultiplier={electroMultiplier}
           onClose={() => setShowSettings(false)}
         />
       )}

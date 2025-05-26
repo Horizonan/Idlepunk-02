@@ -4,7 +4,6 @@ export const useGameState = () => {
   
   const [clickMultiplier, setClickMultiplier] = useState(() => Number(localStorage.getItem('clickMultiplier')) || 1);
   const [passiveIncome, setPassiveIncome] = useState(() => Number(localStorage.getItem('passiveIncome')) || 0);
-  const [globalJpsMultiplier, setGlobalJpsMultiplier] = useState(() => Number(localStorage.getItem('globalJpsMultiplier')) || 1);
   const [notifications, setNotifications] = useState([]);
   const [electronicsUnlock, setElectronicsUnlock] = useState(() => localStorage.getItem('electronicsUnlock') === 'true');
   const [activeStore, setActiveStore] = useState(() => localStorage.getItem('activeStore') || null);
@@ -17,14 +16,19 @@ export const useGameState = () => {
   const [electroShards, setElectroShards] = useState(() => Number(localStorage.getItem('electroShards')) || 0);
   const [cogfatherLore, setCogfatherLore] = useState(() => JSON.parse(localStorage.getItem('cogfatherLore')) || []);
   const [preservedHelper, setPreservedHelper] = useState(() => localStorage.getItem('preservedHelper') || null);
-   const [showCoinFlip, setShowCoinFlip] = useState(false); 
+  const [showCoinFlip, setShowCoinFlip] = useState(false); 
   const [showCombat, setShowCombat] = useState(false);
+  
 
 
   //Currencies
   const [junk, setJunk] = useState(() => Math.floor(Number(localStorage.getItem('junk')) || 0));
   const [credits, setCredits] = useState(() => Math.floor(Number(localStorage.getItem('credits')) || 0));
   const [tronics, setTronics] = useState(() => Number(localStorage.getItem('tronics')) || 0);
+
+  //Multiplier
+  const [electroMultiplier, setElectroMultiplier] = useState(() => Number(localStorage.getItem('globalTronicsMultiplier')) || 1);
+  const [globalJpsMultiplier, setGlobalJpsMultiplier] = useState(() => Number(localStorage.getItem('globalJpsMultiplier')) || 1);
 
   //Junk Store Specific 
   const [bulkBuy, setBulkBuy] = useState(false);
@@ -231,6 +235,6 @@ return {
     itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, setSkillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, bulkBuy, setBulkBuy, showJunkDrone, setShowJunkDrone, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup,
     enableHoldToClick,
     setEnableHoldToClick, permanentAutoClicks, setPermanentAutoClicks,
-  showCombat, setShowCombat
+  showCombat, setShowCombat, setElectroMultiplier, electroMultiplier
   };
 };

@@ -388,7 +388,7 @@ export const gameHandlers = (gameState, setGameState) => {
         setGameState.setTronics(prev => prev - gameState.itemCosts.flowRegulator);
         localStorage.setItem('flow_regulator_purchased', 'true');
         setGameState.setOwnedItems(prev => ({...prev, flowRegulator: (prev.flowRegulator) + 1}));
-        localStorage.setItem('globalTronicsMultiplier', '1.1');
+        setGameState.setElectroMultiplier(prev => prev + 0.1)
         setGameState.setNotifications(prev => [...prev, "Flow Regulator purchased! +10% Tronics per click"]);
         incrementUpgradeCount();
       }
@@ -485,17 +485,11 @@ export const gameHandlers = (gameState, setGameState) => {
 
   const handleBuyReactiveFeedback = () => {
     if (!localStorage.getItem('reactive_feedback_purchased') && gameState.electroShards >= 12 && gameState.tronics >= 40000) {
-      setGameState.setElectroShards(prev => {
-        const newValue = prev - 12;
-        localStorage.setItem('electroShards', newValue.toString());
-        return newValue;
-      });
-      setGameState.setTronics(prev => {
-        const newValue = prev - 40000;
-        localStorage.setItem('tronics', newValue.toString());
-        return newValue;
-      });
+    setGameState.setElectroShards(prev => prev - 12);
+    setGameState.setTronics(prev =>  prev - 40000 );
       localStorage.setItem("reactive_feedback_purchased", "true");
+    setGameState.setElectroMultiplier(prev => prev + 0.15)
+      setGameState.setClickMultiplier(prev => prev * 1.025)
       setGameState.setNotifications(prev => [...prev, "Reactive Feedback Loop installed! +15% Tronics per click + 2.5% of Junk/sec from clicks!"]);
     }
   };
