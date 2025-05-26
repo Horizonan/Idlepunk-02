@@ -5,6 +5,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
   const [showGlitch, setShowGlitch] = useState(false);
   const [clickCount, setClickCount] = useState(0);
   const [isHolding, setIsHolding] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const holdIntervalRef = useRef(null);
 
   // Handle hold-to-click functionality
@@ -12,6 +13,10 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
     if (isHolding && activeClicker === 'trash') {
       // Start clicking every second while holding
       holdIntervalRef.current = setInterval(() => {
+        // Trigger animation
+        setIsAnimating(true);
+        setTimeout(() => setIsAnimating(false), 200);
+        
         setClickCount(prev => {
           const newCount = prev + 1;
           if (newCount === 50) {
@@ -25,6 +30,10 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
     } else if (isHolding && activeClicker === 'electronics' && electronicsUnlock) {
       // Handle electronics hold-to-click
       holdIntervalRef.current = setInterval(() => {
+        // Trigger animation
+        setIsAnimating(true);
+        setTimeout(() => setIsAnimating(false), 200);
+        
         const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
         const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
         const amount = 1;
@@ -104,7 +113,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
                 collectTronics(amount);
               }
             }} 
-            className="tronics" 
+            className={`tronics ${isAnimating ? 'clicking' : ''}`} 
           />
         )}  
         {activeClicker === 'trash' && (
@@ -112,7 +121,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
             src="Icons/TrashButtonBig.svg" 
             alt="Trash Clicker" 
             id="trashClicker" 
-            className={`click-hint ${localStorage.getItem('firstClick') ? 'clicked' : ''}`}
+            className={`click-hint ${localStorage.getItem('firstClick') ? 'clicked' : ''} ${isAnimating ? 'clicking' : ''}`}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseLeave}
