@@ -570,7 +570,7 @@ export default function App() {
             setNotifications(prev => [...prev, "The electro shard vanished into the void..."]);
           }}
         />
-      }
+      )}
       <StatsDisplay 
         credits={credits}
         junk={junk}
