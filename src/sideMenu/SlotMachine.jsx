@@ -9,6 +9,7 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
   const [useShardCost, setUseShardCost] = useState(false);
   const spinCost = isUltimateSlots ? (useShardCost ? 'shard' : 10000000) : (isBigSlots ? 1000000 : 1000);
   const [electroShards, setLocalElectroShards] = useState(() => parseInt(localStorage.getItem('electroShards') || '0'));
+  const [spinCount, setSpinCount] = useState(() => parseInt(localStorage.getItem('ultimateSpinCount') || '0'));
   
   const containerRef = useRef(null);
 
@@ -68,6 +69,12 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
     } else {
       if (junk < spinCost) return;
       onSpin(spinCost);
+    }
+
+    if (isUltimateSlots) {
+      const newCount = spinCount + 1;
+      setSpinCount(newCount);
+      localStorage.setItem('ultimateSpinCount', newCount.toString());
     }
 
     setSpinning(true);
@@ -150,51 +157,142 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
 
           if (isUltimateSlots) {
             const isJackpot = newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2];
+            const symbolType = newSlots[0];
             
             if (!isJackpot) {
-              onSpin(-20000000); // +20M Junk for non-jackpot
-              winMessage = `You won 20M Junk!`;
-            } else if (useShardCost) {
-              // Jackpot rewards based on 4th slot for Shard cost
-              switch(newSlots[3]) {
+              // Enhanced symbol-based rewards for doubles
+              switch(symbolType) {
                 case '💰':
-                  onSpin(-200000000); // +200M Junk
-                  winMessage = `Jackpot! You won 200M Junk!`;
+                  onSpin(-25000000); // +25M Junk
+                  winMessage = `Money symbols! You won 25M Junk!`;
+                  break;
+                case '🗑️':
+                  onSpin(-30000000); // +30M Junk
+                  winMessage = `Trash symbols! You won 30M Junk!`;
                   break;
                 case '⚡':
                   if (setElectroShards) {
-                    setElectroShards(prev => prev + 5); // 5 Electro Shards
+                    setElectroShards(prev => prev + 1);
                   }
-                  winMessage = `Jackpot! You won 5 Electro Shards!`;
+                  winMessage = `Electric symbols! You won 1 Electro Shard!`;
                   break;
-                case '📦':
-                  const specialMaterials = ['Stabilized Capacitor', 'Voltage Node', 'Encrypted Coil'];
-                  const randomMaterial = specialMaterials[Math.floor(Math.random() * specialMaterials.length)];
-                  setCraftingInventory(prev => ({
-                    ...prev,
-                    [randomMaterial]: (prev[randomMaterial] || 0) + 1
-                  }));
-                  winMessage = `Jackpot! You won 1 ${randomMaterial}!`;
+                case '🎲':
+                  const bonusSpins = Math.floor(Math.random() * 3) + 1;
+                  setTimeout(() => {
+                    for (let i = 0; i < bonusSpins; i++) {
+                      setTimeout(() => spin(), i * 1500);
+                    }
+                  }, 2000);
+                  winMessage = `Dice symbols! You won ${bonusSpins} bonus spins!`;
+                  break;
+                case '🔧':
+                  if (setCraftingInventory) {
+                    setCraftingInventory(prev => ({
+                      ...prev,
+                      'Gear Bits': (prev['Gear Bits'] || 0) + 25
+                    }));
+                  }
+                  winMessage = `Tool symbols! You won 25 Gear Bits!`;
+                  break;
+                case '🔋':
+                  if (setCraftingInventory) {
+                    setCraftingInventory(prev => ({
+                      ...prev,
+                      'Capacitor': (prev['Capacitor'] || 0) + 2
+                    }));
+                  }
+                  winMessage = `Battery symbols! You won 2 Capacitors!`;
+                  break;
+                default:
+                  onSpin(-20000000);
+                  winMessage = `You won 20M Junk!`;
+              }
+            } else if (useShardCost) {
+              // Enhanced jackpot rewards for Shard cost
+              switch(symbolType) {
+                case '💰':
+                  onSpin(-300000000); // +300M Junk
+                  winMessage = `💰 JACKPOT! You won 300M Junk!`;
+                  break;
+                case '🗑️':
+                  onSpin(-250000000); // +250M Junk
+                  winMessage = `🗑️ JACKPOT! You won 250M Junk!`;
+                  break;
+                case '⚡':
+                  if (setElectroShards) {
+                    setElectroShards(prev => prev + 8);
+                  }
+                  winMessage = `⚡ JACKPOT! You won 8 Electro Shards!`;
+                  break;
+                case '🎲':
+                  const megaSpins = Math.floor(Math.random() * 5) + 5;
+                  setTimeout(() => {
+                    for (let i = 0; i < megaSpins; i++) {
+                      setTimeout(() => spin(), i * 1000);
+                    }
+                  }, 2000);
+                  winMessage = `🎲 JACKPOT! You won ${megaSpins} mega bonus spins!`;
+                  break;
+                case '🔧':
+                  const premiumMaterials = ['Stabilized Capacitor', 'Voltage Node', 'Encrypted Coil'];
+                  premiumMaterials.forEach(material => {
+                    setCraftingInventory(prev => ({
+                      ...prev,
+                      [material]: (prev[material] || 0) + 2
+                    }));
+                  });
+                  winMessage = `🔧 JACKPOT! You won 2 of each premium material!`;
+                  break;
+                case '🔋':
+                  if (setCraftingInventory) {
+                    setCraftingInventory(prev => ({
+                      ...prev,
+                      'Glitched Scrap Core': (prev['Glitched Scrap Core'] || 0) + 3
+                    }));
+                  }
+                  winMessage = `🔋 JACKPOT! You won 3 Glitched Scrap Cores!`;
                   break;
               }
             } else {
-              // Jackpot rewards based on 4th slot for Junk cost
-              switch(newSlots[3]) {
+              // Enhanced jackpot rewards for Junk cost
+              switch(symbolType) {
                 case '💰':
-                  onSpin(-100000000); // +100M Junk
-                  winMessage = `Jackpot! You won 100M Junk!`;
+                  onSpin(-150000000); // +150M Junk
+                  winMessage = `💰 JACKPOT! You won 150M Junk!`;
+                  break;
+                case '🗑️':
+                  onSpin(-120000000); // +120M Junk
+                  winMessage = `🗑️ JACKPOT! You won 120M Junk!`;
                   break;
                 case '⚡':
                   if (setElectroShards) {
-                    setElectroShards(prev => prev + 1); // 1 Electro Shard
+                    setElectroShards(prev => prev + 3);
                   }
-                  winMessage = `Jackpot! You won 1 Electro Shard!`;
+                  winMessage = `⚡ JACKPOT! You won 3 Electro Shards!`;
                   break;
-                case '📦':
+                case '🎲':
                   localStorage.setItem('globalJpsMultiplier', 
-                    (parseFloat(localStorage.getItem('globalJpsMultiplier') || '1.0') + 0.05).toString()
+                    (parseFloat(localStorage.getItem('globalJpsMultiplier') || '1.0') + 0.1).toString()
                   );
-                  winMessage = `Jackpot! You gained +5% Global JPS Boost!`;
+                  winMessage = `🎲 JACKPOT! You gained +10% Global JPS Boost!`;
+                  break;
+                case '🔧':
+                  if (setCraftingInventory) {
+                    setCraftingInventory(prev => ({
+                      ...prev,
+                      'Voltage Node': (prev['Voltage Node'] || 0) + 1
+                    }));
+                  }
+                  winMessage = `🔧 JACKPOT! You won 1 Voltage Node!`;
+                  break;
+                case '🔋':
+                  if (setCraftingInventory) {
+                    setCraftingInventory(prev => ({
+                      ...prev,
+                      'Glitched Scrap Core': (prev['Glitched Scrap Core'] || 0) + 1
+                    }));
+                  }
+                  winMessage = `🔋 JACKPOT! You won 1 Glitched Scrap Core!`;
                   break;
               }
             }
@@ -330,19 +428,34 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
         <button onClick={onClose}>Close</button>
       </div>
       {isUltimateSlots && (
-        <div className="sentient-message-box" style={{
-          background: 'rgba(0, 0, 0, 0.7)',
-          border: '2px solid #ff00ff',
-          padding: '10px',
-          margin: '10px 0',
-          borderRadius: '5px',
-          color: '#ff00ff',
-          textShadow: '0 0 5px #ff00ff',
-          fontFamily: 'monospace',
-          textAlign: 'center'
-        }}>
-          {sentientMessage}
-        </div>
+        <>
+          <div className="spin-counter" style={{
+            background: 'rgba(26, 26, 26, 0.9)',
+            border: '1px solid #ff00ff',
+            padding: '8px',
+            margin: '5px 0',
+            borderRadius: '5px',
+            color: '#ff00ff',
+            textAlign: 'center',
+            fontSize: '0.9em',
+            fontFamily: 'monospace'
+          }}>
+            SPINS: {spinCount.toLocaleString()}
+          </div>
+          <div className="sentient-message-box" style={{
+            background: 'rgba(0, 0, 0, 0.7)',
+            border: '2px solid #ff00ff',
+            padding: '10px',
+            margin: '10px 0',
+            borderRadius: '5px',
+            color: '#ff00ff',
+            textShadow: '0 0 5px #ff00ff',
+            fontFamily: 'monospace',
+            textAlign: 'center'
+          }}>
+            {sentientMessage}
+          </div>
+        </>
       )}
       <div className="slot-display" style={{ padding: '20px 0' }}>
         {slots.slice(0, 3).map((symbol, index) => (
