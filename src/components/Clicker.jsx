@@ -6,57 +6,6 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
   const [clickCount, setClickCount] = useState(0);
   const [isHolding, setIsHolding] = useState(false); // Added state for hold-to-click
 
-  useEffect(() => {
-    const handleKeyPress = (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        
-        if (activeClicker === 'trash') {
-          // Simulate trash clicker click
-          if (!localStorage.getItem('firstClick')) {
-            localStorage.setItem('firstClick', 'true');
-            const clickerElement = document.getElementById('trashClicker');
-            if (clickerElement) {
-              clickerElement.classList.add('clicked');
-            }
-          }
-          setClickCount(prev => {
-            const newCount = prev + 1;
-            if (newCount === 50) {
-              setShowGlitch(true);
-              setTimeout(() => setShowGlitch(false), 5000);
-            }
-            return newCount;
-          });
-          collectJunk();
-        } else if (activeClicker === 'electronics' && electronicsUnlock) {
-          // Simulate electronics clicker click
-          const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
-          const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
-          const amount = 1;
-          const totalBoost = boostICount + (boostIICount * 2);
-
-          // Update manual click count and total clicks
-          window.dispatchEvent(new CustomEvent('manualTronicsClick'));
-          const currentTotal = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
-          localStorage.setItem('totalTronicsClicks', (currentTotal + 1).toString());
-
-          if(totalBoost >= 1){
-            const amount = (1 * totalBoost) + 1;
-            collectTronics(amount);
-          } else {
-            collectTronics(amount);
-          }
-        }
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyPress);
-    
-    return () => {
-      window.removeEventListener('keydown', handleKeyPress);
-    };
-  }, [activeClicker, electronicsUnlock, collectJunk, collectTronics]);
 
   return (
     <div className={`main ${showGlitch ? 'glitch-effect' : ''}`} id="clickers">
