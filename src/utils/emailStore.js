@@ -8,6 +8,7 @@ export const useEmailStore = create(
       emails: [],
       lastEmailTime: 0,
       revealedLoreFragments: [],
+      globalLoreFragments: [],
       emailTemplates: [
         {
           from: "unknown@signal.grey",
@@ -92,7 +93,8 @@ export const useEmailStore = create(
         )
       })),
       revealLoreFragment: (emailId, loreFragment) => set((state) => ({
-        revealedLoreFragments: [...state.revealedLoreFragments, { emailId, ...loreFragment, id: Date.now() }]
+        revealedLoreFragments: [...state.revealedLoreFragments, { emailId, ...loreFragment, id: Date.now() }],
+        globalLoreFragments: [...state.globalLoreFragments, { ...loreFragment, id: Date.now(), source: 'email', emailId }]
       })),
       initializeEmailSystem: () => {
         let emailTimer = null;

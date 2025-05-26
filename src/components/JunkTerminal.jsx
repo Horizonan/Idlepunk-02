@@ -65,18 +65,10 @@ export default function JunkTerminal() {
                         disabled={revealedLoreFragments.some(fragment => fragment.emailId === selectedEmail.id)}
                       >
                         {revealedLoreFragments.some(fragment => fragment.emailId === selectedEmail.id) 
-                          ? "✓ Lore Fragment Revealed" 
+                          ? "✓ Lore Fragment Added to Terminal" 
                           : "▶️ READ FULL SIGNAL: ORIGIN-CITY.HEX"}
                       </button>
                     )}
-                    {revealedLoreFragments
-                      .filter(fragment => fragment.emailId === selectedEmail.id)
-                      .map(fragment => (
-                        <div key={fragment.id || fragment.emailId} className="lore-fragment">
-                          <h4 className="lore-title">{fragment.title}</h4>
-                          <p className="lore-content">{fragment.content}</p>
-                        </div>
-                      ))}
                   </div>
                 )}
               </div>
@@ -113,18 +105,10 @@ export default function JunkTerminal() {
                         disabled={revealedLoreFragments.some(fragment => fragment.emailId === selectedEmail.id)}
                       >
                         {revealedLoreFragments.some(fragment => fragment.emailId === selectedEmail.id) 
-                          ? "✓ Lore Fragment Revealed" 
+                          ? "✓ Lore Fragment Added to Terminal" 
                           : "▶️ READ FULL SIGNAL: ORIGIN-CITY.HEX"}
                       </button>
                     )}
-                    {revealedLoreFragments
-                      .filter(fragment => fragment.emailId === selectedEmail.id)
-                      .map(fragment => (
-                        <div key={fragment.id || fragment.emailId} className="lore-fragment">
-                          <h4 className="lore-title">{fragment.title}</h4>
-                          <p className="lore-content">{fragment.content}</p>
-                        </div>
-                      ))}
                   </div>
                 )}
               </div>
