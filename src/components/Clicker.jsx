@@ -150,7 +150,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
                 collectTronics(amount);
               }
             }} 
-            className={`tronics ${isAnimating ? 'click-animate' : ''}`}
+            className="tronics" 
           />
         )}  
         {activeClicker === 'trash' && (
@@ -158,7 +158,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
             src="Icons/TrashButtonBig.svg" 
             alt="Trash Clicker" 
             id="trashClicker" 
-            className={`click-hint ${localStorage.getItem('firstClick') ? 'clicked' : ''} ${isAnimating ? 'click-animate' : ''}`}
+            className={`click-hint ${localStorage.getItem('firstClick') ? 'clicked' : ''}`}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseLeave}

@@ -121,13 +121,3 @@
   75% { opacity: 0.75; transform: translate(-50%, -50%) skew(2deg); }
   100% { opacity: 1; transform: translate(-50%, -50%) skew(0deg); }
 }
-
-@keyframes clickScale {
-  0% { transform: scale(1); }
-  50% { transform: scale(0.9); }
-  100% { transform: scale(1); }
-}
-
-.click-animate {
-  animation: clickScale 0.2s ease-in-out;
-}
