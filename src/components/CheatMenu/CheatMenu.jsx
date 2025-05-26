@@ -196,6 +196,12 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
                 const randomTemplate = emailStore.emailTemplates[Math.floor(Math.random() * emailStore.emailTemplates.length)];
                 emailStore.addEmail(randomTemplate);
               }}>Trigger Next Email</button>
+              <button onClick={() => {
+                const emailStore = useEmailStore.getState();
+                emailStore.emailTemplates.forEach(template => {
+                  emailStore.addEmail(template);
+                });
+              }}>Add All Mails</button>
             </div>
           )}
         </div>
