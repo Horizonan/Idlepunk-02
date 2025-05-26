@@ -218,9 +218,9 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
           className="store-item"
         >
           <div className="item-header">
-            <strong><span className="icon">🔧</span> Crafting Booster Unit</strong>
-            <span>60 Scratz</span>
+            <strong>🔧 Crafting Booster Unit</strong>
           </div>
+          <div>60 Scratz</div>
           <div className="item-info">
             -10% crafting costs on basic recipes
             An efficient processing unit that optimizes
@@ -254,9 +254,9 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
           title={autoClicks === 0 ? "You need to own at least one automation helper to use the Ascension Reclaimer!" : ""}
         >
           <div className="item-header">
-            <strong><span className="icon">🛡️</span> Ascension Reclaimer</strong>
-            <span>90 Scratz</span>
+            <strong>🛡️ Ascension Reclaimer</strong>
           </div>
+          <div>90 Scratz</div>
           <div className="item-info">
             Keep 1 random helper or crafting bonus after Prestige.
             Energy shield technology that preserves automation through ascension.
@@ -301,8 +301,8 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
         >
           <div className="item-header">
             <strong>🖥️ Big Slots</strong>
-            <span>150 Scratz</span>
           </div>
+          <div>150 Scratz</div>
           <div className="item-info">
             Now with 50% more screen real estate... and danger.
             Enlarges the slot machine window and improves visual feedback.
@@ -328,8 +328,8 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
           >
             <div className="item-header">
               <strong>🎰 Ultimate Slots</strong>
-              <span>300 Scratz</span>
             </div>
+            <div>300 Scratz</div>
             <div className="item-info">
               <p>The final evolution of risk and reward.</p>
               <p>Cost per spin: 10,000,000 Junk or 1 Electro Shard</p>
