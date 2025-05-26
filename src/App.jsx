@@ -1331,19 +1331,22 @@ export default function App() {
 
 
             if (prestigeCount === 0) {
-              const cogfatherMessage = (
-                <div className="cogfather-message-popup">
-                  <img src="Icons/NPCs/Cogfather.jfif" alt="Cogfather" />
-                  <p>You scrapped everything… just to prove you could build better. That's the first real upgrade.</p> 
-                  <p>You’ve done it, kid. The Tech Tree’s unlocked and it’s permanent. No more looking back. 
-                    From here on out, you're building the future out of scrap and sparks.</p>
-                  <button onClick={() => {
-                    setShowTechTree(true);
-                    setNotifications(prev => prev.filter(n => typeof n !== 'object'));
-                  }}>Improvement complete...</button>
-                </div>
-              );
-              setNotifications(prev => [...prev, cogfatherMessage]);
+              // Use setTimeout to ensure the message appears after the prestige reset
+              setTimeout(() => {
+                const cogfatherMessage = (
+                  <div className="cogfather-message-popup">
+                    <img src="Icons/NPCs/Cogfather.jfif" alt="Cogfather" />
+                    <p>You scrapped everything… just to prove you could build better. That's the first real upgrade.</p> 
+                    <p>You've done it, kid. The Tech Tree's unlocked and it's permanent. No more looking back. 
+                      From here on out, you're building the future out of scrap and sparks.</p>
+                    <button onClick={() => {
+                      setShowTechTree(true);
+                      setNotifications(prev => prev.filter(n => typeof n !== 'object'));
+                    }}>Improvement complete...</button>
+                  </div>
+                );
+                setNotifications(prev => [...prev, cogfatherMessage]);
+              }, 100);
             }
           }}
         />
