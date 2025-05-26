@@ -329,8 +329,161 @@ export default function App() {
         const spinCost = isUltimateSlots ? (useShardCost ? 1 : 10000000) : (isBigSlots ? 1000000 : 1000);
         const canAfford = useShardCost ? electroShards >= 1 : junk >= spinCost;
         
-        if (canAfford && window.spinSlotMachine) {
-          window.spinSlotMachine();
+        if (canAfford) {
+          // Create a custom spin function that handles notifications for global auto-spin
+          const globalSpin = () => {
+            // Deduct cost
+            if (useShardCost) {
+              setElectroShards(prev => prev - 1);
+            } else {
+              setJunk(prev => prev - spinCost);
+            }
+
+            // Generate random slots
+            const symbols = ['💰', '🗑️', '⚡', '🎲','🔧', '🔋'];
+            const newSlots = Array(3).fill(0).map(() => 
+              symbols[Math.floor(Math.random() * symbols.length)]
+            );
+
+            // Check for wins and handle rewards
+            let winnings = 0;
+            let winMessage = '';
+
+            if (newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2]) {
+              // Triple match
+              if (isUltimateSlots) {
+                const symbolType = newSlots[0];
+                if (useShardCost) {
+                  // Enhanced jackpot rewards for Shard cost
+                  switch(symbolType) {
+                    case '💰':
+                      setJunk(prev => prev + 300000000);
+                      winMessage = `💰 JACKPOT! Auto-Slotter won 300M Junk!`;
+                      break;
+                    case '🗑️':
+                      setJunk(prev => prev + 250000000);
+                      winMessage = `🗑️ JACKPOT! Auto-Slotter won 250M Junk!`;
+                      break;
+                    case '⚡':
+                      setElectroShards(prev => prev + 8);
+                      winMessage = `⚡ JACKPOT! Auto-Slotter won 8 Electro Shards!`;
+                      break;
+                    case '🎲':
+                      localStorage.setItem('globalJpsMultiplier', 
+                        (parseFloat(localStorage.getItem('globalJpsMultiplier') || '1.0') + 0.1).toString()
+                      );
+                      winMessage = `🎲 JACKPOT! Auto-Slotter gained +10% Global JPS Boost!`;
+                      break;
+                    case '🔧':
+                      setCraftingInventory(prev => ({
+                        ...prev,
+                        'Stabilized Capacitor': (prev['Stabilized Capacitor'] || 0) + 2,
+                        'Voltage Node': (prev['Voltage Node'] || 0) + 2,
+                        'Encrypted Coil': (prev['Encrypted Coil'] || 0) + 2
+                      }));
+                      winMessage = `🔧 JACKPOT! Auto-Slotter won 2 of each premium material!`;
+                      break;
+                    case '🔋':
+                      setCraftingInventory(prev => ({
+                        ...prev,
+                        'Glitched Scrap Core': (prev['Glitched Scrap Core'] || 0) + 3
+                      }));
+                      winMessage = `🔋 JACKPOT! Auto-Slotter won 3 Glitched Scrap Cores!`;
+                      break;
+                  }
+                } else {
+                  // Enhanced jackpot rewards for Junk cost
+                  switch(symbolType) {
+                    case '💰':
+                      setJunk(prev => prev + 150000000);
+                      winMessage = `💰 JACKPOT! Auto-Slotter won 150M Junk!`;
+                      break;
+                    case '🗑️':
+                      setJunk(prev => prev + 120000000);
+                      winMessage = `🗑️ JACKPOT! Auto-Slotter won 120M Junk!`;
+                      break;
+                    case '⚡':
+                      setElectroShards(prev => prev + 3);
+                      winMessage = `⚡ JACKPOT! Auto-Slotter won 3 Electro Shards!`;
+                      break;
+                    case '🎲':
+                      localStorage.setItem('globalJpsMultiplier', 
+                        (parseFloat(localStorage.getItem('globalJpsMultiplier') || '1.0') + 0.1).toString()
+                      );
+                      winMessage = `🎲 JACKPOT! Auto-Slotter gained +10% Global JPS Boost!`;
+                      break;
+                    case '🔧':
+                      setCraftingInventory(prev => ({
+                        ...prev,
+                        'Voltage Node': (prev['Voltage Node'] || 0) + 1
+                      }));
+                      winMessage = `🔧 JACKPOT! Auto-Slotter won 1 Voltage Node!`;
+                      break;
+                    case '🔋':
+                      setCraftingInventory(prev => ({
+                        ...prev,
+                        'Glitched Scrap Core': (prev['Glitched Scrap Core'] || 0) + 1
+                      }));
+                      winMessage = `🔋 JACKPOT! Auto-Slotter won 1 Glitched Scrap Core!`;
+                      break;
+                  }
+                }
+              } else {
+                // Basic slots jackpot
+                winnings = isBigSlots ? 10000000 : 10000;
+                setJunk(prev => prev + winnings);
+                winMessage = `🎰 JACKPOT! Auto-Slotter won ${winnings.toLocaleString()} Junk!`;
+              }
+            } else if (newSlots[0] === newSlots[1] || newSlots[1] === newSlots[2]) {
+              // Double match
+              if (isUltimateSlots) {
+                const symbolType = newSlots[0] === newSlots[1] ? newSlots[0] : newSlots[1];
+                switch(symbolType) {
+                  case '💰':
+                    setJunk(prev => prev + 25000000);
+                    winMessage = `💰 Auto-Slotter won 25M Junk!`;
+                    break;
+                  case '🗑️':
+                    setJunk(prev => prev + 30000000);
+                    winMessage = `🗑️ Auto-Slotter won 30M Junk!`;
+                    break;
+                  case '⚡':
+                    setElectroShards(prev => prev + 1);
+                    winMessage = `⚡ Auto-Slotter won 1 Electro Shard!`;
+                    break;
+                  case '🔧':
+                    setCraftingInventory(prev => ({
+                      ...prev,
+                      'Gear Bits': (prev['Gear Bits'] || 0) + 25
+                    }));
+                    winMessage = `🔧 Auto-Slotter won 25 Gear Bits!`;
+                    break;
+                  case '🔋':
+                    setCraftingInventory(prev => ({
+                      ...prev,
+                      'Capacitor': (prev['Capacitor'] || 0) + 2
+                    }));
+                    winMessage = `🔋 Auto-Slotter won 2 Capacitors!`;
+                    break;
+                  default:
+                    setJunk(prev => prev + 20000000);
+                    winMessage = `🎰 Auto-Slotter won 20M Junk!`;
+                }
+              } else {
+                // Basic slots double
+                winnings = isBigSlots ? 2000000 : 2000;
+                setJunk(prev => prev + winnings);
+                winMessage = `🎰 Auto-Slotter won ${winnings.toLocaleString()} Junk!`;
+              }
+            }
+
+            // Show notification if there was a win
+            if (winMessage) {
+              setNotifications(prev => [...prev, winMessage]);
+            }
+          };
+
+          globalSpin();
         }
       }
     };
