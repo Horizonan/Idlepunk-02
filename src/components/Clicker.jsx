@@ -12,6 +12,33 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
   const [holdClickDelay, setHoldClickDelay] = useState(1000); // ms between clicks when holding
   const [holdClickAmount, setHoldClickAmount] = useState(1); // number of clicks per hold interval
 
+  // Handle keyboard events for Enter key hold-to-click
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Enter' && !isHolding) {
+        e.preventDefault();
+        setIsHolding(true);
+      }
+    };
+
+    const handleKeyUp = (e) => {
+      if (e.key === 'Enter' && isHolding) {
+        e.preventDefault();
+        setIsHolding(false);
+      }
+    };
+
+    // Add event listeners
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+
+    // Cleanup event listeners
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, [isHolding]);
+
   // Handle hold-to-click functionality
   useEffect(() => {
     if (isHolding && activeClicker === 'trash') {
