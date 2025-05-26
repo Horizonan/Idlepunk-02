@@ -6,7 +6,6 @@ import { useEmailStore } from '../utils/emailStore';
 import JunkTerminal from '../components/JunkTerminal';
 
 export default function Marketplace({ onClose }) {
-  const globalLoreFragments = useEmailStore((state) => state.globalLoreFragments);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [selectedResponse, setSelectedResponse] = useState(null);
   const [loreFragments] = useState([
@@ -23,15 +22,6 @@ export default function Marketplace({ onClose }) {
           <div key={fragment.id} className="lore-fragment">
             <h4>{fragment.title}</h4>
             <p>{fragment.content}</p>
-          </div>
-        ))}
-        {globalLoreFragments.map(fragment => (
-          <div key={fragment.id} className="lore-fragment">
-            <h4 className="lore-title">{fragment.title}</h4>
-            <p className="lore-content">{fragment.content}</p>
-            <div style={{ fontSize: '0.8em', color: '#666', marginTop: '5px' }}>
-              Source: Signal Fragment
-            </div>
           </div>
         ))}
       </div>

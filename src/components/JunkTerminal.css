@@ -94,52 +94,6 @@
   opacity: 0.8;
 }
 
-.lore-reveal-btn {
-  background: rgba(0, 255, 0, 0.1);
-  border: 1px solid #00FF00;
-  color: #00FF00;
-  padding: 8px 16px;
-  margin-top: 10px;
-  cursor: pointer;
-  font-family: 'Courier New', monospace;
-  transition: all 0.2s ease;
-}
-
-.lore-reveal-btn:hover:not(:disabled) {
-  background: rgba(0, 255, 0, 0.2);
-}
-
-.lore-reveal-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.lore-fragments {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.lore-fragment {
-  background: rgba(0, 255, 0, 0.05);
-  border: 1px solid #004400;
-  padding: 15px;
-  border-left: 3px solid #00FF00;
-}
-
-.lore-title {
-  color: #00FF00;
-  margin: 0 0 10px 0;
-  font-size: 1.1em;
-}
-
-.lore-content {
-  color: #cccccc;
-  margin: 0;
-  line-height: 1.4;
-  white-space: pre-line;
-}
-
 .email-content {
   margin: 5px 0 15px 20px;
   padding: 15px;
