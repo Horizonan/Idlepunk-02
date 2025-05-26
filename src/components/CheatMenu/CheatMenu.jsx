@@ -139,6 +139,11 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
                 onAddElectroShard(10);
               
               }}>Get all for 1st Prestige</button>
+              <button onClick={() => {
+                const emailStore = useEmailStore.getState();
+                const randomTemplate = emailStore.emailTemplates[Math.floor(Math.random() * emailStore.emailTemplates.length)];
+                emailStore.addEmail(randomTemplate);
+              }}>Trigger Email</button>
             </div>
           )}
         </div>
