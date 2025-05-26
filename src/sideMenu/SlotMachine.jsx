@@ -587,7 +587,7 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
         className="robot-companion"
         style={{
           position: 'fixed',
-          left: position.x + (isBigSlots ? 460 : 360),
+          left: position.x + (isBigSlots ? 480 : 380),
           top: position.y + 50,
           width: '60px',
           height: '80px',
