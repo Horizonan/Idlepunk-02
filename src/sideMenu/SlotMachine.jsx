@@ -6,7 +6,7 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
   const [lastWin, setLastWin] = useState(null);
   const isBigSlots = localStorage.getItem('bigSlots') === 'true';
   const isUltimateSlots = localStorage.getItem('ultimateSlots') === 'true';
-  const [useShardCost, setUseShardCost] = useState(false);
+  const [useShardCost, setUseShardCost] = useState(() => localStorage.getItem('slotMachineShardCost') === 'true');
   const spinCost = isUltimateSlots ? (useShardCost ? 'shard' : 10000000) : (isBigSlots ? 1000000 : 1000);
   const [electroShards, setLocalElectroShards] = useState(() => parseInt(localStorage.getItem('electroShards') || '0'));
   const [spinCount, setSpinCount] = useState(() => parseInt(localStorage.getItem('ultimateSpinCount') || '0'));
@@ -408,22 +408,10 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
     }
   }, [isAutoSpinning, spinning, junk, electroShards, useShardCost, spinCost]);
 
-  // Global auto-spin effect (works even when slot machine is closed)
+  // Save shard cost preference to localStorage
   useEffect(() => {
-    const globalAutoSpin = () => {
-      if (localStorage.getItem('autoSlotterActive') === 'true') {
-        const canAfford = useShardCost ? electroShards >= 1 : junk >= spinCost;
-        if (canAfford && !spinning) {
-          spin();
-        }
-      }
-    };
-
-    if (localStorage.getItem('autoSlotter') === 'true' && localStorage.getItem('autoSlotterActive') === 'true') {
-      const globalInterval = setInterval(globalAutoSpin, 15000);
-      return () => clearInterval(globalInterval);
-    }
-  }, []);
+    localStorage.setItem('slotMachineShardCost', useShardCost.toString());
+  }, [useShardCost]);
 
   const toggleAutoSpin = () => {
     const newState = !isAutoSpinning;

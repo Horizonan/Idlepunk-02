@@ -318,6 +318,28 @@ export default function App() {
     };
   }, []);
 
+  // Global auto-spin functionality for slot machine
+  useEffect(() => {
+    const globalAutoSpin = () => {
+      if (localStorage.getItem('autoSlotter') === 'true' && localStorage.getItem('autoSlotterActive') === 'true') {
+        const isBigSlots = localStorage.getItem('bigSlots') === 'true';
+        const isUltimateSlots = localStorage.getItem('ultimateSlots') === 'true';
+        const useShardCost = localStorage.getItem('slotMachineShardCost') === 'true';
+        
+        const spinCost = isUltimateSlots ? (useShardCost ? 1 : 10000000) : (isBigSlots ? 1000000 : 1000);
+        const canAfford = useShardCost ? electroShards >= 1 : junk >= spinCost;
+        
+        if (canAfford && window.spinSlotMachine) {
+          window.spinSlotMachine();
+        }
+      }
+    };
+
+    const autoSpinInterval = setInterval(globalAutoSpin, 15000); // 15 seconds
+
+    return () => clearInterval(autoSpinInterval);
+  }, [junk, electroShards]);
+
 
   const [creditStoreItems, setCreditStoreItems] = useState(() => JSON.parse(localStorage.getItem('creditStoreItems')) || {
     'Hover Drone': false,
