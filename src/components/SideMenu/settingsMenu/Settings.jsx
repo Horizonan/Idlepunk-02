@@ -41,6 +41,7 @@ export default function Settings({
           <p>Total Tronics Clicks: {totalTronicsClicks.toLocaleString()}</p> 
           <h4>Multipliers</h4>
           <p>Global JPS Multiplier: {(1 + (globalJpsMultiplier - 1) + (craftingInventory['Compression Pack'] ? 0.25 : 0)).toFixed(2)}x</p>
+          <p>Global Electro Multiplier: {(parseFloat(localStorage.getItem('globalTronicsMultiplier') || '1.0')).toFixed(2)}x</p>
           <h4>Counters</h4>
           <p>Trash Surges Completed: {surgeCount.toLocaleString()}</p>
           <p>Times Prestiged: {prestigeCount}</p>
