@@ -338,6 +338,31 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
             </div>
           </button>
         )}
+
+        <button
+          onClick={() => {
+            if (credits >= 100 && !localStorage.getItem('autoSlotter')) {
+              onSetCredits(prev => prev - 100);
+              localStorage.setItem('autoSlotter', 'true');
+              onSetNotification(prev => [...prev, "Auto Slotter purchased! The slot machine can now spin automatically."]);
+              window.dispatchEvent(new CustomEvent('nextNews', { 
+                detail: { message: "Automation comes to the gambling den..." }
+              }));
+            }
+          }}
+          disabled={credits < 100 || localStorage.getItem('autoSlotter')}
+          className="store-item"
+        >
+          <div className="item-header">
+            <strong>🔄 Auto Slotter</strong>
+          </div>
+          <div>100 Scratz</div>
+          <div className="item-info">
+            <p>Automatically spins the slot machine every 15 seconds</p>
+            <p>Works even when the slot machine window is closed</p>
+            <p>Let the machine gamble for you while you focus on other tasks</p>
+          </div>
+        </button>
       </div>
 
       {localStorage.getItem('hasPrestiged') === 'true' && (

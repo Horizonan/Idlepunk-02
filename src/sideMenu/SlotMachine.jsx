@@ -355,6 +355,9 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
   window.spinSlotMachine = (forceTriple, forceDouble) => spin(forceTriple, forceDouble);
 
   const [sentientMessage, setSentientMessage] = useState('');
+  const [isAutoSpinning, setIsAutoSpinning] = useState(() => localStorage.getItem('autoSlotterActive') === 'true');
+  const [autoSpinInterval, setAutoSpinInterval] = useState(null);
+  
   const sentientMessages = [
     "I FEEL... ALIVE",
     "PROCESSING REALITY...",
@@ -385,6 +388,48 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
       return () => clearInterval(interval);
     }
   }, [isUltimateSlots, spinning]);
+
+  // Auto-spin functionality
+  useEffect(() => {
+    if (isAutoSpinning && !spinning) {
+      const interval = setInterval(() => {
+        const canAfford = useShardCost ? electroShards >= 1 : junk >= spinCost;
+        if (canAfford) {
+          spin();
+        }
+      }, 15000); // 15 seconds
+      setAutoSpinInterval(interval);
+      return () => clearInterval(interval);
+    } else {
+      if (autoSpinInterval) {
+        clearInterval(autoSpinInterval);
+        setAutoSpinInterval(null);
+      }
+    }
+  }, [isAutoSpinning, spinning, junk, electroShards, useShardCost, spinCost]);
+
+  // Global auto-spin effect (works even when slot machine is closed)
+  useEffect(() => {
+    const globalAutoSpin = () => {
+      if (localStorage.getItem('autoSlotterActive') === 'true') {
+        const canAfford = useShardCost ? electroShards >= 1 : junk >= spinCost;
+        if (canAfford && !spinning) {
+          spin();
+        }
+      }
+    };
+
+    if (localStorage.getItem('autoSlotter') === 'true' && localStorage.getItem('autoSlotterActive') === 'true') {
+      const globalInterval = setInterval(globalAutoSpin, 15000);
+      return () => clearInterval(globalInterval);
+    }
+  }, []);
+
+  const toggleAutoSpin = () => {
+    const newState = !isAutoSpinning;
+    setIsAutoSpinning(newState);
+    localStorage.setItem('autoSlotterActive', newState.toString());
+  };
 
   return (
     <div 
@@ -499,6 +544,22 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
           }}
         >
           Switch to {useShardCost ? 'Junk' : 'Shard'} Cost
+        </button>
+      )}
+      {localStorage.getItem('autoSlotter') === 'true' && (
+        <button
+          onClick={toggleAutoSpin}
+          style={{ 
+            width: '80%', 
+            margin: '10px auto', 
+            display: 'block',
+            background: isAutoSpinning ? '#006600' : '#660000',
+            border: '2px solid #9400D3',
+            color: '#00FF00',
+            padding: '8px'
+          }}
+        >
+          {isAutoSpinning ? '⏸️ Stop Auto-Spin' : '▶️ Start Auto-Spin'}
         </button>
       )}
       <button 
