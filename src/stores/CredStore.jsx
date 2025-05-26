@@ -150,8 +150,8 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
         >
           <div className="item-header">
             <strong>💲 Basic Exchange</strong>
-            <span>1 Scrat</span>
           </div>
+          <div>1 Scrat</div>
           <div className="item-info">
             Sell {formatAmount(baseRate)} Junk for 1 Scratz
             Convert your excess junk into valuable scratz at the standard exchange rate.
@@ -166,8 +166,8 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
         >
           <div className="item-header">
             <strong>💲 Bulk Exchange (10x)</strong>
-            <span>10 Scratz</span>
           </div>
+          <div>10 Scratz</div>
           <div className="item-info">
             Sell {formatAmount(baseRate * 10)} Junk for 10 Scratz
             A more efficient way to exchange larger amounts of junk.
@@ -182,8 +182,8 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
         >
           <div className="item-header">
             <strong>💲 Mass Exchange (100x)</strong>
-            <span>100 Scratz</span>
           </div>
+          <div>100 Scratz</div>
           <div className="item-info">
             Sell {formatAmount(baseRate * 100)} Junk for 100 Scratz
             The ultimate exchange option for serious junk collectors.
@@ -197,8 +197,8 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
         >
           <div className="item-header">
             <strong>⚡ Electro Shard Beacon</strong>
-            <span>25 Scratz</span>
           </div>
+          <div>25 Scratz</div>
           <div className="item-info">
             <p>Reduces Electro Shard spawn cooldown by 1% (Max 10)</p>
             A mysterious device that creates an electromagnetic field,
@@ -234,14 +234,13 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
         >
           <div className="item-header">
             <strong>🚁 Hover Drone Addon</strong>
-            <span>20 Scratz</span>
           </div>
+          <div>20 Scratz</div>
           <div className="item-info">
             Floating Trash lasts +5s longer before disappearing
             A sleek aerial companion that helps extend the lifespan
             of floating trash bonuses. One-time purchase.
           </div>
-        </button></div>
         </button>
 
         <button 
@@ -278,8 +277,8 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
         >
           <div className="item-header">
             <strong>⌛ Chrono Crystal Timer</strong>
-            <span>200 Scratz</span>
           </div>
+          <div>200 Scratz</div>
           <div className="item-info">
             A high-tech device that tracks and displays the countdown for the next Flying Crystal to appear.
             Uses Junk-Time Synergies to feel when the next Crystal is approaching.
@@ -351,8 +350,8 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
           >
             <div className="item-header">
               <strong>⚡ Shard Extractor</strong>
-              <span>75 Scratz</span>
             </div>
+            <div>75 Scratz</div>
             <div className="item-info">
               <p>Forces a crystal shard to spawn within 30 seconds</p>
               <p>15 minute cooldown between uses</p>
