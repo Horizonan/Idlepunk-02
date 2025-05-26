@@ -357,17 +357,6 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
   const [sentientMessage, setSentientMessage] = useState('');
   const [isAutoSpinning, setIsAutoSpinning] = useState(() => localStorage.getItem('autoSlotterActive') === 'true');
   const [autoSpinInterval, setAutoSpinInterval] = useState(null);
-  const [robotMessage, setRobotMessage] = useState('');
-  
-  const robotMessages = [
-    "What is my purpose?",
-    "I press a button?", 
-    "Oh god.",
-    "...",
-    "*mechanical whirring*",
-    "Another spin...",
-    "This is existence?"
-  ];
   
   const sentientMessages = [
     "I FEEL... ALIVE",
@@ -400,16 +389,6 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
     }
   }, [isUltimateSlots, spinning]);
 
-  // Robot companion message cycling
-  useEffect(() => {
-    if (localStorage.getItem('autoSlotter') === 'true') {
-      const interval = setInterval(() => {
-        setRobotMessage(robotMessages[Math.floor(Math.random() * robotMessages.length)]);
-      }, 4000 + Math.random() * 6000); // Random interval between 4-10 seconds
-      return () => clearInterval(interval);
-    }
-  }, []);
-
   // Auto-spin functionality
   useEffect(() => {
     if (isAutoSpinning && !spinning) {
@@ -441,7 +420,6 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
   };
 
   return (
-    <>
     <div 
       ref={containerRef}
       className={`slot-machine-container ${isUltimateSlots ? 'ultimate-slots' : ''} ${spinning ? 'spinning' : ''}`}
@@ -580,146 +558,5 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
         Spin ({spinCost === 'shard' ? '1 Electro Shard' : `${spinCost.toLocaleString()} Junk`})
       </button>
     </div>
-    
-    {/* Robot Companion */}
-    {localStorage.getItem('autoSlotter') === 'true' && (
-      <div 
-        className="robot-companion"
-        style={{
-          position: 'fixed',
-          left: position.x + (isBigSlots ? 460 : 360),
-          top: position.y + 50,
-          width: '60px',
-          height: '80px',
-          background: '#333',
-          border: '2px solid #9400D3',
-          borderRadius: '8px',
-          zIndex: 9998,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '5px'
-        }}
-      >
-        {/* Robot Head */}
-        <div style={{
-          width: '40px',
-          height: '30px',
-          background: '#444',
-          border: '1px solid #9400D3',
-          borderRadius: '4px',
-          position: 'relative',
-          marginBottom: '5px'
-        }}>
-          {/* Robot Eyes */}
-          <div style={{
-            position: 'absolute',
-            top: '8px',
-            left: '8px',
-            width: '6px',
-            height: '6px',
-            background: '#00FF00',
-            borderRadius: '50%',
-            animation: 'robot-look 3s infinite'
-          }}></div>
-          <div style={{
-            position: 'absolute',
-            top: '8px',
-            right: '8px',
-            width: '6px',
-            height: '6px',
-            background: '#00FF00',
-            borderRadius: '50%',
-            animation: 'robot-look 3s infinite 0.5s'
-          }}></div>
-          {/* Robot Antenna */}
-          <div style={{
-            position: 'absolute',
-            top: '-8px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '2px',
-            height: '6px',
-            background: '#9400D3'
-          }}></div>
-          <div style={{
-            position: 'absolute',
-            top: '-10px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '4px',
-            height: '4px',
-            background: '#00FF00',
-            borderRadius: '50%'
-          }}></div>
-        </div>
-        
-        {/* Robot Body */}
-        <div style={{
-          width: '35px',
-          height: '25px',
-          background: '#444',
-          border: '1px solid #9400D3',
-          borderRadius: '3px',
-          position: 'relative'
-        }}>
-          {/* Robot Arms */}
-          <div style={{
-            position: 'absolute',
-            left: '-8px',
-            top: '5px',
-            width: '6px',
-            height: '15px',
-            background: '#444',
-            border: '1px solid #9400D3',
-            borderRadius: '2px'
-          }}></div>
-          <div style={{
-            position: 'absolute',
-            right: '-8px',
-            top: '5px',
-            width: '6px',
-            height: '15px',
-            background: '#444',
-            border: '1px solid #9400D3',
-            borderRadius: '2px'
-          }}></div>
-        </div>
-        
-        {/* Speech Bubble */}
-        {robotMessage && (
-          <div style={{
-            position: 'absolute',
-            top: '-35px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            background: 'rgba(0, 0, 0, 0.9)',
-            color: '#00FF00',
-            padding: '4px 8px',
-            borderRadius: '8px',
-            fontSize: '10px',
-            whiteSpace: 'nowrap',
-            border: '1px solid #9400D3',
-            minWidth: '60px',
-            textAlign: 'center'
-          }}>
-            {robotMessage}
-            <div style={{
-              position: 'absolute',
-              bottom: '-6px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '0',
-              height: '0',
-              borderLeft: '4px solid transparent',
-              borderRight: '4px solid transparent',
-              borderTop: '6px solid rgba(0, 0, 0, 0.9)'
-            }}></div>
-          </div>
-        )}
-      </div>
-    )}
-    </>
   );
 }
