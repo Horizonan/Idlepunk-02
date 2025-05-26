@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useCrystalZustand } from '../utils/crystalZustand';
 
-export default function CredStore({ credits, junk, craftingInventory, onBuyHoverDrone, onBuyBooster, onBuyReclaimer, autoClicks, onBack, creditStoreItems, onSetCredits, onSetJunk, onSetNotification, onSetBeaconCount, onSetShowBeacon, onSetCreditStoreItems, onSetSetShowCrystal, onSetCraftingInventory, onSetPreservedHelper }) {
+export default function CredStore({ credits, junk, craftingInventory, onBuyHoverDrone, onBuyBooster, onBuyReclaimer, autoClicks, onBack, creditStoreItems, onSetCredits, onSetJunk, onSetNotification, onSetBeaconCount, onSetShowBeacon, onSetCreditStoreItems, onSetShowCrystal, onSetCraftingInventory, onSetPreservedHelper }) {
 
 
   // 100,000 junk = 1 credit
@@ -51,7 +51,7 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
       });
       onSetNotification(prev => [...prev, "Shard Extractor activated! A crystal will appear soon..."]);
       setTimeout(() => {
-        onSetSetShowCrystal(true);
+        onSetShowCrystal(true);
         onSetShowBeacon(true);
         setTimeout(() => onSetShowBeacon(false), 3000);
       }, Math.random() * 30000);
