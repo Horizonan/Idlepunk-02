@@ -692,7 +692,7 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
           <div style={{
             position: 'absolute',
             top: '-35px',
-            left: '50%',
+            left: '90%',
             transform: 'translateX(-50%)',
             background: 'rgba(0, 0, 0, 0.9)',
             color: '#00FF00',
@@ -709,7 +709,7 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
             <div style={{
               position: 'absolute',
               bottom: '-6px',
-              left: '50%',
+              right: '50%',
               transform: 'translateX(-50%)',
               width: '0',
               height: '0',
