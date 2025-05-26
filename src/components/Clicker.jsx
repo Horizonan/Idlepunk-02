@@ -12,19 +12,50 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
   const [holdClickDelay, setHoldClickDelay] = useState(1000); // ms between clicks when holding
   const [holdClickAmount, setHoldClickAmount] = useState(1); // number of clicks per hold interval
 
-  // Handle keyboard events for Enter key hold-to-click
+  // Handle keyboard events for Enter key
   useEffect(() => {
-    if (!enableHoldToClick) return;
-
     const handleKeyDown = (e) => {
-      if (e.key === 'Enter' && !isHolding) {
+      if (e.key === 'Enter') {
         e.preventDefault();
-        setIsHolding(true);
+        
+        if (enableHoldToClick && !isHolding) {
+          setIsHolding(true);
+        } else if (!enableHoldToClick) {
+          // Single click when hold-to-click is disabled
+          if (activeClicker === 'trash') {
+            setClickCount(prev => {
+              const newCount = prev + 1;
+              if (newCount === 50) {
+                setShowGlitch(true);
+                setTimeout(() => setShowGlitch(false), 5000);
+              }
+              return newCount;
+            });
+            collectJunk();
+          } else if (activeClicker === 'electronics' && electronicsUnlock) {
+            const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
+            const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
+            const amount = 1;
+            const totalBoost = boostICount + (boostIICount * 2);
+
+            // Update manual click count and total clicks
+            window.dispatchEvent(new CustomEvent('manualTronicsClick'));
+            const currentTotal = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
+            localStorage.setItem('totalTronicsClicks', (currentTotal + 1).toString());
+
+            if(totalBoost >= 1){
+              const amount = (1 * totalBoost) + 1;
+              collectTronics(amount);
+            } else {
+              collectTronics(amount);
+            }
+          }
+        }
       }
     };
 
     const handleKeyUp = (e) => {
-      if (e.key === 'Enter' && isHolding) {
+      if (e.key === 'Enter' && enableHoldToClick && isHolding) {
         e.preventDefault();
         setIsHolding(false);
       }
@@ -39,7 +70,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [isHolding, enableHoldToClick]);
+  }, [isHolding, enableHoldToClick, activeClicker, electronicsUnlock, collectJunk, collectTronics]);
 
   // Handle hold-to-click functionality
   useEffect(() => {
