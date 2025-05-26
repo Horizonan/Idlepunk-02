@@ -12,56 +12,19 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
   const [holdClickDelay, setHoldClickDelay] = useState(1000); // ms between clicks when holding
   const [holdClickAmount, setHoldClickAmount] = useState(1); // number of clicks per hold interval
 
-  // Helper function to perform a single click
-  const performClick = () => {
-    if (activeClicker === 'trash') {
-      setClickCount(prev => {
-        const newCount = prev + 1;
-        if (newCount === 50) {
-          setShowGlitch(true);
-          setTimeout(() => setShowGlitch(false), 5000);
-        }
-        return newCount;
-      });
-      collectJunk();
-    } else if (activeClicker === 'electronics' && electronicsUnlock) {
-      const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
-      const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
-      const amount = 1;
-      const totalBoost = boostICount + (boostIICount * 2);
-
-      // Update manual click count and total clicks
-      window.dispatchEvent(new CustomEvent('manualTronicsClick'));
-      const currentTotal = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
-      localStorage.setItem('totalTronicsClicks', (currentTotal + 1).toString());
-
-      if(totalBoost >= 1){
-        const amount = (1 * totalBoost) + 1;
-        collectTronics(amount);
-      } else {
-        collectTronics(amount);
-      }
-    }
-  };
-
-  // Handle keyboard events for Enter key
+  // Handle keyboard events for Enter key hold-to-click
   useEffect(() => {
+    if (!enableHoldToClick) return;
+
     const handleKeyDown = (e) => {
-      if (e.key === 'Enter') {
+      if (e.key === 'Enter' && !isHolding) {
         e.preventDefault();
-        
-        if (enableHoldToClick && !isHolding) {
-          // Start hold-to-click
-          setIsHolding(true);
-        } else if (!enableHoldToClick) {
-          // Single click when hold-to-click is disabled
-          performClick();
-        }
+        setIsHolding(true);
       }
     };
 
     const handleKeyUp = (e) => {
-      if (e.key === 'Enter' && enableHoldToClick && isHolding) {
+      if (e.key === 'Enter' && isHolding) {
         e.preventDefault();
         setIsHolding(false);
       }
@@ -76,7 +39,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [isHolding, enableHoldToClick, activeClicker, electronicsUnlock]);
+  }, [isHolding, enableHoldToClick]);
 
   // Handle hold-to-click functionality
   useEffect(() => {
@@ -89,7 +52,42 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
 
         // Process multiple clicks if holdClickAmount > 1
         for (let i = 0; i < holdClickAmount; i++) {
-          performClick();
+          setClickCount(prev => {
+            const newCount = prev + 1;
+            if (newCount === 50) {
+              setShowGlitch(true);
+              setTimeout(() => setShowGlitch(false), 5000);
+            }
+            return newCount;
+          });
+          collectJunk();
+        }
+      }, holdClickDelay);
+    } else if (isHolding && activeClicker === 'electronics' && electronicsUnlock) {
+      // Handle electronics hold-to-click
+      holdIntervalRef.current = setInterval(() => {
+        // Trigger animation
+        setIsAnimating(true);
+        setTimeout(() => setIsAnimating(false), 200);
+
+        // Process multiple clicks if holdClickAmount > 1
+        for (let i = 0; i < holdClickAmount; i++) {
+          const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
+          const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
+          const amount = 1;
+          const totalBoost = boostICount + (boostIICount * 2);
+
+          // Update manual click count and total clicks
+          window.dispatchEvent(new CustomEvent('manualTronicsClick'));
+          const currentTotal = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
+          localStorage.setItem('totalTronicsClicks', (currentTotal + 1).toString());
+
+          if(totalBoost >= 1){
+            const amount = (1 * totalBoost) + 1;
+            collectTronics(amount);
+          } else {
+            collectTronics(amount);
+          }
         }
       }, holdClickDelay);
     } else {

@@ -780,7 +780,8 @@ export default function App() {
           onBuyTronicsBoostII={handleBuyTronicsBoostII}
           onBuyFlowRegulator={handleBuyFlowRegulator}
           onBuyQuantumTap={handleBuyQuantumTap}
-          onBuyElectroSurgeNode={handleBuyElectroBeaconCore}
+          onBuyElectroSurgeNode={handleBuyElectroSurgeNode}
+          onBuyElectroBeaconCore={handleBuyElectroBeaconCore}
           onBuyCircuitOptimization={handleBuyCircuitOptimization}
           onBuyFrequencyTap={handleBuyHighFreqTap}
 
@@ -815,7 +816,7 @@ export default function App() {
                     newInventory[mat] -= count;
                   });
                   newInventory[item.name] = (newInventory[item.name] || 0) + 1;
-return newInventory;
+                  return newInventory;
                 });
                 if (item.cost) setJunk(prev => prev - item.cost);
                 if (item.name === 'Click Rig Mk I') {
