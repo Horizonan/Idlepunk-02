@@ -15,7 +15,9 @@ export default function VersionPopup({ onClose }) {
   const handleClose = () => {
     localStorage.setItem('seen_update_0.0.7/1', 'true');
     setShow(false);
-    onClose();
+    if (onClose) {
+      onClose();
+    }
   };
 
   if (!show) return null;
@@ -39,7 +41,13 @@ export default function VersionPopup({ onClose }) {
             </a>
           </div>
         </div>
-        <button onClick={handleClose} className="close-button">Got it!</button>
+        <button 
+          onClick={handleClose} 
+          className="close-button"
+          style={{ display: 'block', visibility: 'visible' }}
+        >
+          Got it!
+        </button>
       </div>
     </div>
   );

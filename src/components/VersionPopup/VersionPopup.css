@@ -70,7 +70,7 @@
 }
 
 .close-button {
-  display: block;
+  display: block !important;
   width: 100%;
   padding: 10px;
   margin-top: 20px;
@@ -80,6 +80,10 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background 0.3s;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 10000;
+  position: relative;
 }
 
 .close-button:hover {
