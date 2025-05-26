@@ -37,7 +37,7 @@ export default function Notifications({ notifications }) {
       <div className="notifications-list">
         {displayNotifications.map((msg, i) => (
           <div key={i} className="notification">
-            {typeof msg === 'string' ? msg : msg.content || msg.message}
+            {typeof msg === 'string' ? msg : (React.isValidElement(msg) ? msg : (msg.content || msg.message || 'Unknown notification'))}
           </div>
         ))}
       </div>
