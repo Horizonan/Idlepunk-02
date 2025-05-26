@@ -4,7 +4,7 @@ import '../styles/Store.css';
 export default function ElectroStore({ 
   electroShards, tronics, onBuyTronicsBoost, onBuyQuantumTap, 
   onBack, bulkBuy, setBulkBuy, itemCosts, calculate10xPrice01, onBuyTronicsBoostII, caluclatePricex02, onBuyFlowRegulator, onBuyElectroSurgeNode, onBuyElectroBeaconCore,
-  onBuyCircuitOptimization,onBuyFrequencyTap,
+  onBuyCircuitOptimization,onBuyFrequencyTap, onBuyReactiveFeedback,
 }) {
   const [selectedTab, setSelectedTab] = useState("basic");
 
@@ -119,6 +119,18 @@ export default function ElectroStore({
       action: onBuyFrequencyTap,
       purchasedCount: localStorage.getItem('high_freq_tap_purchased') === 'true' ? 1 : 0,
       unlockCondition: () => localStorage.getItem('tronics_boost_II_count') && !localStorage.getItem('high_freq_tap_purchased')
+    },
+    {
+      name: "🔄 Reactive Feedback Loop",
+      cost: {
+        tronics: !localStorage.getItem('reactive_feedback_purchased') ? 0 : 40000,
+        shards: !localStorage.getItem('reactive_feedback_purchased') ? 12 : 0
+      },
+      description: "+15% Tronics per click + 2.5% of current Junk/sec from clicks",
+      info: "A self-reinforcing circuit that amplifies your clicking efficiency and converts passive income into active gains",
+      action: onBuyReactiveFeedback,
+      purchasedCount: localStorage.getItem('reactive_feedback_purchased') === 'true' ? 1 : 0,
+      unlockCondition: () => localStorage.getItem('unlocked_tronics_boost') && tronics >= 40000 && electroShards >= 12 && !localStorage.getItem('reactive_feedback_purchased')
     }
   ];
 
@@ -147,6 +159,9 @@ export default function ElectroStore({
           return false;
         }
         if (item.name.includes("High-Frequency Tap") && localStorage.getItem('high_freq_tap_purchased') === 'true') {
+          return false;
+        }
+        if (item.name.includes("Reactive Feedback Loop") && localStorage.getItem('reactive_feedback_purchased') === 'true') {
           return false;
         }
         return true;

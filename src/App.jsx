@@ -91,7 +91,7 @@ export default function App() {
     handleBuyTrashBag, calculate10xPriceJunkClicker: calculate10xPrice01,
     handleBuyPicker, handleBuyClickEnhancer, calculate10xPriceJPS, handleBuyStreetrat,
     handleBuyCart, handleBuyJunkMagnet, handleBuyUrbanRecycler, handleBuyScrapDrone,
-    handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator, handleBuyQuantumTap, handleBuyElectroSurgeNode, handleBuyElectroBeaconCore, handleBuyCircuitOptimization, handleBuyHighFreqTap,
+    handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator, handleBuyQuantumTap, handleBuyElectroSurgeNode, handleBuyElectroBeaconCore, handleBuyCircuitOptimization, handleBuyHighFreqTap, handleBuyReactiveFeedback,
   } = gameHandlers({
     junk,
     tronics,
@@ -325,10 +325,10 @@ export default function App() {
         const isBigSlots = localStorage.getItem('bigSlots') === 'true';
         const isUltimateSlots = localStorage.getItem('ultimateSlots') === 'true';
         const useShardCost = localStorage.getItem('slotMachineShardCost') === 'true';
-        
+
         const spinCost = isUltimateSlots ? (useShardCost ? 1 : 10000000) : (isBigSlots ? 1000000 : 1000);
         const canAfford = useShardCost ? electroShards >= 1 : junk >= spinCost;
-        
+
         if (canAfford) {
           // Create a custom spin function that handles notifications for global auto-spin
           const globalSpin = () => {
@@ -784,8 +784,7 @@ export default function App() {
             break;
           case 'settings':
             setShowSettings(prev => !prev);
-            break;
-          case 'techTree':
+            break          case 'techTree':
             setShowTechTree(prev => !prev);
             break;
           case 'tooltips':
@@ -959,7 +958,7 @@ export default function App() {
           onBuyElectroBeaconCore={handleBuyElectroBeaconCore}
           onBuyCircuitOptimization={handleBuyCircuitOptimization}
           onBuyFrequencyTap={handleBuyHighFreqTap}
-
+          onBuyReactiveFeedback={handleBuyReactiveFeedback}
           onBack={() => {
             setActiveStore(null);
             localStorage.setItem('activeStore', null);

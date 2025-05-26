@@ -217,7 +217,7 @@ export const gameHandlers = (gameState, setGameState) => {
       totalCost: gameState.itemCosts.holoBillboard,
       endCost: Math.floor(gameState.itemCosts.holoBillboard * 1.2)
     };
-    
+
     if (gameState.junk >= costData.totalCost) {
       setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setNotifications(prev => [...prev, "Holo Billboard Online – City scrappers stare in awe (+10% Junk/sec globally)!"]);
@@ -369,7 +369,7 @@ export const gameHandlers = (gameState, setGameState) => {
     const handleBuyTronicsBoostII = () => {
 
           if (gameState.tronics >= gameState.itemCosts.tronicsBoostII) {
-            
+
             const costData = gameState.bulkBuy ? calculate10xPrice01(gameState.itemCosts.tronicsBoostII) : {
               totalCost: gameState.itemCosts.tronicsBoostII,
               endCost: Math.floor(gameState.itemCosts.tronicsBoostII * 1.2)
@@ -413,7 +413,7 @@ export const gameHandlers = (gameState, setGameState) => {
         });
         return;
       }
-      
+
       if (gameState.tronics >= 35000 && gameState.electroShards >= 8) {
         setGameState.setTronics(prev => prev - 35000);
         localStorage.setItem("electro_surge_node_purchased", 'true')
@@ -432,7 +432,7 @@ export const gameHandlers = (gameState, setGameState) => {
           return;
         }
 
-        
+
       if (gameState.tronics >= 500000 && parseInt(localStorage.getItem('beaconCount') || '0') >= 10) {
         setGameState.setTronics(prev => prev - 500000);
         setGameState.setNotifications(prev => [...prev, "⚡ Electro Beacon Core installed! Electro Shard spawn time decreased by 25%"]);
@@ -450,7 +450,7 @@ export const gameHandlers = (gameState, setGameState) => {
         return;
       }
 
-      
+
       const currentCost = parseInt(localStorage.getItem('circuit_optimization_cost') || '25000');
       const currentCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
 
@@ -474,7 +474,7 @@ export const gameHandlers = (gameState, setGameState) => {
         setGameState.setNotifications(prev => [...prev, "⚡ High Frequency Tapper Unlocked"]);
         return;
       }
-      
+
       if (gameState.tronics >= 10000 && localStorage.getItem('tronics_boost_II_count')) {
         setGameState.setTronics(prev => prev - 10000);
         localStorage.setItem('high_freq_tap_purchased', 'true');
@@ -482,6 +482,23 @@ export const gameHandlers = (gameState, setGameState) => {
         incrementUpgradeCount();
       }
     }
+
+  const handleBuyReactiveFeedback = () => {
+    if (!localStorage.getItem('reactive_feedback_purchased') && gameState.electroShards >= 12 && gameState.tronics >= 40000) {
+      setGameState.setElectroShards(prev => {
+        const newValue = prev - 12;
+        localStorage.setItem('electroShards', newValue.toString());
+        return newValue;
+      });
+      setGameState.setTronics(prev => {
+        const newValue = prev - 40000;
+        localStorage.setItem('tronics', newValue.toString());
+        return newValue;
+      });
+      localStorage.setItem("reactive_feedback_purchased", "true");
+      setGameState.setNotifications(prev => [...prev, "Reactive Feedback Loop installed! +15% Tronics per click + 2.5% of Junk/sec from clicks!"]);
+    }
+  };
 
   return {
     collectJunk,
@@ -508,6 +525,7 @@ export const gameHandlers = (gameState, setGameState) => {
     handleBuyElectroSurgeNode,
     handleBuyElectroBeaconCore,
     handleBuyCircuitOptimization,
-    handleBuyHighFreqTap
+    handleBuyHighFreqTap,
+    handleBuyReactiveFeedback
   };
 }}
