@@ -33,20 +33,12 @@
   margin-bottom: 13.5px;
 }
 
-.tronics.clicking {
-  animation: clickAnimation 0.2s ease-out;
-}
-
 #trashClicker{
   width: 154px;
   height: 154px;
   cursor: pointer;
   transition: transform 0.2s;
   margin-bottom: 10px;
-}
-
-#trashClicker.clicking {
-  animation: clickAnimation 0.2s ease-out;
 }
 
 .click-hint {
