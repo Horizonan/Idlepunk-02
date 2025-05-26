@@ -784,7 +784,8 @@ export default function App() {
             break;
           case 'settings':
             setShowSettings(prev => !prev);
-            break          case 'techTree':
+            break;
+          case 'techTree':
             setShowTechTree(prev => !prev);
             break;
           case 'tooltips':
