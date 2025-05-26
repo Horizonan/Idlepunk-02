@@ -151,7 +151,7 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
           <div className="item-header">
             <strong>💲 Basic Exchange</strong>
           </div>
-          <div>1 Credit</div>
+          <div>1 Scrat</div>
           <div className="item-info">
             Sell {formatAmount(baseRate)} Junk for 1 Scratz
             Convert your excess junk into valuable scratz at the standard exchange rate.
@@ -167,7 +167,7 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
           <div className="item-header">
             <strong>💲 Bulk Exchange (10x)</strong>
           </div>
-          <div>10 Credits</div>
+          <div>10 Scratz</div>
           <div className="item-info">
             Sell {formatAmount(baseRate * 10)} Junk for 10 Scratz
             A more efficient way to exchange larger amounts of junk.
@@ -183,7 +183,7 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
           <div className="item-header">
             <strong>💲 Mass Exchange (100x)</strong>
           </div>
-          <div>100 Credits</div>
+          <div>100 Scratz</div>
           <div className="item-info">
             Sell {formatAmount(baseRate * 100)} Junk for 100 Scratz
             The ultimate exchange option for serious junk collectors.
@@ -198,7 +198,7 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
           <div className="item-header">
             <strong>⚡ Electro Shard Beacon</strong>
           </div>
-          <div>25 Credits</div>
+          <div>25 Scratz</div>
           <div className="item-info">
             <p>Reduces Electro Shard spawn cooldown by 1% (Max 10)</p>
             A mysterious device that creates an electromagnetic field,
@@ -219,7 +219,7 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
         >
           <div className="item-header">
             <strong><span className="icon">🔧</span> Crafting Booster Unit</strong>
-            <span>60 Credits</span>
+            <span>60 Scratz</span>
           </div>
           <div className="item-info">
             -10% crafting costs on basic recipes
@@ -235,7 +235,7 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
           <div className="item-header">
             <strong>🚁 Hover Drone Addon</strong>
           </div>
-          <div>20 Credits</div>
+          <div>20 Scratz</div>
           <div className="item-info">
             Floating Trash lasts +5s longer before disappearing
             A sleek aerial companion that helps extend the lifespan
@@ -255,7 +255,7 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
         >
           <div className="item-header">
             <strong><span className="icon">🛡️</span> Ascension Reclaimer</strong>
-            <span>90 Credits</span>
+            <span>90 Scratz</span>
           </div>
           <div className="item-info">
             Keep 1 random helper or crafting bonus after Prestige.
@@ -278,7 +278,7 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
           <div className="item-header">
             <strong>⌛ Chrono Crystal Timer</strong>
           </div>
-          <div>200 Credits</div>
+          <div>200 Scratz</div>
           <div className="item-info">
             A high-tech device that tracks and displays the countdown for the next Flying Crystal to appear.
             Uses Junk-Time Synergies to feel when the next Crystal is approaching.
@@ -301,7 +301,7 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
         >
           <div className="item-header">
             <strong>🖥️ Big Slots</strong>
-            <span>150 Credits</span>
+            <span>150 Scratz</span>
           </div>
           <div className="item-info">
             Now with 50% more screen real estate... and danger.
@@ -328,7 +328,7 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
           >
             <div className="item-header">
               <strong>🎰 Ultimate Slots</strong>
-              <span>300 Credits</span>
+              <span>300 Scratz</span>
             </div>
             <div className="item-info">
               <p>The final evolution of risk and reward.</p>
@@ -351,7 +351,7 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
             <div className="item-header">
               <strong>⚡ Shard Extractor</strong>
             </div>
-            <div>75 Credits</div>
+            <div>75 Scratz</div>
             <div className="item-info">
               <p>Forces a crystal shard to spawn within 30 seconds</p>
               <p>15 minute cooldown between uses</p>

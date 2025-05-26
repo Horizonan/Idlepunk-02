@@ -13,7 +13,7 @@ export default function StatsDisplay({ credits, junk, passiveIncome, globalJpsMu
 
   return (
     <div className="stats">
-      <p>Scrat: {Math.floor(credits).toLocaleString('en-US', {maximumFractionDigits: 0})} C</p>
+      <p>Scratz: {Math.floor(credits).toLocaleString('en-US', {maximumFractionDigits: 0})} </p>
       <p>Junk: {showJunkError ? "ERROR" : Math.floor(junk).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
       <p>Junk/sec: {Math.floor((passiveIncome * globalJpsMultiplier) + ((autoClicks + permanentAutoClicks) * clickMultiplier)).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
       {hasPrestiged && (
