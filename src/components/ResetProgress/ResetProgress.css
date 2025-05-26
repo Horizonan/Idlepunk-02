@@ -36,7 +36,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 10000;
 }
 
 .reset-confirm-popup {
@@ -45,6 +45,8 @@
   padding: 20px;
   border-radius: 8px;
   text-align: center;
+  position: relative;
+  z-index: 10001;
 }
 
 .reset-confirm-popup h4 {
