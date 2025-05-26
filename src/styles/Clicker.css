@@ -129,5 +129,13 @@
 }
 
 .click-animate {
-  animation: clickScale 0.2s ease-in-out;
+  animation: clickScale 0.2s ease-in-out !important;
+}
+
+#trashClicker.click-animate:hover {
+  animation: clickScale 0.2s ease-in-out !important;
+}
+
+.tronics.click-animate:hover {
+  animation: clickScale 0.2s ease-in-out !important;
 }
