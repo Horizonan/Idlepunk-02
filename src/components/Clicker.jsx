@@ -12,14 +12,21 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
         e.preventDefault();
         
         if (activeClicker === 'trash') {
-          // Simulate trash clicker click
-          if (!localStorage.getItem('firstClick')) {
-            localStorage.setItem('firstClick', 'true');
-            const clickerElement = document.getElementById('trashClicker');
-            if (clickerElement) {
+          // Trigger visual animation
+          const clickerElement = document.getElementById('trashClicker');
+          if (clickerElement) {
+            // Add scale animation
+            clickerElement.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+              clickerElement.style.transform = 'scale(1)';
+            }, 100);
+            
+            if (!localStorage.getItem('firstClick')) {
+              localStorage.setItem('firstClick', 'true');
               clickerElement.classList.add('clicked');
             }
           }
+          
           setClickCount(prev => {
             const newCount = prev + 1;
             if (newCount === 50) {
@@ -30,6 +37,15 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
           });
           collectJunk();
         } else if (activeClicker === 'electronics' && electronicsUnlock) {
+          // Trigger visual animation for electronics clicker
+          const electroElement = document.querySelector('.tronics');
+          if (electroElement) {
+            electroElement.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+              electroElement.style.transform = 'scale(1)';
+            }, 100);
+          }
+          
           // Simulate electronics clicker click
           const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
           const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
