@@ -1062,7 +1062,8 @@ button.locked {
 
 ```text
 
-.back-button:hover {
+.back-button:hover```text
+ {
   background: #9400D3;
   color: #222;
 }
@@ -1581,4 +1582,72 @@ button.locked {
   justify-content: space-between;
   align-items: center;
   backdrop-filter: blur(5px);
+}
+.quest-completed-text {
+  color: #00FF00;
+  font-style: italic;
+}
+
+/* Next Quest Component Styles */
+.next-quest-container {
+  background: rgba(34, 34, 34, 0.95);
+  border: 1px solid #9400D3;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 10px 0;
+  box-shadow: 0 0 10px rgba(148, 0, 211, 0.3);
+}
+
+.next-quest-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.next-quest-content.completed {
+  border-color: #00FF00;
+}
+
+.next-quest-container .quest-icon {
+  font-size: 1.5em;
+  flex-shrink: 0;
+}
+
+.next-quest-container .quest-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.next-quest-container .quest-title {
+  color: #00FF00;
+  font-weight: bold;
+  font-size: 0.9em;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.next-quest-container .quest-difficulty {
+  font-size: 0.7em;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.next-quest-container .quest-task {
+  color: #00FF00;
+  opacity: 0.8;
+  font-size: 0.8em;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.next-quest-container .quest-reward {
+  color: #ff00ff;
+  font-size: 0.7em;
+  font-style: italic;
 }
