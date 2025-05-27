@@ -494,27 +494,6 @@ export const gameHandlers = (gameState, setGameState) => {
     }
   };
 
-  const handleBuyScratzMiner = () => {
-    const owned = gameState.ownedItems.scratzMiner || 0;
-    let cost;
-    if (owned === 0) cost = 250000;
-    else if (owned === 1) cost = 750000;
-    else if (owned === 2) cost = 2000000;
-    else cost = Math.floor(2000000 * Math.pow(3, owned - 2));
-
-    if (gameState.junk >= cost && (gameState.craftingInventory?.["Junk Cells"] || 0) >= 1) {
-      setGameState.setJunk(prev => prev - cost);
-      setGameState.setOwnedItems(prev => ({...prev, scratzMiner: (prev.scratzMiner || 0) + 1}));
-      setGameState.setNotifications(prev => [...prev, `Scratz Miner #${owned + 1} purchased! It will generate Scratz when powered.`]);
-
-      if (owned === 0) {
-        window.dispatchEvent(new CustomEvent('nextNews', { 
-          detail: { message: "Cogfather: 'A miner that prints money? Kid, you're either a genius or completely insane. I respect both.'" }
-        }));
-      }
-    }
-  };
-
   return {
     collectJunk,
     handleBuyTrashBag,
@@ -541,7 +520,6 @@ export const gameHandlers = (gameState, setGameState) => {
     handleBuyElectroBeaconCore,
     handleBuyCircuitOptimization,
     handleBuyHighFreqTap,
-    handleBuyReactiveFeedback,
-    handleBuyScratzMiner
+    handleBuyReactiveFeedback
   };
 }}

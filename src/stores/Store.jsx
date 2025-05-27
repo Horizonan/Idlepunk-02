@@ -5,7 +5,7 @@ export default function Store({
   credits, itemCosts, ownedItems, craftingInventory, onBuyTrashBag,
   onBuyPicker, onBuyStreetrat,onBuyCart, onBuyJunkMagnet,
   onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, onBuyJunkRefinery,
-  onBuyShardMiner, onBuyScratzMiner, globalJpsMultiplier, passiveIncome, onBuyClickEnhancer,
+  onBuyShardMiner, globalJpsMultiplier, passiveIncome, onBuyClickEnhancer,
   onBuyAutoClicker, onGetAutoClickersV1, canAffordV1, canAffordV2,
   onGetAutoClickersV2, onBuyAutoClickerV2, calculate10xPriceJunkClicker,
   onBack, bulkBuy, setBulkBuy, calculate10xPriceJPS, calculate10xPriceBillBoard,
@@ -121,21 +121,6 @@ export default function Store({
         credits >= 10000000 && (craftingInventory?.["Scrap Core"] || 0) >= 5,
       purchasedCount: ownedItems.shardMiner || 0,
       action: onBuyShardMiner,
-    },
-    {
-      name: "💻 Scratz Miner",
-      cost: { junk: (() => {
-        const owned = ownedItems.scratzMiner || 0;
-        if (owned === 0) return 250000;
-        if (owned === 1) return 750000;
-        if (owned === 2) return 2000000;
-        return Math.floor(2000000 * Math.pow(3, owned - 2));
-      })() },
-      description: "Generates 1 Scratz per hour while powered. Requires 1 Junk Cell per 4 hours.",
-      info: "The Scratz Miner hums to life… burning through Energy Cells like popcorn on a reactor core. It mines credits from thin air — or maybe just very old servers.",
-      unlockCondition: () => (craftingInventory?.["Junk Cells"] || 0) >= 1,
-      purchasedCount: ownedItems.scratzMiner || 0,
-      action: onBuyScratzMiner,
     },
   ];
 
