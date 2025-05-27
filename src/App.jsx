@@ -769,6 +769,9 @@ export default function App() {
           case 'achievements':
             setShowAchievements(prev => !prev);
             break;
+          case 'stats':
+            setActiveStore(prev => prev === 'stats' ? null : 'stats');
+            break;
           case 'questLog':
             setShowQuestLog(prev => {
               const questLogBtn = document.querySelector('.quest-log-toggle');
@@ -776,7 +779,7 @@ export default function App() {
               if (questLogBtn) {
                 questLogBtn.classList.remove('quest-log-attention');
               }
-              if (mainQuestLog) {```text
+              if (mainQuestLog) {
                 mainQuestLog.classList.remove('quest-log-attention');
               }
               return !prev;
