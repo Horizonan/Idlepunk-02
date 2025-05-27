@@ -132,7 +132,7 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
           <div className="miner-controls">
             <span className="miner-count">x{ownedMiners}</span>
             <button 
-              className="close-button"
+              className="close-button-scratzMiner"
               onClick={() => setIsCollapsed(true)}
               title="Minimize to rack"
             >
