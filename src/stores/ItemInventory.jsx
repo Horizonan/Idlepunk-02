@@ -86,17 +86,26 @@ export default function ItemInventory({ craftingInventory, onBack }) {
       description: 'A humming mass of fused chance. Feels... oddly warm.',
       effect: 'Gives you the ability to buy Auto Slotter and Ultimate Slots',
       icon: '🎲'
+    },
+    'Junk Cells': {
+      description: 'Portable power source that lasts about 4 hours',
+      effect: 'Used to power items temporarily',
+      icon: '🔋'
     }
   };
 
   const basicItems = ['Wires', 'Metal Plates', 'Gear Bits', 'Capacitor', 'Scrap Core', 'Glitched Scrap Core'];
+  const consumableItems = ['Junk Cells'];
   const specialItems = ['Stabilized Capacitor', 'Voltage Node', 'Synthcore Fragment', 'Encrypted Coil', 'Surge Capacitor Fragment'];
 
   const basicMaterials = Object.entries(craftingInventory)
     .filter(([name]) => basicItems.includes(name));
 
   const craftedItems = Object.entries(craftingInventory)
-    .filter(([name]) => itemDetails[name] && !basicItems.includes(name) && !specialItems.includes(name));
+    .filter(([name]) => itemDetails[name] && !basicItems.includes(name) && !consumableItems.includes(name) && !specialItems.includes(name));
+
+  const consumableMaterials = Object.entries(craftingInventory)
+    .filter(([name]) => consumableItems.includes(name));
 
   const specialMaterials = Object.entries(craftingInventory)
     .filter(([name]) => specialItems.includes(name));
@@ -134,6 +143,7 @@ export default function ItemInventory({ craftingInventory, onBack }) {
       </div>
       {renderInventorySection(basicMaterials, 'Basic Materials', 'Components & Resources', 'basic-materials')}
       {renderInventorySection(craftedItems, 'Crafted Equipment', 'Enhanced Gear', 'crafted-items')}
+      {renderInventorySection(consumableMaterials, 'Consumables', 'Temporary Power Sources', 'consumable-materials')}
       {renderInventorySection(specialMaterials, 'Special Materials', 'Ascension Components', 'special-materials')}
     </div>
   );

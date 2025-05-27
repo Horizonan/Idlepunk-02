@@ -18,6 +18,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
   const tabs = [
     { id: 'basic', label: 'Basic Materials' },
     { id: 'items', label: 'Craftable Items' },
+    { id: 'consumables', label: 'Consumables' },
     { id: 'mysterious', label: 'Mysterious', unlockCondition: () => localStorage.getItem('mysteriousUnlocked') === 'true' || craftingInventory['Synthcore Fragment'] >= 1 }
   ];
 
@@ -52,6 +53,20 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       description: 'Energy storage device',
       type: 'basic',
       uncraftable: true
+    }
+  ];
+
+  const consumableItems = [
+    {
+      name: 'Junk Cells',
+      requirements: {
+        'Metal Plates': 50,
+        'Wires': 20,
+        'Scrap Core': 1
+      },
+      cost: 0,
+      description: 'Portable power source that lasts about 4 hours',
+      type: 'consumable'
     }
   ];
 
@@ -219,6 +234,38 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                       </div>
                     )}
                     {item.cost && <p>Cost: {formatJunkCost(item.cost, craftingInventory['Crafting Booster Unit'])} Junk</p>}
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {selectedTab === 'consumables' && (
+          <div className="crafting-section">
+            <h3>Consumables</h3>
+            <div className="store-items">
+              {consumableItems.map((item) => (
+                <button
+                  key={item.name}
+                  onClick={() => onCraft(item)}
+                  disabled={!canCraft(item)}
+                  className="store-item"
+                >
+                  <div className="item-header">
+                    <strong>{item.name}</strong>
+                  </div>
+                  <div className="item-info">
+                    <p>{item.description}</p>
+                    {item.requirements && (
+                      <div>
+                        <p>Requirements:</p>
+                        {Object.entries(item.requirements).map(([mat, count]) => (
+                          <p key={mat}>- {mat}: {count} ({craftingInventory[mat] || 0} owned)</p>
+                        ))}
+                      </div>
+                    )}
+                    <p className="owned">Owned: {craftingInventory[item.name] || 0}</p>
                   </div>
                 </button>
               ))}

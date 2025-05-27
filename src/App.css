@@ -873,6 +873,10 @@ button.locked {
   background: rgba(34,34, 34, 0.98);
 }
 
+.consumable-materials .inventory-item {
+  border-color: #FFA500;
+}
+
 .basic-materials .inventory-header h2 {
   color: #00FFFF;
 }
@@ -883,6 +887,10 @@ button.locked {
 
 .special-materials .inventory-header h2 {
   color: #FFD700;
+}
+
+.consumable-materials .inventory-header h2 {
+  color: #FFA500;
 }
 
 .item-icon {
@@ -907,6 +915,10 @@ button.locked {
 
 .special-materials .item-icon {
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+.consumable-materials .item-icon {
+  box-shadow: 0 0 10px rgba(255, 165, 0, 0.2);
 }
 
 .inventory-header {
