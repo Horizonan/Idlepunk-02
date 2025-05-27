@@ -187,7 +187,8 @@ export default function QuestLog({ tutorialStage, onClose }) {
                     fontSize: '0.8em',
                     fontWeight: 'bold',
                     textTransform: 'uppercase',
-                    letterSpacing: '0.5px'
+                    letterSpacing: '0.5px',
+                    marginLeft: '8px'
                   }}
                 >
                   {quest.difficulty}
