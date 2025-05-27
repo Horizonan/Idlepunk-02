@@ -26,6 +26,61 @@
   position: sticky;
   top: 0;
   z-index: 1001;
+  gap: 15px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex: 1;
+  max-width: 300px;
+}
+
+.settings-search {
+  width: 100% !important;
+  padding: 8px 32px 8px 12px !important;
+  background: rgba(42, 42, 42, 0.8) !important;
+  border: 2px solid rgba(148, 0, 211, 0.3) !important;
+  color: #00FF00 !important;
+  border-radius: 6px !important;
+  font-size: 14px !important;
+  transition: all 0.3s ease !important;
+  outline: none !important;
+}
+
+.settings-search:focus {
+  border-color: #9400D3 !important;
+  box-shadow: 0 0 8px rgba(148, 0, 211, 0.4) !important;
+}
+
+.settings-search::placeholder {
+  color: rgba(0, 255, 0, 0.5) !important;
+}
+
+.clear-search {
+  position: absolute !important;
+  right: 8px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: none !important;
+  border: none !important;
+  color: #9400D3 !important;
+  cursor: pointer !important;
+  font-size: 16px !important;
+  padding: 2px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 20px !important;
+  height: 20px !important;
+  border-radius: 50% !important;
+  transition: all 0.3s ease !important;
+}
+
+.clear-search:hover {
+  background: rgba(148, 0, 211, 0.2) !important;
+  color: #00FF00 !important;
 }
 
 .settings-options {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import ResetProgress from '../../ResetProgress/ResetProgress.jsx';
 
 export default function Settings({ 
@@ -27,11 +27,143 @@ export default function Settings({
   electroMultiplier
 }) {
   const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Define all searchable settings with their keywords
+  const searchableSettings = useMemo(() => [
+    { 
+      id: 'clickEnhancer', 
+      name: 'Click Enhancer Effect', 
+      description: 'Shows visual effects when clicking',
+      keywords: ['click', 'visual', 'effect', 'enhancer'],
+      section: 'Visual Effects'
+    },
+    { 
+      id: 'holoBillboard', 
+      name: 'HoloBillboard', 
+      description: 'Animated holographic background',
+      keywords: ['holo', 'billboard', 'background', 'animated', 'holographic'],
+      section: 'Visual Effects'
+    },
+    { 
+      id: 'beaconVisual', 
+      name: 'Shard Beacon Visual', 
+      description: 'Shows beacon effect for crystals',
+      keywords: ['beacon', 'shard', 'crystal', 'visual'],
+      section: 'Visual Effects'
+    },
+    { 
+      id: 'drones', 
+      name: 'Drones', 
+      description: 'Show floating drone helpers',
+      keywords: ['drone', 'floating', 'helper'],
+      section: 'Game Elements'
+    },
+    { 
+      id: 'hoverDrone', 
+      name: 'Hover Drone', 
+      description: 'Show special hover drone',
+      keywords: ['hover', 'drone', 'special'],
+      section: 'Game Elements'
+    },
+    { 
+      id: 'autoclickers', 
+      name: 'Autoclickers', 
+      description: 'Show automation visual feedback',
+      keywords: ['auto', 'clicker', 'automation', 'visual'],
+      section: 'Game Elements'
+    },
+    { 
+      id: 'newsTicker', 
+      name: 'News Ticker', 
+      description: 'Scrolling news updates',
+      keywords: ['news', 'ticker', 'scroll', 'updates'],
+      section: 'Game Elements'
+    },
+    { 
+      id: 'questRewards', 
+      name: 'Quest Rewards', 
+      description: 'Show quest completion rewards',
+      keywords: ['quest', 'reward', 'completion'],
+      section: 'Game Elements'
+    },
+    { 
+      id: 'trashPickup', 
+      name: 'Trash Pickup', 
+      description: 'Auto-collect falling trash',
+      keywords: ['trash', 'pickup', 'auto', 'collect', 'falling'],
+      section: 'Gameplay'
+    },
+    { 
+      id: 'holdToClick', 
+      name: 'Hold to Click', 
+      description: 'Hold mouse button to click repeatedly',
+      keywords: ['hold', 'click', 'mouse', 'repeat'],
+      section: 'Gameplay'
+    },
+    { 
+      id: 'maxClickEnhancers', 
+      name: 'Max Click Enhancers', 
+      description: 'Maximum visual effects on screen',
+      keywords: ['max', 'click', 'enhancer', 'limit', 'visual'],
+      section: 'Limits & Controls'
+    },
+    { 
+      id: 'maxVisibleDrones', 
+      name: 'Max Visible Drones', 
+      description: 'Maximum drones shown at once',
+      keywords: ['max', 'drone', 'visible', 'limit'],
+      section: 'Limits & Controls'
+    }
+  ], []);
+
+  // Filter settings based on search term
+  const filteredSettings = useMemo(() => {
+    if (!searchTerm.trim()) return searchableSettings;
+    
+    const term = searchTerm.toLowerCase();
+    return searchableSettings.filter(setting => 
+      setting.name.toLowerCase().includes(term) ||
+      setting.description.toLowerCase().includes(term) ||
+      setting.keywords.some(keyword => keyword.includes(term)) ||
+      setting.section.toLowerCase().includes(term)
+    );
+  }, [searchTerm, searchableSettings]);
+
+  // Check if a setting should be highlighted
+  const shouldShowSetting = (settingId) => {
+    if (!searchTerm.trim()) return true;
+    return filteredSettings.some(setting => setting.id === settingId);
+  };
+
+  // Check if a section should be shown
+  const shouldShowSection = (sectionName) => {
+    if (!searchTerm.trim()) return true;
+    return filteredSettings.some(setting => setting.section === sectionName);
+  };
 
   return (
     <div className="store-container settings-menu">
       <div className="settings-header">
         <h2>Settings</h2>
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search settings..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="settings-search"
+          />
+          {searchTerm && (
+            <button 
+              onClick={() => setSearchTerm('')}
+              className="clear-search"
+              title="Clear search"
+            >
+              ✕
+            </button>
+          )}
+        </div>
         <button onClick={onClose}>Close</button>
       </div>
       <div className="settings-options">
@@ -70,9 +202,11 @@ export default function Settings({
           <div className={`ui-settings ${uiSettingsCollapsed ? 'collapsed' : 'expanded'}`}>
             
             {/* Visual Effects Section */}
+            {shouldShowSection('Visual Effects') && (
             <div className="settings-subsection">
               <h4 className="subsection-title">🎨 Visual Effects</h4>
               <div className="settings-grid">
+                {shouldShowSetting('clickEnhancer') && (
                 <label className="setting-option modern">
                   <div className="setting-info">
                     <span className="setting-name">Click Enhancer Effect</span>
@@ -87,7 +221,9 @@ export default function Settings({
                     }}
                   />
                 </label>
+                )}
                 
+                {shouldShowSetting('holoBillboard') && (
                 <label className="setting-option modern">
                   <div className="setting-info">
                     <span className="setting-name">HoloBillboard</span>
@@ -102,7 +238,9 @@ export default function Settings({
                     }}
                   />
                 </label>
+                )}
 
+                {shouldShowSetting('beaconVisual') && (
                 <label className="setting-option modern">
                   <div className="setting-info">
                     <span className="setting-name">Shard Beacon Visual</span>
@@ -117,13 +255,17 @@ export default function Settings({
                     }}
                   />
                 </label>
+                )}
               </div>
             </div>
+            )}
 
             {/* Game Elements Section */}
+            {shouldShowSection('Game Elements') && (
             <div className="settings-subsection">
               <h4 className="subsection-title">🎯 Game Elements</h4>
               <div className="settings-grid">
+                {shouldShowSetting('drones') && (
                 <label className="setting-option modern">
                   <div className="setting-info">
                     <span className="setting-name">Drones</span>
@@ -138,7 +280,9 @@ export default function Settings({
                     }}
                   />
                 </label>
+                )}
 
+                {shouldShowSetting('hoverDrone') && (
                 <label className="setting-option modern">
                   <div className="setting-info">
                     <span className="setting-name">Hover Drone</span>
@@ -153,7 +297,9 @@ export default function Settings({
                     }}
                   />
                 </label>
+                )}
 
+                {shouldShowSetting('autoclickers') && (
                 <label className="setting-option modern">
                   <div className="setting-info">
                     <span className="setting-name">Autoclickers</span>
@@ -168,7 +314,9 @@ export default function Settings({
                     }}
                   />
                 </label>
+                )}
 
+                {shouldShowSetting('newsTicker') && (
                 <label className="setting-option modern">
                   <div className="setting-info">
                     <span className="setting-name">News Ticker</span>
@@ -183,7 +331,9 @@ export default function Settings({
                     }}
                   />
                 </label>
+                )}
 
+                {shouldShowSetting('questRewards') && (
                 <label className="setting-option modern">
                   <div className="setting-info">
                     <span className="setting-name">Quest Rewards</span>
@@ -197,13 +347,17 @@ export default function Settings({
                     }}
                   />
                 </label>
+                )}
               </div>
             </div>
+            )}
 
             {/* Gameplay Settings */}
+            {shouldShowSection('Gameplay') && (
             <div className="settings-subsection">
               <h4 className="subsection-title">⚙️ Gameplay</h4>
               <div className="settings-grid">
+                {shouldShowSetting('trashPickup') && (
                 <label className="setting-option modern">
                   <div className="setting-info">
                     <span className="setting-name">Trash Pickup</span>
@@ -218,7 +372,9 @@ export default function Settings({
                     }}
                   />
                 </label>
+                )}
 
+                {shouldShowSetting('holdToClick') && (
                 <label className="setting-option modern">
                   <div className="setting-info">
                     <span className="setting-name">Hold to Click</span>
@@ -233,13 +389,17 @@ export default function Settings({
                     }}
                   />
                 </label>
+                )}
               </div>
             </div>
+            )}
 
             {/* Limits & Controls */}
+            {shouldShowSection('Limits & Controls') && (
             <div className="settings-subsection">
               <h4 className="subsection-title">📊 Limits & Controls</h4>
               <div className="settings-controls">
+                {shouldShowSetting('maxClickEnhancers') && (
                 <div className="control-group">
                   <label className="control-label">
                     <span className="control-name">Max Click Enhancers</span>
@@ -254,7 +414,9 @@ export default function Settings({
                     className="number-input"
                   />
                 </div>
+                )}
                 
+                {shouldShowSetting('maxVisibleDrones') && (
                 <div className="control-group">
                   <label className="control-label">
                     <span className="control-name">Max Visible Drones</span>
@@ -269,8 +431,10 @@ export default function Settings({
                     className="number-input"
                   />
                 </div>
+                )}
               </div>
             </div>
+            )}
 
             {/* Reset Section */}
             <div className="settings-subsection danger-section">
