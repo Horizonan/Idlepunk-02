@@ -145,6 +145,28 @@
   background: rgba(0, 255, 0, 0.05);
 }
 
+.lore-fragment-header.collapsible {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s;
+}
+
+.lore-fragment-header.collapsible:hover {
+  color: #44FF44;
+}
+
+.collapse-arrow {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+  color: #00FF00;
+}
+
+.collapse-arrow.collapsed {
+  transform: rotate(-90deg);
+}
+
 .cogfather-dialogue {
   padding: 1rem;
   background: rgba(0, 0, 0, 0.8);

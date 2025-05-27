@@ -9,9 +9,17 @@ import JunkTerminal from '../components/JunkTerminal';
 export default function Marketplace({ onClose }) {
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [selectedResponse, setSelectedResponse] = useState(null);
+  const [collapsedFragments, setCollapsedFragments] = useState({});
   const fragments = useLoreStore((state) => state.fragments);
   const unlockedFragments = useLoreStore((state) => state.unlockedFragments);
   const isFragmentUnlocked = useLoreStore((state) => state.isFragmentUnlocked);
+
+  const toggleFragment = (fragmentId) => {
+    setCollapsedFragments(prev => ({
+      ...prev,
+      [fragmentId]: !prev[fragmentId]
+    }));
+  };
 
   const renderLoreTerminal = () => (
     <div className="lore-terminal">
@@ -21,8 +29,16 @@ export default function Marketplace({ onClose }) {
           <div key={fragment.id} className={`lore-fragment ${isFragmentUnlocked(fragment.id) ? 'unlocked' : 'locked'}`}>
             {isFragmentUnlocked(fragment.id) ? (
               <>
-                <h4>{fragment.title}</h4>
-                <p style={{ whiteSpace: 'pre-line' }}>{fragment.content}</p>
+                <h4 
+                  className="lore-fragment-header collapsible"
+                  onClick={() => toggleFragment(fragment.id)}
+                >
+                  <span className={`collapse-arrow ${collapsedFragments[fragment.id] ? 'collapsed' : ''}`}>▼</span>
+                  {fragment.title}
+                </h4>
+                {!collapsedFragments[fragment.id] && (
+                  <p style={{ whiteSpace: 'pre-line' }}>{fragment.content}</p>
+                )}
               </>
             ) : (
               <>
