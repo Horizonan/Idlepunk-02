@@ -135,7 +135,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
 
         {activeClicker === 'electronics' && electronicsUnlock && (
           <img 
-            src="public/Icons/electroClicker/electricIcon.svg" 
+            src="/Icons/electroClicker/electricIcon.svg" 
             alt="Electro Clicker" 
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
