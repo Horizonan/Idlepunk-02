@@ -187,6 +187,16 @@ export default function Settings({
                 }}
               />
             </label>
+            <label className="setting-option">
+              <span>Show Quest Rewards</span>
+              <input
+                type="checkbox"
+                checked={localStorage.getItem('showQuestRewards') !== 'false'}
+                onChange={(e) => {
+                  localStorage.setItem('showQuestRewards', e.target.checked);
+                }}
+              />
+            </label>
             <button 
               className="ui-reset-button"
               onClick={() => {

@@ -126,9 +126,6 @@ export default function NextQuest() {
             </span>
           </div>
           <div className="quest-task">{nextQuest.task}</div>
-          {nextQuest.reward && (
-            <div className="quest-reward">🎁 {nextQuest.reward}</div>
-          )}
         </div>
       </div>
     </div>
