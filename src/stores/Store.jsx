@@ -122,6 +122,16 @@ export default function Store({
       purchasedCount: ownedItems.shardMiner || 0,
       action: onBuyShardMiner,
     },
+    {
+      name: "💻 Scratz Miner",
+      cost: { junk: 250000 },
+      description:
+        "Generates 1 Scrat per real-time hour while powered. Requires 1 Energy Cell per 4 hours to stay operational.",
+      info: "The Scratz Miner hums to life… burning through Energy Cells like popcorn on a reactor core. It mines credits from thin air — or maybe just very old servers.",
+      unlockCondition: () => credits >= 250000,
+      purchasedCount: ownedItems.scratzMiner || 0,
+      action: () => {}, // Placeholder - no functionality yet
+    },
   ];
 
 
