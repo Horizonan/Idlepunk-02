@@ -141,8 +141,8 @@ export default function QuestLog({ tutorialStage, onClose }) {
           )}
           {hasPrestiged && (
             <button
-              className={`quest-tab ${selectedQuestLine === 'postPrestige' ? 'active' : ''}`}
-              onClick={() => setSelectedQuestLine('postPrestige')}
+              className={`quest-tab ${selectedQuestLine === 'awakenTheCore' ? 'active' : ''}`}
+              onClick={() => setSelectedQuestLine('awakenTheCore')}
             >
               Awaken the Core
             </button>
