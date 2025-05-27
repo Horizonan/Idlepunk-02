@@ -91,7 +91,7 @@ export default function App() {
     handleBuyTrashBag, calculate10xPriceJunkClicker: calculate10xPrice01,
     handleBuyPicker, handleBuyClickEnhancer, calculate10xPriceJPS, handleBuyStreetrat,
     handleBuyCart, handleBuyJunkMagnet, handleBuyUrbanRecycler, handleBuyScrapDrone,
-    handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator, handleBuyQuantumTap, handleBuyElectroSurgeNode, handleBuyElectroBeaconCore, handleBuyCircuitOptimization, handleBuyHighFreqTap, handleBuyReactiveFeedback,
+    handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator, handleBuyQuantumTap, handleBuyElectroSurgeNode, handleBuyElectroBeaconCore, handleBuyCircuitOptimization, handleBuyHighFreqTap, handleBuyReactiveFeedback, handleBuyScratzMiner
   } = gameHandlers({
     junk,
     tronics,
@@ -860,7 +860,7 @@ export default function App() {
           onClose={() => setShowUpgradeStats(false)}
         />
       )}
-
+      
       {activeStore === 'store' && (
         <Store 
           credits={junk}
@@ -884,6 +884,7 @@ export default function App() {
           canAffordV2={canAffordV2}
           onBuyAutoClickerV2= {handleBuyAutoClickerV2}
           onGetAutoClickersV2={autoClickerV2Count}
+          onBuyScratzMiner={handleBuyScratzMiner}
           onBuyShardMiner={() => {
             const cost = 10000000;
             if (junk >= cost && craftingInventory['Scrap Core'] >= 5 && !ownedItems.shardMiner) {

@@ -9,7 +9,7 @@ export default function Store({
   onBuyAutoClicker, onGetAutoClickersV1, canAffordV1, canAffordV2,
   onGetAutoClickersV2, onBuyAutoClickerV2, calculate10xPriceJunkClicker,
   onBack, bulkBuy, setBulkBuy, calculate10xPriceJPS, calculate10xPriceBillBoard,
-  onBuyModularScrapper
+  onBuyModularScrapper, onBuyScratzMiner
 }) {
   const [selectedTab, setSelectedTab] = useState("prePres");
   
@@ -124,13 +124,13 @@ export default function Store({
     },
     {
       name: "💻 Scratz Miner",
-      cost: { junk: 250000 },
+      cost: itemCosts.scratzMiner,
       description:
         "Generates 1 Scrat per real-time hour while powered. Requires 1 Energy Cell per 4 hours to stay operational.",
       info: "The Scratz Miner hums to life… burning through Energy Cells like popcorn on a reactor core. It mines credits from thin air — or maybe just very old servers.",
       unlockCondition: () => credits >= 250000,
       purchasedCount: ownedItems.scratzMiner || 0,
-      action: () => {}, // Placeholder - no functionality yet
+      action: onBuyScratzMiner, 
     },
   ];
 
