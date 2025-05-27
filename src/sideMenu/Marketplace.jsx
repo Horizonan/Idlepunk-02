@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import '../styles/JunktownNexus.css';
 import '../styles/Store.css';
@@ -79,7 +80,7 @@ export default function Marketplace({ onClose }) {
         <h2>Junktown Nexus</h2>
         <button onClick={onClose}>Close</button>
       </div>
-
+      
       <div className="nexus-options">
         <button 
           className={`store-item ${selectedCharacter === 'cogfather' ? 'selected' : ''}`}
@@ -112,8 +113,8 @@ export default function Marketplace({ onClose }) {
           <div className="item-header">
             <strong>
               📧 Junk Terminal
-
-
+              
+              
             </strong>
           </div>
           <div className="item-info">
