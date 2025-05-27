@@ -323,17 +323,7 @@ export const gameHandlers = (gameState, setGameState) => {
   }
 
 
-  //Premium Items
-  const handleBuyScratzMiner = () => {
-    if (gameState.junk >= 250000) {
-      setGameState.setJunk(prev => prev - 250000);
-      setGameState.setOwnedItems(prev => ({...prev, scratzMiner: 1}));
-      setGameState.setNotifications(prev => [...prev, "Scratz Miner purchased!"]);
-      window.dispatchEvent(new CustomEvent('nextNews', { 
-        detail: { message: "Cogfather: 'Mining credits from thin air? Now that's a new kind of scam.'" }
-      }));
-    }
-  }
+
   //Tronics Store
 
 
@@ -530,7 +520,6 @@ export const gameHandlers = (gameState, setGameState) => {
     handleBuyElectroBeaconCore,
     handleBuyCircuitOptimization,
     handleBuyHighFreqTap,
-    handleBuyReactiveFeedback,
-    handleBuyScratzMiner
+    handleBuyReactiveFeedback
   };
 }}
