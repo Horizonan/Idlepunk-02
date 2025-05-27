@@ -50,8 +50,6 @@ import HoloBillboard from './components/Effects/HoloBillboard';
 import TrashBonus from './components/Effects/TrashBonus';
 import ShardMiner from './components/Effects/ShardMiner';
 import ScratzMiner from './components/Effects/ScratzMiner';
-import CoinFlip from './sideMenu/CoinFlip';
-import TrashBonus from './components/Effects/TrashBonus';
 
 //Combat
 import ScraptagonCombat from './components/Combat/scrapCombat';
