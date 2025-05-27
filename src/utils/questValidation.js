@@ -163,7 +163,7 @@ export const validateQuests = ({
     },
     {
       title: "Alone or Lonely?",
-      condition: ownedItems.scratzMiner >= 1 && localStorage.getItem('crew-storage') && JSON.parse(localStorage.getItem('crew-storage') || '{}').state?.hiredCrew?.length > 0,
+      condition: localStorage.getItem('crew-storage') && JSON.parse(localStorage.getItem('crew-storage') || '{}').state?.hiredCrew?.length > 0,
       category: 'progression',
       onComplete: () => {
         setCredits(prev => prev + 30);
