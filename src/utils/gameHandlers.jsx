@@ -323,7 +323,16 @@ export const gameHandlers = (gameState, setGameState) => {
   }
 
 
-
+  //Premium Items
+  const handleBuyScratzMiner = () => {
+    if(gameState.junk >= gameState.itemCosts.scratzMiner) {
+      setGameState.setJunk(prev => prev -   gameState.itemCosts.scratzMiner);
+      setGameState.setItemCosts(prev => ({...prev, scratzMiner: Math.floor(gameState.itemCosts.scratzMiner * 3)}))
+      setGameState.setOwnedItems(prev => ({...prev, junkRefinery: (prev.scratzMiner || 0) + 1}));
+      setGameState.setNotifications(prev => [...prev, "Scratz Miner purchased!"]); 
+     }
+    }
+  
   //Tronics Store
 
 
@@ -520,6 +529,7 @@ export const gameHandlers = (gameState, setGameState) => {
     handleBuyElectroBeaconCore,
     handleBuyCircuitOptimization,
     handleBuyHighFreqTap,
-    handleBuyReactiveFeedback
+    handleBuyReactiveFeedback,
+    handleBuyScratzMiner
   };
 }}

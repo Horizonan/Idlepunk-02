@@ -137,6 +137,7 @@ export const useGameState = () => {
     flowRegulator: 3000,
     quantumTap: 1250,
     electroSurgeNode: 35000,
+    scratzMiner: 250000,
   });
 
 
