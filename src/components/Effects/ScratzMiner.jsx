@@ -173,7 +173,6 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
             </span>
           </div>
         </div>
-
         <div className="miner-lore">
           "The Scratz Miner hums to life… burning through Junk Cells like popcorn on a reactor core."
         </div>

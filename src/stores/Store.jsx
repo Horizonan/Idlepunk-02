@@ -123,16 +123,18 @@ export default function Store({
       action: onBuyShardMiner,
     },
     {
-      name: "Scratz Miner",
-      cost: itemCosts.scratzMiner,
-      description: "Generates 1 Credit per hour (requires Junk Cells)",
-      info: "The Scratz Miner hums to life… burning through Junk Cells like popcorn on a reactor core",
-      action: onBuyScratzMiner,
+      name: "💻 Scratz Miner",
+      cost: { junk: itemCosts.scratzMiner },
+      description:
+        "Generates 1 Scrat per real-time hour while powered. Requires 1 Energy Cell per 4 hours to stay operational.",
+      info: "The Scratz Miner hums to life… burning through Energy Cells like popcorn on a reactor core. It mines credits from thin air — or maybe just very old servers.",
+      unlockCondition: () => credits >= itemCosts.scratzMiner,
       purchasedCount: ownedItems.scratzMiner || 0,
-      hidden: !localStorage.getItem('hasPrestiged'),
+      action: onBuyScratzMiner, 
     },
-  ];
+    ];
 
+  // Automation Menu
   const automationItems = [
     {
       name: "Auto Clicker Bot",

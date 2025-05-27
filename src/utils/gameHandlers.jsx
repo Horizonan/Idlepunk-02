@@ -533,3 +533,4 @@ export const gameHandlers = (gameState, setGameState) => {
     handleBuyScratzMiner
   };
 }
+}
