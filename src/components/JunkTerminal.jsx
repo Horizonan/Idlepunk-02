@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useEmailStore } from '../utils/emailStore';
-import { useLoreStore } from '../utils/loreStore';
 import './JunkTerminal.css';
 
 export default function JunkTerminal() {
@@ -24,11 +23,10 @@ export default function JunkTerminal() {
   };
 
   const handleUnlockButton = (email) => {
-    if (email.unlockFragment) {
-      const { unlockFragment } = useLoreStore.getState();
-      unlockFragment(email.unlockFragment);
-      console.log(`Unlocked lore fragment ${email.unlockFragment}`);
-    }
+    // Implement the logic to unlock the lore fragment here
+    // This might involve updating a state or calling a function
+    // from a lore store to unlock the relevant fragment.
+    console.log("Unlock button clicked for email:", email);
   };
 
   const unreadEmails = emails.filter(email => !email.read);
