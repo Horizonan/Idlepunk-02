@@ -532,4 +532,4 @@ export const gameHandlers = (gameState, setGameState) => {
     handleBuyReactiveFeedback,
     handleBuyScratzMiner
   };
-}}
+}

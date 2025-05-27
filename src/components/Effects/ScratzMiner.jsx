@@ -7,6 +7,7 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
   const [fuelRemaining, setFuelRemaining] = useState(0);
   const [isPowered, setIsPowered] = useState(false);
   const [showRefuelDialog, setShowRefuelDialog] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(() => localStorage.getItem('scratzMinerCollapsed') === 'true');
 
   // Calculate total generation rate (diminishing returns)
   const getTotalGeneration = () => {
@@ -28,6 +29,10 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
     setFuelRemaining(savedFuel);
     setIsPowered(savedFuel > 0);
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('scratzMinerCollapsed', isCollapsed);
+  }, [isCollapsed]);
 
   useEffect(() => {
     if (ownedMiners === 0) return;
@@ -98,12 +103,42 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
 
   if (ownedMiners === 0) return null;
 
+  // Show collapsed mining rack if collapsed
+  if (isCollapsed) {
+    return (
+      <div 
+        className="mining-rack-collapsed"
+        onClick={() => setIsCollapsed(false)}
+        title="Click to expand Scratz Miner"
+      >
+        <div className="rack-body">
+          <div className="rack-server"></div>
+          <div className="rack-server"></div>
+          <div className="rack-server"></div>
+        </div>
+        <div className="rack-status">
+          <span className={`status-light ${isPowered ? 'powered' : 'unpowered'}`}></span>
+          <span className="rack-count">x{ownedMiners}</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className={`scratz-miner ${isPowered ? 'powered' : 'unpowered'}`}>
         <div className="miner-header">
           <span className="miner-title">💻 Scratz Miner</span>
-          <span className="miner-count">x{ownedMiners}</span>
+          <div className="miner-controls">
+            <span className="miner-count">x{ownedMiners}</span>
+            <button 
+              className="close-button"
+              onClick={() => setIsCollapsed(true)}
+              title="Minimize to rack"
+            >
+              ─
+            </button>
+          </div>
         </div>
         
         <div className="miner-status">
