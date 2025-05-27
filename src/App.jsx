@@ -49,6 +49,9 @@ import FlyingCrystal from './components/Effects/FlyingCrystal';
 import HoloBillboard from './components/Effects/HoloBillboard';
 import TrashBonus from './components/Effects/TrashBonus';
 import ShardMiner from './components/Effects/ShardMiner';
+import ScratzMiner from './components/Effects/ScratzMiner';
+import CoinFlip from './sideMenu/CoinFlip';
+import TrashBonus from './components/Effects/TrashBonus';
 
 //Combat
 import ScraptagonCombat from './components/Combat/scrapCombat';
@@ -91,7 +94,7 @@ export default function App() {
     handleBuyTrashBag, calculate10xPriceJunkClicker: calculate10xPrice01,
     handleBuyPicker, handleBuyClickEnhancer, calculate10xPriceJPS, handleBuyStreetrat,
     handleBuyCart, handleBuyJunkMagnet, handleBuyUrbanRecycler, handleBuyScrapDrone,
-    handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator, handleBuyQuantumTap, handleBuyElectroSurgeNode, handleBuyElectroBeaconCore, handleBuyCircuitOptimization, handleBuyHighFreqTap, handleBuyReactiveFeedback,
+    handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator, handleBuyQuantumTap, handleBuyElectroSurgeNode, handleBuyElectroBeaconCore, handleBuyCircuitOptimization, handleBuyHighFreqTap, handleBuyReactiveFeedback, handleBuyScratzMiner
   } = gameHandlers({
     junk,
     tronics,
@@ -885,20 +888,20 @@ export default function App() {
           onBuyAutoClickerV2= {handleBuyAutoClickerV2}
           onGetAutoClickersV2={autoClickerV2Count}
           onBuyShardMiner={() => {
-            const cost = 10000000;
-            if (junk >= cost && craftingInventory['Scrap Core'] >= 5 && !ownedItems.shardMiner) {
-              setJunk(prev => prev - cost);
+            if (credits >= 10000000 && (craftingInventory?.["Scrap Core"] || 0) >= 5) {
+              setJunk(prev => prev - 10000000);
               setCraftingInventory(prev => ({
                 ...prev,
-                'Scrap Core': prev['Scrap Core'] - 5
+                "Scrap Core": (prev["Scrap Core"] || 0) - 5
               }));
-              setOwnedItems(prev => ({...prev, shardMiner: 1}));
+              setOwnedItems(prev => ({...prev, shardMiner: (prev.shardMiner || 0) + 1}));
               setNotifications(prev => [...prev, "Shard Miner purchased!"]);
               window.dispatchEvent(new CustomEvent('nextNews', { 
                 detail: { message: "A new frequency resonates through your junkyard..." }
               }));
             }
           }}
+          onBuyScratzMiner={handleBuyScratzMiner}
           onBuyCart={handleBuyCart}
           onBuyJunkMagnet={handleBuyJunkMagnet}
           onBuyUrbanRecycler={handleBuyUrbanRecycler}
@@ -1189,6 +1192,18 @@ export default function App() {
               return newValue;
             });
             setNotifications(prev => [...prev, `Collected ${amount} Electro Shard${amount > 1 ? 's' : ''}!`]);
+          }}
+        />
+      )}
+       {ownedItems.scratzMiner && (
+        <ScratzMiner
+          onCollect={(amount) => {
+            setCredits(prev => {
+              const newValue = prev + amount;
+              localStorage.setItem('credits', newValue);
+              return newValue;
+            });
+            setNotifications(prev => [...prev, `Collected ${amount} Scratz${amount > 1 ? 's' : ''}!`]);
           }}
         />
       )}

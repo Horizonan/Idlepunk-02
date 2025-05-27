@@ -1,0 +1,153 @@
+
+.scratz-miner-container {
+  position: fixed;
+  bottom: 80px;
+  left: 20px;
+  background: rgba(26, 26, 26, 0.95);
+  border: 2px solid #9400D3;
+  border-radius: 8px;
+  padding: 15px;
+  z-index: 1000;
+  max-width: 400px;
+  box-shadow: 0 0 15px rgba(148, 0, 211, 0.3);
+}
+
+.scratz-miner-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  color: #00FF00;
+}
+
+.scratz-miner-header h3 {
+  margin: 0;
+  color: #9400D3;
+}
+
+.energy-status {
+  color: #FFD700;
+  font-size: 0.9em;
+}
+
+.miners-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.miner {
+  background: rgba(34, 34, 34, 0.9);
+  border: 1px solid #9400D3;
+  border-radius: 5px;
+  padding: 10px;
+  transition: all 0.3s ease;
+}
+
+.miner.powered {
+  border-color: #00FF00;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+}
+
+.miner.unpowered {
+  border-color: #666;
+  opacity: 0.8;
+}
+
+.miner-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  color: #00FF00;
+  font-weight: bold;
+}
+
+.efficiency {
+  color: #FFD700;
+  font-size: 0.8em;
+}
+
+.miner-status {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.power-indicator {
+  color: #00FF00;
+  font-weight: bold;
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+.energy-remaining {
+  color: #FFD700;
+  font-size: 0.9em;
+}
+
+.total-generated {
+  color: #9400D3;
+  font-size: 0.9em;
+}
+
+.miner-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.power-button {
+  background: #9400D3;
+  border: 1px solid #00FF00;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9em;
+}
+
+.power-button:hover:not(:disabled) {
+  background: #00FF00;
+  color: #222;
+}
+
+.power-button:disabled {
+  background: #666;
+  border-color: #444;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.miner-info {
+  color: #00FF00;
+  font-size: 0.8em;
+  opacity: 0.8;
+  text-align: center;
+}
+
+.miner-notifications {
+  position: absolute;
+  top: -60px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid #9400D3;
+  border-radius: 4px;
+  padding: 8px;
+  max-width: 200px;
+  z-index: 1001;
+}
+
+.miner-notification {
+  color: #00FF00;
+  font-size: 0.8em;
+  margin: 2px 0;
+}
