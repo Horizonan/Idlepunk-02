@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { useFlavorEvents } from '../utils/flavorEventsStore';
-import NextQuest from './NextQuest';
 
 export default function StatsDisplay({ credits, junk, passiveIncome, globalJpsMultiplier, autoClicks, clickMultiplier, tronics, electroShards, permanentAutoClicks }) {
   const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
@@ -26,7 +25,6 @@ export default function StatsDisplay({ credits, junk, passiveIncome, globalJpsMu
       <p className="crystal-shards" title="Requires advanced knowledge to operate. Unlocks after ascension.">
         Electro Shards: {electroShards}
       </p>
-      <NextQuest />
     </div>
   );
 }
