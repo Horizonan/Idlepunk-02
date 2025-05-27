@@ -23,17 +23,18 @@ export default function VersionPopup({ onClose }) {
   if (!show) return null;
 
   return (
-    <div className="version-popup-overlay">
-      <div className="version-popup">
-        <h2>🎮 New Version Available: 0.0.7/1</h2>
-        <div className="version-content">
-          <h3>What's New:</h3>
-          <ul>
-            <li>✨ 10x Purchase Option Junk Store only</li>
-            <li>✨ Code Refactoring</li>
-            <li>🔧 Some Bugfixes</li>
-          </ul>
-          <p>Check the Changelog for more Information or join the Discord!</p>
+          <div className="version-popup-overlay">
+            <div className="version-popup">
+              <h2>🎮 New Version Available: 0.1</h2>
+              <div className="version-content">
+                <h3>What's New:</h3>
+                <ul>
+                  <li>✨ Full Junk Store & Tronics Store Rework</li>
+                  <li>👥 Crew System, Emails & Mini Games</li>
+                  <li>🛠️ 10x Purchases, UI Fixes & Sticky Elements</li>
+                  <li>📦 New Items, Events & Lore Fragment</li>
+                </ul>
+                <p>Check the Changelog for full details or join the Discord!</p>
           <div className="discord-section">
             <p>Join our Discord community to share feedback and suggestions!</p>
             <a href="https://discord.gg/xhJbGbJApN" target="_blank" rel="noopener noreferrer" className="discord-button">

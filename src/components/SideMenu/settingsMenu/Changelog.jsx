@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default function Changelog({ onClose }) {
-  const [expandedVersion, setExpandedVersion] = useState('0.0.7/2');
+  const [expandedVersion, setExpandedVersion] = useState('0.1');
 
   const toggleVersion = (version) => {
     setExpandedVersion(expandedVersion === version ? null : version);
@@ -18,7 +18,72 @@ export default function Changelog({ onClose }) {
 
       <div className="changelog-content">
 
+        <div className="changelog-entry">
+          <h3 onClick={() => toggleVersion('0.1')} style={{ cursor: 'pointer' }}>
+            🚀 Major Systems, Visuals & Crew Expansion – Update Log 0.1 {expandedVersion === '0.1' ? '▼' : '▶'}
+          </h3>
+          {expandedVersion === '0.1' && (
+            <>
+              <p>Version 0.1 is here! A huge thank you for sticking with us as we continue shaping this world together. 💛</p>
+              <div className="changelog-section">
+                <h3>🖥️ UI & UX Improvements</h3>
+                <p>🖥️ Made Item Inventory Header sticky</p>
+                <p>🖥️ Changed entire left menu for better cohesion</p>
+                <p>🖥️ Reduced glow of Holo Billboard for visual clarity</p>
+                <p>🖥️ Changed Settings Menu styling</p>
+                <p>🖥️ Fixed disappearing close/reset buttons on scroll in Settings</p>
+                <p>🖥️ Improved Quest Visual Handling & Sticky Quest Log button</p>
+                <p>🖥️ Added new Beacon Core, Tronics Clicker & Click Enhancer visuals</p>
+                <p>🖥️ Changed Skills Center design to match overall style</p>
+                <p>🖥️ Changed Junktown Nexus styling + added junk terminal</p>
+                <p>🖥️ Updated Tech Tree visuals (purchase markers & clickable nodes)</p>
+                <p>🖥️ Renamed "Pre-prestige" to "Scrap Collectors" in Junk Store</p>
+                <p>🖥️ Removed trailing .00 from Credits display</p>
 
+                <h3>🎮 Gameplay & Content</h3>
+                <p>🎮 Added 10x buy option to Automation & First Prestige</p>
+                <p>🎮 Fixed Prestige Button for 2nd Prestige</p>
+                <p>🎮 Reworked Junk Store & Tronics Store V1</p>
+                <p>🎮 Fixed bug: Autoclicker V2 not set after rework</p>
+                <p>🎮 Fixed bug: Slot Machine UI rendering behind icons</p>
+                <p>🎮 Reworked Slot Machine + added simple Auto Slotter & animation</p>
+                <p>🎮 Changed how 10x calculation works (fixed edge cases)</p>
+                <p>🎮 Hold to Click added (Enter to Hold)</p>
+                <p>🎮 Junk Flip minigame added (and close button fixed)</p>
+                <p>🎮 Added new setting to enable/disable "Next Goal" UI</p>
+                <p>🎮 Added new Crafting tab: "Consumables" + new item: Scrap Cell (Battery)</p>
+                <p>🎮 Added Scratz Miner</p>
+                <p>🎮 Changed base conversion rate from Junk to Scratz by 100× 🙂</p>
+                <p>🎮 Added two new quests + first Lore Fragment!</p>
+
+                <h3>👥 Crew & Mail Systems</h3>
+                <p>👥 Introduced full Crew Hiring System</p>
+                <p>👥 Added Crew Window + Crew Stats</p>
+                <p>👥 Implemented Crew Mini Game + Hint</p>
+                <p>👥 Added simple Mission System</p>
+                <p>📧 Introduced Email System with Notifications</p>
+                <p>📧 Added Spam Mails + Advertisements</p>
+                <p>📧 Added Cheat Menu button for next mail + Mail Game Hint</p>
+
+                <h3>🧠 Systems & Backend</h3>
+                <p>🧠 Started implementation of Heist System (WIP)</p>
+                <p>🧠 Changed Skills Center backend structure</p>
+                <p>🧠 Added Global Electronics Multiplier to Stats menu</p>
+                <p>🧠 Fixed bug where close button styles were all linked incorrectly</p>
+                <p>🧠 Minor tweaks to Cheat Menu for better internal testing</p>
+
+                <h3>🌟 Extras</h3>
+                <p>🌟 Added new Random Mini Event</p>
+                <p>🌟 Added new UI Element: "Next Goal"</p>
+                <p>🌟 Slight layout tweak to Credstore</p>
+                <p>🌟 Changed in-game currency name from "Credit" to "Scrapthereum" or "Scrat" for short</p>
+                <p>🌟 Added reactive feedback loop for certain interactions</p>
+              </div>
+              <p className="changelog-footer">Your feedback continues to guide and inspire development! If you find bugs, want to share ideas, or just say hi, feel free to reach out: itscolord@gmail.com. More surprises soon™ 🚀</p>
+            </>
+          )}
+        </div>
+      
         <div className="changelog-entry">
           <h3 onClick={() => toggleVersion('0.0.7/2')} style={{ cursor: 'pointer' }}>
             🔧 Last Reddit Update – Update Log 0.0.7/2 {expandedVersion === '0.0.7/2' ? '▼' : '▶'}
