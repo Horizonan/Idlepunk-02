@@ -12,8 +12,8 @@ export default function Store({
   onBuyModularScrapper, onBuyScratzMiner
 }) {
   const [selectedTab, setSelectedTab] = useState("prePres");
-  
-  
+
+
   const clickItems = [
     {
       name: "Scrap Bag",
@@ -158,9 +158,9 @@ export default function Store({
       action: onBuyAutoClickerV2,
     },
   ];
-  
 
-  
+
+
   //First Ascencion
   const firstAsc = [
     {
@@ -296,7 +296,7 @@ export default function Store({
               </h3>
               <div className="store-items">
                 {renderItems(firstAsc)}
-                
+
               </div>
             </div>
           )}
