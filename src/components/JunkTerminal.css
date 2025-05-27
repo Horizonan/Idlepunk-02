@@ -1,4 +1,3 @@
-
 .terminal-container {
   background: rgba(0, 0, 0, 0.9);
   border: 2px solid #00FF00;
@@ -111,7 +110,23 @@
 }
 
 .email-body {
+  color: #ccc;
+  line-height: 1.5;
+}
+
+.unlock-button {
+  background: rgba(0, 255, 0, 0.1);
+  border: 2px solid #00FF00;
   color: #00FF00;
-  line-height: 1.6;
-  opacity: 0.9;
+  padding: 10px 20px;
+  margin-top: 15px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.unlock-button:hover {
+  background: rgba(0, 255, 0, 0.2);
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
 }

@@ -131,6 +131,20 @@
   margin: 0 0 0.5rem 0;
 }
 
+.lore-fragment.locked {
+  opacity: 0.6;
+  border: 1px solid #444;
+}
+
+.lore-fragment.locked h4 {
+  color: #666;
+}
+
+.lore-fragment.unlocked {
+  border: 1px solid #00FF00;
+  background: rgba(0, 255, 0, 0.05);
+}
+
 .cogfather-dialogue {
   padding: 1rem;
   background: rgba(0, 0, 0, 0.8);

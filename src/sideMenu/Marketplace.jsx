@@ -3,25 +3,33 @@ import React, { useState } from 'react';
 import '../styles/JunktownNexus.css';
 import '../styles/Store.css';
 import { useEmailStore } from '../utils/emailStore';
+import { useLoreStore } from '../utils/loreStore';
 import JunkTerminal from '../components/JunkTerminal';
 
 export default function Marketplace({ onClose }) {
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [selectedResponse, setSelectedResponse] = useState(null);
-  const [loreFragments] = useState([
-    { id: 1, title: "The Great Collapse", content: "In the wake of the techno-industrial collapse, the junk trade became the new currency of power..." },
-    { id: 2, title: "Rise of the Cogfather", content: "From the ashes of the old world rose the mysterious Cogfather, a figure who saw potential in what others discarded..." },
-    { id: 3, title: "Scrappers' Code", content: "First rule of junking: Everything has value, if you know where to look..." }
-  ]);
+  const fragments = useLoreStore((state) => state.fragments);
+  const unlockedFragments = useLoreStore((state) => state.unlockedFragments);
+  const isFragmentUnlocked = useLoreStore((state) => state.isFragmentUnlocked);
 
   const renderLoreTerminal = () => (
     <div className="lore-terminal">
       <h3 style={{ color: '#00FF00' }}>📚 Lore Terminal</h3>
       <div className="lore-fragments">
-        {loreFragments.map(fragment => (
-          <div key={fragment.id} className="lore-fragment">
-            <h4>{fragment.title}</h4>
-            <p>{fragment.content}</p>
+        {Object.values(fragments).map(fragment => (
+          <div key={fragment.id} className={`lore-fragment ${isFragmentUnlocked(fragment.id) ? 'unlocked' : 'locked'}`}>
+            {isFragmentUnlocked(fragment.id) ? (
+              <>
+                <h4>{fragment.title}</h4>
+                <p style={{ whiteSpace: 'pre-line' }}>{fragment.content}</p>
+              </>
+            ) : (
+              <>
+                <h4>??? LOCKED FRAGMENT #{fragment.id} ???</h4>
+                <p style={{ color: '#666' }}>Fragment locked. Find the corresponding signal to unlock.</p>
+              </>
+            )}
           </div>
         ))}
       </div>
