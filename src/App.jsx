@@ -65,7 +65,6 @@ import TutorialSystem from './components/TutorialSystem';
 import ActiveCheats from './components/CheatMenu/ActiveCheats';
 import ItemInventory from './stores/ItemInventory';
 import PrestigePopup from './components/PrestigePopup';
-import NextQuest from './components/NextQuest';
 import { useEmailStore } from './utils/emailStore';
 
 
@@ -759,17 +758,6 @@ export default function App() {
         autoClickerV1Count={autoClickerV1Count} 
         permanentAutoClicks= {permanentAutoClicks}
       />
-      
-      {/* NextQuest positioned above side menu */}
-      <div style={{
-        position: 'fixed',
-        top: '10px',
-        right: '20px',
-        zIndex: 999,
-        width: '280px'
-      }}>
-        <NextQuest />
-      </div>
       <Menu onStoreSelect={(type) => {
         switch(type) {
           case 'marketplace':
