@@ -699,6 +699,10 @@ button.locked {
   min-width: 200px;
 }
 
+.menu-container {
+  transition: all 0.3s ease;
+}
+
 .menu-container.collapsed {
   width: auto;
   padding: 0;
