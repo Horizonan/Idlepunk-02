@@ -580,7 +580,7 @@ export default function App() {
       setElectroShards,
       setNotifications,
       setCraftingInventory,
-      setAutoClicks, setPermanentAutoClicks
+      setAutoClicks, setPermanentAutoClicks, setCredits
     });
   };
 

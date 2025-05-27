@@ -14,7 +14,7 @@ export const validateQuests = ({
   setElectroShards,
   setNotifications,
   setCraftingInventory,
-  setAutoClicks, setPermanentAutoClicks
+  setAutoClicks, setPermanentAutoClicks, setCredits,
 }) => {
   const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
   const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks'));
@@ -151,6 +151,22 @@ export const validateQuests = ({
           return newValue;
         });
         setNotifications(prev => [...prev, "Quest Completed: Surge Rider - Received 1x Electro Shard!"]);
+      }
+    },
+    {
+      title: "Scratz $$$",
+      condition: ownedItems.scratzMiner <= 1,
+      category: 'progression',
+      onComplete: () => {
+        setCredits(prev => prev + 30);
+      }
+    },
+    {
+      title: "Alone or Lonely?",
+      condition: ownedItems.scratzMiner <= 1,
+      category: 'progression',
+      onComplete: () => {
+        setCredits(prev => prev + 30);
       }
     },
     {

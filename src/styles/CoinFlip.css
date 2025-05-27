@@ -1,12 +1,18 @@
-.close-button {
-  background-color: transparent;
-  border: none;
-  color: rgba(0, 255, 0, 0.5);
-  font-size: 16px;
+.close-button-flip {
+  background: #222;
+  border: 1px solid #9400D3;
+  color: #00FF00;
+  padding: 13px 10px;
+  margin: 0;
   cursor: pointer;
-  padding: 5px 10px;
-  max-width: 70px;
-  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0px;
+  box-shadow: none;
+  font-size: 12px;
+  width: 80px;
+
 }
 
 
@@ -39,12 +45,6 @@
   color: #00FF00;
   text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
   margin: 0;
-}
-
-
-
-.close-button:hover {
-  color: #9400D3;
 }
 
 .coin-game {

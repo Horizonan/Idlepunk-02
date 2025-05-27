@@ -6,7 +6,7 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
 
 
   // 100,000 junk = 1 credit
-  const baseRate = 100000; 
+  const baseRate = 10000000; 
 
   //Formatting Junk 
   const formatAmount = (amount) => {

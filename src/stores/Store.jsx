@@ -123,7 +123,7 @@ export default function Store({
       action: onBuyShardMiner,
     },
     {
-      name: "💻 Scratz Miner",
+      name: "Scratz Miner",
       cost: { junk: itemCosts.scratzMiner },
       description:
         "Generates 1 Scrat per real-time hour while powered. Requires 1 Energy Cell per 4 hours to stay operational.",
