@@ -1,0 +1,263 @@
+
+.scratz-miner {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 280px;
+  background: rgba(26, 26, 26, 0.95);
+  border: 2px solid #9400D3;
+  border-radius: 8px;
+  padding: 15px;
+  z-index: 999;
+  font-family: 'Poppins', monospace;
+  box-shadow: 0 0 15px rgba(148, 0, 211, 0.3);
+  transition: all 0.3s ease;
+}
+
+.scratz-miner.powered {
+  border-color: #00FF00;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+}
+
+.scratz-miner.unpowered {
+  border-color: #FF4444;
+  opacity: 0.8;
+}
+
+.miner-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #9400D3;
+}
+
+.miner-title {
+  color: #00FF00;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.miner-count {
+  color: #9400D3;
+  background: rgba(148, 0, 211, 0.2);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.miner-status {
+  margin-bottom: 12px;
+}
+
+.generation-info {
+  margin-bottom: 8px;
+}
+
+.generation-rate {
+  color: #FFD700;
+  font-weight: bold;
+  font-size: 0.95em;
+}
+
+.timer-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timer-label {
+  color: #00FF00;
+  font-size: 0.9em;
+}
+
+.timer {
+  font-family: monospace;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.timer.active {
+  background: rgba(0, 255, 0, 0.2);
+  color: #00FF00;
+  animation: pulse-timer 2s infinite;
+}
+
+.timer.inactive {
+  background: rgba(255, 68, 68, 0.2);
+  color: #FF4444;
+}
+
+@keyframes pulse-timer {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.fuel-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+}
+
+.fuel-button {
+  background: none;
+  border: 2px solid #9400D3;
+  color: #9400D3;
+  font-size: 1.8em;
+  width: 45px;
+  height: 45px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.fuel-button.fueled {
+  border-color: #00FF00;
+  box-shadow: 0 0 8px rgba(0, 255, 0, 0.3);
+  animation: battery-glow 3s infinite;
+}
+
+.fuel-button.empty {
+  border-color: #FF4444;
+  opacity: 0.7;
+}
+
+.fuel-button:hover {
+  transform: scale(1.05);
+  background: rgba(148, 0, 211, 0.1);
+}
+
+@keyframes battery-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(0, 255, 0, 0.3); }
+  50% { box-shadow: 0 0 15px rgba(0, 255, 0, 0.6); }
+}
+
+.fuel-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.fuel-remaining {
+  color: #00FF00;
+  font-weight: bold;
+  font-size: 0.95em;
+}
+
+.fuel-consumption {
+  color: #FF9999;
+  font-size: 0.8em;
+  opacity: 0.8;
+}
+
+.miner-lore {
+  color: #888;
+  font-style: italic;
+  font-size: 0.8em;
+  text-align: center;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(148, 0, 211, 0.3);
+}
+
+.refuel-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.dialog-content {
+  background: rgba(26, 26, 26, 0.98);
+  border: 2px solid #9400D3;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 300px;
+  text-align: center;
+}
+
+.dialog-content h3 {
+  color: #00FF00;
+  margin-bottom: 15px;
+}
+
+.dialog-content p {
+  color: #00FF00;
+  margin-bottom: 10px;
+}
+
+.dialog-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.refuel-confirm {
+  background: #00FF00;
+  color: #222;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  flex: 1;
+  transition: all 0.3s ease;
+}
+
+.refuel-confirm:hover {
+  background: #00DD00;
+}
+
+.refuel-confirm:disabled {
+  background: #666;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.refuel-cancel {
+  background: #FF4444;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  flex: 1;
+  transition: all 0.3s ease;
+}
+
+.refuel-cancel:hover {
+  background: #DD0000;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .scratz-miner {
+    bottom: 10px;
+    left: 10px;
+    width: 260px;
+    padding: 12px;
+  }
+  
+  .fuel-button {
+    width: 40px;
+    height: 40px;
+    font-size: 1.6em;
+  }
+}

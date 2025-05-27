@@ -49,6 +49,7 @@ import FlyingCrystal from './components/Effects/FlyingCrystal';
 import HoloBillboard from './components/Effects/HoloBillboard';
 import TrashBonus from './components/Effects/TrashBonus';
 import ShardMiner from './components/Effects/ShardMiner';
+import ScratzMiner from './components/Effects/ScratzMiner';
 
 //Combat
 import ScraptagonCombat from './components/Combat/scrapCombat';
@@ -1237,6 +1238,22 @@ export default function App() {
           }}>
           Prestige
         </button>
+      )}
+      {ownedItems.scratzMiner > 0 && (
+        <ScratzMiner
+          ownedMiners={ownedItems.scratzMiner}
+          junkCells={craftingInventory['Junk Cells'] || 0}
+          onConsumeFuel={(amount) => {
+            setCraftingInventory(prev => ({
+              ...prev,
+              'Junk Cells': Math.max(0, (prev['Junk Cells'] || 0) - amount)
+            }));
+          }}
+          onGenerateCredits={(amount) => {
+            setCredits(prev => prev + amount);
+          }}
+          setNotifications={setNotifications}
+        />
       )}
       {showPrestigePopup && (
         <PrestigePopup

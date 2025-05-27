@@ -3,6 +3,7 @@
 @import './styles/Clicker.css';
 @import './components/Effects/surges/TrashSurge.css';
 @import './components/Effects/UiElements/electroBeacon.css';
+@import './components/Effects/ScratzMiner.css';
 @import './styles/slotMachine.css';
 @import './components/SideMenu/settingsMenu/settings.css';
 @import './styles/Tooltips.css';
