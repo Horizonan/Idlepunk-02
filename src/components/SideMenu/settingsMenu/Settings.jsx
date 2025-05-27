@@ -64,167 +64,246 @@ export default function Settings({
             console.log(uiSettingsCollapsed);
             setUiSettingsCollapsed(newState);
             localStorage.setItem('uiSettingsCollapsed', newState);
-          }} style={{ cursor: 'pointer' }}>
+          }} className="settings-category-header">
             🎮 UI Settings {uiSettingsCollapsed ? '▼' : '▲'}
           </h3>
-             <div className="ui-settings" style={{ display: uiSettingsCollapsed ? 'none' : 'block' }}>
-            <label className="setting-option">
-              <span>Show Click Enhancer Effect</span>
-              <input
-                type="checkbox"
-                checked={showClickEnhancerUI}
-                onChange={(e) => {
-                  localStorage.setItem('showClickEnhancerUI', e.target.checked);
-                  setShowClickEnhancerUI(e.target.checked);
-                }}
-              />
-            </label>
-            <label className="setting-option">
-              <span>Max Click Enhancers</span>
-              <input
-                type="number"
-                min="1"
-                max="10"
-                value={localStorage.getItem('maxClickEnhancers') || 3}
-                onChange={(e) => localStorage.setItem('maxClickEnhancers', e.target.value)}
-              />
-            </label>
-            <label className="setting-option">
-              <span>Show Drones</span>
-              <input
-                type="checkbox"
-                checked={showJunkDrone}
-                onChange={(e) => {
-                  localStorage.setItem('showDrones', e.target.checked);
-                  setShowJunkDrone(e.target.checked);
-                }}
-              />
-            </label>
-            <label className="setting-option">
-              <span>Max Visible Drones</span>
-              <input
-                type="number"
-                min="1"
-                max="20"
-                value={localStorage.getItem('maxVisibleDrones') || 10}
-                onChange={(e) => localStorage.setItem('maxVisibleDrones', e.target.value)}
-              />
-            </label>
-            <label className="setting-option">
-              <span>Show News Ticker</span>
-              <input
-                type="checkbox"
-                checked={showNewsTicker}
-                onChange={(e) => {
-                  localStorage.setItem('showNewsTicker', e.target.checked);
-                  setShowNewsTicker(e.target.checked);
-                }}
-              />
-            </label>
-            <label className="setting-option">
-              <span>Show Shard Beacon</span>
-              <input
-                type="checkbox"
-                checked={showBeaconVisual}
-                onChange={(e) => {
-                  localStorage.setItem('showBeaconVisual', e.target.checked);
-                  setShowBeaconVisual(e.target.checked);
-                }}
-              />
-            </label>
-            <label className="setting-option">
-              <span>Enable HoloBillboard</span>
-              <input
-                type="checkbox"
-                checked={enableHoloBillboard}
-                onChange={(e) => {
-                  localStorage.setItem('enableHoloBillboard', e.target.checked);
-                  setEnableHoloBillboard(e.target.checked);
-                }}
-              />
-            </label>
-            <label className="setting-option">
-              <span>Show Hover Drone</span>
-              <input
-                type="checkbox"
-                checked={showHoverDrone}
-                onChange={(e) => {
-                  localStorage.setItem('showHoverDrone', e.target.checked);
-                  setShowHoverDrone(e.target.checked);
-                }}
-              />
-            </label>
-            <label className="setting-option">
-              <span>Show Autoclickers</span>
-              <input
-                type="checkbox"
-                checked={showAutoclickers}
-                onChange={(e) => {
-                  localStorage.setItem('showAutoclickers', e.target.checked);
-                  setShowAutoclickers(e.target.checked);
-                }}
-              />
-            </label>
-            <label className="setting-option">
-              <span>Enable Trash Pickup</span>
-              <input
-                type="checkbox"
-                checked={enableTrashPickup}
-                onChange={(e) => {
-                  localStorage.setItem('enableTrashPickup', e.target.checked);
-                  setEnableTrashPickup(e.target.checked);
-                }}
-              />
-            </label>
-            <label className="setting-option">
-              <span>Enable Hold to Click</span>
-              <input
-                type="checkbox"
-                checked={enableHoldToClick}
-                onChange={(e) => {
-                  localStorage.setItem('enableHoldToClick', e.target.checked);
-                  setEnableHoldToClick(e.target.checked);
-                }}
-              />
-            </label>
-            <label className="setting-option">
-              <span>Show Quest Rewards</span>
-              <input
-                type="checkbox"
-                checked={localStorage.getItem('showQuestRewards') !== 'false'}
-                onChange={(e) => {
-                  localStorage.setItem('showQuestRewards', e.target.checked);
-                }}
-              />
-            </label>
-            <button 
-              className="ui-reset-button"
-              onClick={() => {
-                // Reset draggable positions
-                localStorage.removeItem('slotMachinePosition');
-                localStorage.removeItem('cheatMenuPosition');
-                localStorage.removeItem('activeCheatsPosition');
-                localStorage.removeItem('sidebarLeft');
-                localStorage.removeItem('sidebarTop');
-                localStorage.removeItem('questLogPosition');
-                localStorage.removeItem('achievementsPosition');
+          <div className={`ui-settings ${uiSettingsCollapsed ? 'collapsed' : 'expanded'}`}>
+            
+            {/* Visual Effects Section */}
+            <div className="settings-subsection">
+              <h4 className="subsection-title">🎨 Visual Effects</h4>
+              <div className="settings-grid">
+                <label className="setting-option modern">
+                  <div className="setting-info">
+                    <span className="setting-name">Click Enhancer Effect</span>
+                    <span className="setting-description">Shows visual effects when clicking</span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={showClickEnhancerUI}
+                    onChange={(e) => {
+                      localStorage.setItem('showClickEnhancerUI', e.target.checked);
+                      setShowClickEnhancerUI(e.target.checked);
+                    }}
+                  />
+                </label>
+                
+                <label className="setting-option modern">
+                  <div className="setting-info">
+                    <span className="setting-name">HoloBillboard</span>
+                    <span className="setting-description">Animated holographic background</span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={enableHoloBillboard}
+                    onChange={(e) => {
+                      localStorage.setItem('enableHoloBillboard', e.target.checked);
+                      setEnableHoloBillboard(e.target.checked);
+                    }}
+                  />
+                </label>
 
-                // Reset toggleable settings
-                localStorage.setItem('showDrones', 'false');
-                localStorage.setItem('showClickEnhancerUI', 'false');
-                localStorage.setItem('enableHoloBillboard', 'false');
-                localStorage.setItem('showNewsTicker', 'false');
-                localStorage.setItem('showBeaconVisual', 'false');
-                localStorage.setItem('sidebarLocked', 'false');
-                localStorage.setItem('enableTrashPickup', 'false'); // Added reset for enableTrashPickup
-                localStorage.setItem('enableHoldToClick', 'true'); // Reset hold-to-click to enabled
+                <label className="setting-option modern">
+                  <div className="setting-info">
+                    <span className="setting-name">Shard Beacon Visual</span>
+                    <span className="setting-description">Shows beacon effect for crystals</span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={showBeaconVisual}
+                    onChange={(e) => {
+                      localStorage.setItem('showBeaconVisual', e.target.checked);
+                      setShowBeaconVisual(e.target.checked);
+                    }}
+                  />
+                </label>
+              </div>
+            </div>
 
-                // Force refresh
-                window.location.reload();
-              }}
-            >
-              Reset UI Positions
-            </button>
+            {/* Game Elements Section */}
+            <div className="settings-subsection">
+              <h4 className="subsection-title">🎯 Game Elements</h4>
+              <div className="settings-grid">
+                <label className="setting-option modern">
+                  <div className="setting-info">
+                    <span className="setting-name">Drones</span>
+                    <span className="setting-description">Show floating drone helpers</span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={showJunkDrone}
+                    onChange={(e) => {
+                      localStorage.setItem('showDrones', e.target.checked);
+                      setShowJunkDrone(e.target.checked);
+                    }}
+                  />
+                </label>
+
+                <label className="setting-option modern">
+                  <div className="setting-info">
+                    <span className="setting-name">Hover Drone</span>
+                    <span className="setting-description">Show special hover drone</span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={showHoverDrone}
+                    onChange={(e) => {
+                      localStorage.setItem('showHoverDrone', e.target.checked);
+                      setShowHoverDrone(e.target.checked);
+                    }}
+                  />
+                </label>
+
+                <label className="setting-option modern">
+                  <div className="setting-info">
+                    <span className="setting-name">Autoclickers</span>
+                    <span className="setting-description">Show automation visual feedback</span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={showAutoclickers}
+                    onChange={(e) => {
+                      localStorage.setItem('showAutoclickers', e.target.checked);
+                      setShowAutoclickers(e.target.checked);
+                    }}
+                  />
+                </label>
+
+                <label className="setting-option modern">
+                  <div className="setting-info">
+                    <span className="setting-name">News Ticker</span>
+                    <span className="setting-description">Scrolling news updates</span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={showNewsTicker}
+                    onChange={(e) => {
+                      localStorage.setItem('showNewsTicker', e.target.checked);
+                      setShowNewsTicker(e.target.checked);
+                    }}
+                  />
+                </label>
+
+                <label className="setting-option modern">
+                  <div className="setting-info">
+                    <span className="setting-name">Quest Rewards</span>
+                    <span className="setting-description">Show quest completion rewards</span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={localStorage.getItem('showQuestRewards') !== 'false'}
+                    onChange={(e) => {
+                      localStorage.setItem('showQuestRewards', e.target.checked);
+                    }}
+                  />
+                </label>
+              </div>
+            </div>
+
+            {/* Gameplay Settings */}
+            <div className="settings-subsection">
+              <h4 className="subsection-title">⚙️ Gameplay</h4>
+              <div className="settings-grid">
+                <label className="setting-option modern">
+                  <div className="setting-info">
+                    <span className="setting-name">Trash Pickup</span>
+                    <span className="setting-description">Auto-collect falling trash</span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={enableTrashPickup}
+                    onChange={(e) => {
+                      localStorage.setItem('enableTrashPickup', e.target.checked);
+                      setEnableTrashPickup(e.target.checked);
+                    }}
+                  />
+                </label>
+
+                <label className="setting-option modern">
+                  <div className="setting-info">
+                    <span className="setting-name">Hold to Click</span>
+                    <span className="setting-description">Hold mouse button to click repeatedly</span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={enableHoldToClick}
+                    onChange={(e) => {
+                      localStorage.setItem('enableHoldToClick', e.target.checked);
+                      setEnableHoldToClick(e.target.checked);
+                    }}
+                  />
+                </label>
+              </div>
+            </div>
+
+            {/* Limits & Controls */}
+            <div className="settings-subsection">
+              <h4 className="subsection-title">📊 Limits & Controls</h4>
+              <div className="settings-controls">
+                <div className="control-group">
+                  <label className="control-label">
+                    <span className="control-name">Max Click Enhancers</span>
+                    <span className="control-description">Maximum visual effects on screen</span>
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="10"
+                    value={localStorage.getItem('maxClickEnhancers') || 3}
+                    onChange={(e) => localStorage.setItem('maxClickEnhancers', e.target.value)}
+                    className="number-input"
+                  />
+                </div>
+                
+                <div className="control-group">
+                  <label className="control-label">
+                    <span className="control-name">Max Visible Drones</span>
+                    <span className="control-description">Maximum drones shown at once</span>
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="20"
+                    value={localStorage.getItem('maxVisibleDrones') || 10}
+                    onChange={(e) => localStorage.setItem('maxVisibleDrones', e.target.value)}
+                    className="number-input"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Reset Section */}
+            <div className="settings-subsection danger-section">
+              <h4 className="subsection-title">🔄 Reset Options</h4>
+              <button 
+                className="ui-reset-button modern"
+                onClick={() => {
+                  // Reset draggable positions
+                  localStorage.removeItem('slotMachinePosition');
+                  localStorage.removeItem('cheatMenuPosition');
+                  localStorage.removeItem('activeCheatsPosition');
+                  localStorage.removeItem('sidebarLeft');
+                  localStorage.removeItem('sidebarTop');
+                  localStorage.removeItem('questLogPosition');
+                  localStorage.removeItem('achievementsPosition');
+
+                  // Reset toggleable settings
+                  localStorage.setItem('showDrones', 'false');
+                  localStorage.setItem('showClickEnhancerUI', 'false');
+                  localStorage.setItem('enableHoloBillboard', 'false');
+                  localStorage.setItem('showNewsTicker', 'false');
+                  localStorage.setItem('showBeaconVisual', 'false');
+                  localStorage.setItem('sidebarLocked', 'false');
+                  localStorage.setItem('enableTrashPickup', 'false');
+                  localStorage.setItem('enableHoldToClick', 'true');
+
+                  // Force refresh
+                  window.location.reload();
+                }}
+              >
+                🔄 Reset UI Positions & Settings
+              </button>
+            </div>
           </div>
         </div>
         <button className="changelog-button" onClick={() => {
