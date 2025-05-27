@@ -542,6 +542,6 @@ export const gameHandlers = (gameState, setGameState) => {
     handleBuyCircuitOptimization,
     handleBuyHighFreqTap,
     handleBuyReactiveFeedback,
-    handleBuyScratzMineredback
+    handleBuyScratzMiner
   };
 }}
