@@ -17,7 +17,6 @@ export default function Menu({ onStoreSelect }) {
       header: 'Activities',
       buttons: [
         { id: 'marketplace', label: 'Junktown Nexus' },
-        { id: 'combat', label: 'The Scraptagon 🔒' },
         { id: 'slotMachine', label: 'Slot Machine' },
         { id: 'coinflip', label: 'Junk Flip' }
       ]
