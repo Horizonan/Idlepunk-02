@@ -13,7 +13,7 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
   const getTotalGeneration = () => {
     let total = 0;
     for (let i = 0; i < ownedMiners; i++) {
-      total += Math.pow(0.5, i); // 1, 0.5, 0.25, etc.
+      total += Math.pow(0.794, i); // 1, 0.794, 0.631, etc. (1/3 less aggressive than 0.5)
     }
     return total;
   };
