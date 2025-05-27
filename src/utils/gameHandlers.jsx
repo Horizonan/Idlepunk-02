@@ -328,7 +328,7 @@ export const gameHandlers = (gameState, setGameState) => {
     if(gameState.junk >= gameState.itemCosts.scratzMiner) {
       setGameState.setJunk(prev => prev -   gameState.itemCosts.scratzMiner);
       setGameState.setItemCosts(prev => ({...prev, scratzMiner: Math.floor(gameState.itemCosts.scratzMiner * 3)}))
-      setGameState.setOwnedItems(prev => ({...prev, junkRefinery: (prev.scratzMiner || 0) + 1}));
+      setGameState.setOwnedItems(prev => ({...prev, scratzMiner: (prev.scratzMiner || 0) + 1}));
       setGameState.setNotifications(prev => [...prev, "Scratz Miner purchased!"]); 
      }
     }
