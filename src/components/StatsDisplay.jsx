@@ -24,7 +24,7 @@ export default function StatsDisplay({ credits, junk, passiveIncome, globalJpsMu
         </>
       )}
       <p className="crystal-shards" title="Requires advanced knowledge to operate. Unlocks after ascension.">
-        Electro Shards: {electroShards}
+        Shards: {electroShards}
       </p>
       <NextQuest />
     </div>
