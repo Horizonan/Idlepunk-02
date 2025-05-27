@@ -60,30 +60,53 @@ export default function QuestLog({ tutorialStage, onClose }) {
 
   const questLines = {
     progression: [
-      { id: 1, title: "First Steps", task: "Click on the junk pile to collect some scrap" },
-      { id: 2, title: "Shopping Time", task: "Visit the store and buy your first upgrade" },
-      { id: 3, title: "Tool Master", task: "Keep collecting and upgrading your tools", reward: "1x Electro Shard" },
-      { id: 4, title: "Passive Income", task: "Purchase something that generates passive income" },
-      { id: 5, title: "Begin Crafting", task: "Start crafting items from your collected junk" },
-      { id: 6, title: "Surge Rider", task: "Take advantage of the surge to collect extra junk", reward: "1x Electro Shard" },
-      { id: 7, title: "Automation Punk", task: "Tired of clicking? Buy 10 Autoclickers!", reward: "+1 Permanent Autoclick" },
-      { id: 8, title: "Unlock Ascension Protocol", task: "Reach 1 million junk to unlock the path to prestige", reward: "Unlocks the Ascension Protocol Questline" },
-      { id: 9, title: "Gambling Addiction", task: "Buy the Big Slot Machine", reward: "Become a gambler" }
+      { id: 1, title: "First Steps", task: "Click on the junk pile to collect some scrap", category: "tutorial", difficulty: "easy" },
+      { id: 2, title: "Shopping Time", task: "Visit the store and buy your first upgrade", category: "tutorial", difficulty: "easy" },
+      { id: 3, title: "Tool Master", task: "Keep collecting and upgrading your tools", reward: "1x Electro Shard", category: "progression", difficulty: "easy" },
+      { id: 4, title: "Passive Income", task: "Purchase something that generates passive income", category: "progression", difficulty: "medium" },
+      { id: 5, title: "Begin Crafting", task: "Start crafting items from your collected junk", category: "progression", difficulty: "medium" },
+      { id: 6, title: "Surge Rider", task: "Take advantage of the surge to collect extra junk", reward: "1x Electro Shard", category: "advanced", difficulty: "medium" },
+      { id: 7, title: "Automation Punk", task: "Tired of clicking? Buy 10 Autoclickers!", reward: "+1 Permanent Autoclick", category: "advanced", difficulty: "hard" },
+      { id: 8, title: "Unlock Ascension Protocol", task: "Reach 1 million junk to unlock the path to prestige", reward: "Unlocks the Ascension Protocol Questline", category: "milestone", difficulty: "hard" },
+      { id: 9, title: "Gambling Addiction", task: "Buy the Big Slot Machine", reward: "Become a gambler", category: "side", difficulty: "medium" }
     ],
     ascension: [ 
-      { id: 7, title: "Surge Overflow", task: "Trigger 3 Trash Surges", reward: "1x Stabilized Capacitor" },
-      { id: 8, title: "The Circuit Speaks", task: "Collect 4 Electro Shards", reward: "1x Voltage Node" },
-      { id: 9, title: "Whispers in the Scrap", task: "Collect 10 Lore Logs or reach 12.5M Junk", reward: "1x Synthcore Fragment" },
-      { id: 10, title: "Forge the Future", task: "Craft the Prestige Crystal", reward: "Unlocks Ascension" }
+      { id: 7, title: "Surge Overflow", task: "Trigger 3 Trash Surges", reward: "1x Stabilized Capacitor", category: "challenge", difficulty: "medium" },
+      { id: 8, title: "The Circuit Speaks", task: "Collect 4 Electro Shards", reward: "1x Voltage Node", category: "collection", difficulty: "medium" },
+      { id: 9, title: "Whispers in the Scrap", task: "Collect 10 Lore Logs or reach 12.5M Junk", reward: "1x Synthcore Fragment", category: "collection", difficulty: "hard" },
+      { id: 10, title: "Forge the Future", task: "Craft the Prestige Crystal", reward: "Unlocks Ascension", category: "milestone", difficulty: "epic" }
     ],
     awakenTheCore: [
-      { id: 1, title: "System Memory Detected", task: "Reach 25M Junk (post-prestige)", reward: "Encrypted Coil" },
-      { id: 2, title: "Tap the Pulse", task: "Click the Tronics Clicker 5000 times", reward: "+5 Auto clicks" },
-      { id: 3, title: "Upgrade Cascade", task: "Purchase 10 ElectroShop Upgrades", reward: "Surge Capacitor Fragment"},
-      { id: 4, title: "Beacon Protocol", task: "Own 10 Electro Shard Beacons", reward: "Unlocks crafting recipe for Overcharged Prestige Crystal" },
-      { id: 5, title: "Forge the Overcrystal", task: "Craft the Overcharged Prestige Crystal", reward: "Unlocks Second Prestige"}
-      
+      { id: 1, title: "System Memory Detected", task: "Reach 25M Junk (post-prestige)", reward: "Encrypted Coil", category: "milestone", difficulty: "hard" },
+      { id: 2, title: "Tap the Pulse", task: "Click the Tronics Clicker 5000 times", reward: "+5 Auto clicks", category: "challenge", difficulty: "medium" },
+      { id: 3, title: "Upgrade Cascade", task: "Purchase 10 ElectroShop Upgrades", reward: "Surge Capacitor Fragment", category: "progression", difficulty: "hard" },
+      { id: 4, title: "Beacon Protocol", task: "Own 10 Electro Shard Beacons", reward: "Unlocks crafting recipe for Overcharged Prestige Crystal", category: "collection", difficulty: "epic" },
+      { id: 5, title: "Forge the Overcrystal", task: "Craft the Overcharged Prestige Crystal", reward: "Unlocks Second Prestige", category: "milestone", difficulty: "legendary" }
     ]
+  };
+
+  const getDifficultyColor = (difficulty) => {
+    switch(difficulty) {
+      case 'easy': return '#00FF00';
+      case 'medium': return '#FFFF00';
+      case 'hard': return '#FF8000';
+      case 'epic': return '#9400D3';
+      case 'legendary': return '#FF00FF';
+      default: return '#CCCCCC';
+    }
+  };
+
+  const getCategoryIcon = (category) => {
+    switch(category) {
+      case 'tutorial': return '📚';
+      case 'progression': return '⚡';
+      case 'advanced': return '🔧';
+      case 'milestone': return '🏆';
+      case 'challenge': return '💪';
+      case 'collection': return '📦';
+      case 'side': return '🎲';
+      default: return '⭐';
+    }
   };
 
   const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
@@ -154,12 +177,30 @@ export default function QuestLog({ tutorialStage, onClose }) {
               key={quest.id} 
               className={`quest-item ${questStates[quest.title] ? 'completed' : 'active'}`}
             >
-              <div className="quest-title">{quest.title}</div>
+              <div className="quest-title">
+                <span className="quest-category-icon">{getCategoryIcon(quest.category)}</span>
+                <span className="quest-title-text">{quest.title}</span>
+                <span 
+                  className="quest-difficulty" 
+                  style={{ 
+                    color: getDifficultyColor(quest.difficulty),
+                    fontSize: '0.8em',
+                    fontWeight: 'bold',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}
+                >
+                  {quest.difficulty}
+                </span>
+              </div>
               {!questStates[quest.title] && (
                 <>
                   <div className="quest-task">{quest.task}</div>
-                  {quest.reward && <div className="quest-reward">Reward: {quest.reward}</div>}
+                  {quest.reward && <div className="quest-reward">🎁 {quest.reward}</div>}
                 </>
+              )}
+              {questStates[quest.title] && (
+                <div className="quest-completed-text">Quest Completed! ✨</div>
               )}
             </div>
           ))}
