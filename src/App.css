@@ -1596,6 +1596,7 @@ button.locked {
   padding: 12px;
   margin: 10px 0;
   box-shadow: 0 0 10px rgba(148, 0, 211, 0.3);
+  top: -100px;
 }
 
 .next-quest-content {

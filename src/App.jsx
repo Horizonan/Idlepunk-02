@@ -763,7 +763,7 @@ export default function App() {
       {/* NextQuest positioned above side menu */}
       <div style={{
         position: 'fixed',
-        top: '105px',
+        top: '10px',
         right: '20px',
         zIndex: 999,
         width: '280px'
