@@ -1301,6 +1301,7 @@ export default function App() {
               flowRegulator: 3000,
               quantumTap: 1250,
               electroSurgeNode: 35000,
+              scratzMiner: 250000,
             });
 
 
@@ -1320,7 +1321,8 @@ export default function App() {
               tronicsBoostII: 0,
               flowRegulator: 0,
               quantumTap: 0,
-              electroSurgeNode: 0
+              electroSurgeNode: 0,
+              scratzMiner: 0,
             };
             setOwnedItems(resetOwnedItems);
 
