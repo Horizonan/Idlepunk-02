@@ -17,11 +17,6 @@ export default function ItemInventory({ craftingInventory, onBack }) {
       effect: 'Used in basic crafting',
       icon: '⚙️'
     },
-    'Power Core': {
-      description: 'Advanced energy generation unit',
-      effect: 'Used in advanced crafting',
-      icon: '⚙️'
-    },
     'Capacitor': {
       description: 'Basic Electric Component',
       effect: 'Used for Energy Storage',
@@ -94,7 +89,7 @@ export default function ItemInventory({ craftingInventory, onBack }) {
     }
   };
 
-  const basicItems = ['Wires', 'Metal Plates', 'Gear Bits', 'Power Core', 'Capacitor', 'Scrap Core', 'Glitched Scrap Core'];
+  const basicItems = ['Wires', 'Metal Plates', 'Gear Bits', 'Capacitor', 'Scrap Core', 'Glitched Scrap Core'];
   const specialItems = ['Stabilized Capacitor', 'Voltage Node', 'Synthcore Fragment', 'Encrypted Coil', 'Surge Capacitor Fragment'];
 
   const basicMaterials = Object.entries(craftingInventory)
