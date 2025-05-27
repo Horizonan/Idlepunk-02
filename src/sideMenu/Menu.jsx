@@ -10,6 +10,7 @@ export default function Menu({ onStoreSelect }) {
       buttons: [
         { id: 'questLog', label: 'Quest Log' },
         { id: 'achievements', label: 'Achievements' },
+        { id: 'stats', label: 'Statistics' },
         ...(prestigeCount > 0 ? [{ id: 'techTree', label: 'Tech Tree' }] : [])
       ]
     },

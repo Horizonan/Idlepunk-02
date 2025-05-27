@@ -28,6 +28,8 @@ import Achievements from './sideMenu/Achievements';
 import TechTree from './sideMenu/TechTree';
 import Menu from './sideMenu/Menu';
 import Marketplace from './sideMenu/Marketplace';
+import Stats from './sideMenu/Stats';
+import './styles/Stats.css';
 import SlotMachine from './sideMenu/SlotMachine';
 import CoinFlip from './sideMenu/CoinFlip';
 import Tooltips from './sideMenu/GameTips';
@@ -774,7 +776,7 @@ export default function App() {
               if (questLogBtn) {
                 questLogBtn.classList.remove('quest-log-attention');
               }
-              if (mainQuestLog) {
+              if (mainQuestLog) {```text
                 mainQuestLog.classList.remove('quest-log-attention');
               }
               return !prev;
@@ -920,16 +922,31 @@ export default function App() {
         />
       )}
       {activeStore === 'marketplace' && (
-        <Marketplace 
-          onClose={() => {
-            setActiveStore(null);
-            localStorage.setItem('activeStore', null);
-          }}
-          junk={junk}
-          passiveIncome={passiveIncome}
-          cogfatherLore={cogfatherLore}
-        />
-      )}
+          <Marketplace 
+            onClose={() => {
+              setActiveStore(null);
+              localStorage.setItem('activeStore', null);
+            }}
+            junk={junk}
+            passiveIncome={passiveIncome}
+            cogfatherLore={cogfatherLore}
+          />
+        )}
+
+        {activeStore === 'stats' && (
+          <Stats 
+            clickCount={clickCount}
+            passiveIncome={passiveIncome}
+            globalJpsMultiplier={globalJpsMultiplier}
+            craftingInventory={craftingInventory}
+            surgeCount={surgeCount}
+            prestigeCount={prestigeCount}
+            preservedHelper={preservedHelper}
+            permanentAutoClicks={permanentAutoClicks}
+            electroMultiplier={electroMultiplier}
+            onClose={() => setActiveStore(null)}
+          />
+        )}
       {activeStore === 'crew' && (
         <CrewMenu
           setCredits={setCredits}

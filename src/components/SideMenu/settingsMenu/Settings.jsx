@@ -167,29 +167,6 @@ export default function Settings({
         <button onClick={onClose}>Close</button>
       </div>
       <div className="settings-options">
-        <div className="stats-section">
-          <h3>Stats</h3>
-          <h4>Clicking</h4>
-          <p>Total Clicks: {clickCount.toLocaleString()}</p>
-          <p>Total Tronics Clicks: {totalTronicsClicks.toLocaleString()}</p> 
-          <h4>Multipliers</h4>
-          <p>Global JPS Multiplier: {(1 + (globalJpsMultiplier - 1) + (craftingInventory['Compression Pack'] ? 0.25 : 0)).toFixed(2)}x</p>
-          <p>Global Electro Multiplier: {(electroMultiplier.toFixed(2))}x</p>
-          <h4>Counters</h4>
-          <p>Trash Surges Completed: {surgeCount.toLocaleString()}</p>
-          <p>Times Prestiged: {prestigeCount}</p>
-          <h4>Others</h4>
-          <p>Crystal Time Reduction: {Math.min(10, parseInt(localStorage.getItem('beaconCount') || '0'))}%</p>
-          <p>Average JPS: {Math.floor((passiveIncome * globalJpsMultiplier)).toLocaleString()}</p>
-          <p>Permanent AutoClicks: {permanentAutoClicks}</p>
-          
-        </div>
-        {preservedHelper && (
-          <div className="stats-section">
-            <h3>Energy Shielded Helpers</h3>
-            <p>Preserved Helper{preservedHelper.includes(',') ? 's' : ''}: {preservedHelper}</p>
-          </div>
-        )}
         <div className="settings-section">
           <h3 onClick={() => {
             const newState = !uiSettingsCollapsed;
