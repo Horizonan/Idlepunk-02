@@ -291,9 +291,10 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  top: 0px;
   box-shadow: none;
   font-size: 12px;
-  width: 60px;
+  width: 80px;
 }
 
 .quest-log .close-button:hover {
