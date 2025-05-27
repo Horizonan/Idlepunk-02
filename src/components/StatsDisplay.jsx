@@ -6,6 +6,7 @@ import NextQuest from './NextQuest';
 export default function StatsDisplay({ credits, junk, passiveIncome, globalJpsMultiplier, autoClicks, clickMultiplier, tronics, electroShards, permanentAutoClicks }) {
   const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
   const showJunkError = useFlavorEvents(state => state.showJunkError);
+  const showQuestRewards = localStorage.getItem('showQuestRewards') !== 'false';
 
   const tronicsPerSecond = hasPrestiged ? ((autoClicks + permanentAutoClicks) * (
     (parseInt(localStorage.getItem('tronics_boost_count') || '1')) + 
@@ -26,7 +27,7 @@ export default function StatsDisplay({ credits, junk, passiveIncome, globalJpsMu
       <p className="crystal-shards" title="Requires advanced knowledge to operate. Unlocks after ascension.">
         Shards: {electroShards}
       </p>
-      <NextQuest />
+      {showQuestRewards && <NextQuest />}
     </div>
   );
 }
