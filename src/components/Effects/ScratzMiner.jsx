@@ -136,7 +136,7 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
               onClick={() => setIsCollapsed(true)}
               title="Minimize to rack"
             >
-              ─
+              ▼
             </button>
           </div>
         </div>

@@ -54,25 +54,29 @@
 }
 
 .close-button {
-  background: none;
+  background: #222;
   border: 1px solid #9400D3;
   color: #9400D3;
-  width: 20px;
+  width: 22px;
   height: 20px;
-  border-radius: 3px;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0;
   padding: 0;
   transition: all 0.3s ease;
+  box-shadow: 0 0 4px rgba(148, 0, 211, 0.2);
 }
 
 .close-button:hover {
-  background: rgba(148, 0, 211, 0.2);
-  transform: scale(1.1);
+  background: rgba(148, 0, 211, 0.3);
+  color: #00FF00;
+  border-color: #00FF00;
+  transform: scale(1.05);
+  box-shadow: 0 0 8px rgba(148, 0, 211, 0.4);
 }
 
 .miner-status {
