@@ -48,6 +48,12 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       type: 'basic'
     },
     {
+      name: 'Power Core',
+      cost: 80000,
+      description: 'Advanced energy generation unit',
+      type: 'basic'
+    },
+    {
       name: 'Capacitor',
       description: 'Energy storage device',
       type: 'basic',
