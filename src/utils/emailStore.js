@@ -52,6 +52,14 @@ export const useEmailStore = create(
           from: "craterwatch@lunarveil.pro",
           subject: "Earth's second scar—They never told you about the first",
           content: "They hollowed it in 14,031 BCE. That's why it rings when struck.\nBuzz knew. Stanley helped cover it.\n\n🛰️ Apollo 20 was real—launched without press\n🧬 DNA recovered from inside the craft matched Homo floresiensis\n🐚 Lunar dust contains microscopic bleeding artifacts\n\nThe moon doesn't orbit.\nIt watches."
+        },
+        {
+          from: "ground.truth@echo-grid.nexus",
+          subject: "Origin Signal: The City That Won't Die",
+          content: "📩 Incoming Message: SUBJECT — \"Origin Signal: The City That Won't Die\"\n\nFROM: ground.truth@echo-grid.nexus\nTO: you@idlepunk.mail\n\nYou asked why we stay in a place like this. Why the city hasn't collapsed in on itself like the others. The answer's long — older than any codebase. Older than the Crack. This signal's been passed down through rusted hands. Yours now.\n\n▶️ [READ FULL SIGNAL: ORIGIN-CITY.HEX]",
+          hasButton: true,
+          buttonText: "READ FULL SIGNAL: ORIGIN-CITY.HEX",
+          unlockFragment: 1
         }
       ],
       latestEmail: null,
