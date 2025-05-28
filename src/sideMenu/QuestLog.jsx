@@ -69,7 +69,7 @@ export default function QuestLog({ tutorialStage, onClose }) {
       { id: 6, title: "Scratz $$$", task: "Buy a miner and create cash from air... and uh junk cells", reward: "30 Scratz", category: "advanced", difficulty: "medium" },
       { id: 6, title: "Alone or Lonely?", task: "Dont waste those Scratz you just got! Go recruit some crew members...", reward: "30 Scratz again!", category: "advanced", difficulty: "medium" },
       { id: 7, title: "Automation Punk", task: "Tired of clicking? Buy 10 Autoclickers!", reward: "+1 Permanent Autoclick", category: "advanced", difficulty: "hard" },
-      { id: 8, title: "Unlock Ascension Protocol", task: "Reach 1 million junk to unlock the path to prestige", reward: "Unlocks the Ascension Protocol Questline", category: "milestone", difficulty: "hard" },
+      { id: 8, title: "Unlock Ascension Protocol", task: "Reach 2 million junk to unlock the path to prestige", reward: "Unlocks the Ascension Protocol Questline", category: "milestone", difficulty: "hard" },
       { id: 9, title: "Gambling Addiction", task: "Buy the Big Slot Machine", reward: "Become a gambler", category: "side", difficulty: "medium" }
     ],
     ascension: [ 

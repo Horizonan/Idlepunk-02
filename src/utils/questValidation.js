@@ -228,7 +228,7 @@ export const validateQuests = ({
     },
     {
       title: "Prestige Ready",
-      condition: junk >= 1000000,
+      condition: junk >= 2000000,
       category: 'progression',
       onComplete: () => {
         localStorage.setItem('quest_sync_Prestige Ready', 'true');
