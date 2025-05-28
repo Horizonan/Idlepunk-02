@@ -536,6 +536,7 @@ export default function RelayCascade({ onClose, onComplete }) {
           <div className="game-result success">
             <h3>Signal Successfully Routed!</h3>
             <p>You've hijacked the planetary network!</p>
+            <button onClick={() => onComplete && onComplete(true)}>Continue Mission</button>
           </div>
         )}
 
@@ -544,6 +545,7 @@ export default function RelayCascade({ onClose, onComplete }) {
             <h3>Signal Lost!</h3>
             <p>Either hit a blacklisted node or ran out of moves.</p>
             <button onClick={initializeLevel}>Try Again</button>
+            <button onClick={() => onComplete && onComplete(false)}>Give Up</button>
           </div>
         )}
 
