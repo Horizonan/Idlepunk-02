@@ -685,6 +685,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  max-width: 740px;
 }
 
 .mission-completion-window {
