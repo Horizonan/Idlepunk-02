@@ -178,6 +178,28 @@ export default function Tooltips({ onClose }) {
             </div>
           )}
         </div>
+
+        <div className="tooltip-entry">
+          <h3 onClick={() => toggleTip('happinessInLife')}>
+            🧠 What Is Happiness in Life? {expandedTip === 'happinessInLife' ? '▼' : '▶'}
+          </h3>
+          {expandedTip === 'happinessInLife' && (
+            <div className="tooltip-section">
+              <p><em>"Buried in notifications and leftover pizza is something like peace. Some moments are joy. Most are just buffering."</em></p>
+
+              <p><strong>Objective:</strong> Trick your brain into releasing dopamine without spending $8.99 on a mood skin.</p>
+              <ul>
+                <li>Accept naps, cheese, dog videos, and the void</li>
+                <li>Reject group chats named “GrindSquad💪” and unsolicited advice from Chad</li>
+                <li>Your accuracy improves with hydration and weird hobbies</li>
+                <li>Beware: happiness may be disguised as boredom or a half-dead plant you forgot about</li>
+              </ul>
+
+              <p className="tooltip-tip">💡 Tip: “Your brain is easily fooled. Use this power for good.”</p>
+              <p className="tooltip-junk">🗑 Junk Data: Includes bursts of dance energy, mild existentialism, 12 open tabs, and an emotional support beverage.</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
