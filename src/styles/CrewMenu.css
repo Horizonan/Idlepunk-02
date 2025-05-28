@@ -1087,3 +1087,25 @@
   overflow: hidden;
   box-shadow: 0 0 30px rgba(148, 0, 211, 0.7);
 }
+
+.fire-crew-button {
+  background: #FF0000;
+  color: white;
+  border: 2px solid #FF6666;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 15px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.fire-crew-button:hover {
+  background: #CC0000;
+  border-color: #FF0000;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}

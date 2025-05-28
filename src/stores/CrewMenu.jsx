@@ -107,6 +107,19 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                     <p>Perks:</p>
                     <p>{crew.perks}</p>
                   </div>
+                  <button 
+                    className="fire-crew-button"
+                    onClick={() => {
+                      if (confirm(`Are you sure you want to fire ${crew.name}?`)) {
+                        useRecruitmentZustand.setState(state => ({
+                          hiredCrew: state.hiredCrew.filter(c => c.id !== crew.id),
+                          unlockedCrew: [...state.unlockedCrew, crew]
+                        }));
+                      }
+                    }}
+                  >
+                    🔥 Fire
+                  </button>
                 </div>
               ))}
               {[...Array(3 - hiredCrew.length)].map((_, i) => (
