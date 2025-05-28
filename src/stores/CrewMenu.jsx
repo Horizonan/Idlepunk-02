@@ -409,10 +409,15 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                     if (item === 'electroShard') creditsReward += 50 * bonus.amount;
                                     if (item === 'rareJunk') junkReward += bonus.amount;
                                     if (item === 'equipment') {
-                                      const equipment = useRecruitmentZustand.getState().addEquipment(bonus.itemId);
+                                      const wasAdded = useRecruitmentZustand.getState().addEquipment(bonus.itemId);
                                       const equipmentData = getAllEquipment().find(eq => eq.id === bonus.itemId);
                                       if (equipmentData) {
-                                        equipmentRewards.push(equipmentData);
+                                        if (wasAdded) {
+                                          equipmentRewards.push(equipmentData);
+                                        } else {
+                                          // Item was auto-sold, add to credits display
+                                          creditsReward += equipmentData.autoSellValue || 5;
+                                        }
                                       }
                                     }
                                   }

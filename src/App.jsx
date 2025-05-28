@@ -704,6 +704,36 @@ export default function App() {
     }
   }, [craftingInventory]);
 
+  useEffect(() => {
+    const handleNextNews = (event) => {
+      setNewsMessage(event.detail.message);
+    };
+
+    window.addEventListener('nextNews', handleNextNews);
+    return () => window.removeEventListener('nextNews', handleNextNews);
+  }, []);
+
+  useEffect(() => {
+    const handleCrystalStateChange = (event) => {
+      setCrystalDiscoveryState(event.detail);
+    };
+
+    window.addEventListener('crystalStateChange', handleCrystalStateChange);
+    return () => window.removeEventListener('crystalStateChange', handleCrystalStateChange);
+  }, []);
+
+  useEffect(() => {
+    const handleCreditsUpdate = (event) => {
+      setCredits(event.detail.credits);
+      if (event.detail.message) {
+        setNotifications(prev => [...prev, event.detail.message]);
+      }
+    };
+
+    window.addEventListener('creditsUpdated', handleCreditsUpdate);
+    return () => window.removeEventListener('creditsUpdated', handleCreditsUpdate);
+  }, []);
+
   return (
     <main>
       <VersionPopup onClose={() => {}} />
@@ -754,7 +784,8 @@ export default function App() {
         junk={junk}
         passiveIncome={passiveIncome}
         autoClicks={autoClicks}
-        clickMultiplier={clickMultiplier}
+        ```text
+clickMultiplier={clickMultiplier}
         globalJpsMultiplier={globalJpsMultiplier}
         tronics={tronics}
         electroShards={electroShards}

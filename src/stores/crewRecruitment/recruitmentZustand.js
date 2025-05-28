@@ -21,10 +21,37 @@ export const useRecruitmentZustand = create(
       addEquipment: (itemId) => {
         const equipment = getEquipmentById(itemId);
         if (equipment) {
-          set(state => ({
-            equipment: [...state.equipment, equipment]
-          }));
+          const state = get();
+          
+          // Check if equipment already exists in inventory or equipped
+          const hasInInventory = state.equipment.some(item => item.id === itemId);
+          const hasEquipped = Object.values(state.crewLoadouts).some(loadout => 
+            Object.values(loadout).some(equippedItem => equippedItem && equippedItem.id === itemId)
+          );
+          
+          if (hasInInventory || hasEquipped) {
+            // Auto-sell duplicate for credits
+            const sellValue = equipment.autoSellValue || 5;
+            
+            // Get current credits from localStorage and update
+            const currentCredits = Number(localStorage.getItem('credits') || 0);
+            const newCredits = currentCredits + sellValue;
+            localStorage.setItem('credits', newCredits);
+            
+            // Trigger a custom event to update the credits in the main component
+            window.dispatchEvent(new CustomEvent('creditsUpdated', { 
+              detail: { credits: newCredits, message: `Duplicate ${equipment.name} sold for ${sellValue} Credits!` }
+            }));
+            
+            return false; // Indicate the item was sold instead of added
+          } else {
+            set(state => ({
+              equipment: [...state.equipment, equipment]
+            }));
+            return true; // Indicate the item was added
+          }
         }
+        return false;
       },
 
       equipItemToCrew: (crewId, itemId, slotType) => {

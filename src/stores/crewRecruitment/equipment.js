@@ -8,7 +8,8 @@ export const equipmentDatabase = {
       rarity: 'common',
       statBonus: { grit: 2, tech: 1 },
       icon: '🧤',
-      flavor: 'Still slippery after all these years'
+      flavor: 'Still slippery after all these years',
+      autoSellValue: 5
     },
     stickyTokenBelt: {
       id: 'token_belt',
@@ -17,7 +18,8 @@ export const equipmentDatabase = {
       rarity: 'common',
       statBonus: { luck: 3, stealth: 1 },
       icon: '🪙',
-      flavor: 'Jingles ominously when you walk'
+      flavor: 'Jingles ominously when you walk',
+      autoSellValue: 5
     },
     voidFragment: {
       id: 'void_fragment',
@@ -26,7 +28,8 @@ export const equipmentDatabase = {
       rarity: 'epic',
       statBonus: { psyche: 5, tech: 3 },
       icon: '🌌',
-      flavor: 'Whispers secrets from the void'
+      flavor: 'Whispers secrets from the void',
+      autoSellValue: 50
     }
   },
   armor: {
@@ -37,7 +40,8 @@ export const equipmentDatabase = {
       rarity: 'common',
       statBonus: { grit: 3 },
       icon: '🛡️',
-      flavor: 'Recycled protection for a recycled world'
+      flavor: 'Recycled protection for a recycled world',
+      autoSellValue: 5
     },
     electroShield: {
       id: 'electro_shield',
@@ -46,7 +50,8 @@ export const equipmentDatabase = {
       rarity: 'rare',
       statBonus: { tech: 4, psyche: 2 },
       icon: '⚡',
-      flavor: 'Sparks with unstable energy'
+      flavor: 'Sparks with unstable energy',
+      autoSellValue: 25
     }
   },
   tools: {
@@ -57,7 +62,8 @@ export const equipmentDatabase = {
       rarity: 'uncommon',
       statBonus: { tech: 4, stealth: 2 },
       icon: '💻',
-      flavor: 'For when talking fails'
+      flavor: 'For when talking fails',
+      autoSellValue: 15
     },
     luckyCharm: {
       id: 'lucky_charm',
@@ -66,7 +72,8 @@ export const equipmentDatabase = {
       rarity: 'rare',
       statBonus: { luck: 4, psyche: 3 },
       icon: '🗺️',
-      flavor: 'Updates itself when you\'re not looking'
+      flavor: 'Updates itself when you are not looking',
+      autoSellValue: 25
     }
   }
 };
