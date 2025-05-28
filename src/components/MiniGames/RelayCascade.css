@@ -1,4 +1,3 @@
-
 .relay-cascade-overlay {
   position: fixed;
   top: 0;
@@ -29,7 +28,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  border-bottom: 1px solid #00ff41;
+  border-bottom: 1px solid #9d4edd;
   padding-bottom: 10px;
 }
 
@@ -59,23 +58,24 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
-  color: #00ff41;
+  color: #9d4edd;
   font-weight: bold;
 }
 
 .moves-left {
+  background: rgba(157, 78, 221, 0.2);
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: 1px solid #9d4edd;
+  color: #c77dff;
+}
+
+.objective {
   background: rgba(0, 255, 65, 0.2);
   padding: 8px 15px;
   border-radius: 5px;
   border: 1px solid #00ff41;
-}
-
-.objective {
-  background: rgba(148, 0, 211, 0.2);
-  padding: 8px 15px;
-  border-radius: 5px;
-  border: 1px solid #9400d3;
-  color: #9400d3;
+  color: #00ff41;
 }
 
 .game-grid {
@@ -222,35 +222,32 @@
 }
 
 .game-result.success {
-  background: rgba(0, 255, 0, 0.2);
-  border: 2px solid #00ff00;
-  color: #00ff00;
+  background: rgba(0, 255, 65, 0.2);
+  border: 2px solid #00ff41;
+  color: #00ff41;
 }
 
 .game-result.failure {
-  background: rgba(255, 0, 0, 0.2);
-  border: 2px solid #ff0000;
-  color: #ff0000;
-}
-
-.game-result h3 {
-  margin: 0 0 10px 0;
-  font-size: 1.3em;
+  background: rgba(255, 68, 68, 0.2);
+  border: 2px solid #ff4444;
+  color: #ff6666;
 }
 
 .game-result button {
-  background: #ff4444;
-  border: none;
+  background: #7209b7;
+  border: 1px solid #9d4edd;
   color: white;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   margin-top: 10px;
   font-weight: bold;
+  transition: all 0.3s ease;
 }
 
 .game-result button:hover {
-  background: #ff6666;
+  background: #9d4edd;
+  box-shadow: 0 0 10px rgba(157, 78, 221, 0.5);
 }
 
 .game-legend {
@@ -336,18 +333,18 @@
   .relay-cascade-container {
     padding: 15px;
   }
-  
+
   .grid-cell {
     width: 35px;
     height: 35px;
     font-size: 16px;
   }
-  
+
   .game-info {
     flex-direction: column;
     gap: 10px;
   }
-  
+
   .game-legend {
     grid-template-columns: 1fr;
   }
