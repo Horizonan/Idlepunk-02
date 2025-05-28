@@ -56,42 +56,73 @@ export default function RelayCascade({ onClose, onComplete }) {
     newGrid[0][0] = cellTypes.start;
     newGrid[4][4] = cellTypes.target;
     
-    // Get all available positions (excluding start and target)
+    // Create a guaranteed solvable path first
+    // Place relay nodes to ensure column switching is possible
+    const guaranteedPath = [
+      { x: 0, y: 1 }, // Down from start
+      { x: 0, y: 2 }, // Continue down
+      { x: 1, y: 2 }, // Switch column (needs relay at 0,2)
+      { x: 1, y: 3 }, // Continue down
+      { x: 2, y: 3 }, // Switch column (needs relay at 1,3)
+      { x: 3, y: 3 }, // Switch column (needs relay at 2,3)
+      { x: 4, y: 3 }, // Switch column (needs relay at 3,3)
+      { x: 4, y: 4 }  // Reach target
+    ];
+    
+    // Place essential relays for column switching
+    newGrid[0][2] = cellTypes.relay; // Essential for first column switch
+    newGrid[1][3] = cellTypes.relay; // Essential for second column switch
+    newGrid[2][3] = cellTypes.relay; // Essential for third column switch
+    newGrid[3][3] = cellTypes.relay; // Essential for fourth column switch
+    
+    // Get remaining available positions
+    const usedPositions = new Set(['0,0', '4,4', '0,2', '1,3', '2,3', '3,3']);
     const availablePositions = [];
+    
     for (let y = 0; y < 5; y++) {
       for (let x = 0; x < 5; x++) {
-        if (!(x === 0 && y === 0) && !(x === 4 && y === 4)) {
+        const key = `${x},${y}`;
+        if (!usedPositions.has(key)) {
           availablePositions.push({ x, y });
         }
       }
     }
     
-    // Shuffle available positions
+    // Shuffle remaining positions
     const shuffledPositions = [...availablePositions].sort(() => Math.random() - 0.5);
     
-    // Randomly place 4-6 regular relays
-    const numRelays = 4 + Math.floor(Math.random() * 3);
-    for (let i = 0; i < numRelays && i < shuffledPositions.length; i++) {
+    // Add 2-4 additional relays randomly
+    const numAdditionalRelays = 2 + Math.floor(Math.random() * 3);
+    for (let i = 0; i < numAdditionalRelays && i < shuffledPositions.length; i++) {
       const pos = shuffledPositions[i];
       newGrid[pos.y][pos.x] = cellTypes.relay;
     }
     
-    // Randomly place 1-3 blacklisted nodes
-    const numBlacklisted = 1 + Math.floor(Math.random() * 3);
-    const remainingPositions = shuffledPositions.slice(numRelays);
-    for (let i = 0; i < numBlacklisted && i < remainingPositions.length; i++) {
-      const pos = remainingPositions[i];
+    // Add 1-2 blacklisted nodes (not on the guaranteed path)
+    const numBlacklisted = 1 + Math.floor(Math.random() * 2);
+    const remainingPositions = shuffledPositions.slice(numAdditionalRelays);
+    
+    // Filter out positions that would block the guaranteed path
+    const safePositions = remainingPositions.filter(pos => {
+      // Don't place blacklisted nodes on vertical paths in columns 0 and 4
+      if ((pos.x === 0 && pos.y < 3) || (pos.x === 4 && pos.y > 2)) {
+        return false;
+      }
+      return true;
+    });
+    
+    for (let i = 0; i < numBlacklisted && i < safePositions.length; i++) {
+      const pos = safePositions[i];
       newGrid[pos.y][pos.x] = cellTypes.blacklisted;
     }
     
-    // Randomly place 1-2 rotating relays
-    const numRotating = 1 + Math.floor(Math.random() * 2);
-    const finalPositions = remainingPositions.slice(numBlacklisted);
+    // Add 1 rotating relay
+    const rotatingPositions = safePositions.slice(numBlacklisted);
     const newRotatingRelays = [];
     const directions = ['up', 'right', 'down', 'left'];
     
-    for (let i = 0; i < numRotating && i < finalPositions.length; i++) {
-      const pos = finalPositions[i];
+    if (rotatingPositions.length > 0) {
+      const pos = rotatingPositions[0];
       newGrid[pos.y][pos.x] = cellTypes.rotating;
       newRotatingRelays.push({
         x: pos.x,
@@ -103,7 +134,7 @@ export default function RelayCascade({ onClose, onComplete }) {
     setGrid(newGrid);
     setPlayerPos({ x: 0, y: 0 });
     setSignal([{ x: 0, y: 0 }]);
-    setMovesLeft(8);
+    setMovesLeft(10); // Increased moves since relays add moves
     setGameState('playing');
     setRotatingRelays(newRotatingRelays);
   };
@@ -119,6 +150,18 @@ export default function RelayCascade({ onClose, onComplete }) {
     // Check bounds
     if (newPos.x < 0 || newPos.x >= 5 || newPos.y < 0 || newPos.y >= 5) return;
 
+    // Check if trying to move horizontally (change columns)
+    if (direction === 'left' || direction === 'right') {
+      const currentCellType = grid[playerPos.y][playerPos.x];
+      // Can only change columns from relay nodes, rotating relays, start, or target
+      if (currentCellType !== cellTypes.relay && 
+          currentCellType !== cellTypes.rotating && 
+          currentCellType !== cellTypes.start && 
+          currentCellType !== cellTypes.target) {
+        return; // Block horizontal movement
+      }
+    }
+
     const cellType = grid[newPos.y][newPos.x];
     
     // Check if hitting blacklisted node
@@ -131,7 +174,14 @@ export default function RelayCascade({ onClose, onComplete }) {
     const newSignal = [...signal, newPos];
     setSignal(newSignal);
     setPlayerPos(newPos);
-    setMovesLeft(prev => prev - 1);
+    
+    // Relay nodes and rotating relays add one move
+    if (cellType === cellTypes.relay || cellType === cellTypes.rotating) {
+      setMovesLeft(prev => prev); // Don't decrease moves, effectively adding one
+    } else {
+      setMovesLeft(prev => prev - 1);
+    }
+    
     setCurrentDirection(direction);
 
     // Check if reached target
@@ -144,7 +194,7 @@ export default function RelayCascade({ onClose, onComplete }) {
     }
 
     // Check if out of moves
-    if (movesLeft <= 1) {
+    if (movesLeft <= 1 && cellType !== cellTypes.relay && cellType !== cellTypes.rotating) {
       setGameState('lost');
       if (onComplete) {
         onComplete(false);
@@ -279,9 +329,16 @@ export default function RelayCascade({ onClose, onComplete }) {
         <div className="game-legend">
           <div className="legend-item">📡 Start Point</div>
           <div className="legend-item">🎯 Target</div>
-          <div className="legend-item">🛰️ Relay</div>
+          <div className="legend-item">🛰️ Relay (+1 move)</div>
           <div className="legend-item">❌ Blacklisted</div>
-          <div className="legend-item">↑↓←→ Rotating Relay</div>
+          <div className="legend-item">↑↓←→ Rotating Relay (+1 move)</div>
+        </div>
+        
+        <div className="game-rules">
+          <div className="rules-title">Rules:</div>
+          <div className="rule-item">• Can only switch columns from relay nodes</div>
+          <div className="rule-item">• Relay nodes grant +1 move</div>
+          <div className="rule-item">• Avoid blacklisted nodes</div>
         </div>
       </div>
     </div>
