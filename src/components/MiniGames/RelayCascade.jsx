@@ -70,16 +70,19 @@ export default function RelayCascade({ onClose, onComplete }) {
   };
 
   const validatePath = (grid, start, target) => {
-    // Simple pathfinding to check if target is reachable
-    const visited = new Set();
-    const queue = [{ x: start.x, y: start.y, moves: 8 }];
+    // Advanced pathfinding with proper move counting
+    const visited = new Map(); // Use Map to track best moves for each position
+    const queue = [{ x: start.x, y: start.y, moves: 10 }];
     
     while (queue.length > 0) {
       const { x, y, moves } = queue.shift();
       const key = `${x},${y}`;
       
-      if (visited.has(key) || moves < 0) continue;
-      visited.add(key);
+      // Skip if we've been here with more moves
+      if (visited.has(key) && visited.get(key) >= moves) continue;
+      if (moves < 0) continue;
+      
+      visited.set(key, moves);
       
       if (x === target.x && y === target.y) return true;
       
@@ -94,21 +97,57 @@ export default function RelayCascade({ onClose, onComplete }) {
           // Skip blacklisted cells
           if (cellType === cellTypes.blacklisted) continue;
           
-          // Check if horizontal movement is allowed
-          if ((dx !== 0) && grid[y][x] !== cellTypes.relay && 
-              grid[y][x] !== cellTypes.rotating && 
-              grid[y][x] !== cellTypes.start && 
-              grid[y][x] !== cellTypes.target) {
-            continue;
+          // Check if horizontal movement is allowed (column switching)
+          if (dx !== 0) { // Moving left or right
+            const currentCellType = grid[y][x];
+            if (currentCellType !== cellTypes.relay && 
+                currentCellType !== cellTypes.rotating && 
+                currentCellType !== cellTypes.start && 
+                currentCellType !== cellTypes.target) {
+              continue; // Block horizontal movement
+            }
           }
           
-          const newMoves = cellType === cellTypes.relay || cellType === cellTypes.rotating ? moves : moves - 1;
+          // Calculate moves for next position
+          let newMoves;
+          if (cellType === cellTypes.relay || cellType === cellTypes.rotating) {
+            newMoves = moves; // Relay nodes don't cost moves (effectively +1)
+          } else {
+            newMoves = moves - 1; // Regular move costs 1
+          }
+          
           queue.push({ x: newX, y: newY, moves: newMoves });
         }
       }
     }
     
     return false;
+  };
+
+  const generateSimpleLevel = () => {
+    const newGrid = Array(5).fill().map(() => Array(5).fill(cellTypes.empty));
+    
+    // Set start and target
+    newGrid[0][0] = cellTypes.start;
+    newGrid[4][4] = cellTypes.target;
+    
+    // Create a simple guaranteed path with relays
+    newGrid[1][0] = cellTypes.relay; // Column 0
+    newGrid[2][1] = cellTypes.relay; // Column 1
+    newGrid[3][2] = cellTypes.relay; // Column 2
+    newGrid[4][3] = cellTypes.relay; // Column 3
+    
+    // Add minimal obstacles
+    newGrid[0][2] = cellTypes.blacklisted;
+    newGrid[2][4] = cellTypes.blacklisted;
+    
+    setGrid(newGrid);
+    setPlayerPos({ x: 0, y: 0 });
+    setSignal([{ x: 0, y: 0 }]);
+    setMovesLeft(10);
+    setGameState('playing');
+    setRotatingRelays([]);
+    setMovingBlacklisted([]);
   };
 
   const initializeLevel = () => {
@@ -228,15 +267,27 @@ export default function RelayCascade({ onClose, onComplete }) {
     const isLevelSolvable = validatePath(newGrid, { x: 0, y: 0 }, { x: 4, y: 4 });
     
     if (!isLevelSolvable) {
-      // If not solvable, retry generation
-      initializeLevel();
-      return;
+      // If not solvable, retry generation (with counter to prevent infinite loops)
+      const retryCount = (initializeLevel.retryCount || 0) + 1;
+      if (retryCount < 10) {
+        initializeLevel.retryCount = retryCount;
+        initializeLevel();
+        return;
+      } else {
+        // After 10 attempts, force a simpler layout
+        console.warn("Generating simpler level after multiple attempts");
+        initializeLevel.retryCount = 0;
+        generateSimpleLevel();
+        return;
+      }
     }
+    
+    initializeLevel.retryCount = 0;
     
     setGrid(newGrid);
     setPlayerPos({ x: 0, y: 0 });
     setSignal([{ x: 0, y: 0 }]);
-    setMovesLeft(6); // Further reduced for more challenge
+    setMovesLeft(10); // Increased to ensure solvability
     setGameState('playing');
     setRotatingRelays(newRotatingRelays);
     setMovingBlacklisted(newMovingBlacklisted);
