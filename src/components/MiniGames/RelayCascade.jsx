@@ -32,6 +32,35 @@ export default function RelayCascade({ onClose, onComplete }) {
     initializeLevel();
   }, []);
 
+  // Add keyboard controls
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (gameState !== 'playing' || movesLeft <= 0) return;
+      
+      switch(e.key) {
+        case 'ArrowUp':
+          e.preventDefault();
+          moveSignal('up');
+          break;
+        case 'ArrowDown':
+          e.preventDefault();
+          moveSignal('down');
+          break;
+        case 'ArrowLeft':
+          e.preventDefault();
+          moveSignal('left');
+          break;
+        case 'ArrowRight':
+          e.preventDefault();
+          moveSignal('right');
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [gameState, movesLeft, playerPos, grid, movingBlacklisted]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setRotatingRelays(prev => prev.map(relay => ({
@@ -531,6 +560,7 @@ export default function RelayCascade({ onClose, onComplete }) {
           <div className="rule-item">• Can only switch columns from relay nodes</div>
           <div className="rule-item">• Relay nodes grant +1 move</div>
           <div className="rule-item">• Avoid blacklisted nodes</div>
+          <div className="rule-item">• Use arrow keys or buttons to move</div>
         </div>
       </div>
     </div>
