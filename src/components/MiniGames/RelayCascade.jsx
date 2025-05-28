@@ -9,6 +9,7 @@ export default function RelayCascade({ onClose, onComplete }) {
   const [signal, setSignal] = useState([]);
   const [movesLeft, setMovesLeft] = useState(8);
   const [rotatingRelays, setRotatingRelays] = useState([]);
+  const [movingBlacklisted, setMovingBlacklisted] = useState([]);
   const [gameState, setGameState] = useState('playing'); // playing, won, lost
   const [currentDirection, setCurrentDirection] = useState('right');
 
@@ -38,6 +39,25 @@ export default function RelayCascade({ onClose, onComplete }) {
         ...relay,
         direction: getNextDirection(relay.direction)
       })));
+      
+      // Move blacklisted nodes every 4 seconds
+      setMovingBlacklisted(prev => prev.map(blacklisted => {
+        const possibleMoves = [
+          { x: blacklisted.x + 1, y: blacklisted.y },
+          { x: blacklisted.x - 1, y: blacklisted.y },
+          { x: blacklisted.x, y: blacklisted.y + 1 },
+          { x: blacklisted.x, y: blacklisted.y - 1 }
+        ].filter(pos => 
+          pos.x >= 0 && pos.x < 5 && pos.y >= 0 && pos.y < 5 &&
+          !(pos.x === 0 && pos.y === 0) && !(pos.x === 4 && pos.y === 4)
+        );
+        
+        if (possibleMoves.length > 0) {
+          const newPos = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+          return { ...blacklisted, ...newPos };
+        }
+        return blacklisted;
+      }));
     }, 2000);
 
     return () => clearInterval(interval);
@@ -149,15 +169,15 @@ export default function RelayCascade({ onClose, onComplete }) {
     // Shuffle remaining positions
     const shuffledPositions = [...availablePositions].sort(() => Math.random() - 0.5);
     
-    // Add 1-3 additional relays randomly
-    const numAdditionalRelays = 1 + Math.floor(Math.random() * 3);
+    // Add 0-2 additional relays randomly (fewer relays = harder)
+    const numAdditionalRelays = Math.floor(Math.random() * 3);
     for (let i = 0; i < numAdditionalRelays && i < shuffledPositions.length; i++) {
       const pos = shuffledPositions[i];
       newGrid[pos.y][pos.x] = cellTypes.relay;
     }
     
-    // Add 1-2 blacklisted nodes (but not adjacent to relays)
-    const numBlacklisted = 1 + Math.floor(Math.random() * 2);
+    // Add 2-4 blacklisted nodes (but not adjacent to relays)
+    const numBlacklisted = 2 + Math.floor(Math.random() * 3);
     const remainingPositions = shuffledPositions.slice(numAdditionalRelays);
     
     // Filter out positions that are adjacent to relay nodes
@@ -178,9 +198,15 @@ export default function RelayCascade({ onClose, onComplete }) {
       !isAdjacentToRelay(pos.x, pos.y)
     );
     
+    const newMovingBlacklisted = [];
     for (let i = 0; i < numBlacklisted && i < safeBlacklistedPositions.length; i++) {
       const pos = safeBlacklistedPositions[i];
       newGrid[pos.y][pos.x] = cellTypes.blacklisted;
+      
+      // 30% chance this blacklisted node will be moving
+      if (Math.random() < 0.3) {
+        newMovingBlacklisted.push({ x: pos.x, y: pos.y });
+      }
     }
     
     // Add 1 rotating relay (after blacklisted nodes are placed)
@@ -210,9 +236,10 @@ export default function RelayCascade({ onClose, onComplete }) {
     setGrid(newGrid);
     setPlayerPos({ x: 0, y: 0 });
     setSignal([{ x: 0, y: 0 }]);
-    setMovesLeft(8); // Reduced by 4 moves
+    setMovesLeft(6); // Further reduced for more challenge
     setGameState('playing');
     setRotatingRelays(newRotatingRelays);
+    setMovingBlacklisted(newMovingBlacklisted);
   };
 
   const moveSignal = (direction) => {
@@ -240,8 +267,9 @@ export default function RelayCascade({ onClose, onComplete }) {
 
     const cellType = grid[newPos.y][newPos.x];
     
-    // Check if hitting blacklisted node
-    if (cellType === cellTypes.blacklisted) {
+    // Check if hitting blacklisted node (static or moving)
+    const isOnMovingBlacklisted = movingBlacklisted.some(mb => mb.x === newPos.x && mb.y === newPos.y);
+    if (cellType === cellTypes.blacklisted || isOnMovingBlacklisted) {
       setGameState('lost');
       return;
     }
@@ -283,6 +311,7 @@ export default function RelayCascade({ onClose, onComplete }) {
     const isPlayerHere = playerPos.x === x && playerPos.y === y;
     const isInSignalPath = signal.some(pos => pos.x === x && pos.y === y);
     const rotatingRelay = rotatingRelays.find(r => r.x === x && r.y === y);
+    const isMovingBlacklisted = movingBlacklisted.some(mb => mb.x === x && mb.y === y);
 
     if (cellType === cellTypes.start) {
       return <span className="start-node">📡</span>;
@@ -290,8 +319,8 @@ export default function RelayCascade({ onClose, onComplete }) {
     if (cellType === cellTypes.target) {
       return <span className="target-node">🎯</span>;
     }
-    if (cellType === cellTypes.blacklisted) {
-      return <span className="blacklisted-node">❌</span>;
+    if (cellType === cellTypes.blacklisted || isMovingBlacklisted) {
+      return <span className={`blacklisted-node ${isMovingBlacklisted ? 'moving' : ''}`}>❌</span>;
     }
     if (cellType === cellTypes.relay) {
       return <span className="relay-node">🛰️</span>;
@@ -345,10 +374,12 @@ export default function RelayCascade({ onClose, onComplete }) {
     const cellType = grid[y][x];
     const isPlayerHere = playerPos.x === x && playerPos.y === y;
     const isInSignalPath = signal.some(pos => pos.x === x && pos.y === y);
+    const isMovingBlacklisted = movingBlacklisted.some(mb => mb.x === x && mb.y === y);
 
     let classes = ['grid-cell'];
     
-    if (cellType === cellTypes.blacklisted) classes.push('blacklisted');
+    if (cellType === cellTypes.blacklisted || isMovingBlacklisted) classes.push('blacklisted');
+    if (isMovingBlacklisted) classes.push('moving-blacklisted');
     if (cellType === cellTypes.relay) classes.push('relay');
     if (cellType === cellTypes.rotating) classes.push('rotating');
     if (cellType === cellTypes.target) classes.push('target');
@@ -439,9 +470,9 @@ export default function RelayCascade({ onClose, onComplete }) {
           <div className="legend-item">📡 Start Point</div>
           <div className="legend-item">🎯 Target</div>
           <div className="legend-item">🛰️ Relay (+1 move)</div>
-          <div className="legend-item">❌ Blacklisted</div>
+          <div className="legend-item">❌ Blacklisted (some move!)</div>
           <div className="legend-item">↑↓←→ Rotating Relay (+1 move)</div>
-        </div>
+        </div></div>
         
         <div className="game-rules">
           <div className="rules-title">Rules:</div>

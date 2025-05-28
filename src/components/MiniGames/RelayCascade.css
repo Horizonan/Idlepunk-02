@@ -134,6 +134,15 @@
   box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
 }
 
+.grid-cell.moving-blacklisted {
+  animation: dangerPulse 1s ease-in-out infinite alternate;
+  border-color: #ff6666;
+}
+
+.blacklisted-node.moving {
+  animation: shake 0.5s ease-in-out infinite;
+}
+
 .grid-cell.current-position {
   box-shadow: 0 0 15px rgba(255, 255, 0, 0.8);
   border-color: #ffff00;
@@ -304,6 +313,23 @@
     opacity: 1;
     transform: scale(1);
   }
+}
+
+@keyframes dangerPulse {
+  0% { 
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    border-color: #ff0000;
+  }
+  100% { 
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.9);
+    border-color: #ff6666;
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
 }
 
 @media (max-width: 600px) {
