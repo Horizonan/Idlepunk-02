@@ -1,8 +1,8 @@
-import {create} from 'zustand'
-import {persist} from 'zustand/middleware'
-import {generateRandomProfile} from './profiles'
-import {crewDatabase} from './crewMembers'
-import {calculateMissionSuccess} from './missions'
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { crewDatabase } from './crewMembers';
+import { calculateMissionSuccess } from './missions';
+import { equipmentDatabase, calculateEquipmentBonus } from './equipment';
 
 export const useRecruitmentZustand = create(
   persist(
@@ -11,7 +11,9 @@ export const useRecruitmentZustand = create(
       hiredCrew: [],
       activeMission: null,
       missionStartTime: null,
-      lastStaminaUpdate: Date.now(),
+      selectedCrew: [],
+      equipmentInventory: {},
+      crewLoadouts: {}, // crewId -> { weapon: itemName, armor: itemName, tool: itemName }
 
       updateStamina: () => {
         const now = Date.now();
@@ -46,7 +48,7 @@ export const useRecruitmentZustand = create(
   act: (action) => {
     const {profiles, currentIndex, score} = get()
     const profile = profiles[currentIndex]
-    
+
     let delta = 0
 
     if (action === 'recruit') {
@@ -56,7 +58,7 @@ export const useRecruitmentZustand = create(
       } else {
         // Normal permit checking logic
         const isPermitExpired = profile.workPermit.status === 'expired';
-        
+
         if (!isPermitExpired) {
           delta = profile.isReal ? 2 : -2;
         } else {
@@ -129,13 +131,13 @@ export const useRecruitmentZustand = create(
     const unlockedCrew = get().unlockedCrew;
     const hiredCrew = get().hiredCrew;
     let eligibleCrew;
-    
+
     // Helper function to check if crew is already unlocked or hired
     const isCrewAvailable = (crew) => {
       return !unlockedCrew.some(u => u.id === crew.id) && 
              !hiredCrew.some(h => h.id === crew.id);
     };
-    
+
     if (finalScore >= 80) {
       eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'legendary' && isCrewAvailable(crew));
       console.log("🚀 Legendary tier reached!");

@@ -487,6 +487,91 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
     }
   };
 
+  const completeMission = () => {
+    const activeMission = useRecruitmentZustand.getState().activeMission;
+    const selectedCrewMembers = selectedCrew.map(id =>
+      useRecruitmentZustand.getState().hiredCrew.find(c => c.id === id)
+    );
+
+    const crewStats = selectedCrewMembers.reduce((stats, crew) => {
+      Object.entries(activeMission.requirements).forEach(([stat]) => {
+        const crewStat = crew.stats?.[stat.toLowerCase()] || 0;
+        stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + crewStat;
+        console.log(`Crew member ${crew.name} contributes ${crewStat} to ${stat}`);
+      });
+      return stats;
+    }, {});
+
+    console.log('Final crew stats:', crewStats);
+    console.log('Mission requirements:', activeMission.requirements);
+
+    const successRate = calculateMissionSuccess(crewStats, activeMission.requirements);
+    console.log(`Success rate calculation: ${successRate.toFixed(1)}%`);
+
+    const randomRoll = Math.random() * 100;
+    console.log(`Random roll: ${randomRoll.toFixed(1)} vs required: ${successRate.toFixed(1)}`);
+    const success = randomRoll < successRate;
+
+    // Calculate rewards
+    let creditsReward = 0;
+    let junkReward = 0;
+
+    if (success) {
+      creditsReward = activeMission.baseRewards.credits;
+      junkReward = activeMission.baseRewards.junk;
+
+      // Calculate bonus rewards
+      if (activeMission.bonusRewards) {
+        Object.entries(activeMission.bonusRewards).forEach(([item, bonus]) => {
+          if (Math.random() < bonus.chance) {
+            if (item === 'electroShard') creditsReward += 50 * bonus.amount;
+            if (item === 'rareJunk') junkReward += bonus.amount;
+          }
+        });
+      }
+    } else {
+      // Apply failure penalties
+      creditsReward = activeMission.penalties.failure.credits;
+      // Update crew stamina
+      const staminaPenalty = activeMission.penalties.failure.crewStamina;
+      useRecruitmentZustand.setState(state => ({
+        hiredCrew: state.hiredCrew.map(crew =>
+          selectedCrew.includes(crew.id)
+            ? { ...crew, stamina: Math.max(0, (crew.stamina || 100) + staminaPenalty) }
+            : crew
+        )
+      }));
+    }
+
+    // Update credits and junk
+    setCredits(prev => prev + creditsReward);
+    setJunk(prev => prev + junkReward);
+    localStorage.setItem('junk', Number(localStorage.getItem('junk') || 0) + junkReward);
+
+    const missionWindow = document.createElement('div');
+    missionWindow.className = 'mission-completion-window';
+    missionWindow.innerHTML = `
+      <div class="mission-result ${success ? 'success' : 'failure'}">
+        <h2>${success ? 'Mission Successful!' : 'Mission Failed'}</h2>
+        <p>Success Rate: ${successRate.toFixed(1)}%</p>
+        ${success ?
+        `<p class="success-message">${activeMission.successMessages[Math.floor(Math.random() * activeMission.successMessages.length)]}</p>` :
+        activeMission.penalties.failure.messagePool ?
+          `<p class="failure-message">${activeMission.penalties.failure.messagePool[Math.floor(Math.random() * activeMission.penalties.failure.messagePool.length)]}</p>`
+          : ''}
+        <div class="mission-rewards-display">
+          <p>Credits: ${creditsReward > 0 ? '+' : ''}${creditsReward}</p>
+          <p>Junk: ${junkReward > 0 ? '+' : ''}${junkReward}</p>
+        </div>
+        <button onclick="this.parentElement.parentElement.remove()">Close</button>
+      </div>
+    `;
+    document.body.appendChild(missionWindow);
+
+    setActiveMission(null);
+    setSelectedCrew([]);
+  };
+
   return (
     <div className="crew-menu">
       <div className="crew-header">

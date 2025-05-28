@@ -147,3 +147,51 @@ export function calculateMissionSuccess(crewStats, missionRequirements) {
   
   return (totalScore / maxScore) * 100; // Returns percentage of success chance
 }
+
+export function processMissionRewards(mission, successRate, addEquipment, setCredits, setJunk) {
+  const isSuccess = Math.random() * 100 <= successRate;
+  const rewards = [];
+  
+  if (isSuccess) {
+    // Base rewards
+    setCredits(prev => prev + mission.baseRewards.credits);
+    setJunk(prev => prev + mission.baseRewards.junk);
+    rewards.push(`+${mission.baseRewards.credits} Credits`);
+    rewards.push(`+${mission.baseRewards.junk} Junk`);
+    
+    // Bonus rewards
+    if (mission.bonusRewards) {
+      Object.entries(mission.bonusRewards).forEach(([rewardType, rewardData]) => {
+        if (Math.random() <= rewardData.chance) {
+          switch (rewardType) {
+            case 'loadout':
+              addEquipment(rewardData.item, 1);
+              rewards.push(`Found: ${rewardData.item}`);
+              break;
+            case 'electroShard':
+              // Handle electro shards if you have that system
+              rewards.push(`+${rewardData.amount} Electro Shards`);
+              break;
+            case 'rareCredits':
+              setCredits(prev => prev + rewardData.amount);
+              rewards.push(`+${rewardData.amount} Bonus Credits`);
+              break;
+          }
+        }
+      });
+    }
+  } else {
+    // Mission failed
+    if (mission.penalties?.failure) {
+      const penalty = mission.penalties.failure;
+      if (penalty.credits) {
+        setCredits(prev => Math.max(0, prev + penalty.credits));
+        rewards.push(`${penalty.credits} Credits (penalty)`);
+      }
+      // Handle crew stamina reduction
+      rewards.push('Mission Failed!');
+    }
+  }
+  
+  return { isSuccess, rewards };
+}
