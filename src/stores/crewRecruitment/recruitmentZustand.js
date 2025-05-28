@@ -226,8 +226,12 @@ export const useRecruitmentZustand = create(
 
         // Check every 5 minutes (300000ms)
         if (timeSinceLastCheck >= 300000) {
+          console.log('🎲 Rolling for mini-game chance (50% probability)...');
           // 50% chance for mini-game
-          if (Math.random() < 0.5) {
+          const roll = Math.random();
+          console.log(`🎯 Mini-game roll: ${(roll * 100).toFixed(1)}% (needed: <50.0%)`, roll < 0.5 ? '✅ TRIGGERED!' : '❌ No mini-game');
+          
+          if (roll < 0.5) {
             set({
               showMiniGame: true,
               missionPausedTime: state.missionPausedTime + (now - state.missionStartTime)
