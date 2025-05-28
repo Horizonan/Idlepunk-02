@@ -56,29 +56,45 @@ export default function RelayCascade({ onClose, onComplete }) {
     newGrid[0][0] = cellTypes.start;
     newGrid[4][4] = cellTypes.target;
     
-    // Create a guaranteed solvable path first
-    // Place relay nodes to ensure column switching is possible
-    const guaranteedPath = [
-      { x: 0, y: 1 }, // Down from start
-      { x: 0, y: 2 }, // Continue down
-      { x: 1, y: 2 }, // Switch column (needs relay at 0,2)
-      { x: 1, y: 3 }, // Continue down
-      { x: 2, y: 3 }, // Switch column (needs relay at 1,3)
-      { x: 3, y: 3 }, // Switch column (needs relay at 2,3)
-      { x: 4, y: 3 }, // Switch column (needs relay at 3,3)
-      { x: 4, y: 4 }  // Reach target
-    ];
+    // Ensure at least one relay per column (excluding start/target columns)
+    // Column 0 already has start, Column 4 already has target
+    const guaranteedRelays = [];
     
-    // Place essential relays for column switching
-    newGrid[0][2] = cellTypes.relay; // Essential for first column switch
-    newGrid[1][3] = cellTypes.relay; // Essential for second column switch
-    newGrid[2][3] = cellTypes.relay; // Essential for third column switch
-    newGrid[3][3] = cellTypes.relay; // Essential for fourth column switch
+    // For columns 1, 2, 3 - place at least one relay each
+    for (let col = 1; col <= 3; col++) {
+      const availableRows = [];
+      for (let row = 0; row < 5; row++) {
+        // Skip positions that would conflict with start/target
+        if (!(col === 0 && row === 0) && !(col === 4 && row === 4)) {
+          availableRows.push(row);
+        }
+      }
+      
+      const randomRow = availableRows[Math.floor(Math.random() * availableRows.length)];
+      newGrid[randomRow][col] = cellTypes.relay;
+      guaranteedRelays.push({ x: col, y: randomRow });
+    }
+    
+    // Also ensure column 0 and 4 have at least one relay (excluding start/target)
+    // Column 0 - place one relay somewhere other than start position
+    const col0Rows = [1, 2, 3, 4];
+    const col0Row = col0Rows[Math.floor(Math.random() * col0Rows.length)];
+    newGrid[col0Row][0] = cellTypes.relay;
+    guaranteedRelays.push({ x: 0, y: col0Row });
+    
+    // Column 4 - place one relay somewhere other than target position
+    const col4Rows = [0, 1, 2, 3];
+    const col4Row = col4Rows[Math.floor(Math.random() * col4Rows.length)];
+    newGrid[col4Row][4] = cellTypes.relay;
+    guaranteedRelays.push({ x: 4, y: col4Row });
     
     // Get remaining available positions
-    const usedPositions = new Set(['0,0', '4,4', '0,2', '1,3', '2,3', '3,3']);
-    const availablePositions = [];
+    const usedPositions = new Set(['0,0', '4,4']);
+    guaranteedRelays.forEach(relay => {
+      usedPositions.add(`${relay.x},${relay.y}`);
+    });
     
+    const availablePositions = [];
     for (let y = 0; y < 5; y++) {
       for (let x = 0; x < 5; x++) {
         const key = `${x},${y}`;
@@ -91,33 +107,24 @@ export default function RelayCascade({ onClose, onComplete }) {
     // Shuffle remaining positions
     const shuffledPositions = [...availablePositions].sort(() => Math.random() - 0.5);
     
-    // Add 2-4 additional relays randomly
-    const numAdditionalRelays = 2 + Math.floor(Math.random() * 3);
+    // Add 1-3 additional relays randomly
+    const numAdditionalRelays = 1 + Math.floor(Math.random() * 3);
     for (let i = 0; i < numAdditionalRelays && i < shuffledPositions.length; i++) {
       const pos = shuffledPositions[i];
       newGrid[pos.y][pos.x] = cellTypes.relay;
     }
     
-    // Add 1-2 blacklisted nodes (not on the guaranteed path)
+    // Add 1-2 blacklisted nodes
     const numBlacklisted = 1 + Math.floor(Math.random() * 2);
     const remainingPositions = shuffledPositions.slice(numAdditionalRelays);
     
-    // Filter out positions that would block the guaranteed path
-    const safePositions = remainingPositions.filter(pos => {
-      // Don't place blacklisted nodes on vertical paths in columns 0 and 4
-      if ((pos.x === 0 && pos.y < 3) || (pos.x === 4 && pos.y > 2)) {
-        return false;
-      }
-      return true;
-    });
-    
-    for (let i = 0; i < numBlacklisted && i < safePositions.length; i++) {
-      const pos = safePositions[i];
+    for (let i = 0; i < numBlacklisted && i < remainingPositions.length; i++) {
+      const pos = remainingPositions[i];
       newGrid[pos.y][pos.x] = cellTypes.blacklisted;
     }
     
     // Add 1 rotating relay
-    const rotatingPositions = safePositions.slice(numBlacklisted);
+    const rotatingPositions = remainingPositions.slice(numBlacklisted);
     const newRotatingRelays = [];
     const directions = ['up', 'right', 'down', 'left'];
     
@@ -134,7 +141,7 @@ export default function RelayCascade({ onClose, onComplete }) {
     setGrid(newGrid);
     setPlayerPos({ x: 0, y: 0 });
     setSignal([{ x: 0, y: 0 }]);
-    setMovesLeft(10); // Increased moves since relays add moves
+    setMovesLeft(12); // Increased moves since there are more relays now
     setGameState('playing');
     setRotatingRelays(newRotatingRelays);
   };
