@@ -71,7 +71,7 @@ export default function RelayCascade({ onClose, onComplete }) {
   const validatePath = (grid, start, target) => {
     // Advanced pathfinding with proper move counting
     const visited = new Map(); // Use Map to track best moves for each position
-    const queue = [{ x: start.x, y: start.y, moves: 10 }];
+    const queue = [{ x: start.x, y: start.y, moves: 15 }];
 
     while (queue.length > 0) {
       const { x, y, moves } = queue.shift();
@@ -145,7 +145,7 @@ export default function RelayCascade({ onClose, onComplete }) {
     setGrid(newGrid);
     setPlayerPos({ x: 0, y: 0 });
     setSignal([{ x: 0, y: 0 }]);
-    setMovesLeft(10);
+    setMovesLeft(15);
     setGameState('playing');
     setRotatingRelays([]);
     setMovingBlacklisted([]);
@@ -288,7 +288,7 @@ export default function RelayCascade({ onClose, onComplete }) {
     setGrid(newGrid);
     setPlayerPos({ x: 0, y: 0 });
     setSignal([{ x: 0, y: 0 }]);
-    setMovesLeft(10); // Increased to ensure solvability
+    setMovesLeft(15); // Increased to ensure solvability
     setGameState('playing');
     setRotatingRelays(newRotatingRelays);
     setMovingBlacklisted(newMovingBlacklisted);
