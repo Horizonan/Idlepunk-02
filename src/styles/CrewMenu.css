@@ -1,3 +1,7 @@
+The effective stats display has been improved with a grid layout for better readability.
+```
+
+```replit_final_file
 .crew-menu {
   position: fixed;
   top: 50%;
@@ -670,21 +674,34 @@
 
 .effective-stats {
   background: rgba(0, 255, 0, 0.1);
-  padding: 10px;
+  padding: 15px;
   border-radius: 4px;
   border: 1px solid #00FF00;
+  margin-top: 10px;
 }
 
 .effective-stats h6 {
   color: #00FF00;
-  margin: 0 0 8px 0;
+  margin: 0 0 12px 0;
   font-size: 0.9em;
+  text-align: center;
+  font-weight: bold;
 }
 
 .stats-display {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   gap: 8px;
+}
+
+.stats-display span {
+  background: rgba(0, 255, 0, 0.2);
+  padding: 6px 8px;
+  border-radius: 3px;
+  font-size: 0.8em;
+  color: #00FF00;
+  text-align: center;
+  border: 1px solid rgba(0, 255, 0, 0.3);
 }
 
 .mission-completion-window {
@@ -806,14 +823,6 @@
   color: #FFD700;
   font-style: italic;
   margin: 0;
-}
-
-.stats-display span {
-  background: rgba(0, 255, 0, 0.2);
-  padding: 3px 8px;
-  border-radius: 3px;
-  font-size: 0.8em;
-  color: #00FF00;
 }
 
 
