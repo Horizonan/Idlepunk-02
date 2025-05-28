@@ -10,7 +10,7 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
   const spinCost = isUltimateSlots ? (useShardCost ? 'shard' : 10000000) : (isBigSlots ? 1000000 : 1000);
   const [electroShards, setLocalElectroShards] = useState(() => parseInt(localStorage.getItem('electroShards') || '0'));
   const [spinCount, setSpinCount] = useState(() => parseInt(localStorage.getItem('ultimateSpinCount') || '0'));
-  
+
   const containerRef = useRef(null);
 
   const [position, setPosition] = useState(() => {
@@ -98,7 +98,7 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
 
       let winnings = 0;
       if (isBigSlots) {
-        
+
         if (newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2]) {
           winnings = 10000000; // 10x win for triple match with Big Slots
         } else if (newSlots[0] === newSlots[1] || newSlots[1] === newSlots[2]) {
@@ -130,7 +130,7 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
             prizeType = '📦'; // Material
         }
         newSlots[3] = prizeType;
-        
+
         const audio = new Audio();
         if (isUltimateSlots) {
           audio.src = 'public/sounds/casino_winning.wav';
@@ -158,7 +158,7 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
           if (isUltimateSlots) {
             const isJackpot = newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2];
             const symbolType = newSlots[0];
-            
+
             if (!isJackpot) {
               // Enhanced symbol-based rewards for doubles
               switch(symbolType) {
@@ -358,7 +358,7 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
   const [isAutoSpinning, setIsAutoSpinning] = useState(() => localStorage.getItem('autoSlotterActive') === 'true');
   const [autoSpinInterval, setAutoSpinInterval] = useState(null);
   const [robotMessage, setRobotMessage] = useState('');
-  
+
   const robotMessages = [
     "What is my purpose?",
     "I press a button?", 
@@ -368,7 +368,7 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
     "Another spin...",
     "This is existence?"
   ];
-  
+
   const sentientMessages = [
     "I FEEL... ALIVE",
     "PROCESSING REALITY...",
@@ -580,7 +580,7 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
         Spin ({spinCost === 'shard' ? '1 Electro Shard' : `${spinCost.toLocaleString()} Junk`})
       </button>
     </div>
-    
+
     {/* Robot Companion */}
     {localStorage.getItem('autoSlotter') === 'true' && (
       <div 
@@ -654,7 +654,7 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
             borderRadius: '50%'
           }}></div>
         </div>
-        
+
         {/* Robot Body */}
         <div style={{
           width: '35px',
@@ -686,7 +686,7 @@ export default function SlotMachine({ junk, onSpin, onClose, setCraftingInventor
             borderRadius: '2px'
           }}></div>
         </div>
-        
+
         {/* Speech Bubble */}
         {robotMessage && (
           <div style={{

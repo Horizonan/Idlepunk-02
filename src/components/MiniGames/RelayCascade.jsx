@@ -257,6 +257,39 @@ export default function RelayCascade({ onClose, onComplete }) {
     return '';
   };
 
+  const removeRandomBlacklisted = () => {
+    const blacklistedPositions = [];
+    for (let y = 0; y < 5; y++) {
+      for (let x = 0; x < 5; x++) {
+        if (grid[y][x] === cellTypes.blacklisted) {
+          blacklistedPositions.push({ x, y });
+        }
+      }
+    }
+    
+    if (blacklistedPositions.length > 0) {
+      const randomIndex = Math.floor(Math.random() * blacklistedPositions.length);
+      const posToRemove = blacklistedPositions[randomIndex];
+      
+      setGrid(prevGrid => {
+        const newGrid = [...prevGrid];
+        newGrid[posToRemove.y][posToRemove.x] = cellTypes.empty;
+        return newGrid;
+      });
+      
+      return true; // Successfully removed a blacklisted node
+    }
+    return false; // No blacklisted nodes to remove
+  };
+
+  // Expose the function globally for slot machine access
+  React.useEffect(() => {
+    window.removeBlacklistedFromRelay = removeRandomBlacklisted;
+    return () => {
+      delete window.removeBlacklistedFromRelay;
+    };
+  }, [grid]);
+
   const getCellClass = (x, y) => {
     const cellType = grid[y][x];
     const isPlayerHere = playerPos.x === x && playerPos.y === y;
