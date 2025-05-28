@@ -117,6 +117,7 @@ export default function App() {
 
   const [showCoinFlip, setShowCoinFlip] = useState(false);
   const [showRelayCascade, setShowRelayCascade] = useState(false);
+  const [showMiniGameWindow, setShowMiniGameWindow] = useState(false);
 
 
   useEffect(() => {
@@ -745,6 +746,23 @@ export default function App() {
     return () => window.removeEventListener('creditsUpdated', handleCreditsUpdate);
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+    }, 100);
+
+    // Listen for mini-game requests from crew menu
+    const handleMiniGameRequest = () => {
+      setShowMiniGameWindow(true);
+    };
+
+    window.addEventListener('showMiniGame', handleMiniGameRequest);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('showMiniGame', handleMiniGameRequest);
+    };
+  }, [junk]);
+
   return (
     <main>
       <VersionPopup onClose={() => {}} />
@@ -771,6 +789,7 @@ export default function App() {
          />
 
       {enableHoloBillboard && <HoloBillboard ownedItems={ownedItems} />}
+
       {showCrystal && (
         <FlyingCrystal
           onCollect={() => {
@@ -790,6 +809,53 @@ export default function App() {
             setNotifications(prev => [...prev, "The electro shard vanished into the void..."]);
           }}
         />
+      )}
+
+      {/* Mini-game Window at App Level */}
+      {showMiniGameWindow && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'rgba(0, 0, 0, 0.95)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 4000
+        }}>
+          <div style={{
+            width: '95vw',
+            height: '95vh',
+            maxWidth: '1200px',
+            maxHeight: '800px',
+            border: '3px solid #9400D3',
+            borderRadius: '8px',
+            overflow: 'hidden',
+            boxShadow: '0 0 30px rgba(148, 0, 211, 0.7)'
+          }}>
+            <RelayCascade
+              onClose={() => {
+                setShowMiniGameWindow(false);
+                // Signal to crew menu that mini-game is complete
+                window.dispatchEvent(new CustomEvent('miniGameComplete', { detail: { success: false } }));
+              }}
+              onComplete={(success) => {
+                setShowMiniGameWindow(false);
+                // Signal to crew menu that mini-game is complete
+                window.dispatchEvent(new CustomEvent('miniGameComplete', { detail: { success } }));
+
+                if (success) {
+                  // Bonus rewards for successful mini-game completion
+                  const bonusCredits = Math.floor(Math.random() * 20) + 10;
+                  setCredits(prev => prev + bonusCredits);
+                  setNotifications(prev => [...prev, `Mini-game completed! Bonus: ${bonusCredits} credits`]);
+                }
+              }}
+            />
+          </div>
+        </div>
       )}
       <StatsDisplay 
         credits={credits}

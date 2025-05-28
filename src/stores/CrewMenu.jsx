@@ -4,7 +4,7 @@ import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
 import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
 import { missions, calculateMissionSuccess } from "./crewRecruitment/missions";
 import { equipmentDatabase, getAllEquipment } from "./crewRecruitment/equipment";
-import RelayCascade from "../components/MiniGames/RelayCascade";
+
 
 export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }) {
   const [activeTab, setActiveTab] = useState('view');
@@ -17,7 +17,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   const completeMiniGame = useRecruitmentZustand(state => state.completeMiniGame);
   const [timeLeft, setTimeLeft] = useState(0);
   const [showMiniGameModal, setShowMiniGameModal] = useState(false);
-  const [showMiniGameWindow, setShowMiniGameWindow] = useState(false);
+  
 
   useEffect(() => {
     if (activeMission && missionStartTime) {
@@ -44,6 +44,17 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
       setShowMiniGameModal(true);
     }
   }, [showMiniGame, showMiniGameModal]);
+
+  // Listen for mini-game completion from App level
+  useEffect(() => {
+    const handleMiniGameComplete = (event) => {
+      setShowMiniGameModal(false);
+      completeMiniGame();
+    };
+
+    window.addEventListener('miniGameComplete', handleMiniGameComplete);
+    return () => window.removeEventListener('miniGameComplete', handleMiniGameComplete);
+  }, []);
 
   const toggleCrewSelection = (crewId) => {
     setSelectedCrew(prev => {
@@ -542,8 +553,8 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                     <button 
                       className="mini-game-button"
                       onClick={() => {
-                        // Open mini-game in separate window
-                        setShowMiniGameWindow(true);
+                        // Open mini-game at App level
+                        window.dispatchEvent(new CustomEvent('showMiniGame'));
                       }}
                     >
                       🛰️ Fix Signal Relay
@@ -563,34 +574,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
               </div>
             )}
 
-            {/* Separate Mini-game Window */}
-            {showMiniGameWindow && (
-              <div className="mini-game-window-overlay">
-                <div className="mini-game-window">
-                  <RelayCascade 
-                    onClose={() => {
-                      setShowMiniGameWindow(false);
-                      setShowMiniGameModal(false);
-                      completeMiniGame();
-                    }}
-                    onComplete={(success) => {
-                      setShowMiniGameWindow(false);
-                      setShowMiniGameModal(false);
-                      completeMiniGame();
-                      
-                      if (success) {
-                        // Bonus rewards for successful mini-game completion
-                        const bonusCredits = Math.floor(Math.random() * 20) + 10;
-                        setCredits(prev => prev + bonusCredits);
-                        
-                        // Add notification or message about bonus
-                        console.log(`Mini-game completed! Bonus: ${bonusCredits} credits`);
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-            )}
+            
           </div>
         );
       case 'loadouts':
