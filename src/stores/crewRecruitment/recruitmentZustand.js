@@ -17,6 +17,68 @@ export const useRecruitmentZustand = create(
       missionStartTime: null,
       lastStaminaUpdate: Date.now(),
 
+      // Equipment management functions
+      addEquipment: (itemId) => {
+        const equipment = getEquipmentById(itemId);
+        if (equipment) {
+          set(state => ({
+            equipment: [...state.equipment, equipment]
+          }));
+        }
+      },
+
+      equipItemToCrew: (crewId, itemId, slotType) => {
+        const equipment = get().equipment.find(item => item.id === itemId);
+        if (equipment && equipment.type === slotType) {
+          set(state => ({
+            crewLoadouts: {
+              ...state.crewLoadouts,
+              [crewId]: {
+                ...state.crewLoadouts[crewId],
+                [slotType]: equipment
+              }
+            },
+            equipment: state.equipment.filter(item => item.id !== itemId)
+          }));
+        }
+      },
+
+      unequipItemFromCrew: (crewId, slotType) => {
+        const loadout = get().crewLoadouts[crewId];
+        if (loadout && loadout[slotType]) {
+          const unequippedItem = loadout[slotType];
+          set(state => ({
+            crewLoadouts: {
+              ...state.crewLoadouts,
+              [crewId]: {
+                ...loadout,
+                [slotType]: null
+              }
+            },
+            equipment: [...state.equipment, unequippedItem]
+          }));
+        }
+      },
+
+      getCrewEffectiveStats: (crewId) => {
+        const crew = get().hiredCrew.find(c => c.id === crewId);
+        if (!crew) return null;
+
+        const loadout = get().crewLoadouts[crewId] || {};
+        const baseStats = { ...crew.stats };
+        
+        // Apply equipment bonuses
+        Object.values(loadout).forEach(equipment => {
+          if (equipment && equipment.statBonus) {
+            Object.entries(equipment.statBonus).forEach(([stat, bonus]) => {
+              baseStats[stat] = (baseStats[stat] || 0) + bonus;
+            });
+          }
+        });
+
+        return baseStats;
+      },
+
       updateStamina: () => {
         const now = Date.now();
         const state = get();
