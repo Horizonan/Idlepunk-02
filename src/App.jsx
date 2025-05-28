@@ -71,7 +71,7 @@ import PrestigePopup from './components/PrestigePopup';
 import { useEmailStore } from './utils/emailStore';
 
 //Mini game Component
-import RelayCascade from './components/RelayCascade/RelayCascade';
+import RelayCascade from './components/MiniGames/RelayCascade';
 
 
 export default function App() {
