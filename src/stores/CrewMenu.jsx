@@ -3,6 +3,7 @@ import '../styles/CrewMenu.css';
 import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
 import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
 import { missions, calculateMissionSuccess } from "./crewRecruitment/missions";
+import { equipmentDatabase, getAllEquipment } from "./crewRecruitment/equipment";
 
 export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }) {
   const [activeTab, setActiveTab] = useState('view');
@@ -252,7 +253,10 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                           {Object.entries(mission.requirements).map(([stat, value]) => {
                             const selectedCrewStats = useRecruitmentZustand(state => state.hiredCrew)
                               .filter(crew => selectedCrew.includes(crew.id))
-                              .reduce((total, crew) => total + (crew.stats?.[stat.toLowerCase()] || 0), 0);
+                              .reduce((total, crew) => {
+                                const effectiveStats = useRecruitmentZustand.getState().getCrewEffectiveStats(crew.id);
+                                return total + (effectiveStats?.[stat.toLowerCase()] || 0);
+                              }, 0);
 
                             return (
                               <div key={stat} className={`stat-row ${selectedCrewStats >= value ? 'met' : 'unmet'}`}>
@@ -267,8 +271,9 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                             useRecruitmentZustand(state => state.hiredCrew)
                               .filter(crew => selectedCrew.includes(crew.id))
                               .reduce((stats, crew) => {
+                                const effectiveStats = useRecruitmentZustand.getState().getCrewEffectiveStats(crew.id);
                                 Object.entries(mission.requirements).forEach(([stat]) => {
-                                  stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + (crew.stats?.[stat.toLowerCase()] || 0);
+                                  stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + (effectiveStats?.[stat.toLowerCase()] || 0);
                                 });
                                 return stats;
                               }, {}),
@@ -369,10 +374,11 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                             );
 
                             const crewStats = selectedCrewMembers.reduce((stats, crew) => {
+                              const effectiveStats = useRecruitmentZustand.getState().getCrewEffectiveStats(crew.id);
                               Object.entries(activeMission.requirements).forEach(([stat]) => {
-                                const crewStat = crew.stats?.[stat.toLowerCase()] || 0;
+                                const crewStat = effectiveStats?.[stat.toLowerCase()] || 0;
                                 stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + crewStat;
-                                console.log(`Crew member ${crew.name} contributes ${crewStat} to ${stat}`);
+                                console.log(`Crew member ${crew.name} contributes ${crewStat} to ${stat} (with equipment)`);
                               });
                               return stats;
                             }, {});
@@ -401,6 +407,10 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                   if (Math.random() < bonus.chance) {
                                     if (item === 'electroShard') creditsReward += 50 * bonus.amount;
                                     if (item === 'rareJunk') junkReward += bonus.amount;
+                                    if (item === 'equipment') {
+                                      useRecruitmentZustand.getState().addEquipment(bonus.itemId);
+                                      console.log(`Received equipment: ${bonus.itemId}`);
+                                    }
                                   }
                                 });
                               }
@@ -463,21 +473,116 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
           </div>
         );
       case 'loadouts':
+        const equipment = useRecruitmentZustand(state => state.equipment);
+        const crewLoadouts = useRecruitmentZustand(state => state.crewLoadouts);
+        const equipItemToCrew = useRecruitmentZustand(state => state.equipItemToCrew);
+        const unequipItemFromCrew = useRecruitmentZustand(state => state.unequipItemFromCrew);
+        const getCrewEffectiveStats = useRecruitmentZustand(state => state.getCrewEffectiveStats);
+        
         return (
           <div className="crew-content">
             <h3>Crew Loadouts</h3>
-            <div className="loadout-grid">
-              <div className="loadout-slot empty">
-                <div className="slot-type">Weapon</div>
-                <div className="slot-icon">+</div>
+            
+            <div className="loadout-section">
+              <h4>Available Equipment</h4>
+              <div className="equipment-inventory">
+                {equipment.length === 0 ? (
+                  <p>No equipment available. Complete missions to find equipment!</p>
+                ) : (
+                  equipment.map((item, index) => (
+                    <div key={`${item.id}-${index}`} className="equipment-item">
+                      <span className="equipment-icon">{item.icon}</span>
+                      <div className="equipment-info">
+                        <h5>{item.name}</h5>
+                        <p className="equipment-rarity">{item.rarity}</p>
+                        <p className="equipment-type">{item.type}</p>
+                        <div className="equipment-stats">
+                          {Object.entries(item.statBonus).map(([stat, bonus]) => (
+                            <span key={stat}>{stat}: +{bonus}</span>
+                          ))}
+                        </div>
+                        <p className="equipment-flavor">{item.flavor}</p>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
-              <div className="loadout-slot empty">
-                <div className="slot-type">Armor</div>
-                <div className="slot-icon">+</div>
-              </div>
-              <div className="loadout-slot empty">
-                <div className="slot-type">Tool</div>
-                <div className="slot-icon">+</div>
+            </div>
+
+            <div className="loadout-section">
+              <h4>Crew Equipment</h4>
+              <div className="crew-loadouts">
+                {hiredCrew.map((crew) => {
+                  const loadout = crewLoadouts[crew.id] || { weapon: null, armor: null, tool: null };
+                  const effectiveStats = getCrewEffectiveStats(crew.id);
+                  
+                  return (
+                    <div key={crew.id} className="crew-loadout-card">
+                      <div className="crew-loadout-header">
+                        <h5>{crew.name}</h5>
+                        <span className="crew-role">{crew.role}</span>
+                      </div>
+                      
+                      <div className="loadout-slots">
+                        {['weapon', 'armor', 'tool'].map(slotType => (
+                          <div key={slotType} className="loadout-slot">
+                            <div className="slot-type">{slotType}</div>
+                            {loadout[slotType] ? (
+                              <div className="equipped-item">
+                                <span className="equipment-icon">{loadout[slotType].icon}</span>
+                                <div className="equipment-info">
+                                  <p>{loadout[slotType].name}</p>
+                                  <div className="equipment-stats">
+                                    {Object.entries(loadout[slotType].statBonus).map(([stat, bonus]) => (
+                                      <span key={stat}>{stat}: +{bonus}</span>
+                                    ))}
+                                  </div>
+                                </div>
+                                <button 
+                                  className="unequip-button"
+                                  onClick={() => unequipItemFromCrew(crew.id, slotType)}
+                                >
+                                  ✕
+                                </button>
+                              </div>
+                            ) : (
+                              <div className="empty-slot">
+                                <div className="slot-icon">+</div>
+                                <select 
+                                  onChange={(e) => {
+                                    if (e.target.value) {
+                                      equipItemToCrew(crew.id, e.target.value, slotType);
+                                      e.target.value = '';
+                                    }
+                                  }}
+                                >
+                                  <option value="">Select {slotType}</option>
+                                  {equipment
+                                    .filter(item => item.type === slotType)
+                                    .map((item, index) => (
+                                      <option key={`${item.id}-${index}`} value={item.id}>
+                                        {item.name}
+                                      </option>
+                                    ))
+                                  }
+                                </select>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                      
+                      <div className="effective-stats">
+                        <h6>Effective Stats:</h6>
+                        <div className="stats-display">
+                          {Object.entries(effectiveStats || {}).map(([stat, value]) => (
+                            <span key={stat}>{stat}: {value}</span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

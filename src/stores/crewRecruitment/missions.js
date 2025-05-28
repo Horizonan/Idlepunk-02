@@ -12,9 +12,9 @@ export const missions = {
       junk: 800
     },
     bonusRewards: {
-      loadout: {
+      equipment: {
         chance: 0.3,
-        item: 'Grease-Stained Gloves'
+        itemId: 'grease_gloves'
       },
       rareCredits: {
         chance: 0.1,
@@ -60,9 +60,9 @@ export const missions = {
       junk: 500
     },
     bonusRewards: {
-      loadout: {
+      equipment: {
         chance: 0.25,
-        item: 'Sticky Token Belt'
+        itemId: 'token_belt'
       },
       electroShard: {
         chance: 0.05,
@@ -112,9 +112,9 @@ export const missions = {
         chance: 0.4,
         amount: 3
       },
-      voidFragment: {
+      equipment: {
         chance: 0.15,
-        amount: 1
+        itemId: 'void_fragment'
       }
     },
     requirements: {
