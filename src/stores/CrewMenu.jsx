@@ -48,8 +48,9 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   // Listen for mini-game completion from App level
   useEffect(() => {
     const handleMiniGameComplete = (event) => {
+      const success = event.detail?.success || false;
       setShowMiniGameModal(false);
-      completeMiniGame();
+      completeMiniGame(success);
     };
 
     window.addEventListener('miniGameComplete', handleMiniGameComplete);
@@ -412,12 +413,21 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                             console.log('Final crew stats:', crewStats);
                             console.log('Mission requirements:', activeMission.requirements);
 
-                            const successRate = calculateMissionSuccess(crewStats, activeMission.requirements);
-                            console.log(`Success rate calculation: ${successRate.toFixed(1)}%`);
+                            let baseSuccessRate = calculateMissionSuccess(crewStats, activeMission.requirements);
+                            
+                            // Apply mini-game effects
+                            const miniGameBonus = useRecruitmentZustand.getState().miniGameBonus || { rewardChanceBonus: 0, successPenalty: 0 };
+                            const finalSuccessRate = Math.max(0, baseSuccessRate - (miniGameBonus.successPenalty * 100));
+                            
+                            console.log(`Base success rate: ${baseSuccessRate.toFixed(1)}%`);
+                            if (miniGameBonus.successPenalty > 0) {
+                              console.log(`Mini-game penalty applied: -${(miniGameBonus.successPenalty * 100).toFixed(1)}%`);
+                            }
+                            console.log(`Final success rate: ${finalSuccessRate.toFixed(1)}%`);
 
                             const randomRoll = Math.random() * 100;
-                            console.log(`Random roll: ${randomRoll.toFixed(1)} vs required: ${successRate.toFixed(1)}`);
-                            const success = randomRoll < successRate;
+                            console.log(`Random roll: ${randomRoll.toFixed(1)} vs required: ${finalSuccessRate.toFixed(1)}`);
+                            const success = randomRoll < finalSuccessRate;
 
                             // Calculate rewards
                             let creditsReward = 0;
@@ -429,10 +439,13 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                               creditsReward = activeMission.baseRewards.credits;
                               junkReward = activeMission.baseRewards.junk;
 
-                              // Calculate bonus rewards
+                              // Calculate bonus rewards with mini-game bonus
                               if (activeMission.bonusRewards) {
                                 Object.entries(activeMission.bonusRewards).forEach(([item, bonus]) => {
-                                  if (Math.random() < bonus.chance) {
+                                  const bonusChance = bonus.chance + (miniGameBonus.rewardChanceBonus || 0);
+                                  console.log(`${item} bonus chance: ${(bonus.chance * 100).toFixed(1)}% + ${((miniGameBonus.rewardChanceBonus || 0) * 100).toFixed(1)}% = ${(bonusChance * 100).toFixed(1)}%`);
+                                  
+                                  if (Math.random() < bonusChance) {
                                     if (item === 'electroShard') creditsReward += 50 * bonus.amount;
                                     if (item === 'rareJunk') junkReward += bonus.amount;
                                     if (item === 'equipment') {
@@ -480,7 +493,12 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                             missionWindow.innerHTML = `
                               <div class="mission-result ${success ? 'success' : 'failure'}">
                                 <h2>${success ? 'Mission Successful!' : 'Mission Failed'}</h2>
-                                <p>Success Rate: ${successRate.toFixed(1)}%</p>
+                                <p>Base Success Rate: ${baseSuccessRate.toFixed(1)}%</p>
+                                ${miniGameBonus.successPenalty > 0 ? 
+                                  `<p style="color: #FF6666;">Mini-game Penalty: -${(miniGameBonus.successPenalty * 100).toFixed(1)}%</p>` : ''}
+                                ${miniGameBonus.rewardChanceBonus > 0 ? 
+                                  `<p style="color: #00FF00;">Mini-game Reward Bonus: +${(miniGameBonus.rewardChanceBonus * 100).toFixed(1)}%</p>` : ''}
+                                <p>Final Success Rate: ${finalSuccessRate.toFixed(1)}%</p>
                                 ${success ? 
                                   `<p class="success-message">${activeMission.successMessages[Math.floor(Math.random() * activeMission.successMessages.length)]}</p>` :
                                   activeMission.penalties.failure.messagePool ?
@@ -523,6 +541,9 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
                             setActiveMission(null);
                             setSelectedCrew([]);
+                            
+                            // Reset mini-game bonus state
+                            useRecruitmentZustand.setState({ miniGameBonus: { rewardChanceBonus: 0, successPenalty: 0 } });
                           }}
                         >
                           Complete Mission
@@ -563,11 +584,10 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                       className="mini-game-skip-button"
                       onClick={() => {
                         setShowMiniGameModal(false);
-                        completeMiniGame();
-                        // No bonus for skipping
+                        completeMiniGame(false); // Skipping counts as failure
                       }}
                     >
-                      Skip (No Bonus)
+                      Skip (Penalty Applied)
                     </button>
                   </div>
                 </div>

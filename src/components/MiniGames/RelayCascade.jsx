@@ -36,7 +36,7 @@ export default function RelayCascade({ onClose, onComplete }) {
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (gameState !== 'playing' || movesLeft <= 0) return;
-      
+
       switch(e.key) {
         case 'ArrowUp':
           e.preventDefault();

@@ -241,12 +241,32 @@ export const useRecruitmentZustand = create(
         }
       },
 
-      completeMiniGame: () => {
+      completeMiniGame: (success = false) => {
         const state = get();
-        set({
-          showMiniGame: false,
-          missionStartTime: Date.now() // Reset mission start time to account for pause
-        });
+        
+        if (success) {
+          // Success: reduce timer by 1 minute and increase reward chances by 5%
+          console.log('🎯 Mini-game SUCCESS! Timer reduced by 1 minute, reward chances increased by 5%');
+          set({
+            showMiniGame: false,
+            missionStartTime: Date.now() + 60000, // Add 1 minute to start time (effectively reducing remaining time)
+            miniGameBonus: {
+              rewardChanceBonus: 0.05,
+              successPenalty: 0
+            }
+          });
+        } else {
+          // Failure: increase timer by 1 minute and reduce success chance by 10%
+          console.log('❌ Mini-game FAILED! Timer increased by 1 minute, success chance reduced by 10%');
+          set({
+            showMiniGame: false,
+            missionStartTime: Date.now() - 60000, // Subtract 1 minute from start time (effectively increasing remaining time)
+            miniGameBonus: {
+              rewardChanceBonus: 0,
+              successPenalty: 0.1
+            }
+          });
+        }
       },
 
       getMissionTimeRemaining: () => {
