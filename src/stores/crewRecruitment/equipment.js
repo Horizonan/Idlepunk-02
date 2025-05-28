@@ -95,7 +95,7 @@ export const equipmentDatabase = {
     description: 'Reveals hidden locations and secrets',
     statBonus: { luck: 4, psyche: 3 },
     icon: '🗺️',
-    flavor: 'Updates itself when you're not looking'
+    flavor: 'Updates itself when you\'re not looking'
   }
 };
 
