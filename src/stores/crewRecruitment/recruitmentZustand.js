@@ -22,27 +22,27 @@ export const useRecruitmentZustand = create(
         const equipment = getEquipmentById(itemId);
         if (equipment) {
           const state = get();
-          
+
           // Check if equipment already exists in inventory or equipped
           const hasInInventory = state.equipment.some(item => item.id === itemId);
           const hasEquipped = Object.values(state.crewLoadouts).some(loadout => 
             Object.values(loadout).some(equippedItem => equippedItem && equippedItem.id === itemId)
           );
-          
+
           if (hasInInventory || hasEquipped) {
             // Auto-sell duplicate for credits
             const sellValue = equipment.autoSellValue || 5;
-            
+
             // Get current credits from localStorage and update
             const currentCredits = Number(localStorage.getItem('credits') || 0);
             const newCredits = currentCredits + sellValue;
             localStorage.setItem('credits', newCredits);
-            
+
             // Trigger a custom event to update the credits in the main component
             window.dispatchEvent(new CustomEvent('creditsUpdated', { 
               detail: { credits: newCredits, message: `Duplicate ${equipment.name} sold for ${sellValue} Credits!` }
             }));
-            
+
             return false; // Indicate the item was sold instead of added
           } else {
             set(state => ({
@@ -93,7 +93,7 @@ export const useRecruitmentZustand = create(
 
         const loadout = get().crewLoadouts[crewId] || {};
         const baseStats = { ...crew.stats };
-        
+
         // Apply equipment bonuses
         Object.values(loadout).forEach(equipment => {
           if (equipment && equipment.statBonus) {
@@ -195,25 +195,73 @@ export const useRecruitmentZustand = create(
   },
 
   startMission: (mission, selectedCrew) => {
-    const successRate = calculateMissionSuccess(
-      get().hiredCrew
-        .filter(crew => selectedCrew.includes(crew.id))
-        .reduce((stats, crew) => {
-          Object.entries(mission.requirements).forEach(([stat]) => {
-            stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + (crew.stats?.[stat.toLowerCase()] || 0);
-          });
-          return stats;
-        }, {}),
-      mission.requirements
-    );
+        const successRate = calculateMissionSuccess(
+          get().hiredCrew
+            .filter(crew => selectedCrew.includes(crew.id))
+            .reduce((stats, crew) => {
+              Object.entries(mission.requirements).forEach(([stat]) => {
+                stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + (crew.stats?.[stat.toLowerCase()] || 0);
+              });
+              return stats;
+            }, {}),
+          mission.requirements
+        );
 
-    set({
-      activeMission: { ...mission, successRate },
-      missionStartTime: Date.now(),
-      selectedCrew: selectedCrew
-    });
-  },
+        set({
+          activeMission: { ...mission, successRate },
+          missionStartTime: Date.now(),
+          missionPausedTime: 0,
+          lastMiniGameCheck: Date.now(),
+          showMiniGame: false,
+          selectedCrew: selectedCrew
+        });
+      },
 
+      checkForMiniGame: () => {
+        const state = get();
+        if (!state.activeMission || state.showMiniGame) return;
+
+        const now = Date.now();
+        const timeSinceLastCheck = now - (state.lastMiniGameCheck || state.missionStartTime);
+
+        // Check every 5 minutes (300000ms)
+        if (timeSinceLastCheck >= 300000) {
+          // 50% chance for mini-game
+          if (Math.random() < 0.5) {
+            set({
+              showMiniGame: true,
+              missionPausedTime: state.missionPausedTime + (now - state.missionStartTime)
+            });
+          }
+          set({ lastMiniGameCheck: now });
+        }
+      },
+
+      completeMiniGame: () => {
+        const state = get();
+        set({
+          showMiniGame: false,
+          missionStartTime: Date.now() // Reset mission start time to account for pause
+        });
+      },
+
+      getMissionTimeRemaining: () => {
+        const state = get();
+        if (!state.activeMission || !state.missionStartTime) return 0;
+
+        const now = Date.now();
+        let elapsedTime;
+
+        if (state.showMiniGame) {
+          // If mini-game is active, don't count current time, use paused time
+          elapsedTime = state.missionPausedTime / 1000;
+        } else {
+          // Normal calculation including any previous paused time
+          elapsedTime = ((now - state.missionStartTime) + state.missionPausedTime) / 1000;
+        }
+
+        return Math.max(0, state.activeMission.duration - elapsedTime);
+      },
   setActiveMission: (mission) => {
     set({ activeMission: mission });
   },

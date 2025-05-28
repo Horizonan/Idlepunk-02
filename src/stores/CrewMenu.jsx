@@ -4,6 +4,7 @@ import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
 import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
 import { missions, calculateMissionSuccess } from "./crewRecruitment/missions";
 import { equipmentDatabase, getAllEquipment } from "./crewRecruitment/equipment";
+import RelayCascade from "../components/MiniGames/RelayCascade";
 
 export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }) {
   const [activeTab, setActiveTab] = useState('view');
@@ -12,13 +13,19 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   const activeMission = useRecruitmentZustand(state => state.activeMission);
   const missionStartTime = useRecruitmentZustand(state => state.missionStartTime);
   const setActiveMission = useRecruitmentZustand(state => state.setActiveMission);
+  const showMiniGame = useRecruitmentZustand(state => state.showMiniGame);
+  const completeMiniGame = useRecruitmentZustand(state => state.completeMiniGame);
   const [timeLeft, setTimeLeft] = useState(0);
+  const [showMiniGameModal, setShowMiniGameModal] = useState(false);
 
   useEffect(() => {
     if (activeMission && missionStartTime) {
       const timer = setInterval(() => {
-        const elapsed = (Date.now() - missionStartTime) / 1000;
-        const remaining = Math.max(0, activeMission.duration - elapsed);
+        // Check for mini-game trigger
+        useRecruitmentZustand.getState().checkForMiniGame();
+        
+        // Calculate time remaining using the new method
+        const remaining = useRecruitmentZustand.getState().getMissionTimeRemaining();
         setTimeLeft(remaining);
 
         if (remaining <= 0) {
@@ -29,6 +36,13 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
       return () => clearInterval(timer);
     }
   }, [activeMission, missionStartTime]);
+
+  // Watch for mini-game trigger
+  useEffect(() => {
+    if (showMiniGame && !showMiniGameModal) {
+      setShowMiniGameModal(true);
+    }
+  }, [showMiniGame, showMiniGameModal]);
 
   const toggleCrewSelection = (crewId) => {
     setSelectedCrew(prev => {
@@ -512,6 +526,34 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                 </div>
               )}
             </div>
+
+            {/* Mini-game Modal */}
+            {showMiniGameModal && (
+              <div className="mini-game-overlay">
+                <div className="mini-game-container">
+                  <div className="mini-game-header">
+                    <h3>🚨 Mission Complication Detected! 🚨</h3>
+                    <p>Your crew has encountered a signal relay cascade failure!</p>
+                    <p>Mission timer is paused until resolved.</p>
+                  </div>
+                  <RelayCascade 
+                    onGameEnd={(success) => {
+                      setShowMiniGameModal(false);
+                      completeMiniGame();
+                      
+                      if (success) {
+                        // Bonus rewards for successful mini-game completion
+                        const bonusCredits = Math.floor(Math.random() * 20) + 10;
+                        setCredits(prev => prev + bonusCredits);
+                        
+                        // Add notification or message about bonus
+                        console.log(`Mini-game completed! Bonus: ${bonusCredits} credits`);
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         );
       case 'loadouts':
