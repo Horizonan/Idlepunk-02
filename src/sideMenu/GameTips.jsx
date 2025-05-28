@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 
 
@@ -14,7 +15,7 @@ export default function Tooltips({ onClose }) {
         <h2>Game Tips</h2>
         <button onClick={onClose}>Close</button>
       </div>
-
+      
       <div className="tooltips-content">
         <div className="tooltip-entry">
           <h3 onClick={() => toggleTip('electroShards')}>
@@ -27,7 +28,7 @@ export default function Tooltips({ onClose }) {
                 <li>Craft special quest items (like the Prestige Crystal)</li>
                 <li>Purchase powerful ElectroShop upgrades</li>
               </ul>
-
+              
               <p>Electro Shards can be acquired through:</p>
               <ul>
                 <li>Rare floating pickups</li>
@@ -35,9 +36,9 @@ export default function Tooltips({ onClose }) {
                 <li>Select quests</li>
                 <li>Electroshard miner v0.1 (Premium Junk Upgrade)</li>
               </ul>
-
+              
               <p>Their availability increases after your first Prestige, but limited ways to earn them exist earlier in the game.</p>
-
+            
               <p className="tooltip-tip">💡 Tip: Keep an eye on rare pickups and hidden quest rewards — they matter more than you think.</p>
             </div>
           )}
@@ -151,7 +152,7 @@ export default function Tooltips({ onClose }) {
           {expandedTip === 'prestige' && (
             <div className="tooltip-section">
               <p>Prestiging is a major reset that wipes most of your progress in exchange for unlocking permanent upgrades and access to powerful new systems.</p>
-
+              
               <h4>How to Unlock Prestige:</h4>
               <ul>
                 <li>Reach 1 million Junk</li>
@@ -159,7 +160,7 @@ export default function Tooltips({ onClose }) {
                 <li>Collect special resources</li>
                 <li>Craft the Prestige Crystal</li>
               </ul>
-
+              
               <h4>What Does Prestige Reset?</h4>
               <ul>
                 <li>Your Junk, upgrades, helpers, and quest progress</li>
@@ -172,38 +173,8 @@ export default function Tooltips({ onClose }) {
                 <li>Prestige-exclusive upgrades and bonuses</li>
                 <li>Special resources unlocked post-prestige</li>
               </ul>
-
+              
               <p className="tooltip-tip">💡 Tip: Time your prestige carefully - make sure you've maximized your current run's potential first!</p>
-            </div>
-          )}
-        </div>
-
-        <div className="tooltip-entry">
-          <h3 onClick={() => toggleTip('relayCascade')}>
-            🛰️ Relay Cascade - Signal Hijack {expandedTip === 'relayCascade' ? '▼' : '▶'}
-          </h3>
-          {expandedTip === 'relayCascade' && (
-            <div className="tooltip-section">
-              <p><em>"You're bouncing a signal through a network of relays, dodging blacklisted nodes."</em></p>
-
-              <p><strong>Objective:</strong> Route your signal from the start point 📡 to the target 🎯 through a grid of satellites and obstacles.</p>
-              <ul>
-                <li>🛰️ <strong>Relay Nodes:</strong> Grant +1 move and allow column switching</li>
-                <li>↑↓←→ <strong>Rotating Relays:</strong> Special relays that change direction over time</li>
-                <li>❌ <strong>Blacklisted Nodes:</strong> Avoid at all costs - touching one ends the game</li>
-                <li>⚡ <strong>Signal Path:</strong> Your route is traced as you move</li>
-              </ul>
-
-              <h4>Movement Rules:</h4>
-              <ul>
-                <li>Can only switch columns (move left/right) from relay nodes</li>
-                <li>Regular moves cost 1 move, relay nodes are free</li>
-                <li>Some blacklisted nodes move around the grid</li>
-                <li>Plan your route carefully - moves are limited!</li>
-              </ul>
-
-              <p className="tooltip-tip">💡 Tip: "Look for relay chains that create safe pathways across the grid."</p>
-              <p className="tooltip-junk">🗑 Access: Available through cheat menu or special events.</p>
             </div>
           )}
         </div>
@@ -219,12 +190,12 @@ export default function Tooltips({ onClose }) {
               <p><strong>Objective:</strong> Trick your brain into releasing dopamine without spending $8.99 on a mood skin.</p>
               <ul>
                 <li>Accept naps, cheese, dog videos, and the void</li>
-                <li>Reject group chats named "GrindSquad💪" and unsolicited advice from Chad</li>
+                <li>Reject group chats named “GrindSquad💪” and unsolicited advice from Chad</li>
                 <li>Your accuracy improves with hydration and weird hobbies</li>
                 <li>Beware: happiness may be disguised as boredom or a half-dead plant you forgot about</li>
               </ul>
 
-              <p className="tooltip-tip">💡 Tip: "Your brain is easily fooled. Use this power for good."</p>
+              <p className="tooltip-tip">💡 Tip: “Your brain is easily fooled. Use this power for good.”</p>
               <p className="tooltip-junk">🗑 Junk Data: Includes bursts of dance energy, mild existentialism, 12 open tabs, and an emotional support beverage.</p>
             </div>
           )}
