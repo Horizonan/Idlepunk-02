@@ -523,7 +523,7 @@ export default function RelayCascade({ onClose, onComplete }) {
           <div className="legend-item">🛰️ Relay (+1 move)</div>
           <div className="legend-item">❌ Blacklisted (some move!)</div>
           <div className="legend-item">↑↓←→ Rotating Relay (+1 move)</div>
-        </div></div>
+        </div>
         
         <div className="game-rules">
           <div className="rules-title">Rules:</div>
