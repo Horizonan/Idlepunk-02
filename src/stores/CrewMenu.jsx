@@ -17,6 +17,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   const completeMiniGame = useRecruitmentZustand(state => state.completeMiniGame);
   const [timeLeft, setTimeLeft] = useState(0);
   const [showMiniGameModal, setShowMiniGameModal] = useState(false);
+  const [showMiniGameWindow, setShowMiniGameWindow] = useState(false);
 
   useEffect(() => {
     if (activeMission && missionStartTime) {
@@ -527,7 +528,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
               )}
             </div>
 
-            {/* Mini-game Modal */}
+            {/* Mini-game Complication Alert */}
             {showMiniGameModal && (
               <div className="mini-game-overlay">
                 <div className="mini-game-container">
@@ -535,9 +536,45 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                     <h3>🚨 Mission Complication Detected! 🚨</h3>
                     <p>Your crew has encountered a signal relay cascade failure!</p>
                     <p>Mission timer is paused until resolved.</p>
+                    <p>Click the button below to address the complication.</p>
                   </div>
+                  <div className="mini-game-actions">
+                    <button 
+                      className="mini-game-button"
+                      onClick={() => {
+                        // Open mini-game in separate window
+                        setShowMiniGameWindow(true);
+                      }}
+                    >
+                      🛰️ Fix Signal Relay
+                    </button>
+                    <button 
+                      className="mini-game-skip-button"
+                      onClick={() => {
+                        setShowMiniGameModal(false);
+                        completeMiniGame();
+                        // No bonus for skipping
+                      }}
+                    >
+                      Skip (No Bonus)
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Separate Mini-game Window */}
+            {showMiniGameWindow && (
+              <div className="mini-game-window-overlay">
+                <div className="mini-game-window">
                   <RelayCascade 
-                    onGameEnd={(success) => {
+                    onClose={() => {
+                      setShowMiniGameWindow(false);
+                      setShowMiniGameModal(false);
+                      completeMiniGame();
+                    }}
+                    onComplete={(success) => {
+                      setShowMiniGameWindow(false);
                       setShowMiniGameModal(false);
                       completeMiniGame();
                       
