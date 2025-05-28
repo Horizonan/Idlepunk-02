@@ -687,6 +687,91 @@
   gap: 8px;
 }
 
+.mission-completion-window {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.mission-result {
+  background: #222;
+  border: 2px solid #9400D3;
+  padding: 30px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 500px;
+  color: #00FF00;
+}
+
+.mission-result.success {
+  border-color: #00FF00;
+}
+
+.mission-result.failure {
+  border-color: #FF0000;
+}
+
+.mission-rewards-display {
+  margin: 20px 0;
+  text-align: left;
+}
+
+.equipment-reward {
+  background: rgba(34, 34, 34, 0.8);
+  border: 2px solid #9400D3;
+  padding: 15px;
+  border-radius: 4px;
+  margin: 10px 0;
+}
+
+.equipment-reward-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.equipment-icon {
+  font-size: 1.5em;
+}
+
+.equipment-type {
+  background: #9400D3;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+.equipment-name {
+  color: #00FF00;
+  margin: 8px 0;
+  font-size: 1.1em;
+}
+
+.equipment-stats {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.stat-bonus {
+  background: rgba(0, 255, 0, 0.1);
+  border: 1px solid #00FF00;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.8em;
+  color: #00FF00;
+}
+
 .stats-display span {
   background: rgba(0, 255, 0, 0.2);
   padding: 3px 8px;

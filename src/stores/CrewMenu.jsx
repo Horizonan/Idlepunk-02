@@ -396,6 +396,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                             // Calculate rewards
                             let creditsReward = 0;
                             let junkReward = 0;
+                            let equipmentRewards = [];
 
                             if (success) {
                               creditsReward = activeMission.baseRewards.credits;
@@ -408,8 +409,11 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                     if (item === 'electroShard') creditsReward += 50 * bonus.amount;
                                     if (item === 'rareJunk') junkReward += bonus.amount;
                                     if (item === 'equipment') {
-                                      useRecruitmentZustand.getState().addEquipment(bonus.itemId);
-                                      console.log(`Received equipment: ${bonus.itemId}`);
+                                      const equipment = useRecruitmentZustand.getState().addEquipment(bonus.itemId);
+                                      const equipmentData = getAllEquipment().find(eq => eq.id === bonus.itemId);
+                                      if (equipmentData) {
+                                        equipmentRewards.push(equipmentData);
+                                      }
                                     }
                                   }
                                 });
@@ -447,6 +451,21 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                 <div class="mission-rewards-display">
                                   <p>Credits: ${creditsReward > 0 ? '+' : ''}${creditsReward}</p>
                                   <p>Junk: ${junkReward > 0 ? '+' : ''}${junkReward}</p>
+                                  ${equipmentRewards.length > 0 ? 
+                                    equipmentRewards.map(equipment => `
+                                      <div class="equipment-reward">
+                                        <div class="equipment-reward-header">
+                                          <span class="equipment-icon">${equipment.icon}</span>
+                                          <span class="equipment-type">${equipment.type.toUpperCase()}</span>
+                                        </div>
+                                        <h4 class="equipment-name">${equipment.name}</h4>
+                                        <div class="equipment-stats">
+                                          ${Object.entries(equipment.statBonus).map(([stat, bonus]) => 
+                                            `<span class="stat-bonus">${stat}: +${bonus}</span>`
+                                          ).join(' ')}
+                                        </div>
+                                      </div>
+                                    `).join('') : ''}
                                 </div>
                                 <button onclick="this.parentElement.parentElement.remove()">Close</button>
                               </div>
