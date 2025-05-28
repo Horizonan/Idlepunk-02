@@ -784,8 +784,7 @@ export default function App() {
         junk={junk}
         passiveIncome={passiveIncome}
         autoClicks={autoClicks}
-        ```text
-clickMultiplier={clickMultiplier}
+        clickMultiplier={clickMultiplier}
         globalJpsMultiplier={globalJpsMultiplier}
         tronics={tronics}
         electroShards={electroShards}
