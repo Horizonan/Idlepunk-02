@@ -537,11 +537,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                     <p>Mission timer is paused until resolved.</p>
                   </div>
                   <RelayCascade 
-                    onClose={() => {
-                      setShowMiniGameModal(false);
-                      completeMiniGame();
-                    }}
-                    onComplete={(success) => {
+                    onGameEnd={(success) => {
                       setShowMiniGameModal(false);
                       completeMiniGame();
                       
