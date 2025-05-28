@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import './RelayCascade.css';
 
 export default function RelayCascade({ onClose, onComplete }) {
   const [grid, setGrid] = useState([]);
   const [playerPos, setPlayerPos] = useState({ x: 0, y: 0 });
-  const [targetPos, setTargetPos] = useState({ x: 4, y: 4 });
+  const [targetPos, setTargetPos] = useState({ x: 6, y: 6 });
   const [signal, setSignal] = useState([]);
   const [movesLeft, setMovesLeft] = useState(8);
   const [rotatingRelays, setRotatingRelays] = useState([]);
@@ -39,7 +38,7 @@ export default function RelayCascade({ onClose, onComplete }) {
         ...relay,
         direction: getNextDirection(relay.direction)
       })));
-      
+
       // Move blacklisted nodes every 4 seconds
       setMovingBlacklisted(prev => prev.map(blacklisted => {
         const possibleMoves = [
@@ -48,10 +47,10 @@ export default function RelayCascade({ onClose, onComplete }) {
           { x: blacklisted.x, y: blacklisted.y + 1 },
           { x: blacklisted.x, y: blacklisted.y - 1 }
         ].filter(pos => 
-          pos.x >= 0 && pos.x < 5 && pos.y >= 0 && pos.y < 5 &&
-          !(pos.x === 0 && pos.y === 0) && !(pos.x === 4 && pos.y === 4)
+          pos.x >= 0 && pos.x < 7 && pos.y >= 0 && pos.y < 7 &&
+          !(pos.x === 0 && pos.y === 0) && !(pos.x === 6 && pos.y === 6)
         );
-        
+
         if (possibleMoves.length > 0) {
           const newPos = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
           return { ...blacklisted, ...newPos };
@@ -73,30 +72,30 @@ export default function RelayCascade({ onClose, onComplete }) {
     // Advanced pathfinding with proper move counting
     const visited = new Map(); // Use Map to track best moves for each position
     const queue = [{ x: start.x, y: start.y, moves: 10 }];
-    
+
     while (queue.length > 0) {
       const { x, y, moves } = queue.shift();
       const key = `${x},${y}`;
-      
+
       // Skip if we've been here with more moves
       if (visited.has(key) && visited.get(key) >= moves) continue;
       if (moves < 0) continue;
-      
+
       visited.set(key, moves);
-      
+
       if (x === target.x && y === target.y) return true;
-      
+
       // Check all directions
       for (const [dx, dy] of [[0, 1], [0, -1], [1, 0], [-1, 0]]) {
         const newX = x + dx;
         const newY = y + dy;
-        
-        if (newX >= 0 && newX < 5 && newY >= 0 && newY < 5) {
+
+        if (newX >= 0 && newX < 7 && newY >= 0 && newY < 7) {
           const cellType = grid[newY][newX];
-          
+
           // Skip blacklisted cells
           if (cellType === cellTypes.blacklisted) continue;
-          
+
           // Check if horizontal movement is allowed (column switching)
           if (dx !== 0) { // Moving left or right
             const currentCellType = grid[y][x];
@@ -107,7 +106,7 @@ export default function RelayCascade({ onClose, onComplete }) {
               continue; // Block horizontal movement
             }
           }
-          
+
           // Calculate moves for next position
           let newMoves;
           if (cellType === cellTypes.relay || cellType === cellTypes.rotating) {
@@ -115,32 +114,34 @@ export default function RelayCascade({ onClose, onComplete }) {
           } else {
             newMoves = moves - 1; // Regular move costs 1
           }
-          
+
           queue.push({ x: newX, y: newY, moves: newMoves });
         }
       }
     }
-    
+
     return false;
   };
 
   const generateSimpleLevel = () => {
-    const newGrid = Array(5).fill().map(() => Array(5).fill(cellTypes.empty));
-    
+    const newGrid = Array(7).fill().map(() => Array(7).fill(cellTypes.empty));
+
     // Set start and target
     newGrid[0][0] = cellTypes.start;
-    newGrid[4][4] = cellTypes.target;
-    
+    newGrid[6][6] = cellTypes.target;
+
     // Create a simple guaranteed path with relays
     newGrid[1][0] = cellTypes.relay; // Column 0
     newGrid[2][1] = cellTypes.relay; // Column 1
     newGrid[3][2] = cellTypes.relay; // Column 2
     newGrid[4][3] = cellTypes.relay; // Column 3
-    
+    newGrid[5][4] = cellTypes.relay; // Column 4
+    newGrid[6][5] = cellTypes.relay; // Column 5
+
     // Add minimal obstacles
     newGrid[0][2] = cellTypes.blacklisted;
     newGrid[2][4] = cellTypes.blacklisted;
-    
+
     setGrid(newGrid);
     setPlayerPos({ x: 0, y: 0 });
     setSignal([{ x: 0, y: 0 }]);
@@ -151,108 +152,108 @@ export default function RelayCascade({ onClose, onComplete }) {
   };
 
   const initializeLevel = () => {
-    const newGrid = Array(5).fill().map(() => Array(5).fill(cellTypes.empty));
-    
+    const newGrid = Array(7).fill().map(() => Array(7).fill(cellTypes.empty));
+
     // Set start and target (always same positions)
     newGrid[0][0] = cellTypes.start;
-    newGrid[4][4] = cellTypes.target;
-    
+    newGrid[6][6] = cellTypes.target;
+
     // Ensure at least one relay per column (excluding start/target columns)
-    // Column 0 already has start, Column 4 already has target
+    // Column 0 already has start, Column 6 already has target
     const guaranteedRelays = [];
-    
-    // For columns 1, 2, 3 - place at least one relay each
-    for (let col = 1; col <= 3; col++) {
+
+    // For columns 1, 2, 3, 4, 5 - place at least one relay each
+    for (let col = 1; col <= 5; col++) {
       const availableRows = [];
-      for (let row = 0; row < 5; row++) {
+      for (let row = 0; row < 7; row++) {
         // Skip positions that would conflict with start/target
-        if (!(col === 0 && row === 0) && !(col === 4 && row === 4)) {
+        if (!(col === 0 && row === 0) && !(col === 6 && row === 6)) {
           availableRows.push(row);
         }
       }
-      
+
       const randomRow = availableRows[Math.floor(Math.random() * availableRows.length)];
       newGrid[randomRow][col] = cellTypes.relay;
       guaranteedRelays.push({ x: col, y: randomRow });
     }
-    
-    // Also ensure column 0 and 4 have at least one relay (excluding start/target)
+
+    // Also ensure column 0 and 6 have at least one relay (excluding start/target)
     // Column 0 - place one relay somewhere other than start position
-    const col0Rows = [1, 2, 3, 4];
+    const col0Rows = [1, 2, 3, 4, 5, 6];
     const col0Row = col0Rows[Math.floor(Math.random() * col0Rows.length)];
     newGrid[col0Row][0] = cellTypes.relay;
     guaranteedRelays.push({ x: 0, y: col0Row });
-    
-    // Column 4 - place one relay somewhere other than target position
-    const col4Rows = [0, 1, 2, 3];
-    const col4Row = col4Rows[Math.floor(Math.random() * col4Rows.length)];
-    newGrid[col4Row][4] = cellTypes.relay;
-    guaranteedRelays.push({ x: 4, y: col4Row });
-    
+
+    // Column 6 - place one relay somewhere other than target position
+    const col6Rows = [0, 1, 2, 3, 4, 5];
+    const col6Row = col6Rows[Math.floor(Math.random() * col6Rows.length)];
+    newGrid[col6Row][6] = cellTypes.relay;
+    guaranteedRelays.push({ x: 6, y: col6Row });
+
     // Get remaining available positions
-    const usedPositions = new Set(['0,0', '4,4']);
+    const usedPositions = new Set(['0,0', '6,6']);
     guaranteedRelays.forEach(relay => {
       usedPositions.add(`${relay.x},${relay.y}`);
     });
-    
+
     const availablePositions = [];
-    for (let y = 0; y < 5; y++) {
-      for (let x = 0; x < 5; x++) {
+    for (let y = 0; y < 7; y++) {
+      for (let x = 0; x < 7; x++) {
         const key = `${x},${y}`;
         if (!usedPositions.has(key)) {
           availablePositions.push({ x, y });
         }
       }
     }
-    
+
     // Shuffle remaining positions
     const shuffledPositions = [...availablePositions].sort(() => Math.random() - 0.5);
-    
+
     // Add 0-2 additional relays randomly (fewer relays = harder)
     const numAdditionalRelays = Math.floor(Math.random() * 3);
     for (let i = 0; i < numAdditionalRelays && i < shuffledPositions.length; i++) {
       const pos = shuffledPositions[i];
       newGrid[pos.y][pos.x] = cellTypes.relay;
     }
-    
+
     // Add 2-4 blacklisted nodes (but not adjacent to relays)
     const numBlacklisted = 2 + Math.floor(Math.random() * 3);
     const remainingPositions = shuffledPositions.slice(numAdditionalRelays);
-    
+
     // Filter out positions that are adjacent to relay nodes
     const isAdjacentToRelay = (x, y) => {
       const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]]; // left, right, up, down
       return directions.some(([dx, dy]) => {
         const newX = x + dx;
         const newY = y + dy;
-        if (newX >= 0 && newX < 5 && newY >= 0 && newY < 5) {
+        if (newX >= 0 && newX < 7 && newY >= 0 && newY < 7) {
           const cellType = newGrid[newY][newX];
           return cellType === cellTypes.relay || cellType === cellTypes.rotating;
         }
         return false;
       });
     };
-    
+
     const safeBlacklistedPositions = remainingPositions.filter(pos => 
       !isAdjacentToRelay(pos.x, pos.y)
     );
-    
+
     const newMovingBlacklisted = [];
     for (let i = 0; i < numBlacklisted && i < safeBlacklistedPositions.length; i++) {
       const pos = safeBlacklistedPositions[i];
       newGrid[pos.y][pos.x] = cellTypes.blacklisted;
-      
+
       // 30% chance this blacklisted node will be moving
       if (Math.random() < 0.3) {
         newMovingBlacklisted.push({ x: pos.x, y: pos.y });
       }
     }
-    
+
     // Add 1 rotating relay (after blacklisted nodes are placed)
     const rotatingPositions = safeBlacklistedPositions.slice(numBlacklisted);
     const newRotatingRelays = [];
     const directions = ['up', 'right', 'down', 'left'];
-    
+
     if (rotatingPositions.length > 0) {
       const pos = rotatingPositions[0];
       newGrid[pos.y][pos.x] = cellTypes.rotating;
@@ -262,10 +263,10 @@ export default function RelayCascade({ onClose, onComplete }) {
         direction: directions[Math.floor(Math.random() * directions.length)]
       });
     }
-    
+
     // Validate that a path exists from start to target
-    const isLevelSolvable = validatePath(newGrid, { x: 0, y: 0 }, { x: 4, y: 4 });
-    
+    const isLevelSolvable = validatePath(newGrid, { x: 0, y: 0 }, { x: 6, y: 6 });
+
     if (!isLevelSolvable) {
       // If not solvable, retry generation (with counter to prevent infinite loops)
       const retryCount = (initializeLevel.retryCount || 0) + 1;
@@ -281,9 +282,9 @@ export default function RelayCascade({ onClose, onComplete }) {
         return;
       }
     }
-    
+
     initializeLevel.retryCount = 0;
-    
+
     setGrid(newGrid);
     setPlayerPos({ x: 0, y: 0 });
     setSignal([{ x: 0, y: 0 }]);
@@ -302,7 +303,7 @@ export default function RelayCascade({ onClose, onComplete }) {
     };
 
     // Check bounds
-    if (newPos.x < 0 || newPos.x >= 5 || newPos.y < 0 || newPos.y >= 5) return;
+    if (newPos.x < 0 || newPos.x >= 7 || newPos.y < 0 || newPos.y >= 7) return;
 
     // Check if trying to move horizontally (change columns)
     if (direction === 'left' || direction === 'right') {
@@ -317,7 +318,7 @@ export default function RelayCascade({ onClose, onComplete }) {
     }
 
     const cellType = grid[newPos.y][newPos.x];
-    
+
     // Check if hitting blacklisted node (static or moving)
     const isOnMovingBlacklisted = movingBlacklisted.some(mb => mb.x === newPos.x && mb.y === newPos.y);
     if (cellType === cellTypes.blacklisted || isOnMovingBlacklisted) {
@@ -329,14 +330,14 @@ export default function RelayCascade({ onClose, onComplete }) {
     const newSignal = [...signal, newPos];
     setSignal(newSignal);
     setPlayerPos(newPos);
-    
+
     // Relay nodes and rotating relays add one move
     if (cellType === cellTypes.relay || cellType === cellTypes.rotating) {
       setMovesLeft(prev => prev); // Don't decrease moves, effectively adding one
     } else {
       setMovesLeft(prev => prev - 1);
     }
-    
+
     setCurrentDirection(direction);
 
     // Check if reached target
@@ -390,24 +391,24 @@ export default function RelayCascade({ onClose, onComplete }) {
 
   const removeRandomBlacklisted = () => {
     const blacklistedPositions = [];
-    for (let y = 0; y < 5; y++) {
-      for (let x = 0; x < 5; x++) {
+    for (let y = 0; y < 7; y++) {
+      for (let x = 0; x < 7; x++) {
         if (grid[y][x] === cellTypes.blacklisted) {
           blacklistedPositions.push({ x, y });
         }
       }
     }
-    
+
     if (blacklistedPositions.length > 0) {
       const randomIndex = Math.floor(Math.random() * blacklistedPositions.length);
       const posToRemove = blacklistedPositions[randomIndex];
-      
+
       setGrid(prevGrid => {
         const newGrid = [...prevGrid];
         newGrid[posToRemove.y][posToRemove.x] = cellTypes.empty;
         return newGrid;
       });
-      
+
       return true; // Successfully removed a blacklisted node
     }
     return false; // No blacklisted nodes to remove
@@ -428,7 +429,7 @@ export default function RelayCascade({ onClose, onComplete }) {
     const isMovingBlacklisted = movingBlacklisted.some(mb => mb.x === x && mb.y === y);
 
     let classes = ['grid-cell'];
-    
+
     if (cellType === cellTypes.blacklisted || isMovingBlacklisted) classes.push('blacklisted');
     if (isMovingBlacklisted) classes.push('moving-blacklisted');
     if (cellType === cellTypes.relay) classes.push('relay');
@@ -448,7 +449,7 @@ export default function RelayCascade({ onClose, onComplete }) {
           <h2>🛰️ Relay Cascade - Signal Hijack</h2>
           <button className="close-btn" onClick={onClose}>×</button>
         </div>
-        
+
         <div className="game-info">
           <div className="moves-left">Moves: {movesLeft}</div>
           <div className="objective">Route signal from 📡 to 🎯</div>
@@ -524,7 +525,7 @@ export default function RelayCascade({ onClose, onComplete }) {
           <div className="legend-item">❌ Blacklisted (some move!)</div>
           <div className="legend-item">↑↓←→ Rotating Relay (+1 move)</div>
         </div>
-        
+
         <div className="game-rules">
           <div className="rules-title">Rules:</div>
           <div className="rule-item">• Can only switch columns from relay nodes</div>
