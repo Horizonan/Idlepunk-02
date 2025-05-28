@@ -52,36 +52,60 @@ export default function RelayCascade({ onClose, onComplete }) {
   const initializeLevel = () => {
     const newGrid = Array(5).fill().map(() => Array(5).fill(cellTypes.empty));
     
-    // Set start and target
+    // Set start and target (always same positions)
     newGrid[0][0] = cellTypes.start;
     newGrid[4][4] = cellTypes.target;
     
-    // Add some relays
-    newGrid[1][1] = cellTypes.relay;
-    newGrid[2][1] = cellTypes.relay;
-    newGrid[3][2] = cellTypes.relay;
-    newGrid[1][3] = cellTypes.relay;
-    newGrid[3][3] = cellTypes.relay;
+    // Get all available positions (excluding start and target)
+    const availablePositions = [];
+    for (let y = 0; y < 5; y++) {
+      for (let x = 0; x < 5; x++) {
+        if (!(x === 0 && y === 0) && !(x === 4 && y === 4)) {
+          availablePositions.push({ x, y });
+        }
+      }
+    }
     
-    // Add blacklisted nodes
-    newGrid[2][2] = cellTypes.blacklisted;
-    newGrid[0][2] = cellTypes.blacklisted;
+    // Shuffle available positions
+    const shuffledPositions = [...availablePositions].sort(() => Math.random() - 0.5);
     
-    // Add rotating relays
-    newGrid[1][2] = cellTypes.rotating;
-    newGrid[2][3] = cellTypes.rotating;
+    // Randomly place 4-6 regular relays
+    const numRelays = 4 + Math.floor(Math.random() * 3);
+    for (let i = 0; i < numRelays && i < shuffledPositions.length; i++) {
+      const pos = shuffledPositions[i];
+      newGrid[pos.y][pos.x] = cellTypes.relay;
+    }
+    
+    // Randomly place 1-3 blacklisted nodes
+    const numBlacklisted = 1 + Math.floor(Math.random() * 3);
+    const remainingPositions = shuffledPositions.slice(numRelays);
+    for (let i = 0; i < numBlacklisted && i < remainingPositions.length; i++) {
+      const pos = remainingPositions[i];
+      newGrid[pos.y][pos.x] = cellTypes.blacklisted;
+    }
+    
+    // Randomly place 1-2 rotating relays
+    const numRotating = 1 + Math.floor(Math.random() * 2);
+    const finalPositions = remainingPositions.slice(numBlacklisted);
+    const newRotatingRelays = [];
+    const directions = ['up', 'right', 'down', 'left'];
+    
+    for (let i = 0; i < numRotating && i < finalPositions.length; i++) {
+      const pos = finalPositions[i];
+      newGrid[pos.y][pos.x] = cellTypes.rotating;
+      newRotatingRelays.push({
+        x: pos.x,
+        y: pos.y,
+        direction: directions[Math.floor(Math.random() * directions.length)]
+      });
+    }
     
     setGrid(newGrid);
     setPlayerPos({ x: 0, y: 0 });
     setSignal([{ x: 0, y: 0 }]);
     setMovesLeft(8);
     setGameState('playing');
-    
-    // Initialize rotating relays
-    setRotatingRelays([
-      { x: 1, y: 2, direction: 'right' },
-      { x: 2, y: 3, direction: 'up' }
-    ]);
+    setRotatingRelays(newRotatingRelays);
   };
 
   const moveSignal = (direction) => {
