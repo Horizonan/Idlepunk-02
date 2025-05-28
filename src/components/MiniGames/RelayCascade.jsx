@@ -114,17 +114,35 @@ export default function RelayCascade({ onClose, onComplete }) {
       newGrid[pos.y][pos.x] = cellTypes.relay;
     }
     
-    // Add 1-2 blacklisted nodes
+    // Add 1-2 blacklisted nodes (but not adjacent to relays)
     const numBlacklisted = 1 + Math.floor(Math.random() * 2);
     const remainingPositions = shuffledPositions.slice(numAdditionalRelays);
     
-    for (let i = 0; i < numBlacklisted && i < remainingPositions.length; i++) {
-      const pos = remainingPositions[i];
+    // Filter out positions that are adjacent to relay nodes
+    const isAdjacentToRelay = (x, y) => {
+      const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]]; // left, right, up, down
+      return directions.some(([dx, dy]) => {
+        const newX = x + dx;
+        const newY = y + dy;
+        if (newX >= 0 && newX < 5 && newY >= 0 && newY < 5) {
+          const cellType = newGrid[newY][newX];
+          return cellType === cellTypes.relay || cellType === cellTypes.rotating;
+        }
+        return false;
+      });
+    };
+    
+    const safeBlacklistedPositions = remainingPositions.filter(pos => 
+      !isAdjacentToRelay(pos.x, pos.y)
+    );
+    
+    for (let i = 0; i < numBlacklisted && i < safeBlacklistedPositions.length; i++) {
+      const pos = safeBlacklistedPositions[i];
       newGrid[pos.y][pos.x] = cellTypes.blacklisted;
     }
     
-    // Add 1 rotating relay
-    const rotatingPositions = remainingPositions.slice(numBlacklisted);
+    // Add 1 rotating relay (after blacklisted nodes are placed)
+    const rotatingPositions = safeBlacklistedPositions.slice(numBlacklisted);
     const newRotatingRelays = [];
     const directions = ['up', 'right', 'down', 'left'];
     
@@ -141,7 +159,7 @@ export default function RelayCascade({ onClose, onComplete }) {
     setGrid(newGrid);
     setPlayerPos({ x: 0, y: 0 });
     setSignal([{ x: 0, y: 0 }]);
-    setMovesLeft(12); // Increased moves since there are more relays now
+    setMovesLeft(8); // Reduced by 4 moves
     setGameState('playing');
     setRotatingRelays(newRotatingRelays);
   };
