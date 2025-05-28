@@ -49,6 +49,48 @@ export default function RelayCascade({ onClose, onComplete }) {
     return dirs[(currentIndex + 1) % dirs.length];
   };
 
+  const validatePath = (grid, start, target) => {
+    // Simple pathfinding to check if target is reachable
+    const visited = new Set();
+    const queue = [{ x: start.x, y: start.y, moves: 8 }];
+    
+    while (queue.length > 0) {
+      const { x, y, moves } = queue.shift();
+      const key = `${x},${y}`;
+      
+      if (visited.has(key) || moves < 0) continue;
+      visited.add(key);
+      
+      if (x === target.x && y === target.y) return true;
+      
+      // Check all directions
+      for (const [dx, dy] of [[0, 1], [0, -1], [1, 0], [-1, 0]]) {
+        const newX = x + dx;
+        const newY = y + dy;
+        
+        if (newX >= 0 && newX < 5 && newY >= 0 && newY < 5) {
+          const cellType = grid[newY][newX];
+          
+          // Skip blacklisted cells
+          if (cellType === cellTypes.blacklisted) continue;
+          
+          // Check if horizontal movement is allowed
+          if ((dx !== 0) && grid[y][x] !== cellTypes.relay && 
+              grid[y][x] !== cellTypes.rotating && 
+              grid[y][x] !== cellTypes.start && 
+              grid[y][x] !== cellTypes.target) {
+            continue;
+          }
+          
+          const newMoves = cellType === cellTypes.relay || cellType === cellTypes.rotating ? moves : moves - 1;
+          queue.push({ x: newX, y: newY, moves: newMoves });
+        }
+      }
+    }
+    
+    return false;
+  };
+
   const initializeLevel = () => {
     const newGrid = Array(5).fill().map(() => Array(5).fill(cellTypes.empty));
     
@@ -154,6 +196,15 @@ export default function RelayCascade({ onClose, onComplete }) {
         y: pos.y,
         direction: directions[Math.floor(Math.random() * directions.length)]
       });
+    }
+    
+    // Validate that a path exists from start to target
+    const isLevelSolvable = validatePath(newGrid, { x: 0, y: 0 }, { x: 4, y: 4 });
+    
+    if (!isLevelSolvable) {
+      // If not solvable, retry generation
+      initializeLevel();
+      return;
     }
     
     setGrid(newGrid);

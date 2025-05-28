@@ -781,6 +781,7 @@ export default function App() {
               checkElectroMilestones(newValue);
               checkShardMilestones(newValue);
               return newValue;
+              return newValue;
             });
             setNotifications(prev => [...prev, "Crystal shard collected!"]);
           }}
