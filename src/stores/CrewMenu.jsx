@@ -397,6 +397,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                             let creditsReward = 0;
                             let junkReward = 0;
                             let equipmentRewards = [];
+                            let autoSoldItems = [];
 
                             if (success) {
                               creditsReward = activeMission.baseRewards.credits;
@@ -416,7 +417,13 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                           equipmentRewards.push(equipmentData);
                                         } else {
                                           // Item was auto-sold, add to credits display
-                                          creditsReward += equipmentData.autoSellValue || 5;
+                                          const sellValue = equipmentData.autoSellValue || 5;
+                                          creditsReward += sellValue;
+                                          autoSoldItems.push({
+                                            name: equipmentData.name,
+                                            icon: equipmentData.icon,
+                                            sellValue: sellValue
+                                          });
                                         }
                                       }
                                     }
@@ -469,6 +476,17 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                             `<span class="stat-bonus">${stat}: +${bonus}</span>`
                                           ).join(' ')}
                                         </div>
+                                      </div>
+                                    `).join('') : ''}
+                                  ${autoSoldItems.length > 0 ? 
+                                    autoSoldItems.map(item => `
+                                      <div class="auto-sold-item">
+                                        <div class="auto-sold-header">
+                                          <span class="equipment-icon">${item.icon}</span>
+                                          <span class="auto-sold-label">AUTO-SOLD</span>
+                                        </div>
+                                        <h4 class="auto-sold-name">${item.name}</h4>
+                                        <p class="auto-sold-value">Sold for ${item.sellValue} Credits (Duplicate)</p>
                                       </div>
                                     `).join('') : ''}
                                 </div>
