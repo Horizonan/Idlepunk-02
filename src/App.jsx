@@ -70,6 +70,9 @@ import ItemInventory from './stores/ItemInventory';
 import PrestigePopup from './components/PrestigePopup';
 import { useEmailStore } from './utils/emailStore';
 
+//Mini game Component
+import RelayCascade from './components/RelayCascade/RelayCascade';
+
 
 export default function App() {
   const { 
@@ -113,6 +116,8 @@ export default function App() {
   });
 
   const [showCoinFlip, setShowCoinFlip] = useState(false);
+  const [showRelayCascade, setShowRelayCascade] = useState(false);
+
 
   useEffect(() => {
     const handleUpdateSurgeCount = () => {
@@ -164,18 +169,24 @@ export default function App() {
       setShowCrystal(true);
     };
 
+    const handleLaunchRelayCascade = () => {
+      setShowRelayCascade(true);
+    };
+
     window.addEventListener('keydown', handleKeyPress);
     window.addEventListener('showCrystal', handleShowCrystal);
     window.addEventListener('slotForceTriple', handleSlotForceTriple);
     window.addEventListener('slotForceDouble', handleSlotForceDouble);
+    window.addEventListener('launchRelayCascade', handleLaunchRelayCascade);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyPress);
-      window.removeEventListener('slotForceTriple', handleSlotForceTriple);
-      window.removeEventListener('slotForceDouble', handleSlotForceDouble);
-      window.removeEventListener('showCrystal', handleShowCrystal);
       window.removeEventListener('addMaterial', handleAddMaterial);
       window.removeEventListener('validateAchievements', handleValidateAchievements);
+      window.removeEventListener('keydown', handleKeyPress);
+      window.removeEventListener('showCrystal', handleShowCrystal);
+      window.removeEventListener('slotForceTriple', handleSlotForceTriple);
+      window.removeEventListener('slotForceDouble', handleSlotForceDouble);
+      window.removeEventListener('launchRelayCascade', handleLaunchRelayCascade);
     };
   }, []);
 
@@ -1154,6 +1165,7 @@ export default function App() {
           onSetTronicsSurgeActive= {setTronicsSurgeActive}
           onSetSurgeActive={setIsSurgeActive}
           setCraftingInventory={setCraftingInventory}
+          onLaunchRelayCascade={() => setShowRelayCascade(true)} // Cheat button to launch Relay Cascade
         />
       )}
       {showActiveCheats && (
@@ -1422,6 +1434,9 @@ export default function App() {
             }
           }}
         />
+      )}
+      {showRelayCascade && (
+        <RelayCascade onClose={() => setShowRelayCascade(false)} />
       )}
     </main>
   );

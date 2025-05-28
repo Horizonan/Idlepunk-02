@@ -201,6 +201,9 @@ export default function CheatMenu({ onReset, onAddJunk, onClose, onResetTutorial
                 const randomTemplate = emailStore.emailTemplates[Math.floor(Math.random() * emailStore.emailTemplates.length)];
                 emailStore.addEmail(randomTemplate);
               }}>Trigger Next Email</button>
+              <button onClick={() => {
+                window.dispatchEvent(new CustomEvent('launchRelayCascade'));
+              }}>Launch Relay Cascade</button>
             </div>
           )}
         </div>

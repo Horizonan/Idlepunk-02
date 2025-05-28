@@ -66,6 +66,7 @@ export const useGameState = () => {
   const [showQuestLog, setShowQuestLog] = useState(false);
   const [showTooltips, setShowTooltips] = useState(false);
   const [showInventory, setShowInventory] = useState(false);
+  const [showRelayCascade, setShowRelayCascade] = useState(false);
 
   //Enable Settings Gamestates
   const [enableHoloBillboard, setEnableHoloBillboard] = useState(() => localStorage.getItem('enableHoloBillboard') !== 'false');
@@ -232,7 +233,9 @@ return {
     showSettings, setShowSettings, showUpgradeStats, setShowUpgradeStats, enableHoloBillboard, setEnableHoloBillboard,
     showCrystal, setShowCrystal, showTrashBonus, setShowTrashBonus, showQuestLog, setShowQuestLog, showNewsTicker, setShowNewsTicker,
     prestigeQuestCompleted, setPrestigeQuestCompleted, showClickEnhancerUI, setShowClickEnhancerUI, craftingInventory, setCraftingInventory,
-    showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory, activeCheatsList, setActiveCheatsList,
+    showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory,
+    showRelayCascade,
+    setShowRelayCascade, activeCheatsList, setActiveCheatsList,
     itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, setSkillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, bulkBuy, setBulkBuy, showJunkDrone, setShowJunkDrone, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup,
     enableHoldToClick,
     setEnableHoldToClick, permanentAutoClicks, setPermanentAutoClicks,
