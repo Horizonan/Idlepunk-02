@@ -188,6 +188,7 @@ export default function App() {
     window.addEventListener('quantumTapTriggered', handleQuantumTapTriggered);
 
     return () => {
+      window.removeEventListener('updateSurgeCount', handleUpdateSurgeCount);
       window.removeEventListener('addMaterial', handleAddMaterial);
       window.removeEventListener('validateAchievements', handleValidateAchievements);
       window.removeEventListener('keydown', handleKeyPress);
@@ -659,7 +660,6 @@ export default function App() {
       setTronics(prev => prev + ((quantumProc ? amount * 3 : amount) * electroMultiplier));
 
       if (quantumProc) {
-        setNotifications(prev => [...prev, "Quantum Tap triggered! 3x Tronics gained!"]);
         window.dispatchEvent(new CustomEvent('quantumTapTriggered'));
       }
     }
