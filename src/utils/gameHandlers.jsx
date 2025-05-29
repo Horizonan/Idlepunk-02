@@ -373,24 +373,20 @@ export const gameHandlers = (gameState, setGameState) => {
     }
   }
 
-  {
+  const handleBuyTronicsBoostII = () => {
+    if (gameState.tronics >= gameState.itemCosts.tronicsBoostII) {
+      const costData = gameState.bulkBuy ? calculate10xPrice01(gameState.itemCosts.tronicsBoostII) : {
+        totalCost: gameState.itemCosts.tronicsBoostII,
+        endCost: Math.floor(gameState.itemCosts.tronicsBoostII * 1.2)
+      };
 
-    const handleBuyTronicsBoostII = () => {
-
-          if (gameState.tronics >= gameState.itemCosts.tronicsBoostII) {
-
-            const costData = gameState.bulkBuy ? calculate10xPrice01(gameState.itemCosts.tronicsBoostII) : {
-              totalCost: gameState.itemCosts.tronicsBoostII,
-              endCost: Math.floor(gameState.itemCosts.tronicsBoostII * 1.2)
-            };
-
-            localStorage.setItem('tronics_boost_II_count', (parseInt(localStorage.getItem('tronics_boost_II_count') || '0') + (gameState.bulkBuy ? 10 : 1)).toString());
-            setGameState.setItemCosts(prev => ({...prev, tronicsBoostII: Math.floor(costData.endCost)}));
-            setGameState.setTronics(prev => prev - costData.totalCost);
-            setGameState.setNotifications(prev => [...prev, "Tronics Click Boost II purchased! +2 Tronics per click"]);
-            incrementUpgradeCount();
-          }
+      localStorage.setItem('tronics_boost_II_count', (parseInt(localStorage.getItem('tronics_boost_II_count') || '0') + (gameState.bulkBuy ? 10 : 1)).toString());
+      setGameState.setItemCosts(prev => ({...prev, tronicsBoostII: Math.floor(costData.endCost)}));
+      setGameState.setTronics(prev => prev - costData.totalCost);
+      setGameState.setNotifications(prev => [...prev, "Tronics Click Boost II purchased! +2 Tronics per click"]);
+      incrementUpgradeCount();
     }
+  }
 
     const handleBuyFlowRegulator = () => {
       if (gameState.tronics >= 3000 && !localStorage.getItem('flow_regulator_purchased')) {
