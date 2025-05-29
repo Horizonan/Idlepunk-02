@@ -52,6 +52,7 @@ import HoloBillboard from './components/Effects/HoloBillboard';
 import TrashBonus from './components/Effects/TrashBonus';
 import ShardMiner from './components/Effects/ShardMiner';
 import ScratzMiner from './components/Effects/ScratzMiner';
+import QuantumTapEffect from './components/Effects/QuantumTapEffect';
 
 //Combat
 import ScraptagonCombat from './components/Combat/scrapCombat';
@@ -118,6 +119,7 @@ export default function App() {
   const [showCoinFlip, setShowCoinFlip] = useState(false);
   const [showRelayCascade, setShowRelayCascade] = useState(false);
   const [showMiniGameWindow, setShowMiniGameWindow] = useState(false);
+  const [showQuantumTap, setShowQuantumTap] = useState(false);
 
 
   useEffect(() => {
@@ -174,11 +176,16 @@ export default function App() {
       setShowRelayCascade(true);
     };
 
+    const handleQuantumTapTriggered = () => {
+      setShowQuantumTap(true);
+    };
+
     window.addEventListener('keydown', handleKeyPress);
     window.addEventListener('showCrystal', handleShowCrystal);
     window.addEventListener('slotForceTriple', handleSlotForceTriple);
     window.addEventListener('slotForceDouble', handleSlotForceDouble);
     window.addEventListener('launchRelayCascade', handleLaunchRelayCascade);
+    window.addEventListener('quantumTapTriggered', handleQuantumTapTriggered);
 
     return () => {
       window.removeEventListener('addMaterial', handleAddMaterial);
@@ -188,6 +195,7 @@ export default function App() {
       window.removeEventListener('slotForceTriple', handleSlotForceTriple);
       window.removeEventListener('slotForceDouble', handleSlotForceDouble);
       window.removeEventListener('launchRelayCascade', handleLaunchRelayCascade);
+      window.removeEventListener('quantumTapTriggered', handleQuantumTapTriggered);
     };
   }, []);
 
@@ -1504,6 +1512,12 @@ export default function App() {
       )}
       {showRelayCascade && (
         <RelayCascade onClose={() => setShowRelayCascade(false)} />
+      )}
+      {showQuantumTap && (
+        <QuantumTapEffect 
+          isActive={showQuantumTap}
+          onComplete={() => setShowQuantumTap(false)}
+        />
       )}
     </main>
   );

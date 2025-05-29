@@ -503,6 +503,26 @@ export const gameHandlers = (gameState, setGameState) => {
     }
   };
 
+  const { setTronics, electroMultiplier, electronicsUnlock, setNotifications } = gameState;
+
+  const collectTronics = (amount) => {
+    if (electronicsUnlock) {  
+
+      if (amount === 1) {
+      }
+
+      const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
+      const quantumProc = hasQuantumTap && Math.random() < 0.03;
+
+      setTronics(prev => prev + ((quantumProc ? amount * 3 : amount) * electroMultiplier));
+
+      if (quantumProc) {
+        // Trigger quantum tap visual effect
+        window.dispatchEvent(new CustomEvent('quantumTapTriggered'));
+      }
+    }
+  };
+
   return {
     collectJunk,
     handleBuyTrashBag,
@@ -530,7 +550,7 @@ export const gameHandlers = (gameState, setGameState) => {
     handleBuyCircuitOptimization,
     handleBuyHighFreqTap,
     handleBuyReactiveFeedback,
-    handleBuyScratzMiner
+    handleBuyScratzMiner,
+    collectTronics
   };
-}
 }
