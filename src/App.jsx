@@ -660,6 +660,7 @@ export default function App() {
 
       if (quantumProc) {
         setNotifications(prev => [...prev, "Quantum Tap triggered! 3x Tronics gained!"]);
+        window.dispatchEvent(new CustomEvent('quantumTapTriggered'));
       }
     }
   };
@@ -1513,12 +1514,12 @@ export default function App() {
       {showRelayCascade && (
         <RelayCascade onClose={() => setShowRelayCascade(false)} />
       )}
-      {showQuantumTap && (
+      
+      
         <QuantumTapEffect 
-          isActive={showQuantumTap}
-          onComplete={() => setShowQuantumTap(false)}
-        />
-      )}
+        isActive={showQuantumTap} 
+        onComplete={() => setShowQuantumTap(false)} 
+      />
     </main>
   );
 }
