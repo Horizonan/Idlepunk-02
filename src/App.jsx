@@ -52,7 +52,6 @@ import HoloBillboard from './components/Effects/HoloBillboard';
 import TrashBonus from './components/Effects/TrashBonus';
 import ShardMiner from './components/Effects/ShardMiner';
 import ScratzMiner from './components/Effects/ScratzMiner';
-import QuantumTapEffect from './components/Effects/QuantumTapEffect';
 
 //Combat
 import ScraptagonCombat from './components/Combat/scrapCombat';
@@ -119,7 +118,6 @@ export default function App() {
   const [showCoinFlip, setShowCoinFlip] = useState(false);
   const [showRelayCascade, setShowRelayCascade] = useState(false);
   const [showMiniGameWindow, setShowMiniGameWindow] = useState(false);
-  const [showQuantumTap, setShowQuantumTap] = useState(false);
 
 
   useEffect(() => {
@@ -176,19 +174,13 @@ export default function App() {
       setShowRelayCascade(true);
     };
 
-    const handleQuantumTapTriggered = () => {
-      setShowQuantumTap(true);
-    };
-
     window.addEventListener('keydown', handleKeyPress);
     window.addEventListener('showCrystal', handleShowCrystal);
     window.addEventListener('slotForceTriple', handleSlotForceTriple);
     window.addEventListener('slotForceDouble', handleSlotForceDouble);
     window.addEventListener('launchRelayCascade', handleLaunchRelayCascade);
-    window.addEventListener('quantumTapTriggered', handleQuantumTapTriggered);
 
     return () => {
-      window.removeEventListener('updateSurgeCount', handleUpdateSurgeCount);
       window.removeEventListener('addMaterial', handleAddMaterial);
       window.removeEventListener('validateAchievements', handleValidateAchievements);
       window.removeEventListener('keydown', handleKeyPress);
@@ -196,7 +188,6 @@ export default function App() {
       window.removeEventListener('slotForceTriple', handleSlotForceTriple);
       window.removeEventListener('slotForceDouble', handleSlotForceDouble);
       window.removeEventListener('launchRelayCascade', handleLaunchRelayCascade);
-      window.removeEventListener('quantumTapTriggered', handleQuantumTapTriggered);
     };
   }, []);
 
@@ -649,7 +640,6 @@ export default function App() {
 
 
   const collectTronics = (amount) => {
-    console.log('App.jsx collectTronics called with amount:', amount);
     if (electronicsUnlock) {  
 
       if (amount === 1) {
@@ -661,8 +651,7 @@ export default function App() {
       setTronics(prev => prev + ((quantumProc ? amount * 3 : amount) * electroMultiplier));
 
       if (quantumProc) {
-        console.log('⚡ QUANTUM TAP ACTIVATED in App.jsx! 3x Tronics gained');
-        window.dispatchEvent(new CustomEvent('quantumTapTriggered'));
+        setNotifications(prev => [...prev, "Quantum Tap triggered! 3x Tronics gained!"]);
       }
     }
   };
@@ -1516,12 +1505,6 @@ export default function App() {
       {showRelayCascade && (
         <RelayCascade onClose={() => setShowRelayCascade(false)} />
       )}
-
-
-        <QuantumTapEffect 
-        isActive={showQuantumTap} 
-        onComplete={() => setShowQuantumTap(false)} 
-      />
     </main>
   );
 }
