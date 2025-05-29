@@ -1516,8 +1516,8 @@ export default function App() {
       {showRelayCascade && (
         <RelayCascade onClose={() => setShowRelayCascade(false)} />
       )}
-      
-      
+
+
         <QuantumTapEffect 
         isActive={showQuantumTap} 
         onComplete={() => setShowQuantumTap(false)} 
