@@ -649,6 +649,7 @@ export default function App() {
 
 
   const collectTronics = (amount) => {
+    console.log('App.jsx collectTronics called with amount:', amount);
     if (electronicsUnlock) {  
 
       if (amount === 1) {
@@ -660,6 +661,7 @@ export default function App() {
       setTronics(prev => prev + ((quantumProc ? amount * 3 : amount) * electroMultiplier));
 
       if (quantumProc) {
+        console.log('⚡ QUANTUM TAP ACTIVATED in App.jsx! 3x Tronics gained');
         window.dispatchEvent(new CustomEvent('quantumTapTriggered'));
       }
     }

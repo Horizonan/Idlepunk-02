@@ -506,13 +506,17 @@ export const gameHandlers = (gameState, setGameState) => {
   const { setTronics, electroMultiplier, electronicsUnlock, setNotifications } = gameState;
 
   const collectTronics = (amount) => {
+    console.log('collectTronics called with amount:', amount);
     if (electronicsUnlock) {  
+      console.log('Electronics unlock is true');
 
       if (amount === 1) {
       }
 
       const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
+      console.log('hasQuantumTap:', hasQuantumTap);
       const quantumProc = hasQuantumTap && Math.random() < 0.03;
+      console.log('quantumProc:', quantumProc);
 
       setTronics(prev => prev + ((quantumProc ? amount * 3 : amount) * electroMultiplier));
 
@@ -521,6 +525,8 @@ export const gameHandlers = (gameState, setGameState) => {
         // Trigger quantum tap visual effect
         window.dispatchEvent(new CustomEvent('quantumTapTriggered'));
       }
+    } else {
+      console.log('Electronics unlock is false');
     }
   };
 
