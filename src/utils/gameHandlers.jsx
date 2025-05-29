@@ -517,6 +517,7 @@ export const gameHandlers = (gameState, setGameState) => {
       setTronics(prev => prev + ((quantumProc ? amount * 3 : amount) * electroMultiplier));
 
       if (quantumProc) {
+        console.log('⚡ QUANTUM TAP ACTIVATED! 3x Tronics gained');
         // Trigger quantum tap visual effect
         window.dispatchEvent(new CustomEvent('quantumTapTriggered'));
       }
