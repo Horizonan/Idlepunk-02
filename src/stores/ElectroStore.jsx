@@ -42,7 +42,7 @@ export default function ElectroStore({
       name: "⚡ Tronics Click Boost II",
       cost: { tronics: bulkBuy ? caluclatePricex02(itemCosts.tronicsBoostII).totalCost : itemCosts.tronicsBoostII, },
       description: "+2 Tronics per click",
-      info: "Now with extra voltage. May void warranty.",
+      info: "Now with extra voltage. May void warranty. Requires Tronics Boost I to be unlocked. Does not consume Tronics Boost I.",
       action: onBuyTronicsBoostII,
       purchasedCount: parseInt(localStorage.getItem('tronics_boost_II_count') || '0'),
       unlockCondition: () => localStorage.getItem('unlocked_tronics_boost') && localStorage.getItem('tronics_boost_count') && tronics >= itemCosts.tronicsBoostII
