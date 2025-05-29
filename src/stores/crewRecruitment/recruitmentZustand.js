@@ -230,7 +230,7 @@ export const useRecruitmentZustand = create(
           // 50% chance for mini-game
           const roll = Math.random();
           console.log(`🎯 Mini-game roll: ${(roll * 100).toFixed(1)}% (needed: <50.0%)`, roll < 0.5 ? '✅ TRIGGERED!' : '❌ No mini-game');
-          
+
           if (roll < 0.5) {
             set({
               showMiniGame: true,
@@ -241,30 +241,32 @@ export const useRecruitmentZustand = create(
         }
       },
 
-      completeMiniGame: (success = false) => {
+      completeMiniGame: (success) => {
         const state = get();
-        
+        if (!state.showMiniGame) return;
+
+        const now = Date.now();
+        let miniGameBonus = { rewardChanceBonus: 0, successPenalty: 0 };
+
         if (success) {
-          // Success: reduce timer by 1 minute and increase reward chances by 5%
-          console.log('🎯 Mini-game SUCCESS! Timer reduced by 1 minute, reward chances increased by 5%');
+          // Success: +5% reward chance, -1 minute from timer
+          miniGameBonus.rewardChanceBonus = 0.05;
+          // Subtract 1 minute (60000ms) from the mission duration by subtracting from paused time
           set({
             showMiniGame: false,
-            missionStartTime: Date.now() + 60000, // Add 1 minute to start time (effectively reducing remaining time)
-            miniGameBonus: {
-              rewardChanceBonus: 0.05,
-              successPenalty: 0
-            }
+            lastMiniGameCheck: now,
+            missionPausedTime: state.missionPausedTime - 60000, // Subtract 1 minute from paused time (reduces total time)
+            miniGameBonus
           });
         } else {
-          // Failure: increase timer by 1 minute and reduce success chance by 10%
-          console.log('❌ Mini-game FAILED! Timer increased by 1 minute, success chance reduced by 10%');
+          // Failure: -10% success chance, +1 minute to timer
+          miniGameBonus.successPenalty = 0.1;
+          // Add 1 minute to the mission duration by adding to paused time
           set({
             showMiniGame: false,
-            missionStartTime: Date.now() - 60000, // Subtract 1 minute from start time (effectively increasing remaining time)
-            miniGameBonus: {
-              rewardChanceBonus: 0,
-              successPenalty: 0.1
-            }
+            lastMiniGameCheck: now,
+            missionPausedTime: state.missionPausedTime + 60000, // Add 1 minute to paused time (increases total time)
+            miniGameBonus
           });
         }
       },
