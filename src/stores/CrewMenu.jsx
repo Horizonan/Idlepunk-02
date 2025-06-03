@@ -4,6 +4,7 @@ import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
 import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
 import { missions, calculateMissionSuccess } from "./crewRecruitment/missions";
 import { equipmentDatabase, getAllEquipment } from "./crewRecruitment/equipment";
+import StaminaTimer from '../components/StaminaTimer';
 
 
 export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }) {
@@ -86,6 +87,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
         return (
           <div className="crew-content">
             <h3>Current Crew</h3>
+            <StaminaTimer />
             <div className="crew-grid">
               {hiredCrew.map((crew) => (
                 <div key={crew.id} className="crew-slot active">

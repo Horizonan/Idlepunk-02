@@ -425,6 +425,47 @@
   color: #FF0000;
 }
 
+.stamina-timer {
+  background: rgba(0, 0, 0, 0.8);
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #00FF00;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: monospace;
+  margin: 15px 0;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+.stamina-timer-icon {
+  font-size: 1.4em;
+  color: #00FF00;
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+}
+
+.stamina-timer-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stamina-timer-label {
+  font-size: 0.8em;
+  color: #00FF00;
+  opacity: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stamina-timer-countdown {
+  font-size: 1.1em;
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
 .success-chance {
   text-align: center;
   font-size: 1.2em;
