@@ -6,6 +6,7 @@ export default function JunkTerminal() {
   const emails = useEmailStore((state) => state.emails);
   const markAsRead = useEmailStore((state) => state.markAsRead);
   const [selectedEmail, setSelectedEmail] = useState(null);
+  const [unlockedButtons, setUnlockedButtons] = useState(new Set());
 
   useEffect(() => {
     useEmailStore.getState().initializeEmailSystem();
@@ -23,11 +24,26 @@ export default function JunkTerminal() {
   };
 
   const handleUnlockButton = (email) => {
-    // Implement the logic to unlock the lore fragment here
-    // This might involve updating a state or calling a function
-    // from a lore store to unlock the relevant fragment.
-    console.log("Unlock button clicked for email:", email);
+    if (email.unlockFragment) {
+      unlockLoreFragment(email.unlockFragment);
+      setUnlockedButtons(prev => new Set(prev.add(email.id)));
+    }
   };
+
+  const unlockLoreFragment = (fragmentId) => {
+    // Placeholder: Implement the actual lore fragment unlocking logic using a lore store
+    console.log(`Unlocking lore fragment: ${fragmentId}`);
+    // Example (replace with your actual lore store logic):
+    // useLoreStore.getState().unlockFragment(fragmentId);
+  };
+
+  const isFragmentUnlocked = (fragmentId) => {
+    // Placeholder: Implement the logic to check if a fragment is already unlocked.
+    // Example (replace with your actual lore store logic):
+    // return useLoreStore.getState().isFragmentUnlocked(fragmentId);
+    return false; // Default to false, replace with actual check.
+  };
+
 
   const unreadEmails = emails.filter(email => !email.read);
   const readEmails = emails.filter(email => email.read);
@@ -59,15 +75,18 @@ export default function JunkTerminal() {
                   <div className="email-content">
                     <h4>{selectedEmail.subject}</h4>
                     <p className="email-sender">From: {selectedEmail.from}</p>
-                    <p className="email-body">{selectedEmail.content}</p>
-                    {selectedEmail.hasButton && (
-                      <button 
-                        className="unlock-button"
-                        onClick={() => handleUnlockButton(selectedEmail)}
-                      >
-                        {selectedEmail.buttonText}
-                      </button>
-                    )}
+                    <div className="email-body">
+                      {selectedEmail.content}
+                      {selectedEmail.hasButton && (
+                        <button 
+                          className={`unlock-button ${unlockedButtons.has(selectedEmail.id) || (selectedEmail.unlockFragment && isFragmentUnlocked(selectedEmail.unlockFragment)) ? 'unlocked' : ''}`}
+                          onClick={() => handleUnlockButton(selectedEmail)}
+                          disabled={unlockedButtons.has(selectedEmail.id) || (selectedEmail.unlockFragment && isFragmentUnlocked(selectedEmail.unlockFragment))}
+                        >
+                          {unlockedButtons.has(selectedEmail.id) || (selectedEmail.unlockFragment && isFragmentUnlocked(selectedEmail.unlockFragment)) ? 'UNLOCKED' : selectedEmail.buttonText}
+                        </button>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
@@ -96,15 +115,18 @@ export default function JunkTerminal() {
                   <div className="email-content">
                     <h4>{selectedEmail.subject}</h4>
                     <p className="email-sender">From: {selectedEmail.from}</p>
-                    <p className="email-body">{selectedEmail.content}</p>
-                    {selectedEmail.hasButton && (
-                      <button 
-                        className="unlock-button"
-                        onClick={() => handleUnlockButton(selectedEmail)}
-                      >
-                        {selectedEmail.buttonText}
-                      </button>
-                    )}
+                    <div className="email-body">
+                      {selectedEmail.content}
+                      {selectedEmail.hasButton && (
+                        <button 
+                          className={`unlock-button ${unlockedButtons.has(selectedEmail.id) || (selectedEmail.unlockFragment && isFragmentUnlocked(selectedEmail.unlockFragment)) ? 'unlocked' : ''}`}
+                          onClick={() => handleUnlockButton(selectedEmail)}
+                          disabled={unlockedButtons.has(selectedEmail.id) || (selectedEmail.unlockFragment && isFragmentUnlocked(selectedEmail.unlockFragment))}
+                        >
+                          {unlockedButtons.has(selectedEmail.id) || (selectedEmail.unlockFragment && isFragmentUnlocked(selectedEmail.unlockFragment)) ? 'UNLOCKED' : selectedEmail.buttonText}
+                        </button>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>

@@ -130,3 +130,21 @@
   background: rgba(0, 255, 0, 0.2);
   box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
 }
+
+.unlock-button.unlocked {
+  background: rgba(0, 255, 0, 0.3);
+  border-color: #44AA44;
+  color: #44AA44;
+  cursor: default;
+  opacity: 0.7;
+}
+
+.unlock-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.unlock-button.unlocked:hover {
+  background: rgba(0, 255, 0, 0.3);
+  box-shadow: none;
+}
