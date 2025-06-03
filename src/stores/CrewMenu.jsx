@@ -10,7 +10,8 @@ import StaminaTimer from '../components/StaminaTimer';
 export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }) {
   const [activeTab, setActiveTab] = useState('view');
   const [showCrewSelect, setShowCrewSelect] = useState(false);
-  const [selectedCrew, setSelectedCrew] = useState([]);
+  const storedSelectedCrew = useRecruitmentZustand(state => state.selectedCrew);
+  const [selectedCrew, setSelectedCrew] = useState(storedSelectedCrew || []);
   const activeMission = useRecruitmentZustand(state => state.activeMission);
   const missionStartTime = useRecruitmentZustand(state => state.missionStartTime);
   const setActiveMission = useRecruitmentZustand(state => state.setActiveMission);
@@ -60,13 +61,18 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
   const toggleCrewSelection = (crewId) => {
     setSelectedCrew(prev => {
+      let newSelection;
       if (prev.includes(crewId)) {
-        return prev.filter(id => id !== crewId);
+        newSelection = prev.filter(id => id !== crewId);
+      } else if (prev.length >= activeMission?.maxCrew) {
+        newSelection = prev;
+      } else {
+        newSelection = [...prev, crewId];
       }
-      if (prev.length >= activeMission?.maxCrew) {
-        return prev;
-      }
-      return [...prev, crewId];
+      
+      // Update zustand store
+      useRecruitmentZustand.setState({ selectedCrew: newSelection });
+      return newSelection;
     });
   };
 
@@ -353,6 +359,8 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         <button onClick={() => {
                           setShowCrewSelect(false);
                           setActiveMission(null);
+                          setSelectedCrew([]);
+                          useRecruitmentZustand.setState({ selectedCrew: [] });
                         }}>Cancel</button>
                         <button 
                           onClick={() => startMission(mission)}
@@ -559,8 +567,11 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                             setActiveMission(null);
                             setSelectedCrew([]);
                             
-                            // Reset mini-game bonus state
-                            useRecruitmentZustand.setState({ miniGameBonus: { rewardChanceBonus: 0, successPenalty: 0 } });
+                            // Reset mini-game bonus state and clear selected crew from store
+                            useRecruitmentZustand.setState({ 
+                              miniGameBonus: { rewardChanceBonus: 0, successPenalty: 0 },
+                              selectedCrew: []
+                            });
                           }}
                         >
                           Complete Mission
