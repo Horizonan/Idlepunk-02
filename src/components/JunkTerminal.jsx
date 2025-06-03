@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useEmailStore } from '../utils/emailStore';
+import { useLoreStore } from '../utils/loreStore';
 import './JunkTerminal.css';
 
 export default function JunkTerminal() {
   const emails = useEmailStore((state) => state.emails);
   const markAsRead = useEmailStore((state) => state.markAsRead);
+  const unlockFragment = useLoreStore((state) => state.unlockFragment);
+  const isFragmentUnlocked = useLoreStore((state) => state.isFragmentUnlocked);
   const [selectedEmail, setSelectedEmail] = useState(null);
   const [unlockedButtons, setUnlockedButtons] = useState(new Set());
 
@@ -31,17 +34,8 @@ export default function JunkTerminal() {
   };
 
   const unlockLoreFragment = (fragmentId) => {
-    // Placeholder: Implement the actual lore fragment unlocking logic using a lore store
     console.log(`Unlocking lore fragment: ${fragmentId}`);
-    // Example (replace with your actual lore store logic):
-    // useLoreStore.getState().unlockFragment(fragmentId);
-  };
-
-  const isFragmentUnlocked = (fragmentId) => {
-    // Placeholder: Implement the logic to check if a fragment is already unlocked.
-    // Example (replace with your actual lore store logic):
-    // return useLoreStore.getState().isFragmentUnlocked(fragmentId);
-    return false; // Default to false, replace with actual check.
+    unlockFragment(fragmentId);
   };
 
 
