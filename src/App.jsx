@@ -661,7 +661,8 @@ export default function App() {
       if (quantumProc) {
         const newNotification = {
           id: Date.now() + Math.random(),
-          mousePosition: { ...mousePosition }
+          mousePosition: { ...mousePosition },
+          offset: quantumTapNotifications.length * 30
         };
         setQuantumTapNotifications(prev => [...prev, newNotification]);
       }

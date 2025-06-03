@@ -5,12 +5,14 @@ import './QuantumTapNotification.css';
 export default function QuantumTapNotification({ notifications, onRemoveNotification }) {
   useEffect(() => {
     notifications.forEach(notification => {
-      const timer = setTimeout(() => {
-        onRemoveNotification(notification.id);
-      }, 2000);
+      if (!notification.timerId) {
+        const timer = setTimeout(() => {
+          onRemoveNotification(notification.id);
+        }, 2000);
 
-      // Store timer ID for cleanup
-      notification.timerId = timer;
+        // Store timer ID for cleanup
+        notification.timerId = timer;
+      }
     });
 
     // Cleanup timers on unmount or when notifications change
@@ -31,7 +33,7 @@ export default function QuantumTapNotification({ notifications, onRemoveNotifica
           className="quantum-tap-notification"
           style={{
             left: notification.mousePosition.x + 15,
-            top: notification.mousePosition.y - 10 + (notifications.indexOf(notification) * 30)
+            top: notification.mousePosition.y - 10 + (notification.offset || 0)
           }}
         >
           Quantum Tap Triggered!
