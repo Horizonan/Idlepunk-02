@@ -150,7 +150,7 @@ export default function Store({
       name: "Auto Clicker Bot V2",
       cost: { junk: bulkBuy ? calculate10xPriceBillBoard(itemCosts.autoClickerV2).totalCost : itemCosts.autoClickerV2 },
       description:
-        "Auto Clicker Bot v2.0 – Upgraded to 2 clicks/sec. Now 12% less annoying.",
+        "Auto Clicker Bot v2.0 – Upgraded to 2 clicks/sec. Now 12% less annoying. (Consumes Auto Clicker V1)",
       disabled: !canAffordV2,
       unlockCondition: () => onGetAutoClickersV1 > 1,
       purchasedCount: onGetAutoClickersV2,
