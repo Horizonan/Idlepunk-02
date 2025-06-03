@@ -124,7 +124,7 @@ export const validateQuests = ({
     },
     { 
       title: "Tool Master", 
-      condition: clickMultiplier > 1,
+      condition: clickMultiplier > 5,
       category: 'progression',
       onComplete: () => {
         setElectroShards(prev => {
@@ -137,7 +137,7 @@ export const validateQuests = ({
     },
     { 
       title: "Passive Income", 
-      condition: totalPassiveIncome > 0,
+      condition: totalPassiveIncome > 10,
       category: 'progression'
     },
     {
