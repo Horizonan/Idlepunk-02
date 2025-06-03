@@ -87,7 +87,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
         return (
           <div className="crew-content">
             <h3>Current Crew</h3>
-            <StaminaTimer />
+           
             <div className="crew-grid">
               {hiredCrew.map((crew) => (
                 <div key={crew.id} className="crew-slot active">
@@ -131,8 +131,10 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                 </div>
               ))}
             </div>
+             <StaminaTimer />
           </div>
         );
+        
       case 'recruit':
         return (
           <div className="crew-content">
