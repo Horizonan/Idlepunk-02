@@ -213,7 +213,7 @@ export const validateQuests = ({
     },
     {
       title: "Whispers in the Scrap",
-      condition: (cogfatherLore.length >= 10 || junk >= 12500000),
+      condition: (cogfatherLore.length >= 10 || junk >= 20000000),
       category: 'ascension',
       onComplete: () => {
         setCraftingInventory(prev => ({
