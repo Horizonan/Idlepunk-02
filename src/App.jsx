@@ -565,7 +565,7 @@ export default function App() {
     if ((totalPassiveIncome >= 100 || junk >= 1000000)) {
       localStorage.setItem('prestigeUnlocked', 'true');
     }
-    if ((totalPassiveIncome >= 100 || junk >= 1000000) && !localStorage.getItem('cogfatherEvent')) {
+    if ((totalPassiveIncome >= 100 || junk >= 4000000) && !localStorage.getItem('cogfatherEvent')) {
       setNotifications(prev => [...prev, "The Cogfather wants to speak with you about your progress..."]);
       localStorage.setItem('cogfatherEvent', 'true');
     }
@@ -689,17 +689,15 @@ export default function App() {
       if (!localStorage.getItem('shown_questlog_hint')) {
         localStorage.setItem('shown_questlog_hint', 'true');
 
-
         const questLogBtn = document.querySelector('.quest-log-toggle');
         const mainQuestLog = document.querySelector('.quest-log');
         if (questLogBtn) questLogBtn.classList.add('quest-log-attention');
         if (mainQuestLog) mainQuestLog.classList.add('quest-log-attention');
 
-
         const cogfatherMessage = (
           <div className="cogfather-message-popup">
             <img src="Icons/NPCs/Cogfather.jfif" alt="Cogfather" />
-            <p>A million pieces of junk? Now that's what I call a beautiful mess. Check your quest log, kid - you're ready for bigger things.</p>
+            <p>A million pieces of junk? Now that's what I call a beautiful mess. Keep collecting - there's more to discover.</p>
             <button onClick={() => {
               setShowQuestLog(true);
               setNotifications(prev => prev.filter(n => typeof n !== 'object'));
