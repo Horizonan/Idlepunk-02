@@ -120,7 +120,7 @@ export default function App() {
   const [showRelayCascade, setShowRelayCascade] = useState(false);
   const [showMiniGameWindow, setShowMiniGameWindow] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [showQuantumTapNotification, setShowQuantumTapNotification] = useState(false);
+  const [quantumTapNotifications, setQuantumTapNotifications] = useState([]);
 
 
   useEffect(() => {
@@ -659,7 +659,11 @@ export default function App() {
       setTronics(prev => prev + ((quantumProc ? amount * 3 : amount) * electroMultiplier));
 
       if (quantumProc) {
-        setShowQuantumTapNotification(true);
+        const newNotification = {
+          id: Date.now() + Math.random(),
+          mousePosition: { ...mousePosition }
+        };
+        setQuantumTapNotifications(prev => [...prev, newNotification]);
       }
     }
   };
@@ -1513,10 +1517,12 @@ export default function App() {
       {showRelayCascade && (
         <RelayCascade onClose={() => setShowRelayCascade(false)} />
       )}
-      {showQuantumTapNotification && (
+      {quantumTapNotifications.length > 0 && (
         <QuantumTapNotification
-          mousePosition={mousePosition}
-          onComplete={() => setShowQuantumTapNotification(false)}
+          notifications={quantumTapNotifications}
+          onRemoveNotification={(id) => {
+            setQuantumTapNotifications(prev => prev.filter(notification => notification.id !== id));
+          }}
         />
       )}
     </main>

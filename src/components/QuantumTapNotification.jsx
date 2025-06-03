@@ -2,29 +2,41 @@
 import React, { useState, useEffect } from 'react';
 import './QuantumTapNotification.css';
 
-export default function QuantumTapNotification({ mousePosition, onComplete }) {
-  const [isVisible, setIsVisible] = useState(true);
-
+export default function QuantumTapNotification({ notifications, onRemoveNotification }) {
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-      onComplete();
-    }, 2000);
+    notifications.forEach(notification => {
+      const timer = setTimeout(() => {
+        onRemoveNotification(notification.id);
+      }, 2000);
 
-    return () => clearTimeout(timer);
-  }, [onComplete]);
+      // Store timer ID for cleanup
+      notification.timerId = timer;
+    });
 
-  if (!isVisible) return null;
+    // Cleanup timers on unmount or when notifications change
+    return () => {
+      notifications.forEach(notification => {
+        if (notification.timerId) {
+          clearTimeout(notification.timerId);
+        }
+      });
+    };
+  }, [notifications, onRemoveNotification]);
 
   return (
-    <div 
-      className="quantum-tap-notification"
-      style={{
-        left: mousePosition.x + 15,
-        top: mousePosition.y - 10
-      }}
-    >
-      Quantum Tap Triggered!
-    </div>
+    <>
+      {notifications.map(notification => (
+        <div 
+          key={notification.id}
+          className="quantum-tap-notification"
+          style={{
+            left: notification.mousePosition.x + 15,
+            top: notification.mousePosition.y - 10 + (notifications.indexOf(notification) * 30)
+          }}
+        >
+          Quantum Tap Triggered!
+        </div>
+      ))}
+    </>
   );
 }
