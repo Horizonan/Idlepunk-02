@@ -389,15 +389,319 @@
   }
 
   /* Crew menu mobile */
-  .crew-container {
-    width: 95% !important;
-    height: 85vh !important;
-    padding: 15px !important;
+  .crew-menu {
+    width: 95vw !important;
+    height: 90vh !important;
+    max-height: 90vh !important;
+    padding: 10px !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    overflow-y: auto !important;
+  }
+
+  .crew-header {
+    padding: 10px !important;
+    margin-bottom: 15px !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    text-align: center !important;
+  }
+
+  .crew-header h2 {
+    font-size: 1.2em !important;
+    margin: 0 !important;
+  }
+
+  .crew-tabs {
+    flex-wrap: wrap !important;
+    gap: 5px !important;
+    margin-bottom: 15px !important;
+    justify-content: center !important;
+  }
+
+  .crew-tab-button {
+    padding: 8px 12px !important;
+    font-size: 0.8em !important;
+    flex: 1 !important;
+    min-width: 70px !important;
+    text-align: center !important;
+  }
+
+  .crew-content {
+    padding: 12px !important;
+  }
+
+  .crew-content h3 {
+    font-size: 1.1em !important;
+    margin-bottom: 15px !important;
   }
 
   .crew-grid {
     grid-template-columns: 1fr !important;
     gap: 12px !important;
+  }
+
+  .crew-slot {
+    padding: 15px !important;
+    text-align: center !important;
+  }
+
+  .crew-stats {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px !important;
+    font-size: 0.9em !important;
+  }
+
+  .stamina-bar {
+    grid-column: 1 / -1 !important;
+  }
+
+  .recruit-list {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+  }
+
+  .recruit-card {
+    padding: 15px !important;
+  }
+
+  .mission-list {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+  }
+
+  .mission-card {
+    padding: 15px !important;
+  }
+
+  .mission-requirements,
+  .mission-rewards {
+    flex-direction: column !important;
+    gap: 5px !important;
+  }
+
+  .mission-requirements span,
+  .mission-rewards span {
+    font-size: 0.9em !important;
+  }
+
+  .crew-selection-modal {
+    width: 95vw !important;
+    max-width: 350px !important;
+    height: auto !important;
+    max-height: 80vh !important;
+    overflow-y: auto !important;
+    padding: 15px !important;
+  }
+
+  .crew-selection-header {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 10px !important;
+    text-align: center !important;
+  }
+
+  .crew-selection-list {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  .crew-selection-item {
+    padding: 12px !important;
+  }
+
+  .mission-requirements-display {
+    padding: 10px !important;
+  }
+
+  .stat-comparison {
+    grid-template-columns: 1fr !important;
+    gap: 5px !important;
+  }
+
+  .crew-selection-actions {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  .crew-selection-actions button {
+    width: 100% !important;
+    padding: 12px !important;
+  }
+
+  .ongoing-mission {
+    padding: 15px !important;
+  }
+
+  .assigned-crew-list {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  .assigned-crew-member {
+    padding: 8px !important;
+  }
+
+  .loadout-section {
+    margin-bottom: 20px !important;
+  }
+
+  .equipment-inventory {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  .equipment-item {
+    flex-direction: column !important;
+    text-align: center !important;
+    padding: 12px !important;
+  }
+
+  .equipment-icon {
+    font-size: 1.5em !important;
+    margin-bottom: 8px !important;
+  }
+
+  .equipment-stats {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+
+  .crew-loadouts {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+  }
+
+  .crew-loadout-card {
+    padding: 15px !important;
+  }
+
+  .loadout-slots {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  .loadout-slot {
+    min-height: 100px !important;
+    padding: 12px !important;
+  }
+
+  .effective-stats {
+    padding: 8px !important;
+  }
+
+  .stats-display {
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+  }
+
+  .stats-display span {
+    font-size: 0.8em !important;
+  }
+
+  .recruitment-modal {
+    padding: 10px !important;
+  }
+
+  .recruitment-modal-content {
+    padding: 15px !important;
+    max-width: 95vw !important;
+    max-height: 80vh !important;
+    overflow-y: auto !important;
+  }
+
+  .search-recruits-button {
+    width: 100% !important;
+    padding: 12px !important;
+    font-size: 16px !important;
+  }
+
+  .recruit-button {
+    padding: 12px !important;
+    font-size: 14px !important;
+  }
+
+  .mission-button {
+    padding: 12px !important;
+    font-size: 14px !important;
+  }
+
+  .complete-mission-button {
+    width: 100% !important;
+    padding: 12px !important;
+    font-size: 16px !important;
+  }
+
+  .fire-crew-button {
+    width: 100% !important;
+    padding: 10px !important;
+    font-size: 14px !important;
+    margin-top: 10px !important;
+  }
+
+  .mini-game-overlay {
+    padding: 10px !important;
+  }
+
+  .mini-game-container {
+    width: 95vw !important;
+    max-width: 350px !important;
+    padding: 15px !important;
+  }
+
+  .mini-game-actions {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  .mini-game-button,
+  .mini-game-skip-button {
+    width: 100% !important;
+    padding: 12px !important;
+  }
+
+  .mission-completion-window .mission-result {
+    width: 95vw !important;
+    max-width: 350px !important;
+    padding: 20px !important;
+    max-height: 80vh !important;
+    overflow-y: auto !important;
+  }
+
+  .equipment-reward,
+  .auto-sold-item {
+    padding: 12px !important;
+    margin: 8px 0 !important;
+  }
+
+  .equipment-stats,
+  .stat-bonus {
+    font-size: 0.8em !important;
+  }
+
+  .stamina-timer {
+    padding: 8px 12px !important;
+    font-size: 0.9em !important;
+    margin: 10px 0 !important;
+  }
+
+  .stamina-timer-icon {
+    font-size: 1.2em !important;
+  }
+
+  .crew-perks {
+    font-size: 0.9em !important;
+    padding: 8px !important;
+  }
+
+  .unlock-cost {
+    padding: 6px !important;
+    margin: 8px 0 !important;
+  }
+
+  .unlock-cost p {
+    font-size: 0.8em !important;
   }
 
   /* Terminal mobile */
@@ -525,6 +829,60 @@
   .shard-miner {
     width: 200px !important;
     font-size: 0.8em !important;
+  }
+
+  /* Crew menu very small screens */
+  .crew-menu {
+    width: 98vw !important;
+    height: 95vh !important;
+    padding: 8px !important;
+  }
+
+  .crew-header {
+    padding: 8px !important;
+  }
+
+  .crew-header h2 {
+    font-size: 1.1em !important;
+  }
+
+  .crew-tab-button {
+    padding: 6px 8px !important;
+    font-size: 0.75em !important;
+    min-width: 60px !important;
+  }
+
+  .crew-content {
+    padding: 8px !important;
+  }
+
+  .crew-slot,
+  .recruit-card,
+  .mission-card {
+    padding: 10px !important;
+  }
+
+  .crew-stats {
+    font-size: 0.8em !important;
+  }
+
+  .crew-selection-modal {
+    width: 98vw !important;
+    padding: 10px !important;
+  }
+
+  .equipment-item {
+    padding: 8px !important;
+  }
+
+  .loadout-slot {
+    min-height: 80px !important;
+    padding: 8px !important;
+  }
+
+  .mission-completion-window .mission-result {
+    width: 98vw !important;
+    padding: 15px !important;
   }
 }
 
