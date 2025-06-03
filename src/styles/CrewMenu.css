@@ -1048,37 +1048,6 @@
   box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
 }
 
-.stamina-timer {
-  position: fixed;
-  top: 160px;
-  right: 20px;
-  z-index: 900;
-  background: rgba(26, 26, 26, 0.95);
-  border: 2px solid #9400D3;
-  border-radius: 8px;
-  padding: 10px 15px;
-  box-shadow: 0 0 10px rgba(148, 0, 211, 0.3);
-}
-
-.stamina-timer-content {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.stamina-icon {
-  font-size: 1.2em;
-  color: #FFD700;
-  text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
-}
-
-.stamina-text {
-  color: #00FF00;
-  font-size: 0.9em;
-  font-weight: bold;
-  white-space: nowrap;
-}
-
 .mini-game-skip-button {
   background: #666;
   color: #ccc;

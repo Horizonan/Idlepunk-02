@@ -122,19 +122,6 @@ export const useRecruitmentZustand = create(
           }));
         }
       },
-
-      getTimeToNextStaminaRecovery: () => {
-        const now = Date.now();
-        const state = get();
-        const timeSinceLastUpdate = now - state.lastStaminaUpdate;
-        const timeToNext = (30 * 60 * 1000) - (timeSinceLastUpdate % (30 * 60 * 1000));
-        return Math.ceil(timeToNext / 1000); // Return in seconds
-      },
-
-      hasCrewWithLowStamina: () => {
-        const state = get();
-        return state.hiredCrew.some(crew => (crew.stamina || 100) < 100);
-      },
   profiles: [],
   currentIndex: 0,
   score: 0,
