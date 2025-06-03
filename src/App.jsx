@@ -68,6 +68,7 @@ import TutorialSystem from './components/TutorialSystem';
 import ActiveCheats from './components/CheatMenu/ActiveCheats';
 import ItemInventory from './stores/ItemInventory';
 import PrestigePopup from './components/PrestigePopup';
+import QuantumTapNotification from './components/QuantumTapNotification';
 import { useEmailStore } from './utils/emailStore';
 
 //Mini game Component
@@ -118,6 +119,8 @@ export default function App() {
   const [showCoinFlip, setShowCoinFlip] = useState(false);
   const [showRelayCascade, setShowRelayCascade] = useState(false);
   const [showMiniGameWindow, setShowMiniGameWindow] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [showQuantumTapNotification, setShowQuantumTapNotification] = useState(false);
 
 
   useEffect(() => {
@@ -125,8 +128,12 @@ export default function App() {
       setSurgeCount(3);
     };
 
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
 
     window.addEventListener('updateSurgeCount', handleUpdateSurgeCount);
+    window.addEventListener('mousemove', handleMouseMove);
 
     const handleAddMaterial = (e) => {
       const { material, amount } = e.detail;
@@ -188,6 +195,7 @@ export default function App() {
       window.removeEventListener('slotForceTriple', handleSlotForceTriple);
       window.removeEventListener('slotForceDouble', handleSlotForceDouble);
       window.removeEventListener('launchRelayCascade', handleLaunchRelayCascade);
+      window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
 
@@ -651,7 +659,7 @@ export default function App() {
       setTronics(prev => prev + ((quantumProc ? amount * 3 : amount) * electroMultiplier));
 
       if (quantumProc) {
-        setNotifications(prev => [...prev, "Quantum Tap triggered! 3x Tronics gained!"]);
+        setShowQuantumTapNotification(true);
       }
     }
   };
@@ -1504,6 +1512,12 @@ export default function App() {
       )}
       {showRelayCascade && (
         <RelayCascade onClose={() => setShowRelayCascade(false)} />
+      )}
+      {showQuantumTapNotification && (
+        <QuantumTapNotification
+          mousePosition={mousePosition}
+          onComplete={() => setShowQuantumTapNotification(false)}
+        />
       )}
     </main>
   );
