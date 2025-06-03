@@ -1,77 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './App.css';
-
-//import gamehandlers
-import { gameHandlers } from './utils/gameHandlers';
-import { useCrystalZustand } from './utils/crystalZustand';
-import { useFlavorEvents } from './utils/flavorEventsStore';
-import CrystalTimer from './components/CrystalTimer';
-
-// Import StoreMenu
-import CraftingStore from './stores/CraftingStore';
-import MenuButtons from './stores/MenuButtons';
-import UpgradeStats from './stores/UpgradeStats';
-import Store from './stores/Store';
-import ElectroStore from './stores/ElectroStore';
-import CrewMenu from './stores/CrewMenu';
-
-//Autoclickers
-import AutoClickerEffect from './components/Effects/Automation/AutoClickerEffect';
-
-//Surges
-import TrashSurge from './components/Effects/surges/TrashSurge';
-import TronicsSurge from './components/Effects/surges/TronicsSurge';
-
-//Side Menu
-import QuestLog from './sideMenu/QuestLog';
-import Achievements from './sideMenu/Achievements';
-import TechTree from './sideMenu/TechTree';
-import Menu from './sideMenu/Menu';
-import Marketplace from './sideMenu/Marketplace';
-import Stats from './sideMenu/Stats';
-import './styles/Stats.css';
-import SlotMachine from './sideMenu/SlotMachine';
-import CoinFlip from './sideMenu/CoinFlip';
-import Tooltips from './sideMenu/GameTips';
-
-//Settings Menu
-import Settings from './components/SideMenu/settingsMenu/Settings';
-import Changelog from './components/SideMenu/settingsMenu/Changelog';
-
-//Utility imports
-import { useAchievements } from './hooks/useAchievements';
-import { validateQuests } from './utils/questValidation';
-import { useGameState } from './hooks/useGameState';
-
-//Effects/Animations
-import ClickEnhancerEffect from './components/Effects/ClickEnhancerEffect';
-import DroneEffect from './components/Effects/DroneEffect';
-import HoverDroneEffect from './components/Effects/HoverDroneEffect';
-import FlyingCrystal from './components/Effects/FlyingCrystal';
-import HoloBillboard from './components/Effects/HoloBillboard';
-import TrashBonus from './components/Effects/TrashBonus';
-import ShardMiner from './components/Effects/ShardMiner';
-import ScratzMiner from './components/Effects/ScratzMiner';
-
-//Combat
-import ScraptagonCombat from './components/Combat/scrapCombat';
-
-//Components
-import VersionPopup from './components/VersionPopup/VersionPopup';
 import StatsDisplay from './components/StatsDisplay';
 import Clicker from './components/Clicker';
-import CheatMenu from './components/CheatMenu/CheatMenu';
-import CredStore from './stores/CredStore';
+import Store from './stores/Store';
 import NewsContainer from './components/NewsContainer';
-import Notifications from './components/Notifications';
 import TutorialSystem from './components/TutorialSystem';
-import ActiveCheats from './components/CheatMenu/ActiveCheats';
-import ItemInventory from './stores/ItemInventory';
+import Menu from './sideMenu/Menu';
+import Notifications from './components/Notifications';
+import AutoClickerEffect from './components/Effects/Automation/AutoClickerEffect';
+import { gameHandlers } from './utils/gameHandlers';
+import useGameState from './hooks/useGameState';
+import useAchievements from './hooks/useAchievements';
 import PrestigePopup from './components/PrestigePopup';
-import { useEmailStore } from './utils/emailStore';
-
-//Mini game Component
+import ElectroStore from './stores/ElectroStore';
+import QuestLog from './sideMenu/QuestLog';
+import FlyingCrystal from './components/Effects/FlyingCrystal';
+import Stats from './sideMenu/Stats';
+import Achievements from './sideMenu/Achievements';
+import CrystalTimer from './components/CrystalTimer';
+import HoloBillboard from './components/Effects/HoloBillboard';
+import TechTree from './sideMenu/TechTree';
+import SlotMachine from './sideMenu/SlotMachine';
+import CoinFlip from './sideMenu/CoinFlip';
+import CredStore from './stores/CredStore';
+import ScratzMiner from './components/Effects/ScratzMiner';
+import Marketplace from './sideMenu/Marketplace';
+import ItemInventory from './stores/ItemInventory';
+import CraftingStore from './stores/CraftingStore';
+import UnlockedItems from './components/UnlockedItems';
+import GameTips from './sideMenu/GameTips';
+import TrashSurge from './components/Effects/surges/TrashSurge';
+import TronicsSurge from './components/Effects/surges/TronicsSurge';
+import TrashBonus from './components/Effects/TrashBonus';
+import Settings from './components/SideMenu/settingsMenu/Settings';
+import Changelog from './components/SideMenu/settingsMenu/Changelog';
+import ResetProgress from './components/ResetProgress/ResetProgress';
+import HoverDroneEffect from './components/Effects/HoverDroneEffect';
+import DroneEffect from './components/Effects/DroneEffect';
+import NextQuest from './components/NextQuest';
+import VersionPopup from './components/VersionPopup/VersionPopup';
+import CheatMenu from './components/CheatMenu/CheatMenu';
+import ActiveCheats from './components/CheatMenu/ActiveCheats';
+import UpgradeStats from './stores/UpgradeStats';
+import CrewMenu from './stores/CrewMenu';
+import JunkTerminal from './components/JunkTerminal';
+import StaminaTimer from './components/StaminaTimer';
 import RelayCascade from './components/MiniGames/RelayCascade';
+import RecruitmentGame from './stores/crewRecruitment/RecruitmentGame';
+import Combat from './components/Combat/scrapCombat';
+import QuantumTapNotification from './components/QuantumTapNotification';
 
 
 export default function App() {
@@ -115,6 +92,13 @@ export default function App() {
     setAutoClickerV1Count, autoClickerV1Count, setAutoClickerV2Count, setElectroShards, setElectroMultiplier
   });
 
+  const [showMiniGameWindow, setShowMiniGameWindow] = useState(false);
+  const [showCombat, setShowCombat] = useState(false);
+  const [combatActive, setCombatActive] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [showQuantumTapNotification, setShowQuantumTapNotification] = useState(false);
+
+
   const [showCoinFlip, setShowCoinFlip] = useState(false);
   const [showRelayCascade, setShowRelayCascade] = useState(false);
   const [showMiniGameWindow, setShowMiniGameWindow] = useState(false);
@@ -125,7 +109,11 @@ export default function App() {
       setSurgeCount(3);
     };
 
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
 
+    window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('updateSurgeCount', handleUpdateSurgeCount);
 
     const handleAddMaterial = (e) => {
@@ -188,6 +176,7 @@ export default function App() {
       window.removeEventListener('slotForceTriple', handleSlotForceTriple);
       window.removeEventListener('slotForceDouble', handleSlotForceDouble);
       window.removeEventListener('launchRelayCascade', handleLaunchRelayCascade);
+      window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
 
@@ -651,7 +640,11 @@ export default function App() {
       setTronics(prev => prev + ((quantumProc ? amount * 3 : amount) * electroMultiplier));
 
       if (quantumProc) {
-        setNotifications(prev => [...prev, "Quantum Tap triggered! 3x Tronics gained!"]);
+        setShowQuantumTapNotification(true);
+        setTimeout(() => {
+            setShowQuantumTapNotification(false);
+        }, 2000);
+
       }
     }
   };
@@ -779,7 +772,7 @@ export default function App() {
         onTutorialProgress={(stage) => setTutorialStage(stage)}
       />
       {showNewsTicker && <NewsContainer isSurgeActive={isSurgeActive} />}
-      <TrashSurge isActive={isSurgeActive} isTronicsActive={isTronicsSurgeActive} activeClicker={document.querySelector('.clicker-select.active')?.textContent.includes('Trash') ? 'trash' : 'electronics'} />
+      <TrashSurge isActive{isSurgeActive} isTronicsActive={isTronicsSurgeActive} activeClicker={document.querySelector('.clicker-select.active')?.textContent.includes('Trash') ? 'trash' : 'electronics'} />
 
 
        <TronicsSurge 
@@ -1310,7 +1303,12 @@ export default function App() {
         />
       )}
       <Notifications notifications={notifications} />
-
+       <QuantumTapNotification 
+        show={showQuantumTapNotification}
+        mouseX={mousePosition.x}
+        mouseY={mousePosition.y}
+        onComplete={() => setShowQuantumTapNotification(false)}
+      />
       {ownedItems.shardMiner && (
         <ShardMiner
           onCollect={(amount) => {
