@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useRecruitmentZustand } from './crewRecruitment/recruitmentZustand';
+import RecruitmentGame from './crewRecruitment/RecruitmentGame';
+import StaminaTimer from '../components/StaminaTimer';
 import '../styles/CrewMenu.css';
-import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
-import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
 import { missions, calculateMissionSuccess } from "./crewRecruitment/missions";
 import { equipmentDatabase, getAllEquipment } from "./crewRecruitment/equipment";
 
@@ -17,14 +18,14 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   const completeMiniGame = useRecruitmentZustand(state => state.completeMiniGame);
   const [timeLeft, setTimeLeft] = useState(0);
   const [showMiniGameModal, setShowMiniGameModal] = useState(false);
-  
+
 
   useEffect(() => {
     if (activeMission && missionStartTime) {
       const timer = setInterval(() => {
         // Check for mini-game trigger
         useRecruitmentZustand.getState().checkForMiniGame();
-        
+
         // Calculate time remaining using the new method
         const remaining = useRecruitmentZustand.getState().getMissionTimeRemaining();
         setTimeLeft(remaining);
@@ -427,11 +428,11 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                             console.log('Mission requirements:', activeMission.requirements);
 
                             let baseSuccessRate = calculateMissionSuccess(crewStats, activeMission.requirements);
-                            
+
                             // Apply mini-game effects
                             const miniGameBonus = useRecruitmentZustand.getState().miniGameBonus || { rewardChanceBonus: 0, successPenalty: 0 };
                             const finalSuccessRate = Math.max(0, baseSuccessRate - (miniGameBonus.successPenalty * 100));
-                            
+
                             console.log(`Base success rate: ${baseSuccessRate.toFixed(1)}%`);
                             if (miniGameBonus.successPenalty > 0) {
                               console.log(`Mini-game penalty applied: -${(miniGameBonus.successPenalty * 100).toFixed(1)}%`);
@@ -457,7 +458,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                 Object.entries(activeMission.bonusRewards).forEach(([item, bonus]) => {
                                   const bonusChance = bonus.chance + (miniGameBonus.rewardChanceBonus || 0);
                                   console.log(`${item} bonus chance: ${(bonus.chance * 100).toFixed(1)}% + ${((miniGameBonus.rewardChanceBonus || 0) * 100).toFixed(1)}% = ${(bonusChance * 100).toFixed(1)}%`);
-                                  
+
                                   if (Math.random() < bonusChance) {
                                     if (item === 'electroShard') creditsReward += 50 * bonus.amount;
                                     if (item === 'rareJunk') junkReward += bonus.amount;
@@ -554,7 +555,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
                             setActiveMission(null);
                             setSelectedCrew([]);
-                            
+
                             // Reset mini-game bonus state
                             useRecruitmentZustand.setState({ miniGameBonus: { rewardChanceBonus: 0, successPenalty: 0 } });
                           }}
@@ -607,7 +608,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
               </div>
             )}
 
-            
+
           </div>
         );
       case 'loadouts':
@@ -616,11 +617,11 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
         const equipItemToCrew = useRecruitmentZustand(state => state.equipItemToCrew);
         const unequipItemFromCrew = useRecruitmentZustand(state => state.unequipItemFromCrew);
         const getCrewEffectiveStats = useRecruitmentZustand(state => state.getCrewEffectiveStats);
-        
+
         return (
           <div className="crew-content">
             <h3>Crew Loadouts</h3>
-            
+
             <div className="loadout-section">
               <h4>Available Equipment</h4>
               <div className="equipment-inventory">
@@ -653,14 +654,14 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                 {hiredCrew.map((crew) => {
                   const loadout = crewLoadouts[crew.id] || { weapon: null, armor: null, tool: null };
                   const effectiveStats = getCrewEffectiveStats(crew.id);
-                  
+
                   return (
                     <div key={crew.id} className="crew-loadout-card">
                       <div className="crew-loadout-header">
                         <h5>{crew.name}</h5>
                         <span className="crew-role">{crew.role}</span>
                       </div>
-                      
+
                       <div className="loadout-slots">
                         {['weapon', 'armor', 'tool'].map(slotType => (
                           <div key={slotType} className="loadout-slot">
@@ -709,7 +710,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                           </div>
                         ))}
                       </div>
-                      
+
                       <div className="effective-stats">
                         <h6>Effective Stats:</h6>
                         <div className="stats-display">
@@ -731,46 +732,49 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   };
 
   return (
-    <div className="crew-menu">
-      <div className="crew-header">
-        <h2>Crew Management</h2>
-        <button className="store-item" onClick={onClose}>Close</button>
-      </div>
+    <>
+      <StaminaTimer />
+      <div className="crew-menu">
+        <div className="crew-header">
+          <h2>Crew Management</h2>
+          <button className="store-item" onClick={onClose}>Close</button>
+        </div>
 
-      <div className="crew-tabs">
-        <button 
-          className={`crew-tab-button ${activeTab === 'view' ? 'active' : ''}`}
-          onClick={() => setActiveTab('view')}
-        >
-          View Crew
-        </button>
-        <button 
-          className={`crew-tab-button ${activeTab === 'recruit' ? 'active' : ''}`}
-          onClick={() => setActiveTab('recruit')}
-        >
-          Recruit
-        </button>
-        <button 
-          className={`crew-tab-button ${activeTab === 'missions' ? 'active' : ''}`}
-          onClick={() => setActiveTab('missions')}
-        >
-          Missions
-        </button>
-        <button 
-          className={`crew-tab-button ${activeTab === 'ongoing' ? 'active' : ''}`}
-          onClick={() => setActiveTab('ongoing')}
-        >
-          Ongoing Missions
-        </button>
-        <button 
-          className={`crew-tab-button ${activeTab === 'loadouts' ? 'active' : ''}`}
-          onClick={() => setActiveTab('loadouts')}
-        >
-          Loadouts
-        </button>
-      </div>
+        <div className="crew-tabs">
+          <button 
+            className={`crew-tab-button ${activeTab === 'view' ? 'active' : ''}`}
+            onClick={() => setActiveTab('view')}
+          >
+            View Crew
+          </button>
+          <button 
+            className={`crew-tab-button ${activeTab === 'recruit' ? 'active' : ''}`}
+            onClick={() => setActiveTab('recruit')}
+          >
+            Recruit
+          </button>
+          <button 
+            className={`crew-tab-button ${activeTab === 'missions' ? 'active' : ''}`}
+            onClick={() => setActiveTab('missions')}
+          >
+            Missions
+          </button>
+          <button 
+            className={`crew-tab-button ${activeTab === 'ongoing' ? 'active' : ''}`}
+            onClick={() => setActiveTab('ongoing')}
+          >
+            Ongoing Missions
+          </button>
+          <button 
+            className={`crew-tab-button ${activeTab === 'loadouts' ? 'active' : ''}`}
+            onClick={() => setActiveTab('loadouts')}
+          >
+            Loadouts
+          </button>
+        </div>
 
-      <TabContent />
-    </div>
+        <TabContent />
+      </div>
+    </>
   );
 }
