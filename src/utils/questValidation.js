@@ -227,13 +227,14 @@ export const validateQuests = ({
       }
     },
     {
-      title: "Prestige Ready",
+      title: "Unlock Ascension Protocol",
       condition: junk >= 4000000,
-      category: 'progression',
+      category: 'milestone',
       onComplete: () => {
-        localStorage.setItem('quest_sync_Prestige Ready', 'true');
-        setNotifications(prev => [...prev, "You've accumulated enough junk to attempt a Prestige!"]);
-
+        localStorage.setItem('quest_sync_Unlock Ascension Protocol', 'true');
+        localStorage.setItem('cogfatherEvent', 'true');
+        setNotifications(prev => [...prev, "You've reached 4 million scrap! Unlocking Ascension Protocol."]);
+        
         // Add animation to quest log buttons
         const questLogBtn = document.querySelector('.quest-log-toggle');
         const mainQuestLog = document.querySelector('.quest-log');
