@@ -102,6 +102,13 @@ export default function Settings({
       section: 'Gameplay'
     },
     { 
+      id: 'quantumTapNotification', 
+      name: 'Quantum Tap Notification', 
+      description: 'Show notification when quantum tap triggers',
+      keywords: ['quantum', 'tap', 'notification', 'popup'],
+      section: 'Game Elements'
+    },
+    { 
       id: 'maxClickEnhancers', 
       name: 'Max Click Enhancers', 
       description: 'Maximum visual effects on screen',
@@ -321,6 +328,22 @@ export default function Settings({
                     checked={localStorage.getItem('showQuestRewards') !== 'false'}
                     onChange={(e) => {
                       localStorage.setItem('showQuestRewards', e.target.checked);
+                    }}
+                  />
+                </label>
+                )}
+
+                {shouldShowSetting('quantumTapNotification') && (
+                <label className="setting-option modern">
+                  <div className="setting-info">
+                    <span className="setting-name">Quantum Tap Notification</span>
+                    <span className="setting-description">Show notification when quantum tap triggers</span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={localStorage.getItem('showQuantumTapNotification') !== 'false'}
+                    onChange={(e) => {
+                      localStorage.setItem('showQuantumTapNotification', e.target.checked);
                     }}
                   />
                 </label>

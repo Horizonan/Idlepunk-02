@@ -658,7 +658,7 @@ export default function App() {
 
       setTronics(prev => prev + ((quantumProc ? amount * 3 : amount) * electroMultiplier));
 
-      if (quantumProc) {
+      if (quantumProc && localStorage.getItem('showQuantumTapNotification') !== 'false') {
         const newNotification = {
           id: Date.now() + Math.random(),
           mousePosition: { ...mousePosition },
