@@ -37,104 +37,18 @@
 .item-info {
   display: none;
   position: fixed;
-  background: linear-gradient(135deg, rgba(26, 26, 26, 0.98), rgba(34, 34, 34, 0.95));
-  border: 2px solid #9400D3;
-  padding: 15px;
-  border-radius: 8px;
-  width: 280px;
+  background: rgba(26, 26, 26, 0.95);
+  border: 1px solid #9400D3;
+  padding: 10px;
+  border-radius: 4px;
+  width: 200px;
   left: 0;
   top: 35%;
   z-index: 1100;
   color: #00FF00;
   pointer-events: none;
-  box-shadow: 0 0 20px rgba(148, 0, 211, 0.4), inset 0 1px 0 rgba(148, 0, 211, 0.2);
+  box-shadow: 0 0 10px rgba(148, 0, 211, 0.3);
   transform: translateX(-100%) translateY(-25%);
-  font-family: 'Consolas', 'Monaco', monospace;
-  line-height: 1.4;
-}
-
-.item-info::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(45deg, #9400D3, #FF00FF, #9400D3);
-  border-radius: 8px;
-  z-index: -1;
-  opacity: 0.3;
-}
-
-.item-info .tooltip-header {
-  color: #FF00FF;
-  font-weight: bold;
-  font-size: 1.1em;
-  margin-bottom: 8px;
-  padding-bottom: 5px;
-  border-bottom: 1px solid rgba(148, 0, 211, 0.3);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.item-info .tooltip-description {
-  color: #00FF00;
-  margin: 8px 0;
-  font-size: 0.95em;
-}
-
-.item-info .tooltip-flavor {
-  color: #CCCCCC;
-  font-style: italic;
-  margin: 8px 0;
-  font-size: 0.9em;
-  opacity: 0.8;
-  padding-left: 10px;
-  border-left: 2px solid rgba(148, 0, 211, 0.4);
-}
-
-.item-info .tooltip-stats {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 8px;
-  border-radius: 4px;
-  margin: 8px 0;
-  border-left: 3px solid #9400D3;
-}
-
-.item-info .owned-count {
-  color: #FFD700;
-  font-weight: bold;
-  margin-top: 10px;
-  padding-top: 8px;
-  border-top: 1px solid rgba(148, 0, 211, 0.3);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.item-info .owned-count::before {
-  content: '📦';
-  font-size: 0.9em;
-}
-
-.item-info .cost-breakdown {
-  color: #FF6B6B;
-  font-size: 0.85em;
-  margin-top: 6px;
-  opacity: 0.9;
-}
-
-.item-category-badge {
-  display: inline-block;
-  background: rgba(148, 0, 211, 0.2);
-  color: #9400D3;
-  padding: 2px 6px;
-  border-radius: 12px;
-  font-size: 0.7em;
-  font-weight: bold;
-  margin-left: 5px;
-  border: 1px solid rgba(148, 0, 211, 0.4);
 }
 
 

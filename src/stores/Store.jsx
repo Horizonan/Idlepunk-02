@@ -216,31 +216,9 @@ export default function Store({
             </span>
           </div>
           <div className="item-info">
-            <div className="tooltip-header">
-              ⚡ {item.name}
-              <span className="item-category-badge">
-                {selectedTab === "prePres" ? (item.description.includes("Click") ? "CLICK" : "PASSIVE") : 
-                 selectedTab === "automation" ? "AUTO" : 
-                 selectedTab === "premium" ? "PREMIUM" : "ASCENSION"}
-              </span>
-            </div>
-            <div className="tooltip-description">
-              📈 {item.description}
-            </div>
-            {item.info && (
-              <div className="tooltip-flavor">
-                💭 {item.info}
-              </div>
-            )}
-            <div className="tooltip-stats">
-              <div className="cost-breakdown">
-                💰 Cost: {typeof item.cost === 'object' ? formatNumber(item.cost.junk) : formatNumber(item.cost)} Junk
-                {item.cost.scrapCores && ` + ${item.cost.scrapCores} Scrap Cores`}
-              </div>
-            </div>
-            <div className="owned-count">
-              Owned: {item.purchasedCount}
-            </div>
+            <p>{item.description}</p>
+            <p>{item.info}</p>
+            <p className="owned">Owned: {item.purchasedCount}</p>
           </div>
         </button>
       ))}
