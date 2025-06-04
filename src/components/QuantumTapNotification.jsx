@@ -10,12 +10,12 @@ export default function QuantumTapNotification({ notifications, onRemoveNotifica
           onRemoveNotification(notification.id);
         }, 2000);
 
-        // Store timer ID for cleanup
+       
         notification.timerId = timer;
       }
     });
 
-    // Cleanup timers on unmount or when notifications change
+   
     return () => {
       notifications.forEach(notification => {
         if (notification.timerId) {

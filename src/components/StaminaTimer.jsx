@@ -11,7 +11,7 @@ export default function StaminaTimer() {
     const updateTimer = () => {
       const now = Date.now();
       const timeSinceLastUpdate = now - lastStaminaUpdate;
-      const recoveryInterval = 30 * 60 * 1000; // 30 minutes in milliseconds
+      const recoveryInterval = 30 * 60 * 1000; 
       const timeUntilNext = recoveryInterval - (timeSinceLastUpdate % recoveryInterval);
       setTimeUntilRecovery(timeUntilNext);
     };
@@ -22,7 +22,7 @@ export default function StaminaTimer() {
     return () => clearInterval(interval);
   }, [lastStaminaUpdate]);
 
-  // Don't show timer if no crew or all crew have full stamina
+  
   const needsStamina = hiredCrew.some(crew => (crew.stamina || 100) < 100);
   if (hiredCrew.length === 0 || !needsStamina) {
     return null;
