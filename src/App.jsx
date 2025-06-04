@@ -52,6 +52,7 @@ import HoloBillboard from './components/Effects/HoloBillboard';
 import TrashBonus from './components/Effects/TrashBonus';
 import ShardMiner from './components/Effects/ShardMiner';
 import ScratzMiner from './components/Effects/ScratzMiner';
+import PickupMagnetArray from './components/Effects/PickupMagnetArray';
 
 //Combat
 import ScraptagonCombat from './components/Combat/scrapCombat';
@@ -1498,7 +1499,7 @@ export default function App() {
               'Beacon Protocol',
               'Forge the Overcrystal'
             ];
-            
+
             postPrestigeQuests.forEach(quest => {
               localStorage.removeItem(`quest_sync_${quest}`);
             });

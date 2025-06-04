@@ -34,7 +34,7 @@
 }
 
 .cheat-handle {
-  background: #FF0000;
+  background: #FF00D0;
   padding: 10px 15px;
   margin: -15px -15px 15px -15px;
   border-radius: 6px 6px 0 0;
@@ -1066,10 +1066,8 @@ button.locked {
   transition: all 0.3s;
 }
 
-```text
-
-.back-button:hover```text
- {
+```text```text
+.back-button:hover {
   background: #9400D3;
   color: #222;
 }
@@ -1164,7 +1162,7 @@ button.locked {
 }
 
 .cheat-header {
-  background: #FF0000;
+  background: #FF00D0;
   padding: 10px;
   margin: -20px -20px 15px -20px;
   border-radius: 8px 8px 0 0;
@@ -1244,7 +1242,7 @@ button.locked {
 }
 
 .cheat-menu button {
-  background-color: #FF0000;
+  background-color: #FF00D0;
   border-color: #800000;
   width: calc(100% - 10px);
   margin: 5px;
@@ -1254,7 +1252,7 @@ button.locked {
 
 .cheat-menu button:hover {
   background-color: #800000;
-  border-color: #FF0000;
+  border-color: #FF00D0;
 }
 
 .cheat-menu .category-content {
@@ -1669,4 +1667,24 @@ button.locked {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@keyframes crystal-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px #ff00ff);
+  }
+  50% {
+    filter: drop-shadow(0 0 20px #ff00ff) drop-shadow(0 0 30px #ff00ff);
+  }
+}
+
+@keyframes magnetPulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.1);
+  }
 }
