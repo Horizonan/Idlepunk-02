@@ -23,19 +23,19 @@ export default function HoverDroneEffect() {
         if (Math.abs(prev.x - prev.targetX) < 5 && Math.abs(prev.y - prev.targetY) < 5) {
           return {
             ...prev,
-            targetX: Math.random() * (window.innerWidth - 32),
-            targetY: Math.random() * (window.innerHeight - 32)
+            targetX: Math.random() * (window.innerWidth - 64),
+            targetY: Math.random() * (window.innerHeight - 64)
           };
         }
 
         // Move slowly towards target
         return {
           ...prev,
-          x: prev.x + (prev.targetX - prev.x) * 0.01,
-          y: prev.y + (prev.targetY - prev.y) * 0.01 + Math.sin(Date.now() / 500) * 0.5
+          x: prev.x + (prev.targetX - prev.x) * 0.008,
+          y: prev.y + (prev.targetY - prev.y) * 0.008 + Math.sin(Date.now() / 1000) * 0.3
         };
       });
-    }, 50);
+    }, 100);
 
     return () => clearInterval(moveInterval);
   }, []);
@@ -50,14 +50,16 @@ export default function HoverDroneEffect() {
       alt="Hover Drone"
       style={{
         position: 'fixed',
-        left: position.x,
-        top: position.y,
+        left: 0,
+        top: 0,
         width: '64px',
         height: '64px',
         pointerEvents: 'none',
         zIndex: 1000,
-        transition: 'left 0.5s ease-out, top 0.5s ease-out',
-        filter: 'drop-shadow(0 0 0.1px #00ffff)'
+        transform: `translate(${position.x}px, ${position.y}px)`,
+        transition: 'transform 0.5s ease-out',
+        filter: 'drop-shadow(0 0 0.1px #00ffff)',
+        willChange: 'transform'
       }}
     />
   );
