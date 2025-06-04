@@ -461,6 +461,11 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                             let autoSoldItems = [];
 
                             if (success) {
+                              // Increment successful missions counter
+                              useRecruitmentZustand.setState(state => ({
+                                successfulMissions: state.successfulMissions + 1
+                              }));
+                              
                               creditsReward = activeMission.baseRewards.credits;
                               junkReward = activeMission.baseRewards.junk;
 

@@ -16,6 +16,7 @@ export const useRecruitmentZustand = create(
       activeMission: null,
       missionStartTime: null,
       lastStaminaUpdate: Date.now(),
+      successfulMissions: 0, // Track successful crew missions
 
       // Equipment management functions
       addEquipment: (itemId) => {

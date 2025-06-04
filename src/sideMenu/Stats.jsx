@@ -1,6 +1,7 @@
 import React from 'react';
 import { calculateCrystalTimeReduction, getCrystalPickupDuration } from '../utils/crystalUtils';
 import { getTrashPickupDuration } from '../utils/trashUtils';
+import { useRecruitmentZustand } from '../stores/crewRecruitment/recruitmentZustand';
 
 export default function Stats({ 
   clickCount,
@@ -14,6 +15,7 @@ export default function Stats({
   permanentAutoClicks,
   electroMultiplier
 }) {
+  const successfulMissions = useRecruitmentZustand(state => state.successfulMissions);
   const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
   const totalJunkCollected = parseInt(localStorage.getItem('totalJunkCollected') || '0');
   const hasHoverDrone = craftingInventory && craftingInventory['Hover Drone'];
@@ -75,6 +77,10 @@ export default function Stats({
             <div className="stat-item">
               <span className="stat-label">Permanent AutoClicks:</span>
               <span className="stat-value">{permanentAutoClicks}</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">Successful Crew Missions:</span>
+              <span className="stat-value">{successfulMissions}</span>
             </div>
           </div>
         </div>
