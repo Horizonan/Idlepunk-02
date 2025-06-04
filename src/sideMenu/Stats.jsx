@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { calculateCrystalTimeReduction } from '../utils/crystalUtils';
 
 export default function Stats({ 
   clickCount,
@@ -77,7 +78,7 @@ export default function Stats({
           <div className="stats-grid">
             <div className="stat-item">
               <span className="stat-label">Crystal Time Reduction:</span>
-              <span className="stat-value">{Math.min(10, parseInt(localStorage.getItem('beaconCount') || '0'))}%</span>
+              <span className="stat-value">{calculateCrystalTimeReduction().percentageReduction}%</span>
             </div>
           </div>
         </div>

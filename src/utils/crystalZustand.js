@@ -1,6 +1,7 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { calculateNextCrystalSpawnTime } from "./crystalUtils";
 
 export const useCrystalZustand = create(
   persist(
@@ -12,32 +13,17 @@ export const useCrystalZustand = create(
       setShowCrystal: (show) => set({ showCrystal: show }),
       setHasChronoCrystalTimer: (has) => set({ hasChronoCrystalTimer: has }),
       initializeCrystalTimer: () => {
-        const calculateNextSpawnTime = () => {
-          const hasBeaconCore =
-            localStorage.getItem("beacon_core_purchased") === "true";
-          const beaconCount = parseInt(localStorage.getItem("beaconCount") || "0");
-          const maxBeacons = Math.min(10, beaconCount);
-          const beaconBaseReduction = hasBeaconCore ? 0.25 : 0;
-          const beaconStackReduction = maxBeacons * 0.01;
-          const totalReduction = Math.min(
-            0.9,
-            beaconBaseReduction + beaconStackReduction,
-          );
-          const beaconMultiplier = 1 - totalReduction;
-
-          return Math.floor((900 + Math.random() * 900) * beaconMultiplier);
-        };
 
         const currentTime = get().timeUntilNext;
         if (!currentTime || currentTime <= 0) {
-          set({ timeUntilNext: calculateNextSpawnTime() });
+          set({ timeUntilNext: calculateNextCrystalSpawnTime() });
         }
 
         const timer = setInterval(() => {
           set((state) => {
             if (state.timeUntilNext <= 0) {
               window.dispatchEvent(new CustomEvent("showCrystal"));
-              const nextTime = calculateNextSpawnTime();
+              const nextTime = calculateNextCrystalSpawnTime();
               return {
                 showCrystal: true,
                 timeUntilNext: nextTime,
