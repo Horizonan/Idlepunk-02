@@ -976,7 +976,7 @@ export default function App() {
             localStorage.setItem('activeStore', store);
           }}
           showInventory={showInventory}
-          onUpgradeStats={() => setShowUpgradeStats(true)}
+          craftingInventory={craftingInventory}
         />
       </div>
       {showUpgradeStats && (

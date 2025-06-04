@@ -1,8 +1,20 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export default function MenuButtons({ onStoreSelect, showInventory }) {
+export default function MenuButtons({ onStoreSelect, showInventory, craftingInventory = {} }) {
   const [showMenu, setShowMenu] = useState(true);
+  const [canCraftPrestigeCrystal, setCanCraftPrestigeCrystal] = useState(false);
+
+  // Check if Prestige Crystal is craftable
+  useEffect(() => {
+    const junk = parseInt(localStorage.getItem('junk') || '0');
+    const hasStabilizedCapacitor = (craftingInventory['Stabilized Capacitor'] || 0) >= 1;
+    const hasVoltageNode = (craftingInventory['Voltage Node'] || 0) >= 1;
+    const hasSynthcoreFragment = (craftingInventory['Synthcore Fragment'] || 0) >= 1;
+
+    const canCraft = junk >= 10000000 && hasStabilizedCapacitor && hasVoltageNode && hasSynthcoreFragment;
+    setCanCraftPrestigeCrystal(canCraft);
+  }, [craftingInventory]);
 
   const menuCategories = {
     stores: {
@@ -56,7 +68,7 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
       header: 'CRAFTING',
       buttons: [
         {
-          label: 'Crafting Menu',
+          label: `Crafting Menu${canCraftPrestigeCrystal ? ' (!)' : ''}`,
           onClick: () => {
             const activeStore = localStorage.getItem('activeStore');
             onStoreSelect(activeStore === 'craft' ? null : 'craft');
