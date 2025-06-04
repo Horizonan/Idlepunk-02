@@ -60,7 +60,7 @@ export default function PickupMagnetArray() {
           // Auto-collect when very close to cursor
           pickup.click();
         } else if (distance <= magnetRange) {
-          // Store original properties and pause animations on first entry to magnet range
+          // Store original properties and IMMEDIATELY stop all animations on first entry to magnet range
           if (!pickup.dataset.magnetActive) {
             const computedStyle = window.getComputedStyle(pickup);
             
@@ -73,6 +73,12 @@ export default function PickupMagnetArray() {
             pickup.dataset.originalTransition = pickup.style.transition || computedStyle.transition;
             pickup.dataset.originalZIndex = pickup.style.zIndex || computedStyle.zIndex;
             pickup.dataset.originalFilter = pickup.style.filter || computedStyle.filter;
+            pickup.dataset.originalAnimationPlayState = pickup.style.animationPlayState || computedStyle.animationPlayState;
+            
+            // IMMEDIATELY AND COMPLETELY STOP ALL ORIGINAL ANIMATIONS
+            pickup.style.setProperty('animation', 'none', 'important');
+            pickup.style.setProperty('animation-play-state', 'paused', 'important');
+            pickup.style.setProperty('transform', 'none', 'important');
             
             // Mark as being affected by magnet
             pickup.dataset.magnetActive = 'true';
@@ -92,14 +98,11 @@ export default function PickupMagnetArray() {
           const moveX = (dx / distance) * magnetStrength;
           const moveY = (dy / distance) * magnetStrength;
 
-          // Apply magnetic pull with overrides
+          // Apply magnetic pull with smooth movement
           pickup.style.setProperty('position', 'fixed', 'important');
           pickup.style.setProperty('left', `${rect.left + moveX}px`, 'important');
           pickup.style.setProperty('top', `${rect.top + moveY}px`, 'important');
           pickup.style.setProperty('transition', 'left 0.08s ease-out, top 0.08s ease-out', 'important');
-          pickup.style.setProperty('transform', 'none', 'important');
-          pickup.style.setProperty('animation', 'none', 'important');
-          pickup.style.setProperty('animation-play-state', 'paused', 'important');
           pickup.style.setProperty('z-index', '9999', 'important');
 
           // Add magnet effect visual
@@ -137,6 +140,9 @@ export default function PickupMagnetArray() {
             if (pickup.dataset.originalAnimation !== 'none') {
               pickup.style.animation = pickup.dataset.originalAnimation;
             }
+            if (pickup.dataset.originalAnimationPlayState !== 'paused') {
+              pickup.style.animationPlayState = pickup.dataset.originalAnimationPlayState;
+            }
             if (pickup.dataset.originalTransition !== 'all 0s ease 0s') {
               pickup.style.transition = pickup.dataset.originalTransition;
             }
@@ -153,6 +159,7 @@ export default function PickupMagnetArray() {
             delete pickup.dataset.originalPosition;
             delete pickup.dataset.originalTransform;
             delete pickup.dataset.originalAnimation;
+            delete pickup.dataset.originalAnimationPlayState;
             delete pickup.dataset.originalTransition;
             delete pickup.dataset.originalZIndex;
             delete pickup.dataset.originalFilter;
