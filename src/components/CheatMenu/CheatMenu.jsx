@@ -132,7 +132,9 @@ export default function CheatMenu({
       icon: '🎯',
       actions: [
         { name: 'Trigger Surge', action: () => onSetSurgeActive(true), type: 'primary' },
-        { name: 'Trigger Crystal', action: () => onShowCrystal(true), type: 'special' },
+        { name: 'Trigger Crystal', action: () => {
+          window.dispatchEvent(new CustomEvent('showCrystal'));
+        }, type: 'special' },
         { name: 'Trigger Tronics Surge', action: () => onSetTronicsSurgeActive(true), type: 'primary' },
         { name: 'Trigger Trash Bonus', action: () => setShowTrashBonus(true), type: 'primary' },
         { name: 'Next News Cycle', action: () => window.dispatchEvent(new CustomEvent('nextNews')), type: 'secondary' },
