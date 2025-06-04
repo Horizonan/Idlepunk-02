@@ -54,31 +54,22 @@ export default function PrestigeMeter() {
 
   const totalQuests = getAllQuests().length;
   const progressPercentage = (completedQuests / totalQuests) * 100;
-  const prestigeLevel = Math.floor(completedQuests / 5); // Every 5 quests = 1 prestige level
+  const prestigeLevel = Math.floor(completedQuests / 5);
 
   return (
     <div className="prestige-meter-container">
       <div className="prestige-meter-content">
-        <div className="prestige-meter-header">
-          <span className="prestige-level">Prestige Level {prestigeLevel}</span>
-          <span className="quest-counter">{completedQuests}/{totalQuests} Quests</span>
+        <div className="prestige-info">
+          <span className="prestige-level">P{prestigeLevel}</span>
+          <span className="quest-count">{completedQuests}/{totalQuests}</span>
         </div>
-        <div className="prestige-meter-bar">
+        <div className="prestige-bar">
           <div 
-            className="prestige-meter-fill" 
+            className="prestige-fill" 
             style={{ width: `${progressPercentage}%` }}
-          >
-            <div className="prestige-meter-glow"></div>
-          </div>
-          <div className="prestige-meter-text">
-            {progressPercentage.toFixed(1)}% Complete
-          </div>
+          />
+          <span className="prestige-percentage">{progressPercentage.toFixed(0)}%</span>
         </div>
-        {prestigeLevel > 0 && (
-          <div className="prestige-bonuses">
-            ⚡ Prestige Bonuses Active: {prestigeLevel}
-          </div>
-        )}
       </div>
     </div>
   );
