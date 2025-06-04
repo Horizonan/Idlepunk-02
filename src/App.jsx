@@ -1489,22 +1489,6 @@ export default function App() {
 
             localStorage.setItem('hasPrestiged', 'true');
 
-            // Clear quest progress for new questline
-            const questsToReset = [
-              'System Memory Detected',
-              'Tap the Pulse', 
-              'Upgrade Cascade',
-              'Beacon Protocol',
-              'Forge the Overcrystal'
-            ];
-            
-            questsToReset.forEach(quest => {
-              localStorage.removeItem(`quest_sync_${quest}`);
-            });
-
-            // Trigger updates for prestige meter and quest log
-            window.dispatchEvent(new CustomEvent('prestigeComplete'));
-            window.dispatchEvent(new CustomEvent('questUpdate'));
 
             if (prestigeCount === 0) {
               // Use setTimeout to ensure the message appears after the prestige reset
