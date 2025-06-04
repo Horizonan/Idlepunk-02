@@ -69,43 +69,58 @@ export default function PickupMagnetArray() {
           const moveX = (dx / distance) * magnetStrength;
           const moveY = (dy / distance) * magnetStrength;
 
-          // Store original position if not already stored
-          if (!pickup.dataset.originalLeft) {
-            pickup.dataset.originalLeft = pickup.style.left || rect.left + 'px';
-            pickup.dataset.originalTop = pickup.style.top || rect.top + 'px';
-            pickup.dataset.originalPosition = pickup.style.position || 'fixed';
+          // Store ALL original CSS properties if not already stored
+          if (!pickup.dataset.magnetActive) {
+            const computedStyle = window.getComputedStyle(pickup);
+            pickup.dataset.originalLeft = pickup.style.left || computedStyle.left;
+            pickup.dataset.originalTop = pickup.style.top || computedStyle.top;
+            pickup.dataset.originalPosition = pickup.style.position || computedStyle.position;
+            pickup.dataset.originalTransform = pickup.style.transform || computedStyle.transform;
+            pickup.dataset.originalAnimation = pickup.style.animation || computedStyle.animation;
+            pickup.dataset.originalTransition = pickup.style.transition || computedStyle.transition;
+            pickup.dataset.originalZIndex = pickup.style.zIndex || computedStyle.zIndex;
+            pickup.dataset.magnetActive = 'true';
           }
 
           // Get current position from rect (always accurate)
           const currentX = rect.left;
           const currentY = rect.top;
 
-          // Apply magnetic pull smoothly
+          // Apply magnetic pull and disable all animations
           pickup.style.position = 'fixed';
           pickup.style.left = `${currentX + moveX}px`;
           pickup.style.top = `${currentY + moveY}px`;
-          pickup.style.transition = 'none';
+          pickup.style.transition = 'none !important';
           pickup.style.zIndex = '9999';
-          pickup.style.transform = 'none'; // Override any existing transforms
-          pickup.style.animation = 'none'; // Disable conflicting animations
+          pickup.style.transform = 'none !important';
+          pickup.style.animation = 'none !important';
+          pickup.style.animationPlayState = 'paused';
 
           // Add magnet effect visual
           pickup.style.filter = pickup.alt === 'Trash Bonus' 
             ? 'drop-shadow(0 0 15px #00ffff) drop-shadow(0 0 10px #00ff00)'
             : 'drop-shadow(0 0 15px #00ffff) drop-shadow(0 0 10px #ff00ff)';
         } else {
-          // Restore original properties when out of range
-          if (pickup.dataset.originalLeft) {
+          // Restore ALL original properties when out of range
+          if (pickup.dataset.magnetActive === 'true') {
             pickup.style.position = pickup.dataset.originalPosition;
             pickup.style.left = pickup.dataset.originalLeft;
             pickup.style.top = pickup.dataset.originalTop;
-            pickup.style.transform = ''; // Restore original transform
-            pickup.style.animation = ''; // Restore original animation
+            pickup.style.transform = pickup.dataset.originalTransform;
+            pickup.style.animation = pickup.dataset.originalAnimation;
+            pickup.style.transition = pickup.dataset.originalTransition;
+            pickup.style.zIndex = pickup.dataset.originalZIndex;
+            pickup.style.animationPlayState = '';
             
             // Clean up stored data
             delete pickup.dataset.originalLeft;
             delete pickup.dataset.originalTop;
             delete pickup.dataset.originalPosition;
+            delete pickup.dataset.originalTransform;
+            delete pickup.dataset.originalAnimation;
+            delete pickup.dataset.originalTransition;
+            delete pickup.dataset.originalZIndex;
+            delete pickup.dataset.magnetActive;
           }
 
           // Remove magnet effect when out of range
