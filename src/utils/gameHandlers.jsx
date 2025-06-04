@@ -287,7 +287,7 @@ export const gameHandlers = (gameState, setGameState) => {
         totalCost: gameState.itemCosts.junkRefinery,
         endCost: Math.floor(gameState.itemCosts.junkRefinery * 1.2)
       };
-      setGameState.setJunk(prev => prev - costData.cost);
+      setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setPassiveIncome(prev => prev + (gameState.bulkBuy ? 500 : 50));
       setGameState.setOwnedItems(prev => ({...prev, junkRefinery: (prev.junkRefinery || 0) + gameState.bulkBuy ? 10:1}));
       setGameState.setItemCosts(prev => ({...prev, junkRefinery: Math.floor(costData.endCost * 1.2)}));
