@@ -1,7 +1,6 @@
 import React from 'react';
 import { calculateCrystalTimeReduction, getCrystalPickupDuration } from '../utils/crystalUtils';
 import { getTrashPickupDuration } from '../utils/trashUtils';
-import { useRecruitmentZustand } from '../stores/crewRecruitment/recruitmentZustand';
 
 export default function Stats({ 
   clickCount,
@@ -15,13 +14,9 @@ export default function Stats({
   permanentAutoClicks,
   electroMultiplier
 }) {
-  // Import the recruitment store to get successful missions
-  const { useRecruitmentZustand } = await import('../stores/crewRecruitment/recruitmentZustand');
-  const successfulMissions = useRecruitmentZustand(state => state.successfulMissions);
   const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
   const totalJunkCollected = parseInt(localStorage.getItem('totalJunkCollected') || '0');
   const hasHoverDrone = craftingInventory && craftingInventory['Hover Drone'];
-  const successfulMissions = useRecruitmentZustand(state => state.successfulMissions);
 
   return (
     <div className="store-container stats-menu">
@@ -76,10 +71,6 @@ export default function Stats({
             <div className="stat-item">
               <span className="stat-label">Times Prestiged:</span>
               <span className="stat-value">{prestigeCount}</span>
-            </div>
-            <div className="stat-item">
-              <span className="stat-label">Successful Crew Missions:</span>
-              <span className="stat-value">{successfulMissions}</span>
             </div>
             <div className="stat-item">
               <span className="stat-label">Permanent AutoClicks:</span>
