@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 
 export default function PickupMagnetArray() {
@@ -60,112 +59,67 @@ export default function PickupMagnetArray() {
           // Auto-collect when very close to cursor
           pickup.click();
         } else if (distance <= magnetRange) {
-          // Store original properties and IMMEDIATELY stop all animations on first entry to magnet range
-          if (!pickup.dataset.magnetActive) {
-            const computedStyle = window.getComputedStyle(pickup);
-            
-            // Store original values
-            pickup.dataset.originalLeft = pickup.style.left || computedStyle.left;
-            pickup.dataset.originalTop = pickup.style.top || computedStyle.top;
-            pickup.dataset.originalPosition = pickup.style.position || computedStyle.position;
-            pickup.dataset.originalTransform = pickup.style.transform || computedStyle.transform;
-            pickup.dataset.originalAnimation = pickup.style.animation || computedStyle.animation;
-            pickup.dataset.originalTransition = pickup.style.transition || computedStyle.transition;
-            pickup.dataset.originalZIndex = pickup.style.zIndex || computedStyle.zIndex;
-            pickup.dataset.originalFilter = pickup.style.filter || computedStyle.filter;
-            pickup.dataset.originalAnimationPlayState = pickup.style.animationPlayState || computedStyle.animationPlayState;
-            
-            // Mark as being affected by magnet FIRST
-            pickup.dataset.magnetActive = 'true';
-            
-            // Get the current computed position to start smooth transition from
+          // FIRST - Mark as being in magnet field and COMPLETELY stop all animations
+          if (!pickup.dataset.magnetized) {
+            pickup.dataset.magnetized = 'true';
+
+            // Store current computed position for smooth transition
             const currentRect = pickup.getBoundingClientRect();
             pickup.dataset.magnetStartX = currentRect.left.toString();
             pickup.dataset.magnetStartY = currentRect.top.toString();
           }
 
-          // ENSURE animations stay stopped while in magnet range (re-apply every frame)
+          // FORCE STOP ALL ANIMATIONS - Apply every frame to ensure they stay stopped
           pickup.style.setProperty('animation', 'none', 'important');
           pickup.style.setProperty('animation-play-state', 'paused', 'important');
+          pickup.style.setProperty('animation-duration', '0s', 'important');
+          pickup.style.setProperty('animation-iteration-count', '0', 'important');
           pickup.style.setProperty('transform', 'none', 'important');
+          pickup.style.setProperty('transform-origin', 'center', 'important');
 
-          // Calculate direction towards cursor for magnetic pull
+          // Calculate magnetic pull direction
           const dx = mousePosition.x - pickupCenter.x;
           const dy = mousePosition.y - pickupCenter.y;
 
           // Normalize and apply magnet strength
-          const magnetStrength = Math.min(3, (magnetRange - distance) / 60);
+          const magnetStrength = Math.min(4, (magnetRange - distance) / 50);
           const moveX = (dx / distance) * magnetStrength;
           const moveY = (dy / distance) * magnetStrength;
 
-          // Apply magnetic pull with smooth movement
+          // Apply magnetic pull with position override
           pickup.style.setProperty('position', 'fixed', 'important');
           pickup.style.setProperty('left', `${rect.left + moveX}px`, 'important');
           pickup.style.setProperty('top', `${rect.top + moveY}px`, 'important');
-          pickup.style.setProperty('transition', 'left 0.08s ease-out, top 0.08s ease-out', 'important');
+          pickup.style.setProperty('transition', 'left 0.1s ease-out, top 0.1s ease-out', 'important');
           pickup.style.setProperty('z-index', '9999', 'important');
 
-          // Add magnet effect visual
+          // Add visual magnet effect
           const magnetFilter = pickup.alt === 'Trash Bonus' 
             ? 'drop-shadow(0 0 15px #00ffff) drop-shadow(0 0 10px #00ff00)'
             : 'drop-shadow(0 0 15px #00ffff) drop-shadow(0 0 10px #ff00ff)';
           pickup.style.setProperty('filter', magnetFilter, 'important');
+
         } else {
-          // Restore original properties when out of magnet range
-          if (pickup.dataset.magnetActive === 'true') {
-            // Remove all magnet-applied styles
+          // Only restore when COMPLETELY outside magnet range
+          if (pickup.dataset.magnetized === 'true') {
+            // Clear all magnet-applied styles
+            pickup.style.removeProperty('animation');
+            pickup.style.removeProperty('animation-play-state');
+            pickup.style.removeProperty('animation-duration');
+            pickup.style.removeProperty('animation-iteration-count');
+            pickup.style.removeProperty('transform');
+            pickup.style.removeProperty('transform-origin');
             pickup.style.removeProperty('position');
             pickup.style.removeProperty('left');
             pickup.style.removeProperty('top');
-            pickup.style.removeProperty('transform');
-            pickup.style.removeProperty('animation');
-            pickup.style.removeProperty('animation-play-state');
             pickup.style.removeProperty('transition');
             pickup.style.removeProperty('z-index');
             pickup.style.removeProperty('filter');
-            
-            // Restore original values if they existed
-            if (pickup.dataset.originalPosition !== 'static') {
-              pickup.style.position = pickup.dataset.originalPosition;
-            }
-            if (pickup.dataset.originalLeft !== 'auto') {
-              pickup.style.left = pickup.dataset.originalLeft;
-            }
-            if (pickup.dataset.originalTop !== 'auto') {
-              pickup.style.top = pickup.dataset.originalTop;
-            }
-            if (pickup.dataset.originalTransform !== 'none') {
-              pickup.style.transform = pickup.dataset.originalTransform;
-            }
-            if (pickup.dataset.originalAnimation !== 'none') {
-              pickup.style.animation = pickup.dataset.originalAnimation;
-            }
-            if (pickup.dataset.originalAnimationPlayState !== 'paused') {
-              pickup.style.animationPlayState = pickup.dataset.originalAnimationPlayState;
-            }
-            if (pickup.dataset.originalTransition !== 'all 0s ease 0s') {
-              pickup.style.transition = pickup.dataset.originalTransition;
-            }
-            if (pickup.dataset.originalZIndex !== 'auto') {
-              pickup.style.zIndex = pickup.dataset.originalZIndex;
-            }
-            if (pickup.dataset.originalFilter !== 'none') {
-              pickup.style.filter = pickup.dataset.originalFilter;
-            }
-            
-            // Clean up stored data
-            delete pickup.dataset.originalLeft;
-            delete pickup.dataset.originalTop;
-            delete pickup.dataset.originalPosition;
-            delete pickup.dataset.originalTransform;
-            delete pickup.dataset.originalAnimation;
-            delete pickup.dataset.originalAnimationPlayState;
-            delete pickup.dataset.originalTransition;
-            delete pickup.dataset.originalZIndex;
-            delete pickup.dataset.originalFilter;
+
+            // Remove magnet flag
+            delete pickup.dataset.magnetized;
             delete pickup.dataset.magnetStartX;
             delete pickup.dataset.magnetStartY;
-            delete pickup.dataset.magnetActive;
           }
         }
       });
