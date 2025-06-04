@@ -111,7 +111,7 @@
   /* Crystal timer repositioning */
   .crystal-timer {
     position: fixed !important;
-    bottom: 140px !important;
+    top: 220px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     width: auto !important;
