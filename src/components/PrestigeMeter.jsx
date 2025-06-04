@@ -43,7 +43,7 @@ export default function PrestigeMeter() {
       ).length;
       
       setCompletedQuests(completed);
-      setShowMeter(completed >= 3 && meterEnabled);
+      setShowMeter(completed >= 1 && meterEnabled);
     };
 
     updateQuestCount();
