@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default function Changelog({ onClose }) {
-  const [expandedVersion, setExpandedVersion] = useState('0.1');
+  const [expandedVersion, setExpandedVersion] = useState('0.1.0.1');
 
   const toggleVersion = (version) => {
     setExpandedVersion(expandedVersion === version ? null : version);
@@ -19,8 +19,47 @@ export default function Changelog({ onClose }) {
       <div className="changelog-content">
 
         <div className="changelog-entry">
+          <h3 onClick={() => toggleVersion('0.1.0.1')} style={{ cursor: 'pointer' }}>
+            🔧 UI, Crew, and Electro Store Polish – Update Log 0.1.0.1 {expandedVersion === '0.1.0.1' ? '▼' : '▶'}
+          </h3>
+          {expandedVersion === '0.1.0.1' && (
+            <>
+              <p>Patch 0.1.0.1 brings a wave of refinements, better animations, more mobile support, and quality-of-life improvements! 🌐</p>
+              <div className="changelog-section">
+                <h3>🖥️ UI & UX Improvements</h3>
+                <p>🖥️ Right SideMenu now animates like the left</p>
+                <p>🖥️ Reworked Settings UI styling for better clarity</p>
+                <p>🖥️ Added Search Bar to Settings (for future help system)</p>
+                <p>🖥️ Statistics moved to a dedicated menu with new design</p>
+                <p>🖥️ Made entire UI much more mobile friendly 📱</p>
+                <p>🖥️ Changed Quantum Tap notification style</p>
+                <p>🖥️ Fixed: Lore Fragment Button in JunkTerminal now works</p>
+                <p>🖥️ Clarified: Autoclicker V2 consumes Autoclicker V1</p>
+                <p>🖥️ Adjusted Electro Shard speed & frames to reduce lag</p>
+
+                <h3>🧠 System Changes & Tooltips</h3>
+                <p>🧠 Added: Quantum Tap notification now auto-removes</p>
+                <p>🧠 Added: New **Secret Tooltip** 👀</p>
+
+                <h3>👥 Crew System</h3>
+                <p>👥 Added Basic Loadout System (3 items supported for now)</p>
+                <p>👥 First Mini-Game for Crew Missions added</p>
+                <p>👥 New **Stamina Timer** mechanic for crew</p>
+                <p>👥 Fixed: Crew no longer disappears when closing window</p>
+
+                <h3>⚡ Electro Store Improvements</h3>
+                <p>⚡ Fixed: Highlight bug showing unaffordable upgrades as available</p>
+                <p>⚡ Clarified: Tronics Boost II no longer appears to consume Boost I</p>
+
+              </div>
+              <p className="changelog-footer">We're continuing to improve gameplay, visuals, and performance. Thank you for your reports and support! 🧡 Questions or feedback? Drop by the Discord or email: itscolord@gmail.com</p>
+            </>
+          )}
+        </div>
+        
+        <div className="changelog-entry">
           <h3 onClick={() => toggleVersion('0.1')} style={{ cursor: 'pointer' }}>
-            🚀 Major Systems, Visuals & Crew Expansion – Update Log 0.1 {expandedVersion === '0.1' ? '▼' : '▶'}
+            🔧 Major Systems, Visuals & Crew Expansion – Update Log 0.1 {expandedVersion === '0.1' ? '▼' : '▶'}
           </h3>
           {expandedVersion === '0.1' && (
             <>
