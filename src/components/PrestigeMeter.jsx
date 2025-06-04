@@ -16,6 +16,12 @@ export default function PrestigeMeter() {
     "The Circuit Speaks", "Whispers in the Scrap", "Forge the Future"
   ];
 
+  // Post-prestige quests
+  const postPrestigeQuests = [
+    "System Memory Detected", "Tap the Pulse", "Upgrade Cascade", 
+    "Beacon Protocol", "Forge the Overcrystal"
+  ];
+
   useEffect(() => {
     const updateQuestCount = () => {
       // Get prestige count from localStorage
@@ -26,8 +32,13 @@ export default function PrestigeMeter() {
       const meterEnabled = localStorage.getItem('showPrestigeMeter') !== 'false';
       setShowPrestigeMeter(meterEnabled);
 
-      // Only count pre-prestige quests for the meter
-      const completed = prePrestigeQuests.filter(quest => 
+      // Check if user has prestiged
+      const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
+
+      // Use appropriate quest list based on prestige status
+      const questsToCount = hasPrestiged ? postPrestigeQuests : prePrestigeQuests;
+      
+      const completed = questsToCount.filter(quest => 
         localStorage.getItem(`quest_sync_${quest}`) === 'true'
       ).length;
       
@@ -37,28 +48,41 @@ export default function PrestigeMeter() {
 
     updateQuestCount();
     
-    // Listen for quest updates
+    // Listen for quest updates and prestige completion
     const interval = setInterval(updateQuestCount, 1000);
     window.addEventListener('storage', updateQuestCount);
     window.addEventListener('questUpdate', updateQuestCount);
+    window.addEventListener('prestigeComplete', updateQuestCount);
 
     return () => {
       clearInterval(interval);
       window.removeEventListener('storage', updateQuestCount);
       window.removeEventListener('questUpdate', updateQuestCount);
+      window.removeEventListener('prestigeComplete', updateQuestCount);
     };
   }, []);
 
   if (!showMeter || !showPrestigeMeter) return null;
 
-  const totalQuests = prePrestigeQuests.length;
+  // Check if user has prestiged to determine which quest list to use
+  const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
+  const questsToCount = hasPrestiged ? postPrestigeQuests : prePrestigeQuests;
+  const totalQuests = questsToCount.length;
   
-  // Check if "Forge the Future" is completed to automatically show 100%
-  const forgeTheFutureCompleted = localStorage.getItem('quest_sync_Forge the Future') === 'true';
-  const progressPercentage = forgeTheFutureCompleted ? 100 : (completedQuests / totalQuests) * 100;
+  // Check completion conditions based on current questline
+  let progressPercentage;
+  if (hasPrestiged) {
+    // Post-prestige: Check if "Forge the Overcrystal" is completed
+    const overcrystalCompleted = localStorage.getItem('quest_sync_Forge the Overcrystal') === 'true';
+    progressPercentage = overcrystalCompleted ? 100 : (completedQuests / totalQuests) * 100;
+  } else {
+    // Pre-prestige: Check if "Forge the Future" is completed
+    const forgeTheFutureCompleted = localStorage.getItem('quest_sync_Forge the Future') === 'true';
+    progressPercentage = forgeTheFutureCompleted ? 100 : (completedQuests / totalQuests) * 100;
+  }
   
-  // Show "Prestige 1" when at least one prestige has been completed
-  const prestigeLevel = prestigeCount > 0 ? prestigeCount : 1;
+  // Show current prestige level, minimum 1
+  const prestigeLevel = Math.max(prestigeCount, 1);
 
   return (
     <div className="prestige-meter-container">
