@@ -121,6 +121,13 @@ export default function Settings({
       description: 'Maximum drones shown at once',
       keywords: ['max', 'drone', 'visible', 'limit'],
       section: 'Limits & Controls'
+    },
+    { 
+      id: 'prestigeMeter', 
+      name: 'Prestige Meter', 
+      description: 'Show prestige progress meter at bottom of screen',
+      keywords: ['prestige', 'meter', 'progress', 'quest'],
+      section: 'Game Elements'
     }
   ], []);
 
@@ -344,6 +351,22 @@ export default function Settings({
                     checked={localStorage.getItem('showQuantumTapNotification') !== 'false'}
                     onChange={(e) => {
                       localStorage.setItem('showQuantumTapNotification', e.target.checked);
+                    }}
+                  />
+                </label>
+                )}
+
+                {shouldShowSetting('prestigeMeter') && (
+                <label className="setting-option modern">
+                  <div className="setting-info">
+                    <span className="setting-name">Prestige Meter</span>
+                    <span className="setting-description">Show prestige progress meter at bottom of screen</span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={localStorage.getItem('showPrestigeMeter') !== 'false'}
+                    onChange={(e) => {
+                      localStorage.setItem('showPrestigeMeter', e.target.checked);
                     }}
                   />
                 </label>

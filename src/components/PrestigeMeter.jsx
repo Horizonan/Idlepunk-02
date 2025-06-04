@@ -6,6 +6,7 @@ export default function PrestigeMeter() {
   const [completedQuests, setCompletedQuests] = useState(0);
   const [showMeter, setShowMeter] = useState(false);
   const [prestigeCount, setPrestigeCount] = useState(0);
+  const [showPrestigeMeter, setShowPrestigeMeter] = useState(true);
 
   // Pre-prestige quests only
   const prePrestigeQuests = [
@@ -21,13 +22,17 @@ export default function PrestigeMeter() {
       const storedPrestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
       setPrestigeCount(storedPrestigeCount);
 
+      // Check if prestige meter is enabled
+      const meterEnabled = localStorage.getItem('showPrestigeMeter') !== 'false';
+      setShowPrestigeMeter(meterEnabled);
+
       // Only count pre-prestige quests for the meter
       const completed = prePrestigeQuests.filter(quest => 
         localStorage.getItem(`quest_sync_${quest}`) === 'true'
       ).length;
       
       setCompletedQuests(completed);
-      setShowMeter(completed >= 3);
+      setShowMeter(completed >= 3 && meterEnabled);
     };
 
     updateQuestCount();
@@ -44,7 +49,7 @@ export default function PrestigeMeter() {
     };
   }, []);
 
-  if (!showMeter) return null;
+  if (!showMeter || !showPrestigeMeter) return null;
 
   const totalQuests = prePrestigeQuests.length;
   
