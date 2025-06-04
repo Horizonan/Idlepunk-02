@@ -112,17 +112,18 @@
   .crystal-timer {
     position: fixed !important;
     bottom: 140px !important;
-    left: 15px !important;
-    transform: none !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
     width: auto !important;
-    max-width: 140px !important;
-    min-width: 120px !important;
-    padding: 4px 8px !important;
-    font-size: 0.7em !important;
+    max-width: 200px !important;
+    min-width: 150px !important;
+    padding: 6px 12px !important;
+    font-size: 0.8em !important;
     z-index: 999 !important;
-    background: rgba(26, 26, 26, 0.9) !important;
+    background: rgba(26, 26, 26, 0.95) !important;
     border: 1px solid #9400D3 !important;
-    border-radius: 12px !important;
+    border-radius: 8px !important;
+    text-align: center !important;
   }
 
   .crystal-timer img {
@@ -156,6 +157,10 @@
     border: none !important;
     padding: 0 !important;
     backdrop-filter: none !important;
+  }
+
+  .menu-container.collapsed .menu-buttons {
+    display: none !important;
   }
 
   .menu-buttons {
@@ -203,7 +208,9 @@
     border-radius: 4px !important;
     cursor: pointer !important;
     transition: all 0.3s ease !important;
-    width: 60px !important;
+    width: auto !important;
+    min-width: 80px !important;
+    margin: 0 !important;
   }
 
   /* Quest log positioning */
@@ -400,43 +407,7 @@
   }
 }
 
-/* MainStore styling fixes */
-  .mainStore {
-    position: fixed !important;
-    bottom: 20px !important;
-    left: 20px !important;
-    z-index: 1200 !important;
-    max-width: 160px !important;
-    min-width: 140px !important;
-  }
 
-  .mainStore:not(.collapsed) {
-    background: rgba(26, 26, 26, 0.95) !important;
-    border: 2px solid #9400D3 !important;
-    border-radius: 8px !important;
-    padding: 12px !important;
-    backdrop-filter: blur(10px) !important;
-  }
-
-  .mainStore.collapsed {
-    background: none !important;
-    border: none !important;
-    padding: 0 !important;
-    backdrop-filter: none !important;
-  }
-
-  .mainStore .menu-toggle {
-    padding: 8px 12px !important;
-    font-size: 0.8em !important;
-    background: #222 !important;
-    border: 1px solid #9400D3 !important;
-    color: #00FF00 !important;
-    border-radius: 4px !important;
-    cursor: pointer !important;
-    transition: all 0.3s ease !important;
-    width: 60px !important;
-    margin: 0 !important;
-  }
 
 /* Large mobile/small tablet adjustments */
 @media (max-width: 600px) {
