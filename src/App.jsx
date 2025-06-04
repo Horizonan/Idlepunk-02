@@ -537,13 +537,22 @@ export default function App() {
       setGlobalJpsMultiplier(totalMultiplier);
 
       if (passiveIncome > 0) {
-        setJunk(prev => prev + (passiveIncome * totalMultiplier));
-
+        const passiveJunkGained = passiveIncome * totalMultiplier;
+        setJunk(prev => prev + passiveJunkGained);
+        
+        // Track total junk collected from passive income
+        const currentTotal = parseInt(localStorage.getItem('totalJunkCollected') || '0');
+        localStorage.setItem('totalJunkCollected', (currentTotal + passiveJunkGained).toString());
       }
 
       if (autoClicks > 0) {
-        setJunk(prev => prev + ((autoClicks + permanentAutoClicks)  * clickMultiplier));
-        setClickCount(prev => prev + (autoClicks + permanentAutoClicks) );
+        const autoJunkGained = (autoClicks + permanentAutoClicks) * clickMultiplier;
+        setJunk(prev => prev + autoJunkGained);
+        setClickCount(prev => prev + (autoClicks + permanentAutoClicks));
+        
+        // Track total junk collected from auto-clickers
+        const currentTotal = parseInt(localStorage.getItem('totalJunkCollected') || '0');
+        localStorage.setItem('totalJunkCollected', (currentTotal + autoJunkGained).toString());
 
         if (electronicsUnlock) {
           const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
@@ -611,7 +620,12 @@ export default function App() {
   const collectJunk = () => {
     const surgeMultiplier = isSurgeActive ? 2 : 1;
     const scavengingBonus = 1 + (skillLevels.scavengingFocus / 100);
-    setJunk(prev => prev + (clickMultiplier * surgeMultiplier * scavengingBonus));
+    const junkGained = clickMultiplier * surgeMultiplier * scavengingBonus;
+    setJunk(prev => prev + junkGained);
+    
+    // Track total junk collected
+    const currentTotal = parseInt(localStorage.getItem('totalJunkCollected') || '0');
+    localStorage.setItem('totalJunkCollected', (currentTotal + junkGained).toString());
 
     // Random material finding
     const random = Math.random();

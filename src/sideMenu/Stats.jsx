@@ -15,6 +15,7 @@ export default function Stats({
   electroMultiplier
 }) {
   const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
+  const totalJunkCollected = parseInt(localStorage.getItem('totalJunkCollected') || '0');
   const hasHoverDrone = craftingInventory && craftingInventory['Hover Drone'];
 
   return (
@@ -34,6 +35,10 @@ export default function Stats({
             <div className="stat-item">
               <span className="stat-label">Total Tronics Clicks:</span>
               <span className="stat-value">{totalTronicsClicks.toLocaleString()}</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">Total Junk Collected:</span>
+              <span className="stat-value">{totalJunkCollected.toLocaleString()}</span>
             </div>
             <div className="stat-item">
               <span className="stat-label">Average JPS:</span>
