@@ -58,12 +58,24 @@ export default function ResetProgress({ onReset }) {
       }),
       'ownedItems': '{}',
       'craftingInventory': '{}',
-      'achievements': JSON.stringify(defaultAchievements)
+      'achievements': JSON.stringify(defaultAchievements),
+      // Explicitly clear quest-related items
+      'quest_sync_Forge the Future': null,
+      'quest_sync_Scratz to Riches': null,
+      'quest_sync_System Memory Detected': null,
+      'quest_sync_Tap the Pulse': null,
+      'quest_sync_Upgrade Cascade': null,
+      'quest_sync_Beacon Protocol': null,
+      'quest_sync_Forge the Overcrystal': null
     };
 
     // Set all default values
     Object.entries(defaultValues).forEach(([key, value]) => {
-      localStorage.setItem(key, value);
+      if (value === null) {
+        localStorage.removeItem(key);
+      } else {
+        localStorage.setItem(key, value);
+      }
     });
 
     // Clear Zustand storage keys explicitly
