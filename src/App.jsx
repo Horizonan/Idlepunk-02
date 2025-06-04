@@ -743,23 +743,7 @@ export default function App() {
     }
   }, [craftingInventory]);
 
-  useEffect(() => {
-    const handleNextNews = (event) => {
-      setNewsMessage(event.detail.message);
-    };
-
-    window.addEventListener('nextNews', handleNextNews);
-    return () => window.removeEventListener('nextNews', handleNextNews);
-  }, []);
-
-  useEffect(() => {
-    const handleCrystalStateChange = (event) => {
-      setCrystalDiscoveryState(event.detail);
-    };
-
-    window.addEventListener('crystalStateChange', handleCrystalStateChange);
-    return () => window.removeEventListener('crystalStateChange', handleCrystalStateChange);
-  }, []);
+  
 
   useEffect(() => {
     const handleCreditsUpdate = (event) => {
