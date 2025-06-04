@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 
 export default function MenuButtons({ onStoreSelect, showInventory }) {
@@ -81,15 +82,15 @@ export default function MenuButtons({ onStoreSelect, showInventory }) {
         <div key={category} className="menu-category">
           <h3 className="menu-category-header">{header}</h3>
           {buttons.map((button, index) => (
-              <button
-                key={index}
-                onClick={button.onClick}
-                className={`menu-button ${button.locked ? 'locked-store' : ''}`}
-                disabled={button.locked}
-              >
-                {button.label} {button.locked && '🔒'} {button.indicator && button.indicator() && <span style={{color: '#ff0000', fontWeight: 'bold'}}>!</span>}
-              </button>
-            ))}
+            <button
+              key={index}
+              onClick={button.onClick}
+              className={`menu-button ${button.locked ? 'locked-store' : ''}`}
+              disabled={button.locked}
+            >
+              {button.label} {button.locked && '🔒'}
+            </button>
+          ))}
         </div>
       ))}
     </div>
