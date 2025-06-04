@@ -48,7 +48,7 @@ export default function FlyingCrystal({ onCollect, onDisappear }) {
 
     const disappearTimeout = setTimeout(() => {
       onDisappear();
-    }, getCrystalPickupDuration()); // 5 minutes max duration
+    }, getCrystalPickupDuration() * 1000); // Convert seconds to milliseconds
 
     return () => {
       if (animationRef.current) {
