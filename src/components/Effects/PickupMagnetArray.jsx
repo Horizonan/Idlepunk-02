@@ -86,11 +86,11 @@ export default function PickupMagnetArray() {
           const currentX = rect.left;
           const currentY = rect.top;
 
-          // Apply magnetic pull and disable all animations
+          // Apply magnetic pull with smooth transition while disabling original animations
           pickup.style.position = 'fixed';
           pickup.style.left = `${currentX + moveX}px`;
           pickup.style.top = `${currentY + moveY}px`;
-          pickup.style.transition = 'none !important';
+          pickup.style.transition = 'left 0.1s ease-out, top 0.1s ease-out';
           pickup.style.zIndex = '9999';
           pickup.style.transform = 'none !important';
           pickup.style.animation = 'none !important';
