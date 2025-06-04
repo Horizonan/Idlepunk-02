@@ -67,10 +67,8 @@ export default function PickupMagnetArray() {
     };
   }, [isActive, mousePosition]);
 
-  // Render magnet field visualization when active and setting is enabled
-  const showRadius = localStorage.getItem('showPickupMagnetRadius') !== 'false';
-  
-  if (!isActive || !showRadius) return null;
+  // Render magnet field visualization when active
+  if (!isActive) return null;
 
   return (
     <div
