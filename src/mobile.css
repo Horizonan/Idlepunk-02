@@ -167,12 +167,13 @@
 
   .quest-log {
     position: fixed !important;
-    top: 60px !important;
+    top: 80px !important;
     right: 15px !important;
     left: 15px !important;
-    bottom: 150px !important;
+    bottom: 180px !important;
     width: auto !important;
     height: auto !important;
+    max-height: 60vh !important;
     z-index: 1200 !important;
     margin: 0 !important;
   }
@@ -186,15 +187,17 @@
   /* Store container mobile optimization */
   .store-container {
     position: fixed !important;
-    top: 50px !important;
-    left: 10px !important;
-    right: 10px !important;
-    bottom: 150px !important;
+    top: 80px !important;
+    left: 15px !important;
+    right: 15px !important;
+    bottom: 180px !important;
     width: auto !important;
     height: auto !important;
+    max-height: 70vh !important;
     transform: none !important;
     padding: 15px !important;
     z-index: 1300 !important;
+    overflow-y: auto !important;
   }
 
   .store-items {
@@ -287,12 +290,13 @@
   .cheat-menu,
   .cheat-menu-redesigned {
     position: fixed !important;
-    top: 50px !important;
-    left: 10px !important;
-    right: 10px !important;
-    bottom: 150px !important;
+    top: 80px !important;
+    left: 15px !important;
+    right: 15px !important;
+    bottom: 180px !important;
     width: auto !important;
     height: auto !important;
+    max-height: 70vh !important;
     transform: none !important;
     padding: 15px !important;
     z-index: 1400 !important;
