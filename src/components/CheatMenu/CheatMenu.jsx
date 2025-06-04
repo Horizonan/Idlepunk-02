@@ -126,6 +126,22 @@ export default function CheatMenu({
           localStorage.setItem('skillLevels', JSON.stringify(skillLevels));
           window.location.reload();
         }, type: 'secondary' },
+        { name: 'Set 5 Successful Missions', action: () => {
+          // Update the crew storage to set successfulMissions to 5
+          const crewStorage = JSON.parse(localStorage.getItem('crew-storage') || '{}');
+          if (crewStorage.state) {
+            crewStorage.state.successfulMissions = 5;
+          } else {
+            crewStorage.state = { successfulMissions: 5 };
+          }
+          localStorage.setItem('crew-storage', JSON.stringify(crewStorage));
+          
+          // Also update the zustand store directly
+          const { useRecruitmentZustand } = require('../../stores/crewRecruitment/recruitmentZustand');
+          useRecruitmentZustand.setState({ successfulMissions: 5 });
+          
+          window.dispatchEvent(new CustomEvent('questsUpdated'));
+        }, type: 'secondary' },
       ]
     },
     events: {
