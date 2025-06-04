@@ -1,0 +1,130 @@
+
+.prestige-meter-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.9);
+  border-top: 2px solid #9400D3;
+  z-index: 1000;
+  padding: 10px 20px;
+  backdrop-filter: blur(5px);
+}
+
+.prestige-meter-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.prestige-meter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.9em;
+}
+
+.prestige-level {
+  color: #9400D3;
+  font-weight: bold;
+  text-shadow: 0 0 8px rgba(148, 0, 211, 0.8);
+}
+
+.quest-counter {
+  color: #00FF00;
+  font-weight: bold;
+}
+
+.prestige-meter-bar {
+  position: relative;
+  width: 100%;
+  height: 20px;
+  background: rgba(34, 34, 34, 0.8);
+  border: 1px solid #333;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.prestige-meter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #9400D3 0%, #FF00FF 50%, #00FFFF 100%);
+  transition: width 0.5s ease;
+  position: relative;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(148, 0, 211, 0.6);
+}
+
+.prestige-meter-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+  animation: shimmer 2s infinite;
+}
+
+.prestige-meter-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-weight: bold;
+  font-size: 0.8em;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  z-index: 1001;
+}
+
+.prestige-bonuses {
+  text-align: center;
+  color: #FFD700;
+  font-size: 0.8em;
+  margin-top: 5px;
+  text-shadow: 0 0 5px rgba(255, 215, 0, 0.8);
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .prestige-meter-container {
+    padding: 8px 15px;
+  }
+  
+  .prestige-meter-header {
+    font-size: 0.8em;
+  }
+  
+  .prestige-meter-bar {
+    height: 16px;
+  }
+  
+  .prestige-meter-text {
+    font-size: 0.7em;
+  }
+  
+  .prestige-bonuses {
+    font-size: 0.7em;
+  }
+}
+
+/* Animation for when meter first appears */
+.prestige-meter-container {
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

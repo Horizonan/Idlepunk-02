@@ -69,6 +69,7 @@ import ActiveCheats from './components/CheatMenu/ActiveCheats';
 import ItemInventory from './stores/ItemInventory';
 import PrestigePopup from './components/PrestigePopup';
 import QuantumTapNotification from './components/QuantumTapNotification';
+import PrestigeMeter from './components/PrestigeMeter';
 import { useEmailStore } from './utils/emailStore';
 
 //Mini game Component
@@ -1523,6 +1524,7 @@ export default function App() {
           }}
         />
       )}
+      <PrestigeMeter />
     </main>
   );
 }
