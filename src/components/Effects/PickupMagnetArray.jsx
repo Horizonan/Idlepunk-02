@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 
 export default function PickupMagnetArray() {
@@ -28,12 +29,13 @@ export default function PickupMagnetArray() {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
+    document.addEventListener('mousemove', handleMouseMove);
+
     // Magnet effect for pickups
     const magnetInterval = setInterval(() => {
-      // Get all floating trash elements
+      // Get all floating pickup elements
       const trashElements = document.querySelectorAll('img[alt="Trash Bonus"]');
-      // Get all floating crystal elements
-      const crystalElements = document.querySelectorAll('img[alt="Flying Crystal"]');
+      const crystalElements = document.querySelectorAll('img[alt="Crystal"]');
 
       const allPickups = [...trashElements, ...crystalElements];
 
@@ -50,47 +52,55 @@ export default function PickupMagnetArray() {
           Math.pow(mousePosition.y - pickupCenter.y, 2)
         );
 
-        // Magnet range - 150 pixels
-        const magnetRange = 150;
+        // Magnet range - 200 pixels
+        const magnetRange = 200;
+        const collectRange = 30;
 
-        if (distance <= magnetRange && distance > 20) {
+        if (distance <= collectRange) {
+          // Auto-collect when very close to cursor
+          pickup.click();
+        } else if (distance <= magnetRange) {
           // Calculate direction towards cursor
           const dx = mousePosition.x - pickupCenter.x;
           const dy = mousePosition.y - pickupCenter.y;
 
           // Normalize and apply magnet strength
-          const magnetStrength = 3;
+          const magnetStrength = Math.min(5, distance / 40); // Stronger pull when closer
           const moveX = (dx / distance) * magnetStrength;
           const moveY = (dy / distance) * magnetStrength;
 
-          // Get current position from computed styles
-          const computedStyle = window.getComputedStyle(pickup);
-          const currentLeft = parseInt(computedStyle.left) || rect.left;
-          const currentTop = parseInt(computedStyle.top) || rect.top;
+          // Get current position - try multiple methods
+          let currentX = pickup.offsetLeft;
+          let currentY = pickup.offsetTop;
 
-          // Apply magnetic pull with smooth transition
+          // If offsetLeft/Top don't work, try style properties
+          if (currentX === 0 && currentY === 0) {
+            const computedStyle = window.getComputedStyle(pickup);
+            currentX = parseInt(computedStyle.left) || rect.left;
+            currentY = parseInt(computedStyle.top) || rect.top;
+          }
+
+          // Apply magnetic pull
           pickup.style.position = 'fixed';
-          pickup.style.left = `${currentLeft + moveX}px`;
-          pickup.style.top = `${currentTop + moveY}px`;
-          pickup.style.transition = 'none'; // Remove transitions during magnet pull
+          pickup.style.left = `${currentX + moveX}px`;
+          pickup.style.top = `${currentY + moveY}px`;
+          pickup.style.transition = 'none';
+          pickup.style.zIndex = '9999';
 
           // Add magnet effect visual
-          pickup.style.filter = 'drop-shadow(0 0 15px #00ffff) drop-shadow(0 0 10px #ffffff)';
-        } else if (distance <= 20) {
-          // Auto-collect when very close to cursor
-          pickup.click();
+          pickup.style.filter = pickup.alt === 'Trash Bonus' 
+            ? 'drop-shadow(0 0 15px #00ffff) drop-shadow(0 0 10px #00ff00)'
+            : 'drop-shadow(0 0 15px #00ffff) drop-shadow(0 0 10px #ff00ff)';
         } else {
           // Remove magnet effect when out of range
           const originalFilter = pickup.alt === 'Trash Bonus' 
             ? 'drop-shadow(0 0 10px #00ff00)' 
             : 'drop-shadow(0 0 10px #ff00ff)';
           pickup.style.filter = originalFilter;
-           pickup.style.transition = 'all 0.3s ease'; // Restore transitions
+          pickup.style.transition = 'all 0.3s ease';
         }
       });
     }, 16); // ~60fps
-
-    document.addEventListener('mousemove', handleMouseMove);
 
     return () => {
       clearInterval(magnetInterval);
@@ -105,10 +115,10 @@ export default function PickupMagnetArray() {
     <div
       style={{
         position: 'fixed',
-        left: mousePosition.x - 75,
-        top: mousePosition.y - 75,
-        width: '150px',
-        height: '150px',
+        left: mousePosition.x - 100,
+        top: mousePosition.y - 100,
+        width: '200px',
+        height: '200px',
         borderRadius: '50%',
         border: '2px solid rgba(0, 255, 255, 0.3)',
         background: 'radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 70%)',

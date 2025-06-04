@@ -784,7 +784,7 @@ export default function App() {
       <TutorialSystem
         junk={junk}
         hasUpgrade={hasUpgrade}
-        passiveIncome={passiveIncome}
+        passiveIncome={passiveIncome}```python
         hasHelper={hasHelper}
         hasCrafting={Object.values(craftingInventory).some(count => count > 0)}
         isSurgeActive={isSurgeActive}
@@ -1542,6 +1542,7 @@ export default function App() {
         />
       )}
       <PrestigeMeter />
+      <PickupMagnetArray />
     </main>
   );
 }
