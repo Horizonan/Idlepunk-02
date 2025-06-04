@@ -226,15 +226,17 @@
 
   .quest-log {
     position: fixed !important;
-    top: 80px !important;
-    right: 15px !important;
-    left: 15px !important;
-    bottom: 180px !important;
-    width: auto !important;
-    height: auto !important;
-    max-height: 60vh !important;
+    top: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
     z-index: 1200 !important;
     margin: 0 !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
   }
 
   .quest-log-content {
@@ -246,17 +248,18 @@
   /* Store container mobile optimization */
   .store-container {
     position: fixed !important;
-    top: 80px !important;
-    left: 15px !important;
-    right: 15px !important;
-    bottom: 180px !important;
-    width: auto !important;
-    height: auto !important;
-    max-height: 70vh !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
     transform: none !important;
-    padding: 15px !important;
+    padding: 20px !important;
     z-index: 1300 !important;
     overflow-y: auto !important;
+    box-sizing: border-box !important;
   }
 
   .store-items {
@@ -347,19 +350,26 @@
   .slot-machine-container,
   .changelog-menu,
   .cheat-menu,
-  .cheat-menu-redesigned {
+  .cheat-menu-redesigned,
+  .crew-menu,
+  .marketplace,
+  .tooltips-menu,
+  .inventory-container,
+  .tech-tree-container,
+  .coin-flip-container {
     position: fixed !important;
-    top: 80px !important;
-    left: 15px !important;
-    right: 15px !important;
-    bottom: 180px !important;
-    width: auto !important;
-    height: auto !important;
-    max-height: 70vh !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
     transform: none !important;
-    padding: 15px !important;
+    padding: 20px !important;
     z-index: 1400 !important;
     overflow-y: auto !important;
+    box-sizing: border-box !important;
   }
 
   /* Tutorial message mobile */
