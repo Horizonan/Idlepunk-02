@@ -37,15 +37,17 @@ export default function PrestigeMeter() {
 
     updateQuestCount();
     
-    // Listen for quest updates
+    // Listen for quest updates and prestige completion
     const interval = setInterval(updateQuestCount, 1000);
     window.addEventListener('storage', updateQuestCount);
     window.addEventListener('questUpdate', updateQuestCount);
+    window.addEventListener('prestigeComplete', updateQuestCount);
 
     return () => {
       clearInterval(interval);
       window.removeEventListener('storage', updateQuestCount);
       window.removeEventListener('questUpdate', updateQuestCount);
+      window.removeEventListener('prestigeComplete', updateQuestCount);
     };
   }, []);
 

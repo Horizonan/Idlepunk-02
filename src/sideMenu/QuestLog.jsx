@@ -26,11 +26,13 @@ export default function QuestLog({ tutorialStage, onClose }) {
     handleStorageChange();
     window.addEventListener('storage', handleStorageChange);
     window.addEventListener('questUpdate', handleStorageChange);
+    window.addEventListener('prestigeComplete', handleStorageChange);
     const interval = setInterval(handleStorageChange, 1000);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('questUpdate', handleStorageChange);
+      window.removeEventListener('prestigeComplete', handleStorageChange);
       clearInterval(interval);
     };
   }, [selectedQuestLine]);
