@@ -11,8 +11,9 @@ export default function MenuButtons({ onStoreSelect, showInventory, craftingInve
     const hasStabilizedCapacitor = (craftingInventory['Stabilized Capacitor'] || 0) >= 1;
     const hasVoltageNode = (craftingInventory['Voltage Node'] || 0) >= 1;
     const hasSynthcoreFragment = (craftingInventory['Synthcore Fragment'] || 0) >= 1;
+    const hasQuantumEntangler = (craftingInventory['Quantum Entangler'] || 0) >= 1;
 
-    const canCraft = junk >= 10000000 && hasStabilizedCapacitor && hasVoltageNode && hasSynthcoreFragment;
+    const canCraft = junk >= 10000000 && hasStabilizedCapacitor && hasVoltageNode && hasSynthcoreFragment && hasQuantumEntangler;
     setCanCraftPrestigeCrystal(canCraft);
   }, [craftingInventory]);
 

@@ -1242,6 +1242,7 @@ export default function App() {
           onShowCrystal= {setShowCrystal}
           onSetTronicsSurgeActive= {setTronicsSurgeActive}
           onSetSurgeActive={setIsSurgeActive}
+          setCredits={setCredits}
           setCraftingInventory={setCraftingInventory}
           onLaunchRelayCascade={() => setShowRelayCascade(true)} // Cheat button to launch Relay Cascade
         />

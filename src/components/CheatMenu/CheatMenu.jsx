@@ -18,7 +18,7 @@ function setNextTronicsSurgeTimer() {
 export default function CheatMenu({ 
   onReset, onAddJunk, onClose, onResetTutorial, onNextTutorial, 
   setShowTrashBonus, onAddTronics, onAddSetPrestige, onAddElectroShard, 
-  onShowCrystal, onSetTronicsSurgeActive, onSetSurgeActive, setCraftingInventory 
+  onShowCrystal, onSetTronicsSurgeActive, onSetSurgeActive, setCraftingInventory, setCredits
 }) {
   const [activeTab, setActiveTab] = useState('resources');
   const [position, setPosition] = useState(() => {
@@ -107,6 +107,7 @@ export default function CheatMenu({
           localStorage.setItem('hadFirstSurge', 'true');
           window.dispatchEvent(new Event('updateSurgeCount'));
           onAddJunk(100000000);
+          setCredits(prev => prev + 200);
           onAddElectroShard(10);
         }, type: 'special' },
         { name: 'Max Scavenging Focus', action: () => {
