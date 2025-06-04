@@ -26,8 +26,11 @@
   border-radius: 15px;
   border: 2px solid #9400D3;
   box-shadow: 0 0 20px rgba(148, 0, 211, 0.3);
-  z-index: 1000;
+  z-index: 1500;
   width: 600px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
   color: #00FF00;
   font-family: 'Courier New', monospace;
 }
@@ -179,4 +182,129 @@
   color: #00ff4c;
   font-size: 1.2em;
   font-weight: bold;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .coin-flip-container {
+    width: 95vw !important;
+    max-width: 95vw !important;
+    height: auto !important;
+    max-height: 85vh !important;
+    padding: 15px !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 1500 !important;
+    overflow-y: auto !important;
+  }
+
+  .coin-flip-header {
+    margin-bottom: 15px !important;
+    padding-bottom: 8px !important;
+  }
+
+  .coin-flip-header h2 {
+    font-size: 1.3em !important;
+    margin: 0 !important;
+  }
+
+  .close-button-flip {
+    padding: 8px !important;
+    font-size: 0.8em !important;
+    width: 60px !important;
+  }
+
+  .coin {
+    width: 120px !important;
+    height: 120px !important;
+    margin: 15px auto !important;
+  }
+
+  .side {
+    font-size: 40px !important;
+  }
+
+  .bet-controls {
+    flex-direction: column !important;
+    gap: 10px !important;
+    margin-top: 15px !important;
+  }
+
+  .bet-controls input {
+    padding: 10px !important;
+    font-size: 14px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .bet-controls button {
+    padding: 10px 20px !important;
+    font-size: 14px !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .street-rat-comment {
+    margin-top: 15px !important;
+    padding: 12px !important;
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 10px !important;
+  }
+
+  .rat-icon {
+    font-size: 24px !important;
+  }
+
+  .street-rat-comment p {
+    margin: 0 !important;
+    font-size: 0.9em !important;
+  }
+
+  .stats-display {
+    margin-top: 15px !important;
+    padding: 12px !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+
+  .stat-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 8px !important;
+    background: rgba(0, 0, 0, 0.2) !important;
+    border-radius: 4px !important;
+  }
+
+  .stat-value {
+    font-size: 1em !important;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 400px) {
+  .coin-flip-container {
+    padding: 10px !important;
+  }
+
+  .coin {
+    width: 100px !important;
+    height: 100px !important;
+  }
+
+  .side {
+    font-size: 32px !important;
+  }
+
+  .coin-flip-header h2 {
+    font-size: 1.1em !important;
+  }
+
+  .bet-controls input,
+  .bet-controls button {
+    padding: 8px !important;
+    font-size: 12px !important;
+  }
 }
