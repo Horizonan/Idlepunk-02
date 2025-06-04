@@ -279,10 +279,6 @@ export const validateQuests = ({
       if (!localStorage.getItem(questSyncKey)) {
         localStorage.setItem(questSyncKey, 'true');
         setNotifications(prev => [...prev, `Quest Completed: ${quest.title}`]);
-        setCraftingInventory(prev => ({
-          ...prev,
-          'Quantum Entangler': (prev['Quantum Entangler'] || 0) + 1
-        }));
         if (quest.onComplete) {
           quest.onComplete();
         }
