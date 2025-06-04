@@ -75,12 +75,7 @@ export default function PickupMagnetArray() {
             pickup.dataset.originalFilter = pickup.style.filter || computedStyle.filter;
             pickup.dataset.originalAnimationPlayState = pickup.style.animationPlayState || computedStyle.animationPlayState;
             
-            // IMMEDIATELY AND COMPLETELY STOP ALL ORIGINAL ANIMATIONS
-            pickup.style.setProperty('animation', 'none', 'important');
-            pickup.style.setProperty('animation-play-state', 'paused', 'important');
-            pickup.style.setProperty('transform', 'none', 'important');
-            
-            // Mark as being affected by magnet
+            // Mark as being affected by magnet FIRST
             pickup.dataset.magnetActive = 'true';
             
             // Get the current computed position to start smooth transition from
@@ -88,6 +83,11 @@ export default function PickupMagnetArray() {
             pickup.dataset.magnetStartX = currentRect.left.toString();
             pickup.dataset.magnetStartY = currentRect.top.toString();
           }
+
+          // ENSURE animations stay stopped while in magnet range (re-apply every frame)
+          pickup.style.setProperty('animation', 'none', 'important');
+          pickup.style.setProperty('animation-play-state', 'paused', 'important');
+          pickup.style.setProperty('transform', 'none', 'important');
 
           // Calculate direction towards cursor for magnetic pull
           const dx = mousePosition.x - pickupCenter.x;
