@@ -1,10 +1,6 @@
 import React from 'react';
 import { calculateCrystalTimeReduction, getCrystalPickupDuration } from '../utils/crystalUtils';
-
-// Function to calculate trash pickup duration
-const getTrashPickupDuration = (hasHoverDrone) => {
-  return hasHoverDrone ? 25 : 20;
-};
+import { getTrashPickupDuration } from '../utils/trashUtils';
 
 export default function Stats({ 
   clickCount,
@@ -83,7 +79,7 @@ export default function Stats({
           <div className="stats-grid">
             <div className="stat-item">
               <span className="stat-label">Trash Pickup Duration:</span>
-              <span className="stat-value">{getTrashPickupDuration(hasHoverDrone)}s</span>
+              <span className="stat-value">{getTrashPickupDuration()}s</span>
             </div>
             <div className="stat-item">
               <span className="stat-label">Crystal Pickup Duration:</span>
