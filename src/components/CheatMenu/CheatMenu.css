@@ -242,40 +242,44 @@
   border-color: #00FF00;
 }
 
+/* Primary actions - Safe, common operations (Green theme) */
 .cheat-action-btn.primary {
-  border-color: #00FFFF;
-  color: #00FFFF;
+  border-color: #00FF00;
+  color: #00FF00;
 }
 
 .cheat-action-btn.primary:hover {
-  background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(0, 255, 255, 0.05));
-  border-color: #00FFFF;
-  box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+  background: linear-gradient(135deg, rgba(0, 255, 0, 0.1), rgba(0, 255, 0, 0.05));
+  border-color: #00FF00;
+  box-shadow: 0 4px 15px rgba(0, 255, 0, 0.3);
 }
 
+/* Secondary actions - Moderate operations (Blue/Cyan theme) */
 .cheat-action-btn.secondary {
-  border-color: #FFD700;
-  color: #FFD700;
+  border-color: #00BFFF;
+  color: #00BFFF;
 }
 
 .cheat-action-btn.secondary:hover {
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));
-  border-color: #FFD700;
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+  background: linear-gradient(135deg, rgba(0, 191, 255, 0.1), rgba(0, 191, 255, 0.05));
+  border-color: #00BFFF;
+  box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
 }
 
+/* Special actions - Rare/Premium operations (Purple/Magenta theme) */
 .cheat-action-btn.special {
-  border-color: #FF00FF;
-  color: #FF00FF;
-  background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(0, 0, 0, 0.8));
+  border-color: #9400D3;
+  color: #9400D3;
+  background: linear-gradient(135deg, rgba(148, 0, 211, 0.1), rgba(0, 0, 0, 0.8));
 }
 
 .cheat-action-btn.special:hover {
-  background: linear-gradient(135deg, rgba(255, 0, 255, 0.2), rgba(255, 0, 255, 0.1));
-  border-color: #FF00FF;
-  box-shadow: 0 4px 15px rgba(255, 0, 255, 0.4);
+  background: linear-gradient(135deg, rgba(148, 0, 211, 0.2), rgba(148, 0, 211, 0.1));
+  border-color: #9400D3;
+  box-shadow: 0 4px 15px rgba(148, 0, 211, 0.4);
 }
 
+/* Warning actions - Destructive/Reset operations (Red theme) */
 .cheat-action-btn.warning {
   border-color: #FF4444;
   color: #FF4444;
