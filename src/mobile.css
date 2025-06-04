@@ -111,18 +111,24 @@
   /* Crystal timer repositioning */
   .crystal-timer {
     position: fixed !important;
-    bottom: 130px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
+    bottom: 140px !important;
+    left: 15px !important;
+    transform: none !important;
     width: auto !important;
-    max-width: 250px !important;
-    min-width: 180px !important;
-    padding: 8px 12px !important;
-    font-size: 0.85em !important;
+    max-width: 140px !important;
+    min-width: 120px !important;
+    padding: 4px 8px !important;
+    font-size: 0.7em !important;
     z-index: 999 !important;
-    background: rgba(26, 26, 26, 0.95) !important;
+    background: rgba(26, 26, 26, 0.9) !important;
     border: 1px solid #9400D3 !important;
-    border-radius: 20px !important;
+    border-radius: 12px !important;
+  }
+
+  .crystal-timer img {
+    width: 16px !important;
+    height: 16px !important;
+    margin-right: 4px !important;
   }
 
   /* Menu buttons area */
@@ -132,28 +138,72 @@
     right: 20px !important;
     left: auto !important;
     transform: none !important;
+    z-index: 1200 !important;
+    max-width: 160px !important;
+    min-width: 140px !important;
+  }
+
+  .menu-container:not(.collapsed) {
     background: rgba(26, 26, 26, 0.95) !important;
     border: 2px solid #9400D3 !important;
     border-radius: 8px !important;
-    padding: 15px !important;
+    padding: 12px !important;
+    backdrop-filter: blur(10px) !important;
+  }
+
+  .menu-container.collapsed {
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    backdrop-filter: none !important;
+  }
+
+  .menu-buttons {
     display: flex !important;
     flex-direction: column !important;
-    gap: 10px !important;
-    z-index: 1200 !important;
-    backdrop-filter: blur(10px) !important;
-    max-width: 200px !important;
-    min-width: 180px !important;
+    gap: 8px !important;
+  }
+
+  .menu-category {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+  }
+
+  .menu-category-header {
+    font-size: 0.7em !important;
+    color: #9400D3 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    opacity: 0.8 !important;
   }
 
   .menu-button {
-    padding: 10px !important;
-    font-size: 0.8em !important;
+    padding: 8px 10px !important;
+    font-size: 0.75em !important;
     margin: 0 !important;
     width: 100% !important;
     text-align: center !important;
     white-space: nowrap !important;
     border-radius: 4px !important;
     flex-shrink: 0 !important;
+    background: #222 !important;
+    border: 1px solid #9400D3 !important;
+    color: #00FF00 !important;
+  }
+
+  .menu-toggle {
+    padding: 8px 12px !important;
+    font-size: 0.8em !important;
+    background: #222 !important;
+    border: 1px solid #9400D3 !important;
+    color: #00FF00 !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    width: 60px !important;
   }
 
   /* Quest log positioning */
@@ -350,6 +400,44 @@
   }
 }
 
+/* MainStore styling fixes */
+  .mainStore {
+    position: fixed !important;
+    bottom: 20px !important;
+    left: 20px !important;
+    z-index: 1200 !important;
+    max-width: 160px !important;
+    min-width: 140px !important;
+  }
+
+  .mainStore:not(.collapsed) {
+    background: rgba(26, 26, 26, 0.95) !important;
+    border: 2px solid #9400D3 !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    backdrop-filter: blur(10px) !important;
+  }
+
+  .mainStore.collapsed {
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    backdrop-filter: none !important;
+  }
+
+  .mainStore .menu-toggle {
+    padding: 8px 12px !important;
+    font-size: 0.8em !important;
+    background: #222 !important;
+    border: 1px solid #9400D3 !important;
+    color: #00FF00 !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    width: 60px !important;
+    margin: 0 !important;
+  }
+
 /* Large mobile/small tablet adjustments */
 @media (max-width: 600px) {
   .stats {
@@ -363,15 +451,18 @@
     font-size: 20px !important;
   }
 
-  .menu-container {
-    padding: 6px 12px !important;
+  .menu-container:not(.collapsed) {
+    padding: 10px !important;
     gap: 6px !important;
   }
 
   .menu-button {
-    padding: 6px 10px !important;
-    font-size: 0.75em !important;
-    min-width: 50px !important;
+    padding: 6px 8px !important;
+    font-size: 0.7em !important;
+  }
+
+  .mainStore:not(.collapsed) {
+    padding: 10px !important;
   }
 }
 
