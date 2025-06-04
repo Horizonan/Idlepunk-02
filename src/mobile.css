@@ -391,8 +391,10 @@
     bottom: 80px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
-    width: 90% !important;
-    max-width: 300px !important;
+    width: auto !important;
+    max-width: 280px !important;
+    min-width: 200px !important;
+    white-space: nowrap !important;
   }
 
   /* Combat mobile optimization */
