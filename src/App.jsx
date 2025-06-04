@@ -1101,6 +1101,7 @@ export default function App() {
           onBuyCircuitOptimization={handleBuyCircuitOptimization}
           onBuyFrequencyTap={handleBuyHighFreqTap}
           onBuyReactiveFeedback={handleBuyReactiveFeedback}
+          onBuyPickupMagnetArray={handleBuyPickupMagnetArray}
           onBack={() => {
             setActiveStore(null);
             localStorage.setItem('activeStore', null);

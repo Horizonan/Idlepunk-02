@@ -4,7 +4,7 @@ import '../styles/Store.css';
 export default function ElectroStore({ 
   electroShards, tronics, onBuyTronicsBoost, onBuyQuantumTap, 
   onBack, bulkBuy, setBulkBuy, itemCosts, calculate10xPrice01, onBuyTronicsBoostII, caluclatePricex02, onBuyFlowRegulator, onBuyElectroSurgeNode, onBuyElectroBeaconCore,
-  onBuyCircuitOptimization,onBuyFrequencyTap, onBuyReactiveFeedback,
+  onBuyCircuitOptimization,onBuyFrequencyTap, onBuyReactiveFeedback, onBuyPickupMagnetArray,
 }) {
   const [selectedTab, setSelectedTab] = useState("basic");
 
@@ -131,6 +131,18 @@ export default function ElectroStore({
       action: onBuyReactiveFeedback,
       purchasedCount: localStorage.getItem('reactive_feedback_purchased') === 'true' ? 1 : 0,
       unlockCondition: () => localStorage.getItem('unlocked_tronics_boost') && tronics >= 40000 && electroShards >= 12 && !localStorage.getItem('reactive_feedback_purchased')
+    },
+    {
+      name: "🧲 Pickup Magnet Array",
+      cost: {
+        tronics: !localStorage.getItem('pickup_magnet_array_purchased') ? 0 : 200000,
+        shards: !localStorage.getItem('pickup_magnet_array_purchased') ? 10 : 0
+      },
+      description: "Extends pickup duration by 8s (all floating pickups) and auto-collects near cursor",
+      info: "A powerful electromagnetic field generator that draws all valuable materials within range directly to your collection interface",
+      action: onBuyPickupMagnetArray,
+      purchasedCount: localStorage.getItem('pickup_magnet_array_purchased') === 'true' ? 1 : 0,
+      unlockCondition: () => localStorage.getItem('unlocked_tronics_boost') && tronics >= 200000 && electroShards >= 10 && !localStorage.getItem('pickup_magnet_array_purchased')
     }
   ];
 
@@ -162,6 +174,9 @@ export default function ElectroStore({
           return false;
         }
         if (item.name.includes("Reactive Feedback Loop") && localStorage.getItem('reactive_feedback_purchased') === 'true') {
+          return false;
+        }
+        if (item.name.includes("Pickup Magnet Array") && localStorage.getItem('pickup_magnet_array_purchased') === 'true') {
           return false;
         }
         return true;

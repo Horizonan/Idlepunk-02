@@ -503,6 +503,16 @@ export const gameHandlers = (gameState, setGameState) => {
     }
   };
 
+  const handleBuyPickupMagnetArray = () => {
+    if (!localStorage.getItem('pickup_magnet_array_purchased') && gameState.electroShards >= 10 && gameState.tronics >= 200000) {
+      setGameState.setElectroShards(prev => prev - 10);
+      setGameState.setTronics(prev => prev - 200000);
+      localStorage.setItem("pickup_magnet_array_purchased", "true");
+      setGameState.setNotifications(prev => [...prev, "Pickup Magnet Array installed! Pickup duration extended by 8s and auto-collects near cursor!"]);
+      incrementUpgradeCount();
+    }
+  };
+
   return {
     collectJunk,
     handleBuyTrashBag,
@@ -530,6 +540,7 @@ export const gameHandlers = (gameState, setGameState) => {
     handleBuyCircuitOptimization,
     handleBuyHighFreqTap,
     handleBuyReactiveFeedback,
+    handleBuyPickupMagnetArray,
     handleBuyScratzMiner
   };
 }

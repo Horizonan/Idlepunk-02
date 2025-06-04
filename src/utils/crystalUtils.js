@@ -1,4 +1,3 @@
-
 export const calculateCrystalTimeReduction = () => {
   const hasBeaconCore = localStorage.getItem("beacon_core_purchased") === "true";
   const beaconCount = parseInt(localStorage.getItem("beaconCount") || "0");
@@ -6,7 +5,7 @@ export const calculateCrystalTimeReduction = () => {
   const beaconBaseReduction = hasBeaconCore ? 0.25 : 0;
   const beaconStackReduction = maxBeacons * 0.01;
   const totalReduction = Math.min(0.9, beaconBaseReduction + beaconStackReduction);
-  
+
   return {
     totalReduction,
     percentageReduction: Math.floor(totalReduction * 100),
@@ -20,5 +19,11 @@ export const calculateNextCrystalSpawnTime = () => {
 };
 
 export const getCrystalPickupDuration = () => {
-  return 300; // Returns duration in seconds (5 minutes)
+  const hasHoverDrone = JSON.parse(localStorage.getItem('craftingInventory') || '{}')['Hover Drone'];
+  const hasPickupMagnetArray = localStorage.getItem('pickup_magnet_array_purchased') === 'true';
+  let baseDuration = hasHoverDrone ? 25 : 20;
+  if (hasPickupMagnetArray) {
+    baseDuration += 8;
+  }
+  return baseDuration; // Returns duration in seconds
 };
