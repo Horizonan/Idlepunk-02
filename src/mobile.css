@@ -388,13 +388,16 @@
 
   /* Crystal timer mobile */
   .crystal-timer {
+    position: fixed !important;
     bottom: 80px !important;
     left: 50% !important;
+    top: auto !important;
     transform: translateX(-50%) !important;
     width: auto !important;
     max-width: 280px !important;
     min-width: 200px !important;
     white-space: nowrap !important;
+    z-index: 999 !important;
   }
 
   /* Combat mobile optimization */
