@@ -156,7 +156,7 @@ export default function Settings({
     return filteredSettings.some(setting => setting.section === sectionName);
   };
 
-  const shouldShowSetting = (settingName) => {
+  const shouldShowSpecificSetting = (settingName) => {
     switch (settingName) {
       case 'prestigeMeter':
         return localStorage.getItem('prestige_unlocked') === 'true';
@@ -288,7 +288,7 @@ export default function Settings({
                 </label>
                 )}
 
-                {shouldShowSetting('hoverDrone') && (
+                {shouldShowSpecificSetting('hoverDrone') && (
                 <label className="setting-option modern">
                   <div className="setting-info">
                     <span className="setting-name">Hover Drone</span>
@@ -305,7 +305,7 @@ export default function Settings({
                 </label>
                 )}
 
-                {shouldShowSetting('autoclickers') && (
+                {shouldShowSpecificSetting('autoclickers') && (
                 <label className="setting-option modern">
                   <div className="setting-info">
                     <span className="setting-name">Autoclickers</span>
@@ -371,7 +371,7 @@ export default function Settings({
                 </label>
                 )}
 
-                {shouldShowSetting('prestigeMeter') && (
+                {shouldShowSpecificSetting('prestigeMeter') && (
                 <label className="setting-option modern">
                   <div className="setting-info">
                     <span className="setting-name">Prestige Meter</span>
