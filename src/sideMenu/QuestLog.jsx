@@ -76,7 +76,7 @@ export default function QuestLog({ tutorialStage, onClose }) {
       { id: 7, title: "Surge Overflow", task: "Trigger 3 Trash Surges", reward: "1x Stabilized Capacitor", category: "challenge", difficulty: "medium" },
       { id: 8, title: "The Circuit Speaks", task: "Collect 4 Electro Shards", reward: "1x Voltage Node", category: "collection", difficulty: "medium" },
       { id: 9, title: "Whispers in the Scrap", task: "Collect  20M Junk", reward: "1x Synthcore Fragment", category: "collection", difficulty: "hard" },
-      { id: 10, title: "Scratz to Riches", task: "Collect  200 Scratz and Complete 5 Crew Missions", reward: "1x Quantum Entangler Fragment", category: "collection", difficulty: "epic" },
+      { id: 10, title: "Scratz to Riches", task: "Collect  200 Scratz and Complete 5 Crew Missions", reward: "1x Quantum Entangler", category: "collection", difficulty: "epic" },
       { id: 11, title: "Forge the Future", task: "Craft the Prestige Crystal", reward: "Unlocks Ascension", category: "milestone", difficulty: "legendary" }
     ],
     awakenTheCore: [

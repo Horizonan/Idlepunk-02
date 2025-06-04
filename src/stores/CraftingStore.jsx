@@ -283,7 +283,8 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   requirements: {
                     'Stabilized Capacitor': 1,
                     'Voltage Node': 1,
-                    'Synthcore Fragment': 1
+                    'Synthcore Fragment': 1,
+                    'Quantum Entangler': 1
                   },
                   cost: 10000000,
                   description: 'A mysterious crystal pulsing with otherworldly power',
@@ -294,7 +295,8 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   requirements: {
                     'Stabilized Capacitor': 1,
                     'Voltage Node': 1,
-                    'Synthcore Fragment': 1
+                    'Synthcore Fragment': 1,
+                    'Quantum Entangler': 1
                   },
                   cost: 10000000
                 })}
@@ -310,6 +312,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   <p>- Stabilized Capacitor: 1 ({craftingInventory['Stabilized Capacitor'] || 0} owned)</p>
                   <p>- Voltage Node: 1 ({craftingInventory['Voltage Node'] || 0} owned)</p>
                   <p>- Synthcore Fragment: 1 ({craftingInventory['Synthcore Fragment'] || 0} owned)</p>
+                  <p>- Quantum Entangler: 1 ({craftingInventory['Quantum Entangler'] || 0} owned)</p>
                 </div>
               </button>)}
               

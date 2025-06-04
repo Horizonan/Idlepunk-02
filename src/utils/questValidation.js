@@ -261,8 +261,13 @@ export const validateQuests = ({
       category: 'prestige',
       onComplete: () => {
         localStorage.setItem('Scratz_to_Riches', 'true');
+        setCraftingInventory(prev => ({
+          ...prev,
+          'Quantum Entangler': (prev['Quantum Entangler'] || 0) + 1
+        }));
         setNotifications(prev => [...prev, "Congratulations! Your efforts have been logged, monetized, and mildly appreciated. Please enjoy this pixelated sense of pride."]);
-        }
+        setNotifications(prev => [...prev, "Received: 1x Quantum Entangler"]);
+      }
     },
 
 
