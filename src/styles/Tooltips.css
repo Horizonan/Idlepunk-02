@@ -34,10 +34,50 @@
   border-radius: 5px;
   transition: background-color 0.3s;
   cursor: pointer;
+  /* Mobile-specific improvements */
+  min-height: 44px; /* Minimum touch target size */
+  touch-action: manipulation; /* Prevent double-tap zoom */
+  -webkit-tap-highlight-color: rgba(148, 0, 211, 0.3); /* Custom tap highlight */
+  user-select: none; /* Prevent text selection on touch */
 }
 
 .tooltip-entry h3:hover {
   background: rgba(148, 0, 211, 0.2);
+}
+
+/* Mobile-specific active state for better feedback */
+.tooltip-entry h3:active {
+  background: rgba(148, 0, 211, 0.3);
+  transform: scale(0.98);
+  transition: all 0.1s ease;
+}
+
+/* Ensure tooltip sections are properly shown when expanded */
+.tooltip-section {
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  margin: 10px 0;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Mobile touch improvements */
+@media (hover: none) and (pointer: coarse) {
+  .tooltip-entry h3:hover {
+    background: rgba(148, 0, 211, 0.1); /* Reset hover on touch devices */
+  }
+  
+  .tooltip-entry h3:active {
+    background: rgba(148, 0, 211, 0.3);
+  }
+  
+  /* Larger touch targets on mobile */
+  .tooltip-entry h3 {
+    padding: 15px;
+    font-size: 1.1em;
+  }
 }
 
 .tooltip-section {
