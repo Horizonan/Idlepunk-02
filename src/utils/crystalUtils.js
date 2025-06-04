@@ -19,9 +19,8 @@ export const calculateNextCrystalSpawnTime = () => {
 };
 
 export const getCrystalPickupDuration = () => {
-  const hasHoverDrone = JSON.parse(localStorage.getItem('craftingInventory') || '{}')['Hover Drone'];
   const hasPickupMagnetArray = localStorage.getItem('pickup_magnet_array_purchased') === 'true';
-  let baseDuration = hasHoverDrone ? 25 : 20;
+  let baseDuration = 300;
   if (hasPickupMagnetArray) {
     baseDuration += 8;
   }
