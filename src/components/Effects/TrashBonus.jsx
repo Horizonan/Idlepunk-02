@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getTrashPickupDuration } from '../../utils/trashUtils';
 
 export default function TrashBonus({ onCollect, onDisappear, passiveIncome }) {
   const [position, setPosition] = useState({ 
@@ -14,8 +15,7 @@ export default function TrashBonus({ onCollect, onDisappear, passiveIncome }) {
       }));
     }, 50);
 
-    const hasHoverDrone = JSON.parse(localStorage.getItem('craftingInventory') || '{}')['Hover Drone'];
-    const duration = hasHoverDrone ? 25000 : 20000;
+    const duration = getTrashPickupDuration() * 1000; // Convert to milliseconds
     const disappearTimeout = setTimeout(() => {
       onDisappear();
     }, duration);

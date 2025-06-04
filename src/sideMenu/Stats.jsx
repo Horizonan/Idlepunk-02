@@ -1,6 +1,10 @@
-
 import React from 'react';
 import { calculateCrystalTimeReduction } from '../utils/crystalUtils';
+
+// Function to calculate trash pickup duration
+const getTrashPickupDuration = (hasHoverDrone) => {
+  return hasHoverDrone ? 25 : 20;
+};
 
 export default function Stats({ 
   clickCount,
@@ -15,6 +19,7 @@ export default function Stats({
   electroMultiplier
 }) {
   const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks') || '0');
+  const hasHoverDrone = craftingInventory && craftingInventory['Hover Drone'];
 
   return (
     <div className="store-container stats-menu">
@@ -37,6 +42,10 @@ export default function Stats({
             <div className="stat-item">
               <span className="stat-label">Average JPS:</span>
               <span className="stat-value">{Math.floor((passiveIncome * globalJpsMultiplier)).toLocaleString()}</span>
+            </div>
+             <div className="stat-item">
+              <span className="stat-label">Trash Pickup Duration:</span>
+              <span className="stat-value">{getTrashPickupDuration(hasHoverDrone)}s</span>
             </div>
           </div>
         </div>
