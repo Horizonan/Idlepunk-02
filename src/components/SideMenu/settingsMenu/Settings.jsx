@@ -128,13 +128,20 @@ export default function Settings({
       description: 'Show prestige progress meter at bottom of screen',
       keywords: ['prestige', 'meter', 'progress', 'quest'],
       section: 'Game Elements'
+    },
+    {
+      id: 'pickupMagnetRadius',
+      name: 'Pickup Magnet Radius',
+      description: 'Show visual radius for pickup magnet array',
+      keywords: ['pickup', 'magnet', 'radius', 'visual'],
+      section: 'Game Elements'
     }
   ], []);
 
   // Filter settings based on search term
   const filteredSettings = useMemo(() => {
     if (!searchTerm.trim()) return searchableSettings;
-    
+
     const term = searchTerm.toLowerCase();
     return searchableSettings.filter(setting => 
       setting.name.toLowerCase().includes(term) ||
@@ -149,6 +156,12 @@ export default function Settings({
     if (!searchTerm.trim()) return true;
     return filteredSettings.some(setting => setting.id === settingId);
   };
+
+    // Check if a specific setting should be shown
+    const shouldShowSpecificSetting = (settingId) => {
+        if (!searchTerm.trim()) return true;
+        return filteredSettings.some(setting => setting.id === settingId);
+    };
 
   // Check if a section should be shown
   const shouldShowSection = (sectionName) => {
@@ -191,7 +204,7 @@ export default function Settings({
             🎮 UI Settings {uiSettingsCollapsed ? '▼' : '▲'}
           </h3>
           <div className={`ui-settings ${uiSettingsCollapsed ? 'collapsed' : 'expanded'}`}>
-            
+
             {/* Visual Effects Section */}
             {shouldShowSection('Visual Effects') && (
             <div className="settings-subsection">
@@ -213,7 +226,7 @@ export default function Settings({
                   />
                 </label>
                 )}
-                
+
                 {shouldShowSetting('holoBillboard') && (
                 <label className="setting-option modern">
                   <div className="setting-info">
@@ -356,7 +369,7 @@ export default function Settings({
                 </label>
                 )}
 
-                {shouldShowSetting('prestigeMeter') && (
+                {shouldShowSpecificSetting('prestigeMeter') && (
                 <label className="setting-option modern">
                   <div className="setting-info">
                     <span className="setting-name">Prestige Meter</span>
@@ -371,6 +384,20 @@ export default function Settings({
                   />
                 </label>
                 )}
+
+                <label className="setting-option modern">
+                  <div className="setting-info">
+                    <span className="setting-name">Pickup Magnet Radius</span>
+                    <span className="setting-description">Show visual radius for pickup magnet array</span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={localStorage.getItem('showPickupMagnetRadius') !== 'false'}
+                    onChange={(e) => {
+                      localStorage.setItem('showPickupMagnetRadius', e.target.checked);
+                    }}
+                  />
+                </label>
               </div>
             </div>
             )}
@@ -438,7 +465,7 @@ export default function Settings({
                   />
                 </div>
                 )}
-                
+
                 {shouldShowSetting('maxVisibleDrones') && (
                 <div className="control-group">
                   <label className="control-label">
