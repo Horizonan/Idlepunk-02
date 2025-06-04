@@ -784,7 +784,7 @@ export default function App() {
       <TutorialSystem
         junk={junk}
         hasUpgrade={hasUpgrade}
-        passiveIncome={passiveIncome}```python
+        passiveIncome={passiveIncome}
         hasHelper={hasHelper}
         hasCrafting={Object.values(craftingInventory).some(count => count > 0)}
         isSurgeActive={isSurgeActive}
