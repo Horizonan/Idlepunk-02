@@ -68,13 +68,13 @@ export default function DroneEffect({ numDrones }) {
             position: 'fixed',
             left: 0,
             top: 0,
-            width: '32px',
-            height: '32px',
+            width: '48px',
+            height: '48px',
             pointerEvents: 'none',
             zIndex: 1000,
             transform: `translate(${pos.x}px, ${pos.y}px)`,
             transition: 'transform 2s ease-in-out',
-            filter: 'drop-shadow(0 0 5px #9400D3)',
+            filter: 'drop-shadow(0 0 0.1px #9400D3)',
             willChange: 'transform'
           }}
         />

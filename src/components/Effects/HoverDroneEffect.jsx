@@ -58,7 +58,7 @@ export default function HoverDroneEffect() {
         zIndex: 1000,
         transform: `translate(${position.x}px, ${position.y}px)`,
         transition: 'transform 0.5s ease-out',
-        filter: 'drop-shadow(0 0 0.1px #00ffff)',
+        filter: 'drop-shadow(0 0 0.1px #9400D3)',
         willChange: 'transform'
       }}
     />
