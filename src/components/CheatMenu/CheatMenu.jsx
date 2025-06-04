@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react';
 import ResetProgress from '../ResetProgress/ResetProgress';
 import { useEmailStore } from '../../utils/emailStore';
+import { useRecruitmentZustand } from '../../stores/crewRecruitment/recruitmentZustand';
 import './CheatMenu.css';
 
 function setNextSurgeTimer() {
@@ -137,7 +138,6 @@ export default function CheatMenu({
           localStorage.setItem('crew-storage', JSON.stringify(crewStorage));
           
           // Also update the zustand store directly
-          const { useRecruitmentZustand } = require('../../stores/crewRecruitment/recruitmentZustand');
           useRecruitmentZustand.setState({ successfulMissions: 5 });
           
           window.dispatchEvent(new CustomEvent('questsUpdated'));
