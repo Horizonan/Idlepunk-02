@@ -52,12 +52,12 @@ export default function HoverDroneEffect() {
         position: 'fixed',
         left: position.x,
         top: position.y,
-        width: '48px',
-        height: '48px',
+        width: '64px',
+        height: '64px',
         pointerEvents: 'none',
         zIndex: 1000,
         transition: 'left 0.5s ease-out, top 0.5s ease-out',
-        filter: 'drop-shadow(0 0 5px #00ffff)'
+        filter: 'drop-shadow(0 0 0.1px #00ffff)'
       }}
     />
   );
