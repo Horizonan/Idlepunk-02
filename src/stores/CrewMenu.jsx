@@ -462,6 +462,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
                             if (success) {
                               // Increment successful missions counter
+                              console.log('Mission successful - incrementing counter');
                               useRecruitmentZustand.setState(state => ({
                                 successfulMissions: state.successfulMissions + 1
                               }));
