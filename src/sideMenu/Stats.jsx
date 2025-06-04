@@ -43,10 +43,6 @@ export default function Stats({
               <span className="stat-label">Average JPS:</span>
               <span className="stat-value">{Math.floor((passiveIncome * globalJpsMultiplier)).toLocaleString()}</span>
             </div>
-             <div className="stat-item">
-              <span className="stat-label">Trash Pickup Duration:</span>
-              <span className="stat-value">{getTrashPickupDuration(hasHoverDrone)}s</span>
-            </div>
           </div>
         </div>
 
@@ -78,6 +74,16 @@ export default function Stats({
             <div className="stat-item">
               <span className="stat-label">Permanent AutoClicks:</span>
               <span className="stat-value">{permanentAutoClicks}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="stats-section">
+          <h3>⏱️ Pickup Time</h3>
+          <div className="stats-grid">
+            <div className="stat-item">
+              <span className="stat-label">Trash Pickup Duration:</span>
+              <span className="stat-value">{getTrashPickupDuration(hasHoverDrone)}s</span>
             </div>
           </div>
         </div>
