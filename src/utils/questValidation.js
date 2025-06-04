@@ -257,7 +257,7 @@ export const validateQuests = ({
     },
     {
       title: "Scratz to Riches",
-      condition: credits > 199,
+      condition: credits > 199 && (JSON.parse(localStorage.getItem('crew-storage') || '{}').state?.completedMissions || 0) >= 5,
       category: 'prestige',
       onComplete: () => {
         localStorage.setItem('Scratz_to_Riches', 'true');
