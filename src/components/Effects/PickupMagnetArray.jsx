@@ -65,33 +65,49 @@ export default function PickupMagnetArray() {
           const dy = mousePosition.y - pickupCenter.y;
 
           // Normalize and apply magnet strength
-          const magnetStrength = Math.min(5, distance / 40); // Stronger pull when closer
+          const magnetStrength = Math.min(3, (magnetRange - distance) / 60); // Stronger pull when closer
           const moveX = (dx / distance) * magnetStrength;
           const moveY = (dy / distance) * magnetStrength;
 
-          // Get current position - try multiple methods
-          let currentX = pickup.offsetLeft;
-          let currentY = pickup.offsetTop;
-
-          // If offsetLeft/Top don't work, try style properties
-          if (currentX === 0 && currentY === 0) {
-            const computedStyle = window.getComputedStyle(pickup);
-            currentX = parseInt(computedStyle.left) || rect.left;
-            currentY = parseInt(computedStyle.top) || rect.top;
+          // Store original position if not already stored
+          if (!pickup.dataset.originalLeft) {
+            pickup.dataset.originalLeft = pickup.style.left || rect.left + 'px';
+            pickup.dataset.originalTop = pickup.style.top || rect.top + 'px';
+            pickup.dataset.originalPosition = pickup.style.position || 'fixed';
           }
 
-          // Apply magnetic pull
+          // Get current position from rect (always accurate)
+          const currentX = rect.left;
+          const currentY = rect.top;
+
+          // Apply magnetic pull smoothly
           pickup.style.position = 'fixed';
           pickup.style.left = `${currentX + moveX}px`;
           pickup.style.top = `${currentY + moveY}px`;
           pickup.style.transition = 'none';
           pickup.style.zIndex = '9999';
+          pickup.style.transform = 'none'; // Override any existing transforms
+          pickup.style.animation = 'none'; // Disable conflicting animations
 
           // Add magnet effect visual
           pickup.style.filter = pickup.alt === 'Trash Bonus' 
             ? 'drop-shadow(0 0 15px #00ffff) drop-shadow(0 0 10px #00ff00)'
             : 'drop-shadow(0 0 15px #00ffff) drop-shadow(0 0 10px #ff00ff)';
         } else {
+          // Restore original properties when out of range
+          if (pickup.dataset.originalLeft) {
+            pickup.style.position = pickup.dataset.originalPosition;
+            pickup.style.left = pickup.dataset.originalLeft;
+            pickup.style.top = pickup.dataset.originalTop;
+            pickup.style.transform = ''; // Restore original transform
+            pickup.style.animation = ''; // Restore original animation
+            
+            // Clean up stored data
+            delete pickup.dataset.originalLeft;
+            delete pickup.dataset.originalTop;
+            delete pickup.dataset.originalPosition;
+          }
+
           // Remove magnet effect when out of range
           const originalFilter = pickup.alt === 'Trash Bonus' 
             ? 'drop-shadow(0 0 10px #00ff00)' 
