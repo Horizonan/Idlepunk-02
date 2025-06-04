@@ -1,4 +1,3 @@
-
 /* Mobile Responsive Styles */
 
 /* Base mobile styles for phones */
@@ -16,7 +15,7 @@
     padding: 8px 10px;
     justify-content: center;
   }
-  
+
   .stats p {
     font-size: 0.85em;
     padding: 6px 10px;
@@ -68,7 +67,7 @@
     left: 50% !important;
     transform: translate(-50%, -50%) !important;
   }
-  
+
   .store-items {
     grid-template-columns: 1fr !important;
     gap: 15px !important;
@@ -981,3 +980,13 @@
     padding: 12px;
   }
 }
+
+.content, .menus {
+    margin-top: 60px !important;
+  }
+
+  /* Add specific mobile content spacing */
+  .content {
+    padding-bottom: 180px !important;
+    min-height: calc(100vh - 240px) !important;
+  }
