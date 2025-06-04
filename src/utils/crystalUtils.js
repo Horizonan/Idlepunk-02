@@ -18,3 +18,7 @@ export const calculateNextCrystalSpawnTime = () => {
   const { multiplier } = calculateCrystalTimeReduction();
   return Math.floor((900 + Math.random() * 900) * multiplier);
 };
+
+export const getCrystalPickupDuration = () => {
+  return 300; // Returns duration in seconds (5 minutes)
+};

@@ -1,5 +1,5 @@
-
 import React, { useState, useEffect, useRef } from 'react';
+import { getCrystalPickupDuration } from '../../utils/crystalUtils';
 
 const crystalSound = new Audio('/sounds/crystal appears.mp3');
 
@@ -16,7 +16,7 @@ export default function FlyingCrystal({ onCollect, onDisappear }) {
   useEffect(() => {
     crystalSound.play().catch(err => console.log('Audio play failed:', err));
   }, []);
-  
+
   useEffect(() => {
     const animate = (currentTime) => {
       // Throttle to ~30fps to reduce CPU usage
@@ -28,7 +28,7 @@ export default function FlyingCrystal({ onCollect, onDisappear }) {
 
       setPosition(prev => {
         const newX = prev.x + (3 * direction);
-        
+
         // Check if crystal went off screen
         if ((direction > 0 && newX > window.innerWidth + 100) || 
             (direction < 0 && newX < -100)) {
@@ -37,7 +37,7 @@ export default function FlyingCrystal({ onCollect, onDisappear }) {
             y: Math.random() * (window.innerHeight - 100)
           };
         }
-        
+
         return { ...prev, x: newX };
       });
 
@@ -48,7 +48,7 @@ export default function FlyingCrystal({ onCollect, onDisappear }) {
 
     const disappearTimeout = setTimeout(() => {
       onDisappear();
-    }, 300000); // 5 minutes max duration
+    }, getCrystalPickupDuration()); // 5 minutes max duration
 
     return () => {
       if (animationRef.current) {
