@@ -69,18 +69,18 @@ export default function CheatMenu({
       actions: [
         { name: 'Add 1M Junk', action: () => onAddJunk(1000000), type: 'primary' },
         { name: 'Add 10M Junk', action: () => onAddJunk(10000000), type: 'primary' },
-        { name: 'Add 100M Junk', action: () => onAddJunk(100000000), type: 'secondary' },
+        { name: 'Add 100M Junk', action: () => onAddJunk(100000000), type: 'primary' },
         { name: 'Add 1K Tronics', action: () => onAddTronics(1000), type: 'primary' },
         { name: 'Add 10K Tronics', action: () => onAddTronics(10000), type: 'primary' },
-        { name: 'Add 100K Tronics', action: () => onAddTronics(100000), type: 'secondary' },
+        { name: 'Add 100K Tronics', action: () => onAddTronics(100000), type: 'primary' },
         { name: 'Add Glitched Core', action: () => setCraftingInventory(prev => ({
           ...prev,
           'Glitched Scrap Core': (prev['Glitched Scrap Core'] || 0) + 1
-        })), type: 'special' },
+        })), type: 'primary' },
         { name: 'Add 10 Capacitors', action: () => setCraftingInventory(prev => ({
           ...prev,
           'Capacitor': (prev['Capacitor'] || 0) + 10
-        })), type: 'special' },
+        })), type: 'primary' },
         { name: 'Add Basic Materials', action: () => {
           const materials = ['Wires', 'Metal Plates', 'Gear Bits'];
           materials.forEach(material => {
@@ -89,7 +89,7 @@ export default function CheatMenu({
             }));
           });
         }, type: 'primary' },
-        { name: 'Add 10 Electro Shards', action: () => onAddElectroShard(10), type: 'special' },
+        { name: 'Add 10 Electro Shards', action: () => onAddElectroShard(10), type: 'primary' },
       ]
     },
     progression: {
