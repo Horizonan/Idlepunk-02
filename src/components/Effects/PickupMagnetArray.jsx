@@ -60,16 +60,7 @@ export default function PickupMagnetArray() {
           // Auto-collect when very close to cursor
           pickup.click();
         } else if (distance <= magnetRange) {
-          // Calculate direction towards cursor
-          const dx = mousePosition.x - pickupCenter.x;
-          const dy = mousePosition.y - pickupCenter.y;
-
-          // Normalize and apply magnet strength
-          const magnetStrength = Math.min(3, (magnetRange - distance) / 60); // Stronger pull when closer
-          const moveX = (dx / distance) * magnetStrength;
-          const moveY = (dy / distance) * magnetStrength;
-
-          // Store ALL original CSS properties if not already stored
+          // Store ALL original CSS properties if not already stored and pause animations immediately
           if (!pickup.dataset.magnetActive) {
             const computedStyle = window.getComputedStyle(pickup);
             pickup.dataset.originalLeft = pickup.style.left || computedStyle.left;
@@ -80,21 +71,32 @@ export default function PickupMagnetArray() {
             pickup.dataset.originalTransition = pickup.style.transition || computedStyle.transition;
             pickup.dataset.originalZIndex = pickup.style.zIndex || computedStyle.zIndex;
             pickup.dataset.magnetActive = 'true';
+            
+            // Pause original animations immediately when entering magnet range
+            pickup.style.transform = 'none !important';
+            pickup.style.animation = 'none !important';
+            pickup.style.animationPlayState = 'paused';
           }
+
+          // Calculate direction towards cursor for magnetic pull
+          const dx = mousePosition.x - pickupCenter.x;
+          const dy = mousePosition.y - pickupCenter.y;
+
+          // Normalize and apply magnet strength
+          const magnetStrength = Math.min(3, (magnetRange - distance) / 60); // Stronger pull when closer
+          const moveX = (dx / distance) * magnetStrength;
+          const moveY = (dy / distance) * magnetStrength;
 
           // Get current position from rect (always accurate)
           const currentX = rect.left;
           const currentY = rect.top;
 
-          // Apply magnetic pull with smooth transition while disabling original animations
+          // Apply magnetic pull with smooth transition
           pickup.style.position = 'fixed';
           pickup.style.left = `${currentX + moveX}px`;
           pickup.style.top = `${currentY + moveY}px`;
           pickup.style.transition = 'left 0.1s ease-out, top 0.1s ease-out';
           pickup.style.zIndex = '9999';
-          pickup.style.transform = 'none !important';
-          pickup.style.animation = 'none !important';
-          pickup.style.animationPlayState = 'paused';
 
           // Add magnet effect visual
           pickup.style.filter = pickup.alt === 'Trash Bonus' 
