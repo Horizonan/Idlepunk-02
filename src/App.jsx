@@ -613,7 +613,7 @@ export default function App() {
       setElectroShards,
       setNotifications,
       setCraftingInventory,
-      setAutoClicks, setPermanentAutoClicks, setCredits, credits
+      setAutoClicks, setPermanentAutoClicks, setCredits, credits: credits
     });
   };
 
@@ -1356,7 +1356,7 @@ export default function App() {
           }}
         />
       )}
-      {((junk >= 1000000 && !localStorage.getItem('hasPrestiged') && prestigeCount === 0) &&
+      {(junk >= 1000000 && !localStorage.getItem('hasPrestiged') && prestigeCount === 0) && (
         <button 
           className={`prestige-button ${!prestigeQuestCompleted ? 'locked' : ''}`}
           onClick={() => {
@@ -1368,11 +1368,11 @@ export default function App() {
         </button>
       )}
 
-      {(junk >= 25000000 || (localStorage.getItem('prestige1Unlocked') === "true")&&
+      {(junk >= 25000000 || localStorage.getItem('prestige1Unlocked') === "true") && (
         <button 
-          className={`prestige-button ${(localStorage.getItem('prestige1Unlocked') != "true") ? 'locked' : ''}`}
+          className={`prestige-button ${localStorage.getItem('prestige1Unlocked') !== "true" ? 'locked' : ''}`}
           onClick={() => {
-            if (localStorage.getItem('prestige1Unlocked') != "false") {
+            if (localStorage.getItem('prestige1Unlocked') === "true") {
               setShowPrestigePopup(true);
             }
           }}>
