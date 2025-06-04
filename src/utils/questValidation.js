@@ -14,7 +14,7 @@ export const validateQuests = ({
   setElectroShards,
   setNotifications,
   setCraftingInventory,
-  setAutoClicks, setPermanentAutoClicks, setCredits,
+  setAutoClicks, setPermanentAutoClicks, setCredits, credits,
 }) => {
   const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
   const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks'));
@@ -255,6 +255,15 @@ export const validateQuests = ({
         }));
       }
     },
+    {
+      title: "Scratz to Riches",
+      condition: credits > 199,
+      category: 'prestige',
+      onComplete: () => {
+        localStorage.setItem('Scratz_to_Riches', 'true');
+        setNotifications(prev => [...prev, "Congratulations! Your efforts have been logged, monetized, and mildly appreciated. Please enjoy this pixelated sense of pride."]);
+        }
+    },
 
 
   ];
@@ -265,7 +274,10 @@ export const validateQuests = ({
       if (!localStorage.getItem(questSyncKey)) {
         localStorage.setItem(questSyncKey, 'true');
         setNotifications(prev => [...prev, `Quest Completed: ${quest.title}`]);
-
+        setCraftingInventory(prev => ({
+          ...prev,
+          'Quantum Entangler': (prev['Quantum Entangler'] || 0) + 1
+        }));
         if (quest.onComplete) {
           quest.onComplete();
         }

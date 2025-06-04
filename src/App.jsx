@@ -613,7 +613,7 @@ export default function App() {
       setElectroShards,
       setNotifications,
       setCraftingInventory,
-      setAutoClicks, setPermanentAutoClicks, setCredits
+      setAutoClicks, setPermanentAutoClicks, setCredits, credits
     });
   };
 
