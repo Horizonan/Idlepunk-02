@@ -46,7 +46,7 @@ export default function HoverDroneEffect() {
 
   return (
     <img
-      src="/Icons/Upgrades/hover-drone.png"
+      src="/Icons/Upgrades/hover-drone.svg"
       alt="Hover Drone"
       style={{
         position: 'fixed',
