@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 
 export default function PickupMagnetArray() {
@@ -59,23 +60,37 @@ export default function PickupMagnetArray() {
           // Auto-collect when very close to cursor
           pickup.click();
         } else if (distance <= magnetRange) {
-          // FIRST - Mark as being in magnet field and COMPLETELY stop all animations
-          if (!pickup.dataset.magnetized) {
-            pickup.dataset.magnetized = 'true';
-
-            // Store current computed position for smooth transition
-            const currentRect = pickup.getBoundingClientRect();
-            pickup.dataset.magnetStartX = currentRect.left.toString();
-            pickup.dataset.magnetStartY = currentRect.top.toString();
+          // Store original styles if not already stored
+          if (!pickup.dataset.originalStyles) {
+            const computedStyle = window.getComputedStyle(pickup);
+            pickup.dataset.originalStyles = JSON.stringify({
+              animation: pickup.style.animation || computedStyle.animation,
+              animationName: pickup.style.animationName || computedStyle.animationName,
+              animationDuration: pickup.style.animationDuration || computedStyle.animationDuration,
+              animationTimingFunction: pickup.style.animationTimingFunction || computedStyle.animationTimingFunction,
+              animationIterationCount: pickup.style.animationIterationCount || computedStyle.animationIterationCount,
+              animationDirection: pickup.style.animationDirection || computedStyle.animationDirection,
+              animationFillMode: pickup.style.animationFillMode || computedStyle.animationFillMode,
+              animationPlayState: pickup.style.animationPlayState || computedStyle.animationPlayState,
+              transform: pickup.style.transform || computedStyle.transform,
+              position: pickup.style.position || computedStyle.position,
+              left: pickup.style.left || computedStyle.left,
+              top: pickup.style.top || computedStyle.top,
+              zIndex: pickup.style.zIndex || computedStyle.zIndex,
+              filter: pickup.style.filter || computedStyle.filter
+            });
           }
 
-          // FORCE STOP ALL ANIMATIONS - Apply every frame to ensure they stay stopped
-          pickup.style.setProperty('animation', 'none', 'important');
-          pickup.style.setProperty('animation-play-state', 'paused', 'important');
-          pickup.style.setProperty('animation-duration', '0s', 'important');
-          pickup.style.setProperty('animation-iteration-count', '0', 'important');
-          pickup.style.setProperty('transform', 'none', 'important');
-          pickup.style.setProperty('transform-origin', 'center', 'important');
+          // COMPLETELY DISABLE ALL ANIMATIONS
+          pickup.style.animation = 'none';
+          pickup.style.animationName = 'none';
+          pickup.style.animationDuration = '0s';
+          pickup.style.animationTimingFunction = 'linear';
+          pickup.style.animationIterationCount = '0';
+          pickup.style.animationDirection = 'normal';
+          pickup.style.animationFillMode = 'none';
+          pickup.style.animationPlayState = 'paused';
+          pickup.style.transform = 'none';
 
           // Calculate magnetic pull direction
           const dx = mousePosition.x - pickupCenter.x;
@@ -86,40 +101,35 @@ export default function PickupMagnetArray() {
           const moveX = (dx / distance) * magnetStrength;
           const moveY = (dy / distance) * magnetStrength;
 
-          // Apply magnetic pull with position override
-          pickup.style.setProperty('position', 'fixed', 'important');
-          pickup.style.setProperty('left', `${rect.left + moveX}px`, 'important');
-          pickup.style.setProperty('top', `${rect.top + moveY}px`, 'important');
-          pickup.style.setProperty('transition', 'left 0.1s ease-out, top 0.1s ease-out', 'important');
-          pickup.style.setProperty('z-index', '9999', 'important');
+          // Apply magnetic pull
+          pickup.style.position = 'fixed';
+          pickup.style.left = `${rect.left + moveX}px`;
+          pickup.style.top = `${rect.top + moveY}px`;
+          pickup.style.transition = 'left 0.1s ease-out, top 0.1s ease-out';
+          pickup.style.zIndex = '9999';
 
           // Add visual magnet effect
           const magnetFilter = pickup.alt === 'Trash Bonus' 
             ? 'drop-shadow(0 0 15px #00ffff) drop-shadow(0 0 10px #00ff00)'
             : 'drop-shadow(0 0 15px #00ffff) drop-shadow(0 0 10px #ff00ff)';
-          pickup.style.setProperty('filter', magnetFilter, 'important');
+          pickup.style.filter = magnetFilter;
 
         } else {
-          // Only restore when COMPLETELY outside magnet range
-          if (pickup.dataset.magnetized === 'true') {
-            // Clear all magnet-applied styles
-            pickup.style.removeProperty('animation');
-            pickup.style.removeProperty('animation-play-state');
-            pickup.style.removeProperty('animation-duration');
-            pickup.style.removeProperty('animation-iteration-count');
-            pickup.style.removeProperty('transform');
-            pickup.style.removeProperty('transform-origin');
-            pickup.style.removeProperty('position');
-            pickup.style.removeProperty('left');
-            pickup.style.removeProperty('top');
-            pickup.style.removeProperty('transition');
-            pickup.style.removeProperty('z-index');
-            pickup.style.removeProperty('filter');
+          // Restore original styles when outside magnet range
+          if (pickup.dataset.originalStyles) {
+            const originalStyles = JSON.parse(pickup.dataset.originalStyles);
+            
+            // Restore all original properties
+            Object.keys(originalStyles).forEach(property => {
+              if (originalStyles[property] && originalStyles[property] !== 'none') {
+                pickup.style[property] = originalStyles[property];
+              } else {
+                pickup.style.removeProperty(property);
+              }
+            });
 
-            // Remove magnet flag
-            delete pickup.dataset.magnetized;
-            delete pickup.dataset.magnetStartX;
-            delete pickup.dataset.magnetStartY;
+            // Clear stored styles
+            delete pickup.dataset.originalStyles;
           }
         }
       });
