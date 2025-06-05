@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/CrewMenu.css';
 import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
 import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
@@ -29,13 +29,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
         
         // Calculate time remaining using the new method
         const remaining = useRecruitmentZustand.getState().getMissionTimeRemaining();
-        
-        // Only update if the time has actually changed by a full second
-        const roundedRemaining = Math.floor(remaining);
-        setTimeLeft(prevTime => {
-          const roundedPrev = Math.floor(prevTime);
-          return roundedRemaining !== roundedPrev ? roundedRemaining : prevTime;
-        });
+        setTimeLeft(remaining);
 
         if (remaining <= 0) {
           clearInterval(timer);
@@ -644,11 +638,6 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
         const unequipItemFromCrew = useRecruitmentZustand(state => state.unequipItemFromCrew);
         const getCrewEffectiveStats = useRecruitmentZustand(state => state.getCrewEffectiveStats);
         
-        // Filter equipment by type for dropdowns
-        const getEquipmentByType = (type) => {
-          return equipment.filter(item => item.type === type);
-        };
-        
         return (
           <div className="crew-content">
             <h3>Crew Loadouts</h3>
@@ -721,20 +710,20 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                 <select 
                                   value=""
                                   onChange={(e) => {
-                                    e.stopPropagation();
                                     if (e.target.value) {
                                       equipItemToCrew(crew.id, e.target.value, slotType);
-                                      e.target.value = ""; // Reset dropdown after selection
                                     }
                                   }}
-                                  onClick={(e) => e.stopPropagation()}
                                 >
                                   <option value="">Select {slotType}</option>
-                                  {getEquipmentByType(slotType).map((item, index) => (
-                                    <option key={`${item.id}-${index}`} value={item.id}>
-                                      {item.name}
-                                    </option>
-                                  ))}
+                                  {equipment
+                                    .filter(item => item.type === slotType)
+                                    .map((item, index) => (
+                                      <option key={`${item.id}-${index}`} value={item.id}>
+                                        {item.name}
+                                      </option>
+                                    ))
+                                  }
                                 </select>
                               </div>
                             )}
