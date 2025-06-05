@@ -142,7 +142,7 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
         combatLog: [...prev.combatLog, "Defeat! You have been defeated. Training win streak reset!"]
       }));
       onCombatEnd(false);
-    } else if (combatState.inProgress && combatState.enemyHealth <= 0 && selectedStage && !combatState.victory) {
+    } else if (combatState.inProgress && combatState.enemyHealth <= 0 && selectedStage) {
       const rewards = stages[selectedStage].rewards;
       let newWinStreak = winStreak;
       
@@ -156,15 +156,17 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
       const streakMessage = selectedStage === 'training' ? 
         ` Training win streak: ${newWinStreak}/15` : '';
       
+      // Give rewards but don't end combat - spawn new enemy
+      onCombatEnd(true, rewards);
+      
       setCombatState(prev => ({
         ...prev,
-        inProgress: false,
-        victory: true,
-        combatLog: [...prev.combatLog, `Victory! Enemy defeated! Earned ${rewards.junk} junk and ${rewards.credits} credits!${streakMessage}`]
+        enemyHealth: enemy.maxHealth, // Reset enemy health for new fight
+        victory: false, // Keep combat going
+        combatLog: [...prev.combatLog, `Victory! Enemy defeated! Earned ${rewards.junk} junk and ${rewards.credits} credits!${streakMessage}`, `New ${enemy.name} appears!`]
       }));
-      onCombatEnd(true, rewards);
     }
-  }, [combatState.playerHealth, combatState.enemyHealth, combatState.inProgress, combatState.victory, selectedStage, winStreak]);
+  }, [combatState.playerHealth, combatState.enemyHealth, combatState.inProgress, selectedStage, winStreak]);
 
   return (
     <div className="scraptagon-combat">
