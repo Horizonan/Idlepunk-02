@@ -56,36 +56,67 @@ export const useRecruitmentZustand = create(
       },
 
       equipItemToCrew: (crewId, itemId, slotType) => {
-        const equipment = get().equipment.find(item => item.id === itemId);
-        if (equipment && equipment.type === slotType) {
-          set(state => ({
-            crewLoadouts: {
-              ...state.crewLoadouts,
-              [crewId]: {
-                ...state.crewLoadouts[crewId],
-                [slotType]: equipment
-              }
-            },
-            equipment: state.equipment.filter(item => item.id !== itemId)
-          }));
+        const state = get();
+        const equipment = state.equipment.find(item => item.id === itemId);
+        const crew = state.hiredCrew.find(c => c.id === crewId);
+        
+        if (!equipment || !crew || equipment.type !== slotType) {
+          console.log('Equipment operation failed:', { equipment: !!equipment, crew: !!crew, typeMatch: equipment?.type === slotType });
+          return;
         }
+
+        // Check if slot is already occupied
+        const currentLoadout = state.crewLoadouts[crewId] || {};
+        if (currentLoadout[slotType]) {
+          console.log('Slot already occupied, cannot equip');
+          return;
+        }
+
+        // Find the specific equipment instance to remove (handle duplicates)
+        const equipmentIndex = state.equipment.findIndex(item => item.id === itemId);
+        if (equipmentIndex === -1) return;
+
+        const newEquipment = [...state.equipment];
+        const [removedItem] = newEquipment.splice(equipmentIndex, 1);
+
+        set(state => ({
+          crewLoadouts: {
+            ...state.crewLoadouts,
+            [crewId]: {
+              ...currentLoadout,
+              [slotType]: removedItem
+            }
+          },
+          equipment: newEquipment
+        }));
+
+        console.log(`Equipped ${equipment.name} to ${crew.name}'s ${slotType} slot`);
       },
 
       unequipItemFromCrew: (crewId, slotType) => {
-        const loadout = get().crewLoadouts[crewId];
-        if (loadout && loadout[slotType]) {
-          const unequippedItem = loadout[slotType];
-          set(state => ({
-            crewLoadouts: {
-              ...state.crewLoadouts,
-              [crewId]: {
-                ...loadout,
-                [slotType]: null
-              }
-            },
-            equipment: [...state.equipment, unequippedItem]
-          }));
+        const state = get();
+        const loadout = state.crewLoadouts[crewId];
+        const crew = state.hiredCrew.find(c => c.id === crewId);
+        
+        if (!loadout || !loadout[slotType] || !crew) {
+          console.log('Unequip failed: no item equipped or crew not found');
+          return;
         }
+
+        const unequippedItem = loadout[slotType];
+        
+        set(state => ({
+          crewLoadouts: {
+            ...state.crewLoadouts,
+            [crewId]: {
+              ...loadout,
+              [slotType]: null
+            }
+          },
+          equipment: [...state.equipment, unequippedItem]
+        }));
+
+        console.log(`Unequipped ${unequippedItem.name} from ${crew.name}'s ${slotType} slot`);
       },
 
       getCrewEffectiveStats: (crewId) => {
