@@ -539,7 +539,7 @@ export default function App() {
       if (passiveIncome > 0) {
         const passiveJunkGained = passiveIncome * totalMultiplier;
         setJunk(prev => prev + passiveJunkGained);
-        
+
         // Track total junk collected from passive income
         const currentTotal = parseInt(localStorage.getItem('totalJunkCollected') || '0');
         localStorage.setItem('totalJunkCollected', (currentTotal + passiveJunkGained).toString());
@@ -549,7 +549,7 @@ export default function App() {
         const autoJunkGained = (autoClicks + permanentAutoClicks) * clickMultiplier;
         setJunk(prev => prev + autoJunkGained);
         setClickCount(prev => prev + (autoClicks + permanentAutoClicks));
-        
+
         // Track total junk collected from auto-clickers
         const currentTotal = parseInt(localStorage.getItem('totalJunkCollected') || '0');
         localStorage.setItem('totalJunkCollected', (currentTotal + autoJunkGained).toString());
@@ -622,7 +622,7 @@ export default function App() {
     const scavengingBonus = 1 + (skillLevels.scavengingFocus / 100);
     const junkGained = clickMultiplier * surgeMultiplier * scavengingBonus;
     setJunk(prev => prev + junkGained);
-    
+
     // Track total junk collected
     const currentTotal = parseInt(localStorage.getItem('totalJunkCollected') || '0');
     localStorage.setItem('totalJunkCollected', (currentTotal + junkGained).toString());
@@ -743,7 +743,7 @@ export default function App() {
     }
   }, [craftingInventory]);
 
-  
+
 
   useEffect(() => {
     const handleCreditsUpdate = (event) => {
@@ -942,17 +942,27 @@ export default function App() {
       )}
       {showCombat && (
         <ScraptagonCombat
-          playerStats={{
-            maxHealth: 100,
-            attack: 10,
-            defense: 5,
-            attackSpeed: 1
+          playerStats={{ 
+            maxHealth: 100, 
+            attack: 10 + (clickMultiplier * 0.5), 
+            defense: 5, 
+            attackSpeed: 1.2,
+            level: Math.floor(clickMultiplier / 5) + 1,
+            name: "SCRAP_HUNTER"
           }}
-          onCombatEnd={(victory) => {
-            if (victory) {
-              setNotifications(prev => [...prev, "Combat Victory!"]);
+          equipment={[]}
+          onCombatEnd={(victory, rewards) => {
+            if (victory && rewards) {
+              setJunk(prev => prev + rewards.junk);
+              setCredits(prev => prev + rewards.credits);
+              setNotifications(prev => [...prev, `Combat Victory! Gained ${rewards.junk} junk and ${rewards.credits} credits.`]);
+            } else if (victory) {
+              setNotifications(prev => [...prev, "Combat Victory! Gained experience and resources."]);
+            } else {
+              setNotifications(prev => [...prev, "Combat Defeat. Better luck next time."]);
             }
           }}
+          onClose={() => setShowCombat(false)}
         />
       )}
       {showAchievements && (

@@ -14,6 +14,7 @@
   z-index: 1000;
   color: #00FF00;
   font-family: 'Courier New', monospace;
+  overflow-y: auto;
 }
 
 .combat-header {
@@ -69,6 +70,114 @@
   border-radius: 3px;
   position: relative;
   overflow: hidden;
+}
+
+.stage-selection {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.stage-selection h3 {
+  color: #9400D3;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px rgba(148, 0, 211, 0.5);
+}
+
+.stage-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.stage-option {
+  background: rgba(148, 0, 211, 0.1);
+  border: 1px solid #9400D3;
+  border-radius: 6px;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.stage-option:hover {
+  background: rgba(148, 0, 211, 0.2);
+  box-shadow: 0 0 15px rgba(148, 0, 211, 0.4);
+  transform: translateY(-2px);
+}
+
+.stage-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #00FF00;
+  margin-bottom: 5px;
+}
+
+.stage-description {
+  color: #CCCCCC;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.stage-enemy {
+  color: #FF6B6B;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.stage-rewards {
+  color: #FFD700;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.stage-info {
+  margin: 15px 0;
+  padding: 10px;
+  background: rgba(148, 0, 211, 0.1);
+  border: 1px solid #9400D3;
+  border-radius: 4px;
+}
+
+.current-stage {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.current-stage span {
+  color: #00FF00;
+  font-weight: bold;
+}
+
+.back-to-stages {
+  background: rgba(148, 0, 211, 0.2);
+  border: 1px solid #9400D3;
+  color: #00FF00;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  transition: all 0.3s ease;
+}
+
+.back-to-stages:hover {
+  background: rgba(148, 0, 211, 0.3);
+  box-shadow: 0 0 10px rgba(148, 0, 211, 0.3);
+}
+
+.enemy-sprite.training-dummy {
+  background-color: #8B4513;
+  border: 2px solid #654321;
+}
+
+.enemy-sprite.training-dummy:before {
+  content: "🎯";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
 }
 
 .health-fill {
