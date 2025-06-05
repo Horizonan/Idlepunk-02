@@ -6,91 +6,6 @@ import { missions, calculateMissionSuccess } from "./crewRecruitment/missions";
 import { equipmentDatabase, getAllEquipment } from "./crewRecruitment/equipment";
 import StaminaTimer from '../components/StaminaTimer';
 
-// Custom dropdown component to handle equipment selection
-function EquipmentDropdown({ crew, slotType, equipment, onEquip }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [buttonRef, setButtonRef] = useState(null);
-  const availableItems = equipment.filter(item => item.type === slotType);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const handleOutsideClick = (event) => {
-      // Don't close if clicking the button itself
-      if (buttonRef && buttonRef.contains(event.target)) return;
-      
-      // Check if click is on dropdown elements
-      const dropdownElements = document.querySelectorAll('.equipment-dropdown-portal');
-      for (let element of dropdownElements) {
-        if (element.contains(event.target)) return;
-      }
-      
-      setIsOpen(false);
-    };
-
-    // Add listener with capture to prevent other handlers from interfering
-    document.addEventListener('click', handleOutsideClick, true);
-    return () => document.removeEventListener('click', handleOutsideClick, true);
-  }, [isOpen, buttonRef]);
-
-  if (availableItems.length === 0) {
-    return <span className="no-equipment">No {slotType} available</span>;
-  }
-
-  const handleButtonClick = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.stopImmediatePropagation) {
-      e.stopImmediatePropagation();
-    }
-    setIsOpen(prev => !prev);
-  };
-
-  const handleItemClick = (item, e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.stopImmediatePropagation) {
-      e.stopImmediatePropagation();
-    }
-    onEquip(crew.id, item.id, slotType);
-    setIsOpen(false);
-  };
-
-  return (
-    <>
-      <div className="equipment-dropdown">
-        <button 
-          ref={setButtonRef}
-          className="dropdown-trigger"
-          onClick={handleButtonClick}
-          onMouseDown={(e) => e.preventDefault()}
-        >
-          Select {slotType} ▼
-        </button>
-      </div>
-      
-      {isOpen && buttonRef && (
-        <div className="equipment-dropdown-portal">
-          <div className="dropdown-options-portal">
-            {availableItems.map((item, index) => (
-              <div
-                key={`${item.id}-${index}`}
-                className="dropdown-option"
-                onClick={(e) => handleItemClick(item, e)}
-                onMouseDown={(e) => e.preventDefault()}
-              >
-                <span className="equipment-icon">{item.icon}</span>
-                <span className="equipment-name">{item.name}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </>
-  );
-}
-
 
 export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }) {
   const [activeTab, setActiveTab] = useState('view');
@@ -792,12 +707,24 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                             ) : (
                               <div className="empty-slot">
                                 <div className="slot-icon">+</div>
-                                <EquipmentDropdown 
-                                  crew={crew}
-                                  slotType={slotType}
-                                  equipment={equipment}
-                                  onEquip={equipItemToCrew}
-                                />
+                                <select 
+                                  value=""
+                                  onChange={(e) => {
+                                    if (e.target.value) {
+                                      equipItemToCrew(crew.id, e.target.value, slotType);
+                                    }
+                                  }}
+                                >
+                                  <option value="">Select {slotType}</option>
+                                  {equipment
+                                    .filter(item => item.type === slotType)
+                                    .map((item, index) => (
+                                      <option key={`${item.id}-${index}`} value={item.id}>
+                                        {item.name}
+                                      </option>
+                                    ))
+                                  }
+                                </select>
                               </div>
                             )}
                           </div>
