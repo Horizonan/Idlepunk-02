@@ -709,27 +709,13 @@
   margin-top: 10px;
   cursor: pointer;
   position: relative;
-  z-index: 100;
+  z-index: 10;
 }
 
 .empty-slot select:focus {
   outline: 2px solid #00FF00;
   border-color: #00FF00;
-  z-index: 200;
-}
-
-.loadout-slot {
-  background: #222;
-  border: 2px solid #9400D3;
-  padding: 15px;
-  border-radius: 4px;
-  text-align: center;
-  min-height: 120px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  overflow: visible;
+  z-index: 20;
 }
 
 .empty-slot select option {
