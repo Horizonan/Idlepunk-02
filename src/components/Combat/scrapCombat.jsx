@@ -79,10 +79,10 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
   };
 
   useEffect(() => {
-    if (combatState.inProgress && combatState.playerHealth > 0 && combatState.enemyHealth > 0) {
+    if (combatState.inProgress && combatState.playerHealth > 0) {
       const playerInterval = setInterval(() => {
         setCombatState(prev => {
-          if (prev.enemyHealth <= 0 || prev.playerHealth <= 0 || !prev.inProgress) {
+          if (prev.playerHealth <= 0 || !prev.inProgress) {
             return prev;
           }
           
@@ -126,7 +126,7 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
         clearInterval(enemyInterval);
       };
     }
-  }, [combatState.inProgress, combatState.playerHealth, combatState.enemyHealth]);
+  }, [combatState.inProgress, combatState.playerHealth]);
 
   useEffect(() => {
     if (combatState.inProgress && combatState.playerHealth <= 0) {
