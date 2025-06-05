@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import '../styles/CrewMenu.css';
 import '../styles/LoadoutSystem.css';
 import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
@@ -11,35 +11,76 @@ import StaminaTimer from '../components/StaminaTimer';
 export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }) {
   const [activeTab, setActiveTab] = useState('view');
   const [showCrewSelect, setShowCrewSelect] = useState(false);
-  const storedSelectedCrew = useRecruitmentZustand(state => state.selectedCrew);
-  const [selectedCrew, setSelectedCrew] = useState(storedSelectedCrew || []);
-  const activeMission = useRecruitmentZustand(state => state.activeMission);
-  const missionStartTime = useRecruitmentZustand(state => state.missionStartTime);
-  const setActiveMission = useRecruitmentZustand(state => state.setActiveMission);
-  const showMiniGame = useRecruitmentZustand(state => state.showMiniGame);
-  const completeMiniGame = useRecruitmentZustand(state => state.completeMiniGame);
   const [timeLeft, setTimeLeft] = useState(0);
   const [showMiniGameModal, setShowMiniGameModal] = useState(false);
+
+  // Memoize zustand selectors to prevent unnecessary re-renders
+  const {
+    selectedCrew,
+    activeMission,
+    missionStartTime,
+    showMiniGame,
+    hiredCrew,
+    unlockedCrew,
+    isRunning
+  } = useRecruitmentZustand(state => ({
+    selectedCrew: state.selectedCrew || [],
+    activeMission: state.activeMission,
+    missionStartTime: state.missionStartTime,
+    showMiniGame: state.showMiniGame,
+    hiredCrew: state.hiredCrew,
+    unlockedCrew: state.unlockedCrew,
+    isRunning: state.isRunning
+  }));
+
+  // Memoize zustand actions
+  const {
+    setActiveMission,
+    completeMiniGame,
+    startGame,
+    checkForMiniGame,
+    getMissionTimeRemaining
+  } = useRecruitmentZustand(state => ({
+    setActiveMission: state.setActiveMission,
+    completeMiniGame: state.completeMiniGame,
+    startGame: state.startGame,
+    checkForMiniGame: state.checkForMiniGame,
+    getMissionTimeRemaining: state.getMissionTimeRemaining
+  }));
   
 
   useEffect(() => {
     if (activeMission && missionStartTime) {
-      const timer = setInterval(() => {
-        // Check for mini-game trigger
-        useRecruitmentZustand.getState().checkForMiniGame();
-        
-        // Calculate time remaining using the new method
-        const remaining = useRecruitmentZustand.getState().getMissionTimeRemaining();
+      let intervalId;
+      let checkGameId;
+
+      const updateTimer = () => {
+        const remaining = getMissionTimeRemaining();
         setTimeLeft(remaining);
-
+        
         if (remaining <= 0) {
-          clearInterval(timer);
+          clearInterval(intervalId);
+          clearInterval(checkGameId);
         }
-      }, 1000);
+      };
 
-      return () => clearInterval(timer);
+      // Update timer every second
+      intervalId = setInterval(updateTimer, 1000);
+      
+      // Check for mini-game less frequently (every 5 seconds)
+      checkGameId = setInterval(() => {
+        checkForMiniGame();
+      }, 5000);
+
+      // Initial update
+      updateTimer();
+
+      return () => {
+        clearInterval(intervalId);
+        clearInterval(checkGameId);
+      };
     }
-  }, [activeMission, missionStartTime]);
+  }, [activeMission, missionStartTime, getMissionTimeRemaining, checkForMiniGame]);
 
   // Watch for mini-game trigger
   useEffect(() => {
@@ -60,34 +101,30 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
     return () => window.removeEventListener('miniGameComplete', handleMiniGameComplete);
   }, []);
 
-  const toggleCrewSelection = (crewId) => {
-    setSelectedCrew(prev => {
-      let newSelection;
-      if (prev.includes(crewId)) {
-        newSelection = prev.filter(id => id !== crewId);
-      } else if (prev.length >= activeMission?.maxCrew) {
-        newSelection = prev;
-      } else {
-        newSelection = [...prev, crewId];
-      }
-      
-      // Update zustand store
-      useRecruitmentZustand.setState({ selectedCrew: newSelection });
-      return newSelection;
-    });
-  };
+  const toggleCrewSelection = useCallback((crewId) => {
+    const currentSelection = useRecruitmentZustand.getState().selectedCrew || [];
+    let newSelection;
+    
+    if (currentSelection.includes(crewId)) {
+      newSelection = currentSelection.filter(id => id !== crewId);
+    } else if (currentSelection.length >= activeMission?.maxCrew) {
+      newSelection = currentSelection;
+    } else {
+      newSelection = [...currentSelection, crewId];
+    }
+    
+    // Update zustand store directly
+    useRecruitmentZustand.setState({ selectedCrew: newSelection });
+  }, [activeMission?.maxCrew]);
 
-  const startMission = (mission) => {
-    const selectedCrewMembers = selectedCrew;
-    useRecruitmentZustand.getState().startMission(mission, selectedCrewMembers);
+  const startMission = useCallback((mission) => {
+    const currentSelectedCrew = useRecruitmentZustand.getState().selectedCrew || [];
+    useRecruitmentZustand.getState().startMission(mission, currentSelectedCrew);
     setShowCrewSelect(false);
-  };
-  const isRunning = useRecruitmentZustand(state => state.isRunning);
-  const startGame = useRecruitmentZustand(state => state.startGame);
+  }, []);
 
-  const TabContent = () => {
-    const hiredCrew = useRecruitmentZustand(state => state.hiredCrew);
-    const unlockedCrew = useRecruitmentZustand(state => state.unlockedCrew);
+  const TabContent = useMemo(() => {
+    const renderTabContent = () => {
 
     switch(activeTab) {
       case 'view':
@@ -843,7 +880,10 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
       default:
         return null;
     }
-  };
+    };
+    
+    return renderTabContent();
+  }, [activeTab, hiredCrew, unlockedCrew, isRunning, activeMission, selectedCrew, showCrewSelect, timeLeft, showMiniGameModal, credits, junk, setCredits, setJunk, toggleCrewSelection, startMission, startGame, completeMiniGame]);
 
   return (
     <div className="crew-menu">
@@ -885,7 +925,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
         </button>
       </div>
 
-      <TabContent />
+      {TabContent}
     </div>
   );
 }
