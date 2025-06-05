@@ -597,8 +597,19 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
             {/* Mini-game Complication Alert */}
             {showMiniGameModal && (
-              <div className="mini-game-overlay">
-                <div className="mini-game-container">
+              <div 
+                className="mini-game-overlay"
+                onClick={(e) => {
+                  // Only close if clicking the overlay itself, not the modal content
+                  if (e.target === e.currentTarget) {
+                    e.stopPropagation();
+                  }
+                }}
+              >
+                <div 
+                  className="mini-game-container"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <div className="mini-game-header">
                     <h3>🚨 Mission Complication Detected! 🚨</h3>
                     <p>Your crew has encountered a signal relay cascade failure!</p>
@@ -608,7 +619,8 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                   <div className="mini-game-actions">
                     <button 
                       className="mini-game-button"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         // Open mini-game at App level
                         window.dispatchEvent(new CustomEvent('showMiniGame'));
                       }}
@@ -617,7 +629,8 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                     </button>
                     <button 
                       className="mini-game-skip-button"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         setShowMiniGameModal(false);
                         completeMiniGame(false); // Skipping counts as failure
                       }}
