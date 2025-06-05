@@ -84,10 +84,16 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   const isRunning = useRecruitmentZustand(state => state.isRunning);
   const startGame = useRecruitmentZustand(state => state.startGame);
 
-  const TabContent = React.useMemo(() => {
-    const hiredCrew = useRecruitmentZustand(state => state.hiredCrew);
-    const unlockedCrew = useRecruitmentZustand(state => state.unlockedCrew);
+  // Get crew data outside of memoization
+  const hiredCrew = useRecruitmentZustand(state => state.hiredCrew);
+  const unlockedCrew = useRecruitmentZustand(state => state.unlockedCrew);
+  const equipment = useRecruitmentZustand(state => state.equipment);
+  const crewLoadouts = useRecruitmentZustand(state => state.crewLoadouts);
+  const equipItemToCrew = useRecruitmentZustand(state => state.equipItemToCrew);
+  const unequipItemFromCrew = useRecruitmentZustand(state => state.unequipItemFromCrew);
+  const getCrewEffectiveStats = useRecruitmentZustand(state => state.getCrewEffectiveStats);
 
+  const TabContent = React.useMemo(() => {
     switch(activeTab) {
       case 'view':
         return (
@@ -632,12 +638,6 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
           </div>
         );
       case 'loadouts':
-        const equipment = useRecruitmentZustand(state => state.equipment);
-        const crewLoadouts = useRecruitmentZustand(state => state.crewLoadouts);
-        const equipItemToCrew = useRecruitmentZustand(state => state.equipItemToCrew);
-        const unequipItemFromCrew = useRecruitmentZustand(state => state.unequipItemFromCrew);
-        const getCrewEffectiveStats = useRecruitmentZustand(state => state.getCrewEffectiveStats);
-        
         return (
           <div className="crew-content">
             <h3>Crew Loadouts</h3>
