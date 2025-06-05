@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/CrewMenu.css';
-import '../styles/LoadoutSystem.css';
 import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
 import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
 import { missions, calculateMissionSuccess } from "./crewRecruitment/missions";
@@ -644,68 +643,27 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
             <h3>Crew Loadouts</h3>
             
             <div className="loadout-section">
-              <h4>Available Equipment ({equipment.length} items)</h4>
+              <h4>Available Equipment</h4>
               <div className="equipment-inventory">
                 {equipment.length === 0 ? (
-                  <div className="no-equipment">
-                    <p>🎒 No equipment available</p>
-                    <p>Complete missions to find equipment!</p>
-                  </div>
+                  <p>No equipment available. Complete missions to find equipment!</p>
                 ) : (
-                  <div className="equipment-grid">
-                    {equipment.map((item, index) => (
-                      <div 
-                        key={`${item.id}-${index}`} 
-                        className="equipment-card"
-                        data-rarity={item.rarity}
-                      >
-                        <div className="equipment-header">
-                          <span className="equipment-icon">{item.icon}</span>
-                          <div className="equipment-meta">
-                            <h5>{item.name}</h5>
-                            <span className="equipment-type">{item.type.toUpperCase()}</span>
-                          </div>
-                        </div>
+                  equipment.map((item, index) => (
+                    <div key={`${item.id}-${index}`} className="equipment-item">
+                      <span className="equipment-icon">{item.icon}</span>
+                      <div className="equipment-info">
+                        <h5>{item.name}</h5>
+                        <p className="equipment-rarity">{item.rarity}</p>
+                        <p className="equipment-type">{item.type}</p>
                         <div className="equipment-stats">
                           {Object.entries(item.statBonus).map(([stat, bonus]) => (
-                            <div key={stat} className="stat-bonus">
-                              <span className="stat-name">{stat}:</span>
-                              <span className="stat-value">+{bonus}</span>
-                            </div>
+                            <span key={stat}>{stat}: +{bonus}</span>
                           ))}
                         </div>
                         <p className="equipment-flavor">{item.flavor}</p>
-                        <div className="equipment-actions">
-                          <select 
-                            className="crew-selector"
-                            onChange={(e) => {
-                              if (e.target.value) {
-                                const [crewId, slotType] = e.target.value.split('|');
-                                equipItemToCrew(crewId, item.id, slotType);
-                                e.target.value = '';
-                              }
-                            }}
-                            defaultValue=""
-                          >
-                            <option value="">Equip to...</option>
-                            {hiredCrew.map(crew => {
-                              const loadout = crewLoadouts[crew.id] || {};
-                              const canEquip = !loadout[item.type];
-                              return (
-                                <option 
-                                  key={crew.id} 
-                                  value={`${crew.id}|${item.type}`}
-                                  disabled={!canEquip}
-                                >
-                                  {crew.name} ({item.type}) {!canEquip ? '(Slot Full)' : ''}
-                                </option>
-                              );
-                            })}
-                          </select>
-                        </div>
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))
                 )}
               </div>
             </div>
@@ -716,126 +674,74 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                 {hiredCrew.map((crew) => {
                   const loadout = crewLoadouts[crew.id] || { weapon: null, armor: null, tool: null };
                   const effectiveStats = getCrewEffectiveStats(crew.id);
-                  const baseStats = crew.stats || {};
                   
                   return (
                     <div key={crew.id} className="crew-loadout-card">
                       <div className="crew-loadout-header">
-                        <div className="crew-info">
-                          <h5>{crew.name}</h5>
-                          <span className="crew-role">{crew.role}</span>
-                          <span className="crew-rarity">{crew.rarity}</span>
-                        </div>
-                        <div className="stamina-display">
-                          <span>Stamina: {crew.stamina || 100}%</span>
-                          <div className="mini-stamina-bar">
-                            <div 
-                              className="mini-stamina-fill" 
-                              style={{width: `${crew.stamina || 100}%`}}
-                            ></div>
-                          </div>
-                        </div>
+                        <h5>{crew.name}</h5>
+                        <span className="crew-role">{crew.role}</span>
                       </div>
                       
-                      <div className="equipment-slots">
+                      <div className="loadout-slots">
                         {['weapon', 'armor', 'tool'].map(slotType => (
-                          <div key={slotType} className="equipment-slot">
-                            <div className="slot-header">
-                              <span className="slot-type">{slotType.toUpperCase()}</span>
-                              <span className="slot-icon">
-                                {slotType === 'weapon' ? '⚔️' : 
-                                 slotType === 'armor' ? '🛡️' : '🔧'}
-                              </span>
-                            </div>
-                            
-                            <div className="slot-content">
-                              {loadout[slotType] ? (
-                                <div className="equipped-item">
-                                  <div className="item-display">
-                                    <span className="item-icon">{loadout[slotType].icon}</span>
-                                    <div className="item-details">
-                                      <h6>{loadout[slotType].name}</h6>
-                                      <div className="item-bonuses">
-                                        {Object.entries(loadout[slotType].statBonus).map(([stat, bonus]) => (
-                                          <span key={stat} className="bonus-stat">
-                                            {stat}: +{bonus}
-                                          </span>
-                                        ))}
-                                      </div>
-                                    </div>
+                          <div key={slotType} className="loadout-slot">
+                            <div className="slot-type">{slotType}</div>
+                            {loadout[slotType] ? (
+                              <div className="equipped-item">
+                                <span className="equipment-icon">{loadout[slotType].icon}</span>
+                                <div className="equipment-info">
+                                  <p>{loadout[slotType].name}</p>
+                                  <div className="equipment-stats">
+                                    {Object.entries(loadout[slotType].statBonus).map(([stat, bonus]) => (
+                                      <span key={stat}>{stat}: +{bonus}</span>
+                                    ))}
                                   </div>
-                                  <button 
-                                    className="unequip-btn"
-                                    onClick={() => unequipItemFromCrew(crew.id, slotType)}
-                                    title="Unequip item"
-                                  >
-                                    ❌
-                                  </button>
                                 </div>
-                              ) : (
-                                <div className="empty-slot">
-                                  <div className="empty-indicator">
-                                    <span className="empty-icon">➕</span>
-                                    <span className="empty-text">Empty</span>
-                                  </div>
-                                  {equipment.filter(item => item.type === slotType).length > 0 && (
-                                    <div className="quick-equip">
-                                      <span className="available-count">
-                                        {equipment.filter(item => item.type === slotType).length} available
-                                      </span>
-                                    </div>
-                                  )}
-                                </div>
-                              )}
-                            </div>
+                                <button 
+                                  className="unequip-button"
+                                  onClick={() => unequipItemFromCrew(crew.id, slotType)}
+                                >
+                                  ✕
+                                </button>
+                              </div>
+                            ) : (
+                              <div className="empty-slot">
+                                <div className="slot-icon">+</div>
+                                <select 
+                                  value=""
+                                  onChange={(e) => {
+                                    if (e.target.value) {
+                                      equipItemToCrew(crew.id, e.target.value, slotType);
+                                    }
+                                  }}
+                                >
+                                  <option value="">Select {slotType}</option>
+                                  {equipment
+                                    .filter(item => item.type === slotType)
+                                    .map((item, index) => (
+                                      <option key={`${item.id}-${index}`} value={item.id}>
+                                        {item.name}
+                                      </option>
+                                    ))
+                                  }
+                                </select>
+                              </div>
+                            )}
                           </div>
                         ))}
                       </div>
                       
-                      <div className="stats-comparison">
-                        <div className="stats-section">
-                          <h6>Base Stats</h6>
-                          <div className="stats-grid">
-                            {Object.entries(baseStats).map(([stat, value]) => (
-                              <div key={stat} className="stat-item base">
-                                <span className="stat-name">{stat}:</span>
-                                <span className="stat-value">{value}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                        
-                        <div className="stats-arrow">➜</div>
-                        
-                        <div className="stats-section">
-                          <h6>Effective Stats</h6>
-                          <div className="stats-grid">
-                            {Object.entries(effectiveStats || baseStats).map(([stat, value]) => {
-                              const baseValue = baseStats[stat] || 0;
-                              const bonus = value - baseValue;
-                              return (
-                                <div key={stat} className="stat-item effective">
-                                  <span className="stat-name">{stat}:</span>
-                                  <span className="stat-value">
-                                    {value}
-                                    {bonus > 0 && <span className="stat-bonus"> (+{bonus})</span>}
-                                  </span>
-                                </div>
-                              );
-                            })}
-                          </div>
+                      <div className="effective-stats">
+                        <h6>Effective Stats:</h6>
+                        <div className="stats-display">
+                          {Object.entries(effectiveStats || {}).map(([stat, value]) => (
+                            <span key={stat}>{stat}: {value}</span>
+                          ))}
                         </div>
                       </div>
                     </div>
                   );
                 })}
-                
-                {hiredCrew.length === 0 && (
-                  <div className="no-crew">
-                    <p>👥 No crew members hired</p>
-                    <p>Visit the Recruit tab to hire crew members first!</p>
-                  </div>
-                )}
               </div>
             </div>
           </div>
