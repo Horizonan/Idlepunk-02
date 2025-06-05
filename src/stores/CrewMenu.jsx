@@ -6,6 +6,53 @@ import { missions, calculateMissionSuccess } from "./crewRecruitment/missions";
 import { equipmentDatabase, getAllEquipment } from "./crewRecruitment/equipment";
 import StaminaTimer from '../components/StaminaTimer';
 
+// Custom dropdown component to handle equipment selection
+function EquipmentDropdown({ crew, slotType, equipment, onEquip }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const availableItems = equipment.filter(item => item.type === slotType);
+
+  if (availableItems.length === 0) {
+    return <span className="no-equipment">No {slotType} available</span>;
+  }
+
+  return (
+    <div className="equipment-dropdown">
+      <button 
+        className="dropdown-trigger"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setIsOpen(!isOpen);
+        }}
+      >
+        Select {slotType} ▼
+      </button>
+      {isOpen && (
+        <div className="dropdown-menu">
+          <div className="dropdown-backdrop" onClick={() => setIsOpen(false)} />
+          <div className="dropdown-options">
+            {availableItems.map((item, index) => (
+              <div
+                key={`${item.id}-${index}`}
+                className="dropdown-option"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onEquip(crew.id, item.id, slotType);
+                  setIsOpen(false);
+                }}
+              >
+                <span className="equipment-icon">{item.icon}</span>
+                <span className="equipment-name">{item.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 
 export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }) {
   const [activeTab, setActiveTab] = useState('view');
@@ -707,29 +754,12 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                             ) : (
                               <div className="empty-slot">
                                 <div className="slot-icon">+</div>
-                                <select 
-                                  key={`${crew.id}-${slotType}-select`}
-                                  onChange={(e) => {
-                                    const selectedValue = e.target.value;
-                                    if (selectedValue && selectedValue !== "") {
-                                      equipItemToCrew(crew.id, selectedValue, slotType);
-                                      // Reset dropdown after a tiny delay to allow selection to complete
-                                      setTimeout(() => {
-                                        e.target.selectedIndex = 0;
-                                      }, 10);
-                                    }
-                                  }}
-                                >
-                                  <option value="">Select {slotType}</option>
-                                  {equipment
-                                    .filter(item => item.type === slotType)
-                                    .map((item, index) => (
-                                      <option key={`${item.id}-${index}`} value={item.id}>
-                                        {item.name}
-                                      </option>
-                                    ))
-                                  }
-                                </select>
+                                <EquipmentDropdown 
+                                  crew={crew}
+                                  slotType={slotType}
+                                  equipment={equipment}
+                                  onEquip={equipItemToCrew}
+                                />
                               </div>
                             )}
                           </div>
