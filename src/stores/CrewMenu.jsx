@@ -717,7 +717,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                       // Reset the select after a brief delay to allow the change to process
                                       setTimeout(() => {
                                         e.target.value = "";
-                                      }, 50);
+                                      }, 50000);
                                     }
                                   }}
                                   onFocus={(e) => {
