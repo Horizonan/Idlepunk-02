@@ -634,8 +634,21 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
       case 'loadouts':
         const equipment = useRecruitmentZustand(state => state.equipment);
         const crewLoadouts = useRecruitmentZustand(state => state.crewLoadouts);
+        
+        console.log('🔧 Loadouts tab rendering:', {
+          equipmentCount: equipment?.length || 0,
+          crewCount: hiredCrew?.length || 0,
+          loadoutsKeys: Object.keys(crewLoadouts || {}),
+          timestamp: Date.now()
+        });
         const equipItemToCrew = useRecruitmentZustand(state => state.equipItemToCrew);
         const unequipItemFromCrew = useRecruitmentZustand(state => state.unequipItemFromCrew);
+        
+        // Add logging wrapper for equipment functions
+        const loggedEquipItemToCrew = (crewId, itemId, slotType) => {
+          console.log('🔧 equipItemToCrew called:', { crewId, itemId, slotType });
+          return equipItemToCrew(crewId, itemId, slotType);
+        };
         const getCrewEffectiveStats = useRecruitmentZustand(state => state.getCrewEffectiveStats);
         
         return (
@@ -684,7 +697,18 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                       
                       <div className="loadout-slots">
                         {['weapon', 'armor', 'tool'].map(slotType => (
-                          <div key={slotType} className="loadout-slot">
+                          <div 
+                            key={slotType} 
+                            className="loadout-slot"
+                            onClick={(e) => {
+                              console.log('🔧 Loadout slot clicked:', {
+                                slotType,
+                                crewId: crew.id,
+                                hasEquippedItem: !!loadout[slotType],
+                                timestamp: Date.now()
+                              });
+                            }}
+                          >
                             <div className="slot-type">{slotType}</div>
                             {loadout[slotType] ? (
                               <div className="equipped-item">
@@ -710,28 +734,58 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                 <select 
                                   value=""
                                   onChange={(e) => {
+                                    console.log('🔧 Dropdown onChange triggered:', {
+                                      value: e.target.value,
+                                      crewId: crew.id,
+                                      slotType: slotType,
+                                      timestamp: Date.now()
+                                    });
                                     if (e.target.value) {
-                                      equipItemToCrew(crew.id, e.target.value, slotType);
+                                      console.log('🔧 Equipping item:', e.target.value, 'to crew:', crew.id, 'slot:', slotType);
+                                      loggedEquipItemToCrew(crew.id, e.target.value, slotType);
                                       // Reset the select value after a brief delay to prevent re-render issues
                                       setTimeout(() => {
+                                        console.log('🔧 Resetting dropdown value after timeout');
                                         e.target.value = "";
                                       }, 1000);
                                     }
                                   }}
                                   onBlur={(e) => {
+                                    console.log('🔧 Dropdown onBlur triggered:', {
+                                      value: e.target.value,
+                                      crewId: crew.id,
+                                      slotType: slotType,
+                                      timestamp: Date.now()
+                                    });
                                     // Reset dropdown when it loses focus
                                     e.target.value = "";
                                   }}
+                                  onFocus={(e) => {
+                                    console.log('🔧 Dropdown onFocus triggered:', {
+                                      crewId: crew.id,
+                                      slotType: slotType,
+                                      timestamp: Date.now()
+                                    });
+                                  }}
+                                  onClick={(e) => {
+                                    console.log('🔧 Dropdown onClick triggered:', {
+                                      crewId: crew.id,
+                                      slotType: slotType,
+                                      timestamp: Date.now()
+                                    });
+                                    e.stopPropagation();
+                                  }}
                                 >
                                   <option value="">Select {slotType}</option>
-                                  {equipment
-                                    .filter(item => item.type === slotType)
-                                    .map((item, index) => (
+                                  {(() => {
+                                    const filteredEquipment = equipment.filter(item => item.type === slotType);
+                                    console.log('🔧 Filtering equipment for slot:', slotType, 'found:', filteredEquipment.length, 'items');
+                                    return filteredEquipment.map((item, index) => (
                                       <option key={`${item.id}-${index}`} value={item.id}>
                                         {item.name}
                                       </option>
-                                    ))
-                                  }
+                                    ));
+                                  })()}
                                 </select>
                               </div>
                             )}
