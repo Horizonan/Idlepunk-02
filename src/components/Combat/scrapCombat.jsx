@@ -106,7 +106,7 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
 
       const enemyInterval = setInterval(() => {
         setCombatState(prev => {
-          if (prev.enemyHealth <= 0 || prev.playerHealth <= 0 || !prev.inProgress) {
+          if (prev.playerHealth <= 0 || !prev.inProgress) {
             return prev;
           }
           
