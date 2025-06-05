@@ -757,7 +757,7 @@
 }
 
 .mission-result.failure {
-  border-color: #FF00D3;
+  border-color: #FF0000;
 }
 
 .mission-rewards-display {
@@ -1027,22 +1027,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1500;
-  pointer-events: auto;
+  z-index: 2000;
 }
 
 .mini-game-container {
   background: #1a1a1a;
   border: 2px solid #9400D3;
-```text
   border-radius: 8px;
   padding: 20px;
   max-width: 90vw;
   max-height: 90vh;
   overflow: auto;
   box-shadow: 0 0 30px rgba(148, 0, 211, 0.5);
-  pointer-events: auto;
-  position: relative;
 }
 
 .mini-game-header {
@@ -1153,34 +1149,4 @@
   border-color: #FF0000;
   transform: scale(1.05);
   box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-}
-
-.equipment-actions select,
-.crew-selector {
-  background: #222;
-  color: #00FF00;
-  border: 1px solid #9400D3;
-  padding: 5px;
-  border-radius: 3px;
-  font-size: 0.8em;
-  width: 100%;
-  margin-top: 10px;
-  position: relative;
-  z-index: 2000;
-  pointer-events: auto;
-}
-
-.crew-selector:focus {
-  outline: 2px solid #00FF00;
-  z-index: 2001;
-}
-
-.equipment-card {
-  position: relative;
-  z-index: 1;
-}
-
-.equipment-actions {
-  position: relative;
-  z-index: 2;
 }
