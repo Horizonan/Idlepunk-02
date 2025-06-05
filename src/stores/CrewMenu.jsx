@@ -712,15 +712,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                   onChange={(e) => {
                                     if (e.target.value) {
                                       equipItemToCrew(crew.id, e.target.value, slotType);
-                                      // Reset the select value after a brief delay to prevent re-render issues
-                                      setTimeout(() => {
-                                        e.target.value = "";
-                                      }, 10);
                                     }
-                                  }}
-                                  onBlur={(e) => {
-                                    // Reset dropdown when it loses focus
-                                    e.target.value = "";
                                   }}
                                 >
                                   <option value="">Select {slotType}</option>
