@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import '../styles/CrewMenu.css';
 import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
 import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
@@ -10,6 +10,7 @@ import StaminaTimer from '../components/StaminaTimer';
 export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }) {
   const [activeTab, setActiveTab] = useState('view');
   const [showCrewSelect, setShowCrewSelect] = useState(false);
+  const [isMenuActive, setIsMenuActive] = useState(true);
   const storedSelectedCrew = useRecruitmentZustand(state => state.selectedCrew);
   const [selectedCrew, setSelectedCrew] = useState(storedSelectedCrew || []);
   const activeMission = useRecruitmentZustand(state => state.activeMission);
@@ -21,10 +22,42 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   const [showMiniGameModal, setShowMiniGameModal] = useState(false);
   
 
+  // Track user activity to optimize rendering
   useEffect(() => {
-    if (activeMission && missionStartTime) {
+    let inactivityTimer;
+    
+    const resetInactivityTimer = () => {
+      setIsMenuActive(true);
+      clearTimeout(inactivityTimer);
+      inactivityTimer = setTimeout(() => {
+        setIsMenuActive(false);
+      }, 5000); // Consider menu inactive after 5 seconds of no interaction
+    };
+
+    const handleUserInteraction = () => {
+      resetInactivityTimer();
+    };
+
+    // Set up event listeners for user interaction
+    document.addEventListener('click', handleUserInteraction);
+    document.addEventListener('keydown', handleUserInteraction);
+    document.addEventListener('scroll', handleUserInteraction);
+    
+    // Initialize as active
+    resetInactivityTimer();
+
+    return () => {
+      clearTimeout(inactivityTimer);
+      document.removeEventListener('click', handleUserInteraction);
+      document.removeEventListener('keydown', handleUserInteraction);
+      document.removeEventListener('scroll', handleUserInteraction);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (activeMission && missionStartTime && isMenuActive) {
       const timer = setInterval(() => {
-        // Check for mini-game trigger
+        // Only check for mini-game trigger and update when menu is active
         useRecruitmentZustand.getState().checkForMiniGame();
         
         // Calculate time remaining using the new method
@@ -38,7 +71,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
       return () => clearInterval(timer);
     }
-  }, [activeMission, missionStartTime]);
+  }, [activeMission, missionStartTime, isMenuActive]);
 
   // Watch for mini-game trigger
   useEffect(() => {
@@ -84,7 +117,12 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   const isRunning = useRecruitmentZustand(state => state.isRunning);
   const startGame = useRecruitmentZustand(state => state.startGame);
 
-  const TabContent = () => {
+  const TabContent = React.useMemo(() => {
+    if (!isMenuActive && activeTab !== 'ongoing') {
+      // Return cached content for inactive menu, except for ongoing tab which needs real-time updates
+      return null;
+    }
+
     const hiredCrew = useRecruitmentZustand(state => state.hiredCrew);
     const unlockedCrew = useRecruitmentZustand(state => state.unlockedCrew);
 
@@ -757,7 +795,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
       default:
         return null;
     }
-  };
+  }, [activeTab, isMenuActive, hiredCrew?.length, unlockedCrew?.length, activeMission, timeLeft, showCrewSelect, selectedCrew]);
 
   return (
     <div className="crew-menu">
@@ -799,7 +837,11 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
         </button>
       </div>
 
-      <TabContent />
+      {isMenuActive || activeTab === 'ongoing' ? <TabContent /> : (
+        <div className="crew-content">
+          <p>Menu paused to improve performance. Click anywhere to reactivate.</p>
+        </div>
+      )}
     </div>
   );
 }
