@@ -60,7 +60,12 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
     return () => window.removeEventListener('miniGameComplete', handleMiniGameComplete);
   }, []);
 
-  const toggleCrewSelection = (crewId) => {
+  const toggleCrewSelection = (crewId, event) => {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    
     setSelectedCrew(prev => {
       let newSelection;
       if (prev.includes(crewId)) {
@@ -278,7 +283,9 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                   <button 
                     className="mission-button" 
                     disabled={useRecruitmentZustand(state => state.hiredCrew).length === 0 || activeMission !== null}
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
                       if (!activeMission) {
                         setActiveMission(mission);
                         setShowCrewSelect(true);
@@ -296,7 +303,11 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                       <div className="crew-selection-header">
                         <h3>Select Crew for {mission.name}</h3>
                         <div className="crew-count">Selected: {selectedCrew.length} / {mission.maxCrew}</div>
-                        <button onClick={() => setShowCrewSelect(false)}>×</button>
+                        <button onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setShowCrewSelect(false);
+                        }}>×</button>
                       </div>
                       <div className="mission-requirements-display">
                         <h4>Required Stats:</h4>
@@ -337,7 +348,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                           <div
                             key={crew.id}
                             className={`crew-selection-item ${selectedCrew.includes(crew.id) ? 'selected' : ''}`}
-                            onClick={() => toggleCrewSelection(crew.id)}
+                            onClick={(e) => toggleCrewSelection(crew.id, e)}
                           >
                             <h4>{crew.name}</h4>
                             <p>{crew.role}</p>
@@ -357,14 +368,20 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         ))}
                       </div>
                       <div className="crew-selection-actions">
-                        <button onClick={() => {
+                        <button onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
                           setShowCrewSelect(false);
                           setActiveMission(null);
                           setSelectedCrew([]);
                           useRecruitmentZustand.setState({ selectedCrew: [] });
                         }}>Cancel</button>
                         <button 
-                          onClick={() => startMission(mission)}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            startMission(mission);
+                          }}
                           disabled={selectedCrew.length === 0}
                         >
                           Start Mission
@@ -679,11 +696,20 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                           <select 
                             className="crew-selector"
                             onChange={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
                               if (e.target.value) {
                                 const [crewId, slotType] = e.target.value.split('|');
                                 equipItemToCrew(crewId, item.id, slotType);
-                                e.target.value = '';
+                                // Use setTimeout to ensure state update completes before resetting
+                                setTimeout(() => {
+                                  e.target.value = '';
+                                }, 0);
                               }
+                            }}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
                             }}
                             defaultValue=""
                           >
