@@ -38,15 +38,14 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
       return () => clearInterval(timer);
     }
-  }, [activeMission, missionStartTime]);
+  }, [activeMission?.id, missionStartTime]);
 
-  console.log("ReRender")
   // Watch for mini-game trigger
   useEffect(() => {
     if (showMiniGame && !showMiniGameModal) {
       setShowMiniGameModal(true);
     }
-  }, [showMiniGame, showMiniGameModal]);
+  }, [showMiniGame]);
 
   // Listen for mini-game completion from App level
   useEffect(() => {
@@ -58,7 +57,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
     window.addEventListener('miniGameComplete', handleMiniGameComplete);
     return () => window.removeEventListener('miniGameComplete', handleMiniGameComplete);
-  }, []);
+  }, [completeMiniGame]);
 
   const toggleCrewSelection = (crewId) => {
     setSelectedCrew(prev => {
@@ -85,7 +84,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   const isRunning = useRecruitmentZustand(state => state.isRunning);
   const startGame = useRecruitmentZustand(state => state.startGame);
 
-  const TabContent = () => {
+  const TabContent = React.useMemo(() => {
     const hiredCrew = useRecruitmentZustand(state => state.hiredCrew);
     const unlockedCrew = useRecruitmentZustand(state => state.unlockedCrew);
 
@@ -750,7 +749,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
       default:
         return null;
     }
-  };
+  }, [activeTab, hiredCrew, unlockedCrew, activeMission, selectedCrew, timeLeft, showCrewSelect, showMiniGameModal, equipment, crewLoadouts]);
 
   return (
     <div className="crew-menu">
@@ -792,7 +791,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
         </button>
       </div>
 
-      <TabContent />
+      {TabContent}
     </div>
   );
 }
