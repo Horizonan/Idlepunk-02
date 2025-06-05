@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default function Changelog({ onClose }) {
-  const [expandedVersion, setExpandedVersion] = useState('0.1.0.1');
+  const [expandedVersion, setExpandedVersion] = useState('0.1.0.2');
 
   const toggleVersion = (version) => {
     setExpandedVersion(expandedVersion === version ? null : version);
@@ -17,6 +17,43 @@ export default function Changelog({ onClose }) {
 
 
       <div className="changelog-content">
+
+        <div className="changelog-entry">
+          <h3 onClick={() => toggleVersion('0.1.0.2')} style={{ cursor: 'pointer' }}>
+            🧩 QoL, Stats & Visual Polish – Update Log 0.1.0.2 {expandedVersion === '0.1.0.2' ? '▼' : '▶'}
+          </h3>
+          {expandedVersion === '0.1.0.2' && (
+            <>
+              <p>Patch 0.1.0.2 focuses on polish, visual upgrades, stat tracking, and tackling critical bugs. More clarity, smoother gameplay, and a sprinkle of new content await! 🚀</p>
+              <div className="changelog-section">
+                <h3>🛠️ QoL & System Polish</h3>
+                <p>🛠️ Added indicator when Overcharged Crystal is craftable</p>
+                <p>🛠️ Improved Prestige clarity (WIP: meter or visual feedback incoming)</p>
+                <p>🛠️ Expanded Stats Menu with Trash Bonus pickup time</p>
+                <p>🛠️ Added Crystal Pickup Time to Stats Menu</p>
+                <p>🛠️ Added Total Junk Collected to Statistics</p>
+                <p>🛠️ Redesigned Cheat Menu for easier navigation</p>
+                <p>🛠️ Another step toward mobile friendliness... but still a long road 😅</p>
+
+                <h3>🎮 New Content</h3>
+                <p>🎮 Added Pickup Magnet item to Tronics Store</p>
+                <p>🎮 New Quest: "Scratz to Riches" now available</p>
+                <p>🎮 Stats now track how many Crew Missions were completed successfully</p>
+
+                <h3>🎨 New Visual Designs</h3>
+                <p>🎨 Added new Hover Drone design</p>
+                <p>🎨 Added new Electro Shard design</p>
+                <p>🎨 Updated Drone visual for better contrast and feel</p>
+
+                <h3>🐞 Bug Fixes</h3>
+                <p>🐞 Fixed issue where Crystal Reduction was calculated twice</p>
+                <p>🐞 Fixed mobile bug where Next Crystal Timer stretched across the screen</p>
+                <p>🐞 Fixed critical bug that caused the game to break on Junk Refinery purchase</p>
+              </div>
+              <p className="changelog-footer">Thanks for continuing to play and shape IdlePunk with your feedback! More clarity, stability, and fun features coming soon. 💛</p>
+            </>
+          )}
+        </div>
 
         <div className="changelog-entry">
           <h3 onClick={() => toggleVersion('0.1.0.1')} style={{ cursor: 'pointer' }}>
