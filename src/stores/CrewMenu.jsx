@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import '../styles/CrewMenu.css';
 import '../styles/LoadoutSystem.css';
 import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
@@ -9,7 +9,7 @@ import StaminaTimer from '../components/StaminaTimer';
 import whyDidYouRender from '@welldone-software/why-did-you-render';
 
 
-export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }) {
+const CrewMenu = React.memo(function CrewMenu({ onClose, setCredits, credits, setJunk, junk }) {
   const [activeTab, setActiveTab] = useState('view');
   const [showCrewSelect, setShowCrewSelect] = useState(false);
   const storedSelectedCrew = useRecruitmentZustand(state => state.selectedCrew);
@@ -39,7 +39,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
       return () => clearInterval(timer);
     }
-  }, [activeMission, missionStartTime]);
+  }, [activeMission?.id, missionStartTime]); // Only depend on mission ID, not the entire object
 
   // Watch for mini-game trigger
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
     return () => window.removeEventListener('miniGameComplete', handleMiniGameComplete);
   }, [completeMiniGame]);
 
-  const toggleCrewSelection = (crewId) => {
+  const toggleCrewSelection = useCallback((crewId) => {
     setSelectedCrew(prev => {
       let newSelection;
       if (prev.includes(crewId)) {
@@ -75,7 +75,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
       useRecruitmentZustand.setState({ selectedCrew: newSelection });
       return newSelection;
     });
-  };
+  }, [activeMission?.maxCrew]);
 
   const startMission = (mission) => {
     const selectedCrewMembers = selectedCrew;
@@ -912,6 +912,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
       <TabContent />
     </div>
   );
-}
-CrewMenu.whyDidYouRender = true;
+});
+
+export default CrewMenu;
 
