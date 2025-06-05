@@ -708,10 +708,10 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                               <div className="empty-slot">
                                 <div className="slot-icon">+</div>
                                 <select 
+                                  value=""
                                   onChange={(e) => {
                                     if (e.target.value) {
                                       equipItemToCrew(crew.id, e.target.value, slotType);
-                                      e.target.value = '';
                                     }
                                   }}
                                 >
