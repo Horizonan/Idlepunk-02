@@ -130,6 +130,24 @@
   font-weight: bold;
 }
 
+.stage-option.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.stage-option.locked:hover {
+  background: rgba(148, 0, 211, 0.1);
+  box-shadow: none;
+  transform: none;
+}
+
+.unlock-requirement {
+  color: #FF6B6B;
+  font-size: 12px;
+  font-style: italic;
+  margin-bottom: 5px;
+}
+
 .stage-info {
   margin: 15px 0;
   padding: 10px;

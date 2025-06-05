@@ -3,6 +3,9 @@ import './scrapCombat.css'
 
 export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, onClose }) {
   const [selectedStage, setSelectedStage] = useState(null);
+  const [winStreak, setWinStreak] = useState(() => {
+    return parseInt(localStorage.getItem('trainingWinStreak') || '0');
+  });
   const [combatState, setCombatState] = useState({
     inProgress: false,
     playerHealth: playerStats?.maxHealth || 100,
@@ -25,6 +28,7 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
     training: {
       name: "Training Dummy",
       description: "Practice your combat skills against a basic training dummy",
+      unlocked: true,
       enemy: {
         name: "TRAINING DUMMY v1.0",
         maxHealth: 75,
@@ -40,6 +44,8 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
     scrapper: {
       name: "Cyber Scrapper",
       description: "Battle against a dangerous cyber-enhanced scrapper",
+      unlocked: winStreak >= 15,
+      unlockRequirement: "Defeat 15 Training Dummies in a row",
       enemy: {
         name: "CYBER-SCRAPPER MK.III",
         maxHealth: 150,
@@ -116,24 +122,41 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
 
   useEffect(() => {
     if (combatState.playerHealth <= 0) {
+      // Reset win streak on defeat if in training stage
+      if (selectedStage === 'training') {
+        setWinStreak(0);
+        localStorage.setItem('trainingWinStreak', '0');
+      }
       setCombatState(prev => ({
         ...prev,
         inProgress: false,
         victory: false,
-        combatLog: [...prev.combatLog, "Defeat! You have been defeated."]
+        combatLog: [...prev.combatLog, "Defeat! You have been defeated. Training win streak reset!"]
       }));
       onCombatEnd(false);
     } else if (combatState.enemyHealth <= 0 && selectedStage) {
       const rewards = stages[selectedStage].rewards;
+      let newWinStreak = winStreak;
+      
+      // Increment win streak for training stage
+      if (selectedStage === 'training') {
+        newWinStreak = winStreak + 1;
+        setWinStreak(newWinStreak);
+        localStorage.setItem('trainingWinStreak', newWinStreak.toString());
+      }
+      
+      const streakMessage = selectedStage === 'training' ? 
+        ` Training win streak: ${newWinStreak}/15` : '';
+      
       setCombatState(prev => ({
         ...prev,
         inProgress: false,
         victory: true,
-        combatLog: [...prev.combatLog, `Victory! Enemy defeated! Earned ${rewards.junk} junk and ${rewards.credits} credits!`]
+        combatLog: [...prev.combatLog, `Victory! Enemy defeated! Earned ${rewards.junk} junk and ${rewards.credits} credits!${streakMessage}`]
       }));
       onCombatEnd(true, rewards);
     }
-  }, [combatState.playerHealth, combatState.enemyHealth, selectedStage]);
+  }, [combatState.playerHealth, combatState.enemyHealth, selectedStage, winStreak]);
 
   return (
     <div className="scraptagon-combat">
@@ -149,11 +172,23 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
       {!selectedStage && (
         <div className="stage-selection">
           <h3>SELECT COMBAT STAGE</h3>
+          <div className="combat-stats">
+            <div>Training Win Streak: {winStreak}/15</div>
+          </div>
           <div className="stage-list">
             {Object.entries(stages).map(([stageKey, stage]) => (
-              <div key={stageKey} className="stage-option" onClick={() => setSelectedStage(stageKey)}>
-                <div className="stage-name">{stage.name}</div>
+              <div 
+                key={stageKey} 
+                className={`stage-option ${!stage.unlocked ? 'locked' : ''}`} 
+                onClick={() => stage.unlocked && setSelectedStage(stageKey)}
+              >
+                <div className="stage-name">
+                  {stage.name} {!stage.unlocked && '🔒'}
+                </div>
                 <div className="stage-description">{stage.description}</div>
+                {!stage.unlocked && stage.unlockRequirement && (
+                  <div className="unlock-requirement">Unlock: {stage.unlockRequirement}</div>
+                )}
                 <div className="stage-enemy">Enemy: {stage.enemy.name} (HP: {stage.enemy.maxHealth})</div>
                 <div className="stage-rewards">Rewards: {stage.rewards.junk} Junk, {stage.rewards.credits} Credits</div>
               </div>
