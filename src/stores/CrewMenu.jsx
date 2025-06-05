@@ -6,6 +6,7 @@ import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
 import { missions, calculateMissionSuccess } from "./crewRecruitment/missions";
 import { equipmentDatabase, getAllEquipment } from "./crewRecruitment/equipment";
 import StaminaTimer from '../components/StaminaTimer';
+import whyDidYouRender from '@welldone-software/why-did-you-render';
 
 
 export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }) {
@@ -20,14 +21,13 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   const completeMiniGame = useRecruitmentZustand(state => state.completeMiniGame);
   const [timeLeft, setTimeLeft] = useState(0);
   const [showMiniGameModal, setShowMiniGameModal] = useState(false);
-  
 
   useEffect(() => {
     if (activeMission && missionStartTime) {
       const timer = setInterval(() => {
         // Check for mini-game trigger
         useRecruitmentZustand.getState().checkForMiniGame();
-        
+
         // Calculate time remaining using the new method
         const remaining = useRecruitmentZustand.getState().getMissionTimeRemaining();
         setTimeLeft(remaining);
@@ -58,7 +58,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
     window.addEventListener('miniGameComplete', handleMiniGameComplete);
     return () => window.removeEventListener('miniGameComplete', handleMiniGameComplete);
-  }, []);
+  }, [completeMiniGame]);
 
   const toggleCrewSelection = (crewId) => {
     setSelectedCrew(prev => {
@@ -333,7 +333,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         </div>
                       </div>
                       <div className="crew-selection-list">
-                        {useRecruitmentZustand(state => state.hiredCrew).map((crew) => (
+                         {useRecruitmentZustand(state => state.hiredCrew).map((crew) => (
                           <div
                             key={crew.id}
                             className={`crew-selection-item ${selectedCrew.includes(crew.id) ? 'selected' : ''}`}
@@ -597,8 +597,19 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
             {/* Mini-game Complication Alert */}
             {showMiniGameModal && (
-              <div className="mini-game-overlay">
-                <div className="mini-game-container">
+              <div 
+                className="mini-game-overlay"
+                onClick={(e) => {
+                  // Only close if clicking the overlay itself, not the modal content
+                  if (e.target === e.currentTarget) {
+                    e.stopPropagation();
+                  }
+                }}
+              >
+                <div 
+                  className="mini-game-container"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <div className="mini-game-header">
                     <h3>🚨 Mission Complication Detected! 🚨</h3>
                     <p>Your crew has encountered a signal relay cascade failure!</p>
@@ -608,7 +619,8 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                   <div className="mini-game-actions">
                     <button 
                       className="mini-game-button"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         // Open mini-game at App level
                         window.dispatchEvent(new CustomEvent('showMiniGame'));
                       }}
@@ -617,7 +629,8 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                     </button>
                     <button 
                       className="mini-game-skip-button"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         setShowMiniGameModal(false);
                         completeMiniGame(false); // Skipping counts as failure
                       }}
@@ -638,6 +651,8 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
         const equipItemToCrew = useRecruitmentZustand(state => state.equipItemToCrew);
         const unequipItemFromCrew = useRecruitmentZustand(state => state.unequipItemFromCrew);
         const getCrewEffectiveStats = useRecruitmentZustand(state => state.getCrewEffectiveStats);
+
+        console.log("Help")
         
         return (
           <div className="crew-content">
@@ -658,6 +673,12 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         key={`${item.id}-${index}`} 
                         className="equipment-card"
                         data-rarity={item.rarity}
+                        onClick={(e) => {
+                          // Only prevent clicks on the card itself, not child elements
+                          if (e.target === e.currentTarget) {
+                            e.stopPropagation();
+                          }
+                        }}
                       >
                         <div className="equipment-header">
                           <span className="equipment-icon">{item.icon}</span>
@@ -678,7 +699,10 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         <div className="equipment-actions">
                           <select 
                             className="crew-selector"
+                            onClick={(e) => e.stopPropagation()}
+                            onMouseDown={(e) => e.stopPropagation()}
                             onChange={(e) => {
+                              e.stopPropagation();
                               if (e.target.value) {
                                 const [crewId, slotType] = e.target.value.split('|');
                                 equipItemToCrew(crewId, item.id, slotType);
@@ -889,3 +913,5 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
     </div>
   );
 }
+CrewMenu.whyDidYouRender = true;
+
