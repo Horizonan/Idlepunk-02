@@ -17,6 +17,7 @@ export const useRecruitmentZustand = create(
       missionStartTime: null,
       lastStaminaUpdate: Date.now(),
       successfulMissions: 0, // Track successful crew missions
+      missionCompletions: {}, // Track individual mission completions by mission ID
 
       // Equipment management functions
       addEquipment: (itemId) => {
@@ -288,6 +289,20 @@ export const useRecruitmentZustand = create(
         }
 
         return Math.max(0, state.activeMission.duration - elapsedTime);
+      },
+
+      incrementMissionCompletion: (missionId) => {
+        set(state => ({
+          missionCompletions: {
+            ...state.missionCompletions,
+            [missionId]: (state.missionCompletions[missionId] || 0) + 1
+          }
+        }));
+      },
+
+      getMissionCompletionCount: (missionId) => {
+        const state = get();
+        return state.missionCompletions[missionId] || 0;
       },
   setActiveMission: (mission) => {
     set({ activeMission: mission });

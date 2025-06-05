@@ -325,9 +325,16 @@
 }
 
 .mission-duration {
-  color: #00FF00;
+  color: #999;
   font-size: 0.9em;
-  margin: 10px 0;
+  margin-top: 10px;
+}
+
+.mission-completions {
+  color: #00FF00;
+  font-size: 0.85em;
+  margin-top: 5px;
+  font-weight: bold;
 }
 
 .crew-selection-modal {
