@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/CrewMenu.css';
 import '../styles/LoadoutSystem.css';
 import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
@@ -6,10 +6,9 @@ import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
 import { missions, calculateMissionSuccess } from "./crewRecruitment/missions";
 import { equipmentDatabase, getAllEquipment } from "./crewRecruitment/equipment";
 import StaminaTimer from '../components/StaminaTimer';
-import whyDidYouRender from '@welldone-software/why-did-you-render';
 
 
-const CrewMenu = React.memo(function CrewMenu({ onClose, setCredits, credits, setJunk, junk }) {
+export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }) {
   const [activeTab, setActiveTab] = useState('view');
   const [showCrewSelect, setShowCrewSelect] = useState(false);
   const storedSelectedCrew = useRecruitmentZustand(state => state.selectedCrew);
@@ -21,13 +20,14 @@ const CrewMenu = React.memo(function CrewMenu({ onClose, setCredits, credits, se
   const completeMiniGame = useRecruitmentZustand(state => state.completeMiniGame);
   const [timeLeft, setTimeLeft] = useState(0);
   const [showMiniGameModal, setShowMiniGameModal] = useState(false);
+  
 
   useEffect(() => {
     if (activeMission && missionStartTime) {
       const timer = setInterval(() => {
         // Check for mini-game trigger
         useRecruitmentZustand.getState().checkForMiniGame();
-
+        
         // Calculate time remaining using the new method
         const remaining = useRecruitmentZustand.getState().getMissionTimeRemaining();
         setTimeLeft(remaining);
@@ -39,7 +39,7 @@ const CrewMenu = React.memo(function CrewMenu({ onClose, setCredits, credits, se
 
       return () => clearInterval(timer);
     }
-  }, [activeMission?.id, missionStartTime]); // Only depend on mission ID, not the entire object
+  }, [activeMission, missionStartTime]);
 
   // Watch for mini-game trigger
   useEffect(() => {
@@ -58,9 +58,9 @@ const CrewMenu = React.memo(function CrewMenu({ onClose, setCredits, credits, se
 
     window.addEventListener('miniGameComplete', handleMiniGameComplete);
     return () => window.removeEventListener('miniGameComplete', handleMiniGameComplete);
-  }, [completeMiniGame]);
+  }, []);
 
-  const toggleCrewSelection = useCallback((crewId) => {
+  const toggleCrewSelection = (crewId) => {
     setSelectedCrew(prev => {
       let newSelection;
       if (prev.includes(crewId)) {
@@ -75,7 +75,7 @@ const CrewMenu = React.memo(function CrewMenu({ onClose, setCredits, credits, se
       useRecruitmentZustand.setState({ selectedCrew: newSelection });
       return newSelection;
     });
-  }, [activeMission?.maxCrew]);
+  };
 
   const startMission = (mission) => {
     const selectedCrewMembers = selectedCrew;
@@ -333,7 +333,7 @@ const CrewMenu = React.memo(function CrewMenu({ onClose, setCredits, credits, se
                         </div>
                       </div>
                       <div className="crew-selection-list">
-                         {useRecruitmentZustand(state => state.hiredCrew).map((crew) => (
+                        {useRecruitmentZustand(state => state.hiredCrew).map((crew) => (
                           <div
                             key={crew.id}
                             className={`crew-selection-item ${selectedCrew.includes(crew.id) ? 'selected' : ''}`}
@@ -597,19 +597,8 @@ const CrewMenu = React.memo(function CrewMenu({ onClose, setCredits, credits, se
 
             {/* Mini-game Complication Alert */}
             {showMiniGameModal && (
-              <div 
-                className="mini-game-overlay"
-                onClick={(e) => {
-                  // Only close if clicking the overlay itself, not the modal content
-                  if (e.target === e.currentTarget) {
-                    e.stopPropagation();
-                  }
-                }}
-              >
-                <div 
-                  className="mini-game-container"
-                  onClick={(e) => e.stopPropagation()}
-                >
+              <div className="mini-game-overlay">
+                <div className="mini-game-container">
                   <div className="mini-game-header">
                     <h3>🚨 Mission Complication Detected! 🚨</h3>
                     <p>Your crew has encountered a signal relay cascade failure!</p>
@@ -619,8 +608,7 @@ const CrewMenu = React.memo(function CrewMenu({ onClose, setCredits, credits, se
                   <div className="mini-game-actions">
                     <button 
                       className="mini-game-button"
-                      onClick={(e) => {
-                        e.stopPropagation();
+                      onClick={() => {
                         // Open mini-game at App level
                         window.dispatchEvent(new CustomEvent('showMiniGame'));
                       }}
@@ -629,8 +617,7 @@ const CrewMenu = React.memo(function CrewMenu({ onClose, setCredits, credits, se
                     </button>
                     <button 
                       className="mini-game-skip-button"
-                      onClick={(e) => {
-                        e.stopPropagation();
+                      onClick={() => {
                         setShowMiniGameModal(false);
                         completeMiniGame(false); // Skipping counts as failure
                       }}
@@ -651,8 +638,6 @@ const CrewMenu = React.memo(function CrewMenu({ onClose, setCredits, credits, se
         const equipItemToCrew = useRecruitmentZustand(state => state.equipItemToCrew);
         const unequipItemFromCrew = useRecruitmentZustand(state => state.unequipItemFromCrew);
         const getCrewEffectiveStats = useRecruitmentZustand(state => state.getCrewEffectiveStats);
-
-        console.log("Help")
         
         return (
           <div className="crew-content">
@@ -673,12 +658,6 @@ const CrewMenu = React.memo(function CrewMenu({ onClose, setCredits, credits, se
                         key={`${item.id}-${index}`} 
                         className="equipment-card"
                         data-rarity={item.rarity}
-                        onClick={(e) => {
-                          // Only prevent clicks on the card itself, not child elements
-                          if (e.target === e.currentTarget) {
-                            e.stopPropagation();
-                          }
-                        }}
                       >
                         <div className="equipment-header">
                           <span className="equipment-icon">{item.icon}</span>
@@ -699,10 +678,7 @@ const CrewMenu = React.memo(function CrewMenu({ onClose, setCredits, credits, se
                         <div className="equipment-actions">
                           <select 
                             className="crew-selector"
-                            onClick={(e) => e.stopPropagation()}
-                            onMouseDown={(e) => e.stopPropagation()}
                             onChange={(e) => {
-                              e.stopPropagation();
                               if (e.target.value) {
                                 const [crewId, slotType] = e.target.value.split('|');
                                 equipItemToCrew(crewId, item.id, slotType);
@@ -912,7 +888,4 @@ const CrewMenu = React.memo(function CrewMenu({ onClose, setCredits, credits, se
       <TabContent />
     </div>
   );
-});
-
-export default CrewMenu;
-
+}

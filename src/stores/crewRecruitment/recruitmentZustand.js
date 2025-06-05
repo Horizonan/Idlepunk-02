@@ -206,14 +206,14 @@ export const useRecruitmentZustand = create(
     set({score: score + delta, currentIndex: currentIndex + 1})  
   },
 
-      tick: () => {
-        const { timeLeft } = get()
-        if (timeLeft > 0) {
-          set({ timeLeft: timeLeft - 1 })
-        } else {
-          set({ isRunning: false }) 
-        }
-      },
+  tick: () => {
+    const { timeLeft } = get()
+    if (timeLeft > 0) {
+      set({ timeLeft: timeLeft - 1 })
+    } else {
+      set({ isRunning: false }) 
+    }
+  },
 
   resetGame:() => {
     set({
@@ -373,8 +373,5 @@ export const useRecruitmentZustand = create(
       name: 'crew-storage',
       getStorage: () => localStorage,
     }
-    
   )
-  
 )
-

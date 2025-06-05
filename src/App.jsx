@@ -77,24 +77,7 @@ import { useEmailStore } from './utils/emailStore';
 import RelayCascade from './components/MiniGames/RelayCascade';
 
 
-function TestBox({ label }) {
-  console.log("📦 TestBox render");
-  return <div>{label}</div>;
-}
-TestBox.whyDidYouRender = true;
-
-
-if (import.meta.env.DEV) {
-  import('@welldone-software/why-did-you-render').then((wdyRender) => {
-    wdyRender.default(React, {
-      trackAllPureComponents: true,
-    });
-  });
-}
-
 export default function App() {
-
-  
   const { 
     junk, setJunk, credits, setCredits, clickCount, setClickCount, tronics, setTronics, autoClicks, setAutoClicks, clickMultiplier, setClickMultiplier, passiveIncome, 
     setPassiveIncome, globalJpsMultiplier, setGlobalJpsMultiplier, notifications, setNotifications,
@@ -135,8 +118,6 @@ export default function App() {
     setAutoClickerV1Count, autoClickerV1Count, setAutoClickerV2Count, setElectroShards, setElectroMultiplier
   });
 
-
-  
   const [showCoinFlip, setShowCoinFlip] = useState(false);
   const [showRelayCascade, setShowRelayCascade] = useState(false);
   const [showMiniGameWindow, setShowMiniGameWindow] = useState(false);
