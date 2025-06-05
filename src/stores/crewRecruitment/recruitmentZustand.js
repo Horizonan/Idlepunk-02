@@ -59,7 +59,7 @@ export const useRecruitmentZustand = create(
         const state = get();
         const equipment = state.equipment.find(item => item.id === itemId);
         const crew = state.hiredCrew.find(c => c.id === crewId);
-        
+
         if (!equipment || !crew || equipment.type !== slotType) {
           console.log('Equipment operation failed:', { equipment: !!equipment, crew: !!crew, typeMatch: equipment?.type === slotType });
           return;
@@ -97,14 +97,14 @@ export const useRecruitmentZustand = create(
         const state = get();
         const loadout = state.crewLoadouts[crewId];
         const crew = state.hiredCrew.find(c => c.id === crewId);
-        
+
         if (!loadout || !loadout[slotType] || !crew) {
           console.log('Unequip failed: no item equipped or crew not found');
           return;
         }
 
         const unequippedItem = loadout[slotType];
-        
+
         set(state => ({
           crewLoadouts: {
             ...state.crewLoadouts,
