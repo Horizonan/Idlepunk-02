@@ -709,18 +709,15 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                 <div className="slot-icon">+</div>
                                 <select 
                                   key={`${crew.id}-${slotType}-select`}
-                                  defaultValue=""
                                   onChange={(e) => {
-                                    e.preventDefault();
                                     const selectedValue = e.target.value;
                                     if (selectedValue && selectedValue !== "") {
                                       equipItemToCrew(crew.id, selectedValue, slotType);
-                                      // Reset after selection
-                                      e.target.value = "";
+                                      // Reset dropdown after a tiny delay to allow selection to complete
+                                      setTimeout(() => {
+                                        e.target.selectedIndex = 0;
+                                      }, 10);
                                     }
-                                  }}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
                                   }}
                                 >
                                   <option value="">Select {slotType}</option>
