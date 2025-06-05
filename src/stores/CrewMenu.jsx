@@ -282,7 +282,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                   </div>
                   <button 
                     className="mission-button" 
-                    disabled={useRecruitmentZustand(state => state.hiredCrew).length === 0 || activeMission !== null}
+                    disabled={hiredCrew.length === 0 || activeMission !== null}
                     onClick={() => {
                       if (!activeMission) {
                         setActiveMission(mission);
@@ -290,7 +290,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                       }
                     }}
                   >
-                    {useRecruitmentZustand(state => state.hiredCrew).length === 0 
+                    {hiredCrew.length === 0 
                       ? 'No Crew Available' 
                       : activeMission 
                         ? 'Mission In Progress'
@@ -307,10 +307,10 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         <h4>Required Stats:</h4>
                         <div className="stat-comparison">
                           {Object.entries(mission.requirements).map(([stat, value]) => {
-                            const selectedCrewStats = useRecruitmentZustand(state => state.hiredCrew)
+                            const selectedCrewStats = hiredCrew
                               .filter(crew => selectedCrew.includes(crew.id))
                               .reduce((total, crew) => {
-                                const effectiveStats = useRecruitmentZustand.getState().getCrewEffectiveStats(crew.id);
+                                const effectiveStats = getCrewEffectiveStats(crew.id);
                                 return total + (effectiveStats?.[stat.toLowerCase()] || 0);
                               }, 0);
 
@@ -324,10 +324,10 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         </div>
                         <div className="success-chance">
                           Success Chance: {calculateMissionSuccess(
-                            useRecruitmentZustand(state => state.hiredCrew)
+                            hiredCrew
                               .filter(crew => selectedCrew.includes(crew.id))
                               .reduce((stats, crew) => {
-                                const effectiveStats = useRecruitmentZustand.getState().getCrewEffectiveStats(crew.id);
+                                const effectiveStats = getCrewEffectiveStats(crew.id);
                                 Object.entries(mission.requirements).forEach(([stat]) => {
                                   stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + (effectiveStats?.[stat.toLowerCase()] || 0);
                                 });
@@ -338,7 +338,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         </div>
                       </div>
                       <div className="crew-selection-list">
-                        {useRecruitmentZustand(state => state.hiredCrew).map((crew) => (
+                        {hiredCrew.map((crew) => (
                           <div
                             key={crew.id}
                             className={`crew-selection-item ${selectedCrew.includes(crew.id) ? 'selected' : ''}`}
@@ -398,9 +398,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                     <h5>Assigned Crew:</h5>
                     <div className="assigned-crew-list">
                       {selectedCrew.map(crewId => {
-                        const crew = useRecruitmentZustand(state => 
-                          state.hiredCrew.find(c => c.id === crewId)
-                        );
+                        const crew = hiredCrew.find(c => c.id === crewId);
                         return (
                           <div key={crewId} className="assigned-crew-member">
                             <h6>{crew.name}</h6>
@@ -426,14 +424,14 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         <button 
                           className="complete-mission-button"
                           onClick={() => {
-                            const activeMission = useRecruitmentZustand.getState().activeMission;
+                            const currentActiveMission = activeMission;
                             const selectedCrewMembers = selectedCrew.map(id => 
-                              useRecruitmentZustand.getState().hiredCrew.find(c => c.id === id)
+                              hiredCrew.find(c => c.id === id)
                             );
 
                             const crewStats = selectedCrewMembers.reduce((stats, crew) => {
-                              const effectiveStats = useRecruitmentZustand.getState().getCrewEffectiveStats(crew.id);
-                              Object.entries(activeMission.requirements).forEach(([stat]) => {
+                              const effectiveStats = getCrewEffectiveStats(crew.id);
+                              Object.entries(currentActiveMission.requirements).forEach(([stat]) => {
                                 const crewStat = effectiveStats?.[stat.toLowerCase()] || 0;
                                 stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + crewStat;
                                 console.log(`Crew member ${crew.name} contributes ${crewStat} to ${stat} (with equipment)`);
@@ -442,12 +440,13 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                             }, {});
 
                             console.log('Final crew stats:', crewStats);
-                            console.log('Mission requirements:', activeMission.requirements);
+                            console.log('Mission requirements:', currentActiveMission.requirements);
 
-                            let baseSuccessRate = calculateMissionSuccess(crewStats, activeMission.requirements);
+                            let baseSuccessRate = calculateMissionSuccess(crewStats, currentActiveMission.requirements);
                             
-                            // Apply mini-game effects
-                            const miniGameBonus = useRecruitmentZustand.getState().miniGameBonus || { rewardChanceBonus: 0, successPenalty: 0 };
+                            // Apply mini-game effects - get state once
+                            const state = useRecruitmentZustand.getState();
+                            const miniGameBonus = state.miniGameBonus || { rewardChanceBonus: 0, successPenalty: 0 };
                             const finalSuccessRate = Math.max(0, baseSuccessRate - (miniGameBonus.successPenalty * 100));
                             
                             console.log(`Base success rate: ${baseSuccessRate.toFixed(1)}%`);
@@ -473,12 +472,12 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                 successfulMissions: state.successfulMissions + 1
                               }));
                               
-                              creditsReward = activeMission.baseRewards.credits;
-                              junkReward = activeMission.baseRewards.junk;
+                              creditsReward = currentActiveMission.baseRewards.credits;
+                              junkReward = currentActiveMission.baseRewards.junk;
 
                               // Calculate bonus rewards with mini-game bonus
-                              if (activeMission.bonusRewards) {
-                                Object.entries(activeMission.bonusRewards).forEach(([item, bonus]) => {
+                              if (currentActiveMission.bonusRewards) {
+                                Object.entries(currentActiveMission.bonusRewards).forEach(([item, bonus]) => {
                                   const bonusChance = bonus.chance + (miniGameBonus.rewardChanceBonus || 0);
                                   console.log(`${item} bonus chance: ${(bonus.chance * 100).toFixed(1)}% + ${((miniGameBonus.rewardChanceBonus || 0) * 100).toFixed(1)}% = ${(bonusChance * 100).toFixed(1)}%`);
                                   
@@ -508,9 +507,9 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                               }
                             } else {
                               // Apply failure penalties
-                              creditsReward = activeMission.penalties.failure.credits;
+                              creditsReward = currentActiveMission.penalties.failure.credits;
                               // Update crew stamina
-                              const staminaPenalty = activeMission.penalties.failure.crewStamina;
+                              const staminaPenalty = currentActiveMission.penalties.failure.crewStamina;
                               useRecruitmentZustand.setState(state => ({
                                 hiredCrew: state.hiredCrew.map(crew => 
                                   selectedCrew.includes(crew.id) 
@@ -537,9 +536,9 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                   `<p style="color: #00FF00;">Mini-game Reward Bonus: +${(miniGameBonus.rewardChanceBonus * 100).toFixed(1)}%</p>` : ''}
                                 <p>Final Success Rate: ${finalSuccessRate.toFixed(1)}%</p>
                                 ${success ? 
-                                  `<p class="success-message">${activeMission.successMessages[Math.floor(Math.random() * activeMission.successMessages.length)]}</p>` :
-                                  activeMission.penalties.failure.messagePool ?
-                                  `<p class="failure-message">${activeMission.penalties.failure.messagePool[Math.floor(Math.random() * activeMission.penalties.failure.messagePool.length)]}</p>` 
+                                  `<p class="success-message">${currentActiveMission.successMessages[Math.floor(Math.random() * currentActiveMission.successMessages.length)]}</p>` :
+                                  currentActiveMission.penalties.failure.messagePool ?
+                                  `<p class="failure-message">${currentActiveMission.penalties.failure.messagePool[Math.floor(Math.random() * currentActiveMission.penalties.failure.messagePool.length)]}</p>` 
                                   : ''}
                                 <div class="mission-rewards-display">
                                   <p>Credits: ${creditsReward > 0 ? '+' : ''}${creditsReward}</p>
