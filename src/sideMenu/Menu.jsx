@@ -18,7 +18,8 @@ export default function Menu({ onStoreSelect }) {
       buttons: [
         { id: 'marketplace', label: 'Junktown Nexus' },
         { id: 'slotMachine', label: 'Slot Machine' },
-        { id: 'coinflip', label: 'Junk Flip' }
+        { id: 'coinflip', label: 'Junk Flip' },
+        { id: 'combat', label: 'Scraptagon Combat' }
       ]
     },
     help: {
@@ -50,7 +51,6 @@ export default function Menu({ onStoreSelect }) {
             ))}
           </div>
         ))}
-     
       </div>
     </div>
   );
