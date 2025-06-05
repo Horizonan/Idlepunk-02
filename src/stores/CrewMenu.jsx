@@ -58,7 +58,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
     window.addEventListener('miniGameComplete', handleMiniGameComplete);
     return () => window.removeEventListener('miniGameComplete', handleMiniGameComplete);
-  }, []);
+  }, [completeMiniGame]);
 
   const toggleCrewSelection = (crewId) => {
     setSelectedCrew(prev => {
