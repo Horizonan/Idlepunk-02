@@ -50,6 +50,15 @@ export default function Menu({ onStoreSelect }) {
             ))}
           </div>
         ))}
+        {localStorage.getItem('hasPrestiged') === 'true' && (
+          <button 
+            className="combat-button" 
+            onClick={() => onStoreSelect('combat')}
+            title="Scraptagon Combat"
+          >
+            ⚔️
+          </button>
+        )}
       </div>
     </div>
   );
