@@ -81,6 +81,23 @@ export const validateQuests = ({
       return;
     }
 
+    // Mission Obsessed quest validation
+    const successfulMissions = JSON.parse(localStorage.getItem('crew-storage') || '{}').state?.successfulMissions || 0;
+    if (successfulMissions >= 20 && credits >= 2000 && !localStorage.getItem('quest_sync_Mission Obsessed')) {
+      localStorage.setItem('quest_sync_Mission Obsessed', 'true');
+      setNotifications(prev => [...prev, "Quest Complete: Mission Obsessed"]);
+      setNotifications(prev => [...prev, "Unlocked: New missions and gear available!"]);
+      
+      // Unlock advanced missions and gear
+      localStorage.setItem('advancedMissionsUnlocked', 'true');
+      localStorage.setItem('eliteGearUnlocked', 'true');
+      
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: "Your dedication to missions has caught the attention of underground networks. New opportunities await." }
+      }));
+      return;
+    }
+
     
 
   
