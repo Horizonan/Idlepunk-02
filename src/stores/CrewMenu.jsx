@@ -671,6 +671,12 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         key={`${item.id}-${index}`} 
                         className="equipment-card"
                         data-rarity={item.rarity}
+                        onClick={(e) => {
+                          // Only prevent clicks on the card itself, not child elements
+                          if (e.target === e.currentTarget) {
+                            e.stopPropagation();
+                          }
+                        }}
                       >
                         <div className="equipment-header">
                           <span className="equipment-icon">{item.icon}</span>
@@ -691,7 +697,10 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         <div className="equipment-actions">
                           <select 
                             className="crew-selector"
+                            onClick={(e) => e.stopPropagation()}
+                            onMouseDown={(e) => e.stopPropagation()}
                             onChange={(e) => {
+                              e.stopPropagation();
                               if (e.target.value) {
                                 const [crewId, slotType] = e.target.value.split('|');
                                 equipItemToCrew(crewId, item.id, slotType);
