@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import '../styles/CrewMenu.css';
 import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
 import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
@@ -29,7 +29,13 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
         
         // Calculate time remaining using the new method
         const remaining = useRecruitmentZustand.getState().getMissionTimeRemaining();
-        setTimeLeft(remaining);
+        
+        // Only update if the time has actually changed (to prevent unnecessary re-renders)
+        setTimeLeft(prevTime => {
+          const roundedRemaining = Math.floor(remaining);
+          const roundedPrev = Math.floor(prevTime);
+          return roundedRemaining !== roundedPrev ? remaining : prevTime;
+        });
 
         if (remaining <= 0) {
           clearInterval(timer);
@@ -638,6 +644,15 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
         const unequipItemFromCrew = useRecruitmentZustand(state => state.unequipItemFromCrew);
         const getCrewEffectiveStats = useRecruitmentZustand(state => state.getCrewEffectiveStats);
         
+        // Memoize filtered equipment to prevent recalculation on every render
+        const memoizedEquipmentByType = useMemo(() => {
+          return {
+            weapon: equipment.filter(item => item.type === 'weapon'),
+            armor: equipment.filter(item => item.type === 'armor'),
+            tool: equipment.filter(item => item.type === 'tool')
+          };
+        }, [equipment]);
+        
         return (
           <div className="crew-content">
             <h3>Crew Loadouts</h3>
@@ -716,14 +731,11 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                   }}
                                 >
                                   <option value="">Select {slotType}</option>
-                                  {equipment
-                                    .filter(item => item.type === slotType)
-                                    .map((item, index) => (
-                                      <option key={`${item.id}-${index}`} value={item.id}>
-                                        {item.name}
-                                      </option>
-                                    ))
-                                  }
+                                  {memoizedEquipmentByType[slotType]?.map((item, index) => (
+                                    <option key={`${item.id}-${index}`} value={item.id}>
+                                      {item.name}
+                                    </option>
+                                  ))}
                                 </select>
                               </div>
                             )}
