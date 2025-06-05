@@ -24,7 +24,7 @@ export const validateQuests = ({
   if (hasPrestiged) {
 
 
-    if (junk >= 25000000 && !localStorage.getItem('quest_sync_System Memory Detected')) {
+    if (junk >= 50000000 && !localStorage.getItem('quest_sync_System Memory Detected')) {
       localStorage.setItem('quest_sync_System Memory Detected', 'true');
       setCraftingInventory(prev => ({
         ...prev,
@@ -39,7 +39,7 @@ export const validateQuests = ({
     }
 
   
-      if (totalTronicsClicks >= 5000 && !localStorage.getItem('quest_sync_Tap the Pulse')) {
+      if (totalTronicsClicks >= 10000 && !localStorage.getItem('quest_sync_Tap the Pulse')) {
         localStorage.setItem('quest_sync_Tap the Pulse', 'true');
         setAutoClicks(prev => prev + 5);
         setNotifications(prev => [...prev, "Quest Complete: Tap the Pulse"]);
@@ -80,6 +80,8 @@ export const validateQuests = ({
       }));
       return;
     }
+
+    
 
   
     if (craftingInventory['Overcharged Prestige Crystal'] >= 1 && !localStorage.getItem('quest_sync_Forge the Overcrystal')) {

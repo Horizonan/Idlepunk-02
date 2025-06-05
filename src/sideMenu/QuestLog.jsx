@@ -80,11 +80,12 @@ export default function QuestLog({ tutorialStage, onClose }) {
       { id: 11, title: "Forge the Future", task: "Craft the Prestige Crystal", reward: "Unlocks Ascension", category: "milestone", difficulty: "legendary" }
     ],
     awakenTheCore: [
-      { id: 1, title: "System Memory Detected", task: "Reach 25M Junk (post-prestige)", reward: "Encrypted Coil", category: "milestone", difficulty: "hard" },
-      { id: 2, title: "Tap the Pulse", task: "Click the Tronics Clicker 5000 times", reward: "+5 Auto clicks", category: "challenge", difficulty: "medium" },
+      { id: 1, title: "System Memory Detected", task: "Reach 50M Junk (post-prestige)", reward: "Encrypted Coil", category: "milestone", difficulty: "hard" },
+      { id: 2, title: "Tap the Pulse", task: "Click the Tronics Clicker 10000 times", reward: "+5 Auto clicks", category: "challenge", difficulty: "medium" },
       { id: 3, title: "Upgrade Cascade", task: "Purchase 10 ElectroShop Upgrades", reward: "Surge Capacitor Fragment", category: "progression", difficulty: "hard" },
       { id: 4, title: "Beacon Protocol", task: "Own 10 Electro Shard Beacons", reward: "Unlocks crafting recipe for Overcharged Prestige Crystal", category: "collection", difficulty: "epic" },
-      { id: 5, title: "Forge the Overcrystal", task: "Craft the Overcharged Prestige Crystal", reward: "Unlocks Second Prestige", category: "milestone", difficulty: "legendary" }
+      { id: 5, title: "Mission Obsessed", task: "Complete 20 Missions and gather 2000 Scratz", reward: "Unlocks multiple new Missions and Gear", category: "collection", difficulty: "legendary" },
+      { id: 6, title: "Forge the Overcrystal", task: "Craft the Overcharged Prestige Crystal", reward: "Unlocks Second Prestige", category: "milestone", difficulty: "legendary" }
     ]
   };
 
