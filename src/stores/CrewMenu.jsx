@@ -708,11 +708,25 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                               <div className="empty-slot">
                                 <div className="slot-icon">+</div>
                                 <select 
-                                  value=""
+                                  key={`${crew.id}-${slotType}-select`}
+                                  defaultValue=""
                                   onChange={(e) => {
-                                    if (e.target.value) {
-                                      equipItemToCrew(crew.id, e.target.value, slotType);
+                                    const selectedValue = e.target.value;
+                                    if (selectedValue) {
+                                      equipItemToCrew(crew.id, selectedValue, slotType);
+                                      // Reset the select after a brief delay to allow the change to process
+                                      setTimeout(() => {
+                                        e.target.value = "";
+                                      }, 50);
                                     }
+                                  }}
+                                  onFocus={(e) => {
+                                    // Ensure the dropdown opens properly
+                                    e.target.size = Math.min(5, e.target.options.length);
+                                  }}
+                                  onBlur={(e) => {
+                                    // Reset size when focus is lost
+                                    e.target.size = 1;
                                   }}
                                 >
                                   <option value="">Select {slotType}</option>
