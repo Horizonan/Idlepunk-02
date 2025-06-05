@@ -41,14 +41,18 @@ function EquipmentDropdown({ crew, slotType, equipment, onEquip }) {
   const handleButtonClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    e.stopImmediatePropagation();
+    if (e.stopImmediatePropagation) {
+      e.stopImmediatePropagation();
+    }
     setIsOpen(prev => !prev);
   };
 
   const handleItemClick = (item, e) => {
     e.preventDefault();
     e.stopPropagation();
-    e.stopImmediatePropagation();
+    if (e.stopImmediatePropagation) {
+      e.stopImmediatePropagation();
+    }
     onEquip(crew.id, item.id, slotType);
     setIsOpen(false);
   };
