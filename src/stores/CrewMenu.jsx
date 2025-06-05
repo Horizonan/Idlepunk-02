@@ -38,14 +38,15 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
       return () => clearInterval(timer);
     }
-  }, [activeMission?.id, missionStartTime]);
+  }, [activeMission, missionStartTime]);
 
+  console.log("ReRender")
   // Watch for mini-game trigger
   useEffect(() => {
     if (showMiniGame && !showMiniGameModal) {
       setShowMiniGameModal(true);
     }
-  }, [showMiniGame]);
+  }, [showMiniGame, showMiniGameModal]);
 
   // Listen for mini-game completion from App level
   useEffect(() => {
@@ -57,7 +58,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
     window.addEventListener('miniGameComplete', handleMiniGameComplete);
     return () => window.removeEventListener('miniGameComplete', handleMiniGameComplete);
-  }, [completeMiniGame]);
+  }, []);
 
   const toggleCrewSelection = (crewId) => {
     setSelectedCrew(prev => {
@@ -84,16 +85,10 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   const isRunning = useRecruitmentZustand(state => state.isRunning);
   const startGame = useRecruitmentZustand(state => state.startGame);
 
-  // Get crew data at component level
-  const hiredCrew = useRecruitmentZustand(state => state.hiredCrew);
-  const unlockedCrew = useRecruitmentZustand(state => state.unlockedCrew);
-  const equipment = useRecruitmentZustand(state => state.equipment);
-  const crewLoadouts = useRecruitmentZustand(state => state.crewLoadouts);
-  const equipItemToCrew = useRecruitmentZustand(state => state.equipItemToCrew);
-  const unequipItemFromCrew = useRecruitmentZustand(state => state.unequipItemFromCrew);
-  const getCrewEffectiveStats = useRecruitmentZustand(state => state.getCrewEffectiveStats);
+  const TabContent = () => {
+    const hiredCrew = useRecruitmentZustand(state => state.hiredCrew);
+    const unlockedCrew = useRecruitmentZustand(state => state.unlockedCrew);
 
-  const renderTabContent = () => {
     switch(activeTab) {
       case 'view':
         return (
@@ -638,6 +633,12 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
           </div>
         );
       case 'loadouts':
+        const equipment = useRecruitmentZustand(state => state.equipment);
+        const crewLoadouts = useRecruitmentZustand(state => state.crewLoadouts);
+        const equipItemToCrew = useRecruitmentZustand(state => state.equipItemToCrew);
+        const unequipItemFromCrew = useRecruitmentZustand(state => state.unequipItemFromCrew);
+        const getCrewEffectiveStats = useRecruitmentZustand(state => state.getCrewEffectiveStats);
+        
         return (
           <div className="crew-content">
             <h3>Crew Loadouts</h3>
@@ -791,7 +792,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
         </button>
       </div>
 
-      {renderTabContent()}
+      <TabContent />
     </div>
   );
 }
