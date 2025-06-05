@@ -167,17 +167,12 @@
 }
 
 .enemy-sprite.training-dummy {
-  background-color: #8B4513;
+  background-image: url('/Icons/combat/TrainingDummy.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
   border: 2px solid #654321;
-}
-
-.enemy-sprite.training-dummy:before {
-  content: "🎯";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 24px;
 }
 
 .health-fill {
