@@ -639,32 +639,32 @@
   background: #333 !important;
 }
 
-.dropdown-menu {
-  position: relative;
-  z-index: 1000;
-}
-
-.dropdown-backdrop {
+.equipment-dropdown-portal {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 999;
+  z-index: 10000;
+  pointer-events: none;
 }
 
-.dropdown-options {
+.dropdown-options-portal {
   position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
   background: #222;
   border: 2px solid #9400D3;
   border-radius: 4px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  z-index: 1001;
   max-height: 200px;
   overflow-y: auto;
+  min-width: 200px;
+  pointer-events: auto;
+  z-index: 10001;
+  
+  /* Position it near where the button would be */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .dropdown-option {
