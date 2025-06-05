@@ -453,16 +453,13 @@ button.locked {
 
 .auto-clicker {
   position: fixed;
-  width: 32px;
-  height: 32px;
+  width: 48px;
+  height:48px;
   pointer-events: none;
   z-index: 1000;
   transition: transform 0.1s;
 }
 
-.auto-clicker.clicking {
-  transform: scale(0.9);
-}
 
 .news-bar {
   display: flex;

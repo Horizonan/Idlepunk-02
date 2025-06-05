@@ -28,7 +28,7 @@ export default function TrashBonus({ onCollect, onDisappear, passiveIncome }) {
 
   return (
     <img
-      src="/Icons/TrashButtonBig.png"
+      src="/Icons/TrashBonus.svg"
       alt="Trash Bonus"
       onClick={onCollect}
       style={{
@@ -38,7 +38,7 @@ export default function TrashBonus({ onCollect, onDisappear, passiveIncome }) {
         width: '64px',
         height: '64px',
         cursor: 'pointer',
-        filter: 'drop-shadow(0 0 10px #00ff00)',
+        filter: 'drop-shadow(0 0 10px #00B7EB)',
         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         transform: 'translateZ(0)',
         willChange: 'transform',
