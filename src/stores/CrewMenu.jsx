@@ -84,7 +84,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   const isRunning = useRecruitmentZustand(state => state.isRunning);
   const startGame = useRecruitmentZustand(state => state.startGame);
 
-  // Get crew data outside of memoization
+  // Get crew data at component level
   const hiredCrew = useRecruitmentZustand(state => state.hiredCrew);
   const unlockedCrew = useRecruitmentZustand(state => state.unlockedCrew);
   const equipment = useRecruitmentZustand(state => state.equipment);
@@ -93,7 +93,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   const unequipItemFromCrew = useRecruitmentZustand(state => state.unequipItemFromCrew);
   const getCrewEffectiveStats = useRecruitmentZustand(state => state.getCrewEffectiveStats);
 
-  const TabContent = React.useMemo(() => {
+  const renderTabContent = () => {
     switch(activeTab) {
       case 'view':
         return (
@@ -749,7 +749,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
       default:
         return null;
     }
-  }, [activeTab, hiredCrew, unlockedCrew, activeMission, selectedCrew, timeLeft, showCrewSelect, showMiniGameModal, equipment, crewLoadouts]);
+  };
 
   return (
     <div className="crew-menu">
@@ -791,7 +791,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
         </button>
       </div>
 
-      {TabContent}
+      {renderTabContent()}
     </div>
   );
 }
