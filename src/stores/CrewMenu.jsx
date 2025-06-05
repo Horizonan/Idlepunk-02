@@ -40,6 +40,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
     }
   }, [activeMission, missionStartTime]);
 
+  console.log("ReRender")
   // Watch for mini-game trigger
   useEffect(() => {
     if (showMiniGame && !showMiniGameModal) {
