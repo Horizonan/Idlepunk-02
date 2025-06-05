@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 export default function Menu({ onStoreSelect }) {
   const [showMenu, setShowMenu] = useState(true);
   const prestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
+  const junk = parseInt(localStorage.getItem('junk') || '0');
 
   const menuCategories = {
     progress: {
@@ -32,6 +33,21 @@ export default function Menu({ onStoreSelect }) {
     }
   };
 
+  const isUnlocked = (itemId) => {
+    switch(itemId) {
+      case 'marketplace':
+        return localStorage.getItem('hasPrestiged') === 'true';
+      case 'slotMachine':
+        return junk >= 100;
+      case 'coinflip':
+        return junk >= 10;
+      case 'combat':
+        return localStorage.getItem('scraptagon') === 'true';
+      default:
+        return true;
+    }
+  };
+
   return (
     <div className={`menu-container ${showMenu ? '' : 'collapsed'}`}>
       <button className="menu-toggle" onClick={() => setShowMenu(prev => !prev)}>
@@ -42,12 +58,14 @@ export default function Menu({ onStoreSelect }) {
           <div key={category} className="menu-category">
             <h3 className="menu-category-header">{header}</h3>
             {buttons.map(button => (
-              <button
-                key={button.id}
-                className={`menu-button ${button.id}-btn`}
-                onClick={() => onStoreSelect(button.id)}>
-                {button.label}
-              </button>
+              isUnlocked(button.id) && (
+                <button
+                  key={button.id}
+                  className={`menu-button ${button.id}-btn`}
+                  onClick={() => onStoreSelect(button.id)}>
+                  {button.label}
+                </button>
+              )
             ))}
           </div>
         ))}
