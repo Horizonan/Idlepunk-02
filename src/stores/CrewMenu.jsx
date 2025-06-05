@@ -16,7 +16,6 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   const missionStartTime = useRecruitmentZustand(state => state.missionStartTime);
   const getMissionTimeRemaining = useRecruitmentZustand(state => state.getMissionTimeRemaining);
   const setActiveMission = useRecruitmentZustand(state => state.setActiveMission);
-  const selectedCrew = useRecruitmentZustand(state => state.selectedCrew);
   const completeMiniGame = useRecruitmentZustand(state => state.completeMiniGame);
   const showMiniGame = useRecruitmentZustand(state => state.showMiniGame);
   const incrementMissionCompletion = useRecruitmentZustand(state => state.incrementMissionCompletion);
