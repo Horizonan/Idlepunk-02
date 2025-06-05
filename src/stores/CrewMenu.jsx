@@ -30,11 +30,11 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
         // Calculate time remaining using the new method
         const remaining = useRecruitmentZustand.getState().getMissionTimeRemaining();
         
-        // Only update if the time has actually changed (to prevent unnecessary re-renders)
+        // Only update if the time has actually changed by a full second
+        const roundedRemaining = Math.floor(remaining);
         setTimeLeft(prevTime => {
-          const roundedRemaining = Math.floor(remaining);
           const roundedPrev = Math.floor(prevTime);
-          return roundedRemaining !== roundedPrev ? remaining : prevTime;
+          return roundedRemaining !== roundedPrev ? roundedRemaining : prevTime;
         });
 
         if (remaining <= 0) {
@@ -644,14 +644,10 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
         const unequipItemFromCrew = useRecruitmentZustand(state => state.unequipItemFromCrew);
         const getCrewEffectiveStats = useRecruitmentZustand(state => state.getCrewEffectiveStats);
         
-        // Memoize filtered equipment to prevent recalculation on every render
-        const memoizedEquipmentByType = useMemo(() => {
-          return {
-            weapon: equipment.filter(item => item.type === 'weapon'),
-            armor: equipment.filter(item => item.type === 'armor'),
-            tool: equipment.filter(item => item.type === 'tool')
-          };
-        }, [equipment]);
+        // Filter equipment by type for dropdowns
+        const getEquipmentByType = (type) => {
+          return equipment.filter(item => item.type === type);
+        };
         
         return (
           <div className="crew-content">
@@ -725,13 +721,16 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                 <select 
                                   value=""
                                   onChange={(e) => {
+                                    e.stopPropagation();
                                     if (e.target.value) {
                                       equipItemToCrew(crew.id, e.target.value, slotType);
+                                      e.target.value = ""; // Reset dropdown after selection
                                     }
                                   }}
+                                  onClick={(e) => e.stopPropagation()}
                                 >
                                   <option value="">Select {slotType}</option>
-                                  {memoizedEquipmentByType[slotType]?.map((item, index) => (
+                                  {getEquipmentByType(slotType).map((item, index) => (
                                     <option key={`${item.id}-${index}`} value={item.id}>
                                       {item.name}
                                     </option>
