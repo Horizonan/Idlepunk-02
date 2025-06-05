@@ -837,7 +837,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
         </button>
       </div>
 
-      {isMenuActive || activeTab === 'ongoing' ? <TabContent /> : (
+      {isMenuActive || activeTab === 'ongoing' ? TabContent : (
         <div className="crew-content">
           <p>Menu paused to improve performance. Click anywhere to reactivate.</p>
         </div>
