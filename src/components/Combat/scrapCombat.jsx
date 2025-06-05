@@ -79,9 +79,13 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
   };
 
   useEffect(() => {
-    if (combatState.inProgress) {
+    if (combatState.inProgress && combatState.playerHealth > 0 && combatState.enemyHealth > 0) {
       const playerInterval = setInterval(() => {
         setCombatState(prev => {
+          if (prev.enemyHealth <= 0 || prev.playerHealth <= 0 || !prev.inProgress) {
+            return prev;
+          }
+          
           const isCritical = Math.random() < 0.2;
           const damage = playerStats.attack * (1 - enemy.defense / 100) * (isCritical ? 1.5 : 1);
           const newEnemyHealth = Math.max(0, prev.enemyHealth - damage);
@@ -102,6 +106,10 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
 
       const enemyInterval = setInterval(() => {
         setCombatState(prev => {
+          if (prev.enemyHealth <= 0 || prev.playerHealth <= 0 || !prev.inProgress) {
+            return prev;
+          }
+          
           const damage = enemy.damage * (1 - playerStats.defense / 100);
           const newPlayerHealth = Math.max(0, prev.playerHealth - damage);
 
@@ -118,10 +126,10 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
         clearInterval(enemyInterval);
       };
     }
-  }, [combatState.inProgress]);
+  }, [combatState.inProgress, combatState.playerHealth, combatState.enemyHealth]);
 
   useEffect(() => {
-    if (combatState.playerHealth <= 0) {
+    if (combatState.inProgress && combatState.playerHealth <= 0) {
       // Reset win streak on defeat if in training stage
       if (selectedStage === 'training') {
         setWinStreak(0);
@@ -134,7 +142,7 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
         combatLog: [...prev.combatLog, "Defeat! You have been defeated. Training win streak reset!"]
       }));
       onCombatEnd(false);
-    } else if (combatState.enemyHealth <= 0 && selectedStage) {
+    } else if (combatState.inProgress && combatState.enemyHealth <= 0 && selectedStage && !combatState.victory) {
       const rewards = stages[selectedStage].rewards;
       let newWinStreak = winStreak;
       
@@ -156,7 +164,7 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
       }));
       onCombatEnd(true, rewards);
     }
-  }, [combatState.playerHealth, combatState.enemyHealth, selectedStage, winStreak]);
+  }, [combatState.playerHealth, combatState.enemyHealth, combatState.inProgress, combatState.victory, selectedStage, winStreak]);
 
   return (
     <div className="scraptagon-combat">
