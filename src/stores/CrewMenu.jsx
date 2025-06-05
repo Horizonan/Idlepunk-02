@@ -10,34 +10,15 @@ import StaminaTimer from '../components/StaminaTimer';
 export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }) {
   const [activeTab, setActiveTab] = useState('view');
   const [showCrewSelect, setShowCrewSelect] = useState(false);
+  const storedSelectedCrew = useRecruitmentZustand(state => state.selectedCrew);
+  const [selectedCrew, setSelectedCrew] = useState(storedSelectedCrew || []);
+  const activeMission = useRecruitmentZustand(state => state.activeMission);
+  const missionStartTime = useRecruitmentZustand(state => state.missionStartTime);
+  const setActiveMission = useRecruitmentZustand(state => state.setActiveMission);
+  const showMiniGame = useRecruitmentZustand(state => state.showMiniGame);
+  const completeMiniGame = useRecruitmentZustand(state => state.completeMiniGame);
   const [timeLeft, setTimeLeft] = useState(0);
   const [showMiniGameModal, setShowMiniGameModal] = useState(false);
-  
-  // Optimize Zustand subscriptions by selecting only what we need
-  const {
-    selectedCrew: storedSelectedCrew,
-    activeMission,
-    missionStartTime,
-    showMiniGame,
-    hiredCrew,
-    unlockedCrew,
-    isRunning
-  } = useRecruitmentZustand(state => ({
-    selectedCrew: state.selectedCrew,
-    activeMission: state.activeMission,
-    missionStartTime: state.missionStartTime,
-    showMiniGame: state.showMiniGame,
-    hiredCrew: state.hiredCrew,
-    unlockedCrew: state.unlockedCrew,
-    isRunning: state.isRunning
-  }));
-  
-  // Get functions separately to avoid re-renders when they change
-  const setActiveMission = useRecruitmentZustand(state => state.setActiveMission);
-  const completeMiniGame = useRecruitmentZustand(state => state.completeMiniGame);
-  const startGame = useRecruitmentZustand(state => state.startGame);
-  
-  const [selectedCrew, setSelectedCrew] = useState(storedSelectedCrew || []);
   
 
   useEffect(() => {
@@ -59,6 +40,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
     }
   }, [activeMission, missionStartTime]);
 
+  console.log("ReRender")
   // Watch for mini-game trigger
   useEffect(() => {
     if (showMiniGame && !showMiniGameModal) {
@@ -100,7 +82,12 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
     useRecruitmentZustand.getState().startMission(mission, selectedCrewMembers);
     setShowCrewSelect(false);
   };
+  const isRunning = useRecruitmentZustand(state => state.isRunning);
+  const startGame = useRecruitmentZustand(state => state.startGame);
+
   const TabContent = () => {
+    const hiredCrew = useRecruitmentZustand(state => state.hiredCrew);
+    const unlockedCrew = useRecruitmentZustand(state => state.unlockedCrew);
 
     switch(activeTab) {
       case 'view':
@@ -646,19 +633,11 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
           </div>
         );
       case 'loadouts':
-        const {
-          equipment,
-          crewLoadouts,
-          equipItemToCrew,
-          unequipItemFromCrew,
-          getCrewEffectiveStats
-        } = useRecruitmentZustand(state => ({
-          equipment: state.equipment,
-          crewLoadouts: state.crewLoadouts,
-          equipItemToCrew: state.equipItemToCrew,
-          unequipItemFromCrew: state.unequipItemFromCrew,
-          getCrewEffectiveStats: state.getCrewEffectiveStats
-        }));
+        const equipment = useRecruitmentZustand(state => state.equipment);
+        const crewLoadouts = useRecruitmentZustand(state => state.crewLoadouts);
+        const equipItemToCrew = useRecruitmentZustand(state => state.equipItemToCrew);
+        const unequipItemFromCrew = useRecruitmentZustand(state => state.unequipItemFromCrew);
+        const getCrewEffectiveStats = useRecruitmentZustand(state => state.getCrewEffectiveStats);
         
         return (
           <div className="crew-content">
