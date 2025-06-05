@@ -63,6 +63,16 @@ export const defaultAchievements = [
     unlocked: false,
     checked: false,
     badge: "⚡"
+  },
+  {
+    title: "Grease Monkey",
+    requirement: "Complete Grease Run 10 times",
+    reward: "+1 Auto Click/sec",
+    flavorText: "You've mastered the art of slippery extraction.",
+    unlocked: false,
+    checked: false,
+    category: "crew",
+    badge: "🛢️"
   }
 ];
 
@@ -163,6 +173,17 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
               achievement.unlocked = true;
               achievement.checked = true;
               setNotifications(prev => [...prev, "Achievement Unlocked: UI Breaker!"]);
+              changed = true;
+            }
+            break;
+          case "Grease Monkey":
+            const crewStorage = JSON.parse(localStorage.getItem('crew-storage') || '{}');
+            const greaseRunCompletions = crewStorage.state?.missionCompletions?.grease_1 || 0;
+            if (greaseRunCompletions >= 10 && !achievement.unlocked) {
+              achievement.unlocked = true;
+              achievement.checked = true;
+              setAutoClicks(prev => prev + 1);
+              setNotifications(prev => [...prev, "Achievement Unlocked: Grease Monkey!"]);
               changed = true;
             }
             break;
