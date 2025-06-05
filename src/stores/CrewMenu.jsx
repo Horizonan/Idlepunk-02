@@ -117,14 +117,14 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   const isRunning = useRecruitmentZustand(state => state.isRunning);
   const startGame = useRecruitmentZustand(state => state.startGame);
 
+  const hiredCrew = useRecruitmentZustand(state => state.hiredCrew);
+  const unlockedCrew = useRecruitmentZustand(state => state.unlockedCrew);
+
   const TabContent = React.useMemo(() => {
     if (!isMenuActive && activeTab !== 'ongoing') {
       // Return cached content for inactive menu, except for ongoing tab which needs real-time updates
       return null;
     }
-
-    const hiredCrew = useRecruitmentZustand(state => state.hiredCrew);
-    const unlockedCrew = useRecruitmentZustand(state => state.unlockedCrew);
 
     switch(activeTab) {
       case 'view':
