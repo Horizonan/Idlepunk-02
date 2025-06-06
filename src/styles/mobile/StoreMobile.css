@@ -136,9 +136,9 @@
   .store-items {
     flex: 1 !important;
     overflow-y: auto !important;
-    padding: 0 4px !important;
+    padding: 0 4px 20px 4px !important;
     margin: 0 !important;
-    height: calc(100vh - 180px) !important;
+    height: calc(100vh - 160px) !important;
     display: flex !important;
     flex-direction: column !important;
     gap: 15px !important;
@@ -152,9 +152,11 @@
     border: 2px solid #9400D3 !important;
     border-radius: 12px !important;
     padding: 15px !important;
-    margin: 0 !important;
+    margin: 0 0 20px 0 !important;
     background: rgba(34, 34, 34, 0.95) !important;
     box-shadow: 0 4px 15px rgba(148, 0, 211, 0.2) !important;
+    min-height: auto !important;
+    flex-shrink: 0 !important;
   }
 
   .store-category h3 {
@@ -537,8 +539,9 @@
   }
 
   .store-items {
-    height: calc(100vh - 140px) !important;
+    height: calc(100vh - 120px) !important;
     gap: 10px !important;
+    padding: 0 4px 15px 4px !important;
   }
 
   .store-item {
@@ -552,5 +555,10 @@
 
   .tab-button {
     padding: 6px 10px !important;
+  }
+
+  .store-category {
+    margin: 0 0 15px 0 !important;
+    padding: 12px !important;
   }
 }
