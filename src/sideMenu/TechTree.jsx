@@ -3,6 +3,9 @@ import React from 'react';
 
 export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
   const hasTronicsClicker = localStorage.getItem('tronicsClicker') === 'true';
+  const hasScraptagon = localStorage.getItem('scraptagon') === 'true';
+  const hasCraftingBenchV2 = localStorage.getItem('craftingBenchV2') === 'true';
+  const hasModcrafting = localStorage.getItem('modcrafting') === 'true';
 
   return (
     <div className="tech-tree-container">
@@ -47,12 +50,13 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
           <div className="tech-node">
             <button 
               onClick={() => onUnlock('scraptagon')}
-              disabled={!hasTronicsClicker || prestigeTokens < 1}
+              disabled={!hasTronicsClicker || prestigeTokens < 1 || hasScraptagon}
               className="tech-button"
             >
               <span>Unlocks Scraptagon</span>
-              <div className="tech-cost">Cost: 1 Token</div>
-              <div className="required-label">Optional</div>
+              <div className={`tech-cost ${hasScraptagon ? 'purchased' : ''}`}>Cost: 1 Token</div>
+              <div className={`tech-cost ${!hasScraptagon ? 'purchased' : ''}`}>Purchased</div>
+              <div className={`required-label ${hasScraptagon ? 'purchased' : ''}`}>Optional</div>
               <div className="item-info">
                 <p>"You've built the junk. Now prove you can survive it." Unlocks:</p>
                 <ul>
@@ -66,12 +70,13 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
           <div className="tech-node">
             <button 
               onClick={() => onUnlock('craftingBenchV2')}
-              disabled={!hasTronicsClicker || prestigeTokens < 1}
+              disabled={!hasTronicsClicker || prestigeTokens < 1 || hasCraftingBenchV2}
               className="tech-button"
             >
               <span>Unlocks Crafting Bench v2</span>
-              <div className="tech-cost">Cost: 1 Token</div>
-              <div className="required-label">Optional</div>
+              <div className={`tech-cost ${hasCraftingBenchV2 ? 'purchased' : ''}`}>Cost: 1 Token</div>
+              <div className={`tech-cost ${!hasCraftingBenchV2 ? 'purchased' : ''}`}>Purchased</div>
+              <div className={`required-label ${hasCraftingBenchV2 ? 'purchased' : ''}`}>Optional</div>
               <div className="item-info">
                 <p>"More advanced parts, fewer duct-tape miracles." Unlocks:</p>
                 <ul>
@@ -84,12 +89,13 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
           <div className="tech-node">
             <button 
               onClick={() => onUnlock('modcrafting')}
-              disabled={!hasTronicsClicker || prestigeTokens < 1}
+              disabled={!hasTronicsClicker || prestigeTokens < 1 || hasModcrafting}
               className="tech-button"
             >
               <span>Unlocks Modcrafting Station</span>
-              <div className="tech-cost">Cost: 1 Token</div>
-              <div className="required-label">Optional</div>
+              <div className={`tech-cost ${hasModcrafting ? 'purchased' : ''}`}>Cost: 1 Token</div>
+              <div className={`tech-cost ${!hasModcrafting ? 'purchased' : ''}`}>Purchased</div>
+              <div className={`required-label ${hasModcrafting ? 'purchased' : ''}`}>Optional</div>
               <div className="item-info">
                 <p>"You've shaped the world — now shape yourself." Unlocks:</p>
                 <ul>

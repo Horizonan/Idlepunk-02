@@ -775,8 +775,7 @@ export default function App() {
   }, [junk]);
 
   return (
-    <main>
-      <VersionPopup onClose={() => {}} />
+    <main>      <VersionPopup onClose={() => {}} />
       {showQuestLog && <QuestLog tutorialStage={tutorialStage} onClose={() => setShowQuestLog(false)} />}
       <CrystalTimer />
       <TutorialSystem
@@ -1284,6 +1283,27 @@ export default function App() {
               localStorage.setItem('hasPrestiged', 'true');
               localStorage.setItem('tronicsClicker', 'true');
               setNotifications(prev => [...prev, "Tronics Clicker and ElectroShop Unlocked!"]);
+            } else if (nodeId === 'scraptagon' && prestigeTokens >= 1 && localStorage.getItem('tronicsClicker') === 'true') {
+              setCraftingInventory(prev => ({
+                ...prev,
+                'Prestige Token': prev['Prestige Token'] - 1
+              }));
+              localStorage.setItem('scraptagon', 'true');
+              setNotifications(prev => [...prev, "Scraptagon Combat unlocked!"]);
+            } else if (nodeId === 'craftingBenchV2' && prestigeTokens >= 1 && localStorage.getItem('tronicsClicker') === 'true') {
+              setCraftingInventory(prev => ({
+                ...prev,
+                'Prestige Token': prev['Prestige Token'] - 1
+              }));
+              localStorage.setItem('craftingBenchV2', 'true');
+              setNotifications(prev => [...prev, "Crafting Bench v2 unlocked!"]);
+            } else if (nodeId === 'modcrafting' && prestigeTokens >= 1 && localStorage.getItem('tronicsClicker') === 'true') {
+              setCraftingInventory(prev => ({
+                ...prev,
+                'Prestige Token': prev['Prestige Token'] - 1
+              }));
+              localStorage.setItem('modcrafting', 'true');
+              setNotifications(prev => [...prev, "Modcrafting Station unlocked!"]);
             }
           }}
         />
