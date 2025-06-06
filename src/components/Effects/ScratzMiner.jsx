@@ -8,6 +8,7 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
   const [isPowered, setIsPowered] = useState(false);
   const [showRefuelDialog, setShowRefuelDialog] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(() => localStorage.getItem('scratzMinerCollapsed') === 'true');
+  const [lastUpdateTime, setLastUpdateTime] = useState(Date.now());
 
   // Calculate total generation rate (diminishing returns)
   const getTotalGeneration = () => {
@@ -23,12 +24,94 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
     return ownedMiners * 0.25; // 0.25 cells per hour per miner
   };
 
+  // Process offline progress
+  const processOfflineProgress = () => {
+    const savedLastUpdate = parseInt(localStorage.getItem('scratzMinerLastUpdate') || Date.now().toString());
+    const savedTimeUntilNext = parseInt(localStorage.getItem('scratzMinerTimeUntilNext') || '3600');
+    const currentTime = Date.now();
+    const timeElapsed = Math.floor((currentTime - savedLastUpdate) / 1000); // seconds
+
+    if (timeElapsed > 0 && ownedMiners > 0) {
+      const savedFuel = parseFloat(localStorage.getItem('scratzMinerFuel') || '0');
+      
+      if (savedFuel > 0) {
+        const fuelConsumptionPerSecond = getFuelConsumptionRate() / 3600;
+        let remainingFuel = savedFuel;
+        let remainingTime = timeElapsed;
+        let timeUntilNext = savedTimeUntilNext;
+        let creditsGenerated = 0;
+
+        // Calculate how long the miner could run with available fuel
+        const maxRunTime = Math.floor(remainingFuel / fuelConsumptionPerSecond);
+        const actualRunTime = Math.min(remainingTime, maxRunTime);
+
+        if (actualRunTime > 0) {
+          // Calculate fuel consumption
+          remainingFuel = Math.max(0, remainingFuel - (actualRunTime * fuelConsumptionPerSecond));
+
+          // Calculate credit generation cycles
+          let timeProcessed = 0;
+          while (timeProcessed < actualRunTime) {
+            const timeToNextCredit = Math.min(timeUntilNext, actualRunTime - timeProcessed);
+            timeProcessed += timeToNextCredit;
+            timeUntilNext -= timeToNextCredit;
+
+            if (timeUntilNext <= 0) {
+              creditsGenerated += Math.floor(getTotalGeneration());
+              timeUntilNext = 3600; // Reset to 1 hour
+            }
+          }
+
+          // Update states
+          setFuelRemaining(remainingFuel);
+          setTimeUntilNextCredit(timeUntilNext);
+          setIsPowered(remainingFuel > 0);
+
+          // Save updated values
+          localStorage.setItem('scratzMinerFuel', remainingFuel.toString());
+          localStorage.setItem('scratzMinerTimeUntilNext', timeUntilNext.toString());
+
+          // Generate credits and show notification
+          if (creditsGenerated > 0) {
+            onGenerateCredits(creditsGenerated);
+            const hoursOffline = Math.floor(actualRunTime / 3600);
+            const minutesOffline = Math.floor((actualRunTime % 3600) / 60);
+            let timeString = '';
+            if (hoursOffline > 0) {
+              timeString = `${hoursOffline}h ${minutesOffline}m`;
+            } else {
+              timeString = `${minutesOffline}m`;
+            }
+            setNotifications(prevNotifs => [...prevNotifs, `Scratz Miner generated ${creditsGenerated} Credits while offline! (${timeString})`]);
+          }
+        } else {
+          // No fuel, miner was offline
+          setFuelRemaining(remainingFuel);
+          setTimeUntilNextCredit(3600);
+          setIsPowered(false);
+          localStorage.setItem('scratzMinerFuel', remainingFuel.toString());
+        }
+      } else {
+        // No fuel available
+        setTimeUntilNextCredit(3600);
+        setIsPowered(false);
+      }
+    }
+
+    setLastUpdateTime(currentTime);
+    localStorage.setItem('scratzMinerLastUpdate', currentTime.toString());
+  };
+
   useEffect(() => {
-    // Initialize fuel from localStorage
+    // Initialize fuel from localStorage and process offline progress
     const savedFuel = parseFloat(localStorage.getItem('scratzMinerFuel') || '0');
     setFuelRemaining(savedFuel);
     setIsPowered(savedFuel > 0);
-  }, []);
+    
+    if (ownedMiners > 0) {
+      processOfflineProgress();
+    }
+  }, [ownedMiners]);
 
   useEffect(() => {
     localStorage.setItem('scratzMinerCollapsed', isCollapsed);
@@ -38,35 +121,46 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
     if (ownedMiners === 0) return;
 
     const interval = setInterval(() => {
-      const fuelConsumptionPerSecond = getFuelConsumptionRate() / 3600;
+      const currentTime = Date.now();
+      const timeDelta = Math.floor((currentTime - lastUpdateTime) / 1000);
       
-      if (fuelRemaining > 0) {
-        setFuelRemaining(prev => {
-          const newFuel = Math.max(0, prev - fuelConsumptionPerSecond);
-          localStorage.setItem('scratzMinerFuel', newFuel.toString());
-          return newFuel;
-        });
+      if (timeDelta >= 1) {
+        const fuelConsumptionPerSecond = getFuelConsumptionRate() / 3600;
         
-        setTimeUntilNextCredit(prev => {
-          if (prev <= 1) {
-            // Generate credits
-            const creditsGenerated = Math.floor(getTotalGeneration());
-            onGenerateCredits(creditsGenerated);
-            setNotifications(prevNotifs => [...prevNotifs, `Scratz Miner generated ${creditsGenerated} Credits!`]);
-            return 3600; // Reset to 1 hour
-          }
-          return prev - 1;
-        });
-        
-        setIsPowered(true);
-      } else {
-        setIsPowered(false);
-        setTimeUntilNextCredit(3600);
+        if (fuelRemaining > 0) {
+          setFuelRemaining(prev => {
+            const newFuel = Math.max(0, prev - (fuelConsumptionPerSecond * timeDelta));
+            localStorage.setItem('scratzMinerFuel', newFuel.toString());
+            return newFuel;
+          });
+          
+          setTimeUntilNextCredit(prev => {
+            let newTime = prev - timeDelta;
+            if (newTime <= 0) {
+              // Generate credits
+              const creditsGenerated = Math.floor(getTotalGeneration());
+              onGenerateCredits(creditsGenerated);
+              setNotifications(prevNotifs => [...prevNotifs, `Scratz Miner generated ${creditsGenerated} Credits!`]);
+              newTime = 3600; // Reset to 1 hour
+            }
+            localStorage.setItem('scratzMinerTimeUntilNext', newTime.toString());
+            return newTime;
+          });
+          
+          setIsPowered(true);
+        } else {
+          setIsPowered(false);
+          setTimeUntilNextCredit(3600);
+          localStorage.setItem('scratzMinerTimeUntilNext', '3600');
+        }
+
+        setLastUpdateTime(currentTime);
+        localStorage.setItem('scratzMinerLastUpdate', currentTime.toString());
       }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [ownedMiners, fuelRemaining, onGenerateCredits, setNotifications]);
+  }, [ownedMiners, fuelRemaining, lastUpdateTime, onGenerateCredits, setNotifications]);
 
   const handleRefuel = () => {
     if (junkCells > 0) {
