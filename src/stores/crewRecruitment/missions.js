@@ -102,10 +102,10 @@ export const missions = {
     difficulty: 'Hard',
     description: 'Venture into the unstable void zones',
     maxCrew: 3,
-    duration: 900, // 15 minutes
+    duration: 1, // 15 minutes
     baseRewards: {
-      credits: 500,
-      junk: 5000
+      credits: 50,
+      junk: 50000
     },
     bonusRewards: {
       electroShard: {
@@ -126,8 +126,8 @@ export const missions = {
     },
     penalties: {
       failure: {
-        credits: -250,
-        crewStamina: -60,
+        credits: -25,
+        crewStamina: -40,
         messagePool: [
           'Void exposure overwhelmed the crew.',
           'Reality distortion caused mission failure.',
