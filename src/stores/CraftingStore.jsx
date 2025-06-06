@@ -15,6 +15,7 @@ const formatJunkCost = (cost, hasBooster) => {
 
 export default function CraftingStore({ junk, onCraft, craftingInventory, onBack }) {
   const [selectedTab, setSelectedTab] = useState('basic');
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   const tabs = [
     { id: 'basic', label: 'Basic Materials' },
@@ -356,14 +357,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
             {/* Reset Recipe Button - Bottom of section */}
             <div className="reset-button-container">
               <button
-                onClick={() => {
-                  if (window.confirm('Are you sure you want to reset the Prestige Crystal recipe? This will clear your progress but you will keep your materials.')) {
-                    localStorage.removeItem('prestigeCrystalProgress');
-                    localStorage.removeItem('prestigeCrystalStarted');
-                    window.dispatchEvent(new CustomEvent('prestigeCrystalReset'));
-                    console.log('Prestige Crystal recipe has been reset');
-                  }
-                }}
+                onClick={() => setShowResetConfirm(true)}
                 className="reset-recipe-button"
               >
                 🔄 Reset Recipe
@@ -372,6 +366,36 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
           </div>
         )}
       </div>
+
+      {/* Internal Reset Confirmation Popup */}
+      {showResetConfirm && (
+        <div className="reset-confirm-overlay">
+          <div className="reset-confirm-popup">
+            <h4>Reset Prestige Crystal Recipe?</h4>
+            <p>This will clear your crafting progress but you will keep your materials.</p>
+            <div className="reset-confirm-buttons">
+              <button 
+                onClick={() => {
+                  localStorage.removeItem('prestigeCrystalProgress');
+                  localStorage.removeItem('prestigeCrystalStarted');
+                  window.dispatchEvent(new CustomEvent('prestigeCrystalReset'));
+                  console.log('Prestige Crystal recipe has been reset');
+                  setShowResetConfirm(false);
+                }}
+                className="confirm-reset-button"
+              >
+                Yes, Reset Recipe
+              </button>
+              <button 
+                onClick={() => setShowResetConfirm(false)}
+                className="cancel-reset-button"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

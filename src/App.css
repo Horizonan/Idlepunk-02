@@ -1581,6 +1581,73 @@ button.locked {
   transform: scale(1.05);
 }
 
+.reset-confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.reset-confirm-popup {
+  background: #1a1a1a;
+  border: 2px solid #FF4500;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.reset-confirm-popup h4 {
+  color: #FF4500;
+  margin: 0 0 10px 0;
+}
+
+.reset-confirm-popup p {
+  color: white;
+  margin: 10px 0 20px 0;
+}
+
+.reset-confirm-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.confirm-reset-button {
+  background: #FF4500;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.confirm-reset-button:hover {
+  background: #FF6500;
+}
+
+.cancel-reset-button {
+  background: #333;
+  color: white;
+  border: 1px solid #666;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.cancel-reset-button:hover {
+  background: #555;
+}
+
 @keyframes fade-out {
   from {
     opacity: 1;
