@@ -183,11 +183,16 @@ export default function App() {
       setShowRelayCascade(true);
     };
 
+    const handleForcePrestige = () => {
+      setShowPrestigePopup(true);
+    };
+
     window.addEventListener('keydown', handleKeyPress);
     window.addEventListener('showCrystal', handleShowCrystal);
     window.addEventListener('slotForceTriple', handleSlotForceTriple);
     window.addEventListener('slotForceDouble', handleSlotForceDouble);
     window.addEventListener('launchRelayCascade', handleLaunchRelayCascade);
+    window.addEventListener('forcePrestige', handleForcePrestige);
 
     return () => {
       window.removeEventListener('addMaterial', handleAddMaterial);
@@ -197,6 +202,7 @@ export default function App() {
       window.removeEventListener('slotForceTriple', handleSlotForceTriple);
       window.removeEventListener('slotForceDouble', handleSlotForceDouble);
       window.removeEventListener('launchRelayCascade', handleLaunchRelayCascade);
+      window.removeEventListener('forcePrestige', handleForcePrestige);
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
