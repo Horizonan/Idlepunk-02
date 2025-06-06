@@ -14,13 +14,7 @@ export function RecruitmentGame() {
     handleGameEnd,
     act,
     tick,
-    selectedCrew,
-    saveGame,
-    checkedProfiles,
-    currentProfileIndex,
-    recruitedCrew,
-    trashedProfiles,
-    setIsRunning
+    selectedCrew
   } = useRecruitmentZustand()
 
   const [showIntroTooltip, setShowIntroTooltip] = useState(() => {
@@ -42,48 +36,22 @@ export function RecruitmentGame() {
   const profile = profiles[currentIndex]
   let gameEnded = 0;
 
-  const handleAction = (action) => {
-    act(action);
-    // Save progress after each action
-    setTimeout(() => saveGame(), 100); // Small delay to ensure state is updated
-  };
-
-  const handleExit = () => {
-    // Only save if there's meaningful progress
-    if (checkedProfiles > 0 || score > 0) {
-      const gameState = {
-        checkedProfiles,
-        score,
-        currentProfileIndex,
-        profiles,
-        recruitedCrew,
-        trashedProfiles
-      };
-
-      localStorage.setItem('crewGameSave', JSON.stringify(gameState));
-      console.log('Game saved with progress:', { checkedProfiles, score });
-    }
-
-    // Exit the game
-    setIsRunning(false);
-  };
-
   if (!isRunning || currentIndex >= 8) {
     const finalScore = score
 
-    if(gameEnded === 0){
+    if(gameEnded = 0){
       handleGameEnd(finalScore)
-      gameEnded = gameEnded + 1
+      gameEnded +1
       }
-
-
-
+      
+    
+    
     return (
       <div className="game-over">
         <button onClick={resetGame}>Close</button>
         <h2>Game Over</h2>
         <p>Final Score: {finalScore}</p>
-
+        
         {selectedCrew ? (
           <div className="crew-unlock">
             <h3>Crew Member Unlocked!</h3>
@@ -131,7 +99,7 @@ export function RecruitmentGame() {
           </div>
         </div>
       )}
-
+      
       <button onClick={resetGame}>Close</button>
       <div className="game-stats">
         <div>⏱ {timeLeft}s</div>
@@ -150,15 +118,9 @@ export function RecruitmentGame() {
       }</p>
 
       <div className="buttons">
-        <button onClick={() => handleAction('recruit')}>Recruit</button>
-        <button onClick={() => handleAction('trash')}>Trash</button>
-        <button onClick={() => handleAction('skip')}>Skip</button>
-      </div>
-
-      <div className="game-controls">
-        <button onClick={handleExit} className="exit-save-button">
-          💾 Save & Exit
-        </button>
+        <button onClick={() => act('recruit')}>Recruit</button>
+        <button onClick={() => act('trash')}>Trash</button>
+        <button onClick={() => act('skip')}>Skip</button>
       </div>
 
        <div>Score: {score}</div>
