@@ -1920,3 +1920,5 @@ button.locked {
     text-align: center;
   }
 }
+@import './styles/UpgradeStats.css';
+@import './styles/SkillsMobile.css';
