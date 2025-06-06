@@ -34,7 +34,7 @@ export default function Store({
     {
       name: "Click Enhancer",
       cost: bulkBuy ?calculate10xPriceJunkClicker(itemCosts.clickEnhancer).totalCost :  itemCosts.clickEnhancer,
-      description: "+10 Junk/Click, +10% Cost",
+      description: "+5 Junk/Click, +10% Cost",
       info: '"Built from a broken microwave and spite."',
       action: onBuyClickEnhancer,
       purchasedCount: ownedItems.clickEnhancer || 0,
@@ -141,6 +141,7 @@ export default function Store({
       cost: { junk: bulkBuy ? calculate10xPriceJPS(itemCosts.autoClicker).totalCost : itemCosts.autoClicker },
       description:
         "+1 Automatic Click per second (counts towards manual clicks)",
+      info: "A simple bot that clicks for you. It's annoying, but it works.",
       disabled: !canAffordV1,
       unlockCondition: () => true,
       purchasedCount: onGetAutoClickersV1,
@@ -150,7 +151,8 @@ export default function Store({
       name: "Auto Clicker Bot V2",
       cost: { junk: bulkBuy ? calculate10xPriceBillBoard(itemCosts.autoClickerV2).totalCost : itemCosts.autoClickerV2 },
       description:
-        "Auto Clicker Bot v2.0 – Upgraded to 2 clicks/sec. Now 12% less annoying. (Consumes Auto Clicker V1)",
+        "Auto Clicker Bot v2.0 – Upgraded to 2 clicks/sec.",
+      info:  "Now 12% less annoying. (Consumes Auto Clicker V1)",
       disabled: !canAffordV2,
       unlockCondition: () => onGetAutoClickersV1 > 1,
       purchasedCount: onGetAutoClickersV2,

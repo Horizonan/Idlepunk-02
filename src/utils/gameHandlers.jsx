@@ -97,7 +97,7 @@ export const gameHandlers = (gameState, setGameState) => {
     if (gameState.junk >= costData.totalCost) {
       setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setNotifications(prev => [...prev, "Trash Picker purchased!"]);
-      setGameState.setClickMultiplier(prev => prev + (gameState.bulkBuy ? 30 : 3));
+      setGameState.setClickMultiplier(prev => prev + (gameState.bulkBuy ? 15 : 5));
       setGameState.setItemCosts(prev => ({...prev, trashPicker: costData.endCost}));
       setGameState.setOwnedItems(prev => ({...prev, trashPicker: (prev.trashPicker || 0) + (gameState.bulkBuy ? 10 : 1)}));
     }
