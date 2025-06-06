@@ -203,22 +203,42 @@ export default function Store({
           key={item.name}
           onClick={item.action}
           disabled={credits < (item.cost.junk || item.cost) || (item.unlockCondition && !item.unlockCondition())}
-          className={`store-item ${item.disabled || (item.unlockCondition && !item.unlockCondition()) ? "disabled" : ""}`}
+          className={`item-container ${item.disabled || (item.unlockCondition && !item.unlockCondition()) ? "disabled" : ""} ${bulkBuy ? "bulk-purchase" : ""}`}
         >
-          <div className="item-header">
-            <strong>{item.name}</strong>
-            <span className="cost">
-              ({typeof item.cost === 'object' ? formatNumber(item.cost.junk) : formatNumber(item.cost)} Junk
-              {item.cost.scrapCores
-                ? ` + ${item.cost.scrapCores} Scrap Cores`
-                : ""}
-              )
-            </span>
+          <div className="item-header-section">
+            <div className="item-icon-wrapper">
+              {item.name.includes("Scrap Bag") ? "🎒" :
+               item.name.includes("Trash Picker") ? "🔧" :
+               item.name.includes("Click Enhancer") ? "⚡" :
+               item.name.includes("Streetrat") ? "🐀" :
+               item.name.includes("Shopping Cart") ? "🛒" :
+               item.name.includes("Junk Magnet") ? "🧲" :
+               item.name.includes("Urban Recycler") ? "♻️" :
+               item.name.includes("Scrap Drone") ? "🚁" :
+               item.name.includes("Holo Billboard") ? "📺" :
+               item.name.includes("Shard Miner") ? "⛏️" :
+               item.name.includes("Scratz Miner") ? "💎" :
+               item.name.includes("Auto Clicker") ? "🤖" :
+               item.name.includes("Junk Refinery") ? "🔹" :
+               item.name.includes("Modular Scrapper") ? "🔹" : "⚙️"}
+            </div>
+            <div className="item-title-wrapper">
+              <h3 className="item-title-text">{item.name}</h3>
+              <div className="item-cost-text">
+                {typeof item.cost === 'object' ? formatNumber(item.cost.junk) : formatNumber(item.cost)} Junk
+                {item.cost?.scrapCores ? ` + ${item.cost.scrapCores} Scrap Cores` : ""}
+              </div>
+            </div>
           </div>
-          <div className="item-info">
-            <p>{item.description}</p>
-            <p>{item.info}</p>
-            <p className="owned">Owned: {item.purchasedCount}</p>
+          <div className="item-content-section">
+            <p className="item-description-text">{item.description}</p>
+            {item.info && <p className="item-info-text">{item.info}</p>}
+          </div>
+          <div className="item-footer-section">
+            <span className="item-owned-count">Owned: {item.purchasedCount}</span>
+            <div className={`item-status-badge ${(item.unlockCondition && !item.unlockCondition()) ? "locked" : "available"}`}>
+              {(item.unlockCondition && !item.unlockCondition()) ? "Locked" : "Available"}
+            </div>
           </div>
         </button>
       ))}

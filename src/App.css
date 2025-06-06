@@ -14,6 +14,7 @@
 @import './styles/storeMenu.css';
 @import './styles/UpgradeStats.css';
 @import './styles/SkillsMobile.css';
+@import './styles/itemTooltips.css';
 
 
 .uncraftable {

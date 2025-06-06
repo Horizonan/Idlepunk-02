@@ -195,15 +195,29 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   key={item.name}
                   onClick={() => !item.uncraftable && onCraft(item)}
                   disabled={item.uncraftable || !canCraft(item)}
-                  className={`store-item ${item.uncraftable ? 'uncraftable' : ''}`}
+                  className={`item-container basic-materials ${item.uncraftable ? 'disabled' : ''} ${selectedTab}`}
                 >
-                  <div className="item-header">
-                    <strong>{item.name}</strong>
-                    {item.cost && <span className="cost">({formatJunkCost(item.cost, craftingInventory['Crafting Booster Unit'])} Junk)</span>}
+                  <div className="item-header-section">
+                    <div className="item-icon-wrapper">
+                      {item.name.includes("Wires") ? "🔌" :
+                       item.name.includes("Metal Plates") ? "🔩" :
+                       item.name.includes("Gear Bits") ? "⚙️" :
+                       item.name.includes("Capacitor") ? "🔋" : "🔧"}
+                    </div>
+                    <div className="item-title-wrapper">
+                      <h3 className="item-title-text">{item.name}</h3>
+                      {item.cost && <div className="item-cost-text">{formatJunkCost(item.cost, craftingInventory['Crafting Booster Unit'])} Junk</div>}
+                    </div>
                   </div>
-                  <div className="item-info">
-                    <p>{item.description}</p>
-                    <p className="owned">Owned: {craftingInventory[item.name] || 0}</p>
+                  <div className="item-content-section">
+                    <p className="item-description-text">{item.description}</p>
+                    {item.uncraftable && <p className="item-info-text">Cannot be crafted - found only</p>}
+                  </div>
+                  <div className="item-footer-section">
+                    <span className="item-owned-count">Owned: {craftingInventory[item.name] || 0}</span>
+                    <div className={`item-status-badge ${item.uncraftable ? "locked" : "available"}`}>
+                      {item.uncraftable ? "Uncraftable" : "Available"}
+                    </div>
                   </div>
                 </button>
               ))}
@@ -220,22 +234,43 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   key={item.name}
                   onClick={() => onCraft(item)}
                   disabled={!canCraft(item)}
-                  className="store-item"
+                  className={`item-container crafted-items ${!canCraft(item) ? 'disabled' : ''} ${item.onetime ? 'one-time' : ''}`}
                 >
-                  <div className="item-header">
-                    <strong>{item.name}</strong>
+                  <div className="item-header-section">
+                    <div className="item-icon-wrapper">
+                      {item.name.includes("Scrap Core") ? "⚙️" :
+                       item.name.includes("Click Rig") ? "🔧" :
+                       item.name.includes("Auto Toolkit") ? "🛠️" :
+                       item.name.includes("Compression Pack") ? "📦" :
+                       item.name.includes("Reinforced Backpack") ? "🎒" :
+                       item.name.includes("Surge Capacitor") ? "🔋" :
+                       item.name.includes("Luck Engine") ? "🎰" : "⚙️"}
+                    </div>
+                    <div className="item-title-wrapper">
+                      <h3 className="item-title-text">{item.name}</h3>
+                      {item.cost && <div className="item-cost-text">{formatJunkCost(item.cost, craftingInventory['Crafting Booster Unit'])} Junk</div>}
+                    </div>
                   </div>
-                  <div className="item-info">
-                    <p>{item.description}</p>
+                  <div className="item-content-section">
+                    <p className="item-description-text">{item.description}</p>
                     {item.requirements && (
-                      <div>
-                        <p>Requirements:</p>
+                      <div className="item-requirements-section">
+                        <p className="item-requirements-title">Requirements:</p>
                         {Object.entries(item.requirements).map(([mat, count]) => (
-                          <p key={mat}>- {mat}: {count} ({craftingInventory[mat] || 0} owned)</p>
+                          <p key={mat} className="item-requirement-item">
+                            {mat}: {count} ({craftingInventory[mat] || 0} owned)
+                          </p>
                         ))}
                       </div>
                     )}
-                    {item.cost && <p>Cost: {formatJunkCost(item.cost, craftingInventory['Crafting Booster Unit'])} Junk</p>}
+                  </div>
+                  <div className="item-footer-section">
+                    <span className="item-owned-count">
+                      {item.onetime ? "One-time purchase" : `Owned: ${craftingInventory[item.name] || 0}`}
+                    </span>
+                    <div className={`item-status-badge ${!canCraft(item) ? "locked" : "available"}`}>
+                      {!canCraft(item) ? "Locked" : "Available"}
+                    </div>
                   </div>
                 </button>
               ))}
@@ -252,22 +287,34 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   key={item.name}
                   onClick={() => onCraft(item)}
                   disabled={!canCraft(item)}
-                  className="store-item"
+                  className={`item-container consumable-materials ${!canCraft(item) ? 'disabled' : ''}`}
                 >
-                  <div className="item-header">
-                    <strong>{item.name}</strong>
+                  <div className="item-header-section">
+                    <div className="item-icon-wrapper">
+                      {item.name.includes("Junk Cells") ? "🔋" : "⚡"}
+                    </div>
+                    <div className="item-title-wrapper">
+                      <h3 className="item-title-text">{item.name}</h3>
+                    </div>
                   </div>
-                  <div className="item-info">
-                    <p>{item.description}</p>
+                  <div className="item-content-section">
+                    <p className="item-description-text">{item.description}</p>
                     {item.requirements && (
-                      <div>
-                        <p>Requirements:</p>
+                      <div className="item-requirements-section">
+                        <p className="item-requirements-title">Requirements:</p>
                         {Object.entries(item.requirements).map(([mat, count]) => (
-                          <p key={mat}>- {mat}: {count} ({craftingInventory[mat] || 0} owned)</p>
+                          <p key={mat} className="item-requirement-item">
+                            {mat}: {count} ({craftingInventory[mat] || 0} owned)
+                          </p>
                         ))}
                       </div>
                     )}
-                    <p className="owned">Owned: {craftingInventory[item.name] || 0}</p>
+                  </div>
+                  <div className="item-footer-section">
+                    <span className="item-owned-count">Owned: {craftingInventory[item.name] || 0}</span>
+                    <div className={`item-status-badge ${!canCraft(item) ? "locked" : "available"}`}>
+                      {!canCraft(item) ? "Locked" : "Available"}
+                    </div>
                   </div>
                 </button>
               ))}
