@@ -5,14 +5,14 @@ export default function VersionPopup({ onClose }) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const hasSeenUpdate = localStorage.getItem('seen_update_0.1.0.2');
+    const hasSeenUpdate = localStorage.getItem('seen_update_0.1.0.3');
     if (!hasSeenUpdate) {
       setShow(true);
     }
   }, []);
 
   const handleClose = () => {
-    localStorage.setItem('seen_update_0.1.0.2', 'true');
+    localStorage.setItem('seen_update_0.1.0.3', 'true');
     setShow(false);
     if (onClose) {
       onClose();
@@ -24,26 +24,31 @@ export default function VersionPopup({ onClose }) {
   return (
     <div className="version-popup-overlay">
       <div className="version-popup">
-        <h2>🧩 New Version Available: 0.1.0.2</h2>
+        <h2>🧨 New Version Available: 0.1.0.3</h2>
         <div className="version-content">
           <h3>What's New:</h3>
           <ul>
-            <li>✨ Overcharged Crystal Crafting Indicator</li>
-            <li>📊 New Stats: Pickup Times, Junk Collected, Crew Mission Wins</li>
-            <li>🎮 New Quest + Pickup Magnet in Tronics Store</li>
-            <li>🎨 New Designs: Electro Shard, Drones & Hover Models</li>
-            <li>🐞 Major Bug Fix: Junk Refinery crash resolved</li>
+            <li>🐛 Fixed massive lag bug in Crew System</li>
+            <li>🖥️ New designs: Autoclickers, Trash Bonus & Crew Intro</li>
+            <li>⚔️ Scraptagon Prototype: Stage Select, Rewards, Winstreak</li>
+            <li>📜 Quest updates & new placeholder in Awaken the Core</li>
+            <li>⚙️ Force Prestige + Scratz Miner Offline Progress</li>
           </ul>
-          <p>Full changelog in-game — or hop into Discord to share feedback!</p>
+          <p>Full details in the in-game changelog. Thanks for helping improve IdlePunk!</p>
           <div className="discord-section">
-            <p>Join our Discord community to chat and shape the future of IdlePunk:</p>
-            <a href="https://discord.gg/xhJbGbJApN" target="_blank" rel="noopener noreferrer" className="discord-button">
+            <p>Join the Discord to share feedback or report bugs:</p>
+            <a
+              href="https://discord.gg/xhJbGbJApN"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="discord-button"
+            >
               Join Discord
             </a>
           </div>
         </div>
-        <button 
-          onClick={handleClose} 
+        <button
+          onClick={handleClose}
           className="close-button"
           style={{ display: 'block', visibility: 'visible' }}
         >

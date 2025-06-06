@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default function Changelog({ onClose }) {
-  const [expandedVersion, setExpandedVersion] = useState('0.1.0.2');
+  const [expandedVersion, setExpandedVersion] = useState('0.1.0.3');
 
   const toggleVersion = (version) => {
     setExpandedVersion(expandedVersion === version ? null : version);
@@ -18,6 +18,48 @@ export default function Changelog({ onClose }) {
 
       <div className="changelog-content">
 
+        <div className="changelog-entry">
+          <h3 onClick={() => toggleVersion('0.1.0.3')} style={{ cursor: 'pointer' }}>
+            🧨 Major Bug Fixes, Scraptagon & UI Update – Update Log 0.1.0.3 {expandedVersion === '0.1.0.3' ? '▼' : '▶'}
+          </h3>
+          {expandedVersion === '0.1.0.3' && (
+            <>
+              <p>Version 0.1.0.3 addresses a major performance issue, introduces new visuals, and adds depth to Scraptagon and prestige systems. A big step toward smoother gameplay! ⚙️</p>
+              <div className="changelog-section">
+                <h3>🐛 Major Bug Fixes</h3>
+                <p>🐛 Fixed critical Crew system bug causing re-renders every 100ms (caused lag, disabled features)</p>
+                <p>🐛 Fixed issue where Prestige Button no longer appeared</p>
+
+                <h3>🖥️ UI Updates</h3>
+                <p>🖥️ New design for Autoclicker V1</p>
+                <p>🖥️ New design for Autoclicker V2</p>
+                <p>🖥️ New Trash Bonus icon</p>
+                <p>🖥️ Added "End of the Road" UI popup</p>
+                <p>🖥️ Added Crew Recruitment Introduction panel</p>
+
+                <h3>📜 Quests</h3>
+                <p>📜 Updated requirements for “Awaken The Core”</p>
+                <p>📜 Added new placeholder quest inside “Awaken The Core” questline</p>
+
+                <h3>⚔️ Scraptagon System</h3>
+                <p>⚔️ Added Stage Select system</p>
+                <p>⚔️ Added Rewards system</p>
+                <p>⚔️ Added new Dummy icon</p>
+                <p>⚔️ Implemented Winstreak tracking system</p>
+
+                <h3>⚙️ Functionality & Systems</h3>
+                <p>⚙️ Scraptagon prototype added (structure in place)</p>
+                <p>⚙️ New Node unlock logic implemented</p>
+                <p>⚙️ Improved Prestige Button functionality</p>
+                <p>⚙️ Added Force Prestige option in Cheat Menu</p>
+                <p>⚙️ Scratz Miner now benefits from **Offline Progress**</p>
+              </div>
+              <p className="changelog-footer">Thanks for your bug reports and patience as we fine-tune systems and add more content. Big things still coming! 🚀</p>
+            </>
+          )}
+        </div>
+
+        
         <div className="changelog-entry">
           <h3 onClick={() => toggleVersion('0.1.0.2')} style={{ cursor: 'pointer' }}>
             🧩 QoL, Stats & Visual Polish – Update Log 0.1.0.2 {expandedVersion === '0.1.0.2' ? '▼' : '▶'}
