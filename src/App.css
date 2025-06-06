@@ -1693,29 +1693,14 @@ button.locked {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2000;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f172a 100%);
-  border: 3px solid #9400D3;
-  border-radius: 15px;
-  padding: 30px;
-  box-shadow: 
-    0 0 30px rgba(148, 0, 211, 0.8),
-    inset 0 0 20px rgba(148, 0, 211, 0.2);
-  max-width: 500px;
+  background: rgba(26, 26, 26, 0.95);
+  border: 2px solid #9400D3;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(148, 0, 211, 0.3);
+  max-width: 600px;
   width: 90%;
-  animation: endOfRoadGlow 3s ease-in-out infinite alternate;
-}
-
-@keyframes endOfRoadGlow {
-  0% {
-    box-shadow: 
-      0 0 30px rgba(148, 0, 211, 0.8),
-      inset 0 0 20px rgba(148, 0, 211, 0.2);
-  }
-  100% {
-    box-shadow: 
-      0 0 50px rgba(148, 0, 211, 1),
-      inset 0 0 30px rgba(148, 0, 211, 0.4);
-  }
+  color: #00FF00;
 }
 
 .end-of-road-header {
@@ -1723,47 +1708,73 @@ button.locked {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  border-bottom: 2px solid #9400D3;
-  padding-bottom: 15px;
+  border-bottom: 1px solid #9400D3;
+  padding-bottom: 10px;
 }
 
 .end-of-road-header h2 {
-  color: #FF00FF;
-  font-size: 1.8em;
+  color: #9400D3;
+  font-size: 1.5em;
   margin: 0;
-  text-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
+  text-shadow: 0 0 5px rgba(148, 0, 211, 0.5);
+}
+
+.end-of-road-close-btn {
+  background: #222;
+  border: 2px solid #9400D3;
+  color: #00FF00;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9em;
+  margin: 0;
+  box-shadow: 0 0 5px rgba(148, 0, 211, 0.3);
+}
+
+.end-of-road-close-btn:hover {
+  background: #9400D3;
+  color: #222;
+  border-color: #00FF00;
+  box-shadow: 0 0 10px rgba(148, 0, 211, 0.5);
+}
+
+.end-of-road-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .prestige-badge {
-  background: linear-gradient(45deg, #9400D3, #FF00FF);
-  color: white;
+  background: rgba(148, 0, 211, 0.2);
+  color: #9400D3;
   padding: 8px 15px;
-  border-radius: 20px;
+  border-radius: 5px;
   font-weight: bold;
+  text-align: center;
+  border: 1px solid #9400D3;
   font-size: 1.1em;
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
-  border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .end-of-road-message {
   text-align: center;
-  margin-bottom: 25px;
-  color: #E0E0E0;
+  color: #00FF00;
   line-height: 1.6;
 }
 
 .end-of-road-message p {
   margin: 10px 0;
-  font-size: 1.1em;
+  font-size: 1em;
+  opacity: 0.9;
 }
 
 .end-of-road-stats {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  background: rgba(148, 0, 211, 0.1);
-  padding: 20px;
-  border-radius: 10px;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: 5px;
   border: 1px solid rgba(148, 0, 211, 0.3);
 }
 
@@ -1771,7 +1782,7 @@ button.locked {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
+  padding: 5px 0;
   border-bottom: 1px solid rgba(148, 0, 211, 0.2);
 }
 
@@ -1780,21 +1791,21 @@ button.locked {
 }
 
 .stat-label {
-  color: #B0B0B0;
+  color: #00FF00;
   font-weight: 500;
+  opacity: 0.8;
 }
 
 .stat-value {
-  color: #00FF88;
+  color: #9400D3;
   font-weight: bold;
-  font-size: 1.1em;
-  text-shadow: 0 0 5px rgba(0, 255, 136, 0.6);
+  text-shadow: 0 0 3px rgba(148, 0, 211, 0.5);
 }
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .end-of-road-container {
-    padding: 20px;
+    padding: 15px;
     max-width: 95%;
   }
 
@@ -1805,7 +1816,12 @@ button.locked {
   }
 
   .end-of-road-header h2 {
-    font-size: 1.5em;
+    font-size: 1.3em;
+  }
+
+  .end-of-road-close-btn {
+    font-size: 0.8em;
+    padding: 6px 12px;
   }
 
   .stat-item {

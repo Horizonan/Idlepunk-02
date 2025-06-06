@@ -123,6 +123,7 @@ export default function App() {
   const [showMiniGameWindow, setShowMiniGameWindow] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [quantumTapNotifications, setQuantumTapNotifications] = useState([]);
+  const [showEndOfRoad, setShowEndOfRoad] = useState(true);
 
 
   useEffect(() => {
@@ -1609,13 +1610,20 @@ export default function App() {
       <PickupMagnetArray />
       
       {/* End of Road UI Element for 2nd Prestige */}
-      {prestigeCount >= 2 && (
+      {prestigeCount >= 2 && showEndOfRoad && (
         <div className="end-of-road-container">
+          <div className="end-of-road-header">
+            <h2>🏁 End of the Road</h2>
+            <button 
+              className="end-of-road-close-btn"
+              onClick={() => setShowEndOfRoad(false)}
+              title="Just a little bit longer please"
+            >
+              Just a little bit longer please
+            </button>
+          </div>
           <div className="end-of-road-content">
-            <div className="end-of-road-header">
-              <h2>🏁 End of the Road</h2>
-              <div className="prestige-badge">Prestige {prestigeCount}</div>
-            </div>
+            <div className="prestige-badge">Prestige {prestigeCount}</div>
             <div className="end-of-road-message">
               <p>Congratulations! You've reached the current end of development.</p>
               <p>More content and features are coming in future updates!</p>
