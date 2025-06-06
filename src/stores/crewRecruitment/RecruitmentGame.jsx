@@ -14,7 +14,8 @@ export function RecruitmentGame() {
     handleGameEnd,
     act,
     tick,
-    selectedCrew
+    selectedCrew,
+    saveGame
   } = useRecruitmentZustand()
 
   const [showIntroTooltip, setShowIntroTooltip] = useState(() => {
@@ -35,6 +36,17 @@ export function RecruitmentGame() {
 
   const profile = profiles[currentIndex]
   let gameEnded = 0;
+
+  const handleAction = (action) => {
+    act(action);
+    // Save progress after each action
+    setTimeout(() => saveGame(), 100); // Small delay to ensure state is updated
+  };
+
+  const handleExit = () => {
+    saveGame(); // Save current progress
+    resetGame(); // This will close the modal but keep the save
+  };
 
   if (!isRunning || currentIndex >= 8) {
     const finalScore = score
@@ -118,9 +130,15 @@ export function RecruitmentGame() {
       }</p>
 
       <div className="buttons">
-        <button onClick={() => act('recruit')}>Recruit</button>
-        <button onClick={() => act('trash')}>Trash</button>
-        <button onClick={() => act('skip')}>Skip</button>
+        <button onClick={() => handleAction('recruit')}>Recruit</button>
+        <button onClick={() => handleAction('trash')}>Trash</button>
+        <button onClick={() => handleAction('skip')}>Skip</button>
+      </div>
+      
+      <div className="game-controls">
+        <button onClick={handleExit} className="exit-save-button">
+          💾 Save & Exit
+        </button>
       </div>
 
        <div>Score: {score}</div>

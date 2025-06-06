@@ -213,12 +213,47 @@
 }
 
 .refresher-note {
-  color: #9400D3;
-  font-style: italic;
   margin-top: 15px;
   padding: 10px;
   background: rgba(148, 0, 211, 0.1);
   border-radius: 4px;
+  font-size: 0.9em;
+  color: #9400D3;
+}
+
+.game-controls {
+  margin-top: 15px;
   text-align: center;
-  border: 1px solid rgba(148, 0, 211, 0.3);
+}
+
+.exit-save-button {
+  background: #444;
+  color: #00FF00;
+  border: 2px solid #666;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: all 0.3s ease;
+}
+
+.exit-save-button:hover {
+  background: #555;
+  border-color: #00FF00;
+}
+
+.recruitment-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.resume-button {
+  background: #1a4a1a !important;
+  border-color: #00FF00 !important;
+}
+
+.new-game-button {
+  background: #1a1a4a !important;
+  border-color: #9400D3 !important;
 }

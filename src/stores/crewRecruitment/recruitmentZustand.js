@@ -128,13 +128,60 @@ export const useRecruitmentZustand = create(
   score: 0,
   timeLeft: 60,
   isRunning: false,
+  hasSavedGame: false,
 
-  startGame: () => {
+  startGame: (useCredits = true) => {
     console.log('Starting recruitment game');
-    const generated = Array.from({length: 8}, generateRandomProfile);
-    console.log('Generated profiles:', generated);
-    set({profiles: generated, currentIndex: 0, score: 0, timeLeft: 60, isRunning: true});
+    
+    // Check if there's a saved game
+    const savedGame = localStorage.getItem('crewGameSave');
+    if (savedGame && !useCredits) {
+      // Load saved game without deducting credits
+      const gameData = JSON.parse(savedGame);
+      console.log('Resuming saved game:', gameData);
+      set({
+        profiles: gameData.profiles,
+        currentIndex: gameData.currentIndex,
+        score: gameData.score,
+        timeLeft: gameData.timeLeft,
+        isRunning: true,
+        hasSavedGame: true
+      });
+    } else {
+      // Start new game (this is where credits should be deducted)
+      const generated = Array.from({length: 8}, generateRandomProfile);
+      console.log('Generated profiles:', generated);
+      set({
+        profiles: generated,
+        currentIndex: 0,
+        score: 0,
+        timeLeft: 60,
+        isRunning: true,
+        hasSavedGame: false
+      });
+      // Clear any existing save
+      localStorage.removeItem('crewGameSave');
+    }
     console.log('Game state initialized');
+  },
+
+  saveGame: () => {
+    const state = get();
+    if (state.isRunning && state.currentIndex < 8) {
+      const gameData = {
+        profiles: state.profiles,
+        currentIndex: state.currentIndex,
+        score: state.score,
+        timeLeft: state.timeLeft
+      };
+      localStorage.setItem('crewGameSave', JSON.stringify(gameData));
+      console.log('Game progress saved');
+    }
+  },
+
+  checkForSavedGame: () => {
+    const savedGame = localStorage.getItem('crewGameSave');
+    return savedGame !== null;
   },
 
   act: (action) => {
@@ -185,13 +232,16 @@ export const useRecruitmentZustand = create(
   },
 
   resetGame:() => {
+    // Clear saved game when resetting
+    localStorage.removeItem('crewGameSave');
     set({
       profiles: [],
       currentIndex: 0,
       score: 0,
       timeLeft: 60,
       isRunning: false,
-      selectedCrew: null
+      selectedCrew: null,
+      hasSavedGame: false
     })
   },
 
@@ -294,6 +344,9 @@ export const useRecruitmentZustand = create(
   },
 
   handleGameEnd: (finalScore) => {
+    // Clear saved game on completion
+    localStorage.removeItem('crewGameSave');
+    
     const unlockedCrew = get().unlockedCrew;
     const hiredCrew = get().hiredCrew;
     let eligibleCrew;

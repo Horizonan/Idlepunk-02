@@ -83,6 +83,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   };
   const isRunning = useRecruitmentZustand(state => state.isRunning);
   const startGame = useRecruitmentZustand(state => state.startGame);
+  const checkForSavedGame = useRecruitmentZustand(state => state.checkForSavedGame);
 
   // Get crew data at component level
   const hiredCrew = useRecruitmentZustand(state => state.hiredCrew);
@@ -159,17 +160,38 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                   </div>
                 </div>
               )}
-                <button 
-                  type="button"
-                  onClick={() => {
-                  if(Number(localStorage.getItem('credits')) >= 10){
-                    setCredits(prev => prev - 10);
-                    startGame();
-                  }
-                  }}
-                  className="search-recruits-button" >
-                  🔍 Search for Recruits (10 Credits)
-                </button>
+                {checkForSavedGame() ? (
+                  <div className="recruitment-buttons">
+                    <button 
+                      type="button"
+                      onClick={() => startGame(false)}
+                      className="search-recruits-button resume-button">
+                      📂 Resume Game (Free)
+                    </button>
+                    <button 
+                      type="button"
+                      onClick={() => {
+                        if(Number(localStorage.getItem('credits')) >= 10){
+                          setCredits(prev => prev - 10);
+                          startGame(true);
+                        }
+                      }}
+                      className="search-recruits-button new-game-button">
+                      🔍 New Search (10 Credits)
+                    </button>
+                  </div>
+                ) : (
+                  <button 
+                    type="button"
+                    onClick={() => {
+                      if(Number(localStorage.getItem('credits')) >= 10){
+                        setCredits(prev => prev - 10);
+                        startGame(true);
+                      }
+                    }}
+                    className="search-recruits-button">
+                    🔍 Search for Recruits (10 Credits)
+                  </button>
               </div>
 
           <div className="recruit-list">
