@@ -245,50 +245,7 @@
     padding: 12px !important;
   }
 
-  /* Store container mobile optimization */
-  .store-container {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    max-height: 100vh !important;
-    transform: none !important;
-    padding: 20px !important;
-    z-index: 1300 !important;
-    overflow-y: auto !important;
-    box-sizing: border-box !important;
-  }
-
-  .store-items {
-    grid-template-columns: 1fr !important;
-    gap: 10px !important;
-    height: calc(100% - 100px) !important;
-    overflow-y: auto !important;
-  }
-
-  .store-item {
-    padding: 12px !important;
-  }
-
-  /* Store tabs mobile */
-  .store-tabs {
-    flex-wrap: wrap !important;
-    gap: 6px !important;
-    margin-bottom: 15px !important;
-    flex-shrink: 0 !important;
-  }
-
-  .store-tab {
-    padding: 6px 10px !important;
-    font-size: 0.8em !important;
-    flex: 1 !important;
-    min-width: 70px !important;
-    text-align: center !important;
-    border-radius: 15px !important;
-  }
+  
 
   /* Notifications positioning */
   .notifications-container {

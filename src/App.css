@@ -13,8 +13,8 @@
 @import './styles/UiBackground/holoBillboard.css';
 @import './styles/storeMenu.css';
 @import './styles/UpgradeStats.css';
-@import './styles/SkillsMobile.css';
-@import './styles/StoreMobile.css';
+@import './styles/mobile/SkillsMobile.css';
+@import './styles/mobile/StoreMobile.css';
 
 
 .uncraftable {
