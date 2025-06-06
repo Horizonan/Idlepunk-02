@@ -127,10 +127,21 @@ export const missions = {
     penalties: {
       failure: {
         credits: -250,
-        crewStamina: -60
+        crewStamina: -60,
+        messagePool: [
+          'Void exposure overwhelmed the crew.',
+          'Reality distortion caused mission failure.',
+          'The void consumed our equipment.',
+          'Crew lost in dimensional rifts.'
+        ]
       }
-    }
-    
+    },
+    successMessages: [
+      'Void successfully navigated!',
+      'Harvested rare void fragments.',
+      'Crew returned with void knowledge.',
+      'Reality remained intact during extraction.'
+    ]
   }
 };
 

@@ -581,7 +581,9 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                             // Reset mini-game bonus state and clear selected crew from store
                             useRecruitmentZustand.setState({ 
                               miniGameBonus: { rewardChanceBonus: 0, successPenalty: 0 },
-                              selectedCrew: []
+                              selectedCrew: [],
+                              activeMission: null,
+                              missionStartTime: null
                             });
                           }}
                         >
