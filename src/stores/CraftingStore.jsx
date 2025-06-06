@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import '../styles/CraftingMobile.css';
-import TooltipWrapper from '../components/TooltipWrapper';
 
 const formatJunkCost = (cost, hasBooster) => {
   if (hasBooster) {
@@ -191,47 +190,23 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
           <div className="crafting-section">
             <h3>Basic Materials</h3>
             <div className="store-items">
-              {basicMaterials.map((item) => {
-                const tooltipData = {
-                  name: item.name,
-                  subtitle: "Basic Material",
-                  description: item.description,
-                  price: item.cost || 0,
-                  currency: "Junk",
-                  owned: craftingInventory[item.name] || 0,
-                  effects: item.uncraftable ? [
-                    {
-                      label: "Status",
-                      value: "Cannot be crafted",
-                      prefix: "",
-                      suffix: ""
-                    }
-                  ] : []
-                };
-
-                return (
-                  <TooltipWrapper 
-                    key={item.name}
-                    tooltipData={tooltipData}
-                    gameState={{ junk, craftingInventory }}
-                  >
-                    <button
-                      onClick={() => !item.uncraftable && onCraft(item)}
-                      disabled={item.uncraftable || !canCraft(item)}
-                      className={`store-item ${item.uncraftable ? 'uncraftable' : ''}`}
-                    >
-                      <div className="item-header">
-                        <strong>{item.name}</strong>
-                        {item.cost && <span className="cost">({formatJunkCost(item.cost, craftingInventory['Crafting Booster Unit'])} Junk)</span>}
-                      </div>
-                      <div className="item-info">
-                        <p>{item.description}</p>
-                        <p className="owned">Owned: {craftingInventory[item.name] || 0}</p>
-                      </div>
-                    </button>
-                  </TooltipWrapper>
-                );
-              })}
+              {basicMaterials.map((item) => (
+                <button
+                  key={item.name}
+                  onClick={() => !item.uncraftable && onCraft(item)}
+                  disabled={item.uncraftable || !canCraft(item)}
+                  className={`store-item ${item.uncraftable ? 'uncraftable' : ''}`}
+                >
+                  <div className="item-header">
+                    <strong>{item.name}</strong>
+                    {item.cost && <span className="cost">({formatJunkCost(item.cost, craftingInventory['Crafting Booster Unit'])} Junk)</span>}
+                  </div>
+                  <div className="item-info">
+                    <p>{item.description}</p>
+                    <p className="owned">Owned: {craftingInventory[item.name] || 0}</p>
+                  </div>
+                </button>
+              ))}
             </div>
           </div>
         )}
@@ -240,54 +215,30 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
           <div className="crafting-section">
             <h3>Craftable Items</h3>
             <div className="store-items">
-              {craftableItems.filter(item => !item.onetime || !craftingInventory[item.name]).map((item) => {
-                const requirements = item.requirements ? Object.entries(item.requirements).map(([mat, count]) => ({
-                  label: mat,
-                  current: craftingInventory[mat] || 0,
-                  required: count,
-                  met: (craftingInventory[mat] || 0) >= count
-                })) : [];
-
-                const tooltipData = {
-                  name: item.name,
-                  subtitle: "Craftable Item",
-                  description: item.description,
-                  price: item.cost || 0,
-                  currency: "Junk",
-                  owned: craftingInventory[item.name] || 0,
-                  requirements: requirements
-                };
-
-                return (
-                  <TooltipWrapper 
-                    key={item.name}
-                    tooltipData={tooltipData}
-                    gameState={{ junk, craftingInventory }}
-                  >
-                    <button
-                      onClick={() => onCraft(item)}
-                      disabled={!canCraft(item)}
-                      className="store-item"
-                    >
-                      <div className="item-header">
-                        <strong>{item.name}</strong>
+              {craftableItems.filter(item => !item.onetime || !craftingInventory[item.name]).map((item) => (
+                <button
+                  key={item.name}
+                  onClick={() => onCraft(item)}
+                  disabled={!canCraft(item)}
+                  className="store-item"
+                >
+                  <div className="item-header">
+                    <strong>{item.name}</strong>
+                  </div>
+                  <div className="item-info">
+                    <p>{item.description}</p>
+                    {item.requirements && (
+                      <div>
+                        <p>Requirements:</p>
+                        {Object.entries(item.requirements).map(([mat, count]) => (
+                          <p key={mat}>- {mat}: {count} ({craftingInventory[mat] || 0} owned)</p>
+                        ))}
                       </div>
-                      <div className="item-info">
-                        <p>{item.description}</p>
-                        {item.requirements && (
-                          <div>
-                            <p>Requirements:</p>
-                            {Object.entries(item.requirements).map(([mat, count]) => (
-                              <p key={mat}>- {mat}: {count} ({craftingInventory[mat] || 0} owned)</p>
-                            ))}
-                          </div>
-                        )}
-                        {item.cost && <p>Cost: {formatJunkCost(item.cost, craftingInventory['Crafting Booster Unit'])} Junk</p>}
-                      </div>
-                    </button>
-                  </TooltipWrapper>
-                );
-              })}
+                    )}
+                    {item.cost && <p>Cost: {formatJunkCost(item.cost, craftingInventory['Crafting Booster Unit'])} Junk</p>}
+                  </div>
+                </button>
+              ))}
             </div>
           </div>
         )}
@@ -296,54 +247,30 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
           <div className="crafting-section">
             <h3>Consumables</h3>
             <div className="store-items">
-              {consumableItems.map((item) => {
-                const requirements = item.requirements ? Object.entries(item.requirements).map(([mat, count]) => ({
-                  label: mat,
-                  current: craftingInventory[mat] || 0,
-                  required: count,
-                  met: (craftingInventory[mat] || 0) >= count
-                })) : [];
-
-                const tooltipData = {
-                  name: item.name,
-                  subtitle: "Consumable",
-                  description: item.description,
-                  price: item.cost || 0,
-                  currency: "Junk",
-                  owned: craftingInventory[item.name] || 0,
-                  requirements: requirements
-                };
-
-                return (
-                  <TooltipWrapper 
-                    key={item.name}
-                    tooltipData={tooltipData}
-                    gameState={{ junk, craftingInventory }}
-                  >
-                    <button
-                      onClick={() => onCraft(item)}
-                      disabled={!canCraft(item)}
-                      className="store-item"
-                    >
-                      <div className="item-header">
-                        <strong>{item.name}</strong>
+              {consumableItems.map((item) => (
+                <button
+                  key={item.name}
+                  onClick={() => onCraft(item)}
+                  disabled={!canCraft(item)}
+                  className="store-item"
+                >
+                  <div className="item-header">
+                    <strong>{item.name}</strong>
+                  </div>
+                  <div className="item-info">
+                    <p>{item.description}</p>
+                    {item.requirements && (
+                      <div>
+                        <p>Requirements:</p>
+                        {Object.entries(item.requirements).map(([mat, count]) => (
+                          <p key={mat}>- {mat}: {count} ({craftingInventory[mat] || 0} owned)</p>
+                        ))}
                       </div>
-                      <div className="item-info">
-                        <p>{item.description}</p>
-                        {item.requirements && (
-                          <div>
-                            <p>Requirements:</p>
-                            {Object.entries(item.requirements).map(([mat, count]) => (
-                              <p key={mat}>- {mat}: {count} ({craftingInventory[mat] || 0} owned)</p>
-                            ))}
-                          </div>
-                        )}
-                        <p className="owned">Owned: {craftingInventory[item.name] || 0}</p>
-                      </div>
-                    </button>
-                  </TooltipWrapper>
-                );
-              })}
+                    )}
+                    <p className="owned">Owned: {craftingInventory[item.name] || 0}</p>
+                  </div>
+                </button>
+              ))}
             </div>
           </div>
         )}
@@ -353,115 +280,78 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
             <h3>Mysterious Items</h3>
 
             <div className="store-items">
-              {craftingInventory['Synthcore Fragment'] >= 1 && (
-                <TooltipWrapper 
-                  tooltipData={{
-                    name: '💎 Prestige Crystal',
-                    subtitle: "Mysterious Item",
-                    description: 'A mysterious crystal pulsing with otherworldly power',
-                    price: 10000000,
-                    currency: "Junk",
-                    owned: craftingInventory['Prestige Crystal'] || 0,
-                    requirements: [
-                      { label: 'Stabilized Capacitor', current: craftingInventory['Stabilized Capacitor'] || 0, required: 1, met: (craftingInventory['Stabilized Capacitor'] || 0) >= 1 },
-                      { label: 'Voltage Node', current: craftingInventory['Voltage Node'] || 0, required: 1, met: (craftingInventory['Voltage Node'] || 0) >= 1 },
-                      { label: 'Synthcore Fragment', current: craftingInventory['Synthcore Fragment'] || 0, required: 1, met: (craftingInventory['Synthcore Fragment'] || 0) >= 1 },
-                      { label: 'Quantum Entangler', current: craftingInventory['Quantum Entangler'] || 0, required: 1, met: (craftingInventory['Quantum Entangler'] || 0) >= 1 }
-                    ]
-                  }}
-                  gameState={{ junk, craftingInventory }}
-                >
-                  <button
-                    onClick={() => onCraft({
-                      name: 'Prestige Crystal',
-                      requirements: {
-                        'Stabilized Capacitor': 1,
-                        'Voltage Node': 1,
-                        'Synthcore Fragment': 1,
-                        'Quantum Entangler': 1
-                      },
-                      cost: 10000000,
-                      description: 'A mysterious crystal pulsing with otherworldly power',
-                      type: 'mysterious',
-                      icon: '💎'
-                    })}
-                    disabled={!canCraft({
-                      requirements: {
-                        'Stabilized Capacitor': 1,
-                        'Voltage Node': 1,
-                        'Synthcore Fragment': 1,
-                        'Quantum Entangler': 1
-                      },
-                      cost: 10000000
-                    })}
-                    className="store-item mysterious"
-                  >
-                    <div className="item-header">
-                      <strong>💎 Prestige Crystal</strong>
-                    </div>
-                    <div className="item-info">
-                      <p>A mysterious crystal pulsing with otherworldly power</p>
-                      <p>Requirements:</p>
-                      <p>- Junk: {formatJunkCost(10000000, craftingInventory['Crafting Booster Unit'])}</p>
-                      <p>- Stabilized Capacitor: 1 ({craftingInventory['Stabilized Capacitor'] || 0} owned)</p>
-                      <p>- Voltage Node: 1 ({craftingInventory['Voltage Node'] || 0} owned)</p>
-                      <p>- Synthcore Fragment: 1 ({craftingInventory['Synthcore Fragment'] || 0} owned)</p>
-                      <p>- Quantum Entangler: 1 ({craftingInventory['Quantum Entangler'] || 0} owned)</p>
-                    </div>
-                  </button>
-                </TooltipWrapper>
-              )}
+              {craftingInventory['Synthcore Fragment'] >= 1 && (<button
+                onClick={() => onCraft({
+                  name: 'Prestige Crystal',
+                  requirements: {
+                    'Stabilized Capacitor': 1,
+                    'Voltage Node': 1,
+                    'Synthcore Fragment': 1,
+                    'Quantum Entangler': 1
+                  },
+                  cost: 10000000,
+                  description: 'A mysterious crystal pulsing with otherworldly power',
+                  type: 'mysterious',
+                  icon: '💎'
+                })}
+                disabled={!canCraft({
+                  requirements: {
+                    'Stabilized Capacitor': 1,
+                    'Voltage Node': 1,
+                    'Synthcore Fragment': 1,
+                    'Quantum Entangler': 1
+                  },
+                  cost: 10000000
+                })}
+                className="store-item mysterious"
+              >
+                <div className="item-header">
+                  <strong>💎 Prestige Crystal</strong>
+                </div>
+                <div className="item-info">
+                  <p>A mysterious crystal pulsing with otherworldly power</p>
+                  <p>Requirements:</p>
+                  <p>- Junk: {formatJunkCost(10000000, craftingInventory['Crafting Booster Unit'])}</p>
+                  <p>- Stabilized Capacitor: 1 ({craftingInventory['Stabilized Capacitor'] || 0} owned)</p>
+                  <p>- Voltage Node: 1 ({craftingInventory['Voltage Node'] || 0} owned)</p>
+                  <p>- Synthcore Fragment: 1 ({craftingInventory['Synthcore Fragment'] || 0} owned)</p>
+                  <p>- Quantum Entangler: 1 ({craftingInventory['Quantum Entangler'] || 0} owned)</p>
+                </div>
+              </button>)}
               
             {localStorage.getItem('quest_sync_Beacon Protocol') === 'true' && (
-              <TooltipWrapper 
-                tooltipData={{
-                  name: '💎 Overcharged Prestige Crystal',
-                  subtitle: "Mysterious Item",
+              <button
+                onClick={() => onCraft({
+                  name: 'Overcharged Prestige Crystal',
+                  requirements: {
+                    'Encrypted Coil': 1,
+                    'Surge Capacitor Fragment': 1,
+                  },
+                  cost: 25000000,
                   description: 'A mysterious crystal pulsing with otherworldly power',
-                  price: 25000000,
-                  currency: "Junk",
-                  owned: craftingInventory['Overcharged Prestige Crystal'] || 0,
-                  requirements: [
-                    { label: 'Encrypted Coil', current: craftingInventory['Encrypted Coil'] || 0, required: 1, met: (craftingInventory['Encrypted Coil'] || 0) >= 1 },
-                    { label: 'Surge Capacitor Fragment', current: craftingInventory['Surge Capacitor Fragment'] || 0, required: 1, met: (craftingInventory['Surge Capacitor Fragment'] || 0) >= 1 }
-                  ]
-                }}
-                gameState={{ junk, craftingInventory }}
+                  type: 'mysterious',
+                  icon: '💎'
+                })}
+                disabled={!canCraft({
+                  requirements: {
+                    'Encrypted Coil': 1,
+                    'Surge Capacitor Fragment': 1
+                  },
+                  cost: 25000000
+                })}
+                className="store-item mysterious"
               >
-                <button
-                  onClick={() => onCraft({
-                    name: 'Overcharged Prestige Crystal',
-                    requirements: {
-                      'Encrypted Coil': 1,
-                      'Surge Capacitor Fragment': 1,
-                    },
-                    cost: 25000000,
-                    description: 'A mysterious crystal pulsing with otherworldly power',
-                    type: 'mysterious',
-                    icon: '💎'
-                  })}
-                  disabled={!canCraft({
-                    requirements: {
-                      'Encrypted Coil': 1,
-                      'Surge Capacitor Fragment': 1
-                    },
-                    cost: 25000000
-                  })}
-                  className="store-item mysterious"
-                >
-                  <div className="item-header">
-                    <strong>💎 Overcharged Prestige Crystal</strong>
-                  </div>
-                  <div className="item-info">
-                    <p>A mysterious crystal pulsing with otherworldly power</p>
-                    <p>Requirements:</p>
-                    <p>- Junk: {formatJunkCost(25000000, craftingInventory['Crafting Booster Unit'])}</p>
-                    <p>- Encrypted Coil: 1 ({craftingInventory['Encrypted Coil'] || 0} owned)</p>
-                    <p>- Surge Capacitor Fragment: 1 ({craftingInventory['Surge Capacitor Fragment'] || 0} owned)</p>
-                  </div>
-                </button>
-              </TooltipWrapper>
-            )}
+                <div className="item-header">
+                  <strong>💎Overcharged Prestige Crystal</strong>
+                </div>
+                <div className="item-info">
+                  <p>A mysterious crystal pulsing with otherworldly power</p>
+                  <p>Requirements:</p>
+                  <p>- Junk: {formatJunkCost(25000000, craftingInventory['Overcharged Prestige Crystal'])}</p>
+                  <p>- Encrypted Coil: 1 ({craftingInventory['Encrypted Coil'] || 0} owned)</p>
+                  <p>- Surge Capacitor Fragment: 1 ({craftingInventory['Surge Capacitor Fragment'] || 0} owned)</p>
+                </div>
+              </button>)}
             </div>
 
             {/* Reset Recipe Button - Bottom of section */}
