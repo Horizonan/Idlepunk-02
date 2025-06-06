@@ -148,7 +148,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         return;
                       }
                       
-                      // Show internal confirmation popup
+                      // Show styled confirmation popup that matches game UI
                       const confirmPopup = document.createElement('div');
                       confirmPopup.className = 'crew-fire-confirm-popup';
                       confirmPopup.innerHTML = `
@@ -164,10 +164,12 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                           <div class="confirm-buttons">
                             <button class="confirm-fire-button" onclick="
                               document.querySelector('.crew-fire-confirm-popup').remove();
-                              useRecruitmentZustand.setState(state => ({
+                              const state = useRecruitmentZustand.getState();
+                              const crewToFire = state.hiredCrew.find(c => c.id === '${crew.id}');
+                              useRecruitmentZustand.setState({
                                 hiredCrew: state.hiredCrew.filter(c => c.id !== '${crew.id}'),
-                                unlockedCrew: [...state.unlockedCrew, state.hiredCrew.find(c => c.id === '${crew.id}')]
-                              }));
+                                unlockedCrew: [...state.unlockedCrew, crewToFire]
+                              });
                             ">
                               🔥 FIRE CREW MEMBER
                             </button>
