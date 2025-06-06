@@ -1685,3 +1685,132 @@ button.locked {
     transform: scale(1.1);
   }
 }
+
+/* End of Road UI Styles */
+.end-of-road-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2000;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f172a 100%);
+  border: 3px solid #9400D3;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 
+    0 0 30px rgba(148, 0, 211, 0.8),
+    inset 0 0 20px rgba(148, 0, 211, 0.2);
+  max-width: 500px;
+  width: 90%;
+  animation: endOfRoadGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes endOfRoadGlow {
+  0% {
+    box-shadow: 
+      0 0 30px rgba(148, 0, 211, 0.8),
+      inset 0 0 20px rgba(148, 0, 211, 0.2);
+  }
+  100% {
+    box-shadow: 
+      0 0 50px rgba(148, 0, 211, 1),
+      inset 0 0 30px rgba(148, 0, 211, 0.4);
+  }
+}
+
+.end-of-road-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #9400D3;
+  padding-bottom: 15px;
+}
+
+.end-of-road-header h2 {
+  color: #FF00FF;
+  font-size: 1.8em;
+  margin: 0;
+  text-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
+}
+
+.prestige-badge {
+  background: linear-gradient(45deg, #9400D3, #FF00FF);
+  color: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 1.1em;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.end-of-road-message {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #E0E0E0;
+  line-height: 1.6;
+}
+
+.end-of-road-message p {
+  margin: 10px 0;
+  font-size: 1.1em;
+}
+
+.end-of-road-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: rgba(148, 0, 211, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 0, 211, 0.3);
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(148, 0, 211, 0.2);
+}
+
+.stat-item:last-child {
+  border-bottom: none;
+}
+
+.stat-label {
+  color: #B0B0B0;
+  font-weight: 500;
+}
+
+.stat-value {
+  color: #00FF88;
+  font-weight: bold;
+  font-size: 1.1em;
+  text-shadow: 0 0 5px rgba(0, 255, 136, 0.6);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .end-of-road-container {
+    padding: 20px;
+    max-width: 95%;
+  }
+
+  .end-of-road-header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .end-of-road-header h2 {
+    font-size: 1.5em;
+  }
+
+  .stat-item {
+    flex-direction: column;
+    gap: 5px;
+    text-align: center;
+  }
+}
