@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/Store.css";
+import TooltipWrapper from "../components/TooltipWrapper";
 
 export default function Store({
   credits, itemCosts, ownedItems, craftingInventory, onBuyTrashBag,
@@ -198,30 +199,61 @@ export default function Store({
   // Combined Items for rendering
   const renderItems = (items) => (
     <div className="store-items">
-      {items.map((item) => (
-        <button
-          key={item.name}
-          onClick={item.action}
-          disabled={credits < (item.cost.junk || item.cost) || (item.unlockCondition && !item.unlockCondition())}
-          className={`store-item ${item.disabled || (item.unlockCondition && !item.unlockCondition()) ? "disabled" : ""}`}
-        >
-          <div className="item-header">
-            <strong>{item.name}</strong>
-            <span className="cost">
-              ({typeof item.cost === 'object' ? formatNumber(item.cost.junk) : formatNumber(item.cost)} Junk
-              {item.cost.scrapCores
-                ? ` + ${item.cost.scrapCores} Scrap Cores`
-                : ""}
-              )
-            </span>
-          </div>
-          <div className="item-info">
-            <p>{item.description}</p>
-            <p>{item.info}</p>
-            <p className="owned">Owned: {item.purchasedCount}</p>
-          </div>
-        </button>
-      ))}
+      {items.map((item) => {
+        const tooltipData = {
+          name: item.name,
+          subtitle: "Store Item",
+          description: item.info || item.description,
+          price: typeof item.cost === 'object' ? item.cost.junk : item.cost,
+          currency: "Junk",
+          owned: item.purchasedCount,
+          effects: [
+            {
+              label: "Effect",
+              value: item.description,
+              prefix: "",
+              suffix: ""
+            }
+          ],
+          requirements: item.cost.scrapCores ? [
+            {
+              label: "Scrap Cores",
+              current: craftingInventory?.["Scrap Core"] || 0,
+              required: item.cost.scrapCores,
+              met: (craftingInventory?.["Scrap Core"] || 0) >= item.cost.scrapCores
+            }
+          ] : []
+        };
+
+        return (
+          <TooltipWrapper 
+            key={item.name}
+            tooltipData={tooltipData}
+            gameState={{ junk: credits, craftingInventory }}
+          >
+            <button
+              onClick={item.action}
+              disabled={credits < (item.cost.junk || item.cost) || (item.unlockCondition && !item.unlockCondition())}
+              className={`store-item ${item.disabled || (item.unlockCondition && !item.unlockCondition()) ? "disabled" : ""}`}
+            >
+              <div className="item-header">
+                <strong>{item.name}</strong>
+                <span className="cost">
+                  ({typeof item.cost === 'object' ? formatNumber(item.cost.junk) : formatNumber(item.cost)} Junk
+                  {item.cost.scrapCores
+                    ? ` + ${item.cost.scrapCores} Scrap Cores`
+                    : ""}
+                  )
+                </span>
+              </div>
+              <div className="item-info">
+                <p>{item.description}</p>
+                <p className="owned">Owned: {item.purchasedCount}</p>
+              </div>
+            </button>
+          </TooltipWrapper>
+        );
+      })}
     </div>
   );
 

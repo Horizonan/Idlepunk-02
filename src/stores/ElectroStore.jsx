@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/Store.css';
+import TooltipWrapper from '../components/TooltipWrapper';
 
 export default function ElectroStore({ 
   electroShards, tronics, onBuyTronicsBoost, onBuyQuantumTap, 
@@ -183,26 +184,56 @@ export default function ElectroStore({
       }).map((item) => {
         const canAfford = (item.cost.tronics ? tronics >= item.cost.tronics : true) && 
                          (item.cost.shards ? electroShards >= item.cost.shards : true);
+        
+        const tooltipData = {
+          name: item.name,
+          subtitle: "Electro Store Item",
+          description: item.info || item.description,
+          price: item.cost.tronics || 0,
+          currency: "Tronics",
+          owned: item.purchasedCount,
+          effects: [
+            {
+              label: "Effect",
+              value: item.description,
+              prefix: "",
+              suffix: ""
+            }
+          ],
+          requirements: item.cost.shards ? [
+            {
+              label: "Electro Shards",
+              current: electroShards,
+              required: item.cost.shards,
+              met: electroShards >= item.cost.shards
+            }
+          ] : []
+        };
+
         return (
-          <button
+          <TooltipWrapper 
             key={item.name}
-            onClick={item.action}
-            disabled={!canAfford || !item.unlockCondition()}
-            className={`store-item ${!canAfford || !item.unlockCondition() ? 'disabled' : ''}`}
+            tooltipData={tooltipData}
+            gameState={{ tronics, electroShards }}
           >
-            <div className="item-header">
-              <strong>{item.name}</strong>
-              <span className="cost">
-                {item.cost.tronics ? `${formatNumber(item.cost.tronics)} Tronics` : ''}
-                {item.cost.shards ? `${item.cost.shards} Shards` : ''}
-              </span>
-            </div>
-            <div className="item-info">
-              <p>{item.description}</p>
-              <p>{item.info}</p>
-              <p className="owned">Owned: {item.purchasedCount}</p>
-            </div>
-          </button>
+            <button
+              onClick={item.action}
+              disabled={!canAfford || !item.unlockCondition()}
+              className={`store-item ${!canAfford || !item.unlockCondition() ? 'disabled' : ''}`}
+            >
+              <div className="item-header">
+                <strong>{item.name}</strong>
+                <span className="cost">
+                  {item.cost.tronics ? `${formatNumber(item.cost.tronics)} Tronics` : ''}
+                  {item.cost.shards ? `${item.cost.shards} Shards` : ''}
+                </span>
+              </div>
+              <div className="item-info">
+                <p>{item.description}</p>
+                <p className="owned">Owned: {item.purchasedCount}</p>
+              </div>
+            </button>
+          </TooltipWrapper>
         );
       })}
     </div>
