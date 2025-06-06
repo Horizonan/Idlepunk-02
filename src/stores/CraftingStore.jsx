@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../styles/CraftingMobile.css';
 
 const formatJunkCost = (cost, hasBooster) => {
   if (hasBooster) {

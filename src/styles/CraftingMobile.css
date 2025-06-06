@@ -1,0 +1,273 @@
+
+/* Mobile-Only Crafting Station Styles */
+@media (max-width: 768px) {
+  /* Crafting Store Container - Full screen mobile optimization */
+  .store-container {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    transform: none !important;
+    padding: 10px !important;
+    z-index: 1300 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    background: rgba(26, 26, 26, 0.98) !important;
+    border: 2px solid #9400D3 !important;
+  }
+
+  /* Compact Header */
+  .store-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 8px 12px !important;
+    margin-bottom: 10px !important;
+    background: rgba(148, 0, 211, 0.1) !important;
+    border-radius: 8px !important;
+    border-bottom: 1px solid #9400D3 !important;
+    flex-shrink: 0 !important;
+  }
+
+  .store-header h2 {
+    font-size: 1.2em !important;
+    margin: 0 !important;
+    color: #9400D3 !important;
+    text-align: left !important;
+  }
+
+  .store-header button {
+    padding: 6px 12px !important;
+    font-size: 0.8em !important;
+    background: #222 !important;
+    border: 1px solid #9400D3 !important;
+    color: #00FF00 !important;
+    border-radius: 4px !important;
+    min-height: 32px !important;
+  }
+
+  /* Mobile-optimized tabs - Stack vertically */
+  .crafting-tabs {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: auto auto !important;
+    gap: 6px !important;
+    margin-bottom: 15px !important;
+    padding: 0 !important;
+    border-bottom: none !important;
+    flex-shrink: 0 !important;
+  }
+
+  .tab-button {
+    padding: 8px 6px !important;
+    font-size: 0.75em !important;
+    text-align: center !important;
+    border-radius: 6px !important;
+    background: rgba(34, 34, 34, 0.9) !important;
+    border: 1px solid #9400D3 !important;
+    color: white !important;
+    transition: all 0.3s ease !important;
+    min-height: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    word-wrap: break-word !important;
+    hyphens: auto !important;
+  }
+
+  .tab-button.active {
+    background: #9400D3 !important;
+    color: white !important;
+    border-color: #00FF00 !important;
+  }
+
+  /* Crafting Content Area */
+  .crafting-content {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: calc(100vh - 120px) !important;
+  }
+
+  .crafting-section {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .crafting-section h3 {
+    color: #9400D3 !important;
+    text-align: center !important;
+    margin: 0 0 15px 0 !important;
+    font-size: 1em !important;
+    padding: 8px !important;
+    background: rgba(148, 0, 211, 0.1) !important;
+    border-radius: 6px !important;
+  }
+
+  /* Store Items Grid - Single column for mobile */
+  .store-items {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Individual Store Items */
+  .store-item {
+    padding: 12px !important;
+    margin: 0 !important;
+    background: rgba(34, 34, 34, 0.95) !important;
+    border: 2px solid #9400D3 !important;
+    border-radius: 8px !important;
+    color: white !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    min-height: auto !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .store-item:disabled {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+  }
+
+  .store-item:not(:disabled):active {
+    transform: scale(0.98) !important;
+    background: rgba(148, 0, 211, 0.2) !important;
+  }
+
+  .store-item.uncraftable {
+    border-color: #666 !important;
+    background: rgba(34, 34, 34, 0.5) !important;
+  }
+
+  .store-item.mysterious {
+    border: 2px solid #FF00FF !important;
+    background: rgba(255, 0, 255, 0.1) !important;
+  }
+
+  /* Item Content Layout */
+  .item-header {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    margin-bottom: 8px !important;
+    gap: 4px !important;
+  }
+
+  .item-header strong {
+    font-size: 0.9em !important;
+    color: #00FF00 !important;
+    margin: 0 !important;
+    word-wrap: break-word !important;
+  }
+
+  .item-header .cost {
+    font-size: 0.75em !important;
+    color: #9400D3 !important;
+    font-weight: normal !important;
+  }
+
+  .item-info {
+    font-size: 0.8em !important;
+    line-height: 1.3 !important;
+  }
+
+  .item-info p {
+    margin: 3px 0 !important;
+    color: #ccc !important;
+    word-wrap: break-word !important;
+  }
+
+  .item-info .owned {
+    color: #00FF00 !important;
+    font-weight: bold !important;
+    margin-top: 6px !important;
+  }
+
+  /* Requirements section */
+  .item-info div {
+    margin-top: 6px !important;
+    padding: 6px !important;
+    background: rgba(0, 0, 0, 0.3) !important;
+    border-radius: 4px !important;
+    border-left: 2px solid #9400D3 !important;
+  }
+
+  .item-info div p:first-child {
+    color: #9400D3 !important;
+    font-weight: bold !important;
+    margin-bottom: 4px !important;
+  }
+
+  .item-info div p:not(:first-child) {
+    font-size: 0.75em !important;
+    margin: 2px 0 !important;
+    padding-left: 10px !important;
+  }
+
+  /* Touch-friendly sizing */
+  .store-item,
+  .tab-button {
+    min-height: 44px !important;
+    touch-action: manipulation !important;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .crafting-content::-webkit-scrollbar {
+    width: 3px !important;
+  }
+
+  .crafting-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .crafting-content::-webkit-scrollbar-thumb {
+    background: rgba(148, 0, 211, 0.5) !important;
+    border-radius: 3px !important;
+  }
+}
+
+/* Very small mobile screens */
+@media (max-width: 400px) {
+  .store-header h2 {
+    font-size: 1em !important;
+  }
+
+  .tab-button {
+    font-size: 0.7em !important;
+    padding: 6px 4px !important;
+  }
+
+  .item-header strong {
+    font-size: 0.85em !important;
+  }
+
+  .item-info {
+    font-size: 0.75em !important;
+  }
+
+  .item-info div p:not(:first-child) {
+    font-size: 0.7em !important;
+  }
+}
+
+/* Landscape mobile adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+  .crafting-tabs {
+    grid-template-columns: repeat(4, 1fr) !important;
+    grid-template-rows: auto !important;
+  }
+
+  .crafting-content {
+    height: calc(100vh - 100px) !important;
+  }
+}
