@@ -47,8 +47,7 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
 
         if (actualRunTime > 0) {
           // Calculate fuel consumption
-          const fuelConsumed = actualRunTime * fuelConsumptionPerSecond;
-          remainingFuel = Math.max(0, remainingFuel - fuelConsumed);
+          remainingFuel = Math.max(0, remainingFuel - (actualRunTime * fuelConsumptionPerSecond));
 
           // Calculate credit generation cycles
           let timeProcessed = 0;
@@ -72,26 +71,18 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
           localStorage.setItem('scratzMinerFuel', remainingFuel.toString());
           localStorage.setItem('scratzMinerTimeUntilNext', timeUntilNext.toString());
 
-          // Generate credits
+          // Generate credits and show notification
           if (creditsGenerated > 0) {
             onGenerateCredits(creditsGenerated);
-          }
-
-          // Store offline progress data for main popup
-          if (creditsGenerated > 0 || actualRunTime > 60) { // Only if significant progress
-            const existingOfflineData = JSON.parse(localStorage.getItem('offlineProgressData') || '{}');
-            const mergedData = {
-              ...existingOfflineData,
-              scratzMiner: {
-                creditsGenerated,
-                fuelConsumed: fuelConsumed,
-                actualRunTime
-              },
-              timeOffline: Math.max(existingOfflineData.timeOffline || 0, timeElapsed),
-              showPopup: true
-            };
-            
-            localStorage.setItem('offlineProgressData', JSON.stringify(mergedData));
+            const hoursOffline = Math.floor(actualRunTime / 3600);
+            const minutesOffline = Math.floor((actualRunTime % 3600) / 60);
+            let timeString = '';
+            if (hoursOffline > 0) {
+              timeString = `${hoursOffline}h ${minutesOffline}m`;
+            } else {
+              timeString = `${minutesOffline}m`;
+            }
+            setNotifications(prevNotifs => [...prevNotifs, `Scratz Miner generated ${creditsGenerated} Credits while offline! (${timeString})`]);
           }
         } else {
           // No fuel, miner was offline
