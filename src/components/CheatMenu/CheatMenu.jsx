@@ -127,6 +127,43 @@ export default function CheatMenu({
           localStorage.setItem('skillLevels', JSON.stringify(skillLevels));
           window.location.reload();
         }, type: 'secondary' },
+        { name: 'Prestige Ready Kit 2', action: () => {
+          // Set up for second prestige requirements
+          onAddJunk(100000000); // 100M junk for comfortable second prestige
+          setCredits(prev => prev + 2500); // Lots of credits for missions and gear
+          onAddElectroShard(25); // Extra shards for upgrades
+          
+          // Add materials needed for Overcharged Prestige Crystal
+          setCraftingInventory(prev => ({
+            ...prev,
+            'Encrypted Coil': (prev['Encrypted Coil'] || 0) + 3,
+            'Surge Capacitor Fragment': (prev['Surge Capacitor Fragment'] || 0) + 3,
+            'Voltage Node': (prev['Voltage Node'] || 0) + 2,
+            'Synthcore Fragment': (prev['Synthcore Fragment'] || 0) + 2,
+            'Quantum Entangler': (prev['Quantum Entangler'] || 0) + 2,
+            'Stabilized Capacitor': (prev['Stabilized Capacitor'] || 0) + 2
+          }));
+          
+          // Set up key progress markers for second prestige
+          localStorage.setItem('totalTronicsClicks', '15000'); // Beyond the 10k requirement
+          localStorage.setItem('upgradeCount', '15'); // ElectroShop upgrades
+          localStorage.setItem('beaconCount', '10'); // Beacon Protocol requirement
+          
+          // Set up crew missions progress
+          const crewStorage = JSON.parse(localStorage.getItem('crew-storage') || '{}');
+          if (crewStorage.state) {
+            crewStorage.state.successfulMissions = 25; // Beyond the 20 requirement
+          } else {
+            crewStorage.state = { successfulMissions: 25, hiredCrew: [] };
+          }
+          localStorage.setItem('crew-storage', JSON.stringify(crewStorage));
+          
+          // Ensure first prestige completion
+          localStorage.setItem('hasPrestiged', 'true');
+          localStorage.setItem('prestigeCount', '1');
+          
+          window.location.reload();
+        }, type: 'special' }y' },
         { name: 'Set 5 Successful Missions', action: () => {
           // Update the crew storage to set successfulMissions to 5
           const crewStorage = JSON.parse(localStorage.getItem('crew-storage') || '{}');
