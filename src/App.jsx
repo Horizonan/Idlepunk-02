@@ -1630,7 +1630,6 @@ export default function App() {
               junkRefinery: 0,
               modularScrapper: 0,
               tronicsBoost: 0,
-```javascript
               tronicsBoostII: 0,
               flowRegulator: 0,
               quantumTap: 0,
