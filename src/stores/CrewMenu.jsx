@@ -124,6 +124,12 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                   <button 
                     className="fire-crew-button"
                     onClick={() => {
+                      // Check if this crew member is on an active mission
+                      if (activeMission && selectedCrew.includes(crew.id)) {
+                        alert('Sorry, please wait until the mission is completed to fire any crew members currently on missions.');
+                        return;
+                      }
+                      
                       if (confirm(`Are you sure you want to fire ${crew.name}?`)) {
                         useRecruitmentZustand.setState(state => ({
                           hiredCrew: state.hiredCrew.filter(c => c.id !== crew.id),
