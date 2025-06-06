@@ -1558,6 +1558,29 @@ button.locked {
   font-size: 1.2em;
 }
 
+.reset-button-container {
+  margin-top: 20px;
+  text-align: center;
+  padding: 10px 0;
+  border-top: 1px solid #9400D3;
+}
+
+.reset-recipe-button {
+  background: rgba(255, 69, 0, 0.8);
+  border: 1px solid #FF4500;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.reset-recipe-button:hover {
+  background: rgba(255, 69, 0, 1);
+  transform: scale(1.05);
+}
+
 @keyframes fade-out {
   from {
     opacity: 1;

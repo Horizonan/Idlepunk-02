@@ -277,41 +277,6 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
         {selectedTab === 'mysterious' && (
           <div className="crafting-section">
             <h3>Mysterious Items</h3>
-            
-            {/* Reset Recipe Button */}
-            <div style={{ marginBottom: '20px', textAlign: 'center' }}>
-              <button
-                onClick={() => {
-                  if (window.confirm('Are you sure you want to reset the Prestige Crystal recipe? This will clear your progress but you will keep your materials.')) {
-                    // Reset any crafting progress if stored in localStorage
-                    localStorage.removeItem('prestigeCrystalProgress');
-                    localStorage.removeItem('prestigeCrystalStarted');
-                    
-                    // Dispatch event to notify other components
-                    window.dispatchEvent(new CustomEvent('prestigeCrystalReset'));
-                    
-                    // You could add a notification here if onCraft supports it
-                    console.log('Prestige Crystal recipe has been reset');
-                  }
-                }}
-                className="store-item"
-                style={{ 
-                  background: 'rgba(255, 69, 0, 0.8)', 
-                  border: '2px solid #FF4500',
-                  color: 'white',
-                  padding: '10px 20px',
-                  maxWidth: '300px',
-                  margin: '0 auto'
-                }}
-              >
-                <div className="item-header">
-                  <strong>🔄 Reset Prestige Crystal Recipe</strong>
-                </div>
-                <div className="item-info">
-                  <p>Reset your crafting progress for the Prestige Crystal</p>
-                </div>
-              </button>
-            </div>
 
             <div className="store-items">
               {craftingInventory['Synthcore Fragment'] >= 1 && (<button
@@ -386,6 +351,23 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   <p>- Surge Capacitor Fragment: 1 ({craftingInventory['Surge Capacitor Fragment'] || 0} owned)</p>
                 </div>
               </button>)}
+            </div>
+
+            {/* Reset Recipe Button - Bottom of section */}
+            <div className="reset-button-container">
+              <button
+                onClick={() => {
+                  if (window.confirm('Are you sure you want to reset the Prestige Crystal recipe? This will clear your progress but you will keep your materials.')) {
+                    localStorage.removeItem('prestigeCrystalProgress');
+                    localStorage.removeItem('prestigeCrystalStarted');
+                    window.dispatchEvent(new CustomEvent('prestigeCrystalReset'));
+                    console.log('Prestige Crystal recipe has been reset');
+                  }
+                }}
+                className="reset-recipe-button"
+              >
+                🔄 Reset Recipe
+              </button>
             </div>
           </div>
         )}

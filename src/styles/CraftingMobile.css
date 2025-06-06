@@ -234,6 +234,32 @@
     background: rgba(148, 0, 211, 0.5) !important;
     border-radius: 3px !important;
   }
+
+  /* Reset Button Mobile Styling */
+  .reset-button-container {
+    margin-top: 15px !important;
+    padding: 10px 0 !important;
+    border-top: 1px solid #9400D3 !important;
+    text-align: center !important;
+  }
+
+  .reset-recipe-button {
+    background: rgba(255, 69, 0, 0.8) !important;
+    border: 1px solid #FF4500 !important;
+    color: white !important;
+    padding: 8px 16px !important;
+    border-radius: 6px !important;
+    font-size: 0.75em !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    min-height: 36px !important;
+    touch-action: manipulation !important;
+  }
+
+  .reset-recipe-button:active {
+    background: rgba(255, 69, 0, 1) !important;
+    transform: scale(0.98) !important;
+  }
 }
 
 /* Very small mobile screens */
