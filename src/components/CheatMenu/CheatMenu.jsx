@@ -94,6 +94,7 @@ export default function CheatMenu({
           });
         }, type: 'primary' },
         { name: 'Add 10 Electro Shards', action: () => onAddElectroShard(10), type: 'primary' },
+        { name: 'Add 1000 Scratz', action: () => setCredits(prev => prev + 1000), type: 'primary' },
       ]
     },
     progression: {
