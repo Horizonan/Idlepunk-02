@@ -771,8 +771,7 @@ export default function App() {
     return () => {
       clearInterval(interval);
       window.removeEventListener('showMiniGame', handleMiniGameRequest);
-    };
-  }, [junk]);
+    };  }, [junk]);
 
   return (
     <main>      <VersionPopup onClose={() => {}} />
@@ -1273,37 +1272,52 @@ export default function App() {
         <TechTree 
           prestigeTokens={craftingInventory['Prestige Token'] || 0}
           onClose={() => setShowTechTree(false)}
-          onUnlock={(nodeId) => {
-            if (nodeId === 'tronicsClicker') {
+          onUnlock={(techName) => {
+            const tokenCost = 1; // All tech items cost 1 token
+            if ((craftingInventory['Prestige Token'] || 0) >= tokenCost) {
+              // Check if prerequisites are met
+              const hasTronicsClicker = localStorage.getItem('tronicsClicker') === 'true';
+
+              if (techName !== 'tronicsClicker' && !hasTronicsClicker) {
+                setNotifications(prev => [...prev, "Tronics Clicker required first!"]);
+                return;
+              }
+
+              // Check if already unlocked
+              if (localStorage.getItem(techName) === 'true') {
+                setNotifications(prev => [...prev, `${techName} already unlocked!`]);
+                return;
+              }
+
+              // Deduct the token
               setCraftingInventory(prev => ({
                 ...prev,
-                'Prestige Token': prev['Prestige Token'] - 1
+                'Prestige Token': (prev['Prestige Token'] || 0) - tokenCost
               }));
-              setElectronicsUnlock(true);
-              localStorage.setItem('hasPrestiged', 'true');
-              localStorage.setItem('tronicsClicker', 'true');
-              setNotifications(prev => [...prev, "Tronics Clicker and ElectroShop Unlocked!"]);
-            } else if (nodeId === 'scraptagon' && prestigeTokens >= 1 && localStorage.getItem('tronicsClicker') === 'true') {
-              setCraftingInventory(prev => ({
-                ...prev,
-                'Prestige Token': prev['Prestige Token'] - 1
-              }));
-              localStorage.setItem('scraptagon', 'true');
-              setNotifications(prev => [...prev, "Scraptagon Combat unlocked!"]);
-            } else if (nodeId === 'craftingBenchV2' && prestigeTokens >= 1 && localStorage.getItem('tronicsClicker') === 'true') {
-              setCraftingInventory(prev => ({
-                ...prev,
-                'Prestige Token': prev['Prestige Token'] - 1
-              }));
-              localStorage.setItem('craftingBenchV2', 'true');
-              setNotifications(prev => [...prev, "Crafting Bench v2 unlocked!"]);
-            } else if (nodeId === 'modcrafting' && prestigeTokens >= 1 && localStorage.getItem('tronicsClicker') === 'true') {
-              setCraftingInventory(prev => ({
-                ...prev,
-                'Prestige Token': prev['Prestige Token'] - 1
-              }));
-              localStorage.setItem('modcrafting', 'true');
-              setNotifications(prev => [...prev, "Modcrafting Station unlocked!"]);
+
+              // Unlock the technology
+              localStorage.setItem(techName, 'true');
+
+              // Handle specific unlocks
+              switch(techName) {
+                case 'tronicsClicker':
+                  setElectronicsUnlock(true);
+                  setNotifications(prev => [...prev, "Tronics Clicker and ElectroShop Unlocked!"]);
+                  break;
+                case 'scraptagon':
+                  setNotifications(prev => [...prev, "Scraptagon unlocked!"]);
+                  setNotifications(prev => [...prev, "Combat Grounds now available!"]);
+                  break;
+                case 'craftingBenchV2':
+                  setNotifications(prev => [...prev, "Crafting Bench v2 unlocked!"]);
+                  setNotifications(prev => [...prev, "Advanced crafting recipes unlocked!"]);
+                  break;
+                case 'modcrafting':
+                  setNotifications(prev => [...prev, "Modcrafting Station unlocked!"]);
+                  break;
+              }
+            } else {
+              setNotifications(prev => [...prev, "Not enough Prestige Tokens!"]);
             }
           }}
         />
@@ -1391,7 +1405,7 @@ export default function App() {
       {(() => {
         const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
         const prestige1Unlocked = localStorage.getItem('prestige1Unlocked') === 'true';
-        
+
         // First prestige conditions
         if (!hasPrestiged && junk >= 1000000 && prestigeCount === 0) {
           return (
@@ -1406,7 +1420,7 @@ export default function App() {
             </button>
           );
         }
-        
+
         // Second prestige conditions (post first prestige)
         if (hasPrestiged && (junk >= 25000000 || prestige1Unlocked)) {
           return (
@@ -1421,7 +1435,7 @@ export default function App() {
             </button>
           );
         }
-        
+
         return null;
       })()}
       {ownedItems.scratzMiner > 0 && (
