@@ -35,6 +35,7 @@ export default function CoinFlip({ junk, onBet, onClose }) {
     const win = Math.random() >= 0.5;
     
     setTimeout(() => {
+      console.log('Coin flip result:', win ? 'WIN' : 'LOSE');
       setResult(win);
       setComment(win ? 
         ratComments.win[Math.floor(Math.random() * ratComments.win.length)] :
@@ -68,8 +69,12 @@ export default function CoinFlip({ junk, onBet, onClose }) {
       
       <div className="coin-game">
         <div className={`coin ${isFlipping ? 'flipping' : ''}`}>
-          <div className="side front">{result === null ? '🗑️' : (result ? '💰' : '🗑️')}</div>
-          <div className="side back">{result === null ? '💰' : (result ? '🗑️' : '💰')}</div>
+          <div className="side front">
+            {isFlipping ? '🌀' : (result === null ? '❓' : (result ? '💰' : '🗑️'))}
+          </div>
+          <div className="side back">
+            {isFlipping ? '🌀' : (result === null ? '❓' : (result ? '💰' : '🗑️'))}
+          </div>
         </div>
         
         <div className="bet-controls">
