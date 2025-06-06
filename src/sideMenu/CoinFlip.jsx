@@ -29,6 +29,9 @@ export default function CoinFlip({ junk, onBet, onClose }) {
     if (!betAmount || isFlipping || betAmount > junk) return;
     
     setIsFlipping(true);
+    setResult(null); // Reset result during flip
+    setComment(''); // Clear previous comment
+    
     const win = Math.random() >= 0.5;
     
     setTimeout(() => {
@@ -64,9 +67,9 @@ export default function CoinFlip({ junk, onBet, onClose }) {
       </div>
       
       <div className="coin-game">
-        <div className={`coin ${isFlipping ? 'flipping' : ''} ${result !== null ? (result ? 'heads' : 'tails') : ''}`}>
-          <div className="side front">🗑️</div>
-          <div className="side back">💰</div>
+        <div className={`coin ${isFlipping ? 'flipping' : ''}`}>
+          <div className="side front">{result === null ? '🗑️' : (result ? '💰' : '🗑️')}</div>
+          <div className="side back">{result === null ? '💰' : (result ? '🗑️' : '💰')}</div>
         </div>
         
         <div className="bet-controls">
