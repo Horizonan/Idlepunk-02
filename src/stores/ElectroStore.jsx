@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import '../styles/Store.css';
-import '../styles/itemTooltips.css';
 
 export default function ElectroStore({ 
   electroShards, tronics, onBuyTronicsBoost, onBuyQuantumTap, 
@@ -186,38 +185,24 @@ export default function ElectroStore({
                          (item.cost.shards ? electroShards >= item.cost.shards : true);
         return (
           <button
-              key={item.name}
-              onClick={item.action}
-              disabled={!canAfford || !item.unlockCondition()}
-              className={`item-container electro-store ${!canAfford || !item.unlockCondition() ? 'disabled' : ''} ${bulkBuy ? "bulk-purchase" : ""} ${selectedTab === "advanced" ? "advanced" : ""}`}
-            >
-              <div className="item-header-section">
-                <div className="item-icon-wrapper">
-                  {item.name.includes("⚡") ? "⚡" :
-                   item.name.includes("🔦") ? "🔦" :
-                   item.name.includes("🧠") ? "🧠" :
-                   item.name.includes("🔄") ? "🔄" :
-                   item.name.includes("🧲") ? "🧲" : "⚡"}
-                </div>
-                <div className="item-title-wrapper">
-                  <h3 className="item-title-text">{item.name}</h3>
-                  <div className="item-cost-text">
-                    {item.cost.tronics ? `${formatNumber(item.cost.tronics)} Tronics` : ''}
-                    {item.cost.shards ? `${item.cost.shards} Shards` : ''}
-                  </div>
-                </div>
-              </div>
-              <div className="item-content-section">
-                <p className="item-description-text">{item.description}</p>
-                {item.info && <p className="item-info-text">{item.info}</p>}
-              </div>
-              <div className="item-footer-section">
-                <span className="item-owned-count">Owned: {item.purchasedCount}</span>
-                <div className={`item-status-badge ${!item.unlockCondition() ? "locked" : "available"}`}>
-                  {!item.unlockCondition() ? "Locked" : "Available"}
-                </div>
-              </div>
-            </button>
+            key={item.name}
+            onClick={item.action}
+            disabled={!canAfford || !item.unlockCondition()}
+            className={`store-item ${!canAfford || !item.unlockCondition() ? 'disabled' : ''}`}
+          >
+            <div className="item-header">
+              <strong>{item.name}</strong>
+              <span className="cost">
+                {item.cost.tronics ? `${formatNumber(item.cost.tronics)} Tronics` : ''}
+                {item.cost.shards ? `${item.cost.shards} Shards` : ''}
+              </span>
+            </div>
+            <div className="item-info">
+              <p>{item.description}</p>
+              <p>{item.info}</p>
+              <p className="owned">Owned: {item.purchasedCount}</p>
+            </div>
+          </button>
         );
       })}
     </div>
