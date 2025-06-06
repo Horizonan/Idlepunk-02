@@ -20,11 +20,19 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   const [timeLeft, setTimeLeft] = useState(0);
   const [showMiniGameModal, setShowMiniGameModal] = useState(false);
   const [missionCompleting, setMissionCompleting] = useState(false);
+  const [missionStarting, setMissionStarting] = useState(false);
   
 
   useEffect(() => {
     if (activeMission && missionStartTime) {
       setMissionCompleting(false); // Reset completion state when mission starts
+      setMissionStarting(true); // Set starting state to prevent early completion
+      
+      // Disable the complete button for 10 seconds after mission start
+      const startupTimer = setTimeout(() => {
+        setMissionStarting(false);
+      }, 10000);
+      
       const timer = setInterval(() => {
         // Check for mini-game trigger
         useRecruitmentZustand.getState().checkForMiniGame();
@@ -38,9 +46,13 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
         }
       }, 1000);
 
-      return () => clearInterval(timer);
+      return () => {
+        clearInterval(timer);
+        clearTimeout(startupTimer);
+      };
     } else {
       setMissionCompleting(false); // Reset when no active mission
+      setMissionStarting(false); // Reset startup state
     }
   }, [activeMission?.id, missionStartTime]);
 
@@ -485,13 +497,17 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                     <div className="time-remaining">
                       {timeLeft > 0 ? (
                         `Time Remaining: ${Math.ceil(timeLeft / 60)}min ${Math.ceil(timeLeft % 60)}s`
+                      ) : missionStarting ? (
+                        <div className="mission-initializing">
+                          🔄 Mission Initializing... Please wait
+                        </div>
                       ) : (
                         <button 
                           className="complete-mission-button"
-                          disabled={missionCompleting}
+                          disabled={missionCompleting || missionStarting}
                           onClick={() => {
-                            // Prevent multiple completions
-                            if (!activeMission || missionCompleting) return;
+                            // Prevent multiple completions and early completion
+                            if (!activeMission || missionCompleting || missionStarting) return;
                             
                             // Set completing state immediately
                             setMissionCompleting(true);
