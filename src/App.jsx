@@ -759,7 +759,7 @@ export default function App() {
         }
 
         localStorage.setItem('lastActiveTime', now.toString());
-      } else {
+      }        } else {
         localStorage.setItem('lastActiveTime', Date.now().toString());
       }
     };

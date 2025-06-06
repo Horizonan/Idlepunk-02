@@ -49,26 +49,44 @@ export default function OfflineProgressPopup({ offlineData, onClose }) {
             </div>
           )}
 
-          {offlineData.passiveIncome && (
+          {offlineData.junkGeneration && (
             <div className="offline-section">
-              <h4>⚙️ Passive Income</h4>
+              <h4>🗑️ Junk Generation</h4>
               <div className="progress-items">
                 <div className="progress-item">
-                  <span className="progress-label">Junk Generated:</span>
-                  <span className="progress-value">+{offlineData.passiveIncome.junkGenerated}</span>
+                  <span className="progress-label">Total Junk Generated:</span>
+                  <span className="progress-value">+{offlineData.junkGeneration.junkGenerated.toLocaleString()}</span>
                 </div>
+                {offlineData.junkGeneration.passiveIncome > 0 && (
+                  <div className="progress-item">
+                    <span className="progress-label">From Passive Income:</span>
+                    <span className="progress-value">+{offlineData.junkGeneration.passiveIncome.toLocaleString()}</span>
+                  </div>
+                )}
+                {offlineData.junkGeneration.autoClickerIncome > 0 && (
+                  <div className="progress-item">
+                    <span className="progress-label">From Auto-Clickers:</span>
+                    <span className="progress-value">+{offlineData.junkGeneration.autoClickerIncome.toLocaleString()}</span>
+                  </div>
+                )}
               </div>
             </div>
           )}
 
-          {offlineData.tronics && (
+          {offlineData.tronicsGeneration && (
             <div className="offline-section">
-              <h4>⚡ Tronics</h4>
+              <h4>⚡ Tronics Generation</h4>
               <div className="progress-items">
                 <div className="progress-item">
-                  <span className="progress-label">Tronics Generated:</span>
-                  <span className="progress-value">+{offlineData.tronics.generated}</span>
+                  <span className="progress-label">Total Tronics Generated:</span>
+                  <span className="progress-value">+{offlineData.tronicsGeneration.tronicsGenerated.toLocaleString()}</span>
                 </div>
+                {offlineData.tronicsGeneration.autoClickerTronics > 0 && (
+                  <div className="progress-item">
+                    <span className="progress-label">From Auto-Clickers:</span>
+                    <span className="progress-value">+{offlineData.tronicsGeneration.autoClickerTronics.toLocaleString()}</span>
+                  </div>
+                )}
               </div>
             </div>
           )}
