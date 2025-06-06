@@ -192,9 +192,10 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                     className="search-recruits-button">
                     🔍 Search for Recruits (10 Credits)
                   </button>
+                )}
               </div>
 
-          <div className="recruit-list">
+            <div className="recruit-list">
             {unlockedCrew.map((crew) => (
               <div key={crew.id} className="recruit-card">
                 <div className="recruit-stats">
