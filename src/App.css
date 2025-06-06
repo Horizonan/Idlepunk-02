@@ -7,6 +7,7 @@
 @import './styles/slotMachine.css';
 @import './components/SideMenu/settingsMenu/settings.css';
 @import './styles/Tooltips.css';
+@import './styles/UnifiedTooltips.css';
 @import './styles/CoinFlip.css';
 @import './styles/TechTree.css';
 @import './styles/UiTimers/crystalTimer.css';
