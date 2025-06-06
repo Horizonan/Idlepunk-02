@@ -1387,29 +1387,43 @@ export default function App() {
           }}
         />
       )}
-      {((junk >= 1000000 && !localStorage.getItem('hasPrestiged') && prestigeCount === 0) &&
-        <button 
-          className={`prestige-button ${!prestigeQuestCompleted ? 'locked' : ''}`}
-          onClick={() => {
-            if (prestigeQuestCompleted) {
-              setShowPrestigePopup(true);
-            }
-          }}>
-          Prestige
-        </button>
-      )}
-
-      {(junk >= 25000000 || (localStorage.getItem('prestige1Unlocked') === "true")&&
-        <button 
-          className={`prestige-button ${(localStorage.getItem('prestige1Unlocked') != "true") ? 'locked' : ''}`}
-          onClick={() => {
-            if (localStorage.getItem('prestige1Unlocked') != "false") {
-              setShowPrestigePopup(true);
-            }
-          }}>
-          Prestige
-        </button>
-      )}
+      {/* Unified Prestige Button Logic */}
+      {(() => {
+        const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
+        const prestige1Unlocked = localStorage.getItem('prestige1Unlocked') === 'true';
+        
+        // First prestige conditions
+        if (!hasPrestiged && junk >= 1000000 && prestigeCount === 0) {
+          return (
+            <button 
+              className={`prestige-button ${!prestigeQuestCompleted ? 'locked' : ''}`}
+              onClick={() => {
+                if (prestigeQuestCompleted) {
+                  setShowPrestigePopup(true);
+                }
+              }}>
+              Prestige
+            </button>
+          );
+        }
+        
+        // Second prestige conditions (post first prestige)
+        if (hasPrestiged && (junk >= 25000000 || prestige1Unlocked)) {
+          return (
+            <button 
+              className={`prestige-button ${!prestige1Unlocked ? 'locked' : ''}`}
+              onClick={() => {
+                if (prestige1Unlocked) {
+                  setShowPrestigePopup(true);
+                }
+              }}>
+              Prestige
+            </button>
+          );
+        }
+        
+        return null;
+      })()}
       {ownedItems.scratzMiner > 0 && (
         <ScratzMiner
           ownedMiners={ownedItems.scratzMiner}
