@@ -930,6 +930,18 @@
   background: #00CC00;
   transform: scale(1.05);
 }
+
+.complete-mission-button:disabled {
+  background: #666;
+  color: #999;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.complete-mission-button:disabled:hover {
+  background: #666;
+  transform: none;
+}
 .mission-completion-window {
   position: fixed;
   top: 0;

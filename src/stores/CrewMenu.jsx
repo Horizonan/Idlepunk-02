@@ -19,10 +19,12 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   const completeMiniGame = useRecruitmentZustand(state => state.completeMiniGame);
   const [timeLeft, setTimeLeft] = useState(0);
   const [showMiniGameModal, setShowMiniGameModal] = useState(false);
+  const [missionCompleting, setMissionCompleting] = useState(false);
   
 
   useEffect(() => {
     if (activeMission && missionStartTime) {
+      setMissionCompleting(false); // Reset completion state when mission starts
       const timer = setInterval(() => {
         // Check for mini-game trigger
         useRecruitmentZustand.getState().checkForMiniGame();
@@ -37,6 +39,8 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
       }, 1000);
 
       return () => clearInterval(timer);
+    } else {
+      setMissionCompleting(false); // Reset when no active mission
     }
   }, [activeMission?.id, missionStartTime]);
 
@@ -484,9 +488,13 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                       ) : (
                         <button 
                           className="complete-mission-button"
+                          disabled={missionCompleting}
                           onClick={() => {
-                            // Prevent spam clicking by immediately clearing the mission
-                            if (!activeMission) return;
+                            // Prevent multiple completions
+                            if (!activeMission || missionCompleting) return;
+                            
+                            // Set completing state immediately
+                            setMissionCompleting(true);
                             
                             const currentActiveMission = activeMission;
                             
