@@ -36,7 +36,7 @@ export default function Menu({ onStoreSelect }) {
   const isUnlocked = (itemId) => {
     switch(itemId) {
       case 'marketplace':
-        return localStorage.getItem('hasPrestiged') === 'true';
+        return true; // Always unlocked
       case 'slotMachine':
         return junk >= 100;
       case 'coinflip':
