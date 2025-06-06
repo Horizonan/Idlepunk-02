@@ -60,7 +60,7 @@ export function RecruitmentGame() {
         trashedProfiles
       };
 
-      localStorage.setItem('recruitment_saved_game', JSON.stringify(gameState));
+      localStorage.setItem('crewGameSave', JSON.stringify(gameState));
       console.log('Game saved with progress:', { checkedProfiles, score });
     }
 
@@ -71,9 +71,9 @@ export function RecruitmentGame() {
   if (!isRunning || currentIndex >= 8) {
     const finalScore = score
 
-    if(gameEnded = 0){
+    if(gameEnded === 0){
       handleGameEnd(finalScore)
-      gameEnded +1
+      gameEnded = gameEnded + 1
       }
 
 
