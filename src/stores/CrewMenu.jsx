@@ -424,7 +424,19 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         <button 
                           className="complete-mission-button"
                           onClick={() => {
+                            // Prevent spam clicking by immediately clearing the mission
+                            if (!activeMission) return;
+                            
                             const currentActiveMission = activeMission;
+                            
+                            // Clear mission immediately to prevent spam
+                            setActiveMission(null);
+                            setSelectedCrew([]);
+                            useRecruitmentZustand.setState({ 
+                              activeMission: null,
+                              missionStartTime: null,
+                              selectedCrew: []
+                            });
                             const selectedCrewMembers = selectedCrew.map(id => 
                               hiredCrew.find(c => c.id === id)
                             );
@@ -574,17 +586,12 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                               </div>
                             `;
                             document.body.appendChild(missionWindow);
-
-                            setActiveMission(null);
-                            setSelectedCrew([]);
                             
-                            // Reset mini-game bonus state and clear selected crew from store
-                            useRecruitmentZustand.setState({ 
-                              miniGameBonus: { rewardChanceBonus: 0, successPenalty: 0 },
-                              selectedCrew: [],
-                              activeMission: null,
-                              missionStartTime: null
-                            });
+                            // Reset mini-game bonus state
+                            useRecruitmentZustand.setState(state => ({ 
+                              ...state,
+                              miniGameBonus: { rewardChanceBonus: 0, successPenalty: 0 }
+                            }));
                           }}
                         >
                           Complete Mission
