@@ -5,14 +5,14 @@ export default function VersionPopup({ onClose }) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const hasSeenUpdate = localStorage.getItem('seen_update_0.1.0.3');
+    const hasSeenUpdate = localStorage.getItem('seen_update_0.1.0.4');
     if (!hasSeenUpdate) {
       setShow(true);
     }
   }, []);
 
   const handleClose = () => {
-    localStorage.setItem('seen_update_0.1.0.3', 'true');
+    localStorage.setItem('seen_update_0.1.0.4', 'true');
     setShow(false);
     if (onClose) {
       onClose();
@@ -24,19 +24,18 @@ export default function VersionPopup({ onClose }) {
   return (
     <div className="version-popup-overlay">
       <div className="version-popup">
-        <h2>🧨 New Version Available: 0.1.0.3</h2>
+        <h2>📱 New Version Available: 0.1.0.4</h2>
         <div className="version-content">
           <h3>What's New:</h3>
           <ul>
-            <li>🐛 Fixed massive lag bug in Crew System</li>
-            <li>🖥️ New designs: Autoclickers, Trash Bonus & Crew Intro</li>
-            <li>⚔️ Scraptagon Prototype: Stage Select, Rewards, Winstreak</li>
-            <li>📜 Quest updates & new placeholder in Awaken the Core</li>
-            <li>⚙️ Force Prestige + Scratz Miner Offline Progress</li>
+            <li>🖥️ Major mobile UI updates (Crafting & Skills)</li>
+            <li>🐞 Fixed Void Run & mission exploits</li>
+            <li>⚖️ Rebalanced Clickers & Enhancer power</li>
+            <li>🧠 Added reset recipe button & fire crew popups</li>
           </ul>
-          <p>Full details in the in-game changelog. Thanks for helping improve IdlePunk!</p>
+          <p>Check the full changelog in-game or drop by Discord!</p>
           <div className="discord-section">
-            <p>Join the Discord to share feedback or report bugs:</p>
+            <p>Join the Discord to share bugs, ideas, and feedback:</p>
             <a
               href="https://discord.gg/xhJbGbJApN"
               target="_blank"

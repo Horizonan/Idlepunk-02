@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default function Changelog({ onClose }) {
-  const [expandedVersion, setExpandedVersion] = useState('0.1.0.3');
+  const [expandedVersion, setExpandedVersion] = useState('0.1.0.4');
 
   const toggleVersion = (version) => {
     setExpandedVersion(expandedVersion === version ? null : version);
@@ -18,6 +18,46 @@ export default function Changelog({ onClose }) {
 
       <div className="changelog-content">
 
+        <div className="changelog-entry">
+          <h3 onClick={() => toggleVersion('0.1.0.4')} style={{ cursor: 'pointer' }}>
+            📱 UI Overhaul, Bug Fixes & Balance – Update Log 0.1.0.4 {expandedVersion === '0.1.0.4' ? '▼' : '▶'}
+          </h3>
+          {expandedVersion === '0.1.0.4' && (
+            <>
+              <p>Version 0.1.0.4 focuses on mobile-friendliness, fixes long-standing bugs, adds clarity to firing crew, and improves game balance. Let’s polish this junk! 🧽</p>
+              <div className="changelog-section">
+                <h3>🖥️ UI Changes</h3>
+                <p>🖥️ Completely redesigned Crafting UI for mobile users</p>
+                <p>🖥️ Reworked Skills Menu on mobile for better friendliness</p>
+                <p>🖥️ Added Reset Recipe button (in case of bugs)</p>
+                <p>🖥️ Clicker Buttons are now hidden until your first Prestige</p>
+                <p>🖥️ Tiny Tooltip redesign pass</p>
+                <p>🖥️ Changed unlock logic for Casino and Junk Flip</p>
+                <p>🖥️ New "You can't fire this person at the moment" screen</p>
+                <p>🖥️ Added internal popup: “Do you really want to fire?”</p>
+
+                <h3>🐞 Bug Fixes</h3>
+                <p>🐞 Void Run bug fixed – no more infinite Scratz exploit</p>
+                <p>🐞 Junk Flip no longer always shows a loss</p>
+                <p>🐞 Fixed mission completion exploit by spamming button</p>
+                <p>🐞 Fixed ability to fire crew during active missions</p>
+                <p>🐞 Fixed early reward claim bug in ongoing missions view</p>
+                <p>🐞 Fixed repeating reward exploit by switching back from Junk Store</p>
+
+                <h3>⚖️ Balancing Changes</h3>
+                <p>⚖️ Click Enhancer power reduced: 10 ➜ 5</p>
+                <p>⚖️ Autoclicker V1 cost increased: 5,000 ➜ 15,000</p>
+                <p>⚖️ Autoclicker V2 cost increased: 15,000 ➜ 50,000</p>
+
+                <h3>⚙️ Functionality</h3>
+                <p>⚙️ Unified `itemCosts` structure to simplify item additions</p>
+              </div>
+              <p className="changelog-footer">Your feedback makes IdlePunk better every day. Thank you for playing, breaking, and refining this world with me 💛</p>
+            </>
+          )}
+        </div>
+
+        
         <div className="changelog-entry">
           <h3 onClick={() => toggleVersion('0.1.0.3')} style={{ cursor: 'pointer' }}>
             🧨 Major Bug Fixes, Scraptagon & UI Update – Update Log 0.1.0.3 {expandedVersion === '0.1.0.3' ? '▼' : '▶'}

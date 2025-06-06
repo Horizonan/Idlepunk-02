@@ -31,7 +31,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
       // Disable the complete button for 10 seconds after mission start
       const startupTimer = setTimeout(() => {
         setMissionStarting(false);
-      }, 10000);
+      }, 3000);
       
       const timer = setInterval(() => {
         // Check for mini-game trigger
