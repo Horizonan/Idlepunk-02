@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from 'react';
 import ResetProgress from '../ResetProgress/ResetProgress';
 import { useEmailStore } from '../../utils/emailStore';
@@ -44,7 +43,7 @@ export default function CheatMenu({
 
   const handleMouseDown = (e) => {
     if (e.target.closest('.cheat-action-btn') || e.target.closest('.close-btn') || e.target.closest('.minimize-btn')) return;
-    
+
     setIsDragging(true);
     const rect = containerRef.current.getBoundingClientRect();
     const offsetX = e.clientX - rect.left;
@@ -62,6 +61,10 @@ export default function CheatMenu({
       window.removeEventListener('mousemove', handleMouseMove);
     }, { once: true });
   };
+
+  const onForcePrestige = () => {
+    window.dispatchEvent(new CustomEvent('forcePrestige'));
+  }
 
   const cheatTabs = {
     resources: {
@@ -111,6 +114,10 @@ export default function CheatMenu({
           setCredits(prev => prev + 200);
           onAddElectroShard(10);
         }, type: 'special' },
+        { name: 'Force Prestige', action: () => {
+          // Trigger prestige popup without requirements
+          onForcePrestige();
+        }, type: 'warning' },
         { name: 'Max Scavenging Focus', action: () => {
           const skillLevels = {
             scavengingFocus: 10,
@@ -136,10 +143,10 @@ export default function CheatMenu({
             crewStorage.state = { successfulMissions: 5 };
           }
           localStorage.setItem('crew-storage', JSON.stringify(crewStorage));
-          
+
           // Also update the zustand store directly
           useRecruitmentZustand.setState({ successfulMissions: 5 });
-          
+
           window.dispatchEvent(new CustomEvent('questsUpdated'));
         }, type: 'secondary' },
       ]
@@ -238,7 +245,7 @@ export default function CheatMenu({
           <h3>{cheatTabs[activeTab].name}</h3>
           <div className="content-divider"></div>
         </div>
-        
+
         <div className="cheat-actions-grid">
           {cheatTabs[activeTab].actions.map((action, index) => (
             <button
@@ -249,7 +256,7 @@ export default function CheatMenu({
               {action.name}
             </button>
           ))}
-          
+
           {activeTab === 'reset' && (
             <div className="reset-special">
               <ResetProgress onReset={() => onReset('all')} />
