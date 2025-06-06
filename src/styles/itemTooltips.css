@@ -1,0 +1,114 @@
+
+/* Item Tooltip Styles - Consistent across all stores */
+.item-info {
+  display: none;
+  position: fixed;
+  background: rgba(26, 26, 26, 0.95);
+  border: 2px solid #9400D3;
+  padding: 15px;
+  border-radius: 8px;
+  width: 280px;
+  left: 0;
+  top: 35%;
+  z-index: 1100;
+  color: #00FF00;
+  pointer-events: none;
+  box-shadow: 0 0 15px rgba(148, 0, 211, 0.5);
+  transform: translateX(-100%) translateY(-25%);
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+/* Tooltip content structure */
+.item-info .tooltip-title {
+  color: #9400D3;
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(148, 0, 211, 0.3);
+  padding-bottom: 8px;
+  text-align: center;
+}
+
+.item-info .tooltip-description {
+  color: #00FF00;
+  margin: 8px 0;
+  font-size: 0.95em;
+}
+
+.item-info .tooltip-details {
+  color: #CCCCCC;
+  margin: 8px 0;
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+.item-info .tooltip-requirements {
+  margin: 12px 0;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  border-left: 3px solid #9400D3;
+}
+
+.item-info .tooltip-requirements h4 {
+  color: #9400D3;
+  font-size: 0.9em;
+  margin: 0 0 6px 0;
+  font-weight: bold;
+}
+
+.item-info .tooltip-requirements p {
+  color: #00FF00;
+  margin: 3px 0;
+  font-size: 0.85em;
+  padding-left: 10px;
+}
+
+.item-info .tooltip-cost {
+  color: #FFD700;
+  font-weight: bold;
+  margin: 10px 0;
+  text-align: center;
+  padding: 6px;
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 4px;
+}
+
+.item-info .tooltip-owned {
+  color: #00FFFF !important;
+  font-weight: bold;
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(148, 0, 211, 0.3);
+  text-align: center;
+  background: rgba(0, 255, 255, 0.1);
+  border-radius: 4px;
+  padding: 6px;
+}
+
+/* Responsive tooltip positioning */
+@media (max-width: 768px) {
+  .item-info {
+    width: 250px;
+    font-size: 0.85em;
+    padding: 12px;
+  }
+}
+
+/* Enhanced tooltip visibility on hover */
+.store-item:hover .item-info {
+  display: block;
+  animation: tooltipFadeIn 0.2s ease-in-out;
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-100%) translateY(-25%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-100%) translateY(-25%) scale(1);
+  }
+}

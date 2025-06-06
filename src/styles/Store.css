@@ -38,17 +38,42 @@
   display: none;
   position: fixed;
   background: rgba(26, 26, 26, 0.95);
-  border: 1px solid #9400D3;
-  padding: 10px;
-  border-radius: 4px;
-  width: 200px;
+  border: 2px solid #9400D3;
+  padding: 15px;
+  border-radius: 8px;
+  width: 280px;
   left: 0;
   top: 35%;
   z-index: 1100;
   color: #00FF00;
   pointer-events: none;
-  box-shadow: 0 0 10px rgba(148, 0, 211, 0.3);
+  box-shadow: 0 0 15px rgba(148, 0, 211, 0.5);
   transform: translateX(-100%) translateY(-25%);
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+.item-info p {
+  margin: 8px 0;
+  padding: 0;
+}
+
+.item-info p:first-child {
+  color: #9400D3;
+  font-weight: bold;
+  font-size: 1em;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(148, 0, 211, 0.3);
+  padding-bottom: 8px;
+}
+
+.item-info .owned {
+  color: #00FFFF !important;
+  font-weight: bold;
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(148, 0, 211, 0.3);
+  text-align: center;
 }
 
 
