@@ -162,23 +162,34 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                             <p class="confirm-submessage">This action will return them to the available recruits pool.</p>
                           </div>
                           <div class="confirm-buttons">
-                            <button class="confirm-fire-button" onclick="
-                              document.querySelector('.crew-fire-confirm-popup').remove();
-                              const state = useRecruitmentZustand.getState();
-                              const crewToFire = state.hiredCrew.find(c => c.id === '${crew.id}');
-                              useRecruitmentZustand.setState({
-                                hiredCrew: state.hiredCrew.filter(c => c.id !== '${crew.id}'),
-                                unlockedCrew: [...state.unlockedCrew, crewToFire]
-                              });
-                            ">
+                            <button class="confirm-fire-button">
                               🔥 FIRE CREW MEMBER
                             </button>
-                            <button class="confirm-cancel-button" onclick="this.parentElement.parentElement.parentElement.remove()">
+                            <button class="confirm-cancel-button">
                               CANCEL
                             </button>
                           </div>
                         </div>
                       `;
+                      
+                      // Add event listeners after creating the popup
+                      const fireButton = confirmPopup.querySelector('.confirm-fire-button');
+                      const cancelButton = confirmPopup.querySelector('.confirm-cancel-button');
+                      
+                      fireButton.addEventListener('click', () => {
+                        confirmPopup.remove();
+                        const state = useRecruitmentZustand.getState();
+                        const crewToFire = state.hiredCrew.find(c => c.id === crew.id);
+                        useRecruitmentZustand.setState({
+                          hiredCrew: state.hiredCrew.filter(c => c.id !== crew.id),
+                          unlockedCrew: [...state.unlockedCrew, crewToFire]
+                        });
+                      });
+                      
+                      cancelButton.addEventListener('click', () => {
+                        confirmPopup.remove();
+                      });
+                      
                       document.body.appendChild(confirmPopup);
                     }}
                   >
