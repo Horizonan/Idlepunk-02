@@ -148,12 +148,36 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         return;
                       }
                       
-                      if (confirm(`Are you sure you want to fire ${crew.name}?`)) {
-                        useRecruitmentZustand.setState(state => ({
-                          hiredCrew: state.hiredCrew.filter(c => c.id !== crew.id),
-                          unlockedCrew: [...state.unlockedCrew, crew]
-                        }));
-                      }
+                      // Show internal confirmation popup
+                      const confirmPopup = document.createElement('div');
+                      confirmPopup.className = 'crew-fire-confirm-popup';
+                      confirmPopup.innerHTML = `
+                        <div class="crew-fire-confirm-content">
+                          <div class="confirm-header">
+                            <span class="confirm-icon">⚠️</span>
+                            <h3>FIRE CREW MEMBER</h3>
+                          </div>
+                          <div class="confirm-message">
+                            <p>Are you sure you want to fire <span class="crew-name-highlight">${crew.name}</span>?</p>
+                            <p class="confirm-submessage">This action will return them to the available recruits pool.</p>
+                          </div>
+                          <div class="confirm-buttons">
+                            <button class="confirm-fire-button" onclick="
+                              document.querySelector('.crew-fire-confirm-popup').remove();
+                              useRecruitmentZustand.setState(state => ({
+                                hiredCrew: state.hiredCrew.filter(c => c.id !== '${crew.id}'),
+                                unlockedCrew: [...state.unlockedCrew, state.hiredCrew.find(c => c.id === '${crew.id}')]
+                              }));
+                            ">
+                              🔥 FIRE CREW MEMBER
+                            </button>
+                            <button class="confirm-cancel-button" onclick="this.parentElement.parentElement.parentElement.remove()">
+                              CANCEL
+                            </button>
+                          </div>
+                        </div>
+                      `;
+                      document.body.appendChild(confirmPopup);
                     }}
                   >
                     🔥 Fire
