@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/Store.css';
-import '../styles/itemToolTips.css';
+import '../styles/itemTooltips.css';
 
 export default function ElectroStore({ 
   electroShards, tronics, onBuyTronicsBoost, onBuyQuantumTap, 
