@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getInitialItemCosts } from '../utils/ItemCosts';
 
 export const useGameState = () => {
-  
+
   const [clickMultiplier, setClickMultiplier] = useState(() => Number(localStorage.getItem('clickMultiplier')) || 1);
   const [passiveIncome, setPassiveIncome] = useState(() => Number(localStorage.getItem('passiveIncome')) || 0);
   const [notifications, setNotifications] = useState([]);
@@ -18,7 +19,7 @@ export const useGameState = () => {
   const [preservedHelper, setPreservedHelper] = useState(() => localStorage.getItem('preservedHelper') || null);
   const [showCoinFlip, setShowCoinFlip] = useState(false); 
   const [showCombat, setShowCombat] = useState(false);
-  
+
 
 
   //Currencies
@@ -119,26 +120,9 @@ export const useGameState = () => {
   });
 
   //Item Costs
-  const [itemCosts, setItemCosts] = useState(() => JSON.parse(localStorage.getItem('itemCosts')) || {
-    trashBag: 10,
-    trashPicker: 100,
-    streetrat: 100,
-    cart: 500,
-    junkMagnet: 1500,
-    urbanRecycler: 3000,
-    autoClicker: 5000,
-    autoClickerV2: 10000,
-    clickEnhancer: 2500,
-    scrapDrone: 7500,
-    holoBillboard: 15000,
-    junkRefinery: 500000,    
-    modularScrapper: 2500000,
-    tronicsBoost: 250,
-    tronicsBoostII: 750,
-    flowRegulator: 3000,
-    quantumTap: 1250,
-    electroSurgeNode: 35000,
-    scratzMiner: 250000,
+  const [itemCosts, setItemCosts] = useState(() => {
+    const savedItemCosts = localStorage.getItem('itemCosts');
+    return savedItemCosts ? JSON.parse(savedItemCosts) : getInitialItemCosts();
   });
 
 
@@ -195,10 +179,12 @@ export const useGameState = () => {
     localStorage.setItem('cogfatherLore', JSON.stringify(cogfatherLore));
     localStorage.setItem('uiSettingsCollapsed', uiSettingsCollapsed);
     localStorage.setItem('showAutoclickers', showAutoclickers);
+    localStorage.setItem('itemCosts', JSON.stringify(itemCosts));
+
 
   }, [junk, credits, clickCount, tronics, autoClicks, clickMultiplier, passiveIncome, globalJpsMultiplier, 
       electronicsUnlock, clickEnhancerLevel, tutorialStage, prestigeCount, electroShards, beaconCount, 
-      surgeCount, cogfatherLore, uiSettingsCollapsed, showAutoclickers]);
+      surgeCount, cogfatherLore, uiSettingsCollapsed, showAutoclickers, itemCosts]);
 
   const [manualTronicsClicks, setManualTronicsClicks] = useState(() => 
   parseInt(localStorage.getItem('manualTronicsClicks') || '0')
