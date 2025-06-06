@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecruitmentZustand } from './recruitmentZustand';
 import './RecruitmentGame.css';
 
@@ -16,6 +16,15 @@ export function RecruitmentGame() {
     tick,
     selectedCrew
   } = useRecruitmentZustand()
+
+  const [showIntroTooltip, setShowIntroTooltip] = useState(() => {
+    return !localStorage.getItem('crewGameIntroSeen');
+  });
+
+  const dismissIntroTooltip = () => {
+    localStorage.setItem('crewGameIntroSeen', 'true');
+    setShowIntroTooltip(false);
+  };
 
   useEffect(() => {
     if (isRunning) {
@@ -68,6 +77,27 @@ export function RecruitmentGame() {
 
   return (
     <div className="game-card">
+      {showIntroTooltip && (
+        <div className="intro-tooltip-overlay">
+          <div className="intro-tooltip">
+            <h3>📡 Identity Verification Protocol</h3>
+            <p>"Buried in static and noise are identity fragments. Some are real. Most are not."</p>
+            <p>🔍 <strong>Objective:</strong> Sort through intercepted profiles and decide who's real.</p>
+            <ul>
+              <li>Accept real candidates</li>
+              <li>Reject fake ones</li>
+              <li>The better your accuracy, the higher your chance of recruiting a useful crew member.</li>
+              <li>Fakes can be convincing. Watch for suspicious skills, missing data, or impossible backstories.</li>
+            </ul>
+            <p className="tooltip-tip">💡 Tip: "Some mail is harmless. Some rewrites the map."</p>
+            <p className="refresher-note">📚 You can always check <strong>Game Tips</strong> in the main menu for a refresher!</p>
+            <button className="intro-tooltip-button" onClick={dismissIntroTooltip}>
+              Begin Verification
+            </button>
+          </div>
+        </div>
+      )}
+      
       <button onClick={resetGame}>Close</button>
       <div className="game-stats">
         <div>⏱ {timeLeft}s</div>

@@ -95,103 +95,115 @@
   letter-spacing: 3px;
   text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
 }
-```
 
-```css
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  color: #9400D3;
-  font-size: 24px;
-  cursor: pointer;
-  padding: 0 8px;
-}
-
-.close-button:hover {
-  color: #00FF00;
-}
-
-.game-card {
-  position: relative;
-}
-
-.game-stats {
+.intro-tooltip-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 15px;
-  color: #00FF00;
+  z-index: 9999;
+  backdrop-filter: blur(3px);
 }
 
-.crew-unlock {
-  background: rgba(0, 0, 0, 0.85);
-  border: 2px solid #9400D3;
-  padding: 20px;
-  margin: 20px 0;
+.intro-tooltip {
+  background: linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(40, 40, 40, 0.95));
+  border: 3px solid #9400D3;
   border-radius: 12px;
-  box-shadow: 0 0 15px rgba(148, 0, 211, 0.5);
-  animation: glow 2s infinite alternate;
+  padding: 30px;
+  max-width: 600px;
+  width: 90%;
+  color: #00FF00;
+  text-align: left;
+  box-shadow: 
+    0 0 30px rgba(148, 0, 211, 0.7),
+    inset 0 0 20px rgba(0, 255, 0, 0.1);
+  animation: tooltipGlow 2s infinite alternate;
 }
 
-@keyframes glow {
+@keyframes tooltipGlow {
   from {
-    box-shadow: 0 0 15px rgba(148, 0, 211, 0.5);
+    box-shadow: 
+      0 0 30px rgba(148, 0, 211, 0.7),
+      inset 0 0 20px rgba(0, 255, 0, 0.1);
   }
   to {
-    box-shadow: 0 0 25px rgba(148, 0, 211, 0.8);
+    box-shadow: 
+      0 0 40px rgba(148, 0, 211, 0.9),
+      inset 0 0 25px rgba(0, 255, 0, 0.2);
   }
 }
 
-.crew-details {
-  margin-top: 15px;
-  padding: 15px;
-  background: rgba(20, 20, 20, 0.6);
-  border-radius: 8px;
-  border: 1px solid rgba(148, 0, 211, 0.3);
-}
-
-.crew-details h4 {
-  color: #00FF00;
-  font-size: 1.4em;
-  margin: 0 0 10px 0;
-  text-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
-}
-
-.crew-role {
-  color: #00FF00;
-  font-style: italic;
-  font-size: 1.1em;
-  margin: 5px 0;
-  text-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
-}
-
-.crew-rarity {
+.intro-tooltip h3 {
   color: #9400D3;
+  text-align: center;
+  font-size: 1.4em;
+  margin-bottom: 20px;
   text-transform: uppercase;
-  font-weight: bold;
   letter-spacing: 2px;
-  margin: 10px 0;
   text-shadow: 0 0 8px rgba(148, 0, 211, 0.5);
 }
 
-.crew-perks {
-  color: #00FFFF;
-  margin-top: 15px;
-  padding: 10px;
-  background: rgba(0, 255, 255, 0.1);
-  border-radius: 6px;
-  text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+.intro-tooltip p {
+  margin-bottom: 15px;
+  line-height: 1.5;
+  color: #00FF00;
 }
 
-.crew-unlock h3 {
-  color: #FF00FF;
+.intro-tooltip ul {
+  margin: 15px 0;
+  padding-left: 20px;
+}
+
+.intro-tooltip li {
+  margin-bottom: 8px;
+  color: #00FF00;
+}
+
+.tooltip-tip {
+  color: #00FFFF !important;
+  font-style: italic;
+  background: rgba(0, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 6px;
+  margin: 20px 0 !important;
+  border-left: 4px solid #00FFFF;
+}
+
+.refresher-note {
+  color: #FFD700 !important;
   text-align: center;
-  font-size: 1.6em;
-  margin-bottom: 15px;
+  font-size: 0.9em;
+  margin: 20px 0 !important;
+  padding: 10px;
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.intro-tooltip-button {
+  background: linear-gradient(135deg, #9400D3, #00FF00);
+  color: #000;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
   text-transform: uppercase;
-  letter-spacing: 3px;
-  text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+  letter-spacing: 1px;
+  display: block;
+  margin: 25px auto 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(148, 0, 211, 0.3);
+}
+
+.intro-tooltip-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(148, 0, 211, 0.5);
+  background: linear-gradient(135deg, #00FF00, #9400D3);
 }
