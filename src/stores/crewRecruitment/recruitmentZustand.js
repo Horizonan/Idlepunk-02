@@ -132,7 +132,7 @@ export const useRecruitmentZustand = create(
 
   startGame: (useCredits = true) => {
     console.log('Starting recruitment game');
-    
+
     // Check if there's a saved game
     const savedGame = localStorage.getItem('crewGameSave');
     if (savedGame && !useCredits) {
@@ -180,8 +180,17 @@ export const useRecruitmentZustand = create(
   },
 
   checkForSavedGame: () => {
-    const savedGame = localStorage.getItem('crewGameSave');
-    return savedGame !== null;
+    const saved = localStorage.getItem('crewGameSave');
+    if (!saved) return false;
+
+    try {
+      const gameState = JSON.parse(saved);
+      // Check if the saved game has meaningful progress
+      return gameState && (gameState.currentIndex > 0 || gameState.score > 0);
+    } catch (e) {
+      console.error('Error parsing saved game:', e);
+      return false;
+    }
   },
 
   act: (action) => {
@@ -346,7 +355,7 @@ export const useRecruitmentZustand = create(
   handleGameEnd: (finalScore) => {
     // Clear saved game on completion
     localStorage.removeItem('crewGameSave');
-    
+
     const unlockedCrew = get().unlockedCrew;
     const hiredCrew = get().hiredCrew;
     let eligibleCrew;
