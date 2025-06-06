@@ -77,28 +77,18 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
             onGenerateCredits(creditsGenerated);
           }
 
-          // Store offline progress data for popup
+          // Store offline progress data for main popup
           if (creditsGenerated > 0 || actualRunTime > 60) { // Only if significant progress
-            const offlineData = {
+            const existingOfflineData = JSON.parse(localStorage.getItem('offlineProgressData') || '{}');
+            const mergedData = {
+              ...existingOfflineData,
               scratzMiner: {
                 creditsGenerated,
                 fuelConsumed: fuelConsumed,
                 actualRunTime
               },
-              timeOffline: timeElapsed
-            };
-            
-            // Get existing offline data or create new
-            const existingOfflineData = JSON.parse(localStorage.getItem('offlineProgressData') || '{}');
-            const mergedData = {
-              ...existingOfflineData,
-              ...offlineData,
-              scratzMiner: {
-                ...(existingOfflineData.scratzMiner || {}),
-                ...offlineData.scratzMiner
-              },
-              showPopup: true,
-              timeOffline: Math.max(existingOfflineData.timeOffline || 0, timeElapsed)
+              timeOffline: Math.max(existingOfflineData.timeOffline || 0, timeElapsed),
+              showPopup: true
             };
             
             localStorage.setItem('offlineProgressData', JSON.stringify(mergedData));

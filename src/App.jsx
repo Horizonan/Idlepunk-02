@@ -759,7 +759,7 @@ export default function App() {
         }
 
         localStorage.setItem('lastActiveTime', now.toString());
-      }  else {
+      } else {```python
         localStorage.setItem('lastActiveTime', Date.now().toString());
       }
     };
@@ -1632,7 +1632,7 @@ export default function App() {
               tronicsBoost: 0,
               tronicsBoostII: 0,
               flowRegulator: 0,
-              quantumTap: 0,
+quantumTap: 0,
               electroSurgeNode: 0,
               scratzMiner: 0,
             };
