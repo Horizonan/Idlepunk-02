@@ -1607,14 +1607,19 @@ export default function App() {
       )}
       <PrestigeMeter />
       <PickupMagnetArray />
-      
+
       {/* End of Road UI Element for 2nd Prestige */}
-      {prestigeCount >= 2 && (
+      {prestigeCount >= 2 && !localStorage.getItem('endOfRoadDismissed') && (
         <div className="end-of-road-container">
           <div className="end-of-road-content">
             <div className="end-of-road-header">
               <h2>🏁 End of the Road</h2>
-              <div className="prestige-badge">Prestige {prestigeCount}</div>
+              <button 
+                className="end-of-road-close"
+                onClick={() => localStorage.setItem('endOfRoadDismissed', 'true')}
+              >
+                ×
+              </button>
             </div>
             <div className="end-of-road-message">
               <p>Congratulations! You've reached the current end of development.</p>
@@ -1633,6 +1638,14 @@ export default function App() {
                 <span className="stat-label">Total Clicks:</span>
                 <span className="stat-value">{clickCount.toLocaleString()}</span>
               </div>
+            </div>
+            <div className="end-of-road-footer">
+              <button 
+                className="end-of-road-continue"
+                onClick={() => localStorage.setItem('endOfRoadDismissed', 'true')}
+              >
+                Just a little bit longer please
+              </button>
             </div>
           </div>
         </div>
