@@ -126,7 +126,25 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                     onClick={() => {
                       // Check if this crew member is on an active mission
                       if (activeMission && selectedCrew.includes(crew.id)) {
-                        alert('Sorry, please wait until the mission is completed to fire any crew members currently on missions.');
+                        // Show custom popup instead of alert
+                        const popup = document.createElement('div');
+                        popup.className = 'crew-fire-blocked-popup';
+                        popup.innerHTML = `
+                          <div class="crew-fire-blocked-content">
+                            <div class="blocked-header">
+                              <span class="blocked-icon">🚫</span>
+                              <h3>CREW MEMBER UNAVAILABLE</h3>
+                            </div>
+                            <div class="blocked-message">
+                              <p>Sorry, please wait until the mission is completed to fire any crew members currently on missions.</p>
+                              <p class="blocked-submessage">Mission in progress: <span class="mission-name">${activeMission.name}</span></p>
+                            </div>
+                            <button class="blocked-close-button" onclick="this.parentElement.parentElement.remove()">
+                              UNDERSTOOD
+                            </button>
+                          </div>
+                        `;
+                        document.body.appendChild(popup);
                         return;
                       }
                       

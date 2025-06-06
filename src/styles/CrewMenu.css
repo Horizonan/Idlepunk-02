@@ -1150,3 +1150,116 @@
   transform: scale(1.05);
   box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
 }
+
+.crew-fire-blocked-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  backdrop-filter: blur(3px);
+}
+
+.crew-fire-blocked-content {
+  background: linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(40, 40, 40, 0.95));
+  border: 3px solid #FF0000;
+  border-radius: 12px;
+  padding: 30px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 
+    0 0 30px rgba(255, 0, 0, 0.7),
+    inset 0 0 20px rgba(255, 0, 0, 0.1);
+  animation: blockedPopupGlow 2s infinite alternate;
+}
+
+@keyframes blockedPopupGlow {
+  from {
+    box-shadow: 
+      0 0 30px rgba(255, 0, 0, 0.7),
+      inset 0 0 20px rgba(255, 0, 0, 0.1);
+  }
+  to {
+    box-shadow: 
+      0 0 40px rgba(255, 0, 0, 0.9),
+      inset 0 0 25px rgba(255, 0, 0, 0.2);
+  }
+}
+
+.blocked-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.blocked-icon {
+  font-size: 2em;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.blocked-header h3 {
+  color: #FF0000;
+  font-size: 1.4em;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
+}
+
+.blocked-message {
+  color: #00FF00;
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+.blocked-message p {
+  margin: 10px 0;
+  font-size: 1.1em;
+}
+
+.blocked-submessage {
+  color: #9400D3;
+  font-style: italic;
+  font-size: 0.9em !important;
+}
+
+.mission-name {
+  color: #00FFFF;
+  font-weight: bold;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+}
+
+.blocked-close-button {
+  background: linear-gradient(45deg, #FF0000, #CC0000);
+  color: white;
+  border: 2px solid #FF0000;
+  padding: 12px 25px;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.blocked-close-button:hover {
+  background: linear-gradient(45deg, #FF3333, #FF0000);
+  border-color: #FF3333;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+}
