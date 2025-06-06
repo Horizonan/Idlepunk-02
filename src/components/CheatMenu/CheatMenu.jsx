@@ -163,7 +163,7 @@ export default function CheatMenu({
           localStorage.setItem('prestigeCount', '1');
           
           window.location.reload();
-        }, type: 'special' }y' },
+        }, type: 'special' },
         { name: 'Set 5 Successful Missions', action: () => {
           // Update the crew storage to set successfulMissions to 5
           const crewStorage = JSON.parse(localStorage.getItem('crew-storage') || '{}');
