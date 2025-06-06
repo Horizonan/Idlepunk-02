@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/Store.css";
+import "../styles/itemTooltips.css";
 
 export default function Store({
   credits, itemCosts, ownedItems, craftingInventory, onBuyTrashBag,

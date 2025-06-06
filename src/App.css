@@ -1550,12 +1550,6 @@ button.locked {
   background: rgba(34, 34, 34, 0.95);
 }
 
-.store-item .item-header strong {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
 .store-item .icon {
   font-size: 1.2em;
 }
