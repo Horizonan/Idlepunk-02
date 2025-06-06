@@ -188,7 +188,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
           />
         )}
       </div>
-      <div className="clicker-buttons">
+      <div className={`clicker-buttons ${localStorage.getItem('hasPrestiged') === 'true' ? 'prestige-unlocked' : ''}`}>
         <button 
           onClick={() => setActiveClicker('trash')}
           className={`clicker-select ${activeClicker === 'trash' ? 'active' : ''}`}

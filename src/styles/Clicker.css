@@ -15,6 +15,16 @@
   justify-content: center;
 }
 
+/* Hide clicker buttons until first prestige */
+.clicker-buttons:not(.prestige-unlocked) {
+  display: none !important;
+}
+
+/* Show clicker buttons after first prestige */
+.clicker-buttons.prestige-unlocked {
+  display: flex;
+}
+
 .clicker-select {
   padding: 8px 16px;
   font-size: 14px;
