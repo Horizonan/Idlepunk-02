@@ -47,7 +47,8 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
 
         if (actualRunTime > 0) {
           // Calculate fuel consumption
-          remainingFuel = Math.max(0, remainingFuel - (actualRunTime * fuelConsumptionPerSecond));
+          const fuelConsumed = actualRunTime * fuelConsumptionPerSecond;
+          remainingFuel = Math.max(0, remainingFuel - fuelConsumed);
 
           // Calculate credit generation cycles
           let timeProcessed = 0;
@@ -71,18 +72,36 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
           localStorage.setItem('scratzMinerFuel', remainingFuel.toString());
           localStorage.setItem('scratzMinerTimeUntilNext', timeUntilNext.toString());
 
-          // Generate credits and show notification
+          // Generate credits
           if (creditsGenerated > 0) {
             onGenerateCredits(creditsGenerated);
-            const hoursOffline = Math.floor(actualRunTime / 3600);
-            const minutesOffline = Math.floor((actualRunTime % 3600) / 60);
-            let timeString = '';
-            if (hoursOffline > 0) {
-              timeString = `${hoursOffline}h ${minutesOffline}m`;
-            } else {
-              timeString = `${minutesOffline}m`;
-            }
-            setNotifications(prevNotifs => [...prevNotifs, `Scratz Miner generated ${creditsGenerated} Credits while offline! (${timeString})`]);
+          }
+
+          // Store offline progress data for popup
+          if (creditsGenerated > 0 || actualRunTime > 60) { // Only if significant progress
+            const offlineData = {
+              scratzMiner: {
+                creditsGenerated,
+                fuelConsumed: fuelConsumed,
+                actualRunTime
+              },
+              timeOffline: timeElapsed
+            };
+            
+            // Get existing offline data or create new
+            const existingOfflineData = JSON.parse(localStorage.getItem('offlineProgressData') || '{}');
+            const mergedData = {
+              ...existingOfflineData,
+              ...offlineData,
+              scratzMiner: {
+                ...(existingOfflineData.scratzMiner || {}),
+                ...offlineData.scratzMiner
+              },
+              showPopup: true,
+              timeOffline: Math.max(existingOfflineData.timeOffline || 0, timeElapsed)
+            };
+            
+            localStorage.setItem('offlineProgressData', JSON.stringify(mergedData));
           }
         } else {
           // No fuel, miner was offline

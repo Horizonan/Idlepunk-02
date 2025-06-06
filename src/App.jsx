@@ -76,6 +76,9 @@ import { useEmailStore } from './utils/emailStore';
 //Mini game Component
 import RelayCascade from './components/MiniGames/RelayCascade';
 
+//Offline progress popup
+import OfflineProgressPopup from './components/OfflineProgressPopup';
+
 
 export default function App() {
   const { 
@@ -124,6 +127,7 @@ export default function App() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [quantumTapNotifications, setQuantumTapNotifications] = useState([]);
   const [showEndOfRoad, setShowEndOfRoad] = useState(true);
+  const [offlineProgressData, setOfflineProgressData] = useState(null);
 
 
   useEffect(() => {
@@ -700,8 +704,92 @@ export default function App() {
     return junk >= itemCosts.autoClickerV2;
   }
 
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        const now = Date.now();
+        const lastActiveTime = parseInt(localStorage.getItem('lastActiveTime') || now.toString());
+        const timeAway = Math.floor((now - lastActiveTime) / 1000);
 
+        if (timeAway > 30) { // User was away for more than 30 seconds
+          // Get existing offline data
+          let offlineData = JSON.parse(localStorage.getItem('offlineProgressData') || '{}');
 
+          // Calculate offline progress for passive income
+          const offlineJunk = Math.floor((passiveIncome * globalJpsMultiplier + (autoClicks + permanentAutoClicks) * clickMultiplier) * timeAway);
+
+          if (offlineJunk > 0) {
+            setJunk(prev => prev + offlineJunk);
+            offlineData.passiveIncome = {
+              junkGenerated: offlineJunk
+            };
+          }
+
+          // Calculate offline tronics if applicable
+          const tronicsPerSecond = 1; // TODO: real calculation
+          if (electronicsUnlock && tronicsPerSecond > 0) {
+            const offlineTronics = Math.floor(tronicsPerSecond * timeAway);
+            if (offlineTronics > 0) {
+              setTronics(prev => prev + offlineTronics);
+              offlineData.tronics = {
+                generated: offlineTronics
+              };
+            }
+          }
+
+          // Update offline data with time and show popup flag
+          offlineData.timeOffline = Math.max(offlineData.timeOffline || 0, timeAway);
+          offlineData.showPopup = true;
+
+          // Calculate total value for summary
+          let totalValue = 0;
+          if (offlineData.scratzMiner?.creditsGenerated) totalValue += offlineData.scratzMiner.creditsGenerated;
+          if (offlineData.passiveIncome?.junkGenerated) totalValue += Math.floor(offlineData.passiveIncome.junkGenerated / 10); // Convert junk to credits equivalent
+          if (offlineData.tronics?.generated) totalValue += offlineData.tronics.generated * 5; // Tronics are worth more
+
+          if (totalValue > 0) {
+            offlineData.totalValue = totalValue;
+          }
+
+          // Show popup if there's meaningful progress
+          if (Object.keys(offlineData).length > 2) { // More than just timeOffline and showPopup
+            localStorage.setItem('offlineProgressData', JSON.stringify(offlineData));
+            setOfflineProgressData(offlineData);
+          }
+        }
+
+        localStorage.setItem('lastActiveTime', now.toString());
+      } else {
+        localStorage.setItem('lastActiveTime', Date.now().toString());
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // Set initial timestamp
+    if (!localStorage.getItem('lastActiveTime')) {
+      localStorage.setItem('lastActiveTime', Date.now().toString());
+    }
+
+    // Check for existing offline progress on load
+    const existingOfflineData = JSON.parse(localStorage.getItem('offlineProgressData') || '{}');
+    if (existingOfflineData.showPopup) {
+      setOfflineProgressData(existingOfflineData);
+    }
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [passiveIncome, globalJpsMultiplier, autoClicks, permanentAutoClicks, clickMultiplier, electronicsUnlock]);
+
+  const handlePrestigeComplete = () => {
+    setShowPrestigePopup(false);
+  };
+
+  const handleOfflineProgressClose = () => {
+    setOfflineProgressData(null);
+    localStorage.removeItem('offlineProgressData');
+  };
 
   useEffect(() => {
     localStorage.setItem('tutorialStage', tutorialStage);
@@ -1542,6 +1630,7 @@ export default function App() {
               junkRefinery: 0,
               modularScrapper: 0,
               tronicsBoost: 0,
+```javascript
               tronicsBoostII: 0,
               flowRegulator: 0,
               quantumTap: 0,
@@ -1608,7 +1697,7 @@ export default function App() {
       )}
       <PrestigeMeter />
       <PickupMagnetArray />
-      
+
       {/* End of Road UI Element for 2nd Prestige */}
       {prestigeCount >= 2 && showEndOfRoad && (
         <div className="end-of-road-container">
@@ -1645,6 +1734,11 @@ export default function App() {
           </div>
         </div>
       )}
+
+      <OfflineProgressPopup 
+        offlineData={offlineProgressData}
+        onClose={handleOfflineProgressClose}
+      />
     </main>
   );
 }
