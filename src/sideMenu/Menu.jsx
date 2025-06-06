@@ -38,9 +38,9 @@ export default function Menu({ onStoreSelect }) {
       case 'marketplace':
         return true; // Always unlocked
       case 'slotMachine':
-        return junk >= 100;
+        return junk >= 10000;
       case 'coinflip':
-        return junk >= 10;
+        return junk >= 1000;
       case 'combat':
         return localStorage.getItem('scraptagon') === 'true';
       default:
