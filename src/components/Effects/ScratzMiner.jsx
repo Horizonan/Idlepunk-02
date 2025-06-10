@@ -9,7 +9,7 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
   const [isCollapsed, setIsCollapsed] = useState(() => localStorage.getItem('scratzMinerCollapsed') === 'true');
   const [lastUpdateTime, setLastUpdateTime] = useState(Date.now());
   const [creditLog, setCreditLog] = useState([]);
-  
+
   // Use refs to track current values
   const fuelRef = useRef(0);
   const timeRef = useRef(3600);
@@ -87,7 +87,7 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
               timeString = `${minutesOffline}m`;
             }
             setNotifications(prevNotifs => [...prevNotifs, `Scratz Miner generated ${creditsGenerated} Credits while offline! (${timeString})`]);
-            
+
             // Add to credit log
             setCreditLog(prev => [...prev.slice(-4), {
               amount: creditsGenerated,
@@ -117,11 +117,11 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
     // Initialize fuel from localStorage and process offline progress
     const savedFuel = parseFloat(localStorage.getItem('scratzMinerFuel') || '0');
     const savedTime = parseInt(localStorage.getItem('scratzMinerTimeUntilNext') || '3600');
-    
+
     setFuelRemaining(savedFuel);
     setTimeUntilNextCredit(savedTime);
     setIsPowered(savedFuel > 0);
-    
+
     fuelRef.current = savedFuel;
     timeRef.current = savedTime;
 
@@ -147,7 +147,7 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
     if (ownedMiners === 0) return;
 
     let intervalId;
-    
+
     const updateMiner = () => {
       const currentTime = Date.now();
       const currentFuel = fuelRef.current;
@@ -157,34 +157,34 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
         // Update fuel
         const fuelConsumptionPerSecond = getFuelConsumptionRate() / 3600;
         const newFuel = Math.max(0, currentFuel - fuelConsumptionPerSecond);
-        
+
         // Update timer
         let newTime = Math.max(0, currentTimeRemaining - 1);
-        
+
         // Batch state updates
         setFuelRemaining(newFuel);
         setTimeUntilNextCredit(newTime);
         setIsPowered(true);
         setLastUpdateTime(currentTime);
-        
+
         // Update localStorage once per update
         localStorage.setItem('scratzMinerFuel', newFuel.toString());
         localStorage.setItem('scratzMinerTimeUntilNext', newTime.toString());
         localStorage.setItem('scratzMinerLastUpdate', currentTime.toString());
-        
+
         if (newTime <= 0) {
           // Generate credits
           const creditsGenerated = Math.floor(getTotalGeneration());
           onGenerateCredits(creditsGenerated);
           setNotifications(prevNotifs => [...prevNotifs, `Scratz Miner generated ${creditsGenerated} Credits!`]);
-          
+
           // Add to credit log
           setCreditLog(prev => [...prev.slice(-4), {
             amount: creditsGenerated,
             time: new Date().toLocaleTimeString(),
             type: 'active'
           }]);
-          
+
           // Reset timer
           const resetTime = 3600;
           setTimeUntilNextCredit(resetTime);
@@ -221,6 +221,15 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
       setShowRefuelDialog(false);
     }
   };
+
+  useEffect(() => {
+    const handleUpdateTimer = () => {
+      const newTime = parseInt(localStorage.getItem('scratzMinerTimeUntilNext') || '3600');
+      setTimeUntilNextCredit(newTime);
+    };
+    window.addEventListener('updateScratzMinerTimer', handleUpdateTimer);
+    return () => window.removeEventListener('updateScratzMinerTimer', handleUpdateTimer);
+  }, []);
 
   const formatTime = (seconds) => {
     const hours = Math.floor(seconds / 3600);

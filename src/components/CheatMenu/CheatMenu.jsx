@@ -171,6 +171,10 @@ export default function CheatMenu({
         }, type: 'secondary' },
         { name: 'Set Next Surge (10s)', action: setNextSurgeTimer, type: 'secondary' },
         { name: 'Set Next Tronics Surge (10s)', action: setNextTronicsSurgeTimer, type: 'secondary' },
+        { name: 'Set Scratz Miner Timer (1s)', action: () => {
+          localStorage.setItem('scratzMinerTimeUntilNext', '1');
+          window.dispatchEvent(new CustomEvent('updateScratzMinerTimer'));
+        }, type: 'secondary' },
       ]
     },
     tools: {
