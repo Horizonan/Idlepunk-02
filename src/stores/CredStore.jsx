@@ -142,6 +142,31 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
         <h2>Scratz Store</h2>
         <button onClick={onBack}>Close</button>
       </div>
+      
+      {/* Purchased Items List */}
+      <div className="purchased-items-list">
+        <h3>Active Purchases</h3>
+        <div className="purchased-items">
+          {useCrystalZustand.getState().hasChronoCrystalTimer && (
+            <div className="purchased-item">
+              <span className="purchase-name">⌛ Chrono Crystal Timer</span>
+              <span className="purchase-effect">Shows Flying Crystal countdown</span>
+            </div>
+          )}
+          {parseInt(localStorage.getItem('ascension_reclaimer_count') || '0') > 0 && (
+            <div className="purchased-item">
+              <span className="purchase-name">🛡️ Ascension Reclaimer</span>
+              <span className="purchase-effect">Preserves {localStorage.getItem('preserved_helper') || 'a helper'} through prestige</span>
+            </div>
+          )}
+          {parseInt(localStorage.getItem('ascension_reclaimer_count') || '0') === 0 && !useCrystalZustand.getState().hasChronoCrystalTimer && (
+            <div className="no-purchases">
+              <span>No active purchases</span>
+            </div>
+          )}
+        </div>
+      </div>
+
       <div className="store-items">
         <button
           onClick={() => onSellJunk(baseRate)}
