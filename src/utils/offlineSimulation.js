@@ -8,7 +8,8 @@ export const processOfflineProgress = (gameState, setGameState) => {
   const maxOfflineTime = 1800;
   const effectiveOfflineTime = Math.min(timeOffline, maxOfflineTime);
   
-  if (effectiveOfflineTime < 5) return; // Don't process if offline for less than 5 seconds
+  // Only process if offline for more than 30 seconds to avoid triggering during active usage
+  if (effectiveOfflineTime < 30) return;
   
   let offlineResults = {
     junk: 0,
