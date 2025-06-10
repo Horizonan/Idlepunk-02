@@ -139,10 +139,9 @@
     right: 15px !important;
     left: auto !important;
     transform: none !important;
-    z-index: 1200 !important;
+    z-index: 1300 !important;
     max-width: 220px !important;
     min-width: 180px !important;
-    box-shadow: 0 8px 32px rgba(148, 0, 211, 0.4) !important;
   }
 
   .menu-container:not(.collapsed) {
@@ -154,14 +153,7 @@
     box-shadow: 0 8px 32px rgba(148, 0, 211, 0.6) !important;
   }
 
-  .menu-container.collapsed {
-    background: rgba(26, 26, 26, 0.9) !important;
-    border: 2px solid #9400D3 !important;
-    padding: 8px !important;
-    backdrop-filter: blur(10px) !important;
-    border-radius: 50px !important;
-    box-shadow: 0 4px 20px rgba(148, 0, 211, 0.4) !important;
-  }
+
 
   .menu-container.collapsed .menu-buttons {
     display: none !important;
@@ -473,6 +465,10 @@
     min-width: 90px !important;
   }
 
+  .mainStore{
+    z-index: 2200 !important;
+  }
+  
   .mainStore:not(.collapsed) {
     padding: 10px !important;
   }
