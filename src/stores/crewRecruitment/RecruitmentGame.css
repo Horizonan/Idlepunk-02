@@ -222,3 +222,16 @@
   text-align: center;
   border: 1px solid rgba(148, 0, 211, 0.3);
 }
+
+.detection-examples {
+  background: rgba(148, 0, 211, 0.1);
+  padding: 10px;
+  border-radius: 4px;
+  margin: 10px 0;
+  border-left: 3px solid #9400D3;
+}
+
+.detection-examples p {
+  margin: 5px 0;
+  font-size: 0.9em;
+}

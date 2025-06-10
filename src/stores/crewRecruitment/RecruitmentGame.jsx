@@ -90,7 +90,23 @@ export function RecruitmentGame() {
                 <li>The better your accuracy, the higher your chance of recruiting a useful crew member.</li>
                 <li>Fakes can be convincing. Watch for suspicious skills, missing data, or impossible backstories.</li>
               </ul>
+              
+              <h4>🕵️ Key Things to Check:</h4>
+              <ul>
+                <li><strong>Age vs Experience:</strong> Does their age match their claimed experience?</li>
+                <li><strong>Skill Logic:</strong> Do their skills make sense together?</li>
+                <li><strong>Work Permits:</strong> Are documents current and valid?</li>
+                <li><strong>Background Consistency:</strong> Does their story add up?</li>
+                <li><strong>Timeline Logic:</strong> Do dates and events make chronological sense?</li>
+              </ul>
+              
+              <div className="detection-examples">
+                <p><strong>⚠️ Red Flags:</strong> 19-year-old "veterans", impossible skill combos, missing permits, contradictory stories</p>
+                <p><strong>✅ Good Signs:</strong> Realistic ages, complementary skills, valid documentation, coherent backgrounds</p>
+              </div>
+              
               <p className="tooltip-tip">💡 Tip: "Some mail is harmless. Some rewrites the map."</p>
+              <p className="tooltip-tip">🎯 Pro Tip: When in doubt, look for internal consistency - real profiles tell a coherent story.</p>
             </div>
             <p className="refresher-note">📚 You can always check <strong>Game Tips</strong> in the main menu for a refresher!</p>
             <button className="intro-tooltip-button" onClick={dismissIntroTooltip}>
