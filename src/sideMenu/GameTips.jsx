@@ -18,6 +18,37 @@ export default function Tooltips({ onClose }) {
       
       <div className="tooltips-content">
         <div className="tooltip-entry">
+          <h3 onClick={() => toggleTip('surges')}>
+            ⚡ What Are Surges? {expandedTip === 'surges' ? '▼' : '▶'}
+          </h3>
+          {expandedTip === 'surges' && (
+            <div className="tooltip-section">
+              <p>Surges are temporary events that flood the junkyard with extra resources and opportunities.</p>
+              
+              <h4>🗑️ Trash Surges:</h4>
+              <ul>
+                <li>Increases junk collection multiplier significantly</li>
+                <li>Lasts 5-7 seconds (can be extended with upgrades)</li>
+                <li>Occurs randomly every 4-8 minutes</li>
+                <li>Creates screen effects and enhanced button glow</li>
+                <li>Sometimes spawns rare Capacitors</li>
+              </ul>
+              
+              <h4>⚡ Tronics Surges:</h4>
+              <ul>
+                <li>Unlocked after purchasing the Electro Surge Node</li>
+                <li>Replaces regular Trash Surges</li>
+                <li>Spawns collectible Capacitors across the screen</li>
+                <li>Duration based on surge duration upgrades</li>
+                <li>Creates yellow screen effects and plays audio</li>
+              </ul>
+              
+              <p className="tooltip-tip">💡 Tip: Watch for the surge banners at the top of your screen - they show remaining time and type!</p>
+            </div>
+          )}
+        </div>
+
+        <div className="tooltip-entry">
           <h3 onClick={() => toggleTip('electroShards')}>
             ⚡ What Are Electro Shards? {expandedTip === 'electroShards' ? '▼' : '▶'}
           </h3>
