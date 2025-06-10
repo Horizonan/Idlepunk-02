@@ -541,8 +541,7 @@ export default function App() {
       const circuitOptCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
       const circuitOptBonus = circuitOptCount * 0.25;
       const holoBillboardBonus = (ownedItems.holoBillboard || 0) * 0.1;
-      const surgeMultiplier = (isSurgeActive || tronicsSurgeActive) ? 2 : 1;
-      const totalMultiplier = (1 + circuitOptBonus + (craftingInventory['Compression Pack'] ? 0.25 : 0) + greaseDisciplineBonus + holoBillboardBonus) * surgeMultiplier;
+      const totalMultiplier = 1 + circuitOptBonus + (craftingInventory['Compression Pack'] ? 0.25 : 0) + greaseDisciplineBonus + holoBillboardBonus;
       setGlobalJpsMultiplier(totalMultiplier);
 
       if (passiveIncome > 0) {
