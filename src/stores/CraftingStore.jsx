@@ -269,7 +269,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                       <div>
                         <p>Requirements:</p>
                         {Object.entries(item.requirements).map(([mat, count]) => (
-                          <p key={mat}>- {mat}: {count * (bulkCraft ? 10 : 1)} ({craftingInventory[mat] || 0} owned)</p>
+                          <p key={mat}>- {mat}: {count * ((bulkCraft && !item.onetime) ? 10 : 1)} ({craftingInventory[mat] || 0} owned)</p>
                         ))}
                       </div>
                     )}
@@ -301,7 +301,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                       <div>
                         <p>Requirements:</p>
                         {Object.entries(item.requirements).map(([mat, count]) => (
-                          <p key={mat}>- {mat}: {count * (bulkCraft ? 10 : 1)} ({craftingInventory[mat] || 0} owned)</p>
+                          <p key={mat}>- {mat}: {count * ((bulkCraft && !item.onetime) ? 10 : 1)} ({craftingInventory[mat] || 0} owned)</p>
                         ))}
                       </div>
                     )}
