@@ -484,7 +484,7 @@
   }
 
   .sideBar.open {
-    z-index: 2300 !important;
+    z-index: 3000 !important;
   }
   
   .mainStore{
