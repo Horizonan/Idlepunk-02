@@ -74,6 +74,7 @@ import PrestigePopup from './components/PrestigePopup';
 import QuantumTapNotification from './components/QuantumTapNotification';
 import PrestigeMeter from './components/PrestigeMeter';
 import SurgeExplanationPopup from './components/SurgeExplanationPopup';
+import OfflineProgressPopup from './components/OfflineProgressPopup';
 import { useEmailStore } from './utils/emailStore';
 
 //Mini game Component
@@ -129,6 +130,8 @@ export default function App() {
   const [showEndOfRoad, setShowEndOfRoad] = useState(true);
   const [showSurgeExplanation, setShowSurgeExplanation] = useState(false);
   const [showCrewIntroTooltip, setShowCrewIntroTooltip] = useState(false);
+  const [showOfflineProgress, setShowOfflineProgress] = useState(false);
+  const [offlineProgressData, setOfflineProgressData] = useState(null);
 
 
   useEffect(() => {
@@ -802,7 +805,7 @@ export default function App() {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
         // Process offline progress when page becomes visible again
-        processOfflineProgress(
+        const offlineResults = processOfflineProgress(
           {
             junk,
             credits,
@@ -847,6 +850,12 @@ export default function App() {
             setElectroMultiplier
           }
         );
+        
+        // Show offline progress popup if there were results and user was offline for more than 5 seconds
+        if (offlineResults && offlineResults.duration >= 5) {
+          setOfflineProgressData(offlineResults);
+          setShowOfflineProgress(true);
+        }
       } else {
         // Update last active time when page becomes hidden
         updateLastActiveTime();
@@ -1692,6 +1701,17 @@ export default function App() {
       {showSurgeExplanation && (
         <SurgeExplanationPopup 
           onClose={() => setShowSurgeExplanation(false)}
+        />
+      )}
+
+      {/* Offline Progress Popup */}
+      {showOfflineProgress && offlineProgressData && (
+        <OfflineProgressPopup
+          offlineResults={offlineProgressData}
+          onClose={() => {
+            setShowOfflineProgress(false);
+            setOfflineProgressData(null);
+          }}
         />
       )}
 

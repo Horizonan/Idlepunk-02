@@ -74,6 +74,9 @@ export const processOfflineProgress = (gameState, setGameState) => {
   
   // Update last active time
   localStorage.setItem('lastActiveTime', currentTime.toString());
+  
+  // Return results for popup display
+  return offlineResults;
 };
 
 const processOfflineMissions = (timeOffline) => {
