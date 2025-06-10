@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRecruitmentZustand } from './recruitmentZustand';
 import './RecruitmentGame.css';
 
-export function RecruitmentGame({ onClose }) {
+export function RecruitmentGame() {
   const {
     resetGame,
     profiles,
@@ -48,10 +48,7 @@ export function RecruitmentGame({ onClose }) {
     
     return (
       <div className="game-over">
-        <button onClick={() => {
-          resetGame();
-          if (onClose) onClose();
-        }}>Close</button>
+        <button onClick={resetGame}>Close</button>
         <h2>Game Over</h2>
         <p>Final Score: {finalScore}</p>
         
@@ -119,10 +116,7 @@ export function RecruitmentGame({ onClose }) {
         </div>
       )}
       
-      <button onClick={() => {
-        resetGame();
-        if (onClose) onClose();
-      }}>Close</button>
+      <button onClick={resetGame}>Close</button>
       <div className="game-stats">
         <div>⏱ {timeLeft}s</div>
         <div>Progress: {currentIndex + 1}/8</div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/CrewMenu.css';
 import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
+import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
 import { missions, calculateMissionSuccess } from "./crewRecruitment/missions";
 import { equipmentDatabase, getAllEquipment } from "./crewRecruitment/equipment";
 import StaminaTimer from '../components/StaminaTimer';
@@ -228,14 +229,19 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
           <div className="crew-content">
             <h3>Available Recruits</h3>
             <div className="search-section">
+              {isRunning && (
+                <div className="recruitment-modal">
+                  <div className="recruitment-modal-content">
+                    <RecruitmentGame />
+                  </div>
+                </div>
+              )}
                 <button 
                   type="button"
                   onClick={() => {
                   if(Number(localStorage.getItem('credits')) >= 10){
                     setCredits(prev => prev - 10);
                     startGame();
-                    // Trigger the crew recruitment popup at App level
-                    window.dispatchEvent(new CustomEvent('showCrewRecruitment'));
                   }
                   }}
                   className="search-recruits-button" >
