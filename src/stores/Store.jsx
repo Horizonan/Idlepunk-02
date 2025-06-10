@@ -12,9 +12,8 @@ export default function Store({
   onBuyModularScrapper, onBuyScratzMiner,
 }) {
   const [selectedTab, setSelectedTab] = useState("prePres");
-  const [bulkBuy, setBulkBuy] = useState(false);
   const [currentTab, setCurrentTab] = useState('Main');
-  const [expandedCategories, setExpandedCategories] = useState({}); // Track which categories are expanded
+
   const [mobileInfoModal, setMobileInfoModal] = useState(null); // For mobile item info modals
 
 
