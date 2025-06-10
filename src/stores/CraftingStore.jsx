@@ -16,6 +16,7 @@ const formatJunkCost = (cost, hasBooster) => {
 export default function CraftingStore({ junk, onCraft, craftingInventory, onBack }) {
   const [selectedTab, setSelectedTab] = useState('basic');
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [bulkCraft, setBulkCraft] = useState(false);
 
   const tabs = [
     { id: 'basic', label: 'Basic Materials' },
@@ -155,14 +156,33 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
     }
   ];
 
+  const calculate10xCraftingPrice = (baseCost) => {
+    const cost = craftingInventory['Crafting Booster Unit'] ? Math.floor(baseCost * 0.9) : baseCost;
+    let totalCost = 0;
+    let currentCost = cost;
+    
+    for (let i = 0; i < 10; i++) {
+      totalCost += currentCost;
+      currentCost = Math.floor(currentCost * 1.1); // 10% increase per craft
+    }
+    
+    return { totalCost, finalCost: currentCost };
+  };
+
   const canCraft = (item) => {
     if (item.type === 'basic') {
-      const cost = craftingInventory['Crafting Booster Unit'] ? Math.floor(item.cost * 0.9) : item.cost;
-      return junk >= cost;
+      if (bulkCraft) {
+        const { totalCost } = calculate10xCraftingPrice(item.cost);
+        return junk >= totalCost;
+      } else {
+        const cost = craftingInventory['Crafting Booster Unit'] ? Math.floor(item.cost * 0.9) : item.cost;
+        return junk >= cost;
+      }
     } else {
+      const multiplier = bulkCraft ? 10 : 1;
       return Object.entries(item.requirements).every(
-        ([mat, count]) => (craftingInventory[mat] || 0) >= count
-      ) && junk >= (item.cost || 0);
+        ([mat, count]) => (craftingInventory[mat] || 0) >= (count * multiplier)
+      ) && junk >= ((item.cost || 0) * multiplier);
     }
   };
 
@@ -170,7 +190,15 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
     <div className="store-container">
       <div className="store-header">
         <h2>Crafting Station</h2>
-        <button onClick={onBack}>Close</button>
+        <div className="store-controls">
+          <button 
+            onClick={() => setBulkCraft(!bulkCraft)} 
+            className="bulk-buy-toggle"
+          >
+            {bulkCraft ? '10x' : '1x'}
+          </button>
+          <button onClick={onBack}>Close</button>
+        </div>
       </div>
       <div className="crafting-tabs">
         {tabs.map(tab => (
@@ -193,13 +221,20 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
               {basicMaterials.map((item) => (
                 <button
                   key={item.name}
-                  onClick={() => !item.uncraftable && onCraft(item)}
+                  onClick={() => !item.uncraftable && onCraft(item, bulkCraft ? 10 : 1)}
                   disabled={item.uncraftable || !canCraft(item)}
                   className={`store-item ${item.uncraftable ? 'uncraftable' : ''}`}
                 >
                   <div className="item-header">
                     <strong>{item.name}</strong>
-                    {item.cost && <span className="cost">({formatJunkCost(item.cost, craftingInventory['Crafting Booster Unit'])} Junk)</span>}
+                    {item.cost && (
+                      <span className="cost">
+                        ({bulkCraft 
+                          ? formatJunkCost(calculate10xCraftingPrice(item.cost).totalCost, false) 
+                          : formatJunkCost(item.cost, craftingInventory['Crafting Booster Unit'])
+                        } Junk)
+                      </span>
+                    )}
                   </div>
                   <div className="item-info">
                     <p>{item.description}</p>
@@ -218,7 +253,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
               {craftableItems.filter(item => !item.onetime || !craftingInventory[item.name]).map((item) => (
                 <button
                   key={item.name}
-                  onClick={() => onCraft(item)}
+                  onClick={() => onCraft(item, bulkCraft ? 10 : 1)}
                   disabled={!canCraft(item)}
                   className="store-item"
                 >
@@ -231,11 +266,11 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                       <div>
                         <p>Requirements:</p>
                         {Object.entries(item.requirements).map(([mat, count]) => (
-                          <p key={mat}>- {mat}: {count} ({craftingInventory[mat] || 0} owned)</p>
+                          <p key={mat}>- {mat}: {count * (bulkCraft ? 10 : 1)} ({craftingInventory[mat] || 0} owned)</p>
                         ))}
                       </div>
                     )}
-                    {item.cost && <p>Cost: {formatJunkCost(item.cost, craftingInventory['Crafting Booster Unit'])} Junk</p>}
+                    {item.cost && <p>Cost: {formatJunkCost(item.cost * (bulkCraft ? 10 : 1), craftingInventory['Crafting Booster Unit'])} Junk</p>}
                   </div>
                 </button>
               ))}
@@ -250,7 +285,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
               {consumableItems.map((item) => (
                 <button
                   key={item.name}
-                  onClick={() => onCraft(item)}
+                  onClick={() => onCraft(item, bulkCraft ? 10 : 1)}
                   disabled={!canCraft(item)}
                   className="store-item"
                 >
@@ -263,7 +298,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                       <div>
                         <p>Requirements:</p>
                         {Object.entries(item.requirements).map(([mat, count]) => (
-                          <p key={mat}>- {mat}: {count} ({craftingInventory[mat] || 0} owned)</p>
+                          <p key={mat}>- {mat}: {count * (bulkCraft ? 10 : 1)} ({craftingInventory[mat] || 0} owned)</p>
                         ))}
                       </div>
                     )}
@@ -293,7 +328,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   description: 'A mysterious crystal pulsing with otherworldly power',
                   type: 'mysterious',
                   icon: '💎'
-                })}
+                }, 1)} // Always craft 1 for unique items
                 disabled={!canCraft({
                   requirements: {
                     'Stabilized Capacitor': 1,
@@ -331,7 +366,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   description: 'A mysterious crystal pulsing with otherworldly power',
                   type: 'mysterious',
                   icon: '💎'
-                })}
+                }, 1)} // Always craft 1 for unique items
                 disabled={!canCraft({
                   requirements: {
                     'Encrypted Coil': 1,
