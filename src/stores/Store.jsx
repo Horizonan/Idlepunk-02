@@ -189,6 +189,7 @@ export default function Store({
     { id: "prePres", label: "Scrap Collectors" },
     { id: "premium", label: "Premium" },
     { id: "automation", label: "Automation" },
+    { id: "purchased", label: "Purchased Items" },
     {
       id: "firstAsc",
       label: "First Ascension",
@@ -308,6 +309,39 @@ export default function Store({
               Premium Items
             </h3>
             {renderItems(premiumItems)}
+          </div>
+        )}
+        {selectedTab === "purchased" && (
+          <div>
+            <h3 style={{ color: "#9400D3", textAlign: "center" }}>
+              Purchased Items
+            </h3>
+            {Object.keys(ownedItems).filter(key => ownedItems[key] > 0).length > 0 ? (
+              <div className="purchased-items-grid">
+                {Object.entries(ownedItems).map(([itemName, count]) => {
+                  if (count > 0) {
+                    return (
+                      <div key={itemName} className="purchased-item">
+                        <div className="item-header">
+                          <strong>{itemName}</strong>
+                          <span className="owned-count">x{count}</span>
+                        </div>
+                        <div className="item-details">
+                          Item owned and contributing to your progress
+                        </div>
+                      </div>
+                    );
+                  }
+                  return null;
+                })}
+              </div>
+            ) : (
+              <div className="no-purchased-items">
+                <p style={{ color: "#9400D3", textAlign: "center" }}>
+                  No items purchased yet. Buy some upgrades to see them here!
+                </p>
+              </div>
+            )}
           </div>
         )}
         {selectedTab === "firstAsc" &&
