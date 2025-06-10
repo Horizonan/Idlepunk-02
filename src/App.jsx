@@ -78,6 +78,9 @@ import { useEmailStore } from './utils/emailStore';
 //Mini game Component
 import RelayCascade from './components/MiniGames/RelayCascade';
 
+//Crew Recruitment
+import { RecruitmentGame } from './stores/crewRecruitment/RecruitmentGame';
+
 
 export default function App() {
   const { 
@@ -127,6 +130,7 @@ export default function App() {
   const [quantumTapNotifications, setQuantumTapNotifications] = useState([]);
   const [showEndOfRoad, setShowEndOfRoad] = useState(true);
   const [showSurgeExplanation, setShowSurgeExplanation] = useState(false);
+  const [showCrewRecruitment, setShowCrewRecruitment] = useState(false);
 
 
   useEffect(() => {
@@ -191,12 +195,17 @@ export default function App() {
       setShowPrestigePopup(true);
     };
 
+    const handleShowCrewRecruitment = () => {
+      setShowCrewRecruitment(true);
+    };
+
     window.addEventListener('keydown', handleKeyPress);
     window.addEventListener('showCrystal', handleShowCrystal);
     window.addEventListener('slotForceTriple', handleSlotForceTriple);
     window.addEventListener('slotForceDouble', handleSlotForceDouble);
     window.addEventListener('launchRelayCascade', handleLaunchRelayCascade);
     window.addEventListener('forcePrestige', handleForcePrestige);
+    window.addEventListener('showCrewRecruitment', handleShowCrewRecruitment);
 
     return () => {
       window.removeEventListener('addMaterial', handleAddMaterial);
@@ -207,6 +216,7 @@ export default function App() {
       window.removeEventListener('slotForceDouble', handleSlotForceDouble);
       window.removeEventListener('launchRelayCascade', handleLaunchRelayCascade);
       window.removeEventListener('forcePrestige', handleForcePrestige);
+      window.removeEventListener('showCrewRecruitment', handleShowCrewRecruitment);
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
@@ -1589,6 +1599,36 @@ export default function App() {
       )}
       {showRelayCascade && (
         <RelayCascade onClose={() => setShowRelayCascade(false)} />
+      )}
+      
+      {/* Crew Recruitment Popup */}
+      {showCrewRecruitment && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'rgba(0, 0, 0, 0.95)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 10001
+        }}>
+          <div style={{
+            width: '95vw',
+            height: '95vh',
+            maxWidth: '800px',
+            maxHeight: '600px',
+            border: '3px solid #9400D3',
+            borderRadius: '8px',
+            overflow: 'hidden',
+            boxShadow: '0 0 30px rgba(148, 0, 211, 0.7)',
+            background: '#1a1a1a'
+          }}>
+            <RecruitmentGame onClose={() => setShowCrewRecruitment(false)} />
+          </div>
+        </div>
       )}
       {quantumTapNotifications.length > 0 && (
         <QuantumTapNotification
