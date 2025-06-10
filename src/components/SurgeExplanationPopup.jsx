@@ -1,6 +1,6 @@
 
 import React from 'react';
-import './SurgeExplanationPopup.css';
+import '../styles/popups/SurgeExplanationPopup.css';
 
 export default function SurgeExplanationPopup({ onClose }) {
   return (
