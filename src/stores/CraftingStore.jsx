@@ -256,7 +256,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
               {craftableItems.filter(item => !item.onetime || !craftingInventory[item.name]).map((item) => (
                 <button
                   key={item.name}
-                  onClick={() => onCraft(item, bulkCraft ? 10 : 1)}
+                  onClick={() => onCraft(item, (bulkCraft && !item.onetime) ? 10 : 1)}
                   disabled={!canCraft(item)}
                   className="store-item"
                 >
@@ -288,7 +288,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
               {consumableItems.map((item) => (
                 <button
                   key={item.name}
-                  onClick={() => onCraft(item, bulkCraft ? 10 : 1)}
+                  onClick={() => onCraft(item, (bulkCraft && !item.onetime) ? 10 : 1)}
                   disabled={!canCraft(item)}
                   className="store-item"
                 >
