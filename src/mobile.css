@@ -379,6 +379,23 @@
     z-index: 1400 !important;
     overflow-y: auto !important;
     box-sizing: border-box !important;
+    display: block !important;
+  }
+
+  /* Hidden state for modals */
+  .achievements-container.hidden,
+  .settings-menu.hidden,
+  .slot-machine-container.hidden,
+  .changelog-menu.hidden,
+  .cheat-menu.hidden,
+  .cheat-menu-redesigned.hidden,
+  .crew-menu.hidden,
+  .marketplace.hidden,
+  .tooltips-menu.hidden,
+  .inventory-container.hidden,
+  .tech-tree-container.hidden,
+  .coin-flip-container.hidden {
+    display: none !important;
   }
 
   /* Tutorial message mobile */
