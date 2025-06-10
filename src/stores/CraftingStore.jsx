@@ -82,7 +82,8 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       },
       cost: 250000,
       description: 'A basic power core made from scrap',
-      type: 'crafted'
+      type: 'crafted',
+      onetime: false
     },
     {
       name: 'Click Rig Mk I',
