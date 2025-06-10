@@ -44,7 +44,7 @@
   width: 280px;
   left: 0;
   top: 35%;
-  z-index: 2800;
+  z-index: 10000;
   color: #00FF00;
   pointer-events: none;
   box-shadow: 0 0 15px rgba(148, 0, 211, 0.5);
@@ -236,7 +236,7 @@ margin-top: 15px;
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.8);
-  z-index: 2900;
+  z-index: 10001;
   display: flex;
   align-items: center;
   justify-content: center;
