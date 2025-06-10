@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export default function Menu({ onStoreSelect }) {
-  const [showMenu, setShowMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState(true);
   const prestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
   const junk = parseInt(localStorage.getItem('junk') || '0');
 
