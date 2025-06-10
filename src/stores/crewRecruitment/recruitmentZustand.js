@@ -11,6 +11,7 @@ export const useRecruitmentZustand = create(
       selectedCrew: null,
       unlockedCrew: [],
       hiredCrew: [],
+      newlyHiredCrew: [], // Track recently hired crew for "New!" badge
       equipment: [], // Available equipment items
       crewLoadouts: {}, // Map of crew ID to equipped items
       activeMission: null,
@@ -105,6 +106,12 @@ export const useRecruitmentZustand = create(
         });
 
         return baseStats;
+      },
+
+      markCrewAsNotNew: (crewId) => {
+        set(state => ({
+          newlyHiredCrew: state.newlyHiredCrew.filter(id => id !== crewId)
+        }));
       },
 
       updateStamina: () => {

@@ -104,6 +104,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   // Get crew data at component level
   const hiredCrew = useRecruitmentZustand(state => state.hiredCrew);
   const unlockedCrew = useRecruitmentZustand(state => state.unlockedCrew);
+  const newlyHiredCrew = useRecruitmentZustand(state => state.newlyHiredCrew);
   const equipment = useRecruitmentZustand(state => state.equipment);
   const crewLoadouts = useRecruitmentZustand(state => state.crewLoadouts);
   const equipItemToCrew = useRecruitmentZustand(state => state.equipItemToCrew);
@@ -120,6 +121,9 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
             <div className="crew-grid">
               {hiredCrew.map((crew) => (
                 <div key={crew.id} className="crew-slot active">
+                  {newlyHiredCrew.includes(crew.id) && (
+                    <div className="new-crew-badge">New!</div>
+                  )}
                   <h4>{crew.name}</h4>
                   <p className="crew-role">{crew.role}</p>
                   <p className="crew-rarity">{crew.rarity}</p>
@@ -309,9 +313,15 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         console.log('Current hired crew:', state.hiredCrew.length);
                         return {
                           unlockedCrew: state.unlockedCrew.filter(c => c.id !== crew.id),
-                          hiredCrew: [...state.hiredCrew, crew]
+                          hiredCrew: [...state.hiredCrew, crew],
+                          newlyHiredCrew: [...state.newlyHiredCrew, crew.id]
                         };
                       });
+
+                      // Remove "New!" badge after 10 seconds
+                      setTimeout(() => {
+                        useRecruitmentZustand.getState().markCrewAsNotNew(crew.id);
+                      }, 10000);
                     }
                   }}
                   disabled={

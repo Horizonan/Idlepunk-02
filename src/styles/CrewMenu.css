@@ -77,6 +77,38 @@
   color: #222;
 }
 
+.new-crew-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #FF6600;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(255, 102, 0, 0.4);
+  animation: newBadgePulse 2s ease-in-out infinite;
+  z-index: 10;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@keyframes newBadgePulse {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 0 2px 6px rgba(255, 102, 0, 0.4);
+  }
+  50% { 
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(255, 102, 0, 0.6);
+  }
+}
+
+.crew-slot {
+  position: relative;
+}
+
 .crew-content {
   background: rgba(34, 34, 34, 0.95);
   padding: 20px;
