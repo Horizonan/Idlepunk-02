@@ -247,7 +247,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                 className="search-recruits-button"
                 disabled={Number(localStorage.getItem('credits')) < 10}
               >
-                🔍 Search for Recruits (10 Credits)
+                🔍 Search for Recruits (10 Scratz)
               </button>
             </div>
 
@@ -298,7 +298,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                       setJunk(prev =>prev - cost);
                       canAfford = true;
                     } else {
-                      console.log('Cannot afford:', costType === 'credits' ? 'Insufficient credits' : 'Insufficient junk');
+                      console.log('Cannot afford:', costType === 'credits' ? 'Insufficient Scratz' : 'Insufficient junk');
                     }
 
                     if (canAfford) {
@@ -640,7 +640,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                   `<p class="failure-message">${currentActiveMission.penalties.failure.messagePool[Math.floor(Math.random() * currentActiveMission.penalties.failure.messagePool.length)]}</p>` 
                                   : ''}
                                 <div class="mission-rewards-display">
-                                  <p>Credits: ${creditsReward > 0 ? '+' : ''}${creditsReward}</p>
+                                  <p>Scratz: ${creditsReward > 0 ? '+' : ''}${creditsReward}</p>
                                   <p>Junk: ${junkReward > 0 ? '+' : ''}${junkReward}</p>
                                   ${equipmentRewards.length > 0 ? 
                                     equipmentRewards.map(equipment => `
@@ -665,7 +665,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                           <span class="auto-sold-label">AUTO-SOLD</span>
                                         </div>
                                         <h4 class="auto-sold-name">${item.name}</h4>
-                                        <p class="auto-sold-value">Sold for ${item.sellValue} Credits (Duplicate)</p>
+                                        <p class="auto-sold-value">Sold for ${item.sellValue} Scratz (Duplicate)</p>
                                       </div>
                                     `).join('') : ''}
                                 </div>
