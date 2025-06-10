@@ -82,10 +82,10 @@ export function RecruitmentGame() {
         <div>Progress: {currentIndex + 1}/8</div>
       </div>
 
-      {lastFeedback && !lastFeedback.correct && (
-        <div className="feedback-panel-compact incorrect">
+      {lastFeedback && (
+        <div className={`feedback-panel-compact ${lastFeedback.correct ? 'correct' : 'incorrect'}`}>
           <span className="feedback-compact">
-            ❌ INCORRECT ({lastFeedback.points} pts) - Mistake: {lastFeedback.explanation}
+            {lastFeedback.correct ? '✅ CORRECT' : '❌ INCORRECT'} ({lastFeedback.points} pts) - {lastFeedback.correct ? 'Good job!' : `Mistake: ${lastFeedback.explanation}`}
           </span>
         </div>
       )}

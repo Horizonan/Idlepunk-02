@@ -63,10 +63,22 @@
   border-color: #FF4444;
 }
 
+.feedback-panel-compact.correct {
+  background: rgba(0, 255, 0, 0.1);
+  border-color: #44FF44;
+}
+
 .feedback-compact {
   font-size: 0.85em;
-  color: #FF6666;
   font-weight: bold;
+}
+
+.feedback-panel-compact.incorrect .feedback-compact {
+  color: #FF6666;
+}
+
+.feedback-panel-compact.correct .feedback-compact {
+  color: #66FF66;
 }
 
 .feedback-header {

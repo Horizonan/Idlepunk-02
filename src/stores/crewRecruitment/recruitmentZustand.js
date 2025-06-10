@@ -307,18 +307,13 @@ export const useRecruitmentZustand = create(
         lastFeedback: feedback
       })
 
-      // Clear feedback after 3 seconds so user can read it
+      // Clear feedback after 8 seconds so user can read it properly
       setTimeout(() => {
         const currentState = get();
         if (currentState.lastFeedback === feedback) {
           set({ lastFeedback: null });
         }
-      }, 3000)
-
-      // Clear feedback after 5 seconds for next profile
-      setTimeout(() => {
-        set({ lastFeedback: null });
-      }, 5000);
+      }, 8000)
     },
 
   startMission: (mission, selectedCrew) => {
