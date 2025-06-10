@@ -227,6 +227,27 @@ export default function Store({
     </div>
   );
 
+  const renderPurchasedItems = () => (
+    <div className="store-items">
+      {/* Map through ownedItems and display them */}
+      {Object.entries(ownedItems).map(([itemName, count]) => {
+        if (count > 0) {
+          return (
+            <div key={itemName} className="store-item">
+              <div className="item-header">
+                <strong>{itemName}</strong>
+              </div>
+              <div className="item-info">
+                <p>Owned: {count}</p>
+              </div>
+            </div>
+          );
+        }
+        return null;
+      })}
+    </div>
+  );
+
   return (
     <div className="store-container">
       <div className="store-header">
