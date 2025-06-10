@@ -851,8 +851,8 @@ export default function App() {
           }
         );
         
-        // Show offline progress popup if user was offline for more than 30 seconds
-        if (offlineResults && offlineResults.duration >= 30) {
+        // Show offline progress popup if there were results and user was offline for more than 5 seconds
+        if (offlineResults && offlineResults.duration >= 5) {
           setOfflineProgressData(offlineResults);
           setShowOfflineProgress(true);
         }

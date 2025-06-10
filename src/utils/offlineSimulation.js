@@ -8,16 +8,7 @@ export const processOfflineProgress = (gameState, setGameState) => {
   const maxOfflineTime = 1800;
   const effectiveOfflineTime = Math.min(timeOffline, maxOfflineTime);
   
-  if (effectiveOfflineTime < 5) {
-    // Still return results object for popup logic, but with no progress
-    return {
-      junk: 0,
-      scratz: 0,
-      tronics: 0,
-      missions: 0,
-      duration: effectiveOfflineTime
-    };
-  }
+  if (effectiveOfflineTime < 5) return; // Don't process if offline for less than 5 seconds
   
   let offlineResults = {
     junk: 0,
