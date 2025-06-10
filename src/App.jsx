@@ -127,6 +127,7 @@ export default function App() {
   const [quantumTapNotifications, setQuantumTapNotifications] = useState([]);
   const [showEndOfRoad, setShowEndOfRoad] = useState(true);
   const [showSurgeExplanation, setShowSurgeExplanation] = useState(false);
+  const [showCrewIntroTooltip, setShowCrewIntroTooltip] = useState(false);
 
 
   useEffect(() => {
@@ -191,12 +192,22 @@ export default function App() {
       setShowPrestigePopup(true);
     };
 
+    const handleShowCrewIntroTooltip = () => {
+      setShowCrewIntroTooltip(true);
+    };
+
+    const handleHideCrewIntroTooltip = () => {
+      setShowCrewIntroTooltip(false);
+    };
+
     window.addEventListener('keydown', handleKeyPress);
     window.addEventListener('showCrystal', handleShowCrystal);
     window.addEventListener('slotForceTriple', handleSlotForceTriple);
     window.addEventListener('slotForceDouble', handleSlotForceDouble);
     window.addEventListener('launchRelayCascade', handleLaunchRelayCascade);
     window.addEventListener('forcePrestige', handleForcePrestige);
+    window.addEventListener('showCrewIntroTooltip', handleShowCrewIntroTooltip);
+    window.addEventListener('hideCrewIntroTooltip', handleHideCrewIntroTooltip);
 
     return () => {
       window.removeEventListener('addMaterial', handleAddMaterial);
@@ -207,6 +218,8 @@ export default function App() {
       window.removeEventListener('slotForceDouble', handleSlotForceDouble);
       window.removeEventListener('launchRelayCascade', handleLaunchRelayCascade);
       window.removeEventListener('forcePrestige', handleForcePrestige);
+      window.removeEventListener('showCrewIntroTooltip', handleShowCrewIntroTooltip);
+      window.removeEventListener('hideCrewIntroTooltip', handleHideCrewIntroTooltip);
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
@@ -1606,6 +1619,49 @@ export default function App() {
         <SurgeExplanationPopup 
           onClose={() => setShowSurgeExplanation(false)}
         />
+      )}
+
+      {/* Crew Recruitment Intro Tooltip */}
+      {showCrewIntroTooltip && (
+        <div className="intro-tooltip-overlay">
+          <div className="intro-tooltip">
+            <h3>👥 Crew Recruitment</h3>
+            <div className="tooltip-section">
+              <p>"Buried in static and noise are identity fragments. Some are real. Most are not."</p>
+              <p>🔍 <strong>Objective:</strong> Sort through intercepted profiles and decide who's real.</p>
+              <ul>
+                <li>Accept real candidates</li>
+                <li>Reject fake ones</li>
+                <li>The better your accuracy, the higher your chance of recruiting a useful crew member.</li>
+                <li>Fakes can be convincing. Watch for suspicious skills, missing data, or impossible backstories.</li>
+              </ul>
+              
+              <h4>🕵️ Key Things to Check:</h4>
+              <ul>
+                <li><strong>Age vs Experience:</strong> Does their age match their claimed experience?</li>
+                <li><strong>Skill Logic:</strong> Do their skills make sense together?</li>
+                <li><strong>Work Permits:</strong> Are documents current and valid?</li>
+                <li><strong>Background Consistency:</strong> Does their story add up?</li>
+                <li><strong>Timeline Logic:</strong> Do dates and events make chronological sense?</li>
+              </ul>
+              
+              <div className="detection-examples">
+                <p><strong>⚠️ Red Flags:</strong> 19-year-old "veterans", impossible skill combos, missing permits, contradictory stories</p>
+                <p><strong>✅ Good Signs:</strong> Realistic ages, complementary skills, valid documentation, coherent backgrounds</p>
+              </div>
+              
+              <p className="tooltip-tip">💡 Tip: "Some mail is harmless. Some rewrites the map."</p>
+              <p className="tooltip-tip">🎯 Pro Tip: When in doubt, look for internal consistency - real profiles tell a coherent story.</p>
+            </div>
+            <p className="refresher-note">📚 You can always check <strong>Game Tips</strong> in the main menu for a refresher!</p>
+            <button className="intro-tooltip-button" onClick={() => {
+              localStorage.setItem('crewGameIntroSeen', 'true');
+              setShowCrewIntroTooltip(false);
+            }}>
+              Begin Verification
+            </button>
+          </div>
+        </div>
       )}
       
       {/* End of Road UI Element for 2nd Prestige */}
