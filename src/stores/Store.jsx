@@ -189,7 +189,6 @@ export default function Store({
     { id: "prePres", label: "Scrap Collectors" },
     { id: "premium", label: "Premium" },
     { id: "automation", label: "Automation" },
-    { id: "purchased", label: "Purchased Items" },
     {
       id: "firstAsc",
       label: "First Ascension",
@@ -225,27 +224,6 @@ export default function Store({
           </div>
         </button>
       ))}
-    </div>
-  );
-
-  const renderPurchasedItems = () => (
-    <div className="store-items">
-      {/* Map through ownedItems and display them */}
-      {Object.entries(ownedItems).map(([itemName, count]) => {
-        if (count > 0) {
-          return (
-            <div key={itemName} className="store-item">
-              <div className="item-header">
-                <strong>{itemName}</strong>
-              </div>
-              <div className="item-info">
-                <p>Owned: {count}</p>
-              </div>
-            </div>
-          );
-        }
-        return null;
-      })}
     </div>
   );
 
@@ -309,51 +287,6 @@ export default function Store({
               Premium Items
             </h3>
             {renderItems(premiumItems)}
-          </div>
-        )}
-        {selectedTab === "purchased" && (
-          <div>
-            <h3 style={{ color: "#9400D3", textAlign: "center", fontSize: "1.2em" }}>
-              Purchased Items
-            </h3>
-            {Object.keys(ownedItems).filter(key => ownedItems[key] > 0).length > 0 ? (
-              <div className="store-items">
-                {Object.entries(ownedItems).map(([itemName, count]) => {
-                  if (count > 0) {
-                    // Find item description from all item arrays
-                    let itemDescription = "Item owned and contributing to your progress";
-                    
-                    // Check in all item categories for descriptions
-                    const allItems = [...clickItems, ...passiveItems, ...premiumItems, ...automationItems, ...firstAsc];
-                    const foundItem = allItems.find(item => item.name.includes(itemName) || itemName.includes(item.name.replace(/[^a-zA-Z0-9]/g, '')));
-                    
-                    if (foundItem) {
-                      itemDescription = foundItem.description;
-                    }
-                    
-                    return (
-                      <div key={itemName} className="store-item purchased-item-display">
-                        <div className="item-header">
-                          <strong>{itemName}</strong>
-                          <span className="owned-count">x{count}</span>
-                        </div>
-                        <div className="item-info purchased-item-info">
-                          <p>{itemDescription}</p>
-                          <p className="owned">Owned: {count}</p>
-                        </div>
-                      </div>
-                    );
-                  }
-                  return null;
-                })}
-              </div>
-            ) : (
-              <div className="no-purchased-items">
-                <p style={{ color: "#9400D3", textAlign: "center" }}>
-                  No items purchased yet. Buy some upgrades to see them here!
-                </p>
-              </div>
-            )}
           </div>
         )}
         {selectedTab === "firstAsc" &&
