@@ -286,16 +286,16 @@ export const useRecruitmentZustand = create(
       let correct = false
 
       if (action === 'recruit' && profile.isReal) {
-        delta = 10
+        delta = 2
         correct = true
       } else if (action === 'trash' && !profile.isReal) {
-        delta = 5  
+        delta = 2  
         correct = true
       } else if (action === 'skip') {
         delta = 1
         correct = true // Skipping is always "correct" but low reward
       } else {
-        delta = -3
+        delta = -2
         correct = false
       }
 
