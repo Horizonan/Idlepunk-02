@@ -179,7 +179,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
         return junk >= cost;
       }
     } else {
-      const multiplier = bulkCraft ? 10 : 1;
+      const multiplier = (bulkCraft && !item.onetime) ? 10 : 1;
       return Object.entries(item.requirements).every(
         ([mat, count]) => (craftingInventory[mat] || 0) >= (count * multiplier)
       ) && junk >= ((item.cost || 0) * multiplier);
