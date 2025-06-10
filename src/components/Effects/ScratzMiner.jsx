@@ -86,7 +86,7 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
             } else {
               timeString = `${minutesOffline}m`;
             }
-            setNotifications(prevNotifs => [...prevNotifs, `Scratz Miner generated ${creditsGenerated} Credits while offline! (${timeString})`]);
+            setNotifications(prevNotifs => [...prevNotifs, `Scratz Miner generated ${creditsGenerated} Scratz while offline! (${timeString})`]);
 
             // Add to credit log
             setCreditLog(prev => [...prev.slice(-4), {
@@ -176,7 +176,7 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
           // Generate credits
           const creditsGenerated = Math.floor(getTotalGeneration());
           onGenerateCredits(creditsGenerated);
-          setNotifications(prevNotifs => [...prevNotifs, `Scratz Miner generated ${creditsGenerated} Credits!`]);
+          setNotifications(prevNotifs => [...prevNotifs, `Scratz Miner generated ${creditsGenerated} Scratz!`]);
 
           // Add to credit log
           setCreditLog(prev => [...prev.slice(-4), {
@@ -294,12 +294,12 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
         <div className="miner-status">
           <div className="generation-info">
             <span className="generation-rate">
-              {getTotalGeneration().toFixed(2)} Credits/hour
+              {getTotalGeneration().toFixed(2)} Scratz/hour
             </span>
           </div>
 
           <div className="timer-section">
-            <span className="timer-label">Next Credits:</span>
+            <span className="timer-label">Next Scratz:</span>
             <span className={`timer ${isPowered ? 'active' : 'inactive'}`}>
               {isPowered ? formatTime(timeUntilNextCredit) : "OFFLINE"}
             </span>
@@ -325,7 +325,7 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
         </div>
         {creditLog.length > 0 && (
           <div className="credit-log">
-            <div className="log-header">Recent Credits:</div>
+            <div className="log-header">Recent Scratz:</div>
             {creditLog.map((entry, index) => (
               <div key={index} className="log-entry">
                 <span className="log-time">{entry.time}</span>
