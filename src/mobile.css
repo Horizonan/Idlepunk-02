@@ -60,38 +60,7 @@
     padding: 0 8px !important;
   }
 
-  /* Main game area - this is the key fix */
-  .main {
-    flex: 1 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    align-items: center !important;
-    padding: 20px 15px !important;
-    margin: 0 !important;
-    background: none !important;
-    border: none !important;
-    min-height: 0 !important;
-    overflow: visible !important;
-  }
-
-  /* Main clicker button - make it prominent */
-  .main button {
-    width: 200px !important;
-    height: 200px !important;
-    border-radius: 50% !important;
-    font-size: 24px !important;
-    font-weight: bold !important;
-    margin: 10px !important;
-    touch-action: manipulation !important;
-    box-shadow: 0 0 20px rgba(148, 0, 211, 0.5) !important;
-    background: radial-gradient(circle, #222, #111) !important;
-    border: 3px solid #9400D3 !important;
-  }
-
-  .main button:active {
-    transform: scale(0.95) !important;
-  }
+  /* Main game area styles moved to mainMobile.css for better organization */
 
   /* Bottom UI area */
   .bottom-ui-area {
