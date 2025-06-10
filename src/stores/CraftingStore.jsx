@@ -273,7 +273,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                         ))}
                       </div>
                     )}
-                    {item.cost && <p>Cost: {formatJunkCost(item.cost * (bulkCraft ? 10 : 1), craftingInventory['Crafting Booster Unit'])} Junk</p>}
+                    {item.cost && <p>Cost: {formatJunkCost(item.cost * ((bulkCraft && !item.onetime) ? 10 : 1), craftingInventory['Crafting Booster Unit'])} Junk</p>}
                   </div>
                 </button>
               ))}
