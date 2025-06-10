@@ -72,6 +72,7 @@ import ItemInventory from './stores/ItemInventory';
 import PrestigePopup from './components/PrestigePopup';
 import QuantumTapNotification from './components/QuantumTapNotification';
 import PrestigeMeter from './components/PrestigeMeter';
+import SurgeExplanationPopup from './components/SurgeExplanationPopup';
 import { useEmailStore } from './utils/emailStore';
 
 //Mini game Component
@@ -125,6 +126,7 @@ export default function App() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [quantumTapNotifications, setQuantumTapNotifications] = useState([]);
   const [showEndOfRoad, setShowEndOfRoad] = useState(true);
+  const [showSurgeExplanation, setShowSurgeExplanation] = useState(false);
 
 
   useEffect(() => {
@@ -321,7 +323,16 @@ export default function App() {
       } else {
         setIsSurgeActive(true);
         setHasFoundCapacitorThisSurge(false);
-        localStorage.setItem('hadFirstSurge', 'true');
+        
+        // Check if this is the first surge
+        const hadFirstSurge = localStorage.getItem('hadFirstSurge') === 'true';
+        if (!hadFirstSurge) {
+          localStorage.setItem('hadFirstSurge', 'true');
+          // Show explanation popup after a short delay so the surge effects are visible
+          setTimeout(() => {
+            setShowSurgeExplanation(true);
+          }, 500);
+        }
 
         const surgeDurationBonus = isTronicsSurgeUnlocked ? parseInt(localStorage.getItem('surge_duration_bonus') || '5') : 0;
         const surgeDuration = craftingInventory['Surge Capacitor Module'] ? 10000 : 5000 + (surgeDurationBonus * 1000);
@@ -1589,6 +1600,13 @@ export default function App() {
       )}
       <PrestigeMeter />
       <PickupMagnetArray />
+      
+      {/* Surge Explanation Popup */}
+      {showSurgeExplanation && (
+        <SurgeExplanationPopup 
+          onClose={() => setShowSurgeExplanation(false)}
+        />
+      )}
       
       {/* End of Road UI Element for 2nd Prestige */}
       {prestigeCount >= 2 && showEndOfRoad && (
