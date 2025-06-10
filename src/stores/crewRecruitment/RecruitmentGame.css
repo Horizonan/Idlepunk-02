@@ -100,30 +100,33 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.9);
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
-  backdrop-filter: blur(3px);
+  z-index: 10000;
+  backdrop-filter: blur(5px);
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .intro-tooltip {
-  background: linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(40, 40, 40, 0.95));
+  background: linear-gradient(135deg, rgba(20, 20, 20, 0.98), rgba(40, 40, 40, 0.98));
   border: 3px solid #9400D3;
   border-radius: 12px;
-  padding: 20px;
-  max-width: 600px;
-  width: 90%;
-  max-height: 85vh;
+  padding: 25px;
+  max-width: 700px;
+  width: 95%;
+  max-height: 90vh;
   color: #00FF00;
   text-align: left;
   overflow-y: auto;
+  position: relative;
   box-shadow: 
-    0 0 30px rgba(148, 0, 211, 0.7),
-    inset 0 0 20px rgba(0, 255, 0, 0.1);
+    0 0 40px rgba(148, 0, 211, 0.9),
+    inset 0 0 25px rgba(0, 255, 0, 0.15);
   animation: tooltipGlow 2s infinite alternate;
 }
 
@@ -143,27 +146,32 @@
 .intro-tooltip h3 {
   color: #9400D3;
   text-align: center;
-  font-size: 1.4em;
-  margin-bottom: 20px;
+  font-size: 1.6em;
+  margin-bottom: 25px;
   text-transform: uppercase;
   letter-spacing: 2px;
-  text-shadow: 0 0 8px rgba(148, 0, 211, 0.5);
+  text-shadow: 0 0 10px rgba(148, 0, 211, 0.6);
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(148, 0, 211, 0.3);
 }
 
 .intro-tooltip p {
-  margin-bottom: 15px;
-  line-height: 1.5;
+  margin-bottom: 16px;
+  line-height: 1.6;
   color: #00FF00;
+  font-size: 0.95em;
 }
 
 .intro-tooltip ul {
-  margin: 15px 0;
-  padding-left: 20px;
+  margin: 18px 0;
+  padding-left: 25px;
 }
 
 .intro-tooltip li {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   color: #00FF00;
+  line-height: 1.5;
+  font-size: 0.9em;
 }
 
 .intro-tooltip-button {
@@ -187,61 +195,73 @@
 }
 
 .tooltip-section {
-  margin: 15px 0;
+  margin: 20px 0;
+}
+
+.tooltip-section h4 {
+  color: #9400D3;
+  font-size: 1.1em;
+  margin: 20px 0 12px 0;
+  text-shadow: 0 0 5px rgba(148, 0, 211, 0.4);
+  border-left: 3px solid #9400D3;
+  padding-left: 10px;
 }
 
 .tooltip-section p {
-  margin: 10px 0;
-  line-height: 1.5;
+  margin: 12px 0;
+  line-height: 1.6;
 }
 
 .tooltip-section ul {
-  margin: 10px 0;
-  padding-left: 20px;
+  margin: 12px 0;
+  padding-left: 25px;
 }
 
 .tooltip-section li {
-  margin: 5px 0;
-  line-height: 1.4;
+  margin: 8px 0;
+  line-height: 1.5;
 }
 
 .tooltip-tip {
   color: #00FFFF;
   font-style: italic;
-  margin: 15px 0;
-  padding: 8px;
-  background: rgba(0, 255, 255, 0.1);
-  border-radius: 4px;
+  margin: 18px 0;
+  padding: 12px;
+  background: rgba(0, 255, 255, 0.12);
+  border-radius: 6px;
+  border-left: 3px solid #00FFFF;
 }
 
 .refresher-note {
   color: #9400D3;
   font-style: italic;
-  margin-top: 15px;
-  padding: 10px;
-  background: rgba(148, 0, 211, 0.1);
-  border-radius: 4px;
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(148, 0, 211, 0.12);
+  border-radius: 6px;
   text-align: center;
-  border: 1px solid rgba(148, 0, 211, 0.3);
+  border: 1px solid rgba(148, 0, 211, 0.4);
 }
 
 /* Scrollbar styling for intro tooltip */
 .intro-tooltip::-webkit-scrollbar {
-  width: 8px;
+  width: 12px;
 }
 
 .intro-tooltip::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+  margin: 5px;
 }
 
 .intro-tooltip::-webkit-scrollbar-thumb {
-  background: rgba(148, 0, 211, 0.6);
-  border-radius: 4px;
+  background: rgba(148, 0, 211, 0.7);
+  border-radius: 6px;
+  border: 2px solid rgba(20, 20, 20, 0.5);
 }
 
 .intro-tooltip::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 0, 211, 0.8);
+  background: rgba(148, 0, 211, 0.9);
 }
 
 .detection-examples {
