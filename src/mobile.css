@@ -483,6 +483,11 @@
     min-width: 90px !important;
   }
 
+  .sideBar open {
+    z-index: 2100 !important;
+    display: fixed;
+  }
+  
   .mainStore{
     z-index: 2200 !important;
   }
