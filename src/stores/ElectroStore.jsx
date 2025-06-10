@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/Store.css';
+import PurchasedItemsList from '../components/PurchasedItemsList';
 
 export default function ElectroStore({ 
   electroShards, tronics, onBuyTronicsBoost, onBuyQuantumTap, 
@@ -15,6 +16,98 @@ export default function ElectroStore({
       return `${(num / 1000).toFixed(2)}k`;
     }
     return num;
+  };
+
+  const getPurchasedItems = () => {
+    const purchased = [];
+    
+    // Check all purchased items
+    if (localStorage.getItem('unlocked_tronics_boost')) {
+      const count = parseInt(localStorage.getItem('tronics_boost_count') || '0');
+      if (count > 0) {
+        purchased.push({
+          name: "⚡ Tronics Click Boost I",
+          effect: `+1 Tronics per click`,
+          count: count
+        });
+      }
+    }
+    
+    const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
+    if (boostIICount > 0) {
+      purchased.push({
+        name: "⚡ Tronics Click Boost II",
+        effect: `+2 Tronics per click`,
+        count: boostIICount
+      });
+    }
+    
+    if (localStorage.getItem('flow_regulator_purchased') === 'true') {
+      purchased.push({
+        name: "⚡ Flow Regulator",
+        effect: "+10% Tronics per click",
+        count: 1
+      });
+    }
+    
+    if (localStorage.getItem('quantum_tap_purchased') === 'true') {
+      purchased.push({
+        name: "⚡ Quantum Tap Circuit",
+        effect: "3% chance for 3x Tronics per click",
+        count: 1
+      });
+    }
+    
+    if (localStorage.getItem('electro_surge_node_purchased') === 'true') {
+      purchased.push({
+        name: "⚡ Electro Surge Node",
+        effect: "+5 seconds surge duration, unlocks Tronics surges",
+        count: 1
+      });
+    }
+    
+    if (localStorage.getItem('beacon_core_purchased') === 'true') {
+      purchased.push({
+        name: "🔦 Electro Beacon Core",
+        effect: "-25% Electro Shard spawn time",
+        count: 1
+      });
+    }
+    
+    const circuitOptCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
+    if (circuitOptCount > 0) {
+      purchased.push({
+        name: "🧠 Circuit Optimization Unit",
+        effect: `+25% global Junk/sec`,
+        count: circuitOptCount
+      });
+    }
+    
+    if (localStorage.getItem('high_freq_tap_purchased') === 'true') {
+      purchased.push({
+        name: "⚡ High-Frequency Tap Chip",
+        effect: "Clicker fires twice per manual click",
+        count: 1
+      });
+    }
+    
+    if (localStorage.getItem('reactive_feedback_purchased') === 'true') {
+      purchased.push({
+        name: "🔄 Reactive Feedback Loop",
+        effect: "+15% Tronics per click + 2.5% of Junk/sec from clicks",
+        count: 1
+      });
+    }
+    
+    if (localStorage.getItem('pickup_magnet_array_purchased') === 'true') {
+      purchased.push({
+        name: "🧲 Pickup Magnet Array",
+        effect: "Extends pickup duration by 8s, auto-collects near cursor",
+        count: 1
+      });
+    }
+    
+    return purchased;
   };
 
 
@@ -179,6 +272,14 @@ export default function ElectroStore({
         if (item.name.includes("Pickup Magnet Array") && localStorage.getItem('pickup_magnet_array_purchased') === 'true') {
           return false;
         }
+        // Hide Tronics Boost I if fully purchased (only show if not unlocked yet)
+        if (item.name.includes("Tronics Click Boost I") && localStorage.getItem('unlocked_tronics_boost') && parseInt(localStorage.getItem('tronics_boost_count') || '0') >= 100) {
+          return false;
+        }
+        // Hide Tronics Boost II if fully purchased
+        if (item.name.includes("Tronics Click Boost II") && parseInt(localStorage.getItem('tronics_boost_II_count') || '0') >= 100) {
+          return false;
+        }
         return true;
       }).map((item) => {
         const canAfford = (item.cost.tronics ? tronics >= item.cost.tronics : true) && 
@@ -237,6 +338,12 @@ export default function ElectroStore({
         {selectedTab === "basic" && renderItems(basicItems)}
         {selectedTab === "advanced" && renderItems(advancedItems)}
       </div>
+      
+      <PurchasedItemsList 
+        title="⚡ Active Electrotech Upgrades"
+        purchasedItems={getPurchasedItems()}
+        className="electrostore-purchased"
+      />
     </div>
   );
 }
