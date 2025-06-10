@@ -30,13 +30,15 @@
   padding: 0;
   max-width: 650px;
   width: 90%;
-  max-height: 85vh;
+  max-height: 90vh;
   overflow: hidden;
   box-shadow: 
     0 0 30px rgba(148, 0, 211, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   animation: slideInScale 0.4s ease-out;
   font-family: 'Poppins', sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
 @keyframes slideInScale {
@@ -94,7 +96,8 @@
   padding: 25px;
   color: #00FF00;
   overflow-y: auto;
-  max-height: calc(85vh - 80px);
+  flex: 1;
+  min-height: 0;
 }
 
 .skills-intro-icon {
@@ -217,11 +220,12 @@
 @media (max-width: 768px) {
   .skills-intro-popup {
     width: 95%;
-    max-height: 90vh;
+    max-height: 95vh;
   }
   
   .skills-intro-header {
     padding: 15px 20px;
+    flex-shrink: 0;
   }
   
   .skills-intro-header h2 {
@@ -246,5 +250,22 @@
     padding: 12px 25px;
     font-size: 1em;
     min-width: 200px;
+    margin: 20px auto 10px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  .skills-intro-popup {
+    max-height: 98vh;
+  }
+  
+  .skills-intro-content {
+    padding: 15px;
+  }
+  
+  .skills-intro-got-it {
+    margin: 15px auto 5px;
+    padding: 10px 20px;
   }
 }
