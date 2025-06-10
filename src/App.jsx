@@ -1151,15 +1151,29 @@ export default function App() {
         <CraftingStore
           junk={junk}
           craftingInventory={craftingInventory}
-          onCraft={(item) => {
+          onCraft={(item, quantity = 1) => {
             if (item.type === 'basic') {
-              if (junk >= item.cost) {
-                setJunk(prev => prev - item.cost);
+              const hasBooster = craftingInventory['Crafting Booster Unit'];
+              let totalCost = 0;
+              
+              if (quantity === 10) {
+                // Calculate 10x crafting cost with scaling
+                let currentCost = hasBooster ? Math.floor(item.cost * 0.9) : item.cost;
+                for (let i = 0; i < 10; i++) {
+                  totalCost += currentCost;
+                  currentCost = Math.floor(currentCost * 1.1);
+                }
+              } else {
+                totalCost = hasBooster ? Math.floor(item.cost * 0.9) : item.cost;
+              }
+              
+              if (junk >= totalCost) {
+                setJunk(prev => prev - totalCost);
                 setCraftingInventory(prev => ({
                   ...prev,
-                  [item.name]: (prev[item.name] || 0) + 1
+                  [item.name]: (prev[item.name] || 0) + quantity
                 }));
-                setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
+                setNotifications(prev => [...prev, `Crafted ${quantity}x ${item.name}!`]);
               }
             } else {
               const canCraft = Object.entries(item.requirements).every(

@@ -160,12 +160,12 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
     const cost = craftingInventory['Crafting Booster Unit'] ? Math.floor(baseCost * 0.9) : baseCost;
     let totalCost = 0;
     let currentCost = cost;
-    
+
     for (let i = 0; i < 10; i++) {
       totalCost += currentCost;
       currentCost = Math.floor(currentCost * 1.1); // 10% increase per craft
     }
-    
+
     return { totalCost, finalCost: currentCost };
   };
 
@@ -221,7 +221,10 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
               {basicMaterials.map((item) => (
                 <button
                   key={item.name}
-                  onClick={() => !item.uncraftable && onCraft(item, bulkCraft ? 10 : 1)}
+                  onClick={() => {
+                    const quantity = bulkCraft ? 10 : 1;
+                    onCraft(item, quantity);
+                  }}
                   disabled={item.uncraftable || !canCraft(item)}
                   className={`store-item ${item.uncraftable ? 'uncraftable' : ''}`}
                 >
@@ -353,7 +356,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   <p>- Quantum Entangler: 1 ({craftingInventory['Quantum Entangler'] || 0} owned)</p>
                 </div>
               </button>)}
-              
+
             {localStorage.getItem('quest_sync_Beacon Protocol') === 'true' && (
               <button
                 onClick={() => onCraft({
