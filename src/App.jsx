@@ -1176,19 +1176,22 @@ export default function App() {
                 setNotifications(prev => [...prev, `Crafted ${quantity}x ${item.name}!`]);
               }
             } else {
+              // For non-basic items, handle quantity properly
+              const actualQuantity = item.onetime ? 1 : quantity;
               const canCraft = Object.entries(item.requirements).every(
-                ([mat, count]) => (craftingInventory[mat] || 0) >= count
-              ) && (!item.onetime || !(craftingInventory[item.name] || 0)) && junk >= (item.cost || 0);
+                ([mat, count]) => (craftingInventory[mat] || 0) >= (count * actualQuantity)
+              ) && (!item.onetime || !(craftingInventory[item.name] || 0)) && junk >= ((item.cost || 0) * actualQuantity);
+              
               if (canCraft) {
                 setCraftingInventory(prev => {
                   const newInventory = { ...prev };
                   Object.entries(item.requirements).forEach(([mat, count]) => {
-                    newInventory[mat] -= count;
+                    newInventory[mat] -= (count * actualQuantity);
                   });
-                  newInventory[item.name] = (newInventory[item.name] || 0) + 1;
+                  newInventory[item.name] = (newInventory[item.name] || 0) + actualQuantity;
                   return newInventory;
                 });
-                if (item.cost) setJunk(prev => prev - item.cost);
+                if (item.cost) setJunk(prev => prev - (item.cost * actualQuantity));
                 if (item.name === 'Click Rig Mk I') {
                   setClickMultiplier(prev => prev * 1.25);
                   setNotifications(prev => [...prev, "Click power increased by 25%!"]);
@@ -1215,7 +1218,7 @@ export default function App() {
                   });
                   setNotifications(prev => [...prev, "Cost scaling reduced by 1%!"]);
                 }
-                setNotifications(prev => [...prev, `Crafted ${item.name}!`]);
+                setNotifications(prev => [...prev, `Crafted ${actualQuantity}x ${item.name}!`]);
               }
             }
           }}
