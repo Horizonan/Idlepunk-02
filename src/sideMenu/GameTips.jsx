@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 
 
@@ -14,7 +15,7 @@ export default function Tooltips({ onClose }) {
         <h2>Game Tips</h2>
         <button onClick={onClose}>Close</button>
       </div>
-
+      
       <div className="tooltips-content">
         <div className="tooltip-entry">
           <h3 onClick={() => toggleTip('surges')}>
@@ -23,7 +24,7 @@ export default function Tooltips({ onClose }) {
           {expandedTip === 'surges' && (
             <div className="tooltip-section">
               <p>Surges are temporary events that flood the junkyard with extra resources and opportunities.</p>
-
+              
               <h4>🗑️ Trash Surges:</h4>
               <ul>
                 <li>Increases junk collection multiplier significantly (Click Collection)</li>
@@ -32,7 +33,7 @@ export default function Tooltips({ onClose }) {
                 <li>Creates screen effects and enhanced button glow</li>
                 <li>Sometimes spawns rare Capacitors</li>
               </ul>
-
+              
               <h4>⚡ Tronics Surges:</h4>
               <ul>
                 <li>Unlocked after purchasing the Electro Surge Node</li>
@@ -41,7 +42,7 @@ export default function Tooltips({ onClose }) {
                 <li>Duration based on surge duration upgrades</li>
                 <li>Creates yellow screen effects and plays audio</li>
               </ul>
-
+              
               <p className="tooltip-tip">💡 Tip: Watch for the surge banners at the top of your screen - they show remaining time and type!</p>
             </div>
           )}
@@ -58,7 +59,7 @@ export default function Tooltips({ onClose }) {
                 <li>Craft special quest items (like the Prestige Crystal)</li>
                 <li>Purchase powerful ElectroShop upgrades</li>
               </ul>
-
+              
               <p>Electro Shards can be acquired through:</p>
               <ul>
                 <li>Rare floating pickups</li>
@@ -66,9 +67,9 @@ export default function Tooltips({ onClose }) {
                 <li>Select quests</li>
                 <li>Electroshard miner v0.1 (Premium Junk Upgrade)</li>
               </ul>
-
+              
               <p>Their availability increases after your first Prestige, but limited ways to earn them exist earlier in the game.</p>
-
+            
               <p className="tooltip-tip">💡 Tip: Keep an eye on rare pickups and hidden quest rewards — they matter more than you think.</p>
             </div>
           )}
@@ -162,30 +163,18 @@ export default function Tooltips({ onClose }) {
           </h3>
           {expandedTip === 'crewRec' && (
             <div className="tooltip-section">
-              <p>"Buried in static and noise are identity fragments. Some are real. Most are not."</p>
-              <p>🔍 <strong>Objective:</strong> Sort through intercepted profiles and decide who's real.</p>
-
-              <h4>🚩 Red Flags to Watch For:</h4>
+              <p>“Buried in static and noise are identity fragments. Some are real. Most are not.”</p>
+              <p>🔍 Objective: Sort through intercepted profiles and decide who's real.</p>
               <ul>
-                <li><strong>Names:</strong> Look for suspicious usernames (Xx_ReaL_DeaL_xX), system names (Admin_Admin_Admin), or corrupted text (!!!NULL!!!)</li>
-                <li><strong>Ages:</strong> Impossible ages like 0, negative numbers, or extremely old (117+ years)</li>
-                <li><strong>Skills:</strong> Overpowered abilities (Time Travel, Infinite Hacking), repetitive skills (Echoing, More echoing), or system access claims</li>
-                <li><strong>Backgrounds:</strong> Non-existent locations (Underroot Vegi-Kingdom), impossible jobs (interdimensional traveler), or corrupted data</li>
-                <li><strong>Work Permits:</strong> Missing documentation or suspicious dates</li>
+                <li>Accept real candidates</li>
+                <li>Reject fake ones</li>
+                <li>The better your accuracy, the higher your chance of recruiting a useful crew member.</li>
+                <li> Fakes can be convincing. Watch for suspicious skills, missing data, or impossible backstories.</li>
               </ul>
-
-              <h4>✅ Real Candidates Usually Have:</h4>
-              <ul>
-                <li>Normal human names (Street Rat, Mira Flux, Juno Kryz)</li>
-                <li>Realistic ages (20s-40s)</li>
-                <li>Technical but believable skills (Reactor calibration, Drone repair, Welding)</li>
-                <li>Plausible work histories from known locations (Mars Orbital 7, Europa wreck fields)</li>
-                <li>Valid work permits with proper dates</li>
-              </ul>
-
-              <p className="tooltip-tip">💡 Tip: When in doubt, ask yourself: "Could this person actually exist in a cyberpunk future?" Trust your instincts about what seems too good to be true.</p>
+              <p className="tooltip-tip">💡 Tip: “Some mail is harmless. Some rewrites the map.”</p>
             </div>
-          )}</div>
+          )}
+        </div>
 
         <div className="tooltip-entry">
           <h3 onClick={() => toggleTip('prestige')}>
@@ -194,7 +183,7 @@ export default function Tooltips({ onClose }) {
           {expandedTip === 'prestige' && (
             <div className="tooltip-section">
               <p>Prestiging is a major reset that wipes most of your progress in exchange for unlocking permanent upgrades and access to powerful new systems.</p>
-
+              
               <h4>How to Unlock Prestige:</h4>
               <ul>
                 <li>Reach 1 million Junk</li>
@@ -202,7 +191,7 @@ export default function Tooltips({ onClose }) {
                 <li>Collect special resources</li>
                 <li>Craft the Prestige Crystal</li>
               </ul>
-
+              
               <h4>What Does Prestige Reset?</h4>
               <ul>
                 <li>Your Junk, upgrades, helpers, and quest progress</li>
@@ -215,7 +204,7 @@ export default function Tooltips({ onClose }) {
                 <li>Prestige-exclusive upgrades and bonuses</li>
                 <li>Special resources unlocked post-prestige</li>
               </ul>
-
+              
               <p className="tooltip-tip">💡 Tip: Time your prestige carefully - make sure you've maximized your current run's potential first!</p>
             </div>
           )}

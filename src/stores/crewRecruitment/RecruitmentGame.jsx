@@ -80,36 +80,21 @@ export function RecruitmentGame() {
       {showIntroTooltip && (
         <div className="intro-tooltip-overlay">
           <div className="intro-tooltip">
-            <h3>👥 Crew Recruitment Verification</h3>
+            <h3>👥 Crew Recruitment</h3>
             <div className="tooltip-section">
               <p>"Buried in static and noise are identity fragments. Some are real. Most are not."</p>
-              <p>🔍 <strong>Your Mission:</strong> Analyze each profile and determine authenticity.</p>
-              
-              <div className="detection-guide">
-                <h4>🚩 Reject If You See:</h4>
-                <ul>
-                  <li><strong>Suspicious Names:</strong> Gamer tags, system names, corrupted text</li>
-                  <li><strong>Impossible Ages:</strong> 0, negative, or extremely old</li>
-                  <li><strong>Overpowered Skills:</strong> Time travel, infinite abilities, admin access</li>
-                  <li><strong>Fake Locations:</strong> Non-existent kingdoms or dimensions</li>
-                  <li><strong>Missing Data:</strong> Corrupted backgrounds or invalid permits</li>
-                </ul>
-
-                <h4>✅ Accept If Profile Shows:</h4>
-                <ul>
-                  <li><strong>Realistic Names:</strong> Human-sounding identities</li>
-                  <li><strong>Normal Ages:</strong> 20s-40s range</li>
-                  <li><strong>Technical Skills:</strong> Believable engineering/repair abilities</li>
-                  <li><strong>Known Locations:</strong> Mars stations, Europa, established settlements</li>
-                  <li><strong>Valid Documentation:</strong> Proper work permits</li>
-                </ul>
-              </div>
-              
-              <p className="tooltip-tip">💡 <strong>Trust Your Instincts:</strong> If something seems too perfect or too broken, it probably is.</p>
+              <p>🔍 <strong>Objective:</strong> Sort through intercepted profiles and decide who's real.</p>
+              <ul>
+                <li>Accept real candidates</li>
+                <li>Reject fake ones</li>
+                <li>The better your accuracy, the higher your chance of recruiting a useful crew member.</li>
+                <li>Fakes can be convincing. Watch for suspicious skills, missing data, or impossible backstories.</li>
+              </ul>
+              <p className="tooltip-tip">💡 Tip: "Some mail is harmless. Some rewrites the map."</p>
             </div>
-            <p className="refresher-note">📚 Check <strong>Game Tips → Crew Recruitment</strong> for detailed examples!</p>
+            <p className="refresher-note">📚 You can always check <strong>Game Tips</strong> in the main menu for a refresher!</p>
             <button className="intro-tooltip-button" onClick={dismissIntroTooltip}>
-              Begin Verification Process
+              Begin Verification
             </button>
           </div>
         </div>
