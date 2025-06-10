@@ -380,7 +380,7 @@
 
   /* Ensure item info tooltips are visible on mobile */
   .item-info {
-    display: none !important;
+    z-index: 15000 !important;
   }
 
   .mobile-info-button {
@@ -388,7 +388,7 @@
   }
 
   .mobile-item-info-modal {
-    z-index: 2700 !important;
+    z-index: 15001 !important;
   }
 
   /* Tutorial message mobile */
@@ -489,6 +489,14 @@
   
   .mainStore{
     z-index: 2200 !important;
+  }
+
+  .item-info {
+    z-index: 15000 !important;
+  }
+
+  .mobile-item-info-modal {
+    z-index: 15001 !important;
   }
   
   .mainStore:not(.collapsed) {
