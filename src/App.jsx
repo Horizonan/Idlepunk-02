@@ -916,8 +916,13 @@ export default function App() {
 
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
-        // Process offline progress when page becomes visible again
-        processOfflineProgressHandler();
+        // Only process offline progress when page becomes visible after being hidden
+        // Add a small delay to avoid triggering during quick tab switches
+        setTimeout(() => {
+          if (document.visibilityState === 'visible') {
+            processOfflineProgressHandler();
+          }
+        }, 1000);
       } else {
         // Update last active time when page becomes hidden
         updateLastActiveTime();
@@ -925,8 +930,13 @@ export default function App() {
     };
 
     const handleWindowFocus = () => {
-      // Process offline progress when window gains focus
-      processOfflineProgressHandler();
+      // Only process offline progress when window gains focus after being blurred
+      // Add delay to avoid triggering during menu navigation
+      setTimeout(() => {
+        if (document.hasFocus()) {
+          processOfflineProgressHandler();
+        }
+      }, 1000);
     };
 
     const handleWindowBlur = () => {

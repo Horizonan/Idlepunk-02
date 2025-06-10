@@ -2,14 +2,21 @@
 export const processOfflineProgress = (gameState, setGameState) => {
   const currentTime = Date.now();
   const lastActiveTime = parseInt(localStorage.getItem('lastActiveTime') || currentTime.toString());
+  const lastOfflineCheck = parseInt(localStorage.getItem('lastOfflineCheck') || currentTime.toString());
   const timeOffline = Math.floor((currentTime - lastActiveTime) / 1000); // seconds
   
   // Cap offline time at 30 minutes (1800 seconds)
   const maxOfflineTime = 1800;
   const effectiveOfflineTime = Math.min(timeOffline, maxOfflineTime);
   
-  // Only process if offline for more than 30 seconds to avoid triggering during active usage
-  if (effectiveOfflineTime < 30) return;
+  // Only process if offline for more than 5 minutes AND haven't checked recently
+  // This prevents triggering during menu navigation or quick tab switches
+  const timeSinceLastCheck = Math.floor((currentTime - lastOfflineCheck) / 1000);
+  if (effectiveOfflineTime < 300 || timeSinceLastCheck < 60) {
+    // Update last offline check time to prevent spam
+    localStorage.setItem('lastOfflineCheck', currentTime.toString());
+    return;
+  }
   
   let offlineResults = {
     junk: 0,
@@ -73,8 +80,9 @@ export const processOfflineProgress = (gameState, setGameState) => {
   // Show offline progress notification
   showOfflineProgressNotification(offlineResults, setGameState.setNotifications);
   
-  // Update last active time
+  // Update last active time and last offline check
   localStorage.setItem('lastActiveTime', currentTime.toString());
+  localStorage.setItem('lastOfflineCheck', currentTime.toString());
   
   // Return results for popup display
   return offlineResults;
@@ -159,5 +167,8 @@ const showOfflineProgressNotification = (results, setNotifications) => {
 };
 
 export const updateLastActiveTime = () => {
-  localStorage.setItem('lastActiveTime', Date.now().toString());
+  const currentTime = Date.now().toString();
+  localStorage.setItem('lastActiveTime', currentTime);
+  // Also update last offline check to prevent immediate triggering
+  localStorage.setItem('lastOfflineCheck', currentTime);
 };
