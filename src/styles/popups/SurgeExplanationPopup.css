@@ -3,9 +3,10 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.8);
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,148 +14,237 @@
   animation: fadeIn 0.3s ease-out;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .surge-explanation-popup {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  border: 3px solid #00ff00;
-  border-radius: 15px;
+  background: linear-gradient(135deg, rgba(26, 26, 26, 0.98) 0%, rgba(42, 42, 42, 0.95) 100%);
+  border: 2px solid #9400D3;
+  border-radius: 12px;
   padding: 0;
   max-width: 600px;
   width: 90%;
   max-height: 80vh;
-  overflow-y: auto;
+  overflow: hidden;
   box-shadow: 
-    0 0 30px rgba(0, 255, 0, 0.5),
-    inset 0 0 20px rgba(0, 255, 0, 0.1);
-  animation: slideUp 0.3s ease-out;
+    0 0 30px rgba(148, 0, 211, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  animation: slideInScale 0.4s ease-out;
+  font-family: 'Poppins', sans-serif;
+}
+
+@keyframes slideInScale {
+  from {
+    transform: scale(0.85) translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
 }
 
 .surge-explanation-header {
-  background: linear-gradient(90deg, #00ff00, #00cc00);
-  color: #000;
-  padding: 15px 20px;
+  background: linear-gradient(90deg, #9400D3, #7B00AD);
+  padding: 20px 25px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-radius: 12px 12px 0 0;
+  border-bottom: 1px solid rgba(0, 255, 0, 0.3);
 }
 
 .surge-explanation-header h2 {
+  color: #00FF00;
   margin: 0;
   font-size: 1.5em;
-  font-weight: bold;
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  letter-spacing: 1px;
 }
 
 .surge-explanation-close {
-  background: none;
-  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #00FF00;
+  color: #00FF00;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   font-size: 24px;
-  color: #000;
+  font-weight: bold;
   cursor: pointer;
-  padding: 0;
-  width: 30px;
-  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  margin: 0;
+  padding: 0;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
 }
 
 .surge-explanation-close:hover {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 255, 0, 0.2);
   transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
 }
 
 .surge-explanation-content {
-  padding: 25px;
-  color: #fff;
+  padding: 30px;
+  color: #00FF00;
+  overflow-y: auto;
+  max-height: calc(80vh - 140px);
 }
 
 .surge-explanation-icon {
   font-size: 4em;
   text-align: center;
-  margin-bottom: 15px;
-  animation: pulse 2s infinite;
+  margin: 0 0 20px 0;
+  filter: drop-shadow(0 0 20px #9400D3) drop-shadow(0 0 40px #9400D3);
+  animation: surgePulse 2s ease-in-out infinite;
+}
+
+@keyframes surgePulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 20px #9400D3) drop-shadow(0 0 40px #9400D3);
+  }
+  50% {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 30px #9400D3) drop-shadow(0 0 60px #9400D3) drop-shadow(0 0 80px #9400D3);
+  }
 }
 
 .surge-explanation-content h3 {
-  color: #00ff00;
-  text-align: center;
-  margin: 0 0 15px 0;
+  color: #9400D3;
   font-size: 1.4em;
+  margin: 0 0 15px 0;
+  text-align: center;
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(148, 0, 211, 0.5);
 }
 
 .surge-explanation-content p {
+  color: #00FF00;
+  line-height: 1.6;
+  margin: 0 0 25px 0;
   text-align: center;
-  margin-bottom: 20px;
   font-size: 1.1em;
+  opacity: 0.9;
+}
+
+.surge-benefits {
+  background: rgba(148, 0, 211, 0.1);
+  border: 1px solid rgba(148, 0, 211, 0.3);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 25px 0;
+}
+
+.surge-benefits h4 {
+  color: #9400D3;
+  margin: 0 0 15px 0;
+  font-size: 1.2em;
+  font-weight: 600;
+  text-shadow: 0 0 5px rgba(148, 0, 211, 0.5);
+}
+
+.surge-benefits ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.surge-benefits li {
+  color: #00FF00;
+  margin: 12px 0;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(148, 0, 211, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1em;
+}
+
+.surge-benefits li:last-child {
+  border-bottom: none;
+}
+
+.surge-benefits li strong {
+  color: #00FFFF;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+.surge-tips {
+  background: rgba(0, 255, 0, 0.05);
+  border: 1px solid rgba(0, 255, 0, 0.2);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 25px 0;
+}
+
+.surge-tips h4 {
+  color: #00FF00;
+  margin: 0 0 15px 0;
+  font-size: 1.2em;
+  font-weight: 600;
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+}
+
+.surge-tips ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.surge-tips li {
+  color: #00FF00;
+  margin: 10px 0;
+  padding: 6px 0;
+  opacity: 0.9;
+  font-size: 0.95em;
   line-height: 1.5;
 }
 
-.surge-benefits, .surge-tips {
-  margin: 20px 0;
-  padding: 15px;
-  background: rgba(0, 255, 0, 0.05);
-  border-left: 4px solid #00ff00;
-  border-radius: 5px;
-}
-
-.surge-benefits h4, .surge-tips h4 {
-  color: #00ff00;
-  margin: 0 0 10px 0;
-  font-size: 1.2em;
-}
-
-.surge-benefits ul, .surge-tips ul {
-  margin: 0;
-  padding-left: 20px;
-}
-
-.surge-benefits li, .surge-tips li {
-  margin: 8px 0;
-  line-height: 1.4;
+.surge-tips li::before {
+  content: "▶";
+  color: #9400D3;
+  margin-right: 10px;
+  font-size: 0.8em;
 }
 
 .surge-explanation-got-it {
-  width: 100%;
-  padding: 15px;
-  background: linear-gradient(90deg, #00ff00, #00cc00);
-  color: #000;
-  border: none;
+  background: linear-gradient(45deg, #9400D3, #7B00AD);
+  border: 2px solid #00FF00;
+  color: #00FF00;
+  padding: 15px 30px;
   border-radius: 8px;
-  font-size: 1.2em;
-  font-weight: bold;
+  font-size: 1.1em;
+  font-weight: 600;
   cursor: pointer;
-  margin-top: 20px;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  display: block;
+  margin: 30px auto 0;
+  text-align: center;
+  min-width: 250px;
+  box-shadow: 0 0 15px rgba(148, 0, 211, 0.3);
+  letter-spacing: 0.5px;
 }
 
 .surge-explanation-got-it:hover {
-  background: linear-gradient(90deg, #00cc00, #009900);
+  background: linear-gradient(45deg, #00FF00, #00DD00);
+  color: #222;
+  border-color: #9400D3;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3);
+  box-shadow: 0 0 25px rgba(0, 255, 0, 0.5);
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideUp {
-  from { 
-    opacity: 0;
-    transform: translateY(50px) scale(0.9);
-  }
-  to { 
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+.surge-explanation-got-it:active {
+  transform: translateY(0);
 }
 
 /* Mobile responsiveness */
@@ -162,6 +252,10 @@
   .surge-explanation-popup {
     width: 95%;
     max-height: 90vh;
+  }
+  
+  .surge-explanation-header {
+    padding: 15px 20px;
   }
   
   .surge-explanation-header h2 {
@@ -174,5 +268,16 @@
   
   .surge-explanation-icon {
     font-size: 3em;
+  }
+  
+  .surge-benefits,
+  .surge-tips {
+    padding: 15px;
+  }
+  
+  .surge-explanation-got-it {
+    padding: 12px 25px;
+    font-size: 1em;
+    min-width: 200px;
   }
 }
