@@ -307,6 +307,14 @@ export const useRecruitmentZustand = create(
         lastFeedback: feedback
       })
 
+      // Clear feedback after 3 seconds so user can read it
+      setTimeout(() => {
+        const currentState = get();
+        if (currentState.lastFeedback === feedback) {
+          set({ lastFeedback: null });
+        }
+      }, 3000)
+
       // Clear feedback after 5 seconds for next profile
       setTimeout(() => {
         set({ lastFeedback: null });

@@ -85,7 +85,7 @@ export function RecruitmentGame() {
       {lastFeedback && !lastFeedback.correct && (
         <div className="feedback-panel-compact incorrect">
           <span className="feedback-compact">
-            ❌ INCORRECT - Mistake: {lastFeedback.explanation}
+            ❌ INCORRECT ({lastFeedback.points} pts) - Mistake: {lastFeedback.explanation}
           </span>
         </div>
       )}
