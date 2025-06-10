@@ -259,6 +259,9 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
           <div className="recruit-list">
             {unlockedCrew.map((crew) => (
               <div key={crew.id} className="recruit-card">
+                {newlyHiredCrew.includes(crew.id) && (
+                  <div className="new-crew-badge">New!</div>
+                )}
                 <div className="recruit-stats">
                   <span>💪 {crew.name}</span>
                 </div>

@@ -337,8 +337,14 @@ export const useRecruitmentZustand = create(
       console.log(`🎉 Recruited ${selectedCrew.name} (${selectedCrew.rarity})!`);
       set({ 
         selectedCrew,
-        unlockedCrew: [...unlockedCrew, selectedCrew]
+        unlockedCrew: [...unlockedCrew, selectedCrew],
+        newlyHiredCrew: [...get().newlyHiredCrew, selectedCrew.id]
       });
+
+      // Remove "New!" badge after 10 seconds
+      setTimeout(() => {
+        get().markCrewAsNotNew(selectedCrew.id);
+      }, 10000);
     } else {
       console.log("🚫 No available crew members to unlock in this tier");
       set({ selectedCrew: null });
