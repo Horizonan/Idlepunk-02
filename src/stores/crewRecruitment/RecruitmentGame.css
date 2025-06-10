@@ -123,6 +123,8 @@
     0 0 30px rgba(148, 0, 211, 0.7),
     inset 0 0 20px rgba(0, 255, 0, 0.1);
   animation: tooltipGlow 2s infinite alternate;
+  max-height: 85vh;
+  overflow-y: auto;
 }
 
 @keyframes tooltipGlow {
