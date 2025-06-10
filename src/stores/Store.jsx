@@ -12,6 +12,10 @@ export default function Store({
   onBuyModularScrapper, onBuyScratzMiner,
 }) {
   const [selectedTab, setSelectedTab] = useState("prePres");
+  const [bulkBuy, setBulkBuy] = useState(false);
+  const [currentTab, setCurrentTab] = useState('Main');
+  const [expandedCategories, setExpandedCategories] = useState({}); // Track which categories are expanded
+  const [mobileInfoModal, setMobileInfoModal] = useState(null); // For mobile item info modals
 
 
   const clickItems = [
@@ -196,6 +200,21 @@ export default function Store({
     },
   ];
 
+  const toggleCategory = (categoryName) => {
+    setExpandedCategories(prev => ({
+      ...prev,
+      [categoryName]: !prev[categoryName]
+    }));
+  };
+
+  const openMobileInfo = (item) => {
+    setMobileInfoModal(item);
+  };
+
+  const closeMobileInfo = () => {
+    setMobileInfoModal(null);
+  };
+
 
   // Combined Items for rendering
   const renderItems = (items) => (
@@ -208,7 +227,18 @@ export default function Store({
           className={`store-item ${item.disabled || (item.unlockCondition && !item.unlockCondition()) ? "disabled" : ""}`}
         >
           <div className="item-header">
-            <strong>{item.name}</strong>
+            <strong>
+              {item.name}
+              <button 
+                className="mobile-info-button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openMobileInfo(item);
+                }}
+              >
+                ℹ️
+              </button>
+            </strong>
             <span className="cost">
               ({typeof item.cost === 'object' ? formatNumber(item.cost.junk) : formatNumber(item.cost)} Junk
               {item.cost.scrapCores
@@ -302,6 +332,25 @@ export default function Store({
             </div>
           )}
       </div>
+
+      {mobileInfoModal && (
+        <div className="mobile-item-info-modal" onClick={closeMobileInfo}>
+          <div className="mobile-item-info-content" onClick={(e) => e.stopPropagation()}>
+            <div className="mobile-item-info-header">
+              <h3>{mobileInfoModal.name}</h3>
+              <button className="mobile-info-close" onClick={closeMobileInfo}>
+                ×
+              </button>
+            </div>
+            <div className="mobile-item-info-body">
+              <p><strong>Cost:</strong> {mobileInfoModal.name === 'Electro Surge Node' ? 
+                `${mobileInfoModal.cost} Electro Shards` : 
+                `${mobileInfoModal.cost} Junk`}</p>
+              <p>{mobileInfoModal.description}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

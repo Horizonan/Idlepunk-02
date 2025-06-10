@@ -360,6 +360,11 @@
     display: none !important;
   }
 
+  /* Show mobile info buttons */
+  .mobile-info-button {
+    display: flex !important;
+  }
+
   /* Custom Scrollbar for Store Items */
   .store-items::-webkit-scrollbar {
     width: 6px !important;

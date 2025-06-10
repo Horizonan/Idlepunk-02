@@ -219,7 +219,7 @@ margin-top: 15px;
   cursor: pointer !important;
   min-width: 28px !important;
   min-height: 28px !important;
-  display: flex !important;
+  display: none !important; /* Hidden by default on desktop */
   align-items: center !important;
   justify-content: center !important;
   flex-shrink: 0 !important;
