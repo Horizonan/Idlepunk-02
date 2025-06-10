@@ -16,7 +16,6 @@ const formatJunkCost = (cost, hasBooster) => {
 export default function CraftingStore({ junk, onCraft, craftingInventory, onBack }) {
   const [selectedTab, setSelectedTab] = useState('basic');
   const [showResetConfirm, setShowResetConfirm] = useState(false);
-  const [mobileInfoItem, setMobileInfoItem] = useState(null);
 
   const tabs = [
     { id: 'basic', label: 'Basic Materials' },
@@ -167,15 +166,6 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
     }
   };
 
-  const handleMobileInfo = (e, item) => {
-    e.stopPropagation();
-    setMobileInfoItem(item);
-  };
-
-  const closeMobileInfo = () => {
-    setMobileInfoItem(null);
-  };
-
   return (
     <div className="store-container">
       <div className="store-header">
@@ -208,16 +198,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   className={`store-item ${item.uncraftable ? 'uncraftable' : ''}`}
                 >
                   <div className="item-header">
-                    <strong>
-                      {item.name}
-                      <button 
-                        className="mobile-info-button"
-                        onClick={(e) => handleMobileInfo(e, item)}
-                        style={{ display: window.innerWidth <= 768 ? 'flex' : 'none' }}
-                      >
-                        ℹ️
-                      </button>
-                    </strong>
+                    <strong>{item.name}</strong>
                     {item.cost && <span className="cost">({formatJunkCost(item.cost, craftingInventory['Crafting Booster Unit'])} Junk)</span>}
                   </div>
                   <div className="item-info">
@@ -242,16 +223,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   className="store-item"
                 >
                   <div className="item-header">
-                    <strong>
-                      {item.name}
-                      <button 
-                        className="mobile-info-button"
-                        onClick={(e) => handleMobileInfo(e, item)}
-                        style={{ display: window.innerWidth <= 768 ? 'flex' : 'none' }}
-                      >
-                        ℹ️
-                      </button>
-                    </strong>
+                    <strong>{item.name}</strong>
                   </div>
                   <div className="item-info">
                     <p>{item.description}</p>
@@ -283,16 +255,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   className="store-item"
                 >
                   <div className="item-header">
-                    <strong>
-                      {item.name}
-                      <button 
-                        className="mobile-info-button"
-                        onClick={(e) => handleMobileInfo(e, item)}
-                        style={{ display: window.innerWidth <= 768 ? 'flex' : 'none' }}
-                      >
-                        ℹ️
-                      </button>
-                    </strong>
+                    <strong>{item.name}</strong>
                   </div>
                   <div className="item-info">
                     <p>{item.description}</p>
@@ -343,28 +306,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                 className="store-item mysterious"
               >
                 <div className="item-header">
-                  <strong>
-                    💎 Prestige Crystal
-                    <button 
-                      className="mobile-info-button"
-                      onClick={(e) => handleMobileInfo(e, {
-                        name: 'Prestige Crystal',
-                        requirements: {
-                          'Stabilized Capacitor': 1,
-                          'Voltage Node': 1,
-                          'Synthcore Fragment': 1,
-                          'Quantum Entangler': 1
-                        },
-                        cost: 10000000,
-                        description: 'A mysterious crystal pulsing with otherworldly power',
-                        type: 'mysterious',
-                        icon: '💎'
-                      })}
-                      style={{ display: window.innerWidth <= 768 ? 'flex' : 'none' }}
-                    >
-                      ℹ️
-                    </button>
-                  </strong>
+                  <strong>💎 Prestige Crystal</strong>
                 </div>
                 <div className="item-info">
                   <p>A mysterious crystal pulsing with otherworldly power</p>
@@ -376,7 +318,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   <p>- Quantum Entangler: 1 ({craftingInventory['Quantum Entangler'] || 0} owned)</p>
                 </div>
               </button>)}
-
+              
             {localStorage.getItem('quest_sync_Beacon Protocol') === 'true' && (
               <button
                 onClick={() => onCraft({
@@ -400,26 +342,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                 className="store-item mysterious"
               >
                 <div className="item-header">
-                  <strong>
-                    💎Overcharged Prestige Crystal
-                    <button 
-                      className="mobile-info-button"
-                      onClick={(e) => handleMobileInfo(e, {
-                        name: 'Overcharged Prestige Crystal',
-                        requirements: {
-                          'Encrypted Coil': 1,
-                          'Surge Capacitor Fragment': 1,
-                        },
-                        cost: 25000000,
-                        description: 'A mysterious crystal pulsing with otherworldly power',
-                        type: 'mysterious',
-                        icon: '💎'
-                      })}
-                      style={{ display: window.innerWidth <= 768 ? 'flex' : 'none' }}
-                    >
-                      ℹ️
-                    </button>
-                  </strong>
+                  <strong>💎Overcharged Prestige Crystal</strong>
                 </div>
                 <div className="item-info">
                   <p>A mysterious crystal pulsing with otherworldly power</p>
@@ -470,29 +393,6 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                 Cancel
               </button>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* Mobile Info Modal */}
-      {mobileInfoItem && (
-        <div className="mobile-info-modal">
-          <div className="mobile-info-content">
-            <button className="mobile-info-close" onClick={closeMobileInfo}>
-              &times;
-            </button>
-            <h4>{mobileInfoItem.name}</h4>
-            <p>{mobileInfoItem.description}</p>
-            {mobileInfoItem.requirements && (
-              <div>
-                <p>Requirements:</p>
-                {Object.entries(mobileInfoItem.requirements).map(([mat, count]) => (
-                  <p key={mat}>- {mat}: {count} ({craftingInventory[mat] || 0} owned)</p>
-                ))}
-              </div>
-            )}
-            {mobileInfoItem.cost && <p>Cost: {formatJunkCost(mobileInfoItem.cost, craftingInventory['Crafting Booster Unit'])} Junk</p>}
-            {mobileInfoItem.type === 'basic' && <p className="owned">Owned: {craftingInventory[mobileInfoItem.name] || 0}</p>}
           </div>
         </div>
       )}
