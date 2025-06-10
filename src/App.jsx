@@ -43,6 +43,7 @@ import { useAchievements } from './hooks/useAchievements';
 import { validateQuests } from './utils/questValidation';
 import { useGameState } from './hooks/useGameState';
 import { getInitialItemCosts } from './utils/ItemCosts';
+import { processOfflineProgress, updateLastActiveTime } from './utils/offlineSimulation';
 
 //Effects/Animations
 import ClickEnhancerEffect from './components/Effects/ClickEnhancerEffect';
@@ -336,7 +337,7 @@ export default function App() {
       } else {
         setIsSurgeActive(true);
         setHasFoundCapacitorThisSurge(false);
-        
+
         // Check if this is the first surge
         const hadFirstSurge = localStorage.getItem('hadFirstSurge') === 'true';
         if (!hadFirstSurge) {
@@ -798,11 +799,67 @@ export default function App() {
       setShowMiniGameWindow(true);
     };
 
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        // Process offline progress when page becomes visible again
+        processOfflineProgress(
+          {
+            junk,
+            credits,
+            clickCount,
+            tronics,
+            autoClicks,
+            clickMultiplier,
+            passiveIncome,
+            globalJpsMultiplier,
+            electronicsUnlock,
+            clickEnhancerLevel,
+            prestigeCount,
+            electroShards,
+            isSurgeActive,
+            cogfatherLore,
+            autoClickerV1Count,
+            craftingInventory,
+            ownedItems,
+            permanentAutoClicks,
+            electroMultiplier
+          },
+          {
+            setJunk,
+            setCredits,
+            setClickCount,
+            setTronics,
+            setAutoClicks,
+            setClickMultiplier,
+            setPassiveIncome,
+            setGlobalJpsMultiplier,
+            setElectronicsUnlock,
+            setClickEnhancerLevel,
+            setPrestigeCount,
+            setElectroShards,
+            setIsSurgeActive,
+            setCogfatherLore,
+            setAutoClickerV1Count,
+            setCraftingInventory,
+            setOwnedItems,
+            setNotifications,
+            setPermanentAutoClicks,
+            setElectroMultiplier
+          }
+        );
+      } else {
+        // Update last active time when page becomes hidden
+        updateLastActiveTime();
+      }
+    };
+
     window.addEventListener('showMiniGame', handleMiniGameRequest);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
       clearInterval(interval);
       window.removeEventListener('showMiniGame', handleMiniGameRequest);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };  }, [junk]);
 
   return (
@@ -1155,7 +1212,7 @@ export default function App() {
             if (item.type === 'basic') {
               const hasBooster = craftingInventory['Crafting Booster Unit'];
               let totalCost = 0;
-              
+
               if (quantity === 10) {
                 // Calculate 10x crafting cost with scaling
                 let currentCost = hasBooster ? Math.floor(item.cost * 0.9) : item.cost;
@@ -1166,7 +1223,7 @@ export default function App() {
               } else {
                 totalCost = hasBooster ? Math.floor(item.cost * 0.9) : item.cost;
               }
-              
+
               if (junk >= totalCost) {
                 setJunk(prev => prev - totalCost);
                 setCraftingInventory(prev => ({
@@ -1181,7 +1238,7 @@ export default function App() {
               const canCraft = Object.entries(item.requirements).every(
                 ([mat, count]) => (craftingInventory[mat] || 0) >= (count * actualQuantity)
               ) && (!item.onetime || !(craftingInventory[item.name] || 0)) && junk >= ((item.cost || 0) * actualQuantity);
-              
+
               if (canCraft) {
                 setCraftingInventory(prev => {
                   const newInventory = { ...prev };
@@ -1630,7 +1687,7 @@ export default function App() {
       )}
       <PrestigeMeter />
       <PickupMagnetArray />
-      
+
       {/* Surge Explanation Popup */}
       {showSurgeExplanation && (
         <SurgeExplanationPopup 
@@ -1652,7 +1709,7 @@ export default function App() {
                 <li>The better your accuracy, the higher your chance of recruiting a useful crew member.</li>
                 <li>Fakes can be convincing. Watch for suspicious skills, missing data, or impossible backstories.</li>
               </ul>
-              
+
               <h4>🕵️ Key Things to Check:</h4>
               <ul>
                 <li><strong>Age vs Experience:</strong> Does their age match their claimed experience?</li>
@@ -1661,12 +1718,12 @@ export default function App() {
                 <li><strong>Background Consistency:</strong> Does their story add up?</li>
                 <li><strong>Timeline Logic:</strong> Do dates and events make chronological sense?</li>
               </ul>
-              
+
               <div className="detection-examples">
                 <p><strong>⚠️ Red Flags:</strong> 19-year-old "veterans", impossible skill combos, missing permits, contradictory stories</p>
                 <p><strong>✅ Good Signs:</strong> Realistic ages, complementary skills, valid documentation, coherent backgrounds</p>
               </div>
-              
+
               <p className="tooltip-tip">💡 Tip: "Some mail is harmless. Some rewrites the map."</p>
               <p className="tooltip-tip">🎯 Pro Tip: When in doubt, look for internal consistency - real profiles tell a coherent story.</p>
             </div>
@@ -1680,7 +1737,7 @@ export default function App() {
           </div>
         </div>
       )}
-      
+
       {/* End of Road UI Element for 2nd Prestige */}
       {prestigeCount >= 2 && showEndOfRoad && (
         <div className="end-of-road-container">

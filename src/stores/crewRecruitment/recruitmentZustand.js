@@ -350,6 +350,71 @@ export const useRecruitmentZustand = create(
       set({ selectedCrew: null });
     }
   },
+  startMission: (missionId, crewMemberId) => {
+    const state = get();
+    const mission = state.availableMissions.find(m => m.id === missionId);
+    const crewMember = state.crewMembers.find(c => c.id === crewMemberId);
+
+    if (!mission || !crewMember || crewMember.status !== 'available') {
+      return false;
+    }
+
+    const missionData = {
+      id: missionId,
+      crewMemberId,
+      startTime: Date.now(),
+      duration: mission.duration,
+      reward: mission.reward,
+      name: mission.name
+    };
+
+    set(state => ({
+      crewMembers: state.crewMembers.map(member => 
+        member.id === crewMemberId 
+          ? { ...member, status: 'on_mission', currentMission: missionId }
+          : member
+      ),
+      activeMissions: [...state.activeMissions, missionData]
+    }));
+
+    // Save to localStorage for offline processing
+    const activeMissions = JSON.parse(localStorage.getItem('activeMissions') || '[]');
+    activeMissions.push(missionData);
+    localStorage.setItem('activeMissions', JSON.stringify(activeMissions));
+
+    return true;
+  },
+  completeMission: (missionId) => {
+    const state = get();
+    const mission = state.activeMissions.find(m => m.id === missionId);
+
+    if (!mission) return { success: false, reward: 0 };
+
+    set(state => ({
+      activeMissions: state.activeMissions.filter(m => m.id !== missionId),
+      crewMembers: state.crewMembers.map(member => 
+        member.id === mission.crewMemberId 
+          ? { ...member, status: 'available', currentMission: null }
+          : member
+      ),
+      successfulMissions: state.successfulMissions + 1
+    }));
+
+    // Update localStorage
+    const activeMissions = JSON.parse(localStorage.getItem('activeMissions') || '[]');
+    const updatedActiveMissions = activeMissions.filter(m => m.id !== missionId);
+    localStorage.setItem('activeMissions', JSON.stringify(updatedActiveMissions));
+
+    const completedMissions = JSON.parse(localStorage.getItem('completedMissions') || '[]');
+    completedMissions.push({
+      ...mission,
+      completedAt: Date.now(),
+      completedOffline: false
+    });
+    localStorage.setItem('completedMissions', JSON.stringify(completedMissions));
+
+    return { success: true, reward: mission.reward };
+  },
 }),
     {
       name: 'crew-storage',

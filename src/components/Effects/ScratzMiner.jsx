@@ -33,7 +33,7 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
     const savedLastUpdate = parseInt(localStorage.getItem('scratzMinerLastUpdate') || Date.now().toString());
     const savedTimeUntilNext = parseInt(localStorage.getItem('scratzMinerTimeUntilNext') || '3600');
     const currentTime = Date.now();
-    const timeElapsed = Math.floor((currentTime - savedLastUpdate) / 1000); // seconds
+    const timeElapsed = Math.min(Math.floor((currentTime - savedLastUpdate) / 1000), 1800); // Cap at 30 minutes (1800 seconds)
 
     if (timeElapsed > 0 && ownedMiners > 0) {
       const savedFuel = parseFloat(localStorage.getItem('scratzMinerFuel') || '0');
@@ -86,7 +86,8 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
             } else {
               timeString = `${minutesOffline}m`;
             }
-            setNotifications(prevNotifs => [...prevNotifs, `Scratz Miner generated ${creditsGenerated} Scratz while offline! (${timeString})`]);
+            const capMessage = timeElapsed >= 1800 ? ' (capped at 30min)' : '';
+            setNotifications(prevNotifs => [...prevNotifs, `Scratz Miner generated ${creditsGenerated} Scratz while offline! (${timeString}${capMessage})`]);
 
             // Add to credit log
             setCreditLog(prev => [...prev.slice(-4), {
