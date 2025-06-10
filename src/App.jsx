@@ -794,6 +794,64 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    // Check for offline progress immediately on app load
+    const checkInitialOfflineProgress = () => {
+      const offlineResults = processOfflineProgress(
+        {
+          junk,
+          credits,
+          clickCount,
+          tronics,
+          autoClicks,
+          clickMultiplier,
+          passiveIncome,
+          globalJpsMultiplier,
+          electronicsUnlock,
+          clickEnhancerLevel,
+          prestigeCount,
+          electroShards,
+          isSurgeActive,
+          cogfatherLore,
+          autoClickerV1Count,
+          craftingInventory,
+          ownedItems,
+          permanentAutoClicks,
+          electroMultiplier
+        },
+        {
+          setJunk,
+          setCredits,
+          setClickCount,
+          setTronics,
+          setAutoClicks,
+          setClickMultiplier,
+          setPassiveIncome,
+          setGlobalJpsMultiplier,
+          setElectronicsUnlock,
+          setClickEnhancerLevel,
+          setPrestigeCount,
+          setElectroShards,
+          setIsSurgeActive,
+          setCogfatherLore,
+          setAutoClickerV1Count,
+          setCraftingInventory,
+          setOwnedItems,
+          setNotifications,
+          setPermanentAutoClicks,
+          setElectroMultiplier
+        }
+      );
+      
+      // Show offline progress popup if there were results and user was offline for more than 30 seconds
+      if (offlineResults && offlineResults.duration >= 30) {
+        setOfflineProgressData(offlineResults);
+        setShowOfflineProgress(true);
+      }
+    };
+
+    // Check for offline progress after a short delay to ensure all state is loaded
+    const initialCheckTimeout = setTimeout(checkInitialOfflineProgress, 1000);
+
     const interval = setInterval(() => {
     }, 100);
 
@@ -802,73 +860,108 @@ export default function App() {
       setShowMiniGameWindow(true);
     };
 
+    const processOfflineProgressHandler = () => {
+      const offlineResults = processOfflineProgress(
+        {
+          junk,
+          credits,
+          clickCount,
+          tronics,
+          autoClicks,
+          clickMultiplier,
+          passiveIncome,
+          globalJpsMultiplier,
+          electronicsUnlock,
+          clickEnhancerLevel,
+          prestigeCount,
+          electroShards,
+          isSurgeActive,
+          cogfatherLore,
+          autoClickerV1Count,
+          craftingInventory,
+          ownedItems,
+          permanentAutoClicks,
+          electroMultiplier
+        },
+        {
+          setJunk,
+          setCredits,
+          setClickCount,
+          setTronics,
+          setAutoClicks,
+          setClickMultiplier,
+          setPassiveIncome,
+          setGlobalJpsMultiplier,
+          setElectronicsUnlock,
+          setClickEnhancerLevel,
+          setPrestigeCount,
+          setElectroShards,
+          setIsSurgeActive,
+          setCogfatherLore,
+          setAutoClickerV1Count,
+          setCraftingInventory,
+          setOwnedItems,
+          setNotifications,
+          setPermanentAutoClicks,
+          setElectroMultiplier
+        }
+      );
+      
+      // Show offline progress popup if there were results and user was offline for more than 30 seconds
+      if (offlineResults && offlineResults.duration >= 30) {
+        setOfflineProgressData(offlineResults);
+        setShowOfflineProgress(true);
+      }
+    };
+
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
         // Process offline progress when page becomes visible again
-        const offlineResults = processOfflineProgress(
-          {
-            junk,
-            credits,
-            clickCount,
-            tronics,
-            autoClicks,
-            clickMultiplier,
-            passiveIncome,
-            globalJpsMultiplier,
-            electronicsUnlock,
-            clickEnhancerLevel,
-            prestigeCount,
-            electroShards,
-            isSurgeActive,
-            cogfatherLore,
-            autoClickerV1Count,
-            craftingInventory,
-            ownedItems,
-            permanentAutoClicks,
-            electroMultiplier
-          },
-          {
-            setJunk,
-            setCredits,
-            setClickCount,
-            setTronics,
-            setAutoClicks,
-            setClickMultiplier,
-            setPassiveIncome,
-            setGlobalJpsMultiplier,
-            setElectronicsUnlock,
-            setClickEnhancerLevel,
-            setPrestigeCount,
-            setElectroShards,
-            setIsSurgeActive,
-            setCogfatherLore,
-            setAutoClickerV1Count,
-            setCraftingInventory,
-            setOwnedItems,
-            setNotifications,
-            setPermanentAutoClicks,
-            setElectroMultiplier
-          }
-        );
-        
-        // Show offline progress popup if there were results and user was offline for more than 5 seconds
-        if (offlineResults && offlineResults.duration >= 5) {
-          setOfflineProgressData(offlineResults);
-          setShowOfflineProgress(true);
-        }
+        processOfflineProgressHandler();
       } else {
         // Update last active time when page becomes hidden
         updateLastActiveTime();
       }
     };
 
+    const handleWindowFocus = () => {
+      // Process offline progress when window gains focus
+      processOfflineProgressHandler();
+    };
+
+    const handleWindowBlur = () => {
+      // Update last active time when window loses focus
+      updateLastActiveTime();
+    };
+
+    const handlePageShow = (event) => {
+      // Process offline progress when page is shown (including from cache)
+      if (event.persisted || performance.navigation.type === 2) {
+        processOfflineProgressHandler();
+      }
+    };
+
+    const handlePageHide = () => {
+      // Update last active time when page is hidden
+      updateLastActiveTime();
+    };
+
     window.addEventListener('showMiniGame', handleMiniGameRequest);
     document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('focus', handleWindowFocus);
+    window.addEventListener('blur', handleWindowBlur);
+    window.addEventListener('pageshow', handlePageShow);
+    window.addEventListener('pagehide', handlePageHide);
 
     return () => {
+      clearTimeout(initialCheckTimeout);
       clearInterval(interval);
       window.removeEventListener('showMiniGame', handleMiniGameRequest);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('focus', handleWindowFocus);
+      window.removeEventListener('blur', handleWindowBlur);
+      window.removeEventListener('pageshow', handlePageShow);
+      window.removeEventListener('pagehide', handlePageHide);
     };  }, [junk]);
 
   return (
