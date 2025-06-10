@@ -423,7 +423,7 @@ export const gameHandlers = (gameState, setGameState) => {
         return;
       }
 
-      if (gameState.tronics >= 35000 && gameState.electroShards >= 8) {
+      if (gameState.tronics >= 35000 && localStorage.getItem('electro_surge_node_unlocked')) {
         setGameState.setTronics(prev => prev - 35000);
         localStorage.setItem("electro_surge_node_purchased", 'true')
         localStorage.setItem('surge_duration_bonus', '5');
