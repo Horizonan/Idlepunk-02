@@ -330,6 +330,28 @@ margin-top: 15px;
   border-radius: 12px;
   background: rgba(34, 34, 34, 0.8);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  max-height: 400px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #9400D3 rgba(26, 26, 26, 0.9);
+}
+
+.purchased-items-section::-webkit-scrollbar {
+  width: 8px;
+}
+
+.purchased-items-section::-webkit-scrollbar-track {
+  background: rgba(26, 26, 26, 0.9);
+  border-radius: 4px;
+}
+
+.purchased-items-section::-webkit-scrollbar-thumb {
+  background: #9400D3;
+  border-radius: 4px;
+}
+
+.purchased-items-section::-webkit-scrollbar-thumb:hover {
+  background: #B020E0;
 }
 
 .purchased-items-title {
