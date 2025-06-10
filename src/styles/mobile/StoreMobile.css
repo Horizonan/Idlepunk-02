@@ -138,7 +138,7 @@
     overflow-y: auto !important;
     padding: 0 4px 20px 4px !important;
     margin: 0 !important;
-    height: calc(100vh - 160px) !important;
+    height: calc(100vh - ) !important;
     display: flex !important;
     flex-direction: column !important;
     gap: 15px !important;
