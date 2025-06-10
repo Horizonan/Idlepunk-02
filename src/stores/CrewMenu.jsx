@@ -236,18 +236,20 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                   </div>
                 </div>
               )}
-                <button 
-                  type="button"
-                  onClick={() => {
+              <button 
+                type="button"
+                onClick={() => {
                   if(Number(localStorage.getItem('credits')) >= 10){
                     setCredits(prev => prev - 10);
                     startGame();
                   }
-                  }}
-                  className="search-recruits-button" >
-                  🔍 Search for Recruits (10 Credits)
-                </button>
-              </div>
+                }}
+                className="search-recruits-button"
+                disabled={Number(localStorage.getItem('credits')) < 10}
+              >
+                🔍 Search for Recruits (10 Credits)
+              </button>
+            </div>
 
           <div className="recruit-list">
             {unlockedCrew.map((crew) => (
