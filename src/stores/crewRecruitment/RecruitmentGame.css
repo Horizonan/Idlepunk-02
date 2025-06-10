@@ -50,6 +50,25 @@
   border-color: #FF4444;
 }
 
+.feedback-panel-compact {
+  margin: 10px 0;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.feedback-panel-compact.incorrect {
+  background: rgba(255, 0, 0, 0.1);
+  border-color: #FF4444;
+}
+
+.feedback-compact {
+  font-size: 0.85em;
+  color: #FF6666;
+  font-weight: bold;
+}
+
 .feedback-header {
   display: flex;
   align-items: center;
