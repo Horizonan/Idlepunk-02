@@ -306,7 +306,21 @@ margin-top: 15px;
   color: #9400D3;
 }
 
-/* Hide regular tooltips on mobile */
+/* Show tooltips on desktop, mobile buttons on mobile */
+@media (min-width: 769px) {
+  .mobile-info-button {
+    display: none !important;
+  }
+  
+  .item-info {
+    display: none;
+  }
+  
+  .store-item:hover .item-info {
+    display: block !important;
+  }
+}
+
 @media (max-width: 768px) {
   .item-info {
     display: none !important;
@@ -314,6 +328,10 @@ margin-top: 15px;
 
   .store-item:hover .item-info {
     display: none !important;
+  }
+
+  .mobile-info-button {
+    display: flex !important;
   }
 
   .item-header {

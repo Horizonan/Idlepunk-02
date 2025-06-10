@@ -368,9 +368,27 @@
     max-height: 100vh !important;
     transform: none !important;
     padding: 20px !important;
-    z-index: 1400 !important;
+    z-index: 2500 !important;
     overflow-y: auto !important;
     box-sizing: border-box !important;
+  }
+
+  /* Store specific z-index to ensure it's above other elements */
+  .mainStore {
+    z-index: 2600 !important;
+  }
+
+  /* Ensure item info tooltips are visible on mobile */
+  .item-info {
+    display: none !important;
+  }
+
+  .mobile-info-button {
+    display: flex !important;
+  }
+
+  .mobile-item-info-modal {
+    z-index: 2700 !important;
   }
 
   /* Tutorial message mobile */
