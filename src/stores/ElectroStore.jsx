@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/Store.css';
+import '../styles/mobile/StoreMobile.css';
 
 export default function ElectroStore({ 
   electroShards, tronics, onBuyTronicsBoost, onBuyQuantumTap, 
@@ -7,6 +8,7 @@ export default function ElectroStore({
   onBuyCircuitOptimization,onBuyFrequencyTap, onBuyReactiveFeedback, onBuyPickupMagnetArray,
 }) {
   const [selectedTab, setSelectedTab] = useState("basic");
+  const [mobileInfoItem, setMobileInfoItem] = useState(null);
 
   const formatNumber = (num) => {
     if (num >= 1000000) {
@@ -17,7 +19,14 @@ export default function ElectroStore({
     return num;
   };
 
+  const handleMobileInfo = (e, item) => {
+    e.stopPropagation();
+    setMobileInfoItem(item);
+  };
 
+  const closeMobileInfo = () => {
+    setMobileInfoItem(null);
+  };
 
   const basicItems = [
     {
@@ -191,7 +200,16 @@ export default function ElectroStore({
             className={`store-item ${!canAfford || !item.unlockCondition() ? 'disabled' : ''}`}
           >
             <div className="item-header">
-              <strong>{item.name}</strong>
+              <strong>
+                {item.name}
+                <button 
+                  className="mobile-info-button"
+                  onClick={(e) => handleMobileInfo(e, item)}
+                  style={{ display: window.innerWidth <= 768 ? 'flex' : 'flex' }}
+                >
+                  ℹ️
+                </button>
+              </strong>
               <span className="cost">
                 {item.cost.tronics ? `${formatNumber(item.cost.tronics)} Tronics` : ''}
                 {item.cost.shards ? `${item.cost.shards} Shards` : ''}
@@ -237,6 +255,19 @@ export default function ElectroStore({
         {selectedTab === "basic" && renderItems(basicItems)}
         {selectedTab === "advanced" && renderItems(advancedItems)}
       </div>
+
+      {mobileInfoItem && (
+        <div className="mobile-info-modal">
+          <div className="mobile-info-content">
+            <span className="mobile-info-close" onClick={closeMobileInfo}>
+              &times;
+            </span>
+            <strong>{mobileInfoItem.name}</strong>
+            <p>{mobileInfoItem.description}</p>
+            <p>{mobileInfoItem.info}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
