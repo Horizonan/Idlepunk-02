@@ -313,21 +313,33 @@ export default function Store({
         )}
         {selectedTab === "purchased" && (
           <div>
-            <h3 style={{ color: "#9400D3", textAlign: "center" }}>
+            <h3 style={{ color: "#9400D3", textAlign: "center", fontSize: "1.2em" }}>
               Purchased Items
             </h3>
             {Object.keys(ownedItems).filter(key => ownedItems[key] > 0).length > 0 ? (
-              <div className="purchased-items-grid">
+              <div className="store-items">
                 {Object.entries(ownedItems).map(([itemName, count]) => {
                   if (count > 0) {
+                    // Find item description from all item arrays
+                    let itemDescription = "Item owned and contributing to your progress";
+                    
+                    // Check in all item categories for descriptions
+                    const allItems = [...clickItems, ...passiveItems, ...premiumItems, ...automationItems, ...firstAsc];
+                    const foundItem = allItems.find(item => item.name.includes(itemName) || itemName.includes(item.name.replace(/[^a-zA-Z0-9]/g, '')));
+                    
+                    if (foundItem) {
+                      itemDescription = foundItem.description;
+                    }
+                    
                     return (
-                      <div key={itemName} className="purchased-item">
+                      <div key={itemName} className="store-item purchased-item-display">
                         <div className="item-header">
                           <strong>{itemName}</strong>
                           <span className="owned-count">x{count}</span>
                         </div>
-                        <div className="item-details">
-                          Item owned and contributing to your progress
+                        <div className="item-info purchased-item-info">
+                          <p>{itemDescription}</p>
+                          <p className="owned">Owned: {count}</p>
                         </div>
                       </div>
                     );
