@@ -27,7 +27,7 @@ export default function Tooltips({ onClose }) {
               
               <h4>🗑️ Trash Surges:</h4>
               <ul>
-                <li>Increases junk collection multiplier significantly</li>
+                <li>Increases junk collection multiplier significantly (Click Collection)</li>
                 <li>Lasts 5-7 seconds (can be extended with upgrades)</li>
                 <li>Occurs randomly every 4-8 minutes</li>
                 <li>Creates screen effects and enhanced button glow</li>
