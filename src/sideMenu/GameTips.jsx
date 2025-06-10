@@ -231,6 +231,33 @@ export default function Tooltips({ onClose }) {
         </div>
 
         <div className="tooltip-entry">
+          <h3 onClick={() => toggleTip('skillsCenter')}>
+            🧠 What Is The Skills Center? {expandedTip === 'skillsCenter' ? '▼' : '▶'}
+          </h3>
+          {expandedTip === 'skillsCenter' && (
+            <div className="tooltip-section">
+              <p>"Train your mind, upgrade your grind."</p>
+              
+              <h4>🎯 How Skills Work:</h4>
+              <ul>
+                <li>Select a skill to begin training it passively</li>
+                <li>Skills gain XP automatically every 10 seconds while active</li>
+                <li>Each level provides permanent bonuses to your abilities</li>
+                <li>Only one skill can be trained at a time</li>
+              </ul>
+
+              <h4>📈 Available Skills:</h4>
+              <ul>
+                <li><strong>Scavenging Focus:</strong> +1% Junk per Click per level</li>
+                <li><strong>Grease Discipline:</strong> +0.5% Junk/sec per level (unlocks at Scavenging Focus 5)</li>
+              </ul>
+
+              <p className="tooltip-tip">💡 Tip: Skills provide permanent bonuses that persist through prestige!</p>
+            </div>
+          )}
+        </div>
+
+        <div className="tooltip-entry">
           <h3 onClick={() => toggleTip('happinessInLife')}>
             🧠 What Is Happiness in Life? {expandedTip === 'happinessInLife' ? '▼' : '▶'}
           </h3>

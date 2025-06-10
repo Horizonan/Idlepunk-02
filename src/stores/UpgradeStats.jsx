@@ -1,9 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/UpgradeStats.css';
 import { useSkillsStore } from '../utils/skillsStore';
+import SkillsCenterIntro from '../components/SkillsCenterIntro';
 
 export default function UpgradeStats({ onClose }) {
   const { skillXp, skillLevels, activeSkill, setActiveSkill, updateXp } = useSkillsStore();
+  const [showIntro, setShowIntro] = useState(false);
+
+  // Check if this is the first time opening Skills Center
+  useEffect(() => {
+    const hasSeenSkillsIntro = localStorage.getItem('hasSeenSkillsIntro');
+    if (!hasSeenSkillsIntro) {
+      setShowIntro(true);
+      localStorage.setItem('hasSeenSkillsIntro', 'true');
+    }
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -28,7 +39,11 @@ export default function UpgradeStats({ onClose }) {
   };
 
   return (
-    <div className="upgrade-stats">
+    <>
+      {showIntro && (
+        <SkillsCenterIntro onClose={() => setShowIntro(false)} />
+      )}
+      <div className="upgrade-stats">
       <div className="upgrade-header">
         <h2>Skills Center</h2>
         <button onClick={onClose}>Close</button>
@@ -83,5 +98,6 @@ export default function UpgradeStats({ onClose }) {
         )}
       </div>
     </div>
+    </>
   );
 }
