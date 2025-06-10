@@ -15,85 +15,147 @@
 }
 
 .game-card {
-  position: relative;
+  background: rgba(26, 26, 26, 0.95);
+  border: 2px solid #9400D3;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 8px;
+  color: #00FF00;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .game-stats {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.feedback-panel {
+  margin: 15px 0;
+  padding: 15px;
+  border-radius: 8px;
+  border: 2px solid;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.feedback-panel.correct {
+  background: rgba(0, 255, 0, 0.1);
+  border-color: #00FF00;
+}
+
+.feedback-panel.incorrect {
+  background: rgba(255, 0, 0, 0.1);
+  border-color: #FF4444;
+}
+
+.feedback-header {
+  display: flex;
   align-items: center;
-  margin-bottom: 15px;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.feedback-icon {
+  font-size: 1.2em;
+}
+
+.feedback-title {
+  flex: 1;
+  font-size: 1.1em;
+}
+
+.feedback-points {
+  color: #FFD700;
+  font-size: 1.1em;
+}
+
+.feedback-explanation {
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+.feedback-explanation p {
+  margin: 8px 0;
+}
+
+.red-flags, .good-signs {
+  margin: 10px 0;
+}
+
+.red-flags ul, .good-signs ul {
+  margin: 5px 0 0 20px;
+  padding: 0;
+}
+
+.red-flags li {
+  color: #FF6666;
+  margin: 3px 0;
+}
+
+.good-signs li {
+  color: #66FF66;
+  margin: 3px 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.buttons button {
+  flex: 1;
+  padding: 10px;
+  background: #222;
   color: #00FF00;
+  border: 2px solid #9400D3;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.buttons button:hover {
+  background: rgba(148, 0, 211, 0.3);
+}
+
+.game-over {
+  text-align: center;
+  padding: 20px;
 }
 
 .crew-unlock {
-  background: rgba(0, 0, 0, 0.85);
-  border: 2px solid #9400D3;
-  padding: 20px;
-  margin: 20px 0;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(148, 0, 211, 0.5);
-  animation: glow 2s infinite alternate;
-}
-
-@keyframes glow {
-  from {
-    box-shadow: 0 0 15px rgba(148, 0, 211, 0.5);
-  }
-  to {
-    box-shadow: 0 0 25px rgba(148, 0, 211, 0.8);
-  }
-}
-
-.crew-details {
-  margin-top: 15px;
+  background: rgba(148, 0, 211, 0.2);
   padding: 15px;
-  background: rgba(20, 20, 20, 0.6);
-  border-radius: 8px;
-  border: 1px solid rgba(148, 0, 211, 0.3);
+  margin: 15px 0;
+  border-radius: 5px;
+  border: 1px solid #9400D3;
 }
 
 .crew-details h4 {
-  color: #00FF00;
-  font-size: 1.4em;
-  margin: 0 0 10px 0;
-  text-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
+  color: #9400D3;
+  margin: 10px 0 5px 0;
 }
 
 .crew-role {
-  color: #00FF00;
+  color: #00FFFF;
   font-style: italic;
-  font-size: 1.1em;
-  margin: 5px 0;
-  text-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
 }
 
 .crew-rarity {
-  color: #9400D3;
-  text-transform: uppercase;
+  color: #FFD700;
   font-weight: bold;
-  letter-spacing: 2px;
-  margin: 10px 0;
-  text-shadow: 0 0 8px rgba(148, 0, 211, 0.5);
 }
 
 .crew-perks {
-  color: #00FFFF;
-  margin-top: 15px;
-  padding: 10px;
-  background: rgba(0, 255, 255, 0.1);
-  border-radius: 6px;
-  text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
-}
-
-.crew-unlock h3 {
-  color: #FF00FF;
-  text-align: center;
-  font-size: 1.6em;
-  margin-bottom: 15px;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+  color: #00FF00;
+  font-size: 0.9em;
 }
 
 .intro-tooltip-overlay {

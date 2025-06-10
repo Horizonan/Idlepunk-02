@@ -9,7 +9,11 @@ export const useRecruitmentZustand = create(
   persist(
     (set, get) => ({
       selectedCrew: null,
-      unlockedCrew: [],
+      lastFeedback: null,
+      unlockedCrew: [...crewDatabase.filter(crew => 
+        crew.unlockConditions?.minGameScore === 0 || 
+        !crew.unlockConditions?.minGameScore
+      )],
       hiredCrew: [],
       newlyHiredCrew: [], // Track recently hired crew for "New!" badge
       equipment: [], // Available equipment items
@@ -140,7 +144,7 @@ export const useRecruitmentZustand = create(
     console.log('Starting recruitment game');
     const generated = Array.from({length: 8}, generateRandomProfile);
     console.log('Generated profiles:', generated);
-    set({profiles: generated, currentIndex: 0, score: 0, timeLeft: 60, isRunning: true});
+    set({profiles: generated, currentIndex: 0, score: 0, timeLeft: 60, isRunning: true, lastFeedback: null});
     console.log('Game state initialized');
   },
 
@@ -198,9 +202,116 @@ export const useRecruitmentZustand = create(
       score: 0,
       timeLeft: 60,
       isRunning: false,
-      selectedCrew: null
+      selectedCrew: null,
+      lastFeedback: null
     })
   },
+
+   generateFeedback: (action, profile, correct, points) => {
+      const redFlags = [];
+      const goodSigns = [];
+      let explanation = '';
+
+      if (profile.isReal) {
+        // Real profile analysis
+        if (profile.age > 0 && profile.age < 120) {
+          goodSigns.push('Realistic age range');
+        }
+        if (profile.skills.every(skill => !skill.includes('Time Travel') && !skill.includes('Infinite') && !skill.includes('??'))) {
+          goodSigns.push('Believable skill set');
+        }
+        if (!profile.name.includes('!!!') && !profile.name.includes('Xx_') && !profile.name.includes('_xX')) {
+          goodSigns.push('Professional name format');
+        }
+        if (profile.background && !profile.background.includes('corrupted') && !profile.background.includes('Kingdom')) {
+          goodSigns.push('Legitimate work history');
+        }
+        if (profile.workPermit.status !== 'missing') {
+          goodSigns.push('Valid documentation');
+        }
+
+        if (action === 'recruit') {
+          explanation = 'This was a legitimate candidate with verifiable credentials and realistic experience.';
+        } else if (action === 'trash') {
+          explanation = 'You rejected a real candidate! Look for professional names, realistic ages, and believable skills.';
+        } else {
+          explanation = 'Skipping real candidates means missing potential crew members.';
+        }
+      } else {
+        // Fake profile analysis
+        if (profile.age <= 0 || profile.age > 120 || profile.age === null) {
+          redFlags.push('Impossible or missing age');
+        }
+        if (profile.skills.some(skill => skill.includes('Time Travel') || skill.includes('Infinite') || skill.includes('??') || skill.includes('404'))) {
+          redFlags.push('Unrealistic or corrupted skills');
+        }
+        if (profile.name.includes('!!!') || profile.name.includes('Xx_') || profile.name.includes('_xX') || profile.name.includes('Admin_')) {
+          redFlags.push('Suspicious name pattern');
+        }
+        if (profile.background.includes('corrupted') || profile.background.includes('Kingdom') || profile.background.includes('Sovereign ruler')) {
+          redFlags.push('Fake or nonsensical background');
+        }
+        if (profile.workPermit.status === 'missing') {
+          redFlags.push('Missing work documentation');
+        }
+        if (profile.flags) {
+          redFlags.push(...profile.flags);
+        }
+
+        if (action === 'trash') {
+          explanation = 'Correctly identified as fake! Watch for red flags like impossible ages, suspicious names, and unrealistic skills.';
+        } else if (action === 'recruit') {
+          explanation = 'You tried to recruit a fake profile! Always check for red flags before recruiting.';
+        } else {
+          explanation = 'Skipping is safe but gives fewer points than correctly identifying fakes.';
+        }
+      }
+
+      return {
+        correct,
+        points,
+        explanation,
+        redFlags: redFlags.length > 0 ? redFlags : null,
+        goodSigns: goodSigns.length > 0 ? goodSigns : null
+      };
+    },
+
+    act: (action) => {
+      const { profiles, currentIndex, score } = get()
+      const profile = profiles[currentIndex]
+
+      if (!profile) return
+
+      let delta = 0
+      let correct = false
+
+      if (action === 'recruit' && profile.isReal) {
+        delta = 10
+        correct = true
+      } else if (action === 'trash' && !profile.isReal) {
+        delta = 5  
+        correct = true
+      } else if (action === 'skip') {
+        delta = 1
+        correct = true // Skipping is always "correct" but low reward
+      } else {
+        delta = -3
+        correct = false
+      }
+
+      const feedback = get().generateFeedback(action, profile, correct, delta);
+
+      set({
+        score: score + delta,
+        currentIndex: currentIndex + 1,
+        lastFeedback: feedback
+      })
+
+      // Clear feedback after 5 seconds for next profile
+      setTimeout(() => {
+        set({ lastFeedback: null });
+      }, 5000);
+    },
 
   startMission: (mission, selectedCrew) => {
         const successRate = calculateMissionSuccess(
@@ -301,55 +412,63 @@ export const useRecruitmentZustand = create(
   },
 
   handleGameEnd: (finalScore) => {
-    const unlockedCrew = get().unlockedCrew;
-    const hiredCrew = get().hiredCrew;
-    let eligibleCrew;
+      console.log(`Game ended with score: ${finalScore}`);
 
-    // Helper function to check if crew is already unlocked or hired
-    const isCrewAvailable = (crew) => {
-      return !unlockedCrew.some(u => u.id === crew.id) && 
-             !hiredCrew.some(h => h.id === crew.id);
-    };
+      // Determine crew unlock based on score
+      const eligibleCrew = crewDatabase.filter(crew => {
+        const conditions = crew.unlockConditions;
+        if (!conditions) return false;
 
-    if (finalScore >= 80) {
-      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'legendary' && isCrewAvailable(crew));
-      console.log("🚀 Legendary tier reached!");
-    } else if (finalScore >= 60) {
-      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'epic' && isCrewAvailable(crew));
-      console.log("⭐ Epic tier reached!");
-    } else if (finalScore >= 40) {
-      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'rare' && isCrewAvailable(crew));
-      console.log("💫 Rare tier reached!");
-    } else if (finalScore >= 20) {
-      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'uncommon' && isCrewAvailable(crew));
-      console.log("✨ Uncommon tier reached!");
-    } else if (finalScore >= 1) {
-      eligibleCrew = crewDatabase.filter(crew => crew.rarity === 'common' && isCrewAvailable(crew));
-      console.log("👥 Common tier reached!");
-    } else {
-      console.log("❌ No reward: insufficient score");
-      return;
-    }
+        // Check if already unlocked
+        const alreadyUnlocked = get().unlockedCrew.some(c => c.id === crew.id);
+        if (alreadyUnlocked) return false;
 
-    if (eligibleCrew && eligibleCrew.length > 0) {
-      const randomIndex = Math.floor(Math.random() * eligibleCrew.length);
-      const selectedCrew = eligibleCrew[randomIndex];
-      console.log(`🎉 Recruited ${selectedCrew.name} (${selectedCrew.rarity})!`);
-      set({ 
-        selectedCrew,
-        unlockedCrew: [...unlockedCrew, selectedCrew],
-        newlyHiredCrew: [...get().newlyHiredCrew, selectedCrew.id]
+        // Check score requirement
+        if (conditions.minGameScore && finalScore < conditions.minGameScore) return false;
+
+        // Check crew count requirements
+        const currentCrewCount = get().hiredCrew.length;
+        if (conditions.minCrew !== undefined && currentCrewCount < conditions.minCrew) return false;
+        if (conditions.maxCrew !== undefined && currentCrewCount > conditions.maxCrew) return false;
+
+        // Check item requirements
+        if (conditions.requiresItems && conditions.requiresItems.length > 0) {
+          const hasAllItems = conditions.requiresItems.every(itemId => 
+            get().equipment.some(eq => eq.id === itemId)
+          );
+          if (!hasAllItems) return false;
+        }
+
+        return true;
       });
 
-      // Remove "New!" badge after 10 seconds
-      setTimeout(() => {
-        get().markCrewAsNotNew(selectedCrew.id);
-      }, 10000);
-    } else {
-      console.log("🚫 No available crew members to unlock in this tier");
-      set({ selectedCrew: null });
-    }
-  },
+      console.log('Eligible crew for unlock:', eligibleCrew);
+
+      if (eligibleCrew.length === 0) {
+        console.log("No crew members eligible for unlock");
+        set({ selectedCrew: null });
+        return;
+      }
+
+      if (eligibleCrew && eligibleCrew.length > 0) {
+        const randomIndex = Math.floor(Math.random() * eligibleCrew.length);
+        const selectedCrew = eligibleCrew[randomIndex];
+        console.log(`🎉 Recruited ${selectedCrew.name} (${selectedCrew.rarity})!`);
+        set({ 
+          selectedCrew,
+          unlockedCrew: [...get().unlockedCrew, selectedCrew],
+          newlyHiredCrew: [...get().newlyHiredCrew, selectedCrew.id]
+        });
+
+        // Remove "New!" badge after 10 seconds
+        setTimeout(() => {
+          get().markCrewAsNotNew(selectedCrew.id);
+        }, 10000);
+      } else {
+        console.log("🚫 No available crew members to unlock in this tier");
+        set({ selectedCrew: null });
+      }
+    },
   startMission: (missionId, crewMemberId) => {
     const state = get();
     const mission = state.availableMissions.find(m => m.id === missionId);

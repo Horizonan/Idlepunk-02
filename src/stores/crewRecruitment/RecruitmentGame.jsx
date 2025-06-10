@@ -14,7 +14,8 @@ export function RecruitmentGame() {
     handleGameEnd,
     act,
     tick,
-    selectedCrew
+    selectedCrew,
+    lastFeedback
   } = useRecruitmentZustand()
 
   // Check if intro should be shown and trigger App-level popup
@@ -80,6 +81,39 @@ export function RecruitmentGame() {
         <div>⏱ {timeLeft}s</div>
         <div>Progress: {currentIndex + 1}/8</div>
       </div>
+
+      {lastFeedback && (
+        <div className={`feedback-panel ${lastFeedback.correct ? 'correct' : 'incorrect'}`}>
+          <div className="feedback-header">
+            <span className="feedback-icon">{lastFeedback.correct ? '✅' : '❌'}</span>
+            <span className="feedback-title">{lastFeedback.correct ? 'CORRECT' : 'INCORRECT'}</span>
+            <span className="feedback-points">{lastFeedback.points > 0 ? '+' : ''}{lastFeedback.points} pts</span>
+          </div>
+          <div className="feedback-explanation">
+            <p><strong>Why:</strong> {lastFeedback.explanation}</p>
+            {lastFeedback.redFlags && lastFeedback.redFlags.length > 0 && (
+              <div className="red-flags">
+                <p><strong>🚩 Red Flags:</strong></p>
+                <ul>
+                  {lastFeedback.redFlags.map((flag, index) => (
+                    <li key={index}>{flag}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {lastFeedback.goodSigns && lastFeedback.goodSigns.length > 0 && (
+              <div className="good-signs">
+                <p><strong>✅ Good Signs:</strong></p>
+                <ul>
+                  {lastFeedback.goodSigns.map((sign, index) => (
+                    <li key={index}>{sign}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       <h2>{profile.name}</h2>
       <p><strong>Age:</strong> {profile.age}</p>
