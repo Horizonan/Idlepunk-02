@@ -54,7 +54,10 @@ export function RecruitmentGame() {
           <div className="crew-unlock">
             <h3>Crew Member Unlocked!</h3>
             <div className="crew-details">
-              <h4>{selectedCrew.name}</h4>
+              <div className="crew-name-container">
+                <h4>{selectedCrew.name}</h4>
+                <div className="new-crew-badge">New!</div>
+              </div>
               <p className="crew-role">{selectedCrew.role}</p>
               <p className="crew-rarity">{selectedCrew.rarity}</p>
               <p className="crew-perks">{selectedCrew.perks}</p>
