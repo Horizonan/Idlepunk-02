@@ -80,7 +80,7 @@ export default function ElectroStore({
       info: "One-time purchase",
       action: onBuyElectroSurgeNode,
       purchasedCount: localStorage.getItem('electro_surge_node_purchased') === 'true' ? 1 : 0,
-      unlockCondition: () => !localStorage.getItem('electro_surge_node_purchased')
+      unlockCondition: () => !localStorage.getItem('electro_surge_node_purchased') && (localStorage.getItem('electro_surge_node_unlocked') || electroShards >= 8)
     },
     {
       name: "🔦 Electro Beacon Core",
