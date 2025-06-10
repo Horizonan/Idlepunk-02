@@ -1,0 +1,423 @@
+
+/* Main Screen Mobile-Only Optimization */
+/* This file is specifically for mobile main screen improvements */
+
+@media (max-width: 768px) {
+  /* Main container optimization */
+  .main {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: calc(100vh - 200px) !important;
+    padding: 20px 15px !important;
+    margin: 0 !important;
+    background: none !important;
+    border: none !important;
+    overflow: visible !important;
+    gap: 20px !important;
+  }
+
+  /* Main clicker button - enhanced for mobile */
+  .main button {
+    width: 220px !important;
+    height: 220px !important;
+    border-radius: 50% !important;
+    font-size: 28px !important;
+    font-weight: bold !important;
+    margin: 0 !important;
+    touch-action: manipulation !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    
+    /* Enhanced visual feedback */
+    background: radial-gradient(circle at center, #333, #111) !important;
+    border: 4px solid #9400D3 !important;
+    box-shadow: 
+      0 0 30px rgba(148, 0, 211, 0.6),
+      inset 0 0 20px rgba(148, 0, 211, 0.1) !important;
+    
+    /* Smooth transitions */
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    
+    /* Prevent text selection and highlight */
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -khtml-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+  }
+
+  /* Enhanced active state for better feedback */
+  .main button:active {
+    transform: scale(0.92) !important;
+    box-shadow: 
+      0 0 25px rgba(148, 0, 211, 0.8),
+      inset 0 0 30px rgba(148, 0, 211, 0.3) !important;
+    background: radial-gradient(circle at center, #444, #222) !important;
+    border-color: #00FF00 !important;
+  }
+
+  /* Hover effects disabled on mobile */
+  .main button:hover {
+    transform: none !important;
+    background: radial-gradient(circle at center, #333, #111) !important;
+  }
+
+  /* Button glow animation for mobile */
+  .main button::before {
+    content: '' !important;
+    position: absolute !important;
+    top: -4px !important;
+    left: -4px !important;
+    right: -4px !important;
+    bottom: -4px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(45deg, #9400D3, #00FF00, #9400D3) !important;
+    z-index: -1 !important;
+    opacity: 0.3 !important;
+    animation: buttonGlow 3s ease-in-out infinite alternate !important;
+  }
+
+  @keyframes buttonGlow {
+    0% { opacity: 0.3; transform: scale(1); }
+    100% { opacity: 0.6; transform: scale(1.02); }
+  }
+
+  /* Mobile clicker selector improvements */
+  .clicker-selector {
+    display: flex !important;
+    gap: 12px !important;
+    margin: 20px 0 !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+  }
+
+  .clicker-select {
+    padding: 12px 20px !important;
+    font-size: 0.9em !important;
+    border-radius: 25px !important;
+    min-width: 120px !important;
+    min-height: 44px !important;
+    touch-action: manipulation !important;
+    background: rgba(34, 34, 34, 0.9) !important;
+    border: 2px solid #9400D3 !important;
+    color: #00FF00 !important;
+    transition: all 0.2s ease !important;
+    text-align: center !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+  }
+
+  .clicker-select:active {
+    transform: scale(0.95) !important;
+    background: rgba(148, 0, 211, 0.3) !important;
+  }
+
+  .clicker-select.active {
+    background: rgba(148, 0, 211, 0.8) !important;
+    color: #222 !important;
+    box-shadow: 0 0 20px rgba(148, 0, 211, 0.5) !important;
+    border-color: #00FF00 !important;
+  }
+
+  /* Main screen visual enhancements */
+  .main-visual-effects {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
+    background: 
+      radial-gradient(circle at 30% 20%, rgba(148, 0, 211, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 70% 80%, rgba(0, 255, 0, 0.05) 0%, transparent 50%) !important;
+  }
+
+  /* Status indicators mobile optimization */
+  .main-status-indicators {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    align-items: center !important;
+    margin-bottom: 15px !important;
+  }
+
+  .main-status-indicator {
+    background: rgba(26, 26, 26, 0.9) !important;
+    border: 1px solid #9400D3 !important;
+    border-radius: 20px !important;
+    padding: 8px 16px !important;
+    font-size: 0.85em !important;
+    color: #00FF00 !important;
+    backdrop-filter: blur(5px) !important;
+    min-width: 150px !important;
+    text-align: center !important;
+  }
+
+  /* Progress indicators */
+  .main-progress-ring {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 240px !important;
+    height: 240px !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
+  }
+
+  .progress-circle {
+    width: 100% !important;
+    height: 100% !important;
+    transform: rotate(-90deg) !important;
+  }
+
+  .progress-circle circle {
+    fill: none !important;
+    stroke: rgba(148, 0, 211, 0.3) !important;
+    stroke-width: 3 !important;
+    stroke-linecap: round !important;
+    cx: 50% !important;
+    cy: 50% !important;
+    r: 115 !important;
+  }
+
+  .progress-circle .progress-bar {
+    stroke: #9400D3 !important;
+    stroke-dasharray: 722 !important;
+    stroke-dashoffset: 722 !important;
+    transition: stroke-dashoffset 0.3s ease !important;
+    filter: drop-shadow(0 0 5px rgba(148, 0, 211, 0.8)) !important;
+  }
+
+  /* Floating action button style for additional actions */
+  .main-floating-actions {
+    position: fixed !important;
+    bottom: 160px !important;
+    right: 20px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    z-index: 950 !important;
+  }
+
+  .floating-action-btn {
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 50% !important;
+    background: rgba(148, 0, 211, 0.9) !important;
+    border: 2px solid #00FF00 !important;
+    color: white !important;
+    font-size: 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+    touch-action: manipulation !important;
+    transition: all 0.2s ease !important;
+    backdrop-filter: blur(10px) !important;
+  }
+
+  .floating-action-btn:active {
+    transform: scale(0.9) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  /* Click animation enhancement */
+  .click-animation {
+    position: absolute !important;
+    pointer-events: none !important;
+    z-index: 1000 !important;
+    font-size: 24px !important;
+    font-weight: bold !important;
+    color: #00FF00 !important;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.8) !important;
+    animation: clickFloat 0.8s ease-out forwards !important;
+  }
+
+  @keyframes clickFloat {
+    0% {
+      opacity: 1;
+      transform: translateY(0px) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-50px) scale(1.2);
+    }
+  }
+
+  /* Surge effect overlay for main screen */
+  .main-surge-overlay {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+    background: 
+      radial-gradient(circle at center, rgba(0, 255, 0, 0.1) 0%, transparent 70%) !important;
+    opacity: 0 !important;
+    transition: opacity 0.5s ease !important;
+  }
+
+  .main-surge-overlay.active {
+    opacity: 1 !important;
+    animation: surgeGlow 2s ease-in-out infinite alternate !important;
+  }
+
+  @keyframes surgeGlow {
+    0% { background: radial-gradient(circle at center, rgba(0, 255, 0, 0.1) 0%, transparent 70%); }
+    100% { background: radial-gradient(circle at center, rgba(0, 255, 0, 0.2) 0%, transparent 70%); }
+  }
+
+  /* Responsive text scaling */
+  .main .responsive-text {
+    font-size: clamp(0.8rem, 4vw, 1.2rem) !important;
+    line-height: 1.4 !important;
+    text-align: center !important;
+  }
+
+  /* Performance optimizations */
+  .main * {
+    -webkit-transform: translateZ(0) !important;
+    transform: translateZ(0) !important;
+    -webkit-backface-visibility: hidden !important;
+    backface-visibility: hidden !important;
+  }
+}
+
+/* Small mobile screens (phones) */
+@media (max-width: 600px) {
+  .main button {
+    width: 200px !important;
+    height: 200px !important;
+    font-size: 24px !important;
+  }
+
+  .main-progress-ring {
+    width: 220px !important;
+    height: 220px !important;
+  }
+
+  .progress-circle circle {
+    r: 105 !important;
+  }
+
+  .clicker-select {
+    min-width: 100px !important;
+    padding: 10px 16px !important;
+    font-size: 0.85em !important;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 400px) {
+  .main button {
+    width: 180px !important;
+    height: 180px !important;
+    font-size: 20px !important;
+  }
+
+  .main-progress-ring {
+    width: 200px !important;
+    height: 200px !important;
+  }
+
+  .progress-circle circle {
+    r: 95 !important;
+  }
+
+  .clicker-select {
+    min-width: 80px !important;
+    padding: 8px 12px !important;
+    font-size: 0.8em !important;
+    gap: 8px !important;
+  }
+
+  .floating-action-btn {
+    width: 48px !important;
+    height: 48px !important;
+    font-size: 20px !important;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+  .main {
+    min-height: calc(100vh - 120px) !important;
+    padding: 15px !important;
+  }
+
+  .main button {
+    width: 160px !important;
+    height: 160px !important;
+    font-size: 22px !important;
+  }
+
+  .main-progress-ring {
+    width: 180px !important;
+    height: 180px !important;
+  }
+
+  .progress-circle circle {
+    r: 85 !important;
+  }
+
+  .main-floating-actions {
+    bottom: 100px !important;
+  }
+}
+
+/* High DPI screen adjustments */
+@media (max-width: 768px) and (-webkit-min-device-pixel-ratio: 2) {
+  .main button {
+    border-width: 3px !important;
+  }
+
+  .clicker-select {
+    border-width: 2px !important;
+  }
+
+  .floating-action-btn {
+    border-width: 2px !important;
+  }
+}
+
+/* Accessibility improvements for mobile */
+@media (max-width: 768px) {
+  .main button:focus {
+    outline: 3px solid #00FF00 !important;
+    outline-offset: 4px !important;
+  }
+
+  .clicker-select:focus {
+    outline: 2px solid #00FF00 !important;
+    outline-offset: 2px !important;
+  }
+
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    .main button,
+    .clicker-select,
+    .floating-action-btn {
+      transition: none !important;
+      animation: none !important;
+    }
+
+    .main button::before {
+      animation: none !important;
+    }
+
+    .main-surge-overlay.active {
+      animation: none !important;
+    }
+  }
+}

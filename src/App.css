@@ -1,4 +1,5 @@
 @import './mobile.css';
+@import './styles/mobile/mainMobile.css';
 @import './styles/Notifications.css';
 @import './styles/Clicker.css';
 @import './components/Effects/surges/TrashSurge.css';
