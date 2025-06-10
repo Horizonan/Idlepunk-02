@@ -8,6 +8,7 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
   const [showRefuelDialog, setShowRefuelDialog] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(() => localStorage.getItem('scratzMinerCollapsed') === 'true');
   const [lastUpdateTime, setLastUpdateTime] = useState(Date.now());
+  const [creditLog, setCreditLog] = useState([]);
   
   // Use refs to track current values
   const fuelRef = useRef(0);
@@ -86,6 +87,13 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
               timeString = `${minutesOffline}m`;
             }
             setNotifications(prevNotifs => [...prevNotifs, `Scratz Miner generated ${creditsGenerated} Credits while offline! (${timeString})`]);
+            
+            // Add to credit log
+            setCreditLog(prev => [...prev.slice(-4), {
+              amount: creditsGenerated,
+              time: new Date().toLocaleTimeString(),
+              type: 'offline'
+            }]);
           }
         } else {
           // No fuel, miner was offline
@@ -169,6 +177,13 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
           const creditsGenerated = Math.floor(getTotalGeneration());
           onGenerateCredits(creditsGenerated);
           setNotifications(prevNotifs => [...prevNotifs, `Scratz Miner generated ${creditsGenerated} Credits!`]);
+          
+          // Add to credit log
+          setCreditLog(prev => [...prev.slice(-4), {
+            amount: creditsGenerated,
+            time: new Date().toLocaleTimeString(),
+            type: 'active'
+          }]);
           
           // Reset timer
           const resetTime = 3600;
@@ -299,6 +314,18 @@ export default function ScratzMiner({ ownedMiners, junkCells, onConsumeFuel, onG
             </span>
           </div>
         </div>
+        {creditLog.length > 0 && (
+          <div className="credit-log">
+            <div className="log-header">Recent Credits:</div>
+            {creditLog.map((entry, index) => (
+              <div key={index} className="log-entry">
+                <span className="log-time">{entry.time}</span>
+                <span className="log-amount">+{entry.amount}</span>
+                {entry.type === 'offline' && <span className="log-offline">📴</span>}
+              </div>
+            ))}
+          </div>
+        )}
         <div className="miner-lore">
           "The Scratz Miner hums to life… burning through Junk Cells like popcorn on a reactor core."
         </div>
