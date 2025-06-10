@@ -310,13 +310,73 @@ margin-top: 15px;
   .item-info {
     display: none !important;
   }
-  
+
   .store-item:hover .item-info {
     display: none !important;
   }
-  
+
   .item-header {
     align-items: center !important;
     gap: 8px !important;
   }
+}
+
+.no-purchases {
+  text-align: center;
+  color: #888888;
+  font-style: italic;
+  padding: 10px;
+}
+
+/* ElectroStore Purchased Items List */
+.purchased-items-list {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: rgba(0, 255, 255, 0.1);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 8px;
+}
+
+.purchased-items-list h3 {
+  color: #00FFFF;
+  margin: 0 0 12px 0;
+  font-size: 1.1em;
+  text-align: center;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+.purchased-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.purchased-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background-color: rgba(0, 255, 0, 0.1);
+  border: 1px solid rgba(0, 255, 0, 0.3);
+  border-radius: 5px;
+  font-size: 0.9em;
+  transition: background-color 0.3s ease;
+}
+
+.purchased-item:hover {
+  background-color: rgba(0, 255, 0, 0.15);
+}
+
+.purchase-name {
+  color: #00FF00;
+  font-weight: bold;
+  flex: 0 0 auto;
+}
+
+.purchase-effect {
+  color: #CCCCCC;
+  font-style: italic;
+  text-align: right;
+  flex: 1;
+  margin-left: 10px;
 }

@@ -222,6 +222,87 @@ export default function ElectroStore({
           <button onClick={onBack}>Close</button>
         </div>
       </div>
+      
+      {/* Purchased Items List */}
+      <div className="purchased-items-list">
+        <h3>Active Purchases</h3>
+        <div className="purchased-items">
+          {localStorage.getItem('unlocked_tronics_boost') && (
+            <div className="purchased-item">
+              <span className="purchase-name">⚡ Tronics Click Boost I</span>
+              <span className="purchase-effect">+1 Tronics per click (×{parseInt(localStorage.getItem('tronics_boost_count') || '0')})</span>
+            </div>
+          )}
+          {parseInt(localStorage.getItem('tronics_boost_II_count') || '0') > 0 && (
+            <div className="purchased-item">
+              <span className="purchase-name">⚡ Tronics Click Boost II</span>
+              <span className="purchase-effect">+2 Tronics per click (×{parseInt(localStorage.getItem('tronics_boost_II_count') || '0')})</span>
+            </div>
+          )}
+          {localStorage.getItem('flow_regulator_purchased') === 'true' && (
+            <div className="purchased-item">
+              <span className="purchase-name">⚡ Flow Regulator</span>
+              <span className="purchase-effect">+10% Tronics per click</span>
+            </div>
+          )}
+          {localStorage.getItem('quantum_tap_purchased') === 'true' && (
+            <div className="purchased-item">
+              <span className="purchase-name">⚡ Quantum Tap Circuit</span>
+              <span className="purchase-effect">3% chance for 3x Tronics per click</span>
+            </div>
+          )}
+          {localStorage.getItem('electro_surge_node_purchased') === 'true' && (
+            <div className="purchased-item">
+              <span className="purchase-name">⚡ Electro Surge Node</span>
+              <span className="purchase-effect">+5 seconds surge duration, unlocks Tronics surges</span>
+            </div>
+          )}
+          {localStorage.getItem('beacon_core_purchased') === 'true' && (
+            <div className="purchased-item">
+              <span className="purchase-name">🔦 Electro Beacon Core</span>
+              <span className="purchase-effect">-25% Electro Shard spawn time</span>
+            </div>
+          )}
+          {parseInt(localStorage.getItem('circuit_optimization_count') || '0') > 0 && (
+            <div className="purchased-item">
+              <span className="purchase-name">🧠 Circuit Optimization Unit</span>
+              <span className="purchase-effect">+25% global Junk/sec (×{parseInt(localStorage.getItem('circuit_optimization_count') || '0')})</span>
+            </div>
+          )}
+          {localStorage.getItem('high_freq_tap_purchased') === 'true' && (
+            <div className="purchased-item">
+              <span className="purchase-name">⚡ High-Frequency Tap Chip</span>
+              <span className="purchase-effect">Clicker fires twice per manual click</span>
+            </div>
+          )}
+          {localStorage.getItem('reactive_feedback_purchased') === 'true' && (
+            <div className="purchased-item">
+              <span className="purchase-name">🔄 Reactive Feedback Loop</span>
+              <span className="purchase-effect">+15% Tronics per click + 2.5% of Junk/sec from clicks</span>
+            </div>
+          )}
+          {localStorage.getItem('pickup_magnet_array_purchased') === 'true' && (
+            <div className="purchased-item">
+              <span className="purchase-name">🧲 Pickup Magnet Array</span>
+              <span className="purchase-effect">+8s pickup duration, auto-collect near cursor</span>
+            </div>
+          )}
+          {!localStorage.getItem('unlocked_tronics_boost') && 
+           parseInt(localStorage.getItem('tronics_boost_II_count') || '0') === 0 &&
+           localStorage.getItem('flow_regulator_purchased') !== 'true' &&
+           localStorage.getItem('quantum_tap_purchased') !== 'true' &&
+           localStorage.getItem('electro_surge_node_purchased') !== 'true' &&
+           localStorage.getItem('beacon_core_purchased') !== 'true' &&
+           parseInt(localStorage.getItem('circuit_optimization_count') || '0') === 0 &&
+           localStorage.getItem('high_freq_tap_purchased') !== 'true' &&
+           localStorage.getItem('reactive_feedback_purchased') !== 'true' &&
+           localStorage.getItem('pickup_magnet_array_purchased') !== 'true' && (
+            <div className="no-purchases">
+              <span>No active purchases</span>
+            </div>
+          )}
+        </div>
+      </div>
       <div className="crafting-tabs">
         {tabs.map((tab) => (
           <button
