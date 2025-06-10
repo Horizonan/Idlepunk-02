@@ -114,11 +114,13 @@
   background: linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(40, 40, 40, 0.95));
   border: 3px solid #9400D3;
   border-radius: 12px;
-  padding: 30px;
+  padding: 20px;
   max-width: 600px;
   width: 90%;
+  max-height: 85vh;
   color: #00FF00;
   text-align: left;
+  overflow-y: auto;
   box-shadow: 
     0 0 30px rgba(148, 0, 211, 0.7),
     inset 0 0 20px rgba(0, 255, 0, 0.1);
@@ -221,6 +223,25 @@
   border-radius: 4px;
   text-align: center;
   border: 1px solid rgba(148, 0, 211, 0.3);
+}
+
+/* Scrollbar styling for intro tooltip */
+.intro-tooltip::-webkit-scrollbar {
+  width: 8px;
+}
+
+.intro-tooltip::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.intro-tooltip::-webkit-scrollbar-thumb {
+  background: rgba(148, 0, 211, 0.6);
+  border-radius: 4px;
+}
+
+.intro-tooltip::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 0, 211, 0.8);
 }
 
 .detection-examples {
