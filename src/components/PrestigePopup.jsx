@@ -29,6 +29,10 @@ export default function PrestigePopup({ onConfirm, onClose, stats }) {
             <li>• Click Enhancers</li>
             <li>• All Store Items</li>
             <li>• Item Costs</li>
+            <li>• All Crew Members</li>
+            <li>• Equipment & Loadouts</li>
+            <li>• Active Missions</li>
+            <li>• Recruitment Progress</li>
           </ul>
         </div>
 

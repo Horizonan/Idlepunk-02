@@ -547,6 +547,33 @@ export const useRecruitmentZustand = create(
 
         return { success: true, reward: mission.reward };
       },
+
+      clearAllCrewData: () => {
+        set({
+          selectedCrew: null,
+          lastFeedback: null,
+          unlockedCrew: [...crewDatabase.filter(crew => 
+            crew.unlockConditions?.minGameScore === 0 || 
+            !crew.unlockConditions?.minGameScore
+          )],
+          hiredCrew: [],
+          newlyHiredCrew: [],
+          equipment: [],
+          crewLoadouts: {},
+          activeMission: null,
+          missionStartTime: null,
+          lastStaminaUpdate: Date.now(),
+          successfulMissions: 0,
+          profiles: [],
+          currentIndex: 0,
+          score: 0,
+          timeLeft: 60,
+          isRunning: false,
+          skillsChallenges: [],
+          currentChallengeIndex: 0,
+          gameVariant: 'profile'
+        });
+      },
     }),
     {
       name: 'crew-storage',

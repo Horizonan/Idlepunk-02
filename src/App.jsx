@@ -1717,6 +1717,10 @@ export default function App() {
             //Reset Zustand
             useCrystalZustand.getState().setHasChronoCrystalTimer(false);
 
+            // Clear crew data on prestige
+            const { useRecruitmentZustand } = await import('./stores/crewRecruitment/recruitmentZustand');
+            useRecruitmentZustand.getState().clearAllCrewData();
+
             setItemCosts(getInitialItemCosts());
 
 
