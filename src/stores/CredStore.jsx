@@ -240,7 +240,7 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
           }));
         }
       },
-      disabled: credits < 750 || localStorage.getItem('signal_expander_purchased') || !localStorage.getItem('recruitment_game_completed'),
+      disabled: credits < 750 || localStorage.getItem('signal_expander_purchased') || !localStorage.getItem('prestige1Unlocked'),
       creditsName: "750 Scratz",
     },
     {
