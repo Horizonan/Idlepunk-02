@@ -94,7 +94,10 @@ export function SkillsAssessmentGame() {
 
   return (
     <div className="skills-game-card">
-      <button onClick={resetGame}>Close</button>
+      <button onClick={() => {
+        resetGame();
+        handleSkillsGameEnd(score);
+      }}>Close</button>
       <div className="skills-game-stats">
         <div>⏱ {timeLeft}s</div>
         <div>Challenge: {currentChallengeIndex + 1}/8</div>
