@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default function Changelog({ onClose }) {
-  const [expandedVersion, setExpandedVersion] = useState('0.1.0.4');
+  const [expandedVersion, setExpandedVersion] = useState('0.1.0.5');
 
   const toggleVersion = (version) => {
     setExpandedVersion(expandedVersion === version ? null : version);
@@ -18,6 +18,42 @@ export default function Changelog({ onClose }) {
 
       <div className="changelog-content">
 
+        <div className="changelog-entry">
+          <h3 onClick={() => toggleVersion('0.1.0.5')} style={{ cursor: 'pointer' }}>
+            📱 Mobile Polish, Batch Crafting & Surge Tips – Update Log 0.1.0.5 {expandedVersion === '0.1.0.5' ? '▼' : '▶'}
+          </h3>
+          {expandedVersion === '0.1.0.5' && (
+            <>
+              <p>v0.1.0.5 brings more mobile improvements, introduces helpful game tips, and adds long-awaited features like batch crafting and offline simulation! 📦</p>
+              <div className="changelog-section">
+                <h3>📱 Mobile Friendliness</h3>
+                <p>📱 Junk Store now mobile friendly</p>
+                <p>📱 Added mobile-specific tooltips in Junk Store</p>
+                <p>📱 Reworked Crew window for smaller screens</p>
+                <p>📱 Main UI further optimized for mobile</p>
+
+                <h3>🎮 Content & Features</h3>
+                <p>🎮 Added Surge Gametip + popup on first Surge</p>
+                <p>🎮 Improved Crew Recruitment explanation & Gametip</p>
+                <p>🎮 Added Skills Center Gametip + popup on first open</p>
+                <p>🎮 Active ElectroTech upgrades now visible in ElectroStore</p>
+                <p>🎮 Added Batch Crafting feature 🛠️</p>
+                <p>🎮 New recruit badge indicator</p>
+                <p>🎮 Scratz Miner: “Recent Scratz” tracker added</p>
+                <p>🎮 Experimental offline simulation: “While you were away...” (⚠️ still buggy)</p>
+                <p>🎮 Small feedback system added for Crew interface</p>
+
+                <h3>🐞 Bug Fixes</h3>
+                <p>🐞 Fixed Next Quest requirement (25M ➜ 50M Junk)</p>
+                <p>🐞 Fixed ElectroSurge Node not being purchasable</p>
+                <p>🐞 Fixed crew UI showing “Credits” instead of “Scratz”</p>
+              </div>
+              <p className="changelog-footer">As always, thanks for playing and helping shape IdlePunk! Your feedback makes all the difference. More polish & features coming soon 💛</p>
+            </>
+          )}
+        </div>
+
+        
         <div className="changelog-entry">
           <h3 onClick={() => toggleVersion('0.1.0.4')} style={{ cursor: 'pointer' }}>
             📱 UI Overhaul, Bug Fixes & Balance – Update Log 0.1.0.4 {expandedVersion === '0.1.0.4' ? '▼' : '▶'}
@@ -60,7 +96,7 @@ export default function Changelog({ onClose }) {
         
         <div className="changelog-entry">
           <h3 onClick={() => toggleVersion('0.1.0.3')} style={{ cursor: 'pointer' }}>
-            🧨 Major Bug Fixes, Scraptagon & UI Update – Update Log 0.1.0.3 {expandedVersion === '0.1.0.3' ? '▼' : '▶'}
+            🔧 Major Bug Fixes, Scraptagon & UI Update – Update Log 0.1.0.3 {expandedVersion === '0.1.0.3' ? '▼' : '▶'}
           </h3>
           {expandedVersion === '0.1.0.3' && (
             <>
@@ -102,7 +138,7 @@ export default function Changelog({ onClose }) {
         
         <div className="changelog-entry">
           <h3 onClick={() => toggleVersion('0.1.0.2')} style={{ cursor: 'pointer' }}>
-            🧩 QoL, Stats & Visual Polish – Update Log 0.1.0.2 {expandedVersion === '0.1.0.2' ? '▼' : '▶'}
+            🔧 QoL, Stats & Visual Polish – Update Log 0.1.0.2 {expandedVersion === '0.1.0.2' ? '▼' : '▶'}
           </h3>
           {expandedVersion === '0.1.0.2' && (
             <>

@@ -5,14 +5,14 @@ export default function VersionPopup({ onClose }) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const hasSeenUpdate = localStorage.getItem('seen_update_0.1.0.4');
+    const hasSeenUpdate = localStorage.getItem('seen_update_0.1.0.5');
     if (!hasSeenUpdate) {
       setShow(true);
     }
   }, []);
 
   const handleClose = () => {
-    localStorage.setItem('seen_update_0.1.0.4', 'true');
+    localStorage.setItem('seen_update_0.1.0.5', 'true');
     setShow(false);
     if (onClose) {
       onClose();
@@ -24,18 +24,19 @@ export default function VersionPopup({ onClose }) {
   return (
     <div className="version-popup-overlay">
       <div className="version-popup">
-        <h2>📱 New Version Available: 0.1.0.4</h2>
+        <h2>📦 New Version Available: 0.1.0.5</h2>
         <div className="version-content">
           <h3>What's New:</h3>
           <ul>
-            <li>🖥️ Major mobile UI updates (Crafting & Skills)</li>
-            <li>🐞 Fixed Void Run & mission exploits</li>
-            <li>⚖️ Rebalanced Clickers & Enhancer power</li>
-            <li>🧠 Added reset recipe button & fire crew popups</li>
+            <li>📱 Junk Store & Crew window now mobile friendly</li>
+            <li>🧠 GameTips for Surges, Skills Center & Recruitment</li>
+            <li>🛠️ Batch Crafting + visible Electro Upgrades</li>
+            <li>⚙️ Offline simulation (early version!)</li>
+            <li>🐞 Bug fixes for quests, nodes, and crew labels</li>
           </ul>
-          <p>Check the full changelog in-game or drop by Discord!</p>
+          <p>See full changelog in-game or share your thoughts on Discord!</p>
           <div className="discord-section">
-            <p>Join the Discord to share bugs, ideas, and feedback:</p>
+            <p>Join the Discord to leave feedback or report bugs:</p>
             <a
               href="https://discord.gg/xhJbGbJApN"
               target="_blank"
