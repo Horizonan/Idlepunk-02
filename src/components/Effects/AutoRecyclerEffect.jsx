@@ -11,8 +11,9 @@ export default function AutoRecyclerEffect({
 }) {
   const [recyclerStates, setRecyclerStates] = useState([]);
   const [isRunning, setIsRunning] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const autoRecyclerCount = ownedItems.autoRecycler || 0;
-  const totalJunkPerSecond = passiveIncome * globalJpsMultiplier;
+  const totalJunkPerSecond = Math.floor(passiveIncome * globalJpsMultiplier);
   const junkRequired = 10000 * autoRecyclerCount;
 
   useEffect(() => {
@@ -77,7 +78,7 @@ export default function AutoRecyclerEffect({
           lastCraftTime: Date.now()
         })));
       } else {
-        setNotifications(prev => [...prev, `Need ${junkRequired.toLocaleString()} junk/sec to run Auto Recycler!`]);
+        setNotifications(prev => [...prev, `Need ${junkRequired.toLocaleString()} junk/sec to run Auto Recycler! You have ${totalJunkPerSecond.toLocaleString()}`]);
       }
     } else {
       setIsRunning(false);
@@ -87,6 +88,46 @@ export default function AutoRecyclerEffect({
   };
 
   if (autoRecyclerCount === 0) return null;
+
+  // Collapsed view - small recycler icon
+  if (isCollapsed) {
+    return (
+      <div 
+        onClick={() => setIsCollapsed(false)}
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          right: '20px',
+          width: '50px',
+          height: '50px',
+          background: `rgba(0, 0, 0, 0.9)`,
+          border: `2px solid ${isRunning ? '#00FF00' : '#9400D3'}`,
+          borderRadius: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          zIndex: 1000,
+          transition: 'all 0.3s ease'
+        }}
+      >
+        <div style={{
+          fontSize: '20px',
+          animation: isRunning ? 'spin 2s linear infinite' : 'none'
+        }}>
+          🔄
+        </div>
+        <style>
+          {`
+            @keyframes spin {
+              from { transform: rotate(0deg); }
+              to { transform: rotate(360deg); }
+            }
+          `}
+        </style>
+      </div>
+    );
+  }
 
   return (
     <div style={{
@@ -111,21 +152,37 @@ export default function AutoRecyclerEffect({
         <h4 style={{ margin: 0, color: '#9400D3' }}>
           🔄 Auto Recyclers ({autoRecyclerCount})
         </h4>
-        <button
-          onClick={handleStartStop}
-          style={{
-            padding: '5px 10px',
-            backgroundColor: isRunning ? '#FF4444' : '#00AA00',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            fontSize: '10px',
-            fontWeight: 'bold'
-          }}
-        >
-          {isRunning ? 'STOP' : 'START'}
-        </button>
+        <div style={{ display: 'flex', gap: '5px' }}>
+          <button
+            onClick={() => setIsCollapsed(true)}
+            style={{
+              padding: '3px 6px',
+              backgroundColor: '#666',
+              color: 'white',
+              border: 'none',
+              borderRadius: '3px',
+              cursor: 'pointer',
+              fontSize: '8px'
+            }}
+          >
+            −
+          </button>
+          <button
+            onClick={handleStartStop}
+            style={{
+              padding: '5px 10px',
+              backgroundColor: isRunning ? '#FF4444' : '#00AA00',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '10px',
+              fontWeight: 'bold'
+            }}
+          >
+            {isRunning ? 'STOP' : 'START'}
+          </button>
+        </div>
       </div>
 
       <div style={{ 
