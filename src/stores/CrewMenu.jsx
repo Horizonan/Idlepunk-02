@@ -238,7 +238,11 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
               {isRunning && (
                 <div className="recruitment-modal">
                   <div className="recruitment-modal-content">
-                    <RecruitmentGame />
+                    {useRecruitmentZustand.getState().gameVariant === 'profile' ? (
+                      <RecruitmentGame />
+                    ) : (
+                      <SkillsAssessmentGame />
+                    )}
                   </div>
                 </div>
               )}
@@ -247,7 +251,13 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                 onClick={() => {
                   if(Number(localStorage.getItem('credits')) >= 10){
                     setCredits(prev => prev - 10);
-                    startGame();
+                    // Randomly select between profile screening (70%) and skills assessment (30%)
+                    const random = Math.random();
+                    if (random < 0.7) {
+                      startGame(); // Profile screening
+                    } else {
+                      useRecruitmentZustand.getState().startSkillsGame(); // Skills assessment
+                    }
                   }
                 }}
                 className="search-recruits-button"
@@ -789,8 +799,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                     <div key={crew.id} className="crew-loadout-card">
                       <div className="crew-loadout-header">
                         <h5>{crew.name}</h5>
-                        <span className="crew-role">{crew.role}</span>
-                      </div>
+                        <span className="crew-role">{crew.role}</span>                      </div>
 
                       <div className="loadout-slots">
                         {['weapon', 'armor', 'tool'].map(slotType => (

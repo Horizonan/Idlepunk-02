@@ -188,14 +188,7 @@
   text-align: center;
 }
 
-.recruitment-buttons {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.search-recruits-button, .skills-assessment-button {
+.search-recruits-button {
   background: #222;
   color: #00FF00;
   border: 2px solid #9400D3;
@@ -204,28 +197,15 @@
   cursor: pointer;
   transition: all 0.3s ease;
   border-radius: 4px;
-  flex: 1;
   min-width: 200px;
 }
 
-.skills-assessment-button {
-  border-color: #FF6600;
-  color: #FF6600;
-}
-
-.search-recruits-button:hover, .skills-assessment-button:hover {
-  transform: scale(1.02);
-}
-
 .search-recruits-button:hover {
+  transform: scale(1.02);
   background: rgba(148, 0, 211, 0.2);
 }
 
-.skills-assessment-button:hover {
-  background: rgba(255, 102, 0, 0.2);
-}
-
-.search-recruits-button:disabled, .skills-assessment-button:disabled {
+.search-recruits-button:disabled {
   background: #666;
   border-color: #666;
   color: #999;
