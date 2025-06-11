@@ -1684,7 +1684,7 @@ export default function App() {
             autoClickerV1Count 
           }}
           onClose={() => setShowPrestigePopup(false)}
-          onConfirm={() => {
+          onConfirm={async () => {
             setShowPrestigePopup(false);
 
             setCraftingInventory(prev => ({
