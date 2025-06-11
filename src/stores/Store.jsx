@@ -324,10 +324,7 @@ export default function Store({
               <h3 style={{ color: "#9400D3", textAlign: "center" }}>
                 First Ascension
               </h3>
-              <div className="store-items">
-                {renderItems(firstAsc)}
-
-              </div>
+              {renderItems(firstAsc)}
             </div>
           )}
       </div>
