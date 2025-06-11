@@ -573,19 +573,12 @@ export default function App() {
       setGlobalJpsMultiplier(totalMultiplier);
 
       if (passiveIncome > 0) {
-        // Check if auto recycler is consuming junk
-        const autoRecyclerRunning = localStorage.getItem('autoRecyclerRunning') === 'true';
-        const autoRecyclerConsumption = autoRecyclerRunning ? parseInt(localStorage.getItem('autoRecyclerConsumption') || '0') : 0;
-        
-        const effectivePassiveIncome = Math.max(0, (passiveIncome * totalMultiplier) - autoRecyclerConsumption);
-        
-        if (effectivePassiveIncome > 0) {
-          setJunk(prev => prev + effectivePassiveIncome);
+        const passiveJunkGained = passiveIncome * totalMultiplier;
+        setJunk(prev => prev + passiveJunkGained);
 
-          // Track total junk collected from passive income
-          const currentTotal = parseInt(localStorage.getItem('totalJunkCollected') || '0');
-          localStorage.setItem('totalJunkCollected', (currentTotal + effectivePassiveIncome).toString());
-        }
+        // Track total junk collected from passive income
+        const currentTotal = parseInt(localStorage.getItem('totalJunkCollected') || '0');
+        localStorage.setItem('totalJunkCollected', (currentTotal + passiveJunkGained).toString());
       }
 
       if (autoClicks > 0) {
