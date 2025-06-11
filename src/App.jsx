@@ -1830,15 +1830,11 @@ export default function App() {
 
       {ownedItems.autoRecycler > 0 && (
         <AutoRecyclerEffect
-          ownedRecyclers={ownedItems.autoRecycler}
-          junk={junk}
-          onConsumeJunk={(amount) => setJunk(prev => Math.max(0, prev - amount))}
-          onGenerateScrapCore={(amount) => {
-            setCraftingInventory(prev => ({
-              ...prev,
-              'Scrap Core': (prev['Scrap Core'] || 0) + amount
-            }));
-          }}
+          ownedItems={ownedItems}
+          passiveIncome={passiveIncome}
+          globalJpsMultiplier={globalJpsMultiplier}
+          setPassiveIncome={setPassiveIncome}
+          setCraftingInventory={setCraftingInventory}
           setNotifications={setNotifications}
         />
       )}

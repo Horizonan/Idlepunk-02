@@ -2,30 +2,33 @@
 import React, { useState, useEffect } from 'react';
 
 export default function AutoRecyclerEffect({ 
-  ownedRecyclers, 
-  junk, 
-  onConsumeJunk, 
-  onGenerateScrapCore, 
+  ownedItems, 
+  passiveIncome,
+  globalJpsMultiplier,
+  setPassiveIncome,
+  setCraftingInventory, 
   setNotifications 
 }) {
   const [recyclerStates, setRecyclerStates] = useState([]);
+  const [isRunning, setIsRunning] = useState(false);
+  const autoRecyclerCount = ownedItems.autoRecycler || 0;
+  const totalJunkPerSecond = passiveIncome * globalJpsMultiplier;
+  const junkRequired = 10000 * autoRecyclerCount;
 
   useEffect(() => {
-    if (ownedRecyclers > 0) {
+    if (autoRecyclerCount > 0) {
       // Initialize recycler states
-      const states = Array(ownedRecyclers).fill(null).map((_, index) => ({
+      const states = Array(autoRecyclerCount).fill(null).map((_, index) => ({
         id: index,
-        isActive: false,
         progress: 0,
-        lastConsumeTime: Date.now(),
         lastCraftTime: Date.now()
       }));
       setRecyclerStates(states);
     }
-  }, [ownedRecyclers]);
+  }, [autoRecyclerCount]);
 
   useEffect(() => {
-    if (recyclerStates.length === 0) return;
+    if (!isRunning || recyclerStates.length === 0) return;
 
     const interval = setInterval(() => {
       const now = Date.now();
@@ -34,29 +37,21 @@ export default function AutoRecyclerEffect({
         return prevStates.map(state => {
           const newState = { ...state };
           
-          // Check if we can consume junk (every 1 second = 10k junk)
-          if (now - state.lastConsumeTime >= 1000) {
-            if (junk >= 10000) {
-              onConsumeJunk(10000);
-              newState.lastConsumeTime = now;
-              newState.isActive = true;
-            } else {
-              newState.isActive = false;
-            }
-          }
-          
           // Check if we can craft a scrap core (every 30 seconds)
-          if (state.isActive && now - state.lastCraftTime >= 30000) {
-            onGenerateScrapCore(1);
+          if (now - state.lastCraftTime >= 30000) {
+            setCraftingInventory(prevInventory => ({
+              ...prevInventory,
+              "Scrap Core": (prevInventory["Scrap Core"] || 0) + 1
+            }));
+            setNotifications(prevNotifications => [
+              ...prevNotifications, 
+              `Auto Recycler Unit ${state.id + 1} crafted 1 Scrap Core!`
+            ]);
             newState.lastCraftTime = now;
-            setNotifications(prev => [...prev, "Auto Recycler Unit crafted 1 Scrap Core!"]);
-          }
-          
-          // Update progress (0-100% over 30 seconds)
-          if (state.isActive) {
-            newState.progress = Math.min(100, ((now - state.lastCraftTime) / 30000) * 100);
-          } else {
             newState.progress = 0;
+          } else {
+            // Update progress (0-100% over 30 seconds)
+            newState.progress = ((now - state.lastCraftTime) / 30000) * 100;
           }
           
           return newState;
@@ -65,76 +60,146 @@ export default function AutoRecyclerEffect({
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [recyclerStates.length, junk, onConsumeJunk, onGenerateScrapCore, setNotifications]);
+  }, [isRunning, recyclerStates.length, setCraftingInventory, setNotifications]);
 
-  if (ownedRecyclers === 0) return null;
+  const handleStartStop = () => {
+    if (!isRunning) {
+      // Check if we have enough passive income
+      if (totalJunkPerSecond >= junkRequired) {
+        setIsRunning(true);
+        setPassiveIncome(prev => prev - (junkRequired / globalJpsMultiplier));
+        setNotifications(prev => [...prev, `Auto Recycler started! Consuming ${junkRequired.toLocaleString()} junk/sec`]);
+        
+        // Reset all progress when starting
+        setRecyclerStates(prev => prev.map(state => ({
+          ...state,
+          progress: 0,
+          lastCraftTime: Date.now()
+        })));
+      } else {
+        setNotifications(prev => [...prev, `Need ${junkRequired.toLocaleString()} junk/sec to run Auto Recycler!`]);
+      }
+    } else {
+      setIsRunning(false);
+      setPassiveIncome(prev => prev + (junkRequired / globalJpsMultiplier));
+      setNotifications(prev => [...prev, `Auto Recycler stopped! Restored ${junkRequired.toLocaleString()} junk/sec`]);
+    }
+  };
+
+  if (autoRecyclerCount === 0) return null;
 
   return (
     <div style={{
       position: 'fixed',
       bottom: '20px',
       right: '20px',
-      background: 'rgba(0, 0, 0, 0.8)',
-      border: '2px solid #9400D3',
+      background: 'rgba(0, 0, 0, 0.9)',
+      border: `2px solid ${isRunning ? '#00FF00' : '#9400D3'}`,
       borderRadius: '8px',
-      padding: '10px',
+      padding: '15px',
       color: 'white',
       fontSize: '12px',
-      minWidth: '200px',
+      minWidth: '250px',
       zIndex: 1000
     }}>
-      <h4 style={{ margin: '0 0 10px 0', color: '#9400D3' }}>
-        🔄 Auto Recyclers ({ownedRecyclers})
-      </h4>
-      {recyclerStates.slice(0, 3).map((state, index) => (
-        <div key={state.id} style={{ marginBottom: '5px' }}>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '10px'
+      }}>
+        <h4 style={{ margin: 0, color: '#9400D3' }}>
+          🔄 Auto Recyclers ({autoRecyclerCount})
+        </h4>
+        <button
+          onClick={handleStartStop}
+          style={{
+            padding: '5px 10px',
+            backgroundColor: isRunning ? '#FF4444' : '#00AA00',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '10px',
+            fontWeight: 'bold'
+          }}
+        >
+          {isRunning ? 'STOP' : 'START'}
+        </button>
+      </div>
+
+      <div style={{ 
+        marginBottom: '10px',
+        fontSize: '10px',
+        color: '#BBB'
+      }}>
+        Status: <span style={{ 
+          color: isRunning ? '#00FF00' : '#FF4444',
+          fontWeight: 'bold'
+        }}>
+          {isRunning ? 'ACTIVE' : 'INACTIVE'}
+        </span>
+      </div>
+
+      <div style={{ 
+        marginBottom: '10px',
+        fontSize: '10px',
+        color: '#BBB'
+      }}>
+        Required: {junkRequired.toLocaleString()} junk/sec<br/>
+        Available: {totalJunkPerSecond.toLocaleString()} junk/sec
+      </div>
+
+      {isRunning && recyclerStates.slice(0, 3).map((state, index) => (
+        <div key={state.id} style={{ marginBottom: '8px' }}>
           <div style={{ 
             display: 'flex', 
             justifyContent: 'space-between',
-            alignItems: 'center'
+            alignItems: 'center',
+            fontSize: '10px'
           }}>
             <span>Unit {index + 1}:</span>
-            <span style={{ 
-              color: state.isActive ? '#00FF00' : '#FF4444' 
-            }}>
-              {state.isActive ? 'Active' : 'Inactive'}
+            <span style={{ color: '#00FF00' }}>
+              {Math.floor(state.progress)}%
             </span>
           </div>
           <div style={{
             width: '100%',
-            height: '4px',
+            height: '6px',
             background: '#333',
-            borderRadius: '2px',
+            borderRadius: '3px',
             overflow: 'hidden',
-            marginTop: '2px'
+            marginTop: '3px'
           }}>
             <div style={{
-              width: `${state.progress}%`,
+              width: `${Math.min(100, state.progress)}%`,
               height: '100%',
-              background: state.isActive 
-                ? 'linear-gradient(90deg, #9400D3, #00FF00)'
-                : '#666',
+              background: 'linear-gradient(90deg, #9400D3, #00FF00)',
               transition: 'width 0.5s ease'
             }} />
           </div>
         </div>
       ))}
-      {ownedRecyclers > 3 && (
+
+      {autoRecyclerCount > 3 && (
         <div style={{ 
           textAlign: 'center', 
           color: '#888',
-          marginTop: '5px' 
+          marginTop: '8px',
+          fontSize: '10px'
         }}>
-          +{ownedRecyclers - 3} more units
+          +{autoRecyclerCount - 3} more units
         </div>
       )}
+
       <div style={{ 
         marginTop: '10px', 
-        fontSize: '10px', 
-        color: '#888' 
+        fontSize: '9px', 
+        color: '#888',
+        borderTop: '1px solid #444',
+        paddingTop: '8px'
       }}>
-        Consumes: 10k junk/sec<br/>
-        Produces: 1 scrap core/30sec
+        Output: 1 scrap core per unit every 30s
       </div>
     </div>
   );
