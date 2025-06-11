@@ -325,11 +325,11 @@ export const gameHandlers = (gameState, setGameState) => {
 
   //Premium Items
   const handleBuyScratzMiner = () => {
-    if(gameState.junk >= gameState.itemCosts.scratzMiner) {
+    if (gameState.junk >= gameState.itemCosts.scratzMiner) {
       setGameState.setJunk(prev => prev - gameState.itemCosts.scratzMiner);
       setGameState.setItemCosts(prev => ({...prev, scratzMiner: Math.floor(gameState.itemCosts.scratzMiner * 3)}))
       setGameState.setOwnedItems(prev => ({...prev, scratzMiner: (prev.scratzMiner || 0) + 1}));
-      setGameState.setNotifications(prev => [...prev, "Scratz Miner purchased!"]); 
+      setGameState.setNotifications(prev => [...prev, "Scratz Miner purchased!"]);
      }
     }
 
@@ -513,6 +513,23 @@ export const gameHandlers = (gameState, setGameState) => {
     }
   };
 
+  const handleBuyScratzMiner = () => {
+    if (gameState.junk >= gameState.itemCosts.scratzMiner) {
+      setGameState.setJunk(prev => prev - gameState.itemCosts.scratzMiner);
+      setGameState.setItemCosts(prev => ({...prev, scratzMiner: Math.floor(gameState.itemCosts.scratzMiner * 3)}))
+      setGameState.setOwnedItems(prev => ({...prev, scratzMiner: (prev.scratzMiner || 0) + 1}));
+      setGameState.setNotifications(prev => [...prev, "Scratz Miner purchased!"]);
+     }
+    }
+
+  const handleBuyAutoRecycler = () => {
+    if (gameState.junk >= gameState.itemCosts.autoRecycler) {
+      setGameState.setJunk(prev => prev - gameState.itemCosts.autoRecycler);
+      setGameState.setOwnedItems(prev => ({...prev, autoRecycler: (prev.autoRecycler || 0) + 1}));
+      setGameState.setNotifications(prev => [...prev, "Auto Recycler Unit purchased!"]);
+    }
+  };
+
   return {
     collectJunk,
     handleBuyTrashBag,
@@ -541,7 +558,8 @@ export const gameHandlers = (gameState, setGameState) => {
     handleBuyHighFreqTap,
     handleBuyReactiveFeedback,
     handleBuyPickupMagnetArray,
-    handleBuyScratzMiner
+    handleBuyScratzMiner,
+    handleBuyAutoRecycler
   };
 }
 }

@@ -11,6 +11,7 @@ export const getInitialItemCosts = () => ({
   scrapDrone: 7500,
   holoBillboard: 15000,
   autoClickerV2: 50000,
+  autoRecycler: 5000000,
   junkRefinery: 500000,
   modularScrapper: 2500000,
   tronicsBoost: 250,

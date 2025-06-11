@@ -55,6 +55,7 @@ import TrashBonus from './components/Effects/TrashBonus';
 import ShardMiner from './components/Effects/ShardMiner';
 import ScratzMiner from './components/Effects/ScratzMiner';
 import PickupMagnetArray from './components/Effects/PickupMagnetArray';
+import AutoRecyclerEffect from './components/Effects/Automation/AutoRecyclerEffect';
 
 //Combat
 import ScraptagonCombat from './components/Combat/scrapCombat';
@@ -104,7 +105,7 @@ export default function App() {
     handleBuyTrashBag, calculate10xPriceJunkClicker: calculate10xPrice01,
     handleBuyPicker, handleBuyClickEnhancer, calculate10xPriceJPS, handleBuyStreetrat,
     handleBuyCart, handleBuyJunkMagnet, handleBuyUrbanRecycler, handleBuyScrapDrone,
-    handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator, handleBuyQuantumTap, handleBuyElectroSurgeNode, handleBuyElectroBeaconCore, handleBuyCircuitOptimization, handleBuyHighFreqTap, handleBuyReactiveFeedback, handleBuyPickupMagnetArray, handleBuyScratzMiner
+    handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator, handleBuyQuantumTap, handleBuyElectroSurgeNode, handleBuyElectroBeaconCore, handleBuyCircuitOptimization, handleBuyHighFreqTap, handleBuyReactiveFeedback, handleBuyPickupMagnetArray, handleBuyScratzMiner, onBuyAutoRecycler
   } = gameHandlers({
     junk,
     tronics,
@@ -478,7 +479,7 @@ export default function App() {
                         ...prev,
                         'Voltage Node': (prev['Voltage Node'] || 0) + 1
                       }));
-                      winMessage = `🔧 JACKPOT! Auto-Slotter won 1 Voltage Node!`;
+                      winMessage = `🔧 Auto-Slotter won 1 Voltage Node!`;
                       break;
                     case '🔋':
                       setCraftingInventory(prev => ({
@@ -757,7 +758,7 @@ export default function App() {
             <button onClick={() => {
               setShowQuestLog(true);
               setNotifications(prev => prev.filter(n => typeof n !== 'object'));
-            }}>Open Quest Log</button>
+                        }}>Open Quest Log</button>
           </div>
         );
         setNotifications(prev => [...prev, cogfatherMessage]);
@@ -845,7 +846,7 @@ export default function App() {
           setElectroMultiplier
         }
       );
-      
+
       // Show offline progress popup if there were results and user was offline for more than 30 seconds
       if (offlineResults && offlineResults.duration >= 30) {
         setOfflineProgressData(offlineResults);
@@ -910,7 +911,7 @@ export default function App() {
           setElectroMultiplier
         }
       );
-      
+
       // Show offline progress popup if there were results and user was offline for more than 30 seconds
       if (offlineResults && offlineResults.duration >= 30) {
         setOfflineProgressData(offlineResults);
@@ -1253,6 +1254,14 @@ export default function App() {
             localStorage.setItem('activeStore', null);
           }}
           onBuyJunkRefinery={handleBuyJunkRefinery}
+          onBuyAutoRecycler={() => {
+            const cost = 5000000;
+            if (junk >= cost) {
+              setJunk(prev => prev - cost);
+              setOwnedItems(prev => ({ ...prev, autoRecycler: (prev.autoRecycler || 0) + 1 }));
+              setNotifications(prev => [...prev, "Auto Recycler Unit purchased!"]);
+            }
+          }}
         />
       )}
       {activeStore === 'marketplace' && (
@@ -1634,7 +1643,7 @@ export default function App() {
           return (
             <button 
               className={`prestige-button ${!prestigeQuestCompleted ? 'locked' : ''}`}
-              onClick={() => {
+              onClick={()=> {
                 if (prestigeQuestCompleted) {
                   setShowPrestigePopup(true);
                 }
@@ -1756,6 +1765,7 @@ export default function App() {
               quantumTap: 0,
               electroSurgeNode: 0,
               scratzMiner: 0,
+              autoRecycler: 0,
             };
             setOwnedItems(resetOwnedItems);
 
@@ -1818,7 +1828,22 @@ export default function App() {
       <PrestigeMeter />
       <PickupMagnetArray />
 
-      {/* Surge Explanation Popup */}
+      {ownedItems.autoRecycler > 0 && (
+        <AutoRecyclerEffect
+          ownedRecyclers={ownedItems.autoRecycler}
+          junk={junk}
+          onConsumeJunk={(amount) => setJunk(prev => Math.max(0, prev - amount))}
+          onGenerateScrapCore={(amount) => {
+            setCraftingInventory(prev => ({
+              ...prev,
+              'Scrap Core': (prev['Scrap Core'] || 0) + amount
+            }));
+          }}
+          setNotifications={setNotifications}
+        />
+      )}
+
+      {/* Offline Progress Popup */}
       {showSurgeExplanation && (
         <SurgeExplanationPopup 
           onClose={() => setShowSurgeExplanation(false)}

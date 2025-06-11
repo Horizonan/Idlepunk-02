@@ -9,7 +9,7 @@ export default function Store({
   onBuyAutoClicker, onGetAutoClickersV1, canAffordV1, canAffordV2,
   onGetAutoClickersV2, onBuyAutoClickerV2, calculate10xPriceJunkClicker,
   onBack, bulkBuy, setBulkBuy, calculate10xPriceJPS, calculate10xPriceBillBoard,
-  onBuyModularScrapper, onBuyScratzMiner,
+  onBuyModularScrapper, onBuyScratzMiner, onBuyAutoRecycler,
 }) {
   const [selectedTab, setSelectedTab] = useState("prePres");
   const [currentTab, setCurrentTab] = useState('Main');
@@ -160,6 +160,15 @@ export default function Store({
       unlockCondition: () => onGetAutoClickersV1 > 1,
       purchasedCount: onGetAutoClickersV2,
       action: onBuyAutoClickerV2,
+    },
+    {
+      name: "Auto Recycler Unit",
+      cost: { junk: itemCosts.autoRecycler },
+      description: "Uses 10k junk a second to craft one scrap core every 30 seconds",
+      info: "Finally puts your passive waste to good use.",
+      unlockCondition: () => passiveIncome >= 11000,
+      purchasedCount: ownedItems.autoRecycler || 0,
+      action: onBuyAutoRecycler,
     },
   ];
 
