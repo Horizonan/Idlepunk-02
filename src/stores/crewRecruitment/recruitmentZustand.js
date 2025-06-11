@@ -236,15 +236,15 @@ export const useRecruitmentZustand = create(
 
     if (challenge.type === 'multiple_choice') {
       correct = answer === challenge.correctAnswer;
-      delta = correct ? 3 : -1;
+      delta = correct ? 2 : -2;
       explanation = correct ? 'Well done!' : `Correct answer was: ${challenge.correctAnswer}`;
     } else if (challenge.type === 'calculation') {
       correct = answer === challenge.correctAnswer;
-      delta = correct ? 4 : -1;
+      delta = correct ? 2 : -2;
       explanation = correct ? 'Perfect calculation!' : `Correct answer was: ${challenge.correctAnswer}`;
     } else if (challenge.type === 'sequence') {
       correct = answer === challenge.correctAnswer;
-      delta = correct ? 5 : -2;
+      delta = correct ? 2 : -2;
       explanation = correct ? 'Sequence mastered!' : `Correct sequence was: ${challenge.correctAnswer}`;
     }
 
@@ -268,8 +268,8 @@ export const useRecruitmentZustand = create(
       }
     }, 6000);
 
-    // Check if game should end (6 challenges total, so end after challenge 5)
-    if (currentChallengeIndex + 1 >= 6) {
+    // Check if game should end (8 challenges total, so end after challenge 7)
+    if (currentChallengeIndex + 1 >= 8) {
       console.log("🎉 Skills game finished! Final score:", score + delta);
       setTimeout(() => {
         get().handleSkillsGameEnd(score + delta);

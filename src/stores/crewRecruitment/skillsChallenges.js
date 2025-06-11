@@ -177,8 +177,8 @@ export function generateSkillsChallenges() {
     }
   });
   
-  // Fill remaining slot randomly
-  while (selectedChallenges.length < 6) {
+  // Fill remaining slots randomly to reach 8 total
+  while (selectedChallenges.length < 8) {
     const remaining = skillsChallengePool.filter(c => !selectedChallenges.includes(c));
     if (remaining.length === 0) break;
     const randomIndex = Math.floor(Math.random() * remaining.length);

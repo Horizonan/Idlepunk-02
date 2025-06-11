@@ -37,8 +37,8 @@ export function SkillsAssessmentGame() {
 
   const challenge = skillsChallenges[currentChallengeIndex];
 
-  // Check if game should end (6 challenges total, indexed 0-5)
-  if (!isRunning || currentChallengeIndex >= 6) {
+  // Check if game should end (8 challenges total, indexed 0-7)
+  if (!isRunning || currentChallengeIndex >= 8) {
     return (
       <div className="skills-game-over">
         <button onClick={resetGame}>Close</button>
@@ -91,7 +91,7 @@ export function SkillsAssessmentGame() {
       <button onClick={resetGame}>Close</button>
       <div className="skills-game-stats">
         <div>⏱ {timeLeft}s</div>
-        <div>Challenge: {currentChallengeIndex + 1}/6</div>
+        <div>Challenge: {currentChallengeIndex + 1}/8</div>
       </div>
 
       {lastFeedback && (
