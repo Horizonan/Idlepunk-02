@@ -166,7 +166,7 @@ export default function Store({
       cost: { junk: itemCosts.autoRecycler },
       description: "Uses 10k junk a second to craft one scrap core every 30 seconds",
       info: "Finally puts your passive waste to good use.",
-      unlockCondition: () => passiveIncome >= 11000,
+      unlockCondition: () => credits >= 5000000,
       purchasedCount: ownedItems.autoRecycler || 0,
       action: onBuyAutoRecycler,
     },
