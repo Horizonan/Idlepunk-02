@@ -290,11 +290,12 @@ export const useRecruitmentZustand = create(
       if (!conditions) return false;
 
       const alreadyUnlocked = get().unlockedCrew.some(c => c.id === crew.id);
-      if (alreadyUnlocked) return false;
+      const alreadyHired = get().hiredCrew.some(c => c.id === crew.id);
+      if (alreadyUnlocked || alreadyHired) return false;
 
-      // Adjust score requirement for skills game (typically higher scores)
+      // Adjust score requirement for skills game (slightly lower threshold)
       const adjustedMinScore = conditions.minGameScore ? Math.floor(conditions.minGameScore * 0.8) : 0;
-      if (finalScore < adjustedMinScore) return false;
+      if (conditions.minGameScore !== undefined && finalScore < adjustedMinScore) return false;
 
       const currentCrewCount = get().hiredCrew.length;
       if (conditions.minCrew !== undefined && currentCrewCount < conditions.minCrew) return false;
@@ -309,6 +310,9 @@ export const useRecruitmentZustand = create(
 
       return true;
     });
+
+    console.log('Skills game eligible crew:', eligibleCrew);
+    console.log('Skills game score:', finalScore);
 
     if (eligibleCrew.length > 0) {
       const randomIndex = Math.floor(Math.random() * eligibleCrew.length);
@@ -547,12 +551,13 @@ export const useRecruitmentZustand = create(
         const conditions = crew.unlockConditions;
         if (!conditions) return false;
 
-        // Check if already unlocked
+        // Check if already unlocked or hired
         const alreadyUnlocked = get().unlockedCrew.some(c => c.id === crew.id);
-        if (alreadyUnlocked) return false;
+        const alreadyHired = get().hiredCrew.some(c => c.id === crew.id);
+        if (alreadyUnlocked || alreadyHired) return false;
 
-        // Check score requirement
-        if (conditions.minGameScore && finalScore < conditions.minGameScore) return false;
+        // Check score requirement - if no minGameScore, always eligible
+        if (conditions.minGameScore !== undefined && finalScore < conditions.minGameScore) return false;
 
         // Check crew count requirements
         const currentCrewCount = get().hiredCrew.length;
@@ -571,6 +576,8 @@ export const useRecruitmentZustand = create(
       });
 
       console.log('Eligible crew for unlock:', eligibleCrew);
+      console.log('Current score:', finalScore);
+      console.log('Current hired crew count:', get().hiredCrew.length);
 
       if (eligibleCrew.length === 0) {
         console.log("No crew members eligible for unlock");
@@ -578,24 +585,19 @@ export const useRecruitmentZustand = create(
         return;
       }
 
-      if (eligibleCrew && eligibleCrew.length > 0) {
-        const randomIndex = Math.floor(Math.random() * eligibleCrew.length);
-        const selectedCrew = eligibleCrew[randomIndex];
-        console.log(`🎉 Recruited ${selectedCrew.name} (${selectedCrew.rarity})!`);
-        set({ 
-          selectedCrew,
-          unlockedCrew: [...get().unlockedCrew, selectedCrew],
-          newlyHiredCrew: [...get().newlyHiredCrew, selectedCrew.id]
-        });
+      const randomIndex = Math.floor(Math.random() * eligibleCrew.length);
+      const selectedCrew = eligibleCrew[randomIndex];
+      console.log(`🎉 Recruited ${selectedCrew.name} (${selectedCrew.rarity})!`);
+      set({ 
+        selectedCrew,
+        unlockedCrew: [...get().unlockedCrew, selectedCrew],
+        newlyHiredCrew: [...get().newlyHiredCrew, selectedCrew.id]
+      });
 
-        // Remove "New!" badge after 10 seconds
-        setTimeout(() => {
-          get().markCrewAsNotNew(selectedCrew.id);
-        }, 10000);
-      } else {
-        console.log("🚫 No available crew members to unlock in this tier");
-        set({ selectedCrew: null });
-      }
+      // Remove "New!" badge after 10 seconds
+      setTimeout(() => {
+        get().markCrewAsNotNew(selectedCrew.id);
+      }, 10000);
     },
   startMission: (missionId, crewMemberId) => {
     const state = get();
