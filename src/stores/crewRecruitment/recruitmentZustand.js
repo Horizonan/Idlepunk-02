@@ -157,33 +157,59 @@ export const useRecruitmentZustand = create(
         const profile = profiles[currentIndex]
 
         let delta = 0
+        let correct = false
 
         if (action === 'recruit') {
           if (profile.workPermit.status === 'missing') {
             delta = -2;
+            correct = false;
           } else {
             const isPermitExpired = profile.workPermit.status === 'expired';
 
             if (!isPermitExpired) {
               delta = profile.isReal ? 2 : -2;
+              correct = profile.isReal;
             } else {
-              delta -= 2;
+              delta = -2;
+              correct = false;
             }
           }
         } else if (action === 'trash') {
           if (profile.workPermit.status === 'missing') {
-            delta = profile.isReal ? 1 : 1;
+            delta = profile.isReal ? -1 : 1;
+            correct = !profile.isReal;
           } else {
             delta = profile.isReal ? -1 : 1;
+            correct = !profile.isReal;
           }
+        } else if (action === 'skip') {
+          delta = 0;
+          correct = true;
         }
+
+        // Generate feedback using existing function
+        const feedback = get().generateFeedback(action, profile, correct, delta);
 
         const profileCount = localStorage.getItem('signal_expander_purchased') ? 10 : 8;
         if (currentIndex >= profileCount - 1) {
-          get().handleGameEnd(score + delta);
+          setTimeout(() => {
+            get().handleGameEnd(score + delta);
+          }, 100);
         }
 
-        set({score: score + delta, currentIndex: currentIndex + 1})  
+        set({
+          score: score + delta, 
+          currentIndex: currentIndex + 1,
+          lastFeedback: feedback
+        });
+
+        // Clear feedback after 4 seconds
+        setTimeout(() => {
+          const currentState = get();
+          if (currentState.lastFeedback === feedback) {
+            set({ lastFeedback: null });
+          }
+        }, 4000);
       },
 
       tick: () => {
