@@ -39,9 +39,15 @@ export function SkillsAssessmentGame() {
 
   // Check if game should end (8 challenges total, indexed 0-7)
   if (!isRunning || currentChallengeIndex >= 8) {
+    const handleClose = () => {
+      resetGame();
+      // Also trigger the game end to ensure proper state cleanup
+      handleSkillsGameEnd(score);
+    };
+
     return (
       <div className="skills-game-over">
-        <button onClick={resetGame}>Close</button>
+        <button onClick={handleClose}>Close</button>
         <h2>Skills Assessment Complete</h2>
         <p>Final Score: {score}</p>
         
@@ -59,7 +65,7 @@ export function SkillsAssessmentGame() {
           <p>No crew member recruited. Try to get a higher score!</p>
         )}
 
-        <button onClick={resetGame}>
+        <button onClick={handleClose}>
           Try Again
         </button>
       </div>
