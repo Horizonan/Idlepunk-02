@@ -250,7 +250,7 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
       name: "🛡️ Ascension Reclaimer",
       cost: 90,
       description: "Keep 1 random helper or crafting bonus after Prestige.",
-      info: `Keep 1 random helper or crafting bonus after Prestige. Energy shield technology that preserves automation through ascension. Can be purchased twice. ({(craftingInventory['Ascension Reclaimer'] || 0)}/2)`,
+      info: `Keep 1 random helper or crafting bonus after Prestige. Energy shield technology that preserves automation through ascension. Can be purchased twice. (${(craftingInventory['Ascension Reclaimer'] || 0)}/2)`,
       action: () => {
         const hasAutoClickerBot = autoClicks > 0; 
 
