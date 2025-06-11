@@ -268,10 +268,12 @@ export const useRecruitmentZustand = create(
       }
     }, 6000);
 
-    // Check if game should end
-    if (currentChallengeIndex >= 5) {
+    // Check if game should end (6 challenges total, so end after challenge 5)
+    if (currentChallengeIndex + 1 >= 6) {
       console.log("🎉 Skills game finished! Final score:", score + delta);
-      get().handleSkillsGameEnd(score + delta);
+      setTimeout(() => {
+        get().handleSkillsGameEnd(score + delta);
+      }, 100);
     }
   },
 

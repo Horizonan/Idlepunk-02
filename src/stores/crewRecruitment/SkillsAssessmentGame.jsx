@@ -36,21 +36,14 @@ export function SkillsAssessmentGame() {
   }, [isRunning, tick]);
 
   const challenge = skillsChallenges[currentChallengeIndex];
-  let gameEnded = 0;
 
+  // Check if game should end (6 challenges total, indexed 0-5)
   if (!isRunning || currentChallengeIndex >= 6) {
-    const finalScore = score;
-
-    if (gameEnded === 0) {
-      handleSkillsGameEnd(finalScore);
-      gameEnded += 1;
-    }
-
     return (
       <div className="skills-game-over">
         <button onClick={resetGame}>Close</button>
         <h2>Skills Assessment Complete</h2>
-        <p>Final Score: {finalScore}</p>
+        <p>Final Score: {score}</p>
         
         {selectedCrew ? (
           <div className="crew-unlock">
