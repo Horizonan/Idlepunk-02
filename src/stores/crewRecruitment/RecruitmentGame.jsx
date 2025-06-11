@@ -33,11 +33,18 @@ export function RecruitmentGame() {
   }, [isRunning, tick])
 
   const profile = profiles[currentIndex]
+  let gameEnded = 0;
 
   const profileCount = localStorage.getItem('signal_expander_purchased') ? 10 : 8;
   if (!isRunning || currentIndex >= profileCount) {
     const finalScore = score
-    handleGameEnd(finalScore)
+
+    if(gameEnded = 0){
+      handleGameEnd(finalScore)
+      gameEnded +1
+      }
+      
+    
     
     return (
       <div className="game-over">
