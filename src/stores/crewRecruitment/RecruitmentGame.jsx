@@ -77,35 +77,10 @@ export function RecruitmentGame() {
       </div>
 
       {lastFeedback && (
-        <div className={`feedback-panel ${lastFeedback.correct ? 'correct' : 'incorrect'}`}>
-          <div className="feedback-header">
-            <span className="feedback-icon">{lastFeedback.correct ? '✅' : '❌'}</span>
-            <span className="feedback-title">{lastFeedback.correct ? 'CORRECT' : 'INCORRECT'}</span>
-            <span className="feedback-points">+{lastFeedback.points} pts</span>
-          </div>
-          <div className="feedback-explanation">
-            <p>{lastFeedback.explanation}</p>
-            {lastFeedback.redFlags && (
-              <div className="red-flags">
-                <strong>Red Flags Detected:</strong>
-                <ul>
-                  {lastFeedback.redFlags.map((flag, index) => (
-                    <li key={index}>{flag}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {lastFeedback.goodSigns && (
-              <div className="good-signs">
-                <strong>Good Signs:</strong>
-                <ul>
-                  {lastFeedback.goodSigns.map((sign, index) => (
-                    <li key={index}>{sign}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
+        <div className={`feedback-panel-compact ${lastFeedback.correct ? 'correct' : 'incorrect'}`}>
+          <span className="feedback-compact">
+            {lastFeedback.correct ? '✅ CORRECT' : '❌ INCORRECT'} ({lastFeedback.points} pts) - {lastFeedback.correct ? 'Good job!' : `Mistake: ${lastFeedback.explanation}`}
+          </span>
         </div>
       )}
 
