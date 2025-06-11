@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useRecruitmentZustand } from './recruitmentZustand';
 import './SkillsAssessmentGame.css';
@@ -16,7 +15,8 @@ export function SkillsAssessmentGame() {
     solveChallenge,
     tick,
     selectedCrew,
-    lastFeedback
+    lastFeedback,
+    minGameScore
   } = useRecruitmentZustand();
 
   const [userAnswer, setUserAnswer] = useState('');
@@ -38,20 +38,25 @@ export function SkillsAssessmentGame() {
   const challenge = skillsChallenges[currentChallengeIndex];
 
 
-  if (!isRunning || currentChallengeIndex >= 8) {
+  if (!isRunning || currentChallengeIndex >= (localStorage.getItem('signal_expander_purchased') ? 10 : 8)) {
     const handleClose = () => {
       resetGame();
-
       handleSkillsGameEnd(score);
     };
+
+    let crewRecruited = false;
+    if (selectedCrew) {
+      crewRecruited = true;
+    }
+
 
     return (
       <div className="skills-game-over">
         <button onClick={handleClose}>Close</button>
         <h2>Skills Assessment Complete</h2>
         <p>Final Score: {score}</p>
-        
-        {selectedCrew ? (
+
+        {crewRecruited ? (
           <div className="crew-unlock">
             <h3>Crew Member Recruited!</h3>
             <div className="crew-details">
@@ -62,7 +67,7 @@ export function SkillsAssessmentGame() {
             </div>
           </div>
         ) : (
-          <p>No crew member recruited. Try to get a higher score!</p>
+          <p>No crew member recruited. {score < minGameScore ? "Try to get a higher score!" : "No crew member available."}</p>
         )}
 
         <button onClick={handleClose}>

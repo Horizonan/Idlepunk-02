@@ -284,31 +284,50 @@ export const useRecruitmentZustand = create(
   handleSkillsGameEnd: (finalScore) => {
     console.log(`Skills game ended with score: ${finalScore}`);
 
-    // Similar unlock logic but with different score thresholds
+    // Filter crew that could be unlocked from skills assessment
     const eligibleCrew = crewDatabase.filter(crew => {
       const conditions = crew.unlockConditions;
       if (!conditions) return false;
 
+      // Check if already unlocked or hired
       const alreadyUnlocked = get().unlockedCrew.some(c => c.id === crew.id);
-      if (alreadyUnlocked) return false;
+      const alreadyHired = get().hiredCrew.some(c => c.id === crew.id);
+      if (alreadyUnlocked || alreadyHired) return false;
 
-      // Adjust score requirement for skills game (typically higher scores)
+      // Check score requirement - skills game uses slightly lower threshold
       const adjustedMinScore = conditions.minGameScore ? Math.floor(conditions.minGameScore * 0.8) : 0;
-      if (finalScore < adjustedMinScore) return false;
+      if (conditions.minGameScore !== undefined && finalScore < adjustedMinScore) {
+        console.log(`${crew.name} requires ${adjustedMinScore} points, got ${finalScore}`);
+        return false;
+      }
 
       const currentCrewCount = get().hiredCrew.length;
-      if (conditions.minCrew !== undefined && currentCrewCount < conditions.minCrew) return false;
-      if (conditions.maxCrew !== undefined && currentCrewCount > conditions.maxCrew) return false;
+      if (conditions.minCrew !== undefined && currentCrewCount < conditions.minCrew) {
+        console.log(`${crew.name} requires at least ${conditions.minCrew} crew, have ${currentCrewCount}`);
+        return false;
+      }
+      if (conditions.maxCrew !== undefined && currentCrewCount > conditions.maxCrew) {
+        console.log(`${crew.name} requires at most ${conditions.maxCrew} crew, have ${currentCrewCount}`);
+        return false;
+      }
 
       if (conditions.requiresItems && conditions.requiresItems.length > 0) {
         const hasAllItems = conditions.requiresItems.every(itemId => 
           get().equipment.some(eq => eq.id === itemId)
         );
-        if (!hasAllItems) return false;
+        if (!hasAllItems) {
+          console.log(`${crew.name} requires items: ${conditions.requiresItems.join(', ')}`);
+          return false;
+        }
       }
 
+      console.log(`${crew.name} is eligible for unlock!`);
       return true;
     });
+
+    console.log('Skills game eligible crew:', eligibleCrew);
+    console.log('Skills game score:', finalScore);
+    console.log('Current hired crew count:', get().hiredCrew.length);
 
     if (eligibleCrew.length > 0) {
       const randomIndex = Math.floor(Math.random() * eligibleCrew.length);
