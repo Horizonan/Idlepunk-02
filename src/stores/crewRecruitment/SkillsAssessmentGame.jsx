@@ -37,11 +37,11 @@ export function SkillsAssessmentGame() {
 
   const challenge = skillsChallenges[currentChallengeIndex];
 
-  // Check if game should end (8 challenges total, indexed 0-7)
+
   if (!isRunning || currentChallengeIndex >= 8) {
     const handleClose = () => {
       resetGame();
-      // Also trigger the game end to ensure proper state cleanup
+
       handleSkillsGameEnd(score);
     };
 
