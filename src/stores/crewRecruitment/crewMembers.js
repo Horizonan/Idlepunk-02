@@ -15,7 +15,7 @@ export const crewDatabase = [
     description: 'Used to be a very succesfull trucker, then trucking got automated now hes hauling scrap from one place to another',
     unlockConditions: {
       minGameScore: 10,
-      requiresItems: ['Reinforced Harness'],
+      requiresItems: [],
       minCrew: 0,
     },
     unlockCost: {
