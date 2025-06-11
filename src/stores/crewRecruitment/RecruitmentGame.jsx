@@ -35,7 +35,8 @@ export function RecruitmentGame() {
   const profile = profiles[currentIndex]
   let gameEnded = 0;
 
-  if (!isRunning || currentIndex >= 8) {
+  const profileCount = localStorage.getItem('signal_expander_purchased') ? 10 : 8;
+  if (!isRunning || currentIndex >= profileCount) {
     const finalScore = score
 
     if(gameEnded = 0){
@@ -79,7 +80,7 @@ export function RecruitmentGame() {
       <button onClick={resetGame}>Close</button>
       <div className="game-stats">
         <div>⏱ {timeLeft}s</div>
-        <div>Progress: {currentIndex + 1}/8</div>
+        <div>Progress: {currentIndex + 1}/{profileCount}</div>
       </div>
 
       {lastFeedback && (

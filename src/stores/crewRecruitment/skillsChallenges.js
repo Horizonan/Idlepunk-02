@@ -1,4 +1,3 @@
-
 export const skillsChallengePool = [
   // Tech Challenges
   {
@@ -161,11 +160,11 @@ export const skillsChallengePool = [
   }
 ];
 
-export function generateSkillsChallenges() {
-  // Randomly select 6 challenges, ensuring variety across skill types
+export function generateSkillsChallenges(count) {
+  // Return the specified number of challenges (8 or 10)
   const skillTypes = ['Tech', 'Grit', 'Stealth', 'Luck', 'Psyche'];
   const selectedChallenges = [];
-  
+
   // Ensure we get at least one from each skill type, then fill randomly
   skillTypes.forEach(skillType => {
     const available = skillsChallengePool.filter(c => 
@@ -176,14 +175,14 @@ export function generateSkillsChallenges() {
       selectedChallenges.push(available[randomIndex]);
     }
   });
-  
+
   // Fill remaining slots randomly to reach 8 total
-  while (selectedChallenges.length < 8) {
+  while (selectedChallenges.length < count) {
     const remaining = skillsChallengePool.filter(c => !selectedChallenges.includes(c));
     if (remaining.length === 0) break;
     const randomIndex = Math.floor(Math.random() * remaining.length);
     selectedChallenges.push(remaining[randomIndex]);
   }
-  
+
   return selectedChallenges;
 }

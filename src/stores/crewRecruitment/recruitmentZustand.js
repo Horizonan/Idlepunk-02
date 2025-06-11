@@ -148,7 +148,8 @@ export const useRecruitmentZustand = create(
 
   startGame: () => {
     console.log('Starting recruitment game');
-    const generated = Array.from({length: 8}, generateRandomProfile);
+    const profileCount = localStorage.getItem('signal_expander_purchased') ? 10 : 8;
+    const generated = Array.from({length: profileCount}, generateRandomProfile);
     console.log('Generated profiles:', generated);
     set({profiles: generated, currentIndex: 0, score: 0, timeLeft: 60, isRunning: true, lastFeedback: null, gameVariant: 'profile'});
     console.log('Game state initialized');
@@ -156,7 +157,8 @@ export const useRecruitmentZustand = create(
 
   startSkillsGame: () => {
     console.log('Starting skills assessment game');
-    const challenges = generateSkillsChallenges();
+    const challengeCount = localStorage.getItem('signal_expander_purchased') ? 10 : 8;
+    const challenges = generateSkillsChallenges(challengeCount);
     console.log('Generated challenges:', challenges);
     set({skillsChallenges: challenges, currentChallengeIndex: 0, score: 0, timeLeft: 90, isRunning: true, lastFeedback: null, gameVariant: 'skills'});
     console.log('Skills game state initialized');
@@ -192,7 +194,8 @@ export const useRecruitmentZustand = create(
       }
     }
 
-    if (currentIndex == 7) {
+    const profileCount = localStorage.getItem('signal_expander_purchased') ? 10 : 8;
+    if (currentIndex >= profileCount - 1) {
       console.log("🎉 Game finished! Final score:", score + delta);
       get().handleGameEnd(score + delta);
     }
@@ -268,8 +271,9 @@ export const useRecruitmentZustand = create(
       }
     }, 6000);
 
-    // Check if game should end (8 challenges total, so end after challenge 7)
-    if (currentChallengeIndex + 1 >= 8) {
+    // Check if game should end (8 or 10 challenges total based on Signal Expander)
+    const challengeCount = localStorage.getItem('signal_expander_purchased') ? 10 : 8;
+    if (currentChallengeIndex + 1 >= challengeCount) {
       console.log("🎉 Skills game finished! Final score:", score + delta);
       setTimeout(() => {
         get().handleSkillsGameEnd(score + delta);
@@ -534,6 +538,9 @@ export const useRecruitmentZustand = create(
 
   handleGameEnd: (finalScore) => {
       console.log(`Game ended with score: ${finalScore}`);
+      
+      // Mark recruitment game as completed for Signal Expander unlock
+      localStorage.setItem('recruitment_game_completed', 'true');
 
       // Determine crew unlock based on score
       const eligibleCrew = crewDatabase.filter(crew => {

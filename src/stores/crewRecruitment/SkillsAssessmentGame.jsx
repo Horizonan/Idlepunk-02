@@ -100,7 +100,7 @@ export function SkillsAssessmentGame() {
       }}>Close</button>
       <div className="skills-game-stats">
         <div>⏱ {timeLeft}s</div>
-        <div>Challenge: {currentChallengeIndex + 1}/8</div>
+        <div>Challenge: {currentChallengeIndex + 1}/{localStorage.getItem('signal_expander_purchased') ? 10 : 8}</div>
       </div>
 
       {lastFeedback && (

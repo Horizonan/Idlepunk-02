@@ -226,6 +226,24 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
       creditsName: "150 Scratz",
     },
     {
+      name: "📦 Signal Expander",
+      cost: 750,
+      description: "Increases max profiles in Signal Sort from 8 → 10",
+      info: "More frequencies, more faces. Sometimes two extra choices make all the difference. Permanently increases the maximum profiles shown during the Signal Sort recruitment minigame.",
+      action: () => {
+        if (credits >= 750 && !localStorage.getItem('signal_expander_purchased')) {
+          onSetCredits(prev => prev - 750);
+          localStorage.setItem('signal_expander_purchased', 'true');
+          onSetNotification(prev => [...prev, "Signal Expander installed! Recruitment games now show 10 profiles instead of 8."]);
+          window.dispatchEvent(new CustomEvent('nextNews', { 
+            detail: { message: "Signal reception improved. More candidates detected." }
+          }));
+        }
+      },
+      disabled: credits < 750 || localStorage.getItem('signal_expander_purchased') || !localStorage.getItem('recruitment_game_completed'),
+      creditsName: "750 Scratz",
+    },
+    {
       name: "🔄 Auto Slotter",
       cost: 100,
       description: "Automatically spins the slot machine every 15 seconds",
