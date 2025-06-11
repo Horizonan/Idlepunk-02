@@ -55,7 +55,7 @@ import TrashBonus from './components/Effects/TrashBonus';
 import ShardMiner from './components/Effects/ShardMiner';
 import ScratzMiner from './components/Effects/ScratzMiner';
 import PickupMagnetArray from './components/Effects/PickupMagnetArray';
-import AutoRecyclerEffect from './components/Effects/Automation/AutoRecyclerEffect';
+import AutoRecyclerEffect from './components/Effects/AutoRecyclerEffect';
 
 //Combat
 import ScraptagonCombat from './components/Combat/scrapCombat';
