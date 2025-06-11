@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import '../styles/CrewMenu.css';
 import '../styles/mobile/CrewMenuMobile.css';
 import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
-import { RecruitmentGame } from "./crewRecruitment/RecruitmentGame";
+import { RecruitmentGame } from './crewRecruitment/RecruitmentGame';
+import { SkillsAssessmentGame } from './crewRecruitment/SkillsAssessmentGame';
 import { missions, calculateMissionSuccess } from "./crewRecruitment/missions";
 import { equipmentDatabase, getAllEquipment } from "./crewRecruitment/equipment";
 import StaminaTimer from '../components/StaminaTimer';
@@ -22,22 +23,22 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   const [showMiniGameModal, setShowMiniGameModal] = useState(false);
   const [missionCompleting, setMissionCompleting] = useState(false);
   const [missionStarting, setMissionStarting] = useState(false);
-  
+
 
   useEffect(() => {
     if (activeMission && missionStartTime) {
       setMissionCompleting(false); // Reset completion state when mission starts
       setMissionStarting(true); // Set starting state to prevent early completion
-      
+
       // Disable the complete button for 10 seconds after mission start
       const startupTimer = setTimeout(() => {
         setMissionStarting(false);
       }, 3000);
-      
+
       const timer = setInterval(() => {
         // Check for mini-game trigger
         useRecruitmentZustand.getState().checkForMiniGame();
-        
+
         // Calculate time remaining using the new method
         const remaining = useRecruitmentZustand.getState().getMissionTimeRemaining();
         setTimeLeft(remaining);
@@ -86,7 +87,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
       } else {
         newSelection = [...prev, crewId];
       }
-      
+
       // Update zustand store
       useRecruitmentZustand.setState({ selectedCrew: newSelection });
       return newSelection;
@@ -117,7 +118,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
         return (
           <div className="crew-content">
             <h3>Current Crew</h3>
-           
+
             <div className="crew-grid">
               {hiredCrew.map((crew) => (
                 <div key={crew.id} className="crew-slot active">
@@ -168,7 +169,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         document.body.appendChild(popup);
                         return;
                       }
-                      
+
                       // Show styled confirmation popup that matches game UI
                       const confirmPopup = document.createElement('div');
                       confirmPopup.className = 'crew-fire-confirm-popup';
@@ -192,11 +193,11 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                           </div>
                         </div>
                       `;
-                      
+
                       // Add event listeners after creating the popup
                       const fireButton = confirmPopup.querySelector('.confirm-fire-button');
                       const cancelButton = confirmPopup.querySelector('.confirm-cancel-button');
-                      
+
                       fireButton.addEventListener('click', () => {
                         confirmPopup.remove();
                         const state = useRecruitmentZustand.getState();
@@ -206,11 +207,11 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                           unlockedCrew: [...state.unlockedCrew, crewToFire]
                         });
                       });
-                      
+
                       cancelButton.addEventListener('click', () => {
                         confirmPopup.remove();
                       });
-                      
+
                       document.body.appendChild(confirmPopup);
                     }}
                   >
@@ -228,7 +229,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
              <StaminaTimer />
           </div>
         );
-        
+
       case 'recruit':
         return (
           <div className="crew-content">
@@ -524,12 +525,12 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                           onClick={() => {
                             // Prevent multiple completions and early completion
                             if (!activeMission || missionCompleting || missionStarting) return;
-                            
+
                             // Set completing state immediately
                             setMissionCompleting(true);
-                            
+
                             const currentActiveMission = activeMission;
-                            
+
                             // Clear mission immediately to prevent spam
                             setActiveMission(null);
                             setSelectedCrew([]);
@@ -556,12 +557,12 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                             console.log('Mission requirements:', currentActiveMission.requirements);
 
                             let baseSuccessRate = calculateMissionSuccess(crewStats, currentActiveMission.requirements);
-                            
+
                             // Apply mini-game effects - get state once
                             const state = useRecruitmentZustand.getState();
                             const miniGameBonus = state.miniGameBonus || { rewardChanceBonus: 0, successPenalty: 0 };
                             const finalSuccessRate = Math.max(0, baseSuccessRate - (miniGameBonus.successPenalty * 100));
-                            
+
                             console.log(`Base success rate: ${baseSuccessRate.toFixed(1)}%`);
                             if (miniGameBonus.successPenalty > 0) {
                               console.log(`Mini-game penalty applied: -${(miniGameBonus.successPenalty * 100).toFixed(1)}%`);
@@ -584,7 +585,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                               useRecruitmentZustand.setState(state => ({
                                 successfulMissions: state.successfulMissions + 1
                               }));
-                              
+
                               creditsReward = currentActiveMission.baseRewards.credits;
                               junkReward = currentActiveMission.baseRewards.junk;
 
@@ -593,7 +594,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                 Object.entries(currentActiveMission.bonusRewards).forEach(([item, bonus]) => {
                                   const bonusChance = bonus.chance + (miniGameBonus.rewardChanceBonus || 0);
                                   console.log(`${item} bonus chance: ${(bonus.chance * 100).toFixed(1)}% + ${((miniGameBonus.rewardChanceBonus || 0) * 100).toFixed(1)}% = ${(bonusChance * 100).toFixed(1)}%`);
-                                  
+
                                   if (Math.random() < bonusChance) {
                                     if (item === 'electroShard') creditsReward += 50 * bonus.amount;
                                     if (item === 'rareJunk') junkReward += bonus.amount;
@@ -687,7 +688,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                               </div>
                             `;
                             document.body.appendChild(missionWindow);
-                            
+
                             // Reset mini-game bonus state
                             useRecruitmentZustand.setState(state => ({ 
                               ...state,
@@ -743,14 +744,14 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
               </div>
             )}
 
-            
+
           </div>
         );
       case 'loadouts':
         return (
           <div className="crew-content">
             <h3>Crew Loadouts</h3>
-            
+
             <div className="loadout-section">
               <h4>Available Equipment</h4>
               <div className="equipment-inventory">
@@ -783,14 +784,14 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                 {hiredCrew.map((crew) => {
                   const loadout = crewLoadouts[crew.id] || { weapon: null, armor: null, tool: null };
                   const effectiveStats = getCrewEffectiveStats(crew.id);
-                  
+
                   return (
                     <div key={crew.id} className="crew-loadout-card">
                       <div className="crew-loadout-header">
                         <h5>{crew.name}</h5>
                         <span className="crew-role">{crew.role}</span>
                       </div>
-                      
+
                       <div className="loadout-slots">
                         {['weapon', 'armor', 'tool'].map(slotType => (
                           <div key={slotType} className="loadout-slot">
@@ -839,7 +840,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                           </div>
                         ))}
                       </div>
-                      
+
                       <div className="effective-stats">
                         <h6>Effective Stats:</h6>
                         <div className="stats-display">

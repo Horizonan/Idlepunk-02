@@ -4,6 +4,7 @@ import { crewDatabase } from './crewMembers';
 import { getEquipmentById } from './equipment';
 import {generateRandomProfile} from './profiles'
 import {calculateMissionSuccess} from './missions'
+import {generateSkillsChallenges} from './skillsChallenges'
 
 export const useRecruitmentZustand = create(
   persist(
@@ -139,13 +140,26 @@ export const useRecruitmentZustand = create(
   score: 0,
   timeLeft: 60,
   isRunning: false,
+  
+  // Skills Assessment Game State
+  skillsChallenges: [],
+  currentChallengeIndex: 0,
+  gameVariant: 'profile', // 'profile' or 'skills'
 
   startGame: () => {
     console.log('Starting recruitment game');
     const generated = Array.from({length: 8}, generateRandomProfile);
     console.log('Generated profiles:', generated);
-    set({profiles: generated, currentIndex: 0, score: 0, timeLeft: 60, isRunning: true, lastFeedback: null});
+    set({profiles: generated, currentIndex: 0, score: 0, timeLeft: 60, isRunning: true, lastFeedback: null, gameVariant: 'profile'});
     console.log('Game state initialized');
+  },
+
+  startSkillsGame: () => {
+    console.log('Starting skills assessment game');
+    const challenges = generateSkillsChallenges();
+    console.log('Generated challenges:', challenges);
+    set({skillsChallenges: challenges, currentChallengeIndex: 0, score: 0, timeLeft: 90, isRunning: true, lastFeedback: null, gameVariant: 'skills'});
+    console.log('Skills game state initialized');
   },
 
   act: (action) => {
@@ -203,8 +217,110 @@ export const useRecruitmentZustand = create(
       timeLeft: 60,
       isRunning: false,
       selectedCrew: null,
-      lastFeedback: null
+      lastFeedback: null,
+      skillsChallenges: [],
+      currentChallengeIndex: 0,
+      gameVariant: 'profile'
     })
+  },
+
+  solveChallenge: (answer) => {
+    const { skillsChallenges, currentChallengeIndex, score } = get();
+    const challenge = skillsChallenges[currentChallengeIndex];
+
+    if (!challenge) return;
+
+    let delta = 0;
+    let correct = false;
+    let explanation = '';
+
+    if (challenge.type === 'multiple_choice') {
+      correct = answer === challenge.correctAnswer;
+      delta = correct ? 3 : -1;
+      explanation = correct ? 'Well done!' : `Correct answer was: ${challenge.correctAnswer}`;
+    } else if (challenge.type === 'calculation') {
+      correct = answer === challenge.correctAnswer;
+      delta = correct ? 4 : -1;
+      explanation = correct ? 'Perfect calculation!' : `Correct answer was: ${challenge.correctAnswer}`;
+    } else if (challenge.type === 'sequence') {
+      correct = answer === challenge.correctAnswer;
+      delta = correct ? 5 : -2;
+      explanation = correct ? 'Sequence mastered!' : `Correct sequence was: ${challenge.correctAnswer}`;
+    }
+
+    const feedback = {
+      correct,
+      points: delta,
+      explanation
+    };
+
+    set({
+      score: score + delta,
+      currentChallengeIndex: currentChallengeIndex + 1,
+      lastFeedback: feedback
+    });
+
+    // Clear feedback after 6 seconds
+    setTimeout(() => {
+      const currentState = get();
+      if (currentState.lastFeedback === feedback) {
+        set({ lastFeedback: null });
+      }
+    }, 6000);
+
+    // Check if game should end
+    if (currentChallengeIndex >= 5) {
+      console.log("🎉 Skills game finished! Final score:", score + delta);
+      get().handleSkillsGameEnd(score + delta);
+    }
+  },
+
+  handleSkillsGameEnd: (finalScore) => {
+    console.log(`Skills game ended with score: ${finalScore}`);
+
+    // Similar unlock logic but with different score thresholds
+    const eligibleCrew = crewDatabase.filter(crew => {
+      const conditions = crew.unlockConditions;
+      if (!conditions) return false;
+
+      const alreadyUnlocked = get().unlockedCrew.some(c => c.id === crew.id);
+      if (alreadyUnlocked) return false;
+
+      // Adjust score requirement for skills game (typically higher scores)
+      const adjustedMinScore = conditions.minGameScore ? Math.floor(conditions.minGameScore * 0.8) : 0;
+      if (finalScore < adjustedMinScore) return false;
+
+      const currentCrewCount = get().hiredCrew.length;
+      if (conditions.minCrew !== undefined && currentCrewCount < conditions.minCrew) return false;
+      if (conditions.maxCrew !== undefined && currentCrewCount > conditions.maxCrew) return false;
+
+      if (conditions.requiresItems && conditions.requiresItems.length > 0) {
+        const hasAllItems = conditions.requiresItems.every(itemId => 
+          get().equipment.some(eq => eq.id === itemId)
+        );
+        if (!hasAllItems) return false;
+      }
+
+      return true;
+    });
+
+    if (eligibleCrew.length > 0) {
+      const randomIndex = Math.floor(Math.random() * eligibleCrew.length);
+      const selectedCrew = eligibleCrew[randomIndex];
+      console.log(`🎉 Recruited ${selectedCrew.name} through skills assessment!`);
+      set({ 
+        selectedCrew,
+        unlockedCrew: [...get().unlockedCrew, selectedCrew],
+        newlyHiredCrew: [...get().newlyHiredCrew, selectedCrew.id]
+      });
+
+      setTimeout(() => {
+        get().markCrewAsNotNew(selectedCrew.id);
+      }, 10000);
+    } else {
+      console.log("🚫 No crew members unlocked from skills assessment");
+      set({ selectedCrew: null });
+    }
   },
 
    generateFeedback: (action, profile, correct, points) => {
