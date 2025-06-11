@@ -118,9 +118,8 @@ export default function App() {
     ownedItems
 
   }, {
-    setJunk, tronics, setTronics, setNotifications, setClickMultiplier, setItemCosts, setOwnedItems, setHasUpgrade,
-    setClickEnhancerLevel,clickEnhancerLevel, setPassiveIncome, setHasHelper, setGlobalJpsMultiplier, setAutoClicks,
-    setAutoClickerV1Count, autoClickerV1Count, setAutoClickerV2Count, setElectroShards, setElectroMultiplier
+    setJunk, tronics, setTronics, setNotifications, setClickMultiplier, setItemCosts, setOwnedItems, setHasHelper, setGlobalJpsMultiplier, setAutoClicks,
+    setClickEnhancerLevel,clickEnhancerLevel, setPassiveIncome, setAutoClickerV1Count, autoClickerV1Count, setAutoClickerV2Count, setElectroShards, setElectroMultiplier
   });
 
   const [showCoinFlip, setShowCoinFlip] = useState(false);
@@ -1643,7 +1642,7 @@ export default function App() {
           return (
             <button 
               className={`prestige-button ${!prestigeQuestCompleted ? 'locked' : ''}`}
-              onClick={()=> {
+              onClick={()=>{
                 if (prestigeQuestCompleted) {
                   setShowPrestigePopup(true);
                 }
@@ -1836,6 +1835,8 @@ export default function App() {
           setPassiveIncome={setPassiveIncome}
           setCraftingInventory={setCraftingInventory}
           setNotifications={setNotifications}
+          autoClicks={autoClicks}
+          clickMultiplier={clickMultiplier}
         />
       )}
 

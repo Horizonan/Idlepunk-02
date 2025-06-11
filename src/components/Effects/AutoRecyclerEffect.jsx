@@ -7,13 +7,17 @@ export default function AutoRecyclerEffect({
   globalJpsMultiplier,
   setPassiveIncome,
   setCraftingInventory, 
-  setNotifications 
+  setNotifications,
+  autoClicks,
+  clickMultiplier
 }) {
   const [recyclerStates, setRecyclerStates] = useState([]);
   const [isRunning, setIsRunning] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const autoRecyclerCount = ownedItems.autoRecycler || 0;
-  const totalJunkPerSecond = Math.floor(passiveIncome * globalJpsMultiplier);
+  const passiveJunkPerSecond = Math.floor(passiveIncome * globalJpsMultiplier);
+  const autoClickerJunkPerSecond = Math.floor((autoClicks || 0) * (clickMultiplier || 1));
+  const totalJunkPerSecond = passiveJunkPerSecond + autoClickerJunkPerSecond;
   const junkRequired = 10000 * autoRecyclerCount;
 
   useEffect(() => {
