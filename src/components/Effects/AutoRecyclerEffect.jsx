@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 export default function AutoRecyclerEffect({ 
   ownedItems, 
@@ -19,6 +19,12 @@ export default function AutoRecyclerEffect({
   const autoClickerJunkPerSecond = Math.floor((autoClicks || 0) * (clickMultiplier || 1));
   const totalJunkPerSecond = passiveJunkPerSecond + autoClickerJunkPerSecond;
   const junkRequired = 10000 * autoRecyclerCount;
+  const isRunningRef = useRef(isRunning);
+
+  // Keep ref in sync with state
+  useEffect(() => {
+    isRunningRef.current = isRunning;
+  }, [isRunning]);
 
   useEffect(() => {
     if (autoRecyclerCount > 0) {
@@ -72,7 +78,9 @@ export default function AutoRecyclerEffect({
       // Check if we have enough passive income
       if (totalJunkPerSecond >= junkRequired) {
         setIsRunning(true);
-        setPassiveIncome(prev => prev - (junkRequired / globalJpsMultiplier));
+        // Store the recycler running state in localStorage so App.jsx can check it
+        localStorage.setItem('autoRecyclerRunning', 'true');
+        localStorage.setItem('autoRecyclerConsumption', junkRequired.toString());
         setNotifications(prev => [...prev, `Auto Recycler started! Consuming ${junkRequired.toLocaleString()} junk/sec`]);
         
         // Reset all progress when starting
@@ -86,7 +94,9 @@ export default function AutoRecyclerEffect({
       }
     } else {
       setIsRunning(false);
-      setPassiveIncome(prev => prev + (junkRequired / globalJpsMultiplier));
+      // Clear the recycler running state
+      localStorage.removeItem('autoRecyclerRunning');
+      localStorage.removeItem('autoRecyclerConsumption');
       setNotifications(prev => [...prev, `Auto Recycler stopped! Restored ${junkRequired.toLocaleString()} junk/sec`]);
     }
   };
