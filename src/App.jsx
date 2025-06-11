@@ -608,6 +608,10 @@ export default function App() {
   }, [craftingInventory]);
 
   useEffect(() => {
+    localStorage.setItem('creditStoreItems', JSON.stringify(creditStoreItems));
+  }, [creditStoreItems]);
+
+  useEffect(() => {
     const totalPassiveIncome = passiveIncome * globalJpsMultiplier + ((autoClicks + permanentAutoClicks) * clickMultiplier);
     if ((totalPassiveIncome >= 100 || junk >= 1000000)) {
       localStorage.setItem('prestigeUnlocked', 'true');
@@ -1720,6 +1724,16 @@ export default function App() {
             // Clear crew data on prestige
             const { useRecruitmentZustand } = await import('./stores/crewRecruitment/recruitmentZustand');
             useRecruitmentZustand.getState().clearAllCrewData();
+
+            // Reset credit store items
+            setCreditStoreItems({
+              'Hover Drone': false,
+              'Crafting Booster Unit': false,
+              'Ascension Reclaimer': 0
+            });
+
+            // Reset credits to 0
+            setCredits(0);
 
             setItemCosts(getInitialItemCosts());
 
