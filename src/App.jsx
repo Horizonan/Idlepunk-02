@@ -44,6 +44,7 @@ import { validateQuests } from './utils/questValidation';
 import { useGameState } from './hooks/useGameState';
 import { getInitialItemCosts } from './utils/ItemCosts';
 import { processOfflineProgress, updateLastActiveTime } from './utils/offlineSimulation';
+import { junkCalculationManager, getEffectiveJunkPerSecond } from './utils/junkCalculation';
 
 //Effects/Animations
 import ClickEnhancerEffect from './components/Effects/ClickEnhancerEffect';
@@ -572,23 +573,24 @@ export default function App() {
       const totalMultiplier = 1 + circuitOptBonus + (craftingInventory['Compression Pack'] ? 0.25 : 0) + greaseDisciplineBonus + holoBillboardBonus;
       setGlobalJpsMultiplier(totalMultiplier);
 
-      if (passiveIncome > 0) {
-        const passiveJunkGained = passiveIncome * totalMultiplier;
-        setJunk(prev => prev + passiveJunkGained);
+      // Calculate effective junk per second using centralized system
+      const effectiveJunkPerSecond = getEffectiveJunkPerSecond(
+        passiveIncome, 
+        totalMultiplier, 
+        autoClicks + permanentAutoClicks, 
+        clickMultiplier
+      );
 
-        // Track total junk collected from passive income
+      if (effectiveJunkPerSecond > 0) {
+        setJunk(prev => prev + effectiveJunkPerSecond);
+
+        // Track total junk collected
         const currentTotal = parseInt(localStorage.getItem('totalJunkCollected') || '0');
-        localStorage.setItem('totalJunkCollected', (currentTotal + passiveJunkGained).toString());
+        localStorage.setItem('totalJunkCollected', (currentTotal + effectiveJunkPerSecond).toString());
       }
 
       if (autoClicks > 0) {
-        const autoJunkGained = (autoClicks + permanentAutoClicks) * clickMultiplier;
-        setJunk(prev => prev + autoJunkGained);
         setClickCount(prev => prev + (autoClicks + permanentAutoClicks));
-
-        // Track total junk collected from auto-clickers
-        const currentTotal = parseInt(localStorage.getItem('totalJunkCollected') || '0');
-        localStorage.setItem('totalJunkCollected', (currentTotal + autoJunkGained).toString());
 
         if (electronicsUnlock) {
           const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');

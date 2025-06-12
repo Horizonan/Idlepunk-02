@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { junkCalculationManager } from '../../utils/junkCalculation';
 
 export default function AutoRecyclerEffect({ 
   ownedItems, 
@@ -30,6 +31,11 @@ export default function AutoRecyclerEffect({
       }));
       setRecyclerStates(states);
     }
+
+    // Cleanup function to unregister consumption when component unmounts
+    return () => {
+      junkCalculationManager.unregisterConsumer('autoRecycler');
+    };
   }, [autoRecyclerCount]);
 
   useEffect(() => {
@@ -72,7 +78,8 @@ export default function AutoRecyclerEffect({
       // Check if we have enough passive income
       if (totalJunkPerSecond >= junkRequired) {
         setIsRunning(true);
-        setPassiveIncome(prev => prev - (junkRequired / globalJpsMultiplier));
+        // Register consumption with centralized manager
+        junkCalculationManager.registerConsumer('autoRecycler', junkRequired);
         setNotifications(prev => [...prev, `Auto Recycler started! Consuming ${junkRequired.toLocaleString()} junk/sec`]);
         
         // Reset all progress when starting
@@ -86,7 +93,8 @@ export default function AutoRecyclerEffect({
       }
     } else {
       setIsRunning(false);
-      setPassiveIncome(prev => prev + (junkRequired / globalJpsMultiplier));
+      // Unregister consumption from centralized manager
+      junkCalculationManager.unregisterConsumer('autoRecycler');
       setNotifications(prev => [...prev, `Auto Recycler stopped! Restored ${junkRequired.toLocaleString()} junk/sec`]);
     }
   };

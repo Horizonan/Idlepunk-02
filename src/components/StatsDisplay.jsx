@@ -1,7 +1,7 @@
-
 import React from 'react';
 import { useFlavorEvents } from '../utils/flavorEventsStore';
 import NextQuest from './NextQuest';
+import { getJunkBreakdown } from '../utils/junkCalculation';
 
 export default function StatsDisplay({ credits, junk, passiveIncome, globalJpsMultiplier, autoClicks, clickMultiplier, tronics, electroShards, permanentAutoClicks }) {
   const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
@@ -13,11 +13,38 @@ export default function StatsDisplay({ credits, junk, passiveIncome, globalJpsMu
     (parseInt(localStorage.getItem('tronics_boost_II_count') || '1') * 2)
   )) : 0;
 
+  const formatNumber = (num) => {
+    if (num >= 1000000) {
+      return `${(num / 1000000).toFixed(2)}mil`;
+    } else if (num >= 1000) {
+      return `${(num / 1000).toFixed(2)}k`;
+    }
+    return Math.floor(num).toLocaleString();
+  };
+
+  // Get effective junk calculation breakdown
+  const junkBreakdown = getJunkBreakdown(
+    passiveIncome, 
+    globalJpsMultiplier, 
+    autoClicks + permanentAutoClicks, 
+    clickMultiplier
+  );
+
   return (
     <div className="stats">
       <p>Scratz: {Math.floor(credits).toLocaleString('en-US', {maximumFractionDigits: 0})} </p>
       <p>Junk: {showJunkError ? "ERROR" : Math.floor(junk).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
-      <p>Junk/sec: {Math.floor((passiveIncome * globalJpsMultiplier) + ((autoClicks + permanentAutoClicks) * clickMultiplier)).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
+      <div className="stat-item">
+          <span className="stat-label">Junk/sec:</span>
+          <span className="stat-value">
+            {formatNumber(Math.floor(junkBreakdown.effectiveJunk))}
+            {junkBreakdown.totalConsumption > 0 && (
+              <span style={{ color: '#FF6B6B', fontSize: '10px', marginLeft: '5px' }}>
+                (-{formatNumber(junkBreakdown.totalConsumption)})
+              </span>
+            )}
+          </span>
+        </div>
       {hasPrestiged && (
         <>
           <p>Tronics: {Math.floor(tronics).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
