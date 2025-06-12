@@ -72,6 +72,15 @@ export const defaultAchievements = [
     unlocked: false,
     checked: false,
     badge: "🤖"
+  },
+  {
+    title: "Befriend the Junk Pile",
+    requirement: "Click and drag on the junk pile to pet it",
+    reward: "Junk Whisperer Badge + 5% Click Power",
+    flavorText: "The junk pile purrs with mechanical satisfaction.",
+    unlocked: false,
+    checked: false,
+    badge: "🗑️❤️"
   }
 ];
 
@@ -182,6 +191,16 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
               achievement.checked = true;
               setAutoClicks(prev => prev + 1);
               setNotifications(prev => [...prev, "Achievement Unlocked: Who Clicks the Clickers!"]);
+              changed = true;
+            }
+            break;
+          case "Befriend the Junk Pile":
+            const pettedJunkPile = localStorage.getItem('pettedJunkPile') === 'true';
+            if (pettedJunkPile && !achievement.unlocked) {
+              achievement.unlocked = true;
+              achievement.checked = true;
+              setClickMultiplier(prev => prev * 1.05);
+              setNotifications(prev => [...prev, "Achievement Unlocked: Befriend the Junk Pile!"]);
               changed = true;
             }
             break;

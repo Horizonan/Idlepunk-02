@@ -7,6 +7,10 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
   const [isHolding, setIsHolding] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const holdIntervalRef = useRef(null);
+  const [isPetting, setIsPetting] = useState(false);
+  const [petStrokes, setPetStrokes] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const lastMousePos = useRef({ x: 0, y: 0 });
 
   // Hold-to-click configuration variables
   const [holdClickDelay, setHoldClickDelay] = useState(1000); // ms between clicks when holding
@@ -106,13 +110,45 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
     };
   }, [isHolding, activeClicker, electronicsUnlock, collectJunk, collectTronics, holdClickDelay, holdClickAmount]);
 
-  const handleMouseDown = () => {
+  const handleMouseDown = (event) => {
+    if (activeClicker === 'trash') {
+      setIsDragging(false);
+      lastMousePos.current = { x: event.clientX, y: event.clientY };
+    }
     if (enableHoldToClick) {
       setIsHolding(true);
     }
   };
 
+  const handleMouseMove = (event) => {
+    if(activeClicker === 'trash'){
+      if (event.buttons === 1) { // Left mouse button is pressed
+        const deltaX = Math.abs(event.clientX - lastMousePos.current.x);
+        const deltaY = Math.abs(event.clientY - lastMousePos.current.y);
+
+        if (deltaX > 5 || deltaY > 5) { // Minimum movement threshold
+          setIsDragging(true);
+          setIsPetting(true);
+          setPetStrokes(prev => prev + 1);
+          lastMousePos.current = { x: event.clientX, y: event.clientY };
+        }
+      }
+    }
+  };
+
   const handleMouseUp = () => {
+    if(activeClicker === 'trash'){
+      if (isDragging && petStrokes >= 3) {
+        // Achievement unlocked after 3+ pet strokes
+        localStorage.setItem('pettedJunkPile', 'true');
+        window.dispatchEvent(new CustomEvent('validateAchievements'));
+      }
+
+      setTimeout(() => {
+        setIsDragging(false);
+        setIsPetting(false);
+      }, 100);
+    }
     if (enableHoldToClick) {
       setIsHolding(false);
     }
@@ -166,8 +202,9 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
             src="Icons/TrashButtonBig.svg" 
             alt="Trash Clicker" 
             id="trashClicker" 
-            className={`click-hint ${localStorage.getItem('firstClick') ? 'clicked' : ''} ${isAnimating ? 'click-animate' : ''}`}
+            className={`click-hint ${localStorage.getItem('firstClick') ? 'clicked' : ''} ${isAnimating ? 'click-animate' : ''} ${isPetting ? 'petting' : ''}`}
             onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseLeave}
             onClick={(e) => {

@@ -187,3 +187,29 @@
 .tronics.click-animate:hover {
   animation: clickScale 0.2s ease-in-out !important;
 }
+
+.clicker.quantum-active {
+  box-shadow: 0 0 30px #00ffff, 0 0 60px #00ffff;
+  animation: quantumPulse 0.5s infinite alternate;
+}
+
+.clicker.petting {
+  box-shadow: 0 0 20px #ff69b4, 0 0 40px #ff69b4;
+  animation: pettingGlow 0.3s ease-in-out;
+  cursor: grabbing !important;
+}
+
+@keyframes pettingGlow {
+  0% { 
+    box-shadow: 0 0 20px #ff69b4, 0 0 40px #ff69b4;
+    filter: hue-rotate(0deg);
+  }
+  50% { 
+    box-shadow: 0 0 30px #ff1493, 0 0 60px #ff1493;
+    filter: hue-rotate(30deg);
+  }
+  100% { 
+    box-shadow: 0 0 20px #ff69b4, 0 0 40px #ff69b4;
+    filter: hue-rotate(0deg);
+  }
+}
