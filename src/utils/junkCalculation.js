@@ -1,4 +1,3 @@
-
 // Centralized junk calculation system
 export class JunkCalculationManager {
   constructor() {
@@ -29,11 +28,25 @@ export class JunkCalculationManager {
 
   // Calculate effective junk per second after consumption
   calculateEffectiveJunkPerSecond(basePassiveIncome, globalJpsMultiplier, autoClicks, clickMultiplier) {
-    const totalPassiveJunk = basePassiveIncome * globalJpsMultiplier;
+    let multiplier = globalJpsMultiplier;
+
+    // Circuit Optimization boost
+    if (localStorage.getItem('circuit_optimization_purchased') === 'true') {
+      const optimizationCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
+      const optimizationBoost = optimizationCount * 0.25; // 25% per unit
+      multiplier += optimizationBoost;
+    }
+
+    // Graffitied Tribute Bin boost
+    if (localStorage.getItem('graffitiedTributeBin') === 'true') {
+      multiplier += 0.20; // +20% junk/sec
+    }
+
+    const totalPassiveJunk = basePassiveIncome * multiplier;
     const totalAutoClickJunk = autoClicks * clickMultiplier;
     const totalProduction = totalPassiveJunk + totalAutoClickJunk;
     const totalConsumption = this.getTotalConsumption();
-    
+
     return Math.max(0, totalProduction - totalConsumption);
   }
 
@@ -56,7 +69,21 @@ export class JunkCalculationManager {
 
   // Get breakdown of junk calculations
   getJunkBreakdown(basePassiveIncome, globalJpsMultiplier, autoClicks, clickMultiplier) {
-    const passiveJunk = basePassiveIncome * globalJpsMultiplier;
+    let multiplier = globalJpsMultiplier;
+
+    // Circuit Optimization boost
+    if (localStorage.getItem('circuit_optimization_purchased') === 'true') {
+      const optimizationCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
+      const optimizationBoost = optimizationCount * 0.25; // 25% per unit
+      multiplier += optimizationBoost;
+    }
+
+    // Graffitied Tribute Bin boost
+    if (localStorage.getItem('graffitiedTributeBin') === 'true') {
+      multiplier += 0.20; // +20% junk/sec
+    }
+
+    const passiveJunk = basePassiveIncome * multiplier;
     const autoClickJunk = autoClicks * clickMultiplier;
     const totalProduction = passiveJunk + autoClickJunk;
     const totalConsumption = this.getTotalConsumption();

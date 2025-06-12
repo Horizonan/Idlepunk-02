@@ -280,6 +280,28 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
       creditsName: "200 Scratz",
       hide: !craftingInventory['Auto Recycler Unit'] || (craftingInventory['Auto Recycler Unit'] || 0) === 0,
     },
+    {
+      name: "🗑️ Graffitied Tribute Bin",
+      cost: 200,
+      description: "+20% global Junk/sec boost",
+      info: "An old industrial scrap bin, warped by time and scorched at the base. But its real value lies in the layers of graff—each tag a name lost to the alleys and backzones of the Junk Grid. Some were burners. Some were just loud. The system remembers them through this shrine to thrown-away brilliance. Tagged by legends. Dumped by all. But it never stops grinding.",
+      action: () => {
+        if (credits >= 200 && !localStorage.getItem('graffitiedTributeBin')) {
+          onSetCredits(prev => prev - 200);
+          localStorage.setItem('graffitiedTributeBin', 'true');
+          onSetCraftingInventory(prev => ({
+            ...prev,
+            'Graffitied Tribute Bin': 1
+          }));
+          onSetNotification(prev => [...prev, "Graffitied Tribute Bin purchased! +20% global Junk/sec boost activated."]);
+          window.dispatchEvent(new CustomEvent('nextNews', { 
+            detail: { message: "A shrine to forgotten legends now boosts your operations from the shadows." }
+          }));
+        }
+      },
+      disabled: credits < 200 || localStorage.getItem('graffitiedTributeBin'),
+      creditsName: "200 Scratz",
+    },
   ];
 
   const firstPrestigeItems = [
