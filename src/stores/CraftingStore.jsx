@@ -22,6 +22,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
     { id: 'basic', label: 'Basic Materials' },
     { id: 'items', label: 'Craftable Items' },
     { id: 'consumables', label: 'Consumables' },
+    { id: 'enhanced', label: 'Enhanced Crafting', unlockCondition: () => localStorage.getItem('hasPrestiged') === 'true' },
     { id: 'mysterious', label: 'Mysterious', unlockCondition: () => localStorage.getItem('mysteriousUnlocked') === 'true' || craftingInventory['Synthcore Fragment'] >= 1 }
   ];
 
@@ -76,6 +77,21 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       cost: 0,
       description: 'Portable power source that lasts about 4 hours',
       type: 'consumable'
+    }
+  ];
+
+  const enhancedCraftingItems = [
+    {
+      name: 'Chrono Regulator',
+      requirements: {
+        'Scrap Core': 4,
+        'Signal Mesh': 6,
+        'Capacitor': 2
+      },
+      cost: 4000000,
+      description: 'A hacked regulator that compresses outbound sync pulses. All crew missions complete 20 seconds faster.',
+      type: 'enhanced',
+      onetime: true
     }
   ];
 
@@ -341,6 +357,45 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                       </div>
                     )}
                     <p className="owned">Owned: {craftingInventory[item.name] || 0}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {selectedTab === 'enhanced' && (
+          <div className="crafting-section">
+            <h3>Enhanced Crafting</h3>
+            <div className="store-items">
+              {enhancedCraftingItems.filter(item => {
+                // Hide one-time items that are already crafted
+                if (item.onetime && craftingInventory[item.name]) {
+                  return false;
+                }
+                return true;
+              }).map((item) => (
+                <button
+                  key={item.name}
+                  onClick={() => onCraft(item, 1)} // Always craft 1 for enhanced items
+                  disabled={!canCraft(item)}
+                  className="store-item"
+                >
+                  <div className="item-header">
+                    <strong>{item.name}</strong>
+                  </div>
+                  <div className="item-info">
+                    <p>{item.description}</p>
+                    {item.requirements && (
+                      <div>
+                        <p>Requirements:</p>
+                        {Object.entries(item.requirements).map(([mat, count]) => (
+                          <p key={mat}>- {mat}: {count} ({craftingInventory[mat] || 0} owned)</p>
+                        ))}
+                      </div>
+                    )}
+                    {item.cost && <p>Cost: {formatJunkCost(item.cost, craftingInventory['Crafting Booster Unit'])} Junk</p>}
+                    {item.onetime && <p className="owned">One-time purchase</p>}
                   </div>
                 </button>
               ))}
