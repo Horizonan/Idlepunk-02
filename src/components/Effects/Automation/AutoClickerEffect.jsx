@@ -14,7 +14,14 @@ export default function AutoClickerEffect({ autoClicks = 0 }) {
     // Only allow clicking if achievement hasn't been unlocked yet
     if (!achievementUnlocked) {
       localStorage.setItem('clickedAutoClicker', 'true');
+      
+      // Force immediate achievement validation
       window.dispatchEvent(new CustomEvent('validateAchievements'));
+      window.dispatchEvent(new CustomEvent('questUpdate'));
+      
+      // Force a component re-render
+      window.location.reload();
+      
       console.log('AutoClicker clicked! Achievement unlocked.');
     }
   };

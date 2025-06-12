@@ -84,8 +84,6 @@
   pointer-events: auto;
   user-select: none;
   transition: transform 0.1s ease;
-  border: 2px solid transparent;
-  border-radius: 50%;
 }
 
 .auto-clicker.clickable {
@@ -94,9 +92,7 @@
 }
 
 .auto-clicker.clickable:hover {
-  border-color: #00FF00;
-  box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-  transform: scale(1.2) !important;
+  transform: scale(1.1) !important;
 }
 
 .auto-clicker.achievement-unlocked {
