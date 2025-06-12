@@ -1041,14 +1041,12 @@ button.locked {
   transition: all 0.3s;
 }
 
-```text```text
 .back-button:hover {
   background: #9400D3;
   color: #222;
 }
 
-x 0;
-}
+
 
 .cheat-menu {
   position: fixed;
