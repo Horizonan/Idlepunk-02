@@ -45,6 +45,7 @@ import { useGameState } from './hooks/useGameState';
 import { getInitialItemCosts } from './utils/ItemCosts';
 import { processOfflineProgress, updateLastActiveTime } from './utils/offlineSimulation';
 import { junkCalculationManager, getEffectiveJunkPerSecond } from './utils/junkCalculation';
+import { useSkillsStore } from './utils/skillsStore';
 
 //Effects/Animations
 import ClickEnhancerEffect from './components/Effects/ClickEnhancerEffect';
@@ -609,8 +610,6 @@ export default function App() {
 
   // Global Skills XP calculation - runs every 10 seconds regardless of Skills Center being open
   useEffect(() => {
-    const { useSkillsStore } = require('./utils/skillsStore');
-    
     const skillsXpInterval = setInterval(() => {
       const { activeSkill, skillLevels, skillXp, setSkillLevels, setSkillXp } = useSkillsStore.getState();
       
