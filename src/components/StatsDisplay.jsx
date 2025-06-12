@@ -38,7 +38,7 @@ export default function StatsDisplay({ credits, junk, passiveIncome, globalJpsMu
         Junk/sec: <span className="stat-value">
             {formatNumber(Math.floor(junkBreakdown.effectiveJunk))}
             {junkBreakdown.totalConsumption > 0 && (
-              <span style={{ color: '#FF4444' }}>
+              <span>
                 {' '}(-{formatNumber(junkBreakdown.totalConsumption)})
               </span>
             )}
