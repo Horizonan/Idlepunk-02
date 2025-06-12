@@ -1766,6 +1766,12 @@ export default function App() {
             setPrestigeCount(prev => {
               const newCount = prev + 1;
               localStorage.setItem('prestigeCount', newCount);
+              
+              // Set prestige2Active flag if this is the second prestige
+              if (newCount >= 2) {
+                localStorage.setItem('prestige2Active', 'true');
+              }
+              
               return newCount;
             });
 
