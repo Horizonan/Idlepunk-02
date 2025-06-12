@@ -286,7 +286,10 @@ export default function App() {
       setShowUpgradeStats(false);
     }
 
-    return () => window.removeEventListener('toggleUpgradeStats', handleUpgradeStats);
+    return () => {
+      window.removeEventListener('toggleUpgradeStats', handleUpgradeStats);
+      window.removeEventListener('validateAchievements', handleValidateAchievements);
+    };
   }, [showSlotMachine, showAchievements, showSettings, showQuestLog, showTooltips, showCoinFlip, showCombat]);
 
 
@@ -612,7 +615,7 @@ export default function App() {
   useEffect(() => {
     const skillsXpInterval = setInterval(() => {
       const { activeSkill, skillLevels, skillXp, setSkillLevels, setSkillXp } = useSkillsStore.getState();
-      
+
       if (activeSkill && skillLevels[activeSkill] < 10) {
         const baseXp = 10;
         const requiredXp = Math.floor(baseXp * Math.pow(1.25, skillLevels[activeSkill]));
@@ -631,7 +634,7 @@ export default function App() {
 
           setSkillLevels(newSkillLevels);
           setSkillXp(newSkillXp);
-          
+
           // Also update localStorage for compatibility
           localStorage.setItem('skillLevels', JSON.stringify(newSkillLevels));
           localStorage.setItem('skillXp', JSON.stringify(newSkillXp));
@@ -643,7 +646,7 @@ export default function App() {
             ...skillXp,
             [activeSkill]: newXp
           };
-          
+
           setSkillXp(newSkillXp);
           // Also update localStorage for compatibility
           localStorage.setItem('skillXp', JSON.stringify(newSkillXp));
@@ -1634,8 +1637,7 @@ export default function App() {
           setShowTechTree={setShowTechTree}
           setShowChangelog={setShowChangelog}
           setShowSettings={setShowSettings}
-          showJunkDrone= {showJunkDrone}
-          setShowJunkDrone= {setShowJunkDrone}
+          showJunkDrone= {setShowJunkDrone}
           showHoverDrone= {showHoverDrone}
           setShowHoverDrone= {setShowHoverDrone}
           showAutoclickers = {showAutoclickers}
@@ -1765,13 +1767,13 @@ export default function App() {
             setPrestigeCount(prev => {
               const newCount = prev + 1;
               localStorage.setItem('prestigeCount', newCount.toString());
-              
+
               // Set prestige2Active flag if this is the second prestige
               if (newCount === 2) {
                 localStorage.setItem('prestige2Active', 'true');
                 setNotifications(prevNotifs => [...prevNotifs, "Prestige 2 activated! Beyond Ascension questline unlocked!"]);
               }
-              
+
               return newCount;
             });
 
