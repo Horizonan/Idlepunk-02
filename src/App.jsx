@@ -288,7 +288,6 @@ export default function App() {
 
     return () => {
       window.removeEventListener('toggleUpgradeStats', handleUpgradeStats);
-      window.removeEventListener('validateAchievements', handleValidateAchievements);
     };
   }, [showSlotMachine, showAchievements, showSettings, showQuestLog, showTooltips, showCoinFlip, showCombat]);
 
