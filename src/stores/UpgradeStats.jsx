@@ -16,15 +16,7 @@ export default function UpgradeStats({ onClose }) {
     }
   }, []);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (activeSkill && skillLevels[activeSkill] < 10) {
-        updateXp(activeSkill);
-      }
-    }, 10000);
-
-    return () => clearInterval(interval);
-  }, [activeSkill, skillLevels, updateXp]);
+  // XP calculation is now handled globally in App.jsx
 
   const getRequiredXp = (skill) => {
     const baseXp = 10;
@@ -55,7 +47,11 @@ export default function UpgradeStats({ onClose }) {
           <p className="flavor-text">"Eyes sharp, hands faster."</p>
           <div className="skill-controls">
             <button 
-              onClick={() => setActiveSkill(activeSkill === 'scavengingFocus' ? '' : 'scavengingFocus')}
+              onClick={() => {
+                const newActiveSkill = activeSkill === 'scavengingFocus' ? '' : 'scavengingFocus';
+                setActiveSkill(newActiveSkill);
+                localStorage.setItem('activeSkill', newActiveSkill);
+              }}
               className={activeSkill === 'scavengingFocus' ? 'active' : ''}
               disabled={skillLevels.scavengingFocus >= 10}
             >
@@ -79,7 +75,11 @@ export default function UpgradeStats({ onClose }) {
             <p className="flavor-text">"The pile works harder when you do."</p>
             <div className="skill-controls">
               <button 
-                onClick={() => setActiveSkill(activeSkill === 'greaseDiscipline' ? '' : 'greaseDiscipline')}
+                onClick={() => {
+                  const newActiveSkill = activeSkill === 'greaseDiscipline' ? '' : 'greaseDiscipline';
+                  setActiveSkill(newActiveSkill);
+                  localStorage.setItem('activeSkill', newActiveSkill);
+                }}
                 className={activeSkill === 'greaseDiscipline' ? 'active' : ''}
                 disabled={skillLevels.greaseDiscipline >= 10}
               >

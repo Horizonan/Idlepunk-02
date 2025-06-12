@@ -13,7 +13,7 @@ export const useSkillsStore = create(
         scavengingFocus: 0,
         greaseDiscipline: 0
       },
-      activeSkill: '',
+      activeSkill: localStorage.getItem('activeSkill') || '',
       setSkillXp: (skillXp) => set({ skillXp }),
       setSkillLevels: (skillLevels) => set({ skillLevels }),
       setActiveSkill: (activeSkill) => set({ activeSkill }),
