@@ -5,39 +5,54 @@ export default function AutoClickerEffect({ autoClicks = 0 }) {
   const showAutoclickers = localStorage.getItem('showAutoclickers') !== 'false';
   if (!showAutoclickers) return null;
   const [cursors, setCursors] = useState([]);
+  const achievementUnlocked = localStorage.getItem('clickedAutoClicker') === 'true';
 
-  const handleAutoClickerClick = () => {
+  const handleAutoClickerClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
     // Only allow clicking if achievement hasn't been unlocked yet
-    if (localStorage.getItem('clickedAutoClicker') !== 'true') {
+    if (!achievementUnlocked) {
       localStorage.setItem('clickedAutoClicker', 'true');
       window.dispatchEvent(new CustomEvent('validateAchievements'));
+      console.log('AutoClicker clicked! Achievement unlocked.');
     }
   };
 
   useEffect(() => {
     const numCursors = Math.min(autoClicks, 5); // Cap visible cursors at 5
-    const clickerElement = document.getElementById('trashClicker');
+    if (numCursors === 0) return;
     
-    if (!clickerElement) return;
+    const updatePositions = () => {
+      const clickerElement = document.getElementById('trashClicker');
+      if (!clickerElement) return;
 
-    const rect = clickerElement.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const radius = Math.min(rect.width, rect.height) / 2.5;
+      const rect = clickerElement.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const radius = Math.min(rect.width, rect.height) / 2 + 50;
 
-    // Create cursor positions in a circle around the clicker
-    const newCursors = Array(numCursors).fill().map((_, i) => {
-      const angle = (i / numCursors) * 2 * Math.PI;
-      return {
-        id: i,
-        x: centerX + radius * Math.cos(angle),
-        y: centerY + radius * Math.sin(angle),
-        clicking: false,
-        rotation: Math.random() * 360
-      };
-    });
+      // Create cursor positions in a circle around the clicker
+      const newCursors = Array(numCursors).fill().map((_, i) => {
+        const angle = (i / numCursors) * 2 * Math.PI;
+        return {
+          id: i,
+          x: centerX + radius * Math.cos(angle) - 20, // Offset for cursor size
+          y: centerY + radius * Math.sin(angle) - 20,
+          clicking: false,
+          rotation: Math.random() * 360
+        };
+      });
 
-    setCursors(newCursors);
+      setCursors(newCursors);
+    };
+
+    updatePositions();
+    
+    // Update positions on window resize/scroll
+    const handleResize = () => updatePositions();
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('scroll', handleResize);
 
     // Animate clicks
     const clickInterval = setInterval(() => {
@@ -47,7 +62,11 @@ export default function AutoClickerEffect({ autoClicks = 0 }) {
       })));
     }, 1000);
 
-    return () => clearInterval(clickInterval);
+    return () => {
+      clearInterval(clickInterval);
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', handleResize);
+    };
   }, [autoClicks]);
 
   return (
@@ -55,20 +74,22 @@ export default function AutoClickerEffect({ autoClicks = 0 }) {
       {cursors.map(cursor => (
         <div
           key={cursor.id}
-          className={`auto-clicker ${cursor.clicking ? 'clicking' : ''}`}
-          onClick={handleAutoClickerClick}
+          className={`auto-clicker ${cursor.clicking ? 'clicking' : ''} ${achievementUnlocked ? 'achievement-unlocked' : 'clickable'}`}
+          onClick={achievementUnlocked ? undefined : handleAutoClickerClick}
           style={{
-            left: cursor.x,
-            top: cursor.y,
+            left: `${cursor.x}px`,
+            top: `${cursor.y}px`,
             backgroundImage: cursor.id % 2 === 0 ? 'url(/Icons/Upgrades/autoClickerV1.svg)' : 'url(/Icons/Upgrades/clickerV2.svg)',
             backgroundSize: 'contain',
             backgroundRepeat: 'no-repeat',
             animation: `rotate ${cursor.id % 2 === 0 ? '4s' : '3s'} infinite linear`,
-            transform: `scale(${cursor.id % 2 === 0 ? '1.1' : '1.4'})`,
+            transform: `scale(${cursor.id % 2 === 0 ? '1.1' : '1.4'}) ${cursor.clicking ? 'scale(0.9)' : ''}`,
             filter: cursor.id % 2 === 0 ? 'none' : 'drop-shadow(0 0 1px #00B7EB)',
-            cursor: localStorage.getItem('clickedAutoClicker') === 'true' ? 'default' : 'pointer'
+            cursor: achievementUnlocked ? 'default' : 'pointer',
+            pointerEvents: achievementUnlocked ? 'none' : 'auto',
+            zIndex: 1000
           }}
-          title={localStorage.getItem('clickedAutoClicker') === 'true' ? '' : 'Click me for a surprise!'}
+          title={achievementUnlocked ? '' : 'Click me for a surprise!'}
         />
       ))}
     </>

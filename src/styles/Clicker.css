@@ -77,21 +77,36 @@
 }
 
 .auto-clicker {
-  position: absolute;
+  position: fixed;
   width: 40px;
   height: 40px;
-  z-index: 10;
+  z-index: 1000;
   pointer-events: auto;
   user-select: none;
   transition: transform 0.1s ease;
+  border: 2px solid transparent;
+  border-radius: 50%;
 }
 
-.auto-clicker:hover {
-  transform: scale(1.1) !important;
+.auto-clicker.clickable {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.auto-clicker.clickable:hover {
+  border-color: #00FF00;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  transform: scale(1.2) !important;
+}
+
+.auto-clicker.achievement-unlocked {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.8;
 }
 
 .auto-clicker.clicking {
-  transform: scale(0.9);
+  transform: scale(0.9) !important;
 }
 
 @keyframes rotate {
