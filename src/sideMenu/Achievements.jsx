@@ -92,7 +92,7 @@ export default function Achievements({ achievements, onClose }) {
               🏅 Show Badges
             </button>
           )}
-          <button onClick={onClose} title="Close achievements">✕</button>
+          <button onClick={onClose} title="Close achievements">Close</button>
         </div>
       </div>
       
