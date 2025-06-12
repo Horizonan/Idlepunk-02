@@ -10,6 +10,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
   const [isDragging, setIsDragging] = useState(false);
   const [dragStartPos, setDragStartPos] = useState(null);
   const clickInterval = useRef(null);
+  const holdIntervalRef = useRef(null);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isPetting, setIsPetting] = useState(false);
   const [petStrokes, setPetStrokes] = useState(0);
