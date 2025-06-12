@@ -1820,6 +1820,7 @@ export default function App() {
               junkMagnet: 0,
               urbanRecycler: 0,
               clickEnhancer: 0,
+              clampjawRig: 0,
               scrapDrone: 0,
               holoBillboard: 0,
               junkRefinery: 0,
