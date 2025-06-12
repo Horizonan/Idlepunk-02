@@ -258,10 +258,11 @@ export default function Store({
             </strong>
             <span className="cost">
               ({typeof item.cost === 'object' ? formatNumber(item.cost.junk) : formatNumber(item.cost)} Junk
-              {item.cost && typeof item.cost === 'object' && item.cost.scrapCores
+              {item.cost.scrapCores
                 ? ` + ${item.cost.scrapCores} Scrap Cores`
                 : ""}
-              )</span>
+              )
+            </span>
           </div>
           <div className="item-info">
             <p>{item.description}</p>
