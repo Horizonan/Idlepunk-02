@@ -23,8 +23,11 @@ export default function PrestigeMeter() {
 
   // Prestige 2 quests
     const prestige2Quests = [
-        "Test Quest 1",
-        "Test Quest 2"
+        "Beyond the Heap",
+        "Quantum Resonance", 
+        "Crafted Ascendancy",
+        "Surge Harvester",
+        "Become A Scratzionaire"
     ];
 
   useEffect(() => {
