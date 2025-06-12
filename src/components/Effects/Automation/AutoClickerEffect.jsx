@@ -15,14 +15,13 @@ export default function AutoClickerEffect({ autoClicks = 0 }) {
     if (!achievementUnlocked) {
       localStorage.setItem('clickedAutoClicker', 'true');
       
-      // Force immediate achievement validation
-      window.dispatchEvent(new CustomEvent('validateAchievements'));
-      window.dispatchEvent(new CustomEvent('questUpdate'));
+      // Trigger achievement validation with a slight delay to ensure localStorage is set
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('validateAchievements'));
+        window.dispatchEvent(new CustomEvent('questUpdate'));
+      }, 100);
       
-      // Force a component re-render
-      window.location.reload();
-      
-      console.log('AutoClicker clicked! Achievement unlocked.');
+      console.log('AutoClicker clicked! Achievement should unlock now.');
     }
   };
 

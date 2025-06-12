@@ -176,7 +176,8 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
             }
             break;
           case "Who Clicks the Clickers":
-            if (localStorage.getItem('clickedAutoClicker') === 'true' && !achievement.unlocked) {
+            const clickedAutoClicker = localStorage.getItem('clickedAutoClicker') === 'true';
+            if (clickedAutoClicker && !achievement.unlocked) {
               achievement.unlocked = true;
               achievement.checked = true;
               setAutoClicks(prev => prev + 1);
