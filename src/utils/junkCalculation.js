@@ -47,7 +47,7 @@ export class JunkCalculationManager {
     const totalProduction = totalPassiveJunk + totalAutoClickJunk;
     const totalConsumption = this.getTotalConsumption();
 
-    return Math.max(0, totalProduction - totalConsumption);
+    return totalProduction - totalConsumption;
   }
 
   // Add listener for consumption changes
@@ -87,7 +87,7 @@ export class JunkCalculationManager {
     const autoClickJunk = autoClicks * clickMultiplier;
     const totalProduction = passiveJunk + autoClickJunk;
     const totalConsumption = this.getTotalConsumption();
-    const effectiveJunk = Math.max(0, totalProduction - totalConsumption);
+    const effectiveJunk = totalProduction - totalConsumption;
 
     return {
       passiveJunk,
