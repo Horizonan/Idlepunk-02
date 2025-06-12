@@ -5,11 +5,14 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
   const [showGlitch, setShowGlitch] = useState(false);
   const [clickCount, setClickCount] = useState(0);
   const [isHolding, setIsHolding] = useState(false);
+  const [isClicking, setIsClicking] = useState(false);
+  const [holdTimer, setHoldTimer] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStartPos, setDragStartPos] = useState(null);
+  const clickInterval = useRef(null);
   const [isAnimating, setIsAnimating] = useState(false);
-  const holdIntervalRef = useRef(null);
   const [isPetting, setIsPetting] = useState(false);
   const [petStrokes, setPetStrokes] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
   const lastMousePos = useRef({ x: 0, y: 0 });
   const dragStarted = useRef(false);
 
@@ -111,55 +114,61 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
     };
   }, [isHolding, activeClicker, electronicsUnlock, collectJunk, collectTronics, holdClickDelay, holdClickAmount]);
 
-  const handleMouseDown = (event) => {
-    if (activeClicker === 'trash') {
-      dragStarted.current = true;
-      setIsDragging(false);
-      lastMousePos.current = { x: event.clientX, y: event.clientY };
-    }
+  const handleMouseDown = (e) => {
+    setIsDragging(false); // Reset drag state
+    setDragStartPos({ x: e.clientX, y: e.clientY });
+
     if (enableHoldToClick) {
       setIsHolding(true);
+      setHoldTimer(setTimeout(() => {
+        setIsClicking(true);
+        clickInterval.current = setInterval(() => {
+          if (activeClicker === 'trash') {
+            collectJunk();
+          } else {
+            collectTronics(1);
+          }
+        }, 100);
+      }, 500));
     }
   };
 
-  const handleMouseMove = (event) => {
-    if(activeClicker === 'trash' && dragStarted.current){
-      if (event.buttons === 1) { // Left mouse button is pressed
-        const deltaX = Math.abs(event.clientX - lastMousePos.current.x);
-        const deltaY = Math.abs(event.clientY - lastMousePos.current.y);
+  const handleMouseMove = (e) => {
+    if (dragStartPos) {
+      const deltaX = Math.abs(e.clientX - dragStartPos.x);
+      const deltaY = Math.abs(e.clientY - dragStartPos.y);
 
-        if (deltaX > 3 || deltaY > 3) { // Lower threshold for better sensitivity
-          if (!isDragging) {
-            setIsDragging(true);
-            setIsPetting(true);
-          }
-          setPetStrokes(prev => prev + 1);
-          lastMousePos.current = { x: event.clientX, y: event.clientY };
-        }
+      // If mouse moved more than 5 pixels, consider it a drag
+      if (deltaX > 5 || deltaY > 5) {
+        setIsDragging(true);
       }
     }
   };
 
   const handleMouseUp = () => {
-    if(activeClicker === 'trash' && dragStarted.current){
-      if (isDragging && petStrokes >= 5) {
-        // Achievement unlocked after 5+ pet strokes
-        localStorage.setItem('pettedJunkPile', 'true');
-        window.dispatchEvent(new CustomEvent('validateAchievements'));
-        console.log('Petting achievement unlocked!', petStrokes, 'strokes');
-      }
-
-      // Don't reset immediately, give time for achievement to process
-      setTimeout(() => {
-        setIsDragging(false);
-        setIsPetting(false);
-        setPetStrokes(0);
-        dragStarted.current = false;
-      }, 500);
-    }
     if (enableHoldToClick) {
       setIsHolding(false);
+      setIsClicking(false);
+      if (holdTimer) {
+        clearTimeout(holdTimer);
+        setHoldTimer(null);
+      }
+      if (clickInterval.current) {
+        clearInterval(clickInterval.current);
+        clickInterval.current = null;
+      }
     }
+
+    // Check if this was a drag action on the junk pile
+    if (isDragging && activeClicker === 'trash' && dragStartPos) {
+      localStorage.setItem('pettedJunkPile', 'true');
+      // Trigger achievement validation
+      window.dispatchEvent(new CustomEvent('validateAchievements'));
+    }
+
+    // Reset drag state
+    setIsDragging(false);
+    setDragStartPos(null);
   };
 
   const handleMouseLeave = () => {
@@ -182,6 +191,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
             src="/Icons/electroClicker/electricIcon.svg" 
             alt="Electro Clicker" 
             onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseLeave}
             onClick={() => {       
@@ -234,16 +244,31 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
         )}
       </div>
       <div className={`clicker-buttons ${localStorage.getItem('hasPrestiged') === 'true' ? 'prestige-unlocked' : ''}`}>
-        <button 
-          onClick={() => setActiveClicker('trash')}
-          className={`clicker-select ${activeClicker === 'trash' ? 'active' : ''}`}
+        <button
+          className={`clicker-button ${activeClicker === 'trash' ? 'active' : ''}`}
+          onClick={() => {
+            if (activeClicker === 'trash' && !isDragging) {
+              collectJunk();
+            }
+          }}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
         >
           Trash Clicker
         </button>
-        <button 
-          onClick={() => electronicsUnlock && setActiveClicker('electronics')}
-          className={`clicker-select ${activeClicker === 'electronics' ? 'active' : ''} ${!electronicsUnlock ? 'locked' : ''}`}
-          disabled={!electronicsUnlock}
+        <button
+          className={`clicker-button ${activeClicker === 'electronics' ? 'active' : ''}`}
+          onClick={() => {
+            if (activeClicker === 'electronics' && !isDragging) {
+              collectTronics(1);
+            }
+          }}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
         >
           Electronics Clicker
         </button>
