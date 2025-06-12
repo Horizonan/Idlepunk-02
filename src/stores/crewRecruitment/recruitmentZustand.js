@@ -471,6 +471,10 @@ export const useRecruitmentZustand = create(
         set({ activeMission: mission });
       },
 
+      setSelectedCrew: (crew) => {
+        set({ selectedCrew: crew });
+      },
+
       handleGameEnd: (finalScore) => {
         localStorage.setItem('recruitment_game_completed', 'true');
 

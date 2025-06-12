@@ -79,11 +79,11 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   }, [completeMiniGame]);
 
   const toggleCrewSelection = (crewId) => {
-    const currentSelection = selectedCrew;
+    const currentSelection = selectedCrew || [];
     let newSelection;
     if (currentSelection.includes(crewId)) {
       newSelection = currentSelection.filter(id => id !== crewId);
-    } else if (currentSelection.length >= activeMission?.maxCrew) {
+    } else if (activeMission && currentSelection.length >= activeMission.maxCrew) {
       newSelection = currentSelection;
     } else {
       newSelection = [...currentSelection, crewId];
@@ -388,6 +388,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                     onClick={() => {
                       if (!activeMission) {
                         setActiveMission(mission);
+                        setSelectedCrew([]); // Reset crew selection for new mission
                         setShowCrewSelect(true);
                       }
                     }}
@@ -427,7 +428,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         <div className="success-chance">
                           Success Chance: {calculateMissionSuccess(
                             hiredCrew
-                              .filter(crew => selectedCrew.includes(crew.id))
+                              .filter(crew => (selectedCrew || []).includes(crew.id))
                               .reduce((stats, crew) => {
                                 const effectiveStats = getCrewEffectiveStats(crew.id);
                                 Object.entries(mission.requirements).forEach(([stat]) => {
@@ -443,7 +444,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         {hiredCrew.map((crew) => (
                           <div
                             key={crew.id}
-                            className={`crew-selection-item ${selectedCrew.includes(crew.id) ? 'selected' : ''}`}
+                            className={`crew-selection-item ${(selectedCrew || []).includes(crew.id) ? 'selected' : ''}`}
                             onClick={() => toggleCrewSelection(crew.id)}
                           >
                             <h4>{crew.name}</h4>
@@ -471,7 +472,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         }}>Cancel</button>
                         <button 
                           onClick={() => startMission(mission)}
-                          disabled={selectedCrew.length === 0}
+                          disabled={(selectedCrew || []).length === 0}
                         >
                           Start Mission
                         </button>
