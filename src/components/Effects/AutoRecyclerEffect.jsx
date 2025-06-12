@@ -90,23 +90,24 @@ export default function AutoRecyclerEffect({
 
   const handleStartStop = () => {
     if (!isRunning) {
-      // Check if we have enough passive income
-      if (totalJunkPerSecond >= junkRequired) {
-        setIsRunning(true);
-        // Register consumption with centralized manager
-        junkCalculationManager.registerConsumer('autoRecycler', junkRequired);
-        setNotifications(prev => [...prev, `Auto Recycler started! Consuming ${junkRequired.toLocaleString()} junk/sec`]);
-        
-        // Reset all progress when starting
-        setRecyclerStates(prev => prev.map(state => ({
-          ...state,
-          progress: 0,
-          lastCraftTime: Date.now(),
-          lastMaterialTime: Date.now()
-        })));
+      setIsRunning(true);
+      // Register consumption with centralized manager
+      junkCalculationManager.registerConsumer('autoRecycler', junkRequired);
+      
+      const netJunkPerSecond = totalJunkPerSecond - junkRequired;
+      if (netJunkPerSecond < 0) {
+        setNotifications(prev => [...prev, `Auto Recycler started! WARNING: Consuming ${junkRequired.toLocaleString()} junk/sec (Net: ${netJunkPerSecond.toLocaleString()} junk/sec)`]);
       } else {
-        setNotifications(prev => [...prev, `Need ${junkRequired.toLocaleString()} junk/sec to run Auto Recycler! You have ${totalJunkPerSecond.toLocaleString()}`]);
+        setNotifications(prev => [...prev, `Auto Recycler started! Consuming ${junkRequired.toLocaleString()} junk/sec`]);
       }
+      
+      // Reset all progress when starting
+      setRecyclerStates(prev => prev.map(state => ({
+        ...state,
+        progress: 0,
+        lastCraftTime: Date.now(),
+        lastMaterialTime: Date.now()
+      })));
     } else {
       setIsRunning(false);
       // Unregister consumption from centralized manager
@@ -233,7 +234,13 @@ export default function AutoRecyclerEffect({
         color: '#BBB'
       }}>
         Required: {junkRequired.toLocaleString()} junk/sec<br/>
-        Available: {totalJunkPerSecond.toLocaleString()} junk/sec
+        Available: {totalJunkPerSecond.toLocaleString()} junk/sec<br/>
+        <span style={{ 
+          color: totalJunkPerSecond >= junkRequired ? '#00FF00' : '#FF4444',
+          fontWeight: 'bold'
+        }}>
+          Net: {(totalJunkPerSecond - junkRequired).toLocaleString()} junk/sec
+        </span>
       </div>
 
       {isRunning && recyclerStates.slice(0, 3).map((state, index) => (
