@@ -763,7 +763,8 @@ export default function App() {
       if (amount === 1) {
       }
 
-      const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true');      const quantumProc = hasQuantumTap && Math.random() < 0.03;
+      const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
+      const quantumProc = hasQuantumTap && Math.random() < 0.03;
 
       setTronics(prev => prev + ((quantumProc ? amount * 3 : amount) * electroMultiplier));
 
