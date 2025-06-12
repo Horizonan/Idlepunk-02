@@ -146,6 +146,55 @@ export const missions = {
     ]
   },
 
+  clawbackJob: {
+    id: 'heist_2',
+    name: 'Clawback Job',
+    difficulty: 'Medium',
+    category: 'heist',
+    description: 'Break into a bankrupt biotech spa to recover illegal "rejuvenation" tokens. Still guarded by malfunctioning medibots.',
+    maxCrew: 2,
+    duration: 540, // 9 minutes
+    baseRewards: {
+      credits: 30,
+      junk: 900
+    },
+    bonusRewards: {
+      equipment: {
+        chance: 0.2,
+        itemId: 'spa_override_chip'
+      },
+      rareCredits: {
+        chance: 0.12,
+        amount: 40
+      }
+    },
+    requirements: {
+      tech: 5,
+      grit: 3,
+      stealth: 5,
+      luck: 3,
+      psyche: 2
+    },
+    penalties: {
+      failure: {
+        credits: -15,
+        crewStamina: -20,
+        messagePool: [
+          'Tranquilizer gas triggered mid-escape.',
+          'Spa bot tried to exfoliate a team member to death.',
+          'Confused with actual customers. Still got charged.',
+          'Soothing music made everything worse.'
+        ]
+      }
+    },
+    successMessages: [
+      'Tokens secured. Skin tingling from weird mists.',
+      'Spa tech hijacked. Loot acquired.',
+      'Crew smelled suspiciously floral but victorious.',
+      'Left with bags of coins and a mild aura.'
+    ]
+  },
+
   voidRun: {
     id: 'void_1',
     name: 'Void Run',
@@ -198,7 +247,7 @@ export const missions = {
 
 export const missionCategories = {
   scavenge: ['greaseRun', 'dumpsterDiveDeluxe'],
-  heist: ['coinOpHeist'],
+  heist: ['coinOpHeist', 'clawbackJob'],
   exploration: ['voidRun']
 };
 

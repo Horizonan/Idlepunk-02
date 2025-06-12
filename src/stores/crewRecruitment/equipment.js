@@ -21,6 +21,16 @@ export const equipmentDatabase = {
       flavor: 'Jingles ominously when you walk',
       autoSellValue: 5
     },
+    spaOverrideChip: {
+      id: 'spa_override_chip',
+      name: 'Spa Override Chip',
+      type: 'weapon',
+      rarity: 'uncommon',
+      statBonus: { tech: 3, stealth: 2 },
+      icon: '💾',
+      flavor: 'Still smells faintly of cucumber and deception',
+      autoSellValue: 15
+    },
     voidFragment: {
       id: 'void_fragment',
       name: 'Void Fragment',
