@@ -4,7 +4,7 @@ import { useSkillsStore } from '../utils/skillsStore';
 import SkillsCenterIntro from '../components/SkillsCenterIntro';
 
 export default function UpgradeStats({ onClose }) {
-  const { skillXp, skillLevels, activeSkill, setActiveSkill, updateXp } = useSkillsStore();
+  const { skillXp, skillLevels, activeSkill, setActiveSkill, loadFromLocalStorage } = useSkillsStore();
   const [showIntro, setShowIntro] = useState(false);
 
   // Check if this is the first time opening Skills Center
@@ -14,9 +14,19 @@ export default function UpgradeStats({ onClose }) {
       setShowIntro(true);
       localStorage.setItem('hasSeenSkillsIntro', 'true');
     }
-  }, []);
+    
+    // Sync with localStorage when component mounts
+    loadFromLocalStorage();
+  }, [loadFromLocalStorage]);
 
-  // XP calculation is now handled globally in App.jsx
+  // Auto-refresh the component every second to show real-time progress
+  useEffect(() => {
+    const refreshInterval = setInterval(() => {
+      loadFromLocalStorage();
+    }, 1000);
+
+    return () => clearInterval(refreshInterval);
+  }, [loadFromLocalStorage]);
 
   const getRequiredXp = (skill) => {
     const baseXp = 10;
@@ -50,7 +60,6 @@ export default function UpgradeStats({ onClose }) {
               onClick={() => {
                 const newActiveSkill = activeSkill === 'scavengingFocus' ? '' : 'scavengingFocus';
                 setActiveSkill(newActiveSkill);
-                localStorage.setItem('activeSkill', newActiveSkill);
               }}
               className={activeSkill === 'scavengingFocus' ? 'active' : ''}
               disabled={skillLevels.scavengingFocus >= 10}
@@ -78,7 +87,6 @@ export default function UpgradeStats({ onClose }) {
                 onClick={() => {
                   const newActiveSkill = activeSkill === 'greaseDiscipline' ? '' : 'greaseDiscipline';
                   setActiveSkill(newActiveSkill);
-                  localStorage.setItem('activeSkill', newActiveSkill);
                 }}
                 className={activeSkill === 'greaseDiscipline' ? 'active' : ''}
                 disabled={skillLevels.greaseDiscipline >= 10}

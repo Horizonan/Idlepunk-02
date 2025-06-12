@@ -609,40 +609,45 @@ export default function App() {
 
   // Global Skills XP calculation - runs every 10 seconds regardless of Skills Center being open
   useEffect(() => {
+    const { useSkillsStore } = require('./utils/skillsStore');
+    
     const skillsXpInterval = setInterval(() => {
-      const activeSkill = localStorage.getItem('activeSkill');
-      if (activeSkill) {
-        const skillLevels = JSON.parse(localStorage.getItem('skillLevels')) || { scavengingFocus: 0, greaseDiscipline: 0 };
-        const skillXp = JSON.parse(localStorage.getItem('skillXp')) || { scavengingFocus: 0, greaseDiscipline: 0 };
+      const { activeSkill, skillLevels, skillXp, setSkillLevels, setSkillXp } = useSkillsStore.getState();
+      
+      if (activeSkill && skillLevels[activeSkill] < 10) {
+        const baseXp = 10;
+        const requiredXp = Math.floor(baseXp * Math.pow(1.25, skillLevels[activeSkill]));
+        const newXp = (skillXp[activeSkill] || 0) + 1;
 
-        if (skillLevels[activeSkill] < 10) {
-          const baseXp = 10;
-          const requiredXp = Math.floor(baseXp * Math.pow(1.25, skillLevels[activeSkill]));
-          const newXp = (skillXp[activeSkill] || 0) + 1;
+        if (newXp >= requiredXp) {
+          // Level up
+          const newSkillLevels = {
+            ...skillLevels,
+            [activeSkill]: skillLevels[activeSkill] + 1
+          };
+          const newSkillXp = {
+            ...skillXp,
+            [activeSkill]: 0
+          };
 
-          if (newXp >= requiredXp) {
-            // Level up
-            const newSkillLevels = {
-              ...skillLevels,
-              [activeSkill]: skillLevels[activeSkill] + 1
-            };
-            const newSkillXp = {
-              ...skillXp,
-              [activeSkill]: 0
-            };
+          setSkillLevels(newSkillLevels);
+          setSkillXp(newSkillXp);
+          
+          // Also update localStorage for compatibility
+          localStorage.setItem('skillLevels', JSON.stringify(newSkillLevels));
+          localStorage.setItem('skillXp', JSON.stringify(newSkillXp));
 
-            localStorage.setItem('skillLevels', JSON.stringify(newSkillLevels));
-            localStorage.setItem('skillXp', JSON.stringify(newSkillXp));
-
-            setNotifications(prev => [...prev, `${activeSkill} leveled up to ${newSkillLevels[activeSkill]}!`]);
-          } else {
-            // Just add XP
-            const newSkillXp = {
-              ...skillXp,
-              [activeSkill]: newXp
-            };
-            localStorage.setItem('skillXp', JSON.stringify(newSkillXp));
-          }
+          setNotifications(prev => [...prev, `${activeSkill} leveled up to ${newSkillLevels[activeSkill]}!`]);
+        } else {
+          // Just add XP
+          const newSkillXp = {
+            ...skillXp,
+            [activeSkill]: newXp
+          };
+          
+          setSkillXp(newSkillXp);
+          // Also update localStorage for compatibility
+          localStorage.setItem('skillXp', JSON.stringify(newSkillXp));
         }
       }
     }, 10000); // Every 10 seconds
