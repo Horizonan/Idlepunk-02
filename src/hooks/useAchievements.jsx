@@ -63,6 +63,15 @@ export const defaultAchievements = [
     unlocked: false,
     checked: false,
     badge: "⚡"
+  },
+  {
+    title: "Who Clicks the Clickers",
+    requirement: "Click on an Auto Clicker Bot",
+    reward: "You're Clicking What? Badge + 1 Permanent Auto Clicker",
+    flavorText: "Why are you clicking the thing that clicks for you?",
+    unlocked: false,
+    checked: false,
+    badge: "🤖"
   }
 ];
 
@@ -163,6 +172,15 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
               achievement.unlocked = true;
               achievement.checked = true;
               setNotifications(prev => [...prev, "Achievement Unlocked: UI Breaker!"]);
+              changed = true;
+            }
+            break;
+          case "Who Clicks the Clickers":
+            if (localStorage.getItem('clickedAutoClicker') === 'true' && !achievement.unlocked) {
+              achievement.unlocked = true;
+              achievement.checked = true;
+              setAutoClicks(prev => prev + 1);
+              setNotifications(prev => [...prev, "Achievement Unlocked: Who Clicks the Clickers!"]);
               changed = true;
             }
             break;

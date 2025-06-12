@@ -6,6 +6,11 @@ export default function AutoClickerEffect({ autoClicks = 0 }) {
   if (!showAutoclickers) return null;
   const [cursors, setCursors] = useState([]);
 
+  const handleAutoClickerClick = () => {
+    localStorage.setItem('clickedAutoClicker', 'true');
+    window.dispatchEvent(new CustomEvent('validateAchievements'));
+  };
+
   useEffect(() => {
     const numCursors = Math.min(autoClicks, 5); // Cap visible cursors at 5
     const clickerElement = document.getElementById('trashClicker');
@@ -48,7 +53,7 @@ export default function AutoClickerEffect({ autoClicks = 0 }) {
         <div
           key={cursor.id}
           className={`auto-clicker ${cursor.clicking ? 'clicking' : ''}`}
-          onClick={null}
+          onClick={handleAutoClickerClick}
           style={{
             left: cursor.x,
             top: cursor.y,
@@ -57,8 +62,10 @@ export default function AutoClickerEffect({ autoClicks = 0 }) {
             backgroundRepeat: 'no-repeat',
             animation: `rotate ${cursor.id % 2 === 0 ? '4s' : '3s'} infinite linear`,
             transform: `scale(${cursor.id % 2 === 0 ? '1.1' : '1.4'})`,
-            filter: cursor.id % 2 === 0 ? 'none' : 'drop-shadow(0 0 1px #00B7EB)'
+            filter: cursor.id % 2 === 0 ? 'none' : 'drop-shadow(0 0 1px #00B7EB)',
+            cursor: 'pointer'
           }}
+          title="Click me for a surprise!"
         />
       ))}
     </>
