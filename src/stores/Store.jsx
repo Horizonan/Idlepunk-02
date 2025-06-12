@@ -240,7 +240,7 @@ export default function Store({
         <button
           key={item.name}
           onClick={item.action}
-          disabled={credits < (item.cost.junk || item.cost) || (item.unlockCondition && !item.unlockCondition())}
+          disabled={credits < (typeof item.cost === 'object' ? item.cost.junk : item.cost) || (item.unlockCondition && !item.unlockCondition())}
           className={`store-item ${item.disabled || (item.unlockCondition && !item.unlockCondition()) ? "disabled" : ""}`}
         >
           <div className="item-header">
