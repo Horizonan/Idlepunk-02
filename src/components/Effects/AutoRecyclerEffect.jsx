@@ -47,7 +47,8 @@ export default function AutoRecyclerEffect({
       const now = Date.now();
       
       setRecyclerStates(prevStates => {
-        return prevStates.map(state => {
+        let shouldUpdate = false;
+        const newStates = prevStates.map(state => {
           const newState = { ...state };
           
           // Check if we can craft a scrap core (every 30 seconds)
@@ -62,9 +63,14 @@ export default function AutoRecyclerEffect({
             ]);
             newState.lastCraftTime = now;
             newState.progress = 0;
+            shouldUpdate = true;
           } else {
-            // Update progress (0-100% over 30 seconds)
-            newState.progress = ((now - state.lastCraftTime) / 30000) * 100;
+            // Only update progress every 2 seconds to reduce lag
+            const newProgress = ((now - state.lastCraftTime) / 30000) * 100;
+            if (Math.floor(newProgress) !== Math.floor(state.progress)) {
+              newState.progress = newProgress;
+              shouldUpdate = true;
+            }
           }
 
           // Enhanced capacity: produce basic materials every second
@@ -78,15 +84,18 @@ export default function AutoRecyclerEffect({
             }));
             
             newState.lastMaterialTime = now;
+            shouldUpdate = true;
           }
           
           return newState;
         });
+        
+        return shouldUpdate ? newStates : prevStates;
       });
-    }, 1000);
+    }, 2000); // Reduced from 1000ms to 2000ms
 
     return () => clearInterval(interval);
-  }, [isRunning, recyclerStates.length, setCraftingInventory, setNotifications]);
+  }, [isRunning, recyclerStates.length, hasExpandedCapacities]);
 
   const handleStartStop = () => {
     if (!isRunning) {

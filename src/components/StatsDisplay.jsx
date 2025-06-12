@@ -35,12 +35,14 @@ export default function StatsDisplay({ credits, junk, passiveIncome, globalJpsMu
       <p>Scratz: {Math.floor(credits).toLocaleString('en-US', {maximumFractionDigits: 0})} </p>
       <p>Junk: {showJunkError ? "ERROR" : Math.floor(junk).toLocaleString('en-US', {maximumFractionDigits: 0})}</p>
       <p>
-        Junk/sec: {formatNumber(Math.floor(junkBreakdown.effectiveJunk))}
-        {junkBreakdown.totalConsumption > 0 && (
-          <span style={{ color: '#FF4444' }}>
-            {' '}(-{formatNumber(junkBreakdown.totalConsumption)})
-          </span>
-        )}
+        Junk/sec: <span className="stat-value">
+            {formatNumber(Math.floor(junkBreakdown.effectiveJunk))}
+            {junkBreakdown.totalConsumption > 0 && (
+              <span style={{ color: '#FF4444' }}>
+                {' '}(-{formatNumber(junkBreakdown.totalConsumption)})
+              </span>
+            )}
+</span>
       </p>
       {hasPrestiged && (
         <>
