@@ -52,6 +52,12 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       type: 'basic'
     },
     {
+      name: 'Signal Mesh',
+      cost: 60000,
+      description: 'A tangled net of conductive filaments and memory threads, often salvaged from obsolete broadcast towers',
+      type: 'basic'
+    },
+    {
       name: 'Capacitor',
       description: 'Energy storage device',
       type: 'basic',

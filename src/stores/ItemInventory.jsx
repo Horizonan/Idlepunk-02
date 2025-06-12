@@ -17,6 +17,11 @@ export default function ItemInventory({ craftingInventory, onBack }) {
       effect: 'Used in basic crafting',
       icon: '⚙️'
     },
+    'Signal Mesh': {
+      description: 'A tangled net of conductive filaments and memory threads',
+      effect: 'Used for comms, signal boosting, and mysterious tech',
+      icon: '📡'
+    },
     'Capacitor': {
       description: 'Basic Electric Component',
       effect: 'Used for Energy Storage',
@@ -94,7 +99,7 @@ export default function ItemInventory({ craftingInventory, onBack }) {
     }
   };
 
-  const basicItems = ['Wires', 'Metal Plates', 'Gear Bits', 'Capacitor', 'Scrap Core', 'Glitched Scrap Core'];
+  const basicItems = ['Wires', 'Metal Plates', 'Gear Bits', 'Signal Mesh', 'Capacitor', 'Scrap Core', 'Glitched Scrap Core'];
   const consumableItems = ['Junk Cells'];
   const specialItems = ['Stabilized Capacitor', 'Voltage Node', 'Synthcore Fragment', 'Encrypted Coil', 'Surge Capacitor Fragment'];
 
