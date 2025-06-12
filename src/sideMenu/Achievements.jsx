@@ -169,24 +169,21 @@ export default function Achievements({ achievements, onClose }) {
                   Hide
                 </button>
               </h3>
-              <div className="badges-grid">
+              <div className="badges-list">
                 {achievements.filter(a => a.unlocked && a.badge).map((achievement, index) => (
                   <div 
                     key={index} 
-                    className="badge" 
-                    title={`${achievement.title}: ${achievement.flavorText}`}
+                    className="badge-item"
                   >
-                    {achievement.badge}
+                    <div className="badge-icon">{achievement.badge}</div>
+                    <div className="badge-info">
+                      <div className="badge-title">{achievement.title}</div>
+                      <div className="badge-description">"{achievement.flavorText}"</div>
+                    </div>
                   </div>
                 ))}
                 {achievements.filter(a => a.unlocked && a.badge).length === 0 && (
-                  <div style={{ 
-                    gridColumn: '1 / -1', 
-                    textAlign: 'center', 
-                    color: '#888', 
-                    fontSize: '0.9rem',
-                    padding: '20px 0'
-                  }}>
+                  <div className="no-badges">
                     No badges earned yet
                   </div>
                 )}
