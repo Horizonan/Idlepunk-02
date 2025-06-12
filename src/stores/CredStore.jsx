@@ -278,6 +278,7 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
       },
       disabled: credits < 200 || localStorage.getItem('expandedJunkCapacities'),
       creditsName: "200 Scratz",
+      hide: !craftingInventory['Auto Recycler Unit'] || (craftingInventory['Auto Recycler Unit'] || 0) === 0,
     },
   ];
 
@@ -391,7 +392,7 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
       </div>
 
       <div className="store-items">
-        {selectedTab === "basic" && basicItems.map((item) => (
+        {selectedTab === "basic" && basicItems.filter(item => !item.hide).map((item) => (
           <button
             key={item.name}
             onClick={item.action}
