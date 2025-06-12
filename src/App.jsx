@@ -579,7 +579,7 @@ export default function App() {
       // Calculate effective junk per second using centralized system
       const effectiveJunkPerSecond = getEffectiveJunkPerSecond(
         passiveIncome, 
-        totalMultiplier, 
+        globalJpsMultiplier, 
         autoClicks + permanentAutoClicks, 
         clickMultiplier
       );
@@ -587,11 +587,12 @@ export default function App() {
       if (effectiveJunkPerSecond > 0) {
         setJunk(prev => prev + effectiveJunkPerSecond);
 
-        // Track total junk collected (only update localStorage every 10 seconds to reduce I/O)
-        if (Date.now() % 10000 < 1000) {
-          const currentTotal = parseInt(localStorage.getItem('totalJunkCollected') || '0');
-          localStorage.setItem('totalJunkCollected', (currentTotal + (effectiveJunkPerSecond * 10)).toString());
-        }
+        // Track total junk collected
+        const currentTotal = parseInt(localStorage.getItem('totalJunkCollected') || '0');
+        localStorage.setItem('totalJunkCollected', (currentTotal + effectiveJunkPerSecond).toString());
+      } else if (effectiveJunkPerSecond < 0) {
+        // Remove junk when consumption exceeds production
+        setJunk(prev => Math.max(0, prev + effectiveJunkPerSecond));
       }
 
       if (autoClicks > 0) {
@@ -762,7 +763,7 @@ export default function App() {
       if (amount === 1) {
       }
 
-      const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';      const quantumProc = hasQuantumTap && Math.random() < 0.03;
+      const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true');      const quantumProc = hasQuantumTap && Math.random() < 0.03;
 
       setTronics(prev => prev + ((quantumProc ? amount * 3 : amount) * electroMultiplier));
 
