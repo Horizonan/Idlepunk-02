@@ -29,7 +29,15 @@ export default function NextQuest() {
       { id: 2, title: "Tap the Pulse", task: "Click the Tronics Clicker 5000 times", reward: "+5 Auto clicks", category: "challenge", difficulty: "medium" },
       { id: 3, title: "Upgrade Cascade", task: "Purchase 10 ElectroShop Upgrades", reward: "Surge Capacitor Fragment", category: "progression", difficulty: "hard" },
       { id: 4, title: "Beacon Protocol", task: "Own 10 Electro Shard Beacons", reward: "Unlocks crafting recipe for Overcharged Prestige Crystal", category: "collection", difficulty: "epic" },
-      { id: 5, title: "Forge the Overcrystal", task: "Craft the Overcharged Prestige Crystal", reward: "Unlocks Second Prestige", category: "milestone", difficulty: "legendary" }
+      { id: 5, title: "Mission Obsessed", task: "Complete 20 Missions and gather 2000 Scratz", reward: "Unlocks multiple new Missions and Gear", category: "collection", difficulty: "legendary" },
+      { id: 6, title: "Forge the Overcrystal", task: "Craft the Overcharged Prestige Crystal", reward: "Unlocks Second Prestige", category: "milestone", difficulty: "legendary" }
+    ],
+    prestige2: [
+      { id: 1, title: "Beyond the Heap", task: "Reach 100M Junk post-Overcrystal", reward: "1x Dimensional Residue", category: "milestone", difficulty: "hard" },
+      { id: 2, title: "Quantum Resonance", task: "Activate the Quantum Stabilizer 10 times", reward: "1x Quantum Fragment", category: "progression", difficulty: "medium" },
+      { id: 3, title: "Crafted Ascendancy", task: "Craft 3 Advanced Prestige Items", reward: "+2 Permanent Autoclicks", category: "progression", difficulty: "epic" },
+      { id: 4, title: "Surge Harvester", task: "Harvest Junk during 3 Trash Surges", reward: "1x Surge Core Stabilizer", category: "collection", difficulty: "hard" },
+      { id: 5, title: "Become A Scratzionaire", task: "Reach 1mil Scratz", reward: "Unlocks Super Overcharged Crystal", category: "milestone", difficulty: "legendary" }
     ]
   };
 
@@ -63,7 +71,9 @@ export default function NextQuest() {
       let currentQuestLine = 'progression';
       
       // Determine which quest line to use
-      if (hasPrestiged) {
+      if (localStorage.getItem('prestige2Active') === 'true') {
+        currentQuestLine = 'prestige2';
+      } else if (hasPrestiged) {
         currentQuestLine = 'awakenTheCore';
       } else if (localStorage.getItem('cogfatherEvent') === 'true') {
         currentQuestLine = 'ascension';

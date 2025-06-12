@@ -21,6 +21,76 @@ export const validateQuests = ({
   const electroStoreUpgrades = localStorage.getItem('upgradeCount');
 
 
+  // Prestige 2 quest validation
+  if (localStorage.getItem('prestige2Active') === 'true') {
+    
+    if (junk >= 100000000 && !localStorage.getItem('quest_sync_Beyond the Heap')) {
+      localStorage.setItem('quest_sync_Beyond the Heap', 'true');
+      setCraftingInventory(prev => ({
+        ...prev,
+        'Dimensional Residue': (prev['Dimensional Residue'] || 0) + 1
+      }));
+      setNotifications(prev => [...prev, "Quest Complete: Beyond the Heap"]);
+      setNotifications(prev => [...prev, "Obtained: Dimensional Residue"]);
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: "The dimensional barriers weaken as you transcend the material heap..." }
+      }));
+      return;
+    }
+
+    // Placeholder for quest 2 - Quantum Resonance
+    const quantumStabilizations = parseInt(localStorage.getItem('quantumStabilizations') || '0');
+    if (quantumStabilizations >= 10 && !localStorage.getItem('quest_sync_Quantum Resonance')) {
+      localStorage.setItem('quest_sync_Quantum Resonance', 'true');
+      setCraftingInventory(prev => ({
+        ...prev,
+        'Quantum Fragment': (prev['Quantum Fragment'] || 0) + 1
+      }));
+      setNotifications(prev => [...prev, "Quest Complete: Quantum Resonance"]);
+      setNotifications(prev => [...prev, "Obtained: Quantum Fragment"]);
+      return;
+    }
+
+    // Crafted Ascendancy - craft 3 advanced prestige items
+    const advancedPrestigeCount = (craftingInventory['Advanced Prestige Core'] || 0) + 
+                                  (craftingInventory['Dimensional Stabilizer'] || 0) + 
+                                  (craftingInventory['Quantum Matrix'] || 0);
+    if (advancedPrestigeCount >= 3 && !localStorage.getItem('quest_sync_Crafted Ascendancy')) {
+      localStorage.setItem('quest_sync_Crafted Ascendancy', 'true');
+      setPermanentAutoClicks(prev => prev + 2);
+      setNotifications(prev => [...prev, "Quest Complete: Crafted Ascendancy"]);
+      setNotifications(prev => [...prev, "Obtained: +2 Permanent Autoclicks"]);
+      return;
+    }
+
+    // Surge Harvester - harvest during 3 trash surges
+    const surgeHarvests = parseInt(localStorage.getItem('surgeHarvests') || '0');
+    if (surgeHarvests >= 3 && !localStorage.getItem('quest_sync_Surge Harvester')) {
+      localStorage.setItem('quest_sync_Surge Harvester', 'true');
+      setCraftingInventory(prev => ({
+        ...prev,
+        'Surge Core Stabilizer': (prev['Surge Core Stabilizer'] || 0) + 1
+      }));
+      setNotifications(prev => [...prev, "Quest Complete: Surge Harvester"]);
+      setNotifications(prev => [...prev, "Obtained: Surge Core Stabilizer"]);
+      return;
+    }
+
+    // Become A Scratzionaire - reach 1 million scratz
+    if (credits >= 1000000 && !localStorage.getItem('quest_sync_Become A Scratzionaire')) {
+      localStorage.setItem('quest_sync_Become A Scratzionaire', 'true');
+      localStorage.setItem('superOverchargedUnlocked', 'true');
+      setNotifications(prev => [...prev, "Quest Complete: Become A Scratzionaire"]);
+      setNotifications(prev => [...prev, "Unlocked: Super Overcharged Crystal crafting recipe!"]);
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: "Your wealth transcends mere currency. The final crystal awaits..." }
+      }));
+      return;
+    }
+
+    return; // Exit early if in prestige 2 mode
+  }
+
   if (hasPrestiged) {
 
 
