@@ -1696,9 +1696,10 @@ export default function App() {
       {(() => {
         const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
         const prestige1Unlocked = localStorage.getItem('prestige1Unlocked') === 'true';
+        const currentPrestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
 
         // First prestige conditions
-        if (!hasPrestiged && junk >= 1000000 && prestigeCount === 0) {
+        if (!hasPrestiged && junk >= 1000000 && currentPrestigeCount === 0) {
           return (
             <button 
               className={`prestige-button ${!prestigeQuestCompleted ? 'locked' : ''}`}
@@ -1713,16 +1714,14 @@ export default function App() {
         }
 
         // Second prestige conditions (post first prestige)
-        if (hasPrestiged && (junk >= 25000000 || prestige1Unlocked)) {
+        if (hasPrestiged && currentPrestigeCount === 1 && prestige1Unlocked) {
           return (
             <button 
-              className={`prestige-button ${!prestige1Unlocked ? 'locked' : ''}`}
+              className="prestige-button"
               onClick={() => {
-                if (prestige1Unlocked) {
-                  setShowPrestigePopup(true);
-                }
+                setShowPrestigePopup(true);
               }}>
-              Prestige
+              Prestige Again
             </button>
           );
         }
@@ -1765,11 +1764,12 @@ export default function App() {
             }));
             setPrestigeCount(prev => {
               const newCount = prev + 1;
-              localStorage.setItem('prestigeCount', newCount);
+              localStorage.setItem('prestigeCount', newCount.toString());
               
               // Set prestige2Active flag if this is the second prestige
-              if (newCount >= 2) {
+              if (newCount === 2) {
                 localStorage.setItem('prestige2Active', 'true');
+                setNotifications(prevNotifs => [...prevNotifs, "Prestige 2 activated! Beyond Ascension questline unlocked!"]);
               }
               
               return newCount;
