@@ -241,7 +241,7 @@ export const gameHandlers = (gameState, setGameState) => {
   const handleBuyAutoClicker = () => {
     const costData = gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.autoClicker) : {
       totalCost: gameState.itemCosts.autoClicker,
-      endCost: Math.floor(gameState.itemCosts.autoClicker * 1.15)
+      endCost: Math.floor(gameState.itemCosts.autoClicker * 3)
     };
 
     if (gameState.junk >= costData.totalCost) {
@@ -259,7 +259,7 @@ export const gameHandlers = (gameState, setGameState) => {
   const handleBuyAutoClickerV2 = () => {
     const costData = gameState.bulkBuy ? calculate10x02(gameState.itemCosts.autoClickerV2) : {
       totalCost: gameState.itemCosts.autoClickerV2,
-      endCost: Math.floor(gameState.itemCosts.autoClickerV2 * 1.2)
+      endCost: Math.floor(gameState.itemCosts.autoClickerV2 * 3)
     };
 
     if (gameState.junk >= costData.totalCost && gameState.autoClickerV1Count >= (gameState.bulkBuy ? 10 : 1)) {

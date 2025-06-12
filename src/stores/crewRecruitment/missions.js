@@ -102,7 +102,7 @@ export const missions = {
     difficulty: 'Hard',
     description: 'Venture into the unstable void zones',
     maxCrew: 3,
-    duration: 1, // 15 minutes
+    duration: 900, // 15 minutes
     baseRewards: {
       credits: 50,
       junk: 50000
