@@ -50,6 +50,7 @@ export default function UpgradeStats({ onClose }) {
               onClick={() => {
                 const newActiveSkill = activeSkill === 'scavengingFocus' ? '' : 'scavengingFocus';
                 setActiveSkill(newActiveSkill);
+                localStorage.setItem('activeSkill', newActiveSkill);
               }}
               className={activeSkill === 'scavengingFocus' ? 'active' : ''}
               disabled={skillLevels.scavengingFocus >= 10}
@@ -66,32 +67,35 @@ export default function UpgradeStats({ onClose }) {
             )}
           </div>
         </div>
-        <div className="skill-item">
-          <h3>Grease Discipline {skillLevels.greaseDiscipline || 0}/10</h3>
-          <p>Effect: +{((skillLevels.greaseDiscipline || 0) * 0.5).toFixed(1)}% Global Junk/sec</p>
-          <p className="flavor-text">"The pile works harder when you do."</p>
-          <div className="skill-controls">
-            <button 
-              onClick={() => {
-                const newActiveSkill = activeSkill === 'greaseDiscipline' ? '' : 'greaseDiscipline';
-                setActiveSkill(newActiveSkill);
-              }}
-              className={activeSkill === 'greaseDiscipline' ? 'active' : ''}
-              disabled={(skillLevels.greaseDiscipline || 0) >= 10 || (skillLevels.scavengingFocus || 0) < 5}
-            >
-              {(skillLevels.scavengingFocus || 0) < 5 ? 'Locked (Req: Scavenging Focus 5)' : 
-               activeSkill === 'greaseDiscipline' ? 'Training' : 'Train'}
-            </button>
-            {activeSkill === 'greaseDiscipline' && (skillLevels.greaseDiscipline || 0) < 10 && (
-              <div className="progress-container">
-                <div className="progress-bar">
-                  <div className="progress" style={{ width: `${getProgressPercentage('greaseDiscipline')}%` }}></div>
+
+        {skillLevels.scavengingFocus >= 5 && (
+          <div className="skill-item">
+            <h3>Grease Discipline {skillLevels.greaseDiscipline}/10</h3>
+            <p>Effect: +{(skillLevels.greaseDiscipline * 0.5).toFixed(1)}% Junk/sec</p>
+            <p className="flavor-text">"The pile works harder when you do."</p>
+            <div className="skill-controls">
+              <button 
+                onClick={() => {
+                  const newActiveSkill = activeSkill === 'greaseDiscipline' ? '' : 'greaseDiscipline';
+                  setActiveSkill(newActiveSkill);
+                  localStorage.setItem('activeSkill', newActiveSkill);
+                }}
+                className={activeSkill === 'greaseDiscipline' ? 'active' : ''}
+                disabled={skillLevels.greaseDiscipline >= 10}
+              >
+                {activeSkill === 'greaseDiscipline' ? 'Training' : 'Train'}
+              </button>
+              {activeSkill === 'greaseDiscipline' && skillLevels.greaseDiscipline < 10 && (
+                <div className="progress-container">
+                  <div className="progress-bar">
+                    <div className="progress" style={{ width: `${getProgressPercentage('greaseDiscipline')}%` }}></div>
+                  </div>
+                  <div className="xp-text">{skillXp.greaseDiscipline || 0}/{getRequiredXp('greaseDiscipline')} XP</div>
                 </div>
-                <p>XP: {skillXp.greaseDiscipline || 0} / {getRequiredXp('greaseDiscipline')}</p>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
     </>
