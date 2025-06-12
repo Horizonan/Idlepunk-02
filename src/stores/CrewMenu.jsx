@@ -404,7 +404,11 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                       <div className="crew-selection-header">
                         <h3>Select Crew for {mission.name}</h3>
                         <div className="crew-count">Selected: {selectedCrew.length} / {mission.maxCrew}</div>
-                        <button onClick={() => setShowCrewSelect(false)}>×</button>
+                        <button onClick={() => {
+                          setShowCrewSelect(false);
+                          setActiveMission(null);
+                          setSelectedCrew([]);
+                        }}>×</button>
                       </div>
                       <div className="mission-requirements-display">
                         <h4>Required Stats:</h4>
