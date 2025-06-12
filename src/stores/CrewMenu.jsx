@@ -4,7 +4,7 @@ import '../styles/mobile/CrewMenuMobile.css';
 import { useRecruitmentZustand } from "./crewRecruitment/recruitmentZustand";
 import { RecruitmentGame } from './crewRecruitment/RecruitmentGame';
 import { SkillsAssessmentGame } from './crewRecruitment/SkillsAssessmentGame';
-import { missions, calculateMissionSuccess } from "./crewRecruitment/missions";
+import { missions, calculateMissionSuccess, calculateMissionDuration } from "./crewRecruitment/missions";
 import { equipmentDatabase, getAllEquipment } from "./crewRecruitment/equipment";
 import StaminaTimer from '../components/StaminaTimer';
 
@@ -88,7 +88,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
     } else {
       newSelection = [...currentSelection, crewId];
     }
-    
+
     setSelectedCrew(newSelection);
   };
 
@@ -380,8 +380,15 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                     <span>🗑️ {mission.baseRewards.junk}</span>
                   </div>
                   <div className="mission-duration">
-                    Duration: {Math.floor(mission.duration / 60)}min
-                  </div>
+                      Duration: {Math.round(calculateMissionDuration(mission.duration) / 60)} minutes
+                      {(() => {
+                        const craftingInventory = JSON.parse(localStorage.getItem('craftingInventory') || '{}');
+                        if (craftingInventory['Chrono Regulator'] && craftingInventory['Chrono Regulator'] > 0) {
+                          return <span style={{color: '#00ff00'}}> (Chrono Regulator: -20s)</span>;
+                        }
+                        return null;
+                      })()}
+                    </div>
                   <button 
                     className="mission-button" 
                     disabled={hiredCrew.length === 0 || activeMission !== null}
@@ -546,7 +553,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                             // Clear mission immediately to prevent spam but keep crew assignment visible
                             const completingMission = currentActiveMission;
                             const completingCrew = [...selectedCrew];
-                            
+
                             setActiveMission(null);
                             useRecruitmentZustand.setState({ 
                               activeMission: null,
@@ -790,7 +797,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                   ))
                 )}
               </div>
-            </div>
+</div>
 
             <div className="loadout-section">
               <h4>Crew Equipment</h4>

@@ -1,4 +1,3 @@
-
 export const missions = {
   greaseRun: {
     id: 'grease_1',
@@ -47,7 +46,7 @@ export const missions = {
       'Successfully harvested oil of unknown origin.'
     ]
   },
-  
+
   coinOpHeist: {
     id: 'heist_1',
     name: 'Coin-Op Heist',
@@ -95,7 +94,7 @@ export const missions = {
       'Left a high score and took the loot.'
     ]
   },
-  
+
   voidRun: {
     id: 'void_1',
     name: 'Void Run',
@@ -148,13 +147,25 @@ export const missions = {
 export function calculateMissionSuccess(crewStats, missionRequirements) {
   let totalScore = 0;
   let maxScore = 0;
-  
+
   for (const [stat, requirement] of Object.entries(missionRequirements)) {
     if (crewStats[stat]) {
       totalScore += Math.min(crewStats[stat], requirement);
     }
     maxScore += requirement;
   }
-  
+
   return (totalScore / maxScore) * 100; // Returns percentage of success chance
 }
+
+export const calculateMissionDuration = (baseDuration) => {
+  let duration = baseDuration * 60; // Convert minutes to seconds
+
+  // Check if Chrono Regulator is owned
+  const craftingInventory = JSON.parse(localStorage.getItem('craftingInventory') || '{}');
+  if (craftingInventory['Chrono Regulator'] && craftingInventory['Chrono Regulator'] > 0) {
+    duration = Math.max(60, duration - 20); // Reduce by 20 seconds, minimum 1 minute
+  }
+
+  return duration;
+};
