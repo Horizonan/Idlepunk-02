@@ -19,7 +19,8 @@ export default function AutoRecyclerEffect({
   const passiveJunkPerSecond = Math.floor(passiveIncome * globalJpsMultiplier);
   const autoClickerJunkPerSecond = Math.floor((autoClicks || 0) * (clickMultiplier || 1));
   const totalJunkPerSecond = passiveJunkPerSecond + autoClickerJunkPerSecond;
-  const junkRequired = 10000 * autoRecyclerCount;
+  const hasExpandedCapacities = localStorage.getItem('expandedJunkCapacities') === 'true';
+  const junkRequired = (hasExpandedCapacities ? 15000 : 10000) * autoRecyclerCount;
 
   useEffect(() => {
     if (autoRecyclerCount > 0) {
@@ -27,7 +28,8 @@ export default function AutoRecyclerEffect({
       const states = Array(autoRecyclerCount).fill(null).map((_, index) => ({
         id: index,
         progress: 0,
-        lastCraftTime: Date.now()
+        lastCraftTime: Date.now(),
+        lastMaterialTime: Date.now()
       }));
       setRecyclerStates(states);
     }
@@ -64,6 +66,19 @@ export default function AutoRecyclerEffect({
             // Update progress (0-100% over 30 seconds)
             newState.progress = ((now - state.lastCraftTime) / 30000) * 100;
           }
+
+          // Enhanced capacity: produce basic materials every second
+          if (hasExpandedCapacities && now - (state.lastMaterialTime || now) >= 1000) {
+            const materials = ['Wires', 'Metal Plates', 'Gear Bits'];
+            const randomMaterial = materials[Math.floor(Math.random() * materials.length)];
+            
+            setCraftingInventory(prevInventory => ({
+              ...prevInventory,
+              [randomMaterial]: (prevInventory[randomMaterial] || 0) + 1
+            }));
+            
+            newState.lastMaterialTime = now;
+          }
           
           return newState;
         });
@@ -86,7 +101,8 @@ export default function AutoRecyclerEffect({
         setRecyclerStates(prev => prev.map(state => ({
           ...state,
           progress: 0,
-          lastCraftTime: Date.now()
+          lastCraftTime: Date.now(),
+          lastMaterialTime: Date.now()
         })));
       } else {
         setNotifications(prev => [...prev, `Need ${junkRequired.toLocaleString()} junk/sec to run Auto Recycler! You have ${totalJunkPerSecond.toLocaleString()}`]);
@@ -163,6 +179,7 @@ export default function AutoRecyclerEffect({
       }}>
         <h4 style={{ margin: 0, color: '#9400D3' }}>
           🔄 Auto Recyclers ({autoRecyclerCount})
+          {hasExpandedCapacities && <span style={{ color: '#00FF00', fontSize: '10px' }}> ⚙️</span>}
         </h4>
         <div style={{ display: 'flex', gap: '5px' }}>
           <button
@@ -269,6 +286,14 @@ export default function AutoRecyclerEffect({
         paddingTop: '8px'
       }}>
         Output: 1 scrap core per unit every 30s
+        {hasExpandedCapacities && (
+          <br />
+        )}
+        {hasExpandedCapacities && (
+          <span style={{ color: '#00FF00' }}>
+            + 1 basic material per unit every 1s
+          </span>
+        )}
       </div>
     </div>
   );

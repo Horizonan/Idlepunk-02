@@ -261,6 +261,24 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
       disabled: credits < 100 || localStorage.getItem('autoSlotter'),
       creditsName: "100 Scratz",
     },
+    {
+      name: "⚙️ Expanded Junk Capacities",
+      cost: 200,
+      description: "Auto Recycler produces 1 basic material/sec, increases junk requirement to 15k/sec",
+      info: "Upgrades your Auto Recycler units to also produce basic materials (Wires, Metal Plates, Gear Bits) at 1 per second. Increases junk consumption requirement to 15,000 per second per unit.",
+      action: () => {
+        if (credits >= 200 && !localStorage.getItem('expandedJunkCapacities')) {
+          onSetCredits(prev => prev - 200);
+          localStorage.setItem('expandedJunkCapacities', 'true');
+          onSetNotification(prev => [...prev, "Expanded Junk Capacities purchased! Auto Recyclers now produce basic materials."]);
+          window.dispatchEvent(new CustomEvent('nextNews', { 
+            detail: { message: "Your recycling operations have been enhanced with material production capabilities." }
+          }));
+        }
+      },
+      disabled: credits < 200 || localStorage.getItem('expandedJunkCapacities'),
+      creditsName: "200 Scratz",
+    },
   ];
 
   const firstPrestigeItems = [
