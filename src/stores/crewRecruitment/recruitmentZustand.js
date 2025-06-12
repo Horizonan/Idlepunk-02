@@ -9,7 +9,7 @@ import {generateSkillsChallenges} from './skillsChallenges'
 export const useRecruitmentZustand = create(
   persist(
     (set, get) => ({
-      selectedCrew: null,
+      selectedCrew: [],
       lastFeedback: null,
       unlockedCrew: [...crewDatabase.filter(crew => 
         crew.unlockConditions?.minGameScore === 0 || 
@@ -228,7 +228,7 @@ export const useRecruitmentZustand = create(
           score: 0,
           timeLeft: 60,
           isRunning: false,
-          selectedCrew: null,
+          selectedCrew: [],
           lastFeedback: null,
           skillsChallenges: [],
           currentChallengeIndex: 0,
@@ -334,7 +334,7 @@ export const useRecruitmentZustand = create(
             get().markCrewAsNotNew(selectedCrew.id);
           }, 10000);
         } else {
-          set({ selectedCrew: null });
+          set({ selectedCrew: [] });
         }
       },
 
@@ -499,7 +499,7 @@ export const useRecruitmentZustand = create(
         });
 
         if (eligibleCrew.length === 0) {
-          set({ selectedCrew: null });
+          set({ selectedCrew: [] });
           return;
         }
 
@@ -516,7 +516,7 @@ export const useRecruitmentZustand = create(
             get().markCrewAsNotNew(selectedCrew.id);
           }, 10000);
         } else {
-          set({ selectedCrew: null });
+          set({ selectedCrew: [] });
         }
       },
 
@@ -576,7 +576,7 @@ export const useRecruitmentZustand = create(
 
       clearAllCrewData: () => {
         set({
-          selectedCrew: null,
+          selectedCrew: [],
           lastFeedback: null,
           unlockedCrew: [...crewDatabase.filter(crew => 
             crew.unlockConditions?.minGameScore === 0 || 

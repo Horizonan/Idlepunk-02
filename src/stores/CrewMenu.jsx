@@ -13,7 +13,8 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   const [activeTab, setActiveTab] = useState('view');
   const [showCrewSelect, setShowCrewSelect] = useState(false);
   const storedSelectedCrew = useRecruitmentZustand(state => state.selectedCrew);
-  const [selectedCrew, setSelectedCrew] = useState(storedSelectedCrew || []);
+  const selectedCrew = useRecruitmentZustand(state => state.selectedCrew) || [];
+  const setSelectedCrew = useRecruitmentZustand(state => state.setSelectedCrew);
   const activeMission = useRecruitmentZustand(state => state.activeMission);
   const missionStartTime = useRecruitmentZustand(state => state.missionStartTime);
   const setActiveMission = useRecruitmentZustand(state => state.setActiveMission);
@@ -78,20 +79,17 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
   }, [completeMiniGame]);
 
   const toggleCrewSelection = (crewId) => {
-    setSelectedCrew(prev => {
-      let newSelection;
-      if (prev.includes(crewId)) {
-        newSelection = prev.filter(id => id !== crewId);
-      } else if (prev.length >= activeMission?.maxCrew) {
-        newSelection = prev;
-      } else {
-        newSelection = [...prev, crewId];
-      }
-
-      // Update zustand store
-      useRecruitmentZustand.setState({ selectedCrew: newSelection });
-      return newSelection;
-    });
+    const currentSelection = selectedCrew;
+    let newSelection;
+    if (currentSelection.includes(crewId)) {
+      newSelection = currentSelection.filter(id => id !== crewId);
+    } else if (currentSelection.length >= activeMission?.maxCrew) {
+      newSelection = currentSelection;
+    } else {
+      newSelection = [...currentSelection, crewId];
+    }
+    
+    setSelectedCrew(newSelection);
   };
 
   const startMission = (mission) => {
@@ -470,7 +468,6 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                           setShowCrewSelect(false);
                           setActiveMission(null);
                           setSelectedCrew([]);
-                          useRecruitmentZustand.setState({ selectedCrew: [] });
                         }}>Cancel</button>
                         <button 
                           onClick={() => startMission(mission)}
@@ -541,13 +538,15 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
                             const currentActiveMission = activeMission;
 
-                            // Clear mission immediately to prevent spam
+                            // Clear mission immediately to prevent spam but keep crew assignment visible
+                            const completingMission = currentActiveMission;
+                            const completingCrew = [...selectedCrew];
+                            
                             setActiveMission(null);
-                            setSelectedCrew([]);
                             useRecruitmentZustand.setState({ 
                               activeMission: null,
-                              missionStartTime: null,
-                              selectedCrew: []
+                              missionStartTime: null
+                              // Keep selectedCrew intact for display purposes
                             });
                             const selectedCrewMembers = selectedCrew.map(id => 
                               hiredCrew.find(c => c.id === id)
