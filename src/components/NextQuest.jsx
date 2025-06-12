@@ -71,11 +71,14 @@ export default function NextQuest() {
       let currentQuestLine = 'progression';
       
       // Determine which quest line to use
-      if (localStorage.getItem('prestige2Active') === 'true') {
+      const prestige2Active = localStorage.getItem('prestige2Active') === 'true';
+      const cogfatherActive = localStorage.getItem('cogfatherEvent') === 'true';
+      
+      if (prestige2Active) {
         currentQuestLine = 'prestige2';
       } else if (hasPrestiged) {
         currentQuestLine = 'awakenTheCore';
-      } else if (localStorage.getItem('cogfatherEvent') === 'true') {
+      } else if (cogfatherActive) {
         currentQuestLine = 'ascension';
       }
       

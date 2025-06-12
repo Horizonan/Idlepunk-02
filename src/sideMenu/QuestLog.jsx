@@ -124,14 +124,16 @@ export default function QuestLog({ tutorialStage, onClose }) {
 
   // Set initial questline based on prestige status
   useEffect(() => {
-    if (localStorage.getItem('prestige2Active') === 'true' && selectedQuestLine !== 'prestige2') {
+    const prestige2Active = localStorage.getItem('prestige2Active') === 'true';
+    
+    if (prestige2Active && selectedQuestLine !== 'prestige2') {
       setSelectedQuestLine('prestige2');
-    } else if (hasPrestiged && selectedQuestLine !== 'awakenTheCore' && localStorage.getItem('prestige2Active') !== 'true') {
+    } else if (hasPrestiged && !prestige2Active && selectedQuestLine !== 'awakenTheCore') {
       setSelectedQuestLine('awakenTheCore');
     } else if (!hasPrestiged && (selectedQuestLine === 'awakenTheCore' || selectedQuestLine === 'prestige2')) {
       setSelectedQuestLine('progression');
     }
-  }, [hasPrestiged]);
+  }, [hasPrestiged, selectedQuestLine]);
 
   return (
     <div 
