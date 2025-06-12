@@ -143,6 +143,20 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       onetime: true
     },
     {
+      name: 'Overclocked Click Rig',
+      requirements: {
+        'Click Rig Mk I': 1,
+        'Gear Bits': 15,
+        'Metal Plates': 15,
+        'Capacitor': 1,
+        'Scrap Core': 5
+      },
+      cost: 2000000,
+      description: 'An unstable upgrade of the original Click Rig—burns bright, earns fast. Replaces Click Rig Mk I. Click power +50% instead of +25%.',
+      type: 'crafted',
+      onetime: true
+    },
+    {
       name: 'Luck Engine',
       requirements: {
         'Capacitor': 3,
@@ -258,7 +272,17 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
           <div className="crafting-section">
             <h3>Craftable Items</h3>
             <div className="store-items">
-              {craftableItems.filter(item => !item.onetime || !craftingInventory[item.name]).map((item) => (
+              {craftableItems.filter(item => {
+                // Hide one-time items that are already crafted
+                if (item.onetime && craftingInventory[item.name]) {
+                  return false;
+                }
+                // Only show Overclocked Click Rig if player owns Click Rig Mk I
+                if (item.name === 'Overclocked Click Rig' && !craftingInventory['Click Rig Mk I']) {
+                  return false;
+                }
+                return true;
+              }).map((item) => (
                 <button
                   key={item.name}
                   onClick={() => onCraft(item, bulkCraft ? 10 : 1)}

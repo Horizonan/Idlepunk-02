@@ -614,12 +614,12 @@ export default function App() {
       if (activeSkill) {
         const skillLevels = JSON.parse(localStorage.getItem('skillLevels')) || { scavengingFocus: 0, greaseDiscipline: 0 };
         const skillXp = JSON.parse(localStorage.getItem('skillXp')) || { scavengingFocus: 0, greaseDiscipline: 0 };
-        
+
         if (skillLevels[activeSkill] < 10) {
           const baseXp = 10;
           const requiredXp = Math.floor(baseXp * Math.pow(1.25, skillLevels[activeSkill]));
           const newXp = (skillXp[activeSkill] || 0) + 1;
-          
+
           if (newXp >= requiredXp) {
             // Level up
             const newSkillLevels = {
@@ -630,10 +630,10 @@ export default function App() {
               ...skillXp,
               [activeSkill]: 0
             };
-            
+
             localStorage.setItem('skillLevels', JSON.stringify(newSkillLevels));
             localStorage.setItem('skillXp', JSON.stringify(newSkillXp));
-            
+
             setNotifications(prev => [...prev, `${activeSkill} leveled up to ${newSkillLevels[activeSkill]}!`]);
           } else {
             // Just add XP
@@ -756,8 +756,7 @@ export default function App() {
       if (amount === 1) {
       }
 
-      const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
-      const quantumProc = hasQuantumTap && Math.random() < 0.03;
+      const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';      const quantumProc = hasQuantumTap && Math.random() < 0.03;
 
       setTronics(prev => prev + ((quantumProc ? amount * 3 : amount) * electroMultiplier));
 
@@ -1420,11 +1419,20 @@ export default function App() {
                   return newInventory;
                 });
                 if (item.cost) setJunk(prev => prev - (item.cost * actualQuantity));
+                // Handle crafting bonuses
                 if (item.name === 'Click Rig Mk I') {
                   setClickMultiplier(prev => prev * 1.25);
-                  setNotifications(prev => [...prev, "Click power increased by 25%!"]);
-                }
-                if (item.name === 'Auto Toolkit') {
+                  setNotifications(prev => [...prev, "Click Rig Mk I crafted! +25% click power!"]);
+                } else if (item.name === 'Overclocked Click Rig') {
+                  // Remove Click Rig Mk I from inventory and apply upgraded bonus
+                  setCraftingInventory(prev => ({
+                    ...prev,
+                    'Click Rig Mk I': 0 // Remove the original
+                  }));
+                  // Remove the old 25% bonus and apply the new 50% bonus
+                  setClickMultiplier(prev => (prev / 1.25) * 1.5);
+                  setNotifications(prev => [...prev, "Overclocked Click Rig crafted! Click power upgraded from +25% to +50%!"]);
+                } else if (item.name === 'Auto Toolkit') {
                   setAutoClicks(prev => Math.floor(prev * 1.25));
                   setNotifications(prev => [...prev, "Auto Click efficiency increased by 25%!"]);
                 }
