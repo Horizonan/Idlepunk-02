@@ -246,7 +246,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
           (!tab.unlockCondition || tab.unlockCondition()) && (
             <button 
               key={tab.id}
-              className={`tab-button ${selectedTab === tab.id ? 'active' : ''}`}
+              className={`tab-button-rounded ${selectedTab === tab.id ? 'active' : ''}`}
               onClick={() => setSelectedTab(tab.id)}
             >
               {tab.label}

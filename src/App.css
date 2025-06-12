@@ -1536,6 +1536,28 @@ button.locked {
   color: white;
 }
 
+.tab-button-rounded {
+  background: rgba(34, 34, 34, 0.9);
+  border: 1px solid #9400D3;
+  color: white;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+.tab-button-rounded.active {
+  background: #9400D3;
+  color: white;
+  border-color: #9400D3;
+}
+
+.tab-button-rounded:hover:not(.active) {
+  background: rgba(148, 0, 211, 0.2);
+}
+
 .crafting-section {
   width: 100%;
 }
