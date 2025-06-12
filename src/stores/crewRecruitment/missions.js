@@ -159,7 +159,7 @@ export function calculateMissionSuccess(crewStats, missionRequirements) {
 }
 
 export const calculateMissionDuration = (baseDuration) => {
-  let duration = baseDuration; // Convert minutes to seconds
+  let duration = baseDuration; // Duration is already in seconds
 
   // Check if Chrono Regulator is owned
   const craftingInventory = JSON.parse(localStorage.getItem('craftingInventory') || '{}');

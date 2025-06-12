@@ -94,7 +94,12 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
   const startMission = (mission) => {
     const selectedCrewMembers = selectedCrew;
-    useRecruitmentZustand.getState().startMission(mission, selectedCrewMembers);
+    // Apply Chrono Regulator effect to mission duration
+    const adjustedMission = {
+      ...mission,
+      duration: calculateMissionDuration(mission.duration)
+    };
+    useRecruitmentZustand.getState().startMission(adjustedMission, selectedCrewMembers);
     setShowCrewSelect(false);
   };
   const isRunning = useRecruitmentZustand(state => state.isRunning);
