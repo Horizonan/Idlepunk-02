@@ -1971,7 +1971,7 @@ export default function App() {
       {prestigeCount >= 2 && showEndOfRoad && (
         <div className="end-of-road-container">
           <div className="end-of-road-header">
-            <h2>🏁 End of the Road</h2>
+            <h2>🏁 Unexplored Waters</h2>
             <button 
               className="end-of-road-close-btn"
               onClick={() => setShowEndOfRoad(false)}
@@ -1983,8 +1983,8 @@ export default function App() {
           <div className="end-of-road-content">
             <div className="prestige-badge">Prestige {prestigeCount}</div>
             <div className="end-of-road-message">
-              <p>Congratulations! You've reached the current end of development.</p>
-              <p>More content and features are coming in future updates!</p>
+              <p>Congratulations! You've reached the current end of stable development.</p>
+              <p>More content and features are coming in future updates! But you can Explore whats currently here</p>
             </div>
             <div className="end-of-road-stats">
               <div className="stat-item">

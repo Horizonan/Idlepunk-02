@@ -5,14 +5,14 @@ export default function VersionPopup({ onClose }) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const hasSeenUpdate = localStorage.getItem('seen_update_0.1.0.5');
+    const hasSeenUpdate = localStorage.getItem('seen_update_0.1.1');
     if (!hasSeenUpdate) {
       setShow(true);
     }
   }, []);
 
   const handleClose = () => {
-    localStorage.setItem('seen_update_0.1.0.5', 'true');
+    localStorage.setItem('seen_update_0.1.1', 'true');
     setShow(false);
     if (onClose) {
       onClose();
@@ -24,17 +24,17 @@ export default function VersionPopup({ onClose }) {
   return (
     <div className="version-popup-overlay">
       <div className="version-popup">
-        <h2>📦 New Version Available: 0.1.0.5</h2>
+        <h2>🧹 New Version Available: 0.1.1</h2>
         <div className="version-content">
           <h3>What's New:</h3>
           <ul>
-            <li>📱 Junk Store & Crew window now mobile friendly</li>
-            <li>🧠 GameTips for Surges, Skills Center & Recruitment</li>
-            <li>🛠️ Batch Crafting + visible Electro Upgrades</li>
-            <li>⚙️ Offline simulation (early version!)</li>
-            <li>🐞 Bug fixes for quests, nodes, and crew labels</li>
+            <li>🐞 Crew + Skills bugs fixed (Prestige resets, reload issues)</li>
+            <li>🛍️ Scratz Store now uses tabs like other stores</li>
+            <li>🧠 New items: Signal Expander, Auto Recycler, Chrono Regulator</li>
+            <li>👥 New Crew minigame: Skills Assessment</li>
+            <li>⚙️ Backend cleanup for future content</li>
           </ul>
-          <p>See full changelog in-game or share your thoughts on Discord!</p>
+          <p>See the full changelog in-game or come hang out on Discord!</p>
           <div className="discord-section">
             <p>Join the Discord to leave feedback or report bugs:</p>
             <a

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default function Changelog({ onClose }) {
-  const [expandedVersion, setExpandedVersion] = useState('0.1.0.5');
+  const [expandedVersion, setExpandedVersion] = useState('0.1.1');
 
   const toggleVersion = (version) => {
     setExpandedVersion(expandedVersion === version ? null : version);
@@ -19,6 +19,51 @@ export default function Changelog({ onClose }) {
       <div className="changelog-content">
 
         <div className="changelog-entry">
+
+          <div className="changelog-entry">
+            <h3 onClick={() => toggleVersion('0.1.1')} style={{ cursor: 'pointer' }}>
+              🧹 Bug Fixes, Prestige Expansion & Store Revamp – Update Log 0.1.1 {expandedVersion === '0.1.1' ? '▼' : '▶'}
+            </h3>
+            {expandedVersion === '0.1.1' && (
+              <>
+                <p>v0.1.1 is here with vital fixes, prestige content, a store overhaul, and backend upgrades for future improvements. 🚀</p>
+                <div className="changelog-section">
+                  <h3>🐞 Bug Fixes</h3>
+                  <p>🐞 Fixed Crew not resetting on Prestige</p>
+                  <p>🐞 Fixed unrecruitable Crew bug (was sneaky!)</p>
+                  <p>🐞 Fixed Skills Center failing to function after being closed</p>
+                  <p>🐞 Fixed Crew disappearing after game reload</p>
+                  <p>🐞 Fixed bug in "Whispers in the Scrap" quest (NextQuest)</p>
+
+                  <h3>🎮 Content & Features</h3>
+                  <p>🎮 Scratz Store now uses tabs like other shops</p>
+                  <p>🎮 Added new item: Signal Expander</p>
+                  <p>🎮 Added Auto Recycler Unit</p>
+                  <p>🎮 Tribute Graffiti Bin added to Scratz Store</p>
+                  <p>🎮 New Basic Material: Wire Mesh</p>
+                  <p>🎮 New Junk/Click item: Clampjaw Rig</p>
+                  <p>🎮 Crafting added for Prestige-related items</p>
+                  <p>🎮 New item: Chrono Regulator (reduces crew mission time)</p>
+                  <p>🎮 New mission: Dumpster Dive Deulux</p>
+                  <p>🎮 Second Prestige now has mission rotation</p>
+                  <p>🎮 New second Prestige questline added</p>
+
+                  <h3>⚖️ Balancing</h3>
+                  <p>⚖️ Autoclicker V1: 15k ➜ 50k, now scales 200% per purchase</p>
+                  <p>⚖️ Autoclicker V2: 50k ➜ 150k, now scales 200% per purchase</p>
+
+                  <h3>👥 Crew</h3>
+                  <p>👥 New mini-game variant: Skills Assessment</p>
+
+                  <h3>🧠 Backend</h3>
+                  <p>🧠 Centralized Junk Calculation logic to simplify future features</p>
+                </div>
+                <p className="changelog-footer">Thanks for playing and catching bugs — you’re helping make IdlePunk better with every update 💛</p>
+              </>
+            )}
+          </div>
+
+          
           <h3 onClick={() => toggleVersion('0.1.0.5')} style={{ cursor: 'pointer' }}>
             📱 Mobile Polish, Batch Crafting & Surge Tips – Update Log 0.1.0.5 {expandedVersion === '0.1.0.5' ? '▼' : '▶'}
           </h3>
