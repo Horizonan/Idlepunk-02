@@ -570,6 +570,13 @@ export const useRecruitmentZustand = create(
         const randomIndex = Math.floor(Math.random() * availableMissions.length);
         const selectedMissionKey = availableMissions[randomIndex];
         
+        // Track the rotated mission in localStorage
+        const rotatedMissions = JSON.parse(localStorage.getItem('rotatedMissions') || '[]');
+        if (!rotatedMissions.includes(selectedMissionKey)) {
+          rotatedMissions.push(selectedMissionKey);
+          localStorage.setItem('rotatedMissions', JSON.stringify(rotatedMissions));
+        }
+        
         return missions[selectedMissionKey];
       },
 

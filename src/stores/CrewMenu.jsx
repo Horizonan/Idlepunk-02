@@ -383,7 +383,14 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
               </div>
             )}
             <div className="mission-list">
-              {availableMissions.map((mission) => (
+              {availableMissions.filter(mission => {
+                // Filter out Dumpster Dive Deluxe unless it's specifically been rotated in
+                if (mission.id === 'scavenge_2') {
+                  const rotatedMissions = JSON.parse(localStorage.getItem('rotatedMissions') || '[]');
+                  return rotatedMissions.includes('scavenge_2');
+                }
+                return true;
+              }).map((mission) => (
                 <div key={mission.id} className="mission-card">
                   <div className="mission-header">
                     <h4>{mission.name}</h4>
