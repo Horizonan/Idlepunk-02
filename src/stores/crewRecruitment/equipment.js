@@ -1,4 +1,3 @@
-
 export const equipmentDatabase = {
   weapons: {
     greaseStainedGloves: {
@@ -40,6 +39,16 @@ export const equipmentDatabase = {
       icon: '🌌',
       flavor: 'Whispers secrets from the void',
       autoSellValue: 50
+    },
+    echoResonator: {
+      id: 'echo_resonator',
+      name: 'Echo Resonator',
+      type: 'weapon',
+      rarity: 'epic',
+      statBonus: { psyche: 5, tech: 3, luck: 2 },
+      icon: '📡',
+      flavor: 'Whispers memories that aren\'t yours. Very unsettling. Very profitable.',
+      autoSellValue: 30
     }
   },
   armor: {

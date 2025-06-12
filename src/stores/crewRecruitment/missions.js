@@ -242,13 +242,62 @@ export const missions = {
       'Crew returned with void knowledge.',
       'Reality remained intact during extraction.'
     ]
+  },
+
+  echoHarvest: {
+    id: 'void_2',
+    name: 'Echo Harvest',
+    difficulty: 'Very Hard',
+    category: 'exploration',
+    description: 'Collect ambient "void echoes" from a crumbling anomaly pocket. Echoes can affect memory and personality. Fun.',
+    maxCrew: 3,
+    duration: 1080, // 18 minutes
+    baseRewards: {
+      credits: 70,
+      junk: 65000
+    },
+    bonusRewards: {
+      electroShard: {
+        chance: 0.5,
+        amount: 4
+      },
+      equipment: {
+        chance: 0.2,
+        itemId: 'echo_resonator'
+      }
+    },
+    requirements: {
+      tech: 8,
+      grit: 7,
+      stealth: 4,
+      luck: 5,
+      psyche: 8
+    },
+    penalties: {
+      failure: {
+        credits: -35,
+        crewStamina: -45,
+        messagePool: [
+          'Crew heard their own voices... from the future.',
+          'Temporal sync failed. You left before you arrived.',
+          'Harvesting failed—echoes turned hostile.',
+          'One crew member doesn\'t remember the job. Or their name.'
+        ]
+      }
+    },
+    successMessages: [
+      'Echoes captured. Crew slightly unstable, but rich.',
+      'Reality bent. Wallets didn\'t.',
+      'Mission complete. Memory fog optional.',
+      'Voidspeak noted: "Profitable anomaly contact."'
+    ]
   }
 };
 
 export const missionCategories = {
   scavenge: ['greaseRun', 'dumpsterDiveDeluxe'],
   heist: ['coinOpHeist', 'clawbackJob'],
-  exploration: ['voidRun']
+  exploration: ['voidRun', 'echoHarvest']
 };
 
 export function calculateMissionSuccess(crewStats, missionRequirements) {
