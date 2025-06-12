@@ -7,8 +7,11 @@ export default function AutoClickerEffect({ autoClicks = 0 }) {
   const [cursors, setCursors] = useState([]);
 
   const handleAutoClickerClick = () => {
-    localStorage.setItem('clickedAutoClicker', 'true');
-    window.dispatchEvent(new CustomEvent('validateAchievements'));
+    // Only allow clicking if achievement hasn't been unlocked yet
+    if (localStorage.getItem('clickedAutoClicker') !== 'true') {
+      localStorage.setItem('clickedAutoClicker', 'true');
+      window.dispatchEvent(new CustomEvent('validateAchievements'));
+    }
   };
 
   useEffect(() => {
@@ -63,9 +66,9 @@ export default function AutoClickerEffect({ autoClicks = 0 }) {
             animation: `rotate ${cursor.id % 2 === 0 ? '4s' : '3s'} infinite linear`,
             transform: `scale(${cursor.id % 2 === 0 ? '1.1' : '1.4'})`,
             filter: cursor.id % 2 === 0 ? 'none' : 'drop-shadow(0 0 1px #00B7EB)',
-            cursor: 'pointer'
+            cursor: localStorage.getItem('clickedAutoClicker') === 'true' ? 'default' : 'pointer'
           }}
-          title="Click me for a surprise!"
+          title={localStorage.getItem('clickedAutoClicker') === 'true' ? '' : 'Click me for a surprise!'}
         />
       ))}
     </>
