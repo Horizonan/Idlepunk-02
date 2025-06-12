@@ -133,7 +133,7 @@ export default function QuestLog({ tutorialStage, onClose }) {
     } else if (!hasPrestiged && (selectedQuestLine === 'awakenTheCore' || selectedQuestLine === 'prestige2')) {
       setSelectedQuestLine('progression');
     }
-  }, [hasPrestiged]);
+  }, [hasPrestiged, selectedQuestLine]);
 
   return (
     <div 

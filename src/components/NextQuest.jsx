@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 export default function NextQuest() {
   const [nextQuest, setNextQuest] = useState(null);
   const [questStates, setQuestStates] = useState({});
+  const [prestige2Active, setPrestige2Active] = useState(localStorage.getItem('prestige2Active') === 'true');
   const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
 
   const questLines = {
@@ -71,10 +72,15 @@ export default function NextQuest() {
       let currentQuestLine = 'progression';
       
       // Determine which quest line to use
-      const prestige2Active = localStorage.getItem('prestige2Active') === 'true';
+      const currentPrestige2Active = localStorage.getItem('prestige2Active') === 'true';
       const cogfatherActive = localStorage.getItem('cogfatherEvent') === 'true';
       
-      if (prestige2Active) {
+      // Update prestige2Active state if it changed
+      if (currentPrestige2Active !== prestige2Active) {
+        setPrestige2Active(currentPrestige2Active);
+      }
+      
+      if (currentPrestige2Active) {
         currentQuestLine = 'prestige2';
       } else if (hasPrestiged) {
         currentQuestLine = 'awakenTheCore';
@@ -108,7 +114,7 @@ export default function NextQuest() {
       window.removeEventListener('storage', updateQuestStates);
       window.removeEventListener('questUpdate', updateQuestStates);
     };
-  }, [hasPrestiged]);
+  }, [hasPrestiged, prestige2Active]);
 
   if (!nextQuest) {
     return (
