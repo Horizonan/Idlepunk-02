@@ -76,6 +76,33 @@
   100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 255, 0, 0); }
 }
 
+.auto-clicker {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  z-index: 10;
+  pointer-events: auto;
+  user-select: none;
+  transition: transform 0.1s ease;
+}
+
+.auto-clicker:hover {
+  transform: scale(1.1) !important;
+}
+
+.auto-clicker.clicking {
+  transform: scale(0.9);
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 
 @keyframes fadeInOut {
   0%, 100% { opacity: 0.5; }
