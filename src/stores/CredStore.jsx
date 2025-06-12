@@ -264,8 +264,8 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
     {
       name: "⚙️ Expanded Junk Capacities",
       cost: 200,
-      description: "Auto Recycler produces 1 basic material/sec, increases junk requirement to 15k/sec",
-      info: "Upgrades your Auto Recycler units to also produce basic materials (Wires, Metal Plates, Gear Bits) at 1 per second. Increases junk consumption requirement to 15,000 per second per unit.",
+      description: "Auto Recycler produces 5 basic materials every 30s, increases junk requirement to 15k/sec",
+      info: "Upgrades your Auto Recycler units to also produce basic materials (Wires, Metal Plates, Gear Bits) - 5 materials every 30 seconds. Increases junk consumption requirement to 15,000 per second per unit.",
       action: () => {
         if (credits >= 200 && !localStorage.getItem('expandedJunkCapacities')) {
           onSetCredits(prev => prev - 200);

@@ -73,15 +73,20 @@ export default function AutoRecyclerEffect({
             }
           }
 
-          // Enhanced capacity: produce basic materials every second
-          if (hasExpandedCapacities && now - (state.lastMaterialTime || now) >= 1000) {
+          // Enhanced capacity: produce 5 basic materials every 30 seconds
+          if (hasExpandedCapacities && now - (state.lastMaterialTime || state.lastCraftTime) >= 30000) {
             const materials = ['Wires', 'Metal Plates', 'Gear Bits'];
             const randomMaterial = materials[Math.floor(Math.random() * materials.length)];
             
             setCraftingInventory(prevInventory => ({
               ...prevInventory,
-              [randomMaterial]: (prevInventory[randomMaterial] || 0) + 1
+              [randomMaterial]: (prevInventory[randomMaterial] || 0) + 5
             }));
+            
+            setNotifications(prevNotifications => [
+              ...prevNotifications, 
+              `Auto Recycler Unit ${state.id + 1} produced 5 ${randomMaterial}!`
+            ]);
             
             newState.lastMaterialTime = now;
             shouldUpdate = true;
@@ -307,7 +312,7 @@ export default function AutoRecyclerEffect({
         )}
         {hasExpandedCapacities && (
           <span style={{ color: '#00FF00' }}>
-            + 1 basic material per unit every 1s
+            + 5 basic materials per unit every 30s
           </span>
         )}
       </div>
