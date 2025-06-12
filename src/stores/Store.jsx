@@ -6,7 +6,7 @@ export default function Store({
   onBuyPicker, onBuyStreetrat,onBuyCart, onBuyJunkMagnet,
   onBuyUrbanRecycler, onBuyScrapDrone, onBuyHoloBillboard, onBuyJunkRefinery,
   onBuyShardMiner, globalJpsMultiplier, passiveIncome, onBuyClickEnhancer,
-  onBuyAutoClicker, onGetAutoClickersV1, canAffordV1, canAffordV2,
+  onBuyClampjawRig, onBuyAutoClicker, onGetAutoClickersV1, canAffordV1, canAffordV2,
   onGetAutoClickersV2, onBuyAutoClickerV2, calculate10xPriceJunkClicker,
   onBack, bulkBuy, setBulkBuy, calculate10xPriceJPS, calculate10xPriceBillBoard,
   onBuyModularScrapper, onBuyScratzMiner, onBuyAutoRecycler,
@@ -41,6 +41,15 @@ export default function Store({
       info: '"Built from a broken microwave and spite."',
       action: onBuyClickEnhancer,
       purchasedCount: ownedItems.clickEnhancer || 0,
+    },
+    {
+      name: "Clampjaw Rig",
+      cost: bulkBuy ? calculate10xPriceJunkClicker(itemCosts.clampjawRig).totalCost : itemCosts.clampjawRig,
+      description: "+12 Junk/Click, +10% Cost",
+      info: "Ripped from an old loader bot. Bolted to a scaffold. Controlled with a wire and hope.",
+      action: onBuyClampjawRig,
+      purchasedCount: ownedItems.clampjawRig || 0,
+      hidden: !((ownedItems.trashPicker || 0) >= 5),
     },
   ];
 

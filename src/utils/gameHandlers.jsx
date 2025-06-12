@@ -125,6 +125,24 @@ export const gameHandlers = (gameState, setGameState) => {
     }
   }
 
+  const handleBuyClampjawRig = () => {
+    const costData = gameState.bulkBuy ? calculate10xPrice01(gameState.itemCosts.clampjawRig) : {
+      totalCost: gameState.itemCosts.clampjawRig,
+      endCost: Math.floor(gameState.itemCosts.clampjawRig * 1.1)
+    };
+
+    if (gameState.junk >= costData.totalCost) {
+      setGameState.setJunk(prev => prev - costData.totalCost);
+      setGameState.setClickMultiplier(prev => prev + (gameState.bulkBuy ? 120 : 12));
+      setGameState.setItemCosts(prev => ({...prev, clampjawRig: costData.endCost}));
+      setGameState.setOwnedItems(prev => ({...prev, clampjawRig: (prev.clampjawRig || 0) + (gameState.bulkBuy ? 10 : 1)}));
+      setGameState.setNotifications(prev => [...prev, "Clampjaw Rig purchased!"]);
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: "Cogfather: 'Loader bot parts? That's some serious salvage work, kid.'" }
+      }));
+    }
+  }
+
 
   //JPS Upgrades
   const handleBuyStreetrat = () => {
@@ -519,6 +537,7 @@ export const gameHandlers = (gameState, setGameState) => {
     calculate10xPriceJPS,
     calculate10xPriceBillBoard: calculate10x02,
     handleBuyClickEnhancer,
+    handleBuyClampjawRig,
     handleBuyStreetrat,
     handleBuyCart,
     handleBuyJunkMagnet,

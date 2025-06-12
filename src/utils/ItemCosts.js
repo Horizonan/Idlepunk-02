@@ -20,6 +20,7 @@ export const getInitialItemCosts = () => ({
   quantumTap: 1250,
   electroSurgeNode: 35000,
   scratzMiner: 250000,
+  clampjawRig: 75000,
 });
 
 // Helper function to reset all item costs to initial values
