@@ -21,7 +21,7 @@ export default function NextQuest() {
     ascension: [ 
       { id: 7, title: "Surge Overflow", task: "Trigger 3 Trash Surges", reward: "1x Stabilized Capacitor", category: "challenge", difficulty: "medium" },
       { id: 8, title: "The Circuit Speaks", task: "Collect 4 Electro Shards", reward: "1x Voltage Node", category: "collection", difficulty: "medium" },
-      { id: 9, title: "Whispers in the Scrap", task: "Collect 10 Lore Logs or reach 12.5M Junk", reward: "1x Synthcore Fragment", category: "collection", difficulty: "hard" },
+      { id: 9, title: "Whispers in the Scrap", task: "Reach 20M Junk", reward: "1x Synthcore Fragment", category: "collection", difficulty: "hard" },
       { id: 10, title: "Forge the Future", task: "Craft the Prestige Crystal", reward: "Unlocks Ascension", category: "milestone", difficulty: "epic" }
     ],
     awakenTheCore: [
