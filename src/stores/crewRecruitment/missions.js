@@ -1,9 +1,10 @@
 export const missions = {
   greaseRun: {
-    id: 'grease_1',
+    id: 'scavenge_1',
     name: 'Grease Run',
     difficulty: 'Easy',
-    description: 'Retrieve "usable lubricant" from a condemned deep fryer facility. Bring gloves. Or don’t.',
+    category: 'scavenge',
+    description: 'Retrieve "usable lubricant" from a condemned deep fryer facility. Bring gloves. Or don\'t.',
     maxCrew: 1,
     duration: 300, // 5 minutes
     baseRewards: {
@@ -33,7 +34,7 @@ export const missions = {
         crewStamina: -15,
         messagePool: [
           'Slipped on the job. Literally.',
-          'Turns out "edible grease" isn’t a regulated term.',
+          'Turns out "edible grease" isn\'t a regulated term.',
           'Got into a slap fight with a rat named Dennis.',
           'Fryer ghost whispered forbidden recipes.'
         ]
@@ -47,10 +48,60 @@ export const missions = {
     ]
   },
 
+  dumpsterDiveDeluxe: {
+    id: 'scavenge_2',
+    name: 'Dumpster Dive Deluxe',
+    difficulty: 'Medium',
+    category: 'scavenge',
+    description: 'Pick through the sealed vault-bins behind the Neon Eats megafoodplex. Hazmat gear recommended.',
+    maxCrew: 2,
+    duration: 600, // 10 minutes
+    baseRewards: {
+      credits: 22,
+      junk: 2300
+    },
+    bonusRewards: {
+      equipment: {
+        chance: 0.2,
+        itemId: 'hazmat_rag'
+      },
+      rareCredits: {
+        chance: 0.08,
+        amount: 40
+      }
+    },
+    requirements: {
+      tech: 4,
+      grit: 5,
+      stealth: 2,
+      luck: 3,
+      psyche: 2
+    },
+    penalties: {
+      failure: {
+        credits: -15,
+        crewStamina: -25,
+        messagePool: [
+          'Trash compactor activated mid-dive.',
+          'Found a cursed burger still whispering.',
+          'Bitten by a mutant pizza roll.',
+          'Smelled something forbidden and forgot your own name.'
+        ]
+      }
+    },
+    successMessages: [
+      'Disgusting? Yes. Profitable? Also yes.',
+      'Found value deep in the bin abyss.',
+      'Smelled like shame, looked like coin.',
+      'Scored some perfectly questionably edible loot.'
+    ]
+  },
+
   coinOpHeist: {
     id: 'heist_1',
     name: 'Coin-Op Heist',
     difficulty: 'Easy',
+    category: 'heist',
     description: 'Break into an abandoned arcade to salvage coin trays. Tokens accepted nowhere.',
     maxCrew: 2,
     duration: 420, // 7 minutes
@@ -99,6 +150,7 @@ export const missions = {
     id: 'void_1',
     name: 'Void Run',
     difficulty: 'Hard',
+    category: 'exploration',
     description: 'Venture into the unstable void zones',
     maxCrew: 3,
     duration: 900, // 15 minutes
@@ -142,6 +194,12 @@ export const missions = {
       'Reality remained intact during extraction.'
     ]
   }
+};
+
+export const missionCategories = {
+  scavenge: ['greaseRun', 'dumpsterDiveDeluxe'],
+  heist: ['coinOpHeist'],
+  exploration: ['voidRun']
 };
 
 export function calculateMissionSuccess(crewStats, missionRequirements) {

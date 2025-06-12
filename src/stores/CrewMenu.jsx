@@ -360,11 +360,30 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
           </div>
         );
       case 'missions':
+        // Get available missions (with rotation for post-second prestige)
+        const prestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
+        const availableMissions = Object.values(missions);
+
         return (
           <div className="crew-content">
             <h3>Available Missions</h3>
+            {prestigeCount >= 2 && (
+              <div className="mission-rotation-info" style={{
+                background: 'rgba(148, 0, 211, 0.1)', 
+                border: '1px solid #9400D3', 
+                borderRadius: '5px', 
+                padding: '10px', 
+                marginBottom: '15px',
+                textAlign: 'center'
+              }}>
+                <span style={{color: '#00FF88'}}>🔄 Mission Rotation Active</span>
+                <p style={{fontSize: '0.9em', margin: '5px 0 0 0'}}>
+                  Completing missions may unlock new ones from the same category!
+                </p>
+              </div>
+            )}
             <div className="mission-list">
-              {Object.values(missions).map((mission) => (
+              {availableMissions.map((mission) => (
                 <div key={mission.id} className="mission-card">
                   <div className="mission-header">
                     <h4>{mission.name}</h4>
@@ -664,6 +683,9 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                             setJunk(prev => prev + junkReward);
                             localStorage.setItem('junk', Number(localStorage.getItem('junk') || 0) + junkReward);
 
+                            // Check for mission rotation after second prestige
+                            const rotatedMission = useRecruitmentZustand.getState().rotateMission(completingMission.id);
+
                             const missionWindow = document.createElement('div');
                             missionWindow.className = 'mission-completion-window';
                             missionWindow.innerHTML = `
@@ -709,6 +731,14 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                         <p class="auto-sold-value">Sold for ${item.sellValue} Scratz (Duplicate)</p>
                                       </div>
                                     `).join('') : ''}
+                                  ${rotatedMission ? `
+                                    <div class="mission-rotation-notice">
+                                      <h4 style="color: #00FF88;">🔄 Mission Rotation Available!</h4>
+                                      <p>A new mission from the same category is now available:</p>
+                                      <p style="color: #9400D3; font-weight: bold;">${rotatedMission.name}</p>
+                                      <p style="font-size: 0.9em;">${rotatedMission.description}</p>
+                                    </div>
+                                  ` : ''}
                                 </div>
                                 <button onclick="this.parentElement.parentElement.remove()">Close</button>
                               </div>

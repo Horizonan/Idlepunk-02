@@ -547,6 +547,32 @@ export const useRecruitmentZustand = create(
         });
       },
 
+      rotateMission: (completedMissionId) => {
+        const prestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
+        
+        // Only rotate missions after second prestige
+        if (prestigeCount < 2) return null;
+
+        const { missions, missionCategories } = require('./missions');
+        const completedMission = missions[completedMissionId];
+        
+        if (!completedMission || !completedMission.category) return null;
+
+        const categoryMissions = missionCategories[completedMission.category];
+        if (!categoryMissions || categoryMissions.length <= 1) return null;
+
+        // Get available missions from the same category (excluding the completed one)
+        const availableMissions = categoryMissions.filter(missionKey => missionKey !== completedMissionId);
+        
+        if (availableMissions.length === 0) return null;
+
+        // Select a random mission from the same category
+        const randomIndex = Math.floor(Math.random() * availableMissions.length);
+        const selectedMissionKey = availableMissions[randomIndex];
+        
+        return missions[selectedMissionKey];
+      },
+
       completeMission: (missionId) => {
         const state = get();
         const mission = state.activeMissions.find(m => m.id === missionId);
