@@ -580,6 +580,20 @@ export default function App() {
         autoClicks + permanentAutoClicks, 
         clickMultiplier
       );
+      
+      // Add the effective junk (after consumption) to total junk
+      if (effectiveJunkPerSecond > 0) {
+        setJunk(prev => prev + effectiveJunkPerSecond);
+        
+        // Track total junk collected
+        const currentTotal = parseInt(localStorage.getItem('totalJunkCollected') || '0');
+        localStorage.setItem('totalJunkCollected', (currentTotal + effectiveJunkPerSecond).toString());
+      }PerSecond(
+        passiveIncome, 
+        totalMultiplier, 
+        autoClicks + permanentAutoClicks, 
+        clickMultiplier
+      );
 
       if (effectiveJunkPerSecond > 0) {
         setJunk(prev => prev + effectiveJunkPerSecond);
