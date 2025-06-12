@@ -105,7 +105,7 @@ export default function App() {
 
   const {
     handleBuyTrashBag, calculate10xPriceJunkClicker: calculate10xPrice01,
-    handleBuyPicker, handleBuyClickEnhancer, calculate10xPriceJPS, handleBuyStreetrat,
+    handleBuyPicker, handleBuyClickEnhancer, handleBuyClampjawRig, calculate10xPriceJPS, handleBuyStreetrat,
     handleBuyCart, handleBuyJunkMagnet, handleBuyUrbanRecycler, handleBuyScrapDrone,
     handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator, handleBuyQuantumTap, handleBuyElectroSurgeNode, handleBuyElectroBeaconCore, handleBuyCircuitOptimization, handleBuyHighFreqTap, handleBuyReactiveFeedback, handleBuyPickupMagnetArray, handleBuyScratzMiner, onBuyAutoRecycler
   } = gameHandlers({
@@ -1295,6 +1295,7 @@ export default function App() {
           globalJpsMultiplier={globalJpsMultiplier}
           passiveIncome={passiveIncome}
           onBuyClickEnhancer={handleBuyClickEnhancer}
+          onBuyClampjawRig={handleBuyClampjawRig}
           onBuyModularScrapper={handleBuyModularScrapper}
           clickCount={clickCount}
           purchasedUpgrades={Object.values(itemCosts).filter(cost => cost > 0).length}
