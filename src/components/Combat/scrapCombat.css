@@ -14,7 +14,9 @@
   z-index: 1000;
   color: #00FF00;
   font-family: 'Courier New', monospace;
-  overflow-y: auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .combat-header {
@@ -51,8 +53,9 @@
 .combat-arena {
   display: flex;
   flex-direction: column;
-  height: calc(100% - 50px);
-  gap: 20px;
+  flex: 1;
+  gap: 15px;
+  overflow: hidden;
 }
 
 .health-bars {
@@ -73,8 +76,58 @@
 }
 
 .stage-selection {
-  margin: 20px 0;
+  margin: 10px 0;
   text-align: center;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.stage-list {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.stage-option {
+  margin: 8px 0;
+  padding: 10px;
+  border: 1px solid #9400D3;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.stage-option:hover {
+  background: rgba(148, 0, 211, 0.2);
+}
+
+.stage-option.locked {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.stage-name {
+  font-weight: bold;
+  color: #00FF00;
+}
+
+.stage-description {
+  color: #CCCCCC;
+  font-size: 0.9em;
+  margin: 5px 0;
+}
+
+.unlock-requirement {
+  color: #FF6600;
+  font-size: 0.8em;
+  font-style: italic;
+}
+
+.stage-enemy {
+  color: #FF4444;
+  font-size: 0.8em;
 }
 
 .stage-selection h3 {
