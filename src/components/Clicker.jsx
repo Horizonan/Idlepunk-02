@@ -153,7 +153,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
 
   const handleMouseUp = () => {
     if(activeClicker === 'trash' && dragStarted.current){
-      if (isDragging && petStrokes >= 3) {
+      if (petStrokes >= 3) {
         // Achievement unlocked after 3+ pet strokes (lowered threshold)
         localStorage.setItem('pettedJunkPile', 'true');
         console.log('Petting achievement unlocked!', petStrokes, 'strokes');
