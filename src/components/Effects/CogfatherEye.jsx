@@ -15,24 +15,28 @@ export default function CogfatherEye({ forceShow = false, onDisappear }) {
 
   const shouldShow = forceShow || isNightTime();
 
+  // Function to show the eye at a random position
+  const showEye = () => {
+    // Set random position only when eye becomes visible
+    setEyePosition({
+      x: Math.random() * 80 + 10, // 10% to 90% of screen width
+      y: Math.random() * 60 + 20  // 20% to 80% of screen height
+    });
+    
+    setIsVisible(true);
+
+    // Eye stays visible for 8-15 seconds
+    const visibleDuration = 8000 + Math.random() * 7000;
+    setTimeout(() => {
+      setIsVisible(false);
+      if (onDisappear) onDisappear();
+    }, visibleDuration);
+  };
+
   useEffect(() => {
     // If force show is triggered, immediately show the eye
     if (forceShow) {
-      setIsVisible(true);
-      
-      // Random position on screen
-      setEyePosition({
-        x: Math.random() * 80 + 10, // 10% to 90% of screen width
-        y: Math.random() * 60 + 20  // 20% to 80% of screen height
-      });
-
-      // Eye stays visible for 8-15 seconds when forced
-      const visibleDuration = 8000 + Math.random() * 7000;
-      setTimeout(() => {
-        setIsVisible(false);
-        if (onDisappear) onDisappear();
-      }, visibleDuration);
-      
+      showEye();
       return; // Exit early, don't set up the interval
     }
 
@@ -44,20 +48,7 @@ export default function CogfatherEye({ forceShow = false, onDisappear }) {
     // Spawn the eye periodically (only during night time)
     const spawnInterval = setInterval(() => {
       if (Math.random() < 0.3) { // 30% chance every interval
-        setIsVisible(true);
-        
-        // Random position on screen
-        setEyePosition({
-          x: Math.random() * 80 + 10, // 10% to 90% of screen width
-          y: Math.random() * 60 + 20  // 20% to 80% of screen height
-        });
-
-        // Eye stays visible for 8-15 seconds
-        const visibleDuration = 8000 + Math.random() * 7000;
-        setTimeout(() => {
-          setIsVisible(false);
-          if (onDisappear) onDisappear();
-        }, visibleDuration);
+        showEye();
       }
     }, 30000 + Math.random() * 60000); // Every 30-90 seconds
 
