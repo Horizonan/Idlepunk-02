@@ -60,10 +60,10 @@ export default function MenuButtons({ onStoreSelect, showInventory, craftingInve
                   if (hasCompletedMission && !heistingSpeedSeen) {
                     return (
                       <span style={{
-                        color: '#FF6600',
+                        color: '#00FF00',
                         marginLeft: '8px',
                         fontSize: '1.2em',
-                        textShadow: '0 0 10px #FF6600'
+                        textShadow: '0 0 10px #00FF00'
                       }}>
                         (!)
                       </span>
