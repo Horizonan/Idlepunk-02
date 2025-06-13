@@ -127,13 +127,24 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
       if (event.buttons === 1) { // Left mouse button is pressed
         const deltaX = Math.abs(event.clientX - lastMousePos.current.x);
         const deltaY = Math.abs(event.clientY - lastMousePos.current.y);
+        const totalDelta = deltaX + deltaY;
 
-        if (deltaX > 3 || deltaY > 3) { // Lower threshold for better sensitivity
+        if (totalDelta > 5) { // Minimum movement required
           if (!isDragging) {
             setIsDragging(true);
             setIsPetting(true);
+            console.log('Started petting the junk pile!');
           }
-          setPetStrokes(prev => prev + 1);
+          
+          // Only count significant movements as strokes
+          if (totalDelta > 15) {
+            setPetStrokes(prev => {
+              const newStrokes = prev + 1;
+              console.log('Pet stroke:', newStrokes);
+              return newStrokes;
+            });
+          }
+          
           lastMousePos.current = { x: event.clientX, y: event.clientY };
         }
       }
@@ -142,20 +153,27 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
 
   const handleMouseUp = () => {
     if(activeClicker === 'trash' && dragStarted.current){
-      if (isDragging && petStrokes >= 5) {
-        // Achievement unlocked after 5+ pet strokes
+      if (isDragging && petStrokes >= 3) {
+        // Achievement unlocked after 3+ pet strokes (lowered threshold)
         localStorage.setItem('pettedJunkPile', 'true');
         window.dispatchEvent(new CustomEvent('validateAchievements'));
         console.log('Petting achievement unlocked!', petStrokes, 'strokes');
+        
+        // Show feedback to user
+        const junkPile = document.getElementById('trashClicker');
+        if (junkPile) {
+          junkPile.style.filter = 'hue-rotate(120deg)';
+          setTimeout(() => {
+            junkPile.style.filter = '';
+          }, 1000);
+        }
       }
 
-      // Don't reset immediately, give time for achievement to process
-      setTimeout(() => {
-        setIsDragging(false);
-        setIsPetting(false);
-        setPetStrokes(0);
-        dragStarted.current = false;
-      }, 500);
+      // Reset drag state
+      setIsDragging(false);
+      setIsPetting(false);
+      setPetStrokes(0);
+      dragStarted.current = false;
     }
     if (enableHoldToClick) {
       setIsHolding(false);
