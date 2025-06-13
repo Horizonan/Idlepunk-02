@@ -175,6 +175,9 @@ export default function CheatMenu({
           localStorage.setItem('scratzMinerTimeUntilNext', '1');
           window.dispatchEvent(new CustomEvent('updateScratzMinerTimer'));
         }, type: 'secondary' },
+        { name: 'Trigger Cogfather Eye', action: () => {
+          window.dispatchEvent(new CustomEvent('forceCogfatherEye'));
+        }, type: 'special' },
       ]
     },
     tools: {

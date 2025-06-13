@@ -58,6 +58,7 @@ import ShardMiner from './components/Effects/ShardMiner';
 import ScratzMiner from './components/Effects/ScratzMiner';
 import PickupMagnetArray from './components/Effects/PickupMagnetArray';
 import AutoRecyclerEffect from './components/Effects/AutoRecyclerEffect';
+import CogfatherEye from './components/Effects/CogfatherEye';
 
 //Combat
 import ScraptagonCombat from './components/Combat/scrapCombat';
@@ -134,6 +135,7 @@ export default function App() {
   const [showCrewIntroTooltip, setShowCrewIntroTooltip] = useState(false);
   const [showOfflineProgress, setShowOfflineProgress] = useState(false);
   const [offlineProgressData, setOfflineProgressData] = useState(null);
+  const [forceCogfatherEye, setForceCogfatherEye] = useState(false);
 
 
   useEffect(() => {
@@ -206,6 +208,10 @@ export default function App() {
       setShowCrewIntroTooltip(false);
     };
 
+    const handleForceCogfatherEye = () => {
+      setForceCogfatherEye(true);
+    };
+
     window.addEventListener('keydown', handleKeyPress);
     window.addEventListener('showCrystal', handleShowCrystal);
     window.addEventListener('slotForceTriple', handleSlotForceTriple);
@@ -214,6 +220,7 @@ export default function App() {
     window.addEventListener('forcePrestige', handleForcePrestige);
     window.addEventListener('showCrewIntroTooltip', handleShowCrewIntroTooltip);
     window.addEventListener('hideCrewIntroTooltip', handleHideCrewIntroTooltip);
+    window.addEventListener('forceCogfatherEye', handleForceCogfatherEye);
 
     return () => {
       window.removeEventListener('addMaterial', handleAddMaterial);
@@ -226,6 +233,7 @@ export default function App() {
       window.removeEventListener('forcePrestige', handleForcePrestige);
       window.removeEventListener('showCrewIntroTooltip', handleShowCrewIntroTooltip);
       window.removeEventListener('hideCrewIntroTooltip', handleHideCrewIntroTooltip);
+      window.removeEventListener('forceCogfatherEye', handleForceCogfatherEye);
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
@@ -1939,6 +1947,12 @@ export default function App() {
           }}
         />
       )}
+
+      {/* Cogfather Eye */}
+      <CogfatherEye 
+        forceShow={forceCogfatherEye}
+        onDisappear={() => setForceCogfatherEye(false)}
+      />
 
       {/* Crew Recruitment Intro Tooltip */}
       {showCrewIntroTooltip && (
