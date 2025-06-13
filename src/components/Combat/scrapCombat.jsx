@@ -217,7 +217,10 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
       {selectedStage && (
         <div className="stage-info">
           <div className="current-stage">
-            <span>Current Stage: {stages[selectedStage].name}</span>
+            <span>Current Stage: {stages[selectedStage].name} 
+              {selectedStage === 'training' && ` [${winStreak}/15]`}
+              {selectedStage === 'scrapper' && ` [∞/∞]`}
+            </span>
             <button className="back-to-stages" onClick={() => setSelectedStage(null)}>Change Stage</button>
           </div>
         </div>
