@@ -220,22 +220,6 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
             <span>Current Stage: {stages[selectedStage].name}</span>
             <button className="back-to-stages" onClick={() => setSelectedStage(null)}>Change Stage</button>
           </div>
-          <div className="combat-progress">
-            {selectedStage === 'training' && (
-              <div className="progress-item">
-                <span>Training Progress: [{winStreak}/15]</span>
-                <div className="progress-bar">
-                  <div className="progress-fill" style={{ width: `${(winStreak / 15) * 100}%` }}></div>
-                </div>
-              </div>
-            )}
-            <div className="progress-item">
-              <span>Stages Unlocked: [{Object.values(stages).filter(stage => stage.unlocked).length}/{Object.keys(stages).length}]</span>
-              <div className="progress-bar">
-                <div className="progress-fill" style={{ width: `${(Object.values(stages).filter(stage => stage.unlocked).length / Object.keys(stages).length) * 100}%` }}></div>
-              </div>
-            </div>
-          </div>
         </div>
       )}
       {selectedStage && (
