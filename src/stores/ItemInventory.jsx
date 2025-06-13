@@ -10,7 +10,7 @@ export default function ItemInventory({ craftingInventory, onBack }) {
     'Metal Plates': {
       description: 'Sturdy metal sheets',
       effect: 'Used in basic crafting',
-      icon: '🛡️'
+      icon: <img src="../Icons/crafting/metalPlates.svg" alt="Scrap Core" style={{width: '100%', height: '100%'}} />
     },
     'Gear Bits': {
       description: 'Mechanical components',
