@@ -209,6 +209,7 @@ export default function App() {
     };
 
     const handleForceCogfatherEye = () => {
+      console.log('Force Cogfather Eye triggered'); // Debug log
       setForceCogfatherEye(true);
     };
 
