@@ -29,23 +29,17 @@ export const useRecruitmentZustand = create(
         if (equipment) {
           const state = get();
 
-          const hasInInventory = state.equipment.some(item => item.id === itemId);
+          const hasInInventory = state.equipment.some(item => item.baseId === itemId);
           const hasEquipped = Object.values(state.crewLoadouts).some(loadout => 
-            Object.values(loadout).some(equippedItem => equippedItem && equippedItem.id === itemId)
+            Object.values(loadout).some(equippedItem => equippedItem && equippedItem.baseId === itemId)
           );
 
           if (hasInInventory || hasEquipped) {
-            const sellValue = equipment.autoSellValue || 5;
-
-            const currentCredits = Number(localStorage.getItem('credits') || 0);
-            const newCredits = currentCredits + sellValue;
-            localStorage.setItem('credits', newCredits);
-
-            window.dispatchEvent(new CustomEvent('creditsUpdated', { 
-              detail: { credits: newCredits, message: `Duplicate ${equipment.name} sold for ${sellValue} Credits!` }
+            // Show duplicate equipment dialog instead of auto-selling
+            window.dispatchEvent(new CustomEvent('showDuplicateEquipmentDialog', {
+              detail: { equipment, itemId }
             }));
-
-            return false;
+            return 'duplicate';
           } else {
             set(state => ({
               equipment: [...state.equipment, equipment]
@@ -56,8 +50,28 @@ export const useRecruitmentZustand = create(
         return false;
       },
 
-      equipItemToCrew: (crewId, itemId, slotType) => {
-        const equipment = get().equipment.find(item => item.id === itemId);
+      handleDuplicateEquipment: (equipment, decision) => {
+        if (decision === 'keep') {
+          set(state => ({
+            equipment: [...state.equipment, equipment]
+          }));
+          return true;
+        } else if (decision === 'sell') {
+          const sellValue = equipment.autoSellValue || 5;
+          const currentCredits = Number(localStorage.getItem('credits') || 0);
+          const newCredits = currentCredits + sellValue;
+          localStorage.setItem('credits', newCredits);
+
+          window.dispatchEvent(new CustomEvent('creditsUpdated', { 
+            detail: { credits: newCredits, message: `${equipment.name} sold for ${sellValue} Credits!` }
+          }));
+          return false;
+        }
+        return false;
+      },
+
+      equipItemToCrew: (crewId, itemUniqueId, slotType) => {
+        const equipment = get().equipment.find(item => item.uniqueId === itemUniqueId);
         if (equipment && equipment.type === slotType) {
           set(state => ({
             crewLoadouts: {
@@ -67,7 +81,7 @@ export const useRecruitmentZustand = create(
                 [slotType]: equipment
               }
             },
-            equipment: state.equipment.filter(item => item.id !== itemId)
+            equipment: state.equipment.filter(item => item.uniqueId !== itemUniqueId)
           }));
         }
       },

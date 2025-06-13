@@ -7,6 +7,7 @@ import { SkillsAssessmentGame } from './crewRecruitment/SkillsAssessmentGame';
 import { missions, calculateMissionSuccess, calculateMissionDuration } from "./crewRecruitment/missions";
 import { equipmentDatabase, getAllEquipment } from "./crewRecruitment/equipment";
 import StaminaTimer from '../components/StaminaTimer';
+import DuplicateEquipmentDialog from '../components/DuplicateEquipmentDialog';
 
 
 export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }) {
@@ -651,20 +652,14 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                     if (item === 'electroShard') creditsReward += 50 * bonus.amount;
                                     if (item === 'rareJunk') junkReward += bonus.amount;
                                     if (item === 'equipment') {
-                                      const wasAdded = useRecruitmentZustand.getState().addEquipment(bonus.itemId);
+                                      const addResult = useRecruitmentZustand.getState().addEquipment(bonus.itemId);
                                       const equipmentData = getAllEquipment().find(eq => eq.id === bonus.itemId);
                                       if (equipmentData) {
-                                        if (wasAdded) {
+                                        if (addResult === true) {
                                           equipmentRewards.push(equipmentData);
-                                        } else {
-                                          // Item was auto-sold, add to credits display
-                                          const sellValue = equipmentData.autoSellValue || 5;
-                                          creditsReward += sellValue;
-                                          autoSoldItems.push({
-                                            name: equipmentData.name,
-                                            icon: equipmentData.icon,
-                                            sellValue: sellValue
-                                          });
+                                        } else if (addResult === 'duplicate') {
+                                          // Duplicate will be handled by the dialog, just show it as a reward for now
+                                          equipmentRewards.push(equipmentData);
                                         }
                                       }
                                     }
@@ -821,8 +816,8 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                 {equipment.length === 0 ? (
                   <p>No equipment available. Complete missions to find equipment!</p>
                 ) : (
-                  equipment.map((item, index) => (
-                    <div key={`${item.id}-${index}`} className="equipment-item">
+                  equipment.map((item) => (
+                    <div key={item.uniqueId} className="equipment-item">
                       <span className="equipment-icon">{item.icon}</span>
                       <div className="equipment-info">
                         <h5>{item.name}</h5>
@@ -890,8 +885,8 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                   <option value="">Select {slotType}</option>
                                   {equipment
                                     .filter(item => item.type === slotType)
-                                    .map((item, index) => (
-                                      <option key={`${item.id}-${index}`} value={item.id}>
+                                    .map((item) => (
+                                      <option key={item.uniqueId} value={item.uniqueId}>
                                         {item.name}
                                       </option>
                                     ))
@@ -925,6 +920,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
   return (
     <div className="crew-menu">
+      <DuplicateEquipmentDialog />
       <div className="crew-header">
         <h2>Crew Management</h2>
         <button className="store-item" onClick={onClose}>Close</button>

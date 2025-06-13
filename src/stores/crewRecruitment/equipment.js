@@ -1,3 +1,8 @@
+// Helper function to generate unique IDs
+export const generateUniqueId = () => {
+  return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+};
+
 export const equipmentDatabase = {
   weapons: {
     greaseStainedGloves: {
@@ -100,7 +105,14 @@ export const equipmentDatabase = {
 export const getEquipmentById = (id) => {
   for (const category of Object.values(equipmentDatabase)) {
     for (const item of Object.values(category)) {
-      if (item.id === id) return item;
+      if (item.id === id) {
+        // Return a new instance with unique ID
+        return {
+          ...item,
+          uniqueId: generateUniqueId(),
+          baseId: item.id // Keep reference to original ID
+        };
+      }
     }
   }
   return null;
