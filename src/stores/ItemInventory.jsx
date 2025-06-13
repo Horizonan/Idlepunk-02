@@ -5,12 +5,12 @@ export default function ItemInventory({ craftingInventory, onBack }) {
     'Wires': {
       description: 'Basic conductive material',
       effect: 'Used in basic crafting',
-      icon: <img src="../Icons/crafting/wires.svg" alt="Scrap Core" style={{width: '100%', height: '100%'}} />
+      icon: <img src="../Icons/crafting/wire.png" alt="Scrap Core" style={{width: '100%', height: '100%'}} />
     },
     'Metal Plates': {
       description: 'Sturdy metal sheets',
       effect: 'Used in basic crafting',
-      icon: '🛡️'
+      icon: <img src="../Icons/crafting/metalPlates.png" alt="Scrap Core" style={{width: '100%', height: '100%'}} />
     },
     'Gear Bits': {
       description: 'Mechanical components',
@@ -30,7 +30,7 @@ export default function ItemInventory({ craftingInventory, onBack }) {
     'Scrap Core': {
       description: 'A basic power core made from scrap',
       effect: 'Used in advanced crafting',
-      icon: <img src="../Icons/crafting/scrapCore.svg" alt="Scrap Core" style={{width: '100%', height: '100%'}} />
+      icon: <img src="../Icons/crafting/scrapCore.png" alt="Scrap Core" style={{width: '90%', height: '140%'}} />
     },
     'Click Rig Mk I': {
       description: 'Advanced clicking mechanism',
