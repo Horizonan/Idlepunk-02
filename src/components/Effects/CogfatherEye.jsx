@@ -91,6 +91,7 @@ export default function CogfatherEye({ forceShow = false, onDisappear }) {
     >
       <div className="cogfather-eye-glow"></div>
       <div className={`cogfather-eye ${isBlinking ? 'blinking' : ''}`}>
+        {!isBlinking && <div className="eye-iris"></div>}
         <div 
           className="eye-pupil"
           style={{
