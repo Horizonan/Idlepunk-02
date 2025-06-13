@@ -20,15 +20,15 @@ export const defaultAchievements = [
     shardRequirement: 5
   },
   {
-    title: "Cogfather's First Secret",
+    title: "Cogfather's Second Secret",
     requirement: "Collect 10 Electro Shards",
-    reward: "Unlock Cogfather's Lore Entry #001",
+    reward: "Unlock Cogfather's Lore Entry #002",
     flavorText: "The truth lies in fragments of crystal and code.",
     unlocked: false,
     checked: false,
     category: "electroShard",
     shardRequirement: 10,
-    loreUnlock: "001"
+    loreUnlock: "002"
   },
   {
     title: "The First Clicks",
@@ -514,7 +514,7 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
 
       // Find electro shard achievements
       const circuitPulse = newAchievements.find(a => a.title === "Circuit Pulse Mastery");
-      const cogfatherSecret = newAchievements.find(a => a.title === "Cogfather's First Secret");
+      const cogfatherSecret = newAchievements.find(a => a.title === "Cogfather's Second Secret");
       const electronicShepherd = newAchievements.find(a => a.title === "Electronic Shepherd");
 
       // Check Circuit Pulse Mastery (5 shards)
