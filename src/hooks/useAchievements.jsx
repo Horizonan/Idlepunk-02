@@ -490,6 +490,7 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
               achievement.checked = true;
               setClickMultiplier(prev => prev * 1.05);
               setNotifications(prev => [...prev, "Achievement Unlocked: Befriend the Junk Pile!"]);
+              console.log('Befriend the Junk Pile achievement unlocked!');
               changed = true;
             }
             break;

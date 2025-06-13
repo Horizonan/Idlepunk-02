@@ -157,6 +157,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
         // Achievement unlocked after 3+ pet strokes (lowered threshold)
         localStorage.setItem('pettedJunkPile', 'true');
         console.log('Petting achievement unlocked!', petStrokes, 'strokes');
+        console.log('localStorage pettedJunkPile set to:', localStorage.getItem('pettedJunkPile'));
         
         // Show feedback to user
         const junkPile = document.getElementById('trashClicker');
@@ -167,10 +168,13 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
           }, 1000);
         }
         
-        // Trigger achievement validation manually
+        // Trigger achievement validation immediately - no delay
+        window.dispatchEvent(new CustomEvent('validateAchievements'));
+        
+        // Also trigger a second validation after a short delay as backup
         setTimeout(() => {
           window.dispatchEvent(new CustomEvent('validateAchievements'));
-        }, 100);
+        }, 500);
       }
 
       // Reset drag state
