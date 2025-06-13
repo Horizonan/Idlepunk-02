@@ -279,12 +279,24 @@ export default function App() {
         return !prev;
       });
     };
+    
+    const handleValidateAchievements = () => {
+      console.log('Manual achievement validation triggered');
+      validateAchievements();
+    };
+    
     window.addEventListener('toggleUpgradeStats', handleUpgradeStats);
+    window.addEventListener('validateAchievements', handleValidateAchievements);
 
     if (showSlotMachine || showAchievements || showSettings || showQuestLog || showTooltips || showCoinFlip || showCombat) {
       setActiveStore(null);
       setShowUpgradeStats(false);
     }
+    
+    return () => {
+      window.removeEventListener('toggleUpgradeStats', handleUpgradeStats);
+      window.removeEventListener('validateAchievements', handleValidateAchievements);
+    };
 
     return () => {
       window.removeEventListener('toggleUpgradeStats', handleUpgradeStats);
