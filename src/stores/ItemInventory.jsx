@@ -1,16 +1,28 @@
-import React from 'react';
 
-export default function ItemInventory({ craftingInventory, onBack }) {
-  const itemDetails = {
+import React, { useMemo } from 'react';
+
+const LazyImage = React.memo(({ src, alt, style }) => (
+  <img 
+    src={src} 
+    alt={alt} 
+    style={style} 
+    loading="lazy" 
+    decoding="async"
+  />
+));
+
+export default React.memo(function ItemInventory({ craftingInventory, onBack }) {
+  // Memoize item details to prevent recreation on every render
+  const itemDetails = useMemo(() => ({
     'Wires': {
       description: 'Basic conductive material',
       effect: 'Used in basic crafting',
-      icon: <img src="/Icons/crafting/wires.svg" alt="Wires" style={{width: '48px', height: '48px', imageRendering: 'optimizeSpeed'}} loading="lazy" decoding="async" />
+      icon: <LazyImage src="/Icons/crafting/wires.svg" alt="Wires" style={{width: '48px', height: '48px', imageRendering: 'optimizeSpeed'}} />
     },
     'Metal Plates': {
       description: 'Sturdy metal sheets',
       effect: 'Used in basic crafting',
-      icon: <img src="/Icons/crafting/metalPlates.svg" alt="Metal Plates" style={{width: '48px', height: '48px', imageRendering: 'optimizeSpeed'}} loading="lazy" decoding="async" />
+      icon: <LazyImage src="/Icons/crafting/metalPlates.svg" alt="Metal Plates" style={{width: '48px', height: '48px', imageRendering: 'optimizeSpeed'}} />
     },
     'Gear Bits': {
       description: 'Mechanical components',
@@ -30,7 +42,7 @@ export default function ItemInventory({ craftingInventory, onBack }) {
     'Scrap Core': {
       description: 'A basic power core made from scrap',
       effect: 'Used in advanced crafting',
-      icon: <img src="/Icons/crafting/scrapCore.svg" alt="Scrap Core" style={{width: '48px', height: '48px', imageRendering: 'optimizeSpeed'}} loading="lazy" decoding="async" />
+      icon: <LazyImage src="/Icons/crafting/scrapCore.svg" alt="Scrap Core" style={{width: '48px', height: '48px', imageRendering: 'optimizeSpeed'}} />
     },
     'Click Rig Mk I': {
       description: 'Advanced clicking mechanism',
@@ -97,29 +109,31 @@ export default function ItemInventory({ craftingInventory, onBack }) {
       effect: 'Used to power items temporarily',
       icon: '🔋'
     }
-  };
+  }), []);
 
-  const basicItems = ['Wires', 'Metal Plates', 'Gear Bits', 'Signal Mesh', 'Capacitor', 'Scrap Core', 'Glitched Scrap Core'];
-  const consumableItems = ['Junk Cells'];
-  const specialItems = ['Stabilized Capacitor', 'Voltage Node', 'Synthcore Fragment', 'Encrypted Coil', 'Surge Capacitor Fragment'];
+  // Memoize category arrays
+  const categoryArrays = useMemo(() => {
+    const basicItems = ['Wires', 'Metal Plates', 'Gear Bits', 'Signal Mesh', 'Capacitor', 'Scrap Core', 'Glitched Scrap Core'];
+    const consumableItems = ['Junk Cells'];
+    const specialItems = ['Stabilized Capacitor', 'Voltage Node', 'Synthcore Fragment', 'Encrypted Coil', 'Surge Capacitor Fragment'];
 
-  const basicMaterials = Object.entries(craftingInventory)
-    .filter(([name]) => basicItems.includes(name));
+    return {
+      basicMaterials: Object.entries(craftingInventory)
+        .filter(([name]) => basicItems.includes(name)),
+      craftedItems: Object.entries(craftingInventory)
+        .filter(([name]) => itemDetails[name] && !basicItems.includes(name) && !consumableItems.includes(name) && !specialItems.includes(name)),
+      consumableMaterials: Object.entries(craftingInventory)
+        .filter(([name]) => consumableItems.includes(name)),
+      specialMaterials: Object.entries(craftingInventory)
+        .filter(([name]) => specialItems.includes(name))
+    };
+  }, [craftingInventory, itemDetails]);
 
-  const craftedItems = Object.entries(craftingInventory)
-    .filter(([name]) => itemDetails[name] && !basicItems.includes(name) && !consumableItems.includes(name) && !specialItems.includes(name));
-
-  const consumableMaterials = Object.entries(craftingInventory)
-    .filter(([name]) => consumableItems.includes(name));
-
-  const specialMaterials = Object.entries(craftingInventory)
-    .filter(([name]) => specialItems.includes(name));
-
-  const renderInventorySection = (items, title, subtitle, specialClass = '') => {
+  const renderInventorySection = useMemo(() => (items, title, subtitle, specialClass = '') => {
     if (items.length === 0) return null;
 
     return (
-      <>
+      <React.Fragment key={title}>
         <div className={`inventory-header ${specialClass}`}>
           <h2>{title}</h2>
           <div className="inventory-subtitle">{subtitle}</div>
@@ -136,9 +150,9 @@ export default function ItemInventory({ craftingInventory, onBack }) {
             </div>
           ))}
         </div>
-      </>
+      </React.Fragment>
     );
-  };
+  }, [itemDetails]);
 
   return (
     <div className="store-container inventory-container">
@@ -146,10 +160,10 @@ export default function ItemInventory({ craftingInventory, onBack }) {
         <h2>Item Inventory</h2>
         <button onClick={onBack}>Close</button>
       </div>
-      {renderInventorySection(basicMaterials, 'Basic Materials', 'Components & Resources', 'basic-materials')}
-      {renderInventorySection(craftedItems, 'Crafted Equipment', 'Enhanced Gear', 'crafted-items')}
-      {renderInventorySection(consumableMaterials, 'Consumables', 'Temporary Power Sources', 'consumable-materials')}
-      {renderInventorySection(specialMaterials, 'Special Materials', 'Ascension Components', 'special-materials')}
+      {renderInventorySection(categoryArrays.basicMaterials, 'Basic Materials', 'Components & Resources', 'basic-materials')}
+      {renderInventorySection(categoryArrays.craftedItems, 'Crafted Equipment', 'Enhanced Gear', 'crafted-items')}
+      {renderInventorySection(categoryArrays.consumableMaterials, 'Consumables', 'Temporary Power Sources', 'consumable-materials')}
+      {renderInventorySection(categoryArrays.specialMaterials, 'Special Materials', 'Ascension Components', 'special-materials')}
     </div>
   );
-}
+});
