@@ -1,41 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 export default function ItemInventory({ craftingInventory, onBack }) {
-  // Preload images asynchronously to prevent lag
-  useEffect(() => {
-    const imagePaths = [
-      '/Icons/crafting/wires.svg',
-      '/Icons/crafting/metalPlates.svg',
-      '/Icons/crafting/scrapCore.svg'
-    ];
-
-    // Use requestIdleCallback to preload during idle time
-    const preloadImages = () => {
-      imagePaths.forEach((path, index) => {
-        setTimeout(() => {
-          const img = new Image();
-          img.src = path;
-        }, index * 50); // Stagger loading by 50ms each
-      });
-    };
-
-    if (window.requestIdleCallback) {
-      window.requestIdleCallback(preloadImages);
-    } else {
-      // Fallback for browsers without requestIdleCallback
-      setTimeout(preloadImages, 100);
-    }
-  }, []);
   const itemDetails = {
     'Wires': {
       description: 'Basic conductive material',
       effect: 'Used in basic crafting',
-      icon: <img src="/Icons/crafting/wires.svg" alt="Wires" style={{width: '100%', height: '100%'}} loading="lazy" />
+      icon: <img src="/Icons/crafting/wires.svg" alt="Wires" style={{width: '100%', height: '100%'}} loading="lazy" decoding="async" />
     },
     'Metal Plates': {
       description: 'Sturdy metal sheets',
       effect: 'Used in basic crafting',
-      icon: <img src="/Icons/crafting/metalPlates.svg" alt="Metal Plates" style={{width: '100%', height: '100%'}} loading="lazy" />
+      icon: <img src="/Icons/crafting/metalPlates.svg" alt="Metal Plates" style={{width: '100%', height: '100%'}} loading="lazy" decoding="async" />
     },
     'Gear Bits': {
       description: 'Mechanical components',
@@ -55,7 +30,7 @@ export default function ItemInventory({ craftingInventory, onBack }) {
     'Scrap Core': {
       description: 'A basic power core made from scrap',
       effect: 'Used in advanced crafting',
-      icon: <img src="/Icons/crafting/scrapCore.svg" alt="Scrap Core" style={{width: '100%', height: '100%'}} loading="lazy" />
+      icon: <img src="/Icons/crafting/scrapCore.svg" alt="Scrap Core" style={{width: '100%', height: '100%'}} loading="lazy" decoding="async" />
     },
     'Click Rig Mk I': {
       description: 'Advanced clicking mechanism',
