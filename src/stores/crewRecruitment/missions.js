@@ -6,7 +6,7 @@ export const missions = {
     category: 'scavenge',
     description: 'Retrieve "usable lubricant" from a condemned deep fryer facility. Bring gloves. Or don\'t.',
     maxCrew: 1,
-    duration: 1, // 5 minutes
+    duration: 300, // 5 minutes
     baseRewards: {
       credits: 12,
       junk: 800
