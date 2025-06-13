@@ -126,7 +126,6 @@ export default function Stats({
               })()}%</span>
             </div>
           </div>
-        </div></div>
         </div>
 
         {preservedHelper && (
