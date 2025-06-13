@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLoreStore } from '../utils/loreStore';
 
 export const defaultAchievements = [
   {
@@ -255,6 +256,22 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
     const speedClickCount = parseInt(localStorage.getItem('speedClickCount')) || 0;
     const speedClickTime = parseInt(localStorage.getItem('speedClickTime')) || 0;
 
+    // One-time sync for existing unlocked lore achievements
+    const syncLoreAchievements = () => {
+      const cogfatherSecret = achievements.find(a => a.title === "Cogfather's Second Secret");
+      const electronicShepherd = achievements.find(a => a.title === "Electronic Shepherd");
+      
+      if (cogfatherSecret?.unlocked || electronicShepherd?.unlocked) {
+        useLoreStore.getState().unlockFragment(2);
+      }
+    };
+    
+    // Run sync once
+    if (!localStorage.getItem('loreAchievementsSynced')) {
+      syncLoreAchievements();
+      localStorage.setItem('loreAchievementsSynced', 'true');
+    }
+
     // First validate electro shard milestones
     checkElectroMilestones(currentShards);
 
@@ -290,8 +307,7 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
               setCogfatherLore(newLore);
               localStorage.setItem('cogfatherLore', JSON.stringify(newLore));
               // Also unlock lore fragment in lore store
-              const { unlockFragment } = require('../utils/loreStore').useLoreStore.getState();
-              unlockFragment(2);
+              useLoreStore.getState().unlockFragment(2);
               setNotifications(prev => [...prev, "Achievement Unlocked: Cogfather's Second Secret!"]);
               changed = true;
             }
@@ -304,8 +320,7 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
               setCogfatherLore(newLore);
               localStorage.setItem('cogfatherLore', JSON.stringify(newLore));
               // Also unlock lore fragment in lore store
-              const { unlockFragment } = require('../utils/loreStore').useLoreStore.getState();
-              unlockFragment(2);
+              useLoreStore.getState().unlockFragment(2);
               setNotifications(prev => [...prev, "Achievement Unlocked: Electronic Shepherd!"]);
               changed = true;
             }
@@ -542,8 +557,7 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
           setCogfatherLore(newLore);
           localStorage.setItem('cogfatherLore', JSON.stringify(newLore));
           // Also unlock lore fragment in lore store
-          const { unlockFragment } = require('../utils/loreStore').useLoreStore.getState();
-          unlockFragment(2);
+          useLoreStore.getState().unlockFragment(2);
           setNotifications(prev => [...prev, "Achievement Unlocked: Cogfather's Second Secret!"]);
           changed = true;
         }
@@ -558,8 +572,7 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
           setCogfatherLore(newLore);
           localStorage.setItem('cogfatherLore', JSON.stringify(newLore));
           // Also unlock lore fragment in lore store
-          const { unlockFragment } = require('../utils/loreStore').useLoreStore.getState();
-          unlockFragment(2);
+          useLoreStore.getState().unlockFragment(2);
           setNotifications(prev => [...prev, "Achievement Unlocked: Electronic Shepherd!"]);
           changed = true;
         }
