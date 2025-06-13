@@ -30,7 +30,7 @@ export default function ItemInventory({ craftingInventory, onBack }) {
     'Scrap Core': {
       description: 'A basic power core made from scrap',
       effect: 'Used in advanced crafting',
-      icon: '💠'
+      icon: <img src="../Icons/crafting/scrapCore.svg" alt="Scrap Core" style={{width: '16px', height: '16px'}} />
     },
     'Click Rig Mk I': {
       description: 'Advanced clicking mechanism',
