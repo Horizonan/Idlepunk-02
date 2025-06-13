@@ -106,7 +106,27 @@ export default function Stats({
               <span className="stat-label">Crystal Time Reduction:</span>
               <span className="stat-value">{calculateCrystalTimeReduction().percentageReduction}%</span>
             </div>
+            <div className="stat-item">
+              <span className="stat-label">Mission Speedup:</span>
+              <span className="stat-value">{(() => {
+                const skillLevels = JSON.parse(localStorage.getItem('skillLevels') || '{}');
+                const heistingSpeedLevel = skillLevels.heistingSpeed || 0;
+                const craftingInventory = JSON.parse(localStorage.getItem('craftingInventory') || '{}');
+                const hasChronoRegulator = craftingInventory['Chrono Regulator'] && craftingInventory['Chrono Regulator'] > 0;
+                
+                let totalSpeedup = 0;
+                if (heistingSpeedLevel > 0) {
+                  totalSpeedup += heistingSpeedLevel * 0.5; // 0.5% per level
+                }
+                if (hasChronoRegulator) {
+                  totalSpeedup += 3.33; // Approximate percentage for 20 second reduction
+                }
+                
+                return totalSpeedup.toFixed(1);
+              })()}%</span>
+            </div>
           </div>
+        </div></div>
         </div>
 
         {preservedHelper && (
