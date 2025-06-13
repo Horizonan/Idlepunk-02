@@ -76,13 +76,7 @@ export default function NextQuest() {
       const cogfatherActive = localStorage.getItem('cogfatherEvent') === 'true';
       const prestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
       
-      // Debug logging
-      console.log('Quest Debug:', {
-        currentPrestige2Active,
-        prestigeCount,
-        hasPrestiged,
-        localStorage_prestige2Active: localStorage.getItem('prestige2Active')
-      });
+
       
       // Update prestige2Active state if it changed
       if (currentPrestige2Active !== prestige2Active) {
