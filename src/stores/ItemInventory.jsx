@@ -1,16 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export default function ItemInventory({ craftingInventory, onBack }) {
+  // Preload images for faster display
+  useEffect(() => {
+    const imagePaths = [
+      '/Icons/crafting/wires.svg',
+      '/Icons/crafting/metalPlates.svg',
+      '/Icons/crafting/scrapCore.svg'
+    ];
+
+    imagePaths.forEach(path => {
+      const img = new Image();
+      img.src = path;
+    });
+  }, []);
   const itemDetails = {
     'Wires': {
       description: 'Basic conductive material',
       effect: 'Used in basic crafting',
-      icon: <img src="../Icons/crafting/wires.svg" alt="Scrap Core" style={{width: '100%', height: '100%'}} />
+      icon: <img src="/Icons/crafting/wires.svg" alt="Wires" style={{width: '100%', height: '100%'}} loading="eager" />
     },
     'Metal Plates': {
       description: 'Sturdy metal sheets',
       effect: 'Used in basic crafting',
-      icon: <img src="../Icons/crafting/metalPlates.svg" alt="Scrap Core" style={{width: '100%', height: '100%'}} />
+      icon: <img src="/Icons/crafting/metalPlates.svg" alt="Metal Plates" style={{width: '100%', height: '100%'}} loading="eager" />
     },
     'Gear Bits': {
       description: 'Mechanical components',
@@ -30,7 +43,7 @@ export default function ItemInventory({ craftingInventory, onBack }) {
     'Scrap Core': {
       description: 'A basic power core made from scrap',
       effect: 'Used in advanced crafting',
-      icon: <img src="../Icons/crafting/scrapCore.svg" alt="Scrap Core" style={{width: '100%', height: '100%'}} />
+      icon: <img src="/Icons/crafting/scrapCore.svg" alt="Scrap Core" style={{width: '100%', height: '100%'}} loading="eager" />
     },
     'Click Rig Mk I': {
       description: 'Advanced clicking mechanism',
