@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import '../styles/Achievements.css';
 import '../styles/mobile/AchievementsMobile.css';
@@ -27,7 +26,7 @@ export default function Achievements({ achievements, onClose }) {
   const handleMouseDown = (e) => {
     // Only allow dragging on desktop
     if (window.innerWidth <= 768) return;
-    
+
     setIsDragging(true);
     setDragOffset({
       x: e.clientX - position.x,
@@ -95,7 +94,7 @@ export default function Achievements({ achievements, onClose }) {
           <button onClick={onClose} title="Close achievements">Close</button>
         </div>
       </div>
-      
+
       <div className="achievements-content">
         <div className="achievements-main">
           <div className="achievements-section">
@@ -155,7 +154,7 @@ export default function Achievements({ achievements, onClose }) {
             </div>
           )}
         </div>
-        
+
         {showBadges && (
           <div className="achievements-sidebar">
             <div className="badges-section">
@@ -189,7 +188,7 @@ export default function Achievements({ achievements, onClose }) {
                 )}
               </div>
             </div>
-            
+
             <div className="achievements-stats">
               <h4>📊 Statistics</h4>
               <div className="stat-item">

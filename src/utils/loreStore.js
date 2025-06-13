@@ -27,6 +27,25 @@ ULDIR_9 is built like a corpse but lives like a song specifically, one of those 
 But most stay broken and that's okay, because so is the city.
 
 You live here now. And if you stay long enough, you'll hum in tune with it. You'll forget the time before. The sky won't scare you anymore. And maybe, just maybe, you'll stop trying to fix what was never yours to repair. Or you'll open a noodle stand. Either way, you'll belong."`
+        },
+        2: {
+          id: 2,
+          title: 'Part II: "Don\'t Ask About the Generator Room"',
+          content: `ULDIR_9 keeps growing. Not upwards, no — that would require scaffolding, ambition, and a structural integrity module someone didn't turn into a coffee table. It grows sideways, downward, inward. Like fungus. Or regret.
+
+There's the Coil Market, where you can trade three hours of memory for a bootleg firmware patch that gives your drone the ability to feel longing. There's the Punch Loop, a fighting ring that doubles as a couples therapy group. There's Hiss Alley, where the feral synth-cats nest and everything smells like burnt pineapple for reasons no one explains anymore.
+
+Beneath it all? The Generator Room. Nobody talks about it. Everyone hears it. A thrum like a dying heart. A glow like bad dreams under your eyelids. The Cogfather says the generator is older than the city. Older than the world. One guy says it's a god. Another says it's a microwave. He might be right — he's the same guy who thinks he used to be a microwave.
+
+Every week, someone tries to map ULDIR_9. They never agree on where anything is. One guy swore the bathhouse only appears during solar flares. Another claimed you can only access the library by pretending to forget how to read.
+
+But through it all, ULDIR_9 works. Not well. Not cleanly. But it functions. Like a half-broken vending machine that sometimes spits out knives. Or soup. Or a childhood memory you didn't install.
+
+And if you're still here, that means something in you resonates with it. That rusted place in your brain. That hunger for noise. That need to build meaning out of scrap and echoes. Welcome back. Or forward. Or sideways.
+
+ULDIR_9 doesn't care what direction you're coming from.
+
+It just wants to see what you'll leave behind.`
         }
       },
       unlockFragment: (fragmentId) => set((state) => {

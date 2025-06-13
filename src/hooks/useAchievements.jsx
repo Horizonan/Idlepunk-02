@@ -282,14 +282,14 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
               changed = true;
             }
             break;
-          case "Cogfather's First Secret":
+          case "Cogfather's Second Secret":
             if (currentShards >= 10 && !achievement.unlocked) {
               achievement.unlocked = true;
               achievement.checked = true;
-              const newLore = [...gameState.cogfatherLore, "001"];
+              const newLore = [...gameState.cogfatherLore, "002"];
               setCogfatherLore(newLore);
               localStorage.setItem('cogfatherLore', JSON.stringify(newLore));
-              setNotifications(prev => [...prev, "Achievement Unlocked: Cogfather's First Secret!"]);
+              setNotifications(prev => [...prev, "Achievement Unlocked: Cogfather's Second Secret!"]);
               changed = true;
             }
             break;
@@ -527,15 +527,15 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
         }
       }
 
-      // Check Cogfather's First Secret (10 shards)
+      // Check Cogfather's Second Secret (10 shards)
       if (cogfatherSecret && currentShards >= 10) {
         if (!cogfatherSecret.unlocked) {
           cogfatherSecret.unlocked = true;
           cogfatherSecret.checked = true;
-          const newLore = [...gameState.cogfatherLore, "001"];
+          const newLore = [...gameState.cogfatherLore, "002"];
           setCogfatherLore(newLore);
           localStorage.setItem('cogfatherLore', JSON.stringify(newLore));
-          setNotifications(prev => [...prev, "Achievement Unlocked: Cogfather's First Secret!"]);
+          setNotifications(prev => [...prev, "Achievement Unlocked: Cogfather's Second Secret!"]);
           changed = true;
         }
       }
