@@ -385,10 +385,11 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
             )}
             <div className="mission-list">
               {availableMissions.filter(mission => {
-                // Filter out Dumpster Dive Deluxe unless it's specifically been rotated in
-                if (mission.id === 'scavenge_2') {
+                // Filter out rotation-only missions unless they've been specifically rotated in
+                const rotationOnlyMissions = ['scavenge_2', 'heist_2', 'void_2']; // Dumpster Dive Deluxe, Clawback Job, Echo Harvest
+                if (rotationOnlyMissions.includes(mission.id)) {
                   const rotatedMissions = JSON.parse(localStorage.getItem('rotatedMissions') || '[]');
-                  return rotatedMissions.includes('scavenge_2');
+                  return rotatedMissions.includes(mission.id);
                 }
                 return true;
               }).map((mission) => (
