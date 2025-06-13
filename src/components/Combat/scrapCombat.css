@@ -113,6 +113,12 @@
   color: #00FF00;
 }
 
+.stage-progress {
+  color: #9400D3;
+  font-size: 0.9em;
+  margin-left: 8px;
+}
+
 .stage-description {
   color: #CCCCCC;
   font-size: 0.9em;

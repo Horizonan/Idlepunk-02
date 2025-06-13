@@ -184,6 +184,7 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
           <h3>SELECT COMBAT STAGE</h3>
           <div className="combat-stats">
             <div>Training Win Streak: {winStreak}/15</div>
+            <div>Stages Unlocked: {Object.values(stages).filter(stage => stage.unlocked).length}/{Object.keys(stages).length}</div>
           </div>
           <div className="stage-list">
             {Object.entries(stages).map(([stageKey, stage]) => (
@@ -194,6 +195,12 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
               >
                 <div className="stage-name">
                   {stage.name} {!stage.unlocked && '🔒'}
+                  {stage.unlocked && stageKey === 'training' && (
+                    <span className="stage-progress"> [{winStreak}/15]</span>
+                  )}
+                  {stage.unlocked && stageKey === 'scrapper' && (
+                    <span className="stage-progress"> [∞/∞]</span>
+                  )}
                 </div>
                 <div className="stage-description">{stage.description}</div>
                 {!stage.unlocked && stage.unlockRequirement && (
