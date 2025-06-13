@@ -14,7 +14,7 @@ export default function UpgradeStats({ onClose }) {
       setShowIntro(true);
       localStorage.setItem('hasSeenSkillsIntro', 'true');
     }
-    
+
     // Sync with localStorage when component mounts
     loadFromLocalStorage();
   }, [loadFromLocalStorage]);
@@ -40,6 +40,42 @@ export default function UpgradeStats({ onClose }) {
     return ((skillXp[skill] || 0) / required) * 100;
   };
 
+  const skillsData = [
+    {
+      name: 'scavengingFocus',
+      displayName: 'Scavenging Focus',
+      description: 'Increases trash pickup duration by 0.1s per level (Max: 10)',
+      maxLevel: 10,
+      unlocked: true
+    },
+    {
+      name: 'greaseDiscipline', 
+      displayName: 'Grease Discipline',
+      description: 'Reduces crystal pickup time by 0.1s per level (Max: 10)',
+      maxLevel: 10,
+      unlocked: localStorage.getItem('firstCrystal') === 'true'
+    },
+    {
+      name: 'heistingSpeed',
+      displayName: 'Heisting Speed',
+      description: 'Reduces mission duration by 0.5% per level (Max: 10)',
+      maxLevel: 10,
+      unlocked: (() => {
+        try {
+          const crewStorage = JSON.parse(localStorage.getItem('crew-storage') || '{}');
+          return (crewStorage.state?.successfulMissions || 0) > 0;
+        } catch {
+          return false;
+        }
+      })()
+    }
+  ];
+
+  const handleSkillToggle = (skillName) => {
+    const newActiveSkill = activeSkill === skillName ? '' : skillName;
+    setActiveSkill(newActiveSkill);
+  };
+
   return (
     <>
       {showIntro && (
@@ -51,59 +87,84 @@ export default function UpgradeStats({ onClose }) {
         <button onClick={onClose}>Close</button>
       </div>
       <div className="skill-list">
-        <div className="skill-item">
-          <h3>Scavenging Focus {skillLevels.scavengingFocus}/10</h3>
-          <p>Effect: +{skillLevels.scavengingFocus}% Junk per Click</p>
-          <p className="flavor-text">"Eyes sharp, hands faster."</p>
-          <div className="skill-controls">
-            <button 
-              onClick={() => {
-                const newActiveSkill = activeSkill === 'scavengingFocus' ? '' : 'scavengingFocus';
-                setActiveSkill(newActiveSkill);
-              }}
-              className={activeSkill === 'scavengingFocus' ? 'active' : ''}
-              disabled={skillLevels.scavengingFocus >= 10}
-            >
-              {activeSkill === 'scavengingFocus' ? 'Training' : 'Train'}
-            </button>
-            {activeSkill === 'scavengingFocus' && skillLevels.scavengingFocus < 10 && (
-              <div className="progress-container">
-                <div className="progress-bar">
-                  <div className="progress" style={{ width: `${getProgressPercentage('scavengingFocus')}%` }}></div>
-                </div>
-                <div className="xp-text">{skillXp.scavengingFocus || 0}/{getRequiredXp('scavengingFocus')} XP</div>
-              </div>
-            )}
-          </div>
-        </div>
+        {skillsData.map((skill) => {
+          if (!skill.unlocked) return null;
 
-        {skillLevels.scavengingFocus >= 5 && (
-          <div className="skill-item">
-            <h3>Grease Discipline {skillLevels.greaseDiscipline}/10</h3>
-            <p>Effect: +{(skillLevels.greaseDiscipline * 0.5).toFixed(1)}% Junk/sec</p>
-            <p className="flavor-text">"The pile works harder when you do."</p>
-            <div className="skill-controls">
-              <button 
-                onClick={() => {
-                  const newActiveSkill = activeSkill === 'greaseDiscipline' ? '' : 'greaseDiscipline';
-                  setActiveSkill(newActiveSkill);
-                }}
-                className={activeSkill === 'greaseDiscipline' ? 'active' : ''}
-                disabled={skillLevels.greaseDiscipline >= 10}
-              >
-                {activeSkill === 'greaseDiscipline' ? 'Training' : 'Train'}
-              </button>
-              {activeSkill === 'greaseDiscipline' && skillLevels.greaseDiscipline < 10 && (
+          const currentLevel = skillLevels[skill.name] || 0;
+          const currentXp = skillXp[skill.name] || 0;
+          const isActive = activeSkill === skill.name;
+          const isMaxLevel = currentLevel >= skill.maxLevel;
+
+          // Check if this is a newly unlocked Heisting Speed skill
+          const isNewlyUnlocked = skill.name === 'heistingSpeed' && 
+            !localStorage.getItem('heistingSpeedSeen') &&
+            skill.unlocked;
+
+          // Calculate XP for next level
+          const baseXp = 10;
+          const requiredXp = Math.floor(baseXp * Math.pow(1.25, currentLevel));
+
+          return (
+            <div key={skill.name} className="skill-item">
+              <h3>
+                {skill.displayName} (Level {currentLevel})
+                {isNewlyUnlocked && (
+                  <span style={{ 
+                    color: '#FF6600', 
+                    marginLeft: '8px', 
+                    fontSize: '1.2em',
+                    textShadow: '0 0 10px #FF6600'
+                  }}>
+                    (!)
+                  </span>
+                )}
+              </h3>
+              <p>{skill.description}</p>
+
+              {!isMaxLevel && (
                 <div className="progress-container">
                   <div className="progress-bar">
-                    <div className="progress" style={{ width: `${getProgressPercentage('greaseDiscipline')}%` }}></div>
+                    <div 
+                      className="progress" 
+                      style={{ width: `${(currentXp / requiredXp) * 100}%` }}
+                    />
                   </div>
-                  <div className="xp-text">{skillXp.greaseDiscipline || 0}/{getRequiredXp('greaseDiscipline')} XP</div>
+                  <div className="xp-text">
+                    {currentXp} / {requiredXp} XP
+                  </div>
                 </div>
               )}
+
+              {isMaxLevel && (
+                <div className="max-level-indicator">
+                  <span style={{ color: '#FFD700' }}>★ MAX LEVEL ★</span>
+                </div>
+              )}
+
+              <button
+                onClick={() => {
+                  handleSkillToggle(skill.name);
+                  // Mark Heisting Speed as seen when player interacts with it
+                  if (skill.name === 'heistingSpeed') {
+                    localStorage.setItem('heistingSpeedSeen', 'true');
+                  }
+                }}
+                disabled={isMaxLevel}
+                style={{
+                  background: isActive ? '#9400D3' : '#222',
+                  color: isActive ? '#fff' : '#00FF00',
+                  border: `2px solid ${isActive ? '#fff' : '#9400D3'}`,
+                  padding: '8px 16px',
+                  cursor: isMaxLevel ? 'not-allowed' : 'pointer',
+                  borderRadius: '4px',
+                  marginTop: '10px'
+                }}
+              >
+                {isMaxLevel ? 'Maxed Out' : isActive ? 'Active' : 'Activate'}
+              </button>
             </div>
-          </div>
-        )}
+          );
+        })}
       </div>
     </div>
     </>

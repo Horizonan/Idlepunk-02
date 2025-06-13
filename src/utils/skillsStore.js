@@ -12,18 +12,20 @@ const initializeFromLocalStorage = () => {
     return {
       skillLevels: {
         scavengingFocus: skillLevels.scavengingFocus || 0,
-        greaseDiscipline: skillLevels.greaseDiscipline || 0
+        greaseDiscipline: skillLevels.greaseDiscipline || 0,
+        heistingSpeed: skillLevels.heistingSpeed || 0
       },
       skillXp: {
         scavengingFocus: skillXp.scavengingFocus || 0,
-        greaseDiscipline: skillXp.greaseDiscipline || 0
+        greaseDiscipline: skillXp.greaseDiscipline || 0,
+        heistingSpeed: skillXp.heistingSpeed || 0
       },
       activeSkill
     };
   } catch (error) {
     return {
-      skillLevels: { scavengingFocus: 0, greaseDiscipline: 0 },
-      skillXp: { scavengingFocus: 0, greaseDiscipline: 0 },
+      skillLevels: { scavengingFocus: 0, greaseDiscipline: 0, heistingSpeed: 0 },
+      skillXp: { scavengingFocus: 0, greaseDiscipline: 0, heistingSpeed: 0 },
       activeSkill: ''
     };
   }

@@ -416,10 +416,20 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                       Duration: {Math.round(calculateMissionDuration(mission.duration) / 60)} minutes
                       {(() => {
                         const craftingInventory = JSON.parse(localStorage.getItem('craftingInventory') || '{}');
-                        if (craftingInventory['Chrono Regulator'] && craftingInventory['Chrono Regulator'] > 0) {
-                          return <span style={{color: '#00ff00'}}> (Chrono Regulator: -20s)</span>;
+                        const skillLevels = JSON.parse(localStorage.getItem('skillLevels') || '{}');
+                        const heistingSpeedLevel = skillLevels.heistingSpeed || 0;
+                        const hasChronoRegulator = craftingInventory['Chrono Regulator'] && craftingInventory['Chrono Regulator'] > 0;
+                        
+                        const modifiers = [];
+                        if (hasChronoRegulator) {
+                          modifiers.push(<span key="chrono" style={{color: '#00ff00'}}> (Chrono Regulator: -20s)</span>);
                         }
-                        return null;
+                        if (heistingSpeedLevel > 0) {
+                          const speedBonus = (heistingSpeedLevel * 0.5).toFixed(1);
+                          modifiers.push(<span key="heisting" style={{color: '#9400D3'}}> (Heisting Speed: -{speedBonus}%)</span>);
+                        }
+                        
+                        return modifiers;
                       })()}
                     </div>
                   <button 

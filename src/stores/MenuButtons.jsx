@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 
 export default function MenuButtons({ onStoreSelect, showInventory, craftingInventory = {} }) {
@@ -49,7 +48,34 @@ export default function MenuButtons({ onStoreSelect, showInventory, craftingInve
       header: 'SKILLS',
       buttons: [
         {
-          label: 'Skills Center',
+          label: (
+            <>
+              Skills Center
+              {(() => {
+                try {
+                  const crewStorage = JSON.parse(localStorage.getItem('crew-storage') || '{}');
+                  const hasCompletedMission = (crewStorage.state?.successfulMissions || 0) > 0;
+                  const heistingSpeedSeen = localStorage.getItem('heistingSpeedSeen') === 'true';
+
+                  if (hasCompletedMission && !heistingSpeedSeen) {
+                    return (
+                      <span style={{
+                        color: '#FF6600',
+                        marginLeft: '8px',
+                        fontSize: '1.2em',
+                        textShadow: '0 0 10px #FF6600'
+                      }}>
+                        (!)
+                      </span>
+                    );
+                  }
+                  return null;
+                } catch {
+                  return null;
+                }
+              })()}
+            </>
+          ),
           onClick: () => {
             const event = new CustomEvent('toggleUpgradeStats');
             window.dispatchEvent(event);

@@ -323,5 +323,13 @@ export const calculateMissionDuration = (baseDuration) => {
     duration = Math.max(60, duration - 20); // Reduce by 20 seconds, minimum 1 minute
   }
 
+  // Apply Heisting Speed skill reduction
+  const skillLevels = JSON.parse(localStorage.getItem('skillLevels') || '{}');
+  const heistingSpeedLevel = skillLevels.heistingSpeed || 0;
+  if (heistingSpeedLevel > 0) {
+    const speedReduction = heistingSpeedLevel * 0.005; // 0.5% per level
+    duration = Math.max(60, duration * (1 - speedReduction)); // Apply reduction, minimum 1 minute
+  }
+
   return duration;
 };
