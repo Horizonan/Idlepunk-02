@@ -168,13 +168,12 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
           }, 1000);
         }
         
-        // Trigger achievement validation immediately - no delay
-        window.dispatchEvent(new CustomEvent('validateAchievements'));
-        
-        // Also trigger a second validation after a short delay as backup
-        setTimeout(() => {
-          window.dispatchEvent(new CustomEvent('validateAchievements'));
-        }, 500);
+        // Force immediate achievement validation with multiple attempts
+        for (let i = 0; i < 3; i++) {
+          setTimeout(() => {
+            window.dispatchEvent(new CustomEvent('validateAchievements'));
+          }, i * 100);
+        }
       }
 
       // Reset drag state
