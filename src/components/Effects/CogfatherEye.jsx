@@ -53,7 +53,7 @@ export default function CogfatherEye({ forceShow = false, onDisappear }) {
     }, 30000 + Math.random() * 60000); // Every 30-90 seconds
 
     return () => clearInterval(spawnInterval);
-  }, [forceShow, shouldShow, onDisappear]);
+  }, [forceShow, shouldShow]);
 
   useEffect(() => {
     if (!isVisible) return;
