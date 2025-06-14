@@ -740,13 +740,13 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                   <p>Junk: ${junkReward > 0 ? '+' : ''}${junkReward}</p>
                                   ${equipmentRewards.length > 0 ? 
                                     equipmentRewards.map(equipment => `
-                                      <div class="equipment-reward">
-                                        <div class="equipment-reward-header">
-                                          <span class="equipment-icon">${equipment.icon}</span>
-                                          <span class="equipment-type">${equipment.type.toUpperCase()}</span>
+                                      <div class="equipment-crew-reward">
+                                        <div class="equipment-crew-reward-header">
+                                          <span class="equipment-crew-icon">${equipment.icon}</span>
+                                          <span class="equipment-crew-type">${equipment.type.toUpperCase()}</span>
                                         </div>
-                                        <h4 class="equipment-name">${equipment.name}</h4>
-                                        <div class="equipment-stats">
+                                        <h4 class="equipment-crew-name">${equipment.name}</h4>
+                                        <div class="equipment-crew-stats">
                                           ${Object.entries(equipment.statBonus).map(([stat, bonus]) => 
                                             `<span class="stat-bonus">${stat}: +${bonus}</span>`
                                           ).join(' ')}
@@ -757,7 +757,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                     autoSoldItems.map(item => `
                                       <div class="auto-sold-item">
                                         <div class="auto-sold-header">
-                                          <span class="equipment-icon">${item.icon}</span>
+                                          <span class="equipment-crew-icon">${item.icon}</span>
                                           <span class="auto-sold-label">AUTO-SOLD</span>
                                         </div>
                                         <h4 class="auto-sold-name">${item.name}</h4>
@@ -843,23 +843,23 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
             <div className="loadout-section">
               <h4>Available Equipment</h4>
-              <div className="equipment-inventory">
+              <div className="equipment-crew-inventory">
                 {equipment.length === 0 ? (
                   <p>No equipment available. Complete missions to find equipment!</p>
                 ) : (
                   equipment.map((item) => (
-                    <div key={item.uniqueId} className="equipment-item">
-                      <span className="equipment-icon">{item.icon}</span>
-                      <div className="equipment-info">
+                    <div key={item.uniqueId} className="equipment-crew--item">
+                      <span className="equipment-crew-icon">{item.icon}</span>
+                      <div className="equipment-crew-info">
                         <h5>{item.name}</h5>
-                        <p className="equipment-rarity">{item.rarity}</p>
-                        <p className="equipment-type">{item.type}</p>
-                        <div className="equipment-stats">
+                        <p className="equipment-crew-rarity">{item.rarity}</p>
+                        <p className="equipment-crew-type">{item.type}</p>
+                        <div className="equipment-crew-stats">
                           {Object.entries(item.statBonus).map(([stat, bonus]) => (
                             <span key={stat}>{stat}: +{bonus}</span>
                           ))}
                         </div>
-                        <p className="equipment-flavor">{item.flavor}</p>
+                        <p className="equipment-crew-flavor">{item.flavor}</p>
                       </div>
                     </div>
                   ))
@@ -880,16 +880,16 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         <h5>{crew.name}</h5>
                         <span className="crew-role">{crew.role}</span>                      </div>
 
-                      <div className="loadout-slots">
+                      <div className="crew-loadout-slots">
                         {['weapon', 'armor', 'tool'].map(slotType => (
                           <div key={slotType} className="loadout-slot">
                             <div className="slot-type">{slotType}</div>
                             {loadout[slotType] ? (
                               <div className="equipped-item">
-                                <span className="equipment-icon">{loadout[slotType].icon}</span>
-                                <div className="equipment-info">
+                                <span className="equipment-crew-icon">{loadout[slotType].icon}</span>
+                                <div className="equipment-crew-info">
                                   <p>{loadout[slotType].name}</p>
-                                  <div className="equipment-stats">
+                                  <div className="equipment-crew-stats">
                                     {Object.entries(loadout[slotType].statBonus).map(([stat, bonus]) => (
                                       <span key={stat}>{stat}: +{bonus}</span>
                                     ))}

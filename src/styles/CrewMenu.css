@@ -574,14 +574,14 @@
   padding-bottom: 5px;
 }
 
-.equipment-inventory {
+.equipment-crew-inventory {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 15px;
   margin-bottom: 20px;
 }
 
-.equipment-item {
+.equipment-crew--item {
   background: rgba(34, 34, 34, 0.8);
   border: 1px solid #9400D3;
   padding: 15px;
@@ -591,38 +591,38 @@
   gap: 15px;
 }
 
-.equipment-icon {
+.equipment-crew--icon {
   font-size: 2em;
   min-width: 50px;
   text-align: center;
 }
 
-.equipment-info h5 {
+.equipment-crew--info h5 {
   color: #00FF00;
   margin: 0 0 5px 0;
 }
 
-.equipment-rarity {
+.equipment-crew--rarity {
   color: #9400D3;
   text-transform: capitalize;
   font-size: 0.9em;
   margin: 2px 0;
 }
 
-.equipment-type {
+.equipment-crew--type {
   color: #00FFFF;
   text-transform: capitalize;
   font-size: 0.9em;
   margin: 2px 0;
 }
 
-.equipment-stats {
+.equipment-crew--stats {
   display: flex;
   gap: 10px;
   margin: 5px 0;
 }
 
-.equipment-stats span {
+.equipment-crew--stats span {
   background: rgba(0, 255, 0, 0.1);
   padding: 2px 6px;
   border-radius: 3px;
@@ -630,7 +630,7 @@
   color: #00FF00;
 }
 
-.equipment-flavor {
+.equipment-crew--flavor {
   font-style: italic;
   color: #999;
   font-size: 0.8em;
@@ -661,14 +661,14 @@
   margin: 0;
 }
 
-.loadout-slots {
+.crew-loadout-slots {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 15px;
   margin-bottom: 15px;
 }
 
-.loadout-slot {
+.crew-loadout-slot {
   background: #222;
   border: 2px solid #9400D3;
   padding: 15px;
