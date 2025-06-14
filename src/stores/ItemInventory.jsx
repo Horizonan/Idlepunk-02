@@ -57,6 +57,16 @@ export default function ItemInventory({ craftingInventory, onBack }) {
       effect: 'Increases Trash Surge duration from 5s → 10s',
       icon: <img src="../Icons/crafting/surgeCapacitor.png" alt="Mesh" style={{width: '100%', height: '100%'}} />
     },
+    'Echo Helmets': {
+      description: 'Noise-canceling brainwear for clean signal thinking',
+      effect: '+1% mission success rate',
+      icon: '🎧'
+    },
+    'Chrono Regulator': {
+      description: 'A hacked regulator that compresses outbound sync pulses',
+      effect: 'All crew missions complete 20 seconds faster',
+      icon: '⏱️'
+    },
     'Stabilized Capacitor': {
       description: 'A perfectly stabilized energy storage unit',
       effect: 'Required for advanced tech progression',
