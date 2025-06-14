@@ -186,29 +186,40 @@
   line-height: 1.4;
 }
 
+.notifications-mobile-button {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(26, 26, 26, 0.95);
+  border: 2px solid #9400D3;
+  color: #00FF00;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1000;
+  min-height: 44px;
+  min-width: 100px;
+  max-width: 140px;
+  white-space: nowrap;
+  touch-action: manipulation;
+  display: none;
+}
+
+.notifications-mobile-button:active {
+  background: rgba(148, 0, 211, 0.2);
+  transform: scale(0.98);
+}
+
 /* Mobile-specific behavior */
 @media (max-width: 768px) {
   .notifications-container {
-    cursor: pointer;
-    background: rgba(26, 26, 26, 0.95) !important;
-    border: 2px solid #9400D3 !important;
-    padding: 10px 15px !important;
-    min-height: 44px !important;
+    display: none !important;
+  }
+
+  .notifications-mobile-button {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    touch-action: manipulation !important;
-    width: auto !important;
-    max-width: 140px !important;
-    min-width: 100px !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    position: fixed !important;
-    bottom: 20px !important;
-    left: 20px !important;
-    z-index: 1000 !important;
-    border-radius: 8px !important;
   }
   
   .notifications-container:active {
