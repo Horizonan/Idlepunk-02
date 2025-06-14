@@ -56,7 +56,7 @@ export function SkillsAssessmentGame() {
         <h2>Skills Assessment Complete</h2>
         <p>Final Score: {score}</p>
 
-        {crewRecruited ? (
+        {selectedCrew && selectedCrew.name ? (
           <div className="crew-unlock">
             <h3>Crew Member Recruited!</h3>
             <div className="crew-details">
