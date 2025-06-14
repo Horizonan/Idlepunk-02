@@ -55,21 +55,21 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
   const equipItem = (item, slot) => {
     const newEquipment = { ...playerEquipment };
     const newInventory = [...playerInventory];
-    
+
     // If there's already an item in this slot, move it back to inventory
     if (newEquipment[slot]) {
       newInventory.push(newEquipment[slot]);
     }
-    
+
     // Equip the new item
     newEquipment[slot] = item;
-    
+
     // Remove item from inventory
     const itemIndex = newInventory.findIndex(invItem => invItem.uniqueId === item.uniqueId);
     if (itemIndex !== -1) {
       newInventory.splice(itemIndex, 1);
     }
-    
+
     setPlayerEquipment(newEquipment);
     setPlayerInventory(newInventory);
     localStorage.setItem('playerEquipment', JSON.stringify(newEquipment));
@@ -79,11 +79,11 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
   const unequipItem = (slot) => {
     const newEquipment = { ...playerEquipment };
     const newInventory = [...playerInventory];
-    
+
     if (newEquipment[slot]) {
       newInventory.push(newEquipment[slot]);
       newEquipment[slot] = null;
-      
+
       setPlayerEquipment(newEquipment);
       setPlayerInventory(newInventory);
       localStorage.setItem('playerEquipment', JSON.stringify(newEquipment));
@@ -102,7 +102,7 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
 
   const calculateEffectiveStats = () => {
     let effectiveStats = { ...playerStats };
-    
+
     Object.values(playerEquipment).forEach(item => {
       if (item && item.statBonus) {
         Object.entries(item.statBonus).forEach(([stat, bonus]) => {
@@ -112,7 +112,7 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
         });
       }
     });
-    
+
     return effectiveStats;
   };
 
@@ -157,9 +157,9 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
 
   const startCombat = () => {
     if (!selectedStage) return;
-    
+
     const effectiveStats = calculateEffectiveStats();
-    
+
     setCombatState({
       inProgress: true,
       playerHealth: effectiveStats.maxHealth,
@@ -175,17 +175,17 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
   useEffect(() => {
     if (combatState.inProgress && combatState.playerHealth > 0) {
       const effectiveStats = calculateEffectiveStats();
-      
+
       const playerInterval = setInterval(() => {
         setCombatState(prev => {
           if (prev.playerHealth <= 0 || !prev.inProgress) {
             return prev;
           }
-          
+
           const isCritical = Math.random() < 0.2;
           const damage = effectiveStats.attack * (1 - enemy.defense / 100) * (isCritical ? 1.5 : 1);
           const newEnemyHealth = Math.max(0, prev.enemyHealth - damage);
-          
+
           triggerPlayerAttack(isCritical);
 
           return {
@@ -205,7 +205,7 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
           if (prev.playerHealth <= 0 || !prev.inProgress) {
             return prev;
           }
-          
+
           const damage = enemy.damage * (1 - effectiveStats.defense / 100);
           const newPlayerHealth = Math.max(0, prev.playerHealth - damage);
 
@@ -241,20 +241,20 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
     } else if (combatState.inProgress && combatState.enemyHealth <= 0 && selectedStage) {
       const rewards = stages[selectedStage].rewards;
       let newWinStreak = winStreak;
-      
+
       // Increment win streak for training stage
       if (selectedStage === 'training') {
         newWinStreak = winStreak + 1;
         setWinStreak(newWinStreak);
         localStorage.setItem('trainingWinStreak', newWinStreak.toString());
       }
-      
+
       const streakMessage = selectedStage === 'training' ? 
         ` Training win streak: ${newWinStreak}/15` : '';
-      
+
       // Give rewards but don't end combat - spawn new enemy
       onCombatEnd(true, rewards);
-      
+
       setCombatState(prev => ({
         ...prev,
         enemyHealth: enemy.maxHealth, // Reset enemy health for new fight
@@ -270,7 +270,7 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
         <h2>SCRAPTAGON COMBAT v2.077</h2>
         <button className="close-combat" onClick={onClose}>Close</button>
       </div>
-      
+
       <div className="combat-tabs">
         <button 
           className={`combat-tab ${activeTab === 'combat' ? 'active' : ''}`}
@@ -287,7 +287,7 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
       </div>
 
       {activeTab === 'combat' && (
-        <>
+        <div className="combat-content">
           <div className="combat-stats">
             <div>PLAYER: [LVL {playerStats?.level || 1}] {playerStats?.name || 'UNKNOWN'}</div>
             <div>COMBAT RATING: {calculateEffectiveStats().attack || 0} DMG / {calculateEffectiveStats().defense || 0} DEF</div>
@@ -295,91 +295,94 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
               <div className="equipment-bonus">Equipment Bonuses Active</div>
             )}
           </div>
-      
-      {!selectedStage && (
-        <div className="stage-selection">
-          <h3>SELECT COMBAT STAGE</h3>
-          <div className="combat-stats">
-            <div>Training Win Streak: {winStreak}/15</div>
-            <div>Stages Unlocked: {Object.values(stages).filter(stage => stage.unlocked).length}/{Object.keys(stages).length}</div>
-          </div>
-          <div className="stage-list">
-            {Object.entries(stages).map(([stageKey, stage]) => (
-              <div 
-                key={stageKey} 
-                className={`stage-option ${!stage.unlocked ? 'locked' : ''}`} 
-                onClick={() => stage.unlocked && setSelectedStage(stageKey)}
-              >
-                <div className="stage-name">
-                  {stage.name} {!stage.unlocked && '🔒'}
-                  {stage.unlocked && stageKey === 'training' && (
-                    <span className="stage-progress"> [{winStreak}/15]</span>
-                  )}
-                  {stage.unlocked && stageKey === 'scrapper' && (
-                    <span className="stage-progress"> [∞/∞]</span>
-                  )}
+
+          {!selectedStage && (
+            <div className="stage-selection">
+              <h3>SELECT COMBAT STAGE</h3>
+              <div className="combat-stats">
+                <div>Training Win Streak: {winStreak}/15</div>
+                <div>Stages Unlocked: {Object.values(stages).filter(stage => stage.unlocked).length}/{Object.keys(stages).length}</div>
+              </div>
+              <div className="stage-list">
+                {Object.entries(stages).map(([stageKey, stage]) => (
+                  <div 
+                    key={stageKey} 
+                    className={`stage-option ${!stage.unlocked ? 'locked' : ''}`} 
+                    onClick={() => stage.unlocked && setSelectedStage(stageKey)}
+                  >
+                    <div className="stage-name">
+                      {stage.name} {!stage.unlocked && '🔒'}
+                      {stage.unlocked && stageKey === 'training' && (
+                        <span className="stage-progress"> [{winStreak}/15]</span>
+                      )}
+                      {stage.unlocked && stageKey === 'scrapper' && (
+                        <span className="stage-progress"> [∞/∞]</span>
+                      )}
+                    </div>
+                    <div className="stage-description">{stage.description}</div>
+                    {!stage.unlocked && stage.unlockRequirement && (
+                      <div className="unlock-requirement">Unlock: {stage.unlockRequirement}</div>
+                    )}
+                    <div className="stage-enemy">Enemy: {stage.enemy.name} (HP: {stage.enemy.maxHealth})</div>
+                    <div className="stage-rewards">Rewards: {stage.rewards.junk} Junk, {stage.rewards.credits} Credits</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {selectedStage && (
+            <div className="stage-info">
+              <div className="current-stage">
+                <span>Current Stage: {stages[selectedStage].name} 
+                  {selectedStage === 'training' && ` [${winStreak}/15]`}
+                  {selectedStage === 'scrapper' && ` [∞/∞]`}
+                </span>
+                <button className="back-to-stages" onClick={() => setSelectedStage(null)}>Change Stage</button>
+              </div>
+            </div>
+          )}
+
+          {selectedStage && (
+            <div className="combat-arena">
+              <div className="health-bars">
+                <div className="health-bar player">
+                  <div className="health-fill" style={{ width: `${(combatState.playerHealth / playerStats.maxHealth) * 100}%` }}></div>
+                  <span className="health-text">{Math.ceil(combatState.playerHealth)} / {playerStats.maxHealth}</span>
                 </div>
-                <div className="stage-description">{stage.description}</div>
-                {!stage.unlocked && stage.unlockRequirement && (
-                  <div className="unlock-requirement">Unlock: {stage.unlockRequirement}</div>
-                )}
-                <div className="stage-enemy">Enemy: {stage.enemy.name} (HP: {stage.enemy.maxHealth})</div>
-                <div className="stage-rewards">Rewards: {stage.rewards.junk} Junk, {stage.rewards.credits} Credits</div>
+                <div className="health-bar enemy">
+                  <div className="health-fill" style={{ width: `${(combatState.enemyHealth / enemy.maxHealth) * 100}%` }}></div>
+                  <span className="health-text">{Math.ceil(combatState.enemyHealth)} / {enemy.maxHealth}</span>
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
-      )}
-      
-      {selectedStage && (
-        <div className="stage-info">
-          <div className="current-stage">
-            <span>Current Stage: {stages[selectedStage].name} 
-              {selectedStage === 'training' && ` [${winStreak}/15]`}
-              {selectedStage === 'scrapper' && ` [∞/∞]`}
-            </span>
-            <button className="back-to-stages" onClick={() => setSelectedStage(null)}>Change Stage</button>
-          </div>
-        </div>
-      )}
-      {selectedStage && (
-        <div className="combat-arena">
-          <div className="health-bars">
-            <div className="health-bar player">
-              <div className="health-fill" style={{ width: `${(combatState.playerHealth / playerStats.maxHealth) * 100}%` }}></div>
-              <span className="health-text">{Math.ceil(combatState.playerHealth)} / {playerStats.maxHealth}</span>
-            </div>
-            <div className="health-bar enemy">
-              <div className="health-fill" style={{ width: `${(combatState.enemyHealth / enemy.maxHealth) * 100}%` }}></div>
-              <span className="health-text">{Math.ceil(combatState.enemyHealth)} / {enemy.maxHealth}</span>
-            </div>
-          </div>
 
-          <div className="combat-visuals">
-            <div className={`player-sprite ${
-              combatState.victory ? 'victory' : 
-              combatState.playerAttacking ? 'attacking' :
-              combatState.criticalHit ? 'critical' : ''
-            }`}></div>
-            <div className={`enemy-sprite ${combatState.inProgress ? 'animated' : ''} ${selectedStage === 'training' ? 'training-dummy' : ''}`}></div>
-          </div>
-
-          <div className="combat-log">
-            {combatState.combatLog.slice(-5).map((log, index) => (
-              <div key={index} className="log-entry">
-                {log.includes('CRITICAL') || log.includes('SYSTEM') || log.includes('Victory') ? (
-                  <span className="status-effect">{log}</span>
-                ) : (
-                  log
-                )}
+              <div className="combat-visuals">
+                <div className={`player-sprite ${
+                  combatState.victory ? 'victory' : 
+                  combatState.playerAttacking ? 'attacking' :
+                  combatState.criticalHit ? 'critical' : ''
+                }`}></div>
+                <div className={`enemy-sprite ${combatState.inProgress ? 'animated' : ''} ${selectedStage === 'training' ? 'training-dummy' : ''}`}></div>
               </div>
-            ))}
-          </div>
 
-          {!combatState.inProgress && (
-            <button className="start-combat" onClick={startCombat}>
-              Start Combat
-            </button>
+              <div className="combat-log">
+                {combatState.combatLog.slice(-5).map((log, index) => (
+                  <div key={index} className="log-entry">
+                    {log.includes('CRITICAL') || log.includes('SYSTEM') || log.includes('Victory') ? (
+                      <span className="status-effect">{log}</span>
+                    ) : (
+                      log
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {!combatState.inProgress && (
+                <button className="start-combat" onClick={startCombat}>
+                  Start Combat
+                </button>
+              )}
+            </div>
           )}
         </div>
       )}
