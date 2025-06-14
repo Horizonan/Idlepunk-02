@@ -39,9 +39,9 @@ export function RecruitmentGame() {
   if (!isRunning || currentIndex >= profileCount) {
     const finalScore = score
 
-    if(gameEnded = 0){
+    if(gameEnded === 0){
       handleGameEnd(finalScore)
-      gameEnded +1
+      gameEnded += 1
       }
       
     
@@ -52,7 +52,7 @@ export function RecruitmentGame() {
         <h2>Game Over</h2>
         <p>Final Score: {finalScore}</p>
         
-        {selectedCrew ? (
+        {selectedCrew && selectedCrew.name ? (
           <div className="crew-unlock">
             <h3>Crew Member Unlocked!</h3>
             <div className="crew-details">
