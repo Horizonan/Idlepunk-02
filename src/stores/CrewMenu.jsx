@@ -622,6 +622,12 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
                             let baseSuccessRate = calculateMissionSuccess(crewStats, currentActiveMission.requirements);
 
+                            // Apply Echo Helmets +1% mission success rate bonus
+                            const craftingInventory = JSON.parse(localStorage.getItem('craftingInventory') || '{}');
+                            if (craftingInventory['Echo Helmets'] && craftingInventory['Echo Helmets'] > 0) {
+                              baseSuccessRate += 1; // Add 1% flat bonus
+                            }
+
                             // Apply mini-game effects - get state once
                             const state = useRecruitmentZustand.getState();
                             const miniGameBonus = state.miniGameBonus || { rewardChanceBonus: 0, successPenalty: 0 };
