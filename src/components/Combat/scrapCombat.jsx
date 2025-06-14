@@ -409,7 +409,7 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
                   <div className="equipment-slot hand-slot">
                     <div className="slot-label">LEFT HAND</div>
                     {playerEquipment.leftHand ? (
-                      <div className="equipped-item" onClick={() => unequipItem('leftHand')}>
+                      <div className="equipped-item" onClick={()={() => unequipItem('leftHand')}}>
                         <span className="item-icon">{playerEquipment.leftHand.icon}</span>
                         <div className="item-name">{playerEquipment.leftHand.name}</div>
                       </div>

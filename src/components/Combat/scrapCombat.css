@@ -465,7 +465,9 @@
 .equipment-interface {
   display: flex;
   gap: 30px;
-  min-height: 600px;
+  min-height: 650px;
+  max-height: 650px;
+  overflow: hidden;
 }
 
 .equipment-main {
@@ -617,7 +619,7 @@
   padding: 20px;
   border: 1px solid #00ff00;
   border-radius: 8px;
-  max-height: 600px;
+  max-height: 650px;
   overflow-y: auto;
 }
 
