@@ -194,14 +194,19 @@
     border: 2px solid #9400D3 !important;
     padding: 8px 12px !important;
     min-height: 44px !important;
-    display: inline-block !important;
+    display: inline-flex !important;
     align-items: center !important;
+    justify-content: center !important;
     touch-action: manipulation !important;
     width: auto !important;
-    max-width: 150px !important;
+    max-width: 120px !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
+    position: fixed !important;
+    bottom: 20px !important;
+    left: 20px !important;
+    z-index: 1000 !important;
   }
   
   .notifications-container:active {
@@ -212,7 +217,15 @@
   .notifications-header {
     padding: 0 !important;
     border-bottom: none !important;
-    width: auto !important;
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  
+  .notifications-header span {
+    font-size: 0.9em !important;
+    color: #00FF00 !important;
   }
   
   .notifications-buttons {
