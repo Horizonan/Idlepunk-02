@@ -102,7 +102,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
         'Capacitor': 1
       },
       cost: 5000000,
-      description: 'Noise-canceling brainwear for clean signal thinking.',
+      description: 'Noise-canceling brainwear for clean signal thinking. +1% mission success rate. ',
       effect: '+1% mission success rate',
       type: 'enhanced',
       onetime: true
