@@ -878,53 +878,33 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                     <div key={crew.id} className="crew-loadout-card">
                       <div className="crew-loadout-header">
                         <h5>{crew.name}</h5>
-                        <span className="crew-role">{crew.role}</span>                      </div>
+                        <span className="crew-role">{crew.role}</span>
+                      </div>
 
-                      <div className="loadout-slots">
+                      <div className="loadout-equipment">
                         {['weapon', 'armor', 'tool'].map(slotType => (
-                          <div key={slotType} className="loadout-slot">
-                            <div className="slot-type">{slotType}</div>
-                            {loadout[slotType] ? (
-                              <div className="equipped-item">
-                                <span className="equipment-icon">{loadout[slotType].icon}</span>
-                                <div className="equipment-info">
-                                  <p>{loadout[slotType].name}</p>
-                                  <div className="equipment-stats">
-                                    {Object.entries(loadout[slotType].statBonus).map(([stat, bonus]) => (
-                                      <span key={stat}>{stat}: +{bonus}</span>
-                                    ))}
-                                  </div>
-                                </div>
-                                <button 
-                                  className="unequip-button"
-                                  onClick={() => unequipItemFromCrew(crew.id, slotType)}
-                                >
-                                  ✕
-                                </button>
-                              </div>
-                            ) : (
-                              <div className="empty-slot">
-                                <div className="slot-icon">+</div>
-                                <select 
-                                  value=""
-                                  onChange={(e) => {
-                                    if (e.target.value) {
-                                      equipItemToCrew(crew.id, e.target.value, slotType);
-                                    }
-                                  }}
-                                >
-                                  <option value="">Select {slotType}</option>
-                                  {equipment
-                                    .filter(item => item.type === slotType)
-                                    .map((item) => (
-                                      <option key={item.uniqueId} value={item.uniqueId}>
-                                        {item.name}
-                                      </option>
-                                    ))
-                                  }
-                                </select>
-                              </div>
-                            )}
+                          <div key={slotType} className="equipment-slot">
+                            <label>{slotType}:</label>
+                            <select 
+                              value={loadout[slotType]?.uniqueId || ""}
+                              onChange={(e) => {
+                                if (e.target.value) {
+                                  equipItemToCrew(crew.id, e.target.value, slotType);
+                                } else {
+                                  unequipItemFromCrew(crew.id, slotType);
+                                }
+                              }}
+                            >
+                              <option value="">None</option>
+                              {equipment
+                                .filter(item => item.type === slotType)
+                                .map((item) => (
+                                  <option key={item.uniqueId} value={item.uniqueId}>
+                                    {item.name}
+                                  </option>
+                                ))
+                              }
+                            </select>
                           </div>
                         ))}
                       </div>
