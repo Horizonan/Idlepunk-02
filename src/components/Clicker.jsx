@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 // Flying junk piece component - Cookie Clicker style
-function FlyingJunkPiece({ id, onAnimationEnd, clickerPosition }) {
+function FlyingJunkPiece({ id, onAnimationEnd, position }) {
   const pieceRef = useRef();
 
   useEffect(() => {
@@ -36,9 +36,9 @@ function FlyingJunkPiece({ id, onAnimationEnd, clickerPosition }) {
       alt="Junk piece"
       className="flying-junk-piece"
       style={{
-        position: 'absolute',
-        left: clickerPosition.x,
-        top: clickerPosition.y,
+        position: 'fixed',
+        left: position.x,
+        top: position.y,
         width: '16px',
         height: '16px',
         transform: 'translate(-50%, -50%)',
@@ -64,37 +64,20 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
   const dragStarted = useRef(false);
   const [flyingJunkPieces, setFlyingJunkPieces] = useState([]);
   const junkPieceIdRef = useRef(0);
-  const [clickerPosition, setClickerPosition] = useState({ x: 0, y: 0 });
-  const clickerRef = useRef(null);
 
   // Hold-to-click configuration variables
   const [holdClickDelay, setHoldClickDelay] = useState(1000); // ms between clicks when holding
   const [holdClickAmount, setHoldClickAmount] = useState(1); // number of clicks per hold interval
 
-  // Function to update clicker position
-  const updateClickerPosition = () => {
-    if (clickerRef.current) {
-      const rect = clickerRef.current.getBoundingClientRect();
-      setClickerPosition({
-        x: rect.left + rect.width / 2,
-        y: rect.top + rect.height / 2
-      });
-    }
-  };
-
-  // Update clicker position on mount and resize
-  useEffect(() => {
-    updateClickerPosition();
-    window.addEventListener('resize', updateClickerPosition);
-    return () => window.removeEventListener('resize', updateClickerPosition);
-  }, []);
-
-  // Function to create flying junk pieces
-  const createFlyingJunkPieces = () => {
-    updateClickerPosition(); // Update position before creating pieces
+  // Function to create flying junk pieces at mouse position
+  const createFlyingJunkPieces = (mouseEvent) => {
     const newPiece = {
       id: junkPieceIdRef.current++,
-      createdAt: Date.now()
+      createdAt: Date.now(),
+      position: {
+        x: mouseEvent.clientX,
+        y: mouseEvent.clientY
+      }
     };
 
     setFlyingJunkPieces(prev => [...prev, newPiece]);
@@ -339,7 +322,6 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
             alignItems: 'center'
           }}>
             <img 
-              ref={clickerRef}
               src="Icons/TrashButtonBig.svg" 
               alt="Trash Clicker" 
               id="trashClicker" 
@@ -362,8 +344,8 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
                   return newCount;
                 });
 
-                // Create flying junk pieces animation
-                createFlyingJunkPieces();
+                // Create flying junk pieces animation at mouse cursor
+                createFlyingJunkPieces(e);
 
                 collectJunk();
               }} 
@@ -371,12 +353,12 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
           </div>
         )}
         
-        {/* Flying junk pieces - render with clicker position */}
+        {/* Flying junk pieces - render at mouse click position */}
         {flyingJunkPieces.map(piece => (
           <FlyingJunkPiece
             key={piece.id}
             id={piece.id}
-            clickerPosition={clickerPosition}
+            position={piece.position}
             onAnimationEnd={removeFlyingJunkPiece}
           />
         ))}
