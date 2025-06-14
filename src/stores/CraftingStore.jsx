@@ -299,8 +299,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                     <p>{item.description}</p>
                     <p className="owned">Owned: {craftingInventory[item.name] || 0}</p>
                   </div>
-                  <div className="mobile-info-indicator">ℹ️</div>
-                </button>
+                  </button>
               ))}
             </div>
           </div>
@@ -342,7 +341,6 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                     )}
                     {item.cost && <p>Cost: {formatJunkCost(item.cost * ((bulkCraft && !item.onetime) ? 10 : 1), craftingInventory['Crafting Booster Unit'])} Junk</p>}
                   </div>
-                  <div className="mobile-info-indicator">ℹ️</div>
                 </button>
               ))}
             </div>
@@ -375,7 +373,6 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                     )}
                     <p className="owned">Owned: {craftingInventory[item.name] || 0}</p>
                   </div>
-                  <div className="mobile-info-indicator">ℹ️</div>
                 </button>
               ))}
             </div>
@@ -421,7 +418,6 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                     {item.cost && <p>Cost: {formatJunkCost(item.cost, craftingInventory['Crafting Booster Unit'])} Junk</p>}
                     {item.onetime && <p className="owned">One-time purchase</p>}
                   </div>
-                  <div className="mobile-info-indicator">ℹ️</div>
                 </button>
               ))}
             </div>
