@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import '../styles/mobile/QuestLogMobile.css';
 
 export default function QuestLog({ tutorialStage, onClose }) {
   const [showQuestLog, setShowQuestLog] = useState(true);
@@ -11,6 +12,16 @@ export default function QuestLog({ tutorialStage, onClose }) {
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [questStates, setQuestStates] = useState({});
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -36,6 +47,7 @@ export default function QuestLog({ tutorialStage, onClose }) {
   }, [selectedQuestLine]);
 
   const handleMouseDown = (e) => {
+    if (isMobile) return; // Disable dragging on mobile
     setIsDragging(true);
     setDragOffset({
       x: e.clientX - position.x,
@@ -44,17 +56,17 @@ export default function QuestLog({ tutorialStage, onClose }) {
   };
 
   const handleMouseMove = (e) => {
-    if (isDragging) {
-      const newPosition = {
-        x: e.clientX - dragOffset.x,
-        y: e.clientY - dragOffset.y
-      };
-      setPosition(newPosition);
-      localStorage.setItem('questLogPosition', JSON.stringify(newPosition));
-    }
+    if (isMobile || !isDragging) return; // Disable dragging on mobile
+    const newPosition = {
+      x: e.clientX - dragOffset.x,
+      y: e.clientY - dragOffset.y
+    };
+    setPosition(newPosition);
+    localStorage.setItem('questLogPosition', JSON.stringify(newPosition));
   };
 
   const handleMouseUp = () => {
+    if (isMobile) return; // Disable dragging on mobile
     setIsDragging(false);
   };
 
@@ -138,17 +150,17 @@ export default function QuestLog({ tutorialStage, onClose }) {
   return (
     <div 
       className="quest-log open"
-      style={{
+      style={isMobile ? {} : {
         position: 'fixed',
         left: position.x,
         top: position.y,
         cursor: isDragging ? 'grabbing' : 'grab',
         userSelect: 'none'
       }}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
+      onMouseDown={!isMobile ? handleMouseDown : undefined}
+      onMouseMove={!isMobile ? handleMouseMove : undefined}
+      onMouseUp={!isMobile ? handleMouseUp : undefined}
+      onMouseLeave={!isMobile ? handleMouseUp : undefined}
     >
       <div className="quest-log-content">
         <div className="quest-header sticky">

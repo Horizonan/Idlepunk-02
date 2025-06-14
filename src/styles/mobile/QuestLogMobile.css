@@ -1,0 +1,288 @@
+
+/* Quest Log Mobile Styles */
+@media (max-width: 768px) {
+  .quest-log {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: none !important;
+    max-height: none !important;
+    background: rgba(0, 0, 0, 0.98) !important;
+    border: none !important;
+    border-radius: 0 !important;
+    z-index: 2000 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    cursor: default !important;
+  }
+
+  .quest-log-content {
+    height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+  }
+
+  .quest-header.sticky {
+    position: sticky !important;
+    top: 0 !important;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.98) 0%, rgba(0, 0, 0, 0.95) 100%) !important;
+    padding: 20px 15px !important;
+    z-index: 2001 !important;
+    border-bottom: 2px solid #9400D3 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    backdrop-filter: blur(5px) !important;
+    flex-shrink: 0 !important;
+  }
+
+  .quest-header h3 {
+    color: #00FF00 !important;
+    margin: 0 !important;
+    font-size: 1.4em !important;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+  }
+
+  .quest-log .close-button {
+    background: #222 !important;
+    border: 2px solid #9400D3 !important;
+    color: #00FF00 !important;
+    padding: 12px 20px !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 8px !important;
+    font-size: 0.9em !important;
+    font-weight: bold !important;
+    min-width: 80px !important;
+    min-height: 44px !important;
+    touch-action: manipulation !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .quest-log .close-button:active {
+    background: rgba(148, 0, 211, 0.3) !important;
+    transform: scale(0.95) !important;
+  }
+
+  .quest-tabs {
+    display: flex !important;
+    gap: 8px !important;
+    margin: 0 15px 0 15px !important;
+    padding: 15px 0 !important;
+    border-bottom: 2px solid #9400D3 !important;
+    overflow-x: auto !important;
+    flex-shrink: 0 !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .quest-tabs::-webkit-scrollbar {
+    height: 4px !important;
+  }
+
+  .quest-tabs::-webkit-scrollbar-track {
+    background: rgba(148, 0, 211, 0.1) !important;
+  }
+
+  .quest-tabs::-webkit-scrollbar-thumb {
+    background: #9400D3 !important;
+    border-radius: 2px !important;
+  }
+
+  .quest-tab {
+    background: #222 !important;
+    border: 2px solid #9400D3 !important;
+    color: #00FF00 !important;
+    padding: 12px 20px !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    margin: 0 !important;
+    font-size: 0.9em !important;
+    font-weight: bold !important;
+    white-space: nowrap !important;
+    min-height: 44px !important;
+    touch-action: manipulation !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+  }
+
+  .quest-tab:active {
+    background: rgba(148, 0, 211, 0.3) !important;
+    transform: scale(0.95) !important;
+  }
+
+  .quest-tab.active {
+    background: #9400D3 !important;
+    color: #222 !important;
+    box-shadow: 0 0 15px rgba(148, 0, 211, 0.6) !important;
+  }
+
+  .quest-tab.highlight {
+    animation: pulse 1.5s infinite !important;
+  }
+
+  .quest-list {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    padding: 15px !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .quest-list::-webkit-scrollbar {
+    width: 6px !important;
+  }
+
+  .quest-list::-webkit-scrollbar-track {
+    background: rgba(148, 0, 211, 0.1) !important;
+  }
+
+  .quest-list::-webkit-scrollbar-thumb {
+    background: #9400D3 !important;
+    border-radius: 3px !important;
+  }
+
+  .quest-item {
+    margin: 15px 0 !important;
+    padding: 20px !important;
+    border: 2px solid #333 !important;
+    border-radius: 12px !important;
+    transition: all 0.3s ease !important;
+    background: rgba(34, 34, 34, 0.8) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .quest-item.completed {
+    border-color: #00FF00 !important;
+    background: rgba(0, 255, 0, 0.05) !important;
+    opacity: 0.8 !important;
+  }
+
+  .quest-item.active {
+    border-color: #9400D3 !important;
+    background: rgba(148, 0, 211, 0.05) !important;
+  }
+
+  .quest-title {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin-bottom: 15px !important;
+    flex-wrap: wrap !important;
+  }
+
+  .quest-category-icon {
+    font-size: 1.4em !important;
+    flex-shrink: 0 !important;
+  }
+
+  .quest-title-text {
+    color: #00FF00 !important;
+    font-weight: bold !important;
+    font-size: 1.1em !important;
+    flex: 1 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  .quest-difficulty {
+    color: inherit !important;
+    font-size: 0.8em !important;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    background: rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid currentColor !important;
+    flex-shrink: 0 !important;
+  }
+
+  .quest-task {
+    color: #CCCCCC !important;
+    font-size: 0.95em !important;
+    line-height: 1.5 !important;
+    margin-bottom: 12px !important;
+    padding: 12px !important;
+    background: rgba(0, 0, 0, 0.3) !important;
+    border-radius: 8px !important;
+    border-left: 3px solid #9400D3 !important;
+  }
+
+  .quest-reward {
+    color: #FFD700 !important;
+    font-size: 0.9em !important;
+    font-weight: bold !important;
+    padding: 10px 12px !important;
+    background: rgba(255, 215, 0, 0.1) !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(255, 215, 0, 0.3) !important;
+    margin-top: 8px !important;
+  }
+
+  .quest-completed-text {
+    color: #00FF00 !important;
+    font-style: italic !important;
+    font-size: 1em !important;
+    font-weight: bold !important;
+    text-align: center !important;
+    padding: 15px !important;
+    background: rgba(0, 255, 0, 0.1) !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(0, 255, 0, 0.3) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+  }
+
+  /* Remove dragging functionality on mobile */
+  .quest-log {
+    user-select: text !important;
+  }
+
+  .quest-log * {
+    user-select: text !important;
+  }
+
+  /* Ensure good touch targets */
+  .quest-log button,
+  .quest-log .quest-tab {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+
+  /* Improve text readability */
+  .quest-log {
+    font-size: 16px !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Pulse animation for highlighting */
+  @keyframes pulse {
+    0% { 
+      transform: scale(1) !important; 
+      box-shadow: 0 0 0 0 rgba(148, 0, 211, 0.7) !important; 
+    }
+    70% { 
+      transform: scale(1.05) !important; 
+      box-shadow: 0 0 0 10px rgba(148, 0, 211, 0) !important; 
+    }
+    100% { 
+      transform: scale(1) !important; 
+      box-shadow: 0 0 0 0 rgba(148, 0, 211, 0) !important; 
+    }
+  }
+}
