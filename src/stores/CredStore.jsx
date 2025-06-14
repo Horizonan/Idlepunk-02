@@ -4,6 +4,7 @@ import { useCrystalZustand } from '../utils/crystalZustand';
 
 export default function CredStore({ credits, junk, craftingInventory, onBuyHoverDrone, onBuyBooster, onBuyReclaimer, autoClicks, onBack, creditStoreItems, onSetCredits, onSetJunk, onSetNotification, onSetBeaconCount, onSetShowBeacon, onSetCreditStoreItems, onSetShowCrystal, onSetCraftingInventory, onSetPreservedHelper }) {
   const [selectedTab, setSelectedTab] = useState("basic");
+  const [mobileInfoModal, setMobileInfoModal] = useState(null); // For mobile item info modals
 
   // 100,000 junk = 1 credit
   const baseRate = 10000000; 
@@ -381,6 +382,14 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
     },
   ];
 
+  const openMobileInfo = (item) => {
+    setMobileInfoModal(item);
+  };
+
+  const closeMobileInfo = () => {
+    setMobileInfoModal(null);
+  };
+
   const tabs = [
     { id: "basic", label: "Basic" },
     { 
@@ -423,7 +432,18 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
             title={item.title}
           >
             <div className="item-header">
-              <strong>{item.name}</strong>
+              <strong>
+                {item.name}
+                <button 
+                  className="mobile-info-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openMobileInfo(item);
+                  }}
+                >
+                  ℹ️
+                </button>
+              </strong>
             </div>
             <div>{item.creditsName}</div>
             <div className="item-info">
@@ -447,7 +467,18 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
               title={item.title}
             >
               <div className="item-header">
-                <strong>{item.name}</strong>
+                <strong>
+                  {item.name}
+                  <button 
+                    className="mobile-info-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openMobileInfo(item);
+                    }}
+                  >
+                    ℹ️
+                  </button>
+                </strong>
               </div>
               <div>{item.creditsName}</div>
               <div className="item-info">
@@ -461,6 +492,30 @@ export default function CredStore({ credits, junk, craftingInventory, onBuyHover
           )
         })}
       </div>
+
+      {mobileInfoModal && (
+        <div className="mobile-item-info-modal" onClick={closeMobileInfo}>
+          <div className="mobile-item-info-content" onClick={(e) => e.stopPropagation()}>
+            <div className="mobile-item-info-header">
+              <h3>{mobileInfoModal.name}</h3>
+              <button className="mobile-info-close" onClick={closeMobileInfo}>
+                ×
+              </button>
+            </div>
+            <div className="mobile-item-info-body">
+              <p><strong>Cost:</strong> {mobileInfoModal.creditsName}</p>
+              <p><strong>Description:</strong> {mobileInfoModal.description}</p>
+              <p>{mobileInfoModal.info}</p>
+              {mobileInfoModal.maxLimit && 
+                <p className="max-limit"><strong>Note:</strong> Maximum beacons reached!</p>
+              }
+              {mobileInfoModal.cooldown > 0 && 
+                <p className="cooldown"><strong>Cooldown:</strong> Available in {mobileInfoModal.cooldown}m</p>
+              }
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
