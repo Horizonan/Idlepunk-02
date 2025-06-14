@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 // Flying junk piece component
-function FlyingJunkPiece({ id, onAnimationEnd }) {
+function FlyingJunkPiece({ id, onAnimationEnd, clickerPosition }) {
   const [position, setPosition] = useState({
     x: 0,
     y: 0,
@@ -12,29 +12,29 @@ function FlyingJunkPiece({ id, onAnimationEnd }) {
   const animationRef = useRef();
 
   useEffect(() => {
-    // Random direction and much larger distance to ensure pieces fly off-screen
-    const angle = Math.random() * 2 * Math.PI;
-    const distance = 200 + Math.random() * 300; // Much larger distance
-    const targetX = Math.cos(angle) * distance;
-    const targetY = Math.sin(angle) * distance;
+    // Create rainbow arc effect - pieces spread out in a semi-circle downward
+    const arcAngle = (Math.random() - 0.5) * Math.PI; // -90 to +90 degrees (semi-circle)
+    const dropDistance = 80 + Math.random() * 120; // Shorter, more reasonable distance
+    const lateralDistance = Math.sin(arcAngle) * dropDistance;
+    const verticalDistance = Math.abs(Math.cos(arcAngle)) * dropDistance + 50; // Always drop down
 
     // Animation variables
     const startTime = performance.now();
-    const duration = 1000; // Consistent duration
+    const duration = 2500; // Much slower - 2.5 seconds
     let animationId;
 
     const animate = (currentTime) => {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
 
-      // Smooth easing
-      const easeProgress = 1 - Math.pow(1 - progress, 3); // Ease out cubic
+      // Gentle easing for a more natural dropping effect
+      const easeProgress = progress * progress; // Quadratic ease-in for gravity feel
 
       setPosition({
-        x: targetX * easeProgress,
-        y: targetY * easeProgress - (progress * 30), // Gravity effect
-        opacity: Math.max(0, 1 - (progress * 0.8)),
-        scale: Math.max(0.1, 1 - (progress * 0.5))
+        x: lateralDistance * easeProgress,
+        y: verticalDistance * easeProgress,
+        opacity: Math.max(0, 1 - (progress * 0.6)), // Fade out more gradually
+        scale: Math.max(0.3, 1 - (progress * 0.4)) // Don't shrink as much
       });
 
       if (progress < 1) {
@@ -59,15 +59,15 @@ function FlyingJunkPiece({ id, onAnimationEnd }) {
       src="/clicker/tinyGear.png"
       alt="Junk piece"
       style={{
-        position: 'fixed', // Use fixed positioning to escape container bounds
-        left: '50%',
-        top: '50%',
+        position: 'absolute',
+        left: clickerPosition.x,
+        top: clickerPosition.y,
         width: '20px',
         height: '20px',
         transform: `translate(-50%, -50%) translate(${position.x}px, ${position.y}px) scale(${position.scale})`,
         opacity: position.opacity,
         pointerEvents: 'none',
-        zIndex: 10000, // High z-index to appear above everything
+        zIndex: 10000,
         imageRendering: 'pixelated'
       }}
     />
@@ -88,13 +88,34 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
   const dragStarted = useRef(false);
   const [flyingJunkPieces, setFlyingJunkPieces] = useState([]);
   const junkPieceIdRef = useRef(0);
+  const [clickerPosition, setClickerPosition] = useState({ x: 0, y: 0 });
+  const clickerRef = useRef(null);
 
   // Hold-to-click configuration variables
   const [holdClickDelay, setHoldClickDelay] = useState(1000); // ms between clicks when holding
   const [holdClickAmount, setHoldClickAmount] = useState(1); // number of clicks per hold interval
 
+  // Function to update clicker position
+  const updateClickerPosition = () => {
+    if (clickerRef.current) {
+      const rect = clickerRef.current.getBoundingClientRect();
+      setClickerPosition({
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2
+      });
+    }
+  };
+
+  // Update clicker position on mount and resize
+  useEffect(() => {
+    updateClickerPosition();
+    window.addEventListener('resize', updateClickerPosition);
+    return () => window.removeEventListener('resize', updateClickerPosition);
+  }, []);
+
   // Function to create flying junk pieces
   const createFlyingJunkPieces = () => {
+    updateClickerPosition(); // Update position before creating pieces
     const newPiece = {
       id: junkPieceIdRef.current++,
       createdAt: Date.now()
@@ -342,6 +363,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
             alignItems: 'center'
           }}>
             <img 
+              ref={clickerRef}
               src="Icons/TrashButtonBig.svg" 
               alt="Trash Clicker" 
               id="trashClicker" 
@@ -373,11 +395,12 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
           </div>
         )}
         
-        {/* Flying junk pieces - render outside container to avoid constraints */}
+        {/* Flying junk pieces - render with clicker position */}
         {flyingJunkPieces.map(piece => (
           <FlyingJunkPiece
             key={piece.id}
             id={piece.id}
+            clickerPosition={clickerPosition}
             onAnimationEnd={removeFlyingJunkPiece}
           />
         ))}
