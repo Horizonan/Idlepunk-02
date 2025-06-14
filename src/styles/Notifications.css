@@ -191,9 +191,11 @@
     border: 2px solid #9400D3 !important;
     padding: 8px 12px !important;
     min-height: 44px !important;
-    display: flex !important;
+    display: inline-flex !important;
     align-items: center !important;
     touch-action: manipulation !important;
+    width: auto !important;
+    max-width: 200px !important;
   }
   
   .notifications-container:active {
@@ -204,7 +206,7 @@
   .notifications-header {
     padding: 0 !important;
     border-bottom: none !important;
-    width: 100% !important;
+    width: auto !important;
   }
   
   .notifications-buttons {
