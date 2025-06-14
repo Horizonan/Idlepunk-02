@@ -661,12 +661,6 @@
   margin: 0;
 }
 
-.crew-role {
-  color: #9400D3;
-  font-size: 0.9em;
-  margin: 2px 0 0 0;
-}
-
 .loadout-slots {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -766,14 +760,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-}
-
-.stats-display span {
-  background: rgba(0, 255, 0, 0.2);
-  padding: 3px 8px;
-  border-radius: 3px;
-  font-size: 0.8em;
-  color: #00FF00;
+  max-width: 90%;
 }
 
 .mission-completion-window {
