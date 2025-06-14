@@ -1,5 +1,68 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+// Flying junk piece component
+function FlyingJunkPiece({ id, onAnimationEnd }) {
+  const [position, setPosition] = useState({
+    x: 0,
+    y: 0,
+    opacity: 1,
+    scale: 1
+  });
+
+  useEffect(() => {
+    // Random direction and distance
+    const angle = Math.random() * 2 * Math.PI;
+    const distance = 50 + Math.random() * 100;
+    const targetX = Math.cos(angle) * distance;
+    const targetY = Math.sin(angle) * distance;
+
+    // Animate the piece
+    const startTime = Date.now();
+    const duration = 800;
+
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Easing function for natural movement
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      
+      setPosition({
+        x: targetX * easeOut,
+        y: targetY * easeOut,
+        opacity: 1 - progress,
+        scale: 1 - progress * 0.5
+      });
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        onAnimationEnd(id);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [id, onAnimationEnd]);
+
+  return (
+    <img
+      src="/clicker/tinyGear.png"
+      alt="Junk piece"
+      style={{
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        width: '16px',
+        height: '16px',
+        transform: `translate(-50%, -50%) translate(${position.x}px, ${position.y}px) scale(${position.scale})`,
+        opacity: position.opacity,
+        pointerEvents: 'none',
+        zIndex: 1000
+      }}
+    />
+  );
+}
+
 export default function Clickers({ collectJunk, collectTronics, electronicsUnlock, enableHoldToClick }) {
   const [activeClicker, setActiveClicker] = useState('trash');
   const [showGlitch, setShowGlitch] = useState(false);
@@ -12,10 +75,32 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
   const [isDragging, setIsDragging] = useState(false);
   const lastMousePos = useRef({ x: 0, y: 0 });
   const dragStarted = useRef(false);
+  const [flyingJunkPieces, setFlyingJunkPieces] = useState([]);
+  const junkPieceIdRef = useRef(0);
 
   // Hold-to-click configuration variables
   const [holdClickDelay, setHoldClickDelay] = useState(1000); // ms between clicks when holding
   const [holdClickAmount, setHoldClickAmount] = useState(1); // number of clicks per hold interval
+
+  // Function to create flying junk pieces
+  const createFlyingJunkPieces = () => {
+    const numPieces = 3 + Math.floor(Math.random() * 3); // 3-5 pieces
+    const newPieces = [];
+    
+    for (let i = 0; i < numPieces; i++) {
+      newPieces.push({
+        id: junkPieceIdRef.current++,
+        createdAt: Date.now() + i * 50 // Slight delay between pieces
+      });
+    }
+    
+    setFlyingJunkPieces(prev => [...prev, ...newPieces]);
+  };
+
+  // Function to remove finished animation pieces
+  const removeFlyingJunkPiece = (id) => {
+    setFlyingJunkPieces(prev => prev.filter(piece => piece.id !== id));
+  };
 
   // Handle keyboard events for Enter key hold-to-click
   useEffect(() => {
@@ -231,31 +316,46 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
           />
         )}  
         {activeClicker === 'trash' && (
-          <img 
-            src="Icons/TrashButtonBig.svg" 
-            alt="Trash Clicker" 
-            id="trashClicker" 
-            className={`click-hint ${localStorage.getItem('firstClick') ? 'clicked' : ''} ${isAnimating ? 'click-animate' : ''} ${isPetting ? 'petting' : ''}`}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseLeave}
-            onClick={(e) => {
-              if (!localStorage.getItem('firstClick')) {
-                localStorage.setItem('firstClick', 'true');
-                e.target.classList.add('clicked');
-              }
-              setClickCount(prev => {
-                const newCount = prev + 1;
-                if (newCount === 50) {
-                  setShowGlitch(true);
-                  setTimeout(() => setShowGlitch(false), 5000);
+          <div style={{ position: 'relative' }}>
+            <img 
+              src="Icons/TrashButtonBig.svg" 
+              alt="Trash Clicker" 
+              id="trashClicker" 
+              className={`click-hint ${localStorage.getItem('firstClick') ? 'clicked' : ''} ${isAnimating ? 'click-animate' : ''} ${isPetting ? 'petting' : ''}`}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseLeave}
+              onClick={(e) => {
+                if (!localStorage.getItem('firstClick')) {
+                  localStorage.setItem('firstClick', 'true');
+                  e.target.classList.add('clicked');
                 }
-                return newCount;
-              });
-              collectJunk();
-            }} 
-          />
+                setClickCount(prev => {
+                  const newCount = prev + 1;
+                  if (newCount === 50) {
+                    setShowGlitch(true);
+                    setTimeout(() => setShowGlitch(false), 5000);
+                  }
+                  return newCount;
+                });
+                
+                // Create flying junk pieces animation
+                createFlyingJunkPieces();
+                
+                collectJunk();
+              }} 
+            />
+            
+            {/* Flying junk pieces container */}
+            {flyingJunkPieces.map(piece => (
+              <FlyingJunkPiece
+                key={piece.id}
+                id={piece.id}
+                onAnimationEnd={removeFlyingJunkPiece}
+              />
+            ))}
+          </div>
         )}
       </div>
       <div className={`clicker-buttons ${localStorage.getItem('hasPrestiged') === 'true' ? 'prestige-unlocked' : ''}`}>
