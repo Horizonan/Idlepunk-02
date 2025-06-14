@@ -1,7 +1,4 @@
-The flying junk animation logic is improved with better physics and cleanup mechanisms to prevent getting stuck.
-```
 
-```replit_final_file
 import React, { useState, useEffect, useRef } from 'react';
 
 // Flying junk piece component
