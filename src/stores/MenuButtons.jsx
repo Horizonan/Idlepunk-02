@@ -99,7 +99,16 @@ export default function MenuButtons({ onStoreSelect, showInventory, craftingInve
                   const hasSignalRelay = state.showMiniGame === true;
                   
                   if (hasCompletedMission || hasSignalRelay) {
-                    return <span className="notification-indicator">!</span>;
+                    return (
+                      <span style={{
+                        color: '#00FF00',
+                        marginLeft: '8px',
+                        fontSize: '1.2em',
+                        textShadow: '0 0 10px #00FF00'
+                      }}>
+                        (!)
+                      </span>
+                    );
                   }
                   return null;
                 } catch {
