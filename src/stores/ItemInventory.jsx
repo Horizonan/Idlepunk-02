@@ -75,7 +75,7 @@ export default function ItemInventory({ craftingInventory, onBack }) {
     'Encrypted Coil': {
       description: 'A mysterious coil emitting strange energy',
       effect: 'Contains fragments of ancient data',
-      icon: '🔷'
+      icon: <img src="../Icons/crafting/encryptedCoil.png" alt="Mesh" style={{width: '80%', height: '100%'}} />
     },
     'Surge Capacitor Fragment': {
       description: 'It still hums — dangerously.',
