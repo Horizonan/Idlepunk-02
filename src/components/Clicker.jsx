@@ -1,71 +1,47 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 
-// Flying junk piece component
+// Flying junk piece component - Cookie Clicker style
 function FlyingJunkPiece({ id, onAnimationEnd, clickerPosition }) {
-  const [position, setPosition] = useState({
-    x: 0,
-    y: 0,
-    opacity: 1,
-    scale: 1
-  });
-  const animationRef = useRef();
+  const pieceRef = useRef();
 
   useEffect(() => {
-    // Create rainbow arc effect - pieces spread out in a semi-circle downward
-    const arcAngle = (Math.random() - 0.5) * Math.PI; // -90 to +90 degrees (semi-circle)
-    const dropDistance = 80 + Math.random() * 120; // Shorter, more reasonable distance
-    const lateralDistance = Math.sin(arcAngle) * dropDistance;
-    const verticalDistance = Math.abs(Math.cos(arcAngle)) * dropDistance + 50; // Always drop down
+    if (!pieceRef.current) return;
 
-    // Animation variables
-    const startTime = performance.now();
-    const duration = 2500; // Much slower - 2.5 seconds
-    let animationId;
+    // Random direction and distance like Cookie Clicker
+    const angle = Math.random() * Math.PI * 2; // Random angle 0-360 degrees
+    const distance = 60 + Math.random() * 80; // Random distance 60-140px
+    const finalX = Math.cos(angle) * distance;
+    const finalY = Math.sin(angle) * distance;
 
-    const animate = (currentTime) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
+    // Set CSS animation
+    pieceRef.current.style.setProperty('--final-x', `${finalX}px`);
+    pieceRef.current.style.setProperty('--final-y', `${finalY}px`);
+    pieceRef.current.classList.add('flying-junk-animate');
 
-      // Gentle easing for a more natural dropping effect
-      const easeProgress = progress * progress; // Quadratic ease-in for gravity feel
-
-      setPosition({
-        x: lateralDistance * easeProgress,
-        y: verticalDistance * easeProgress,
-        opacity: Math.max(0, 1 - (progress * 0.6)), // Fade out more gradually
-        scale: Math.max(0.3, 1 - (progress * 0.4)) // Don't shrink as much
-      });
-
-      if (progress < 1) {
-        animationId = requestAnimationFrame(animate);
-      } else {
-        onAnimationEnd(id);
-      }
-    };
-
-    animationId = requestAnimationFrame(animate);
-    animationRef.current = animationId;
+    // Remove after animation completes
+    const timer = setTimeout(() => {
+      onAnimationEnd(id);
+    }, 1000); // 1 second animation
 
     return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
+      clearTimeout(timer);
     };
   }, [id, onAnimationEnd]);
 
   return (
     <img
+      ref={pieceRef}
       src="/clicker/tinyGear.png"
       alt="Junk piece"
+      className="flying-junk-piece"
       style={{
         position: 'absolute',
         left: clickerPosition.x,
         top: clickerPosition.y,
-        width: '20px',
-        height: '20px',
-        transform: `translate(-50%, -50%) translate(${position.x}px, ${position.y}px) scale(${position.scale})`,
-        opacity: position.opacity,
+        width: '16px',
+        height: '16px',
+        transform: 'translate(-50%, -50%)',
         pointerEvents: 'none',
         zIndex: 10000,
         imageRendering: 'pixelated'
