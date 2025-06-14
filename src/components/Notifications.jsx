@@ -20,7 +20,9 @@ export default function Notifications({ notifications }) {
   }, []);
   const displayNotifications = isExpanded ? notifications : (notifications || []).slice(-5);
 
-  const handleNotificationClick = () => {
+  const handleNotificationClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (isMobile) {
       setShowMobileModal(true);
     }
