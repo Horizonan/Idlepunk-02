@@ -11,6 +11,7 @@
 @import './styles/Tooltips.css';
 @import './styles/CoinFlip.css';
 @import './styles/TechTree.css';
+@import './styles/mobile/TechTreeMobile.css';
 @import './styles/UiTimers/crystalTimer.css';
 @import './styles/UiBackground/holoBillboard.css';
 @import './styles/UpgradeStats.css';
