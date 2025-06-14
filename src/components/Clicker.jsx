@@ -12,35 +12,34 @@ function FlyingJunkPiece({ id, onAnimationEnd }) {
   const animationRef = useRef();
 
   useEffect(() => {
-    // Random direction and distance
+    // Random direction and much larger distance to ensure pieces fly off-screen
     const angle = Math.random() * 2 * Math.PI;
-    const distance = 60 + Math.random() * 40;
+    const distance = 200 + Math.random() * 300; // Much larger distance
     const targetX = Math.cos(angle) * distance;
     const targetY = Math.sin(angle) * distance;
 
     // Animation variables
     const startTime = performance.now();
-    const duration = 800; // Shorter, snappier animation
+    const duration = 1000; // Consistent duration
     let animationId;
 
     const animate = (currentTime) => {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
 
-      // Simple linear easing to avoid getting stuck
-      const easeProgress = progress;
+      // Smooth easing
+      const easeProgress = 1 - Math.pow(1 - progress, 3); // Ease out cubic
 
       setPosition({
         x: targetX * easeProgress,
-        y: targetY * easeProgress - (easeProgress * 15), // Slight upward arc
-        opacity: Math.max(0, 1 - (progress * 1.2)), // Fade out faster
-        scale: Math.max(0.1, 1 - (progress * 0.8))
+        y: targetY * easeProgress - (progress * 30), // Gravity effect
+        opacity: Math.max(0, 1 - (progress * 0.8)),
+        scale: Math.max(0.1, 1 - (progress * 0.5))
       });
 
       if (progress < 1) {
         animationId = requestAnimationFrame(animate);
       } else {
-        // Ensure cleanup happens
         onAnimationEnd(id);
       }
     };
@@ -48,7 +47,6 @@ function FlyingJunkPiece({ id, onAnimationEnd }) {
     animationId = requestAnimationFrame(animate);
     animationRef.current = animationId;
 
-    // Cleanup function
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
@@ -61,7 +59,7 @@ function FlyingJunkPiece({ id, onAnimationEnd }) {
       src="/clicker/tinyGear.png"
       alt="Junk piece"
       style={{
-        position: 'absolute',
+        position: 'fixed', // Use fixed positioning to escape container bounds
         left: '50%',
         top: '50%',
         width: '20px',
@@ -69,8 +67,8 @@ function FlyingJunkPiece({ id, onAnimationEnd }) {
         transform: `translate(-50%, -50%) translate(${position.x}px, ${position.y}px) scale(${position.scale})`,
         opacity: position.opacity,
         pointerEvents: 'none',
-        zIndex: 1000,
-        imageRendering: 'pixelated' // Better rendering for small images
+        zIndex: 10000, // High z-index to appear above everything
+        imageRendering: 'pixelated'
       }}
     />
   );
@@ -339,9 +337,6 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
         {activeClicker === 'trash' && (
           <div style={{ 
             position: 'relative',
-            overflow: 'visible',
-            minHeight: '200px',
-            minWidth: '200px',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center'
@@ -375,17 +370,17 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
                 collectJunk();
               }} 
             />
-
-            {/* Flying junk pieces container */}
-            {flyingJunkPieces.map(piece => (
-              <FlyingJunkPiece
-                key={piece.id}
-                id={piece.id}
-                onAnimationEnd={removeFlyingJunkPiece}
-              />
-            ))}
           </div>
         )}
+        
+        {/* Flying junk pieces - render outside container to avoid constraints */}
+        {flyingJunkPieces.map(piece => (
+          <FlyingJunkPiece
+            key={piece.id}
+            id={piece.id}
+            onAnimationEnd={removeFlyingJunkPiece}
+          />
+        ))}
       </div>
       <div className={`clicker-buttons ${localStorage.getItem('hasPrestiged') === 'true' ? 'prestige-unlocked' : ''}`}>
         <button 
