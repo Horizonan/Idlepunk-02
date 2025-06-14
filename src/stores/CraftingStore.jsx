@@ -17,6 +17,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
   const [selectedTab, setSelectedTab] = useState('basic');
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [bulkCraft, setBulkCraft] = useState(false);
+  const [mobileInfo, setMobileInfo] = useState({ item: null, visible: false });
 
   const tabs = [
     { id: 'basic', label: 'Basic Materials' },
@@ -227,6 +228,14 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
     }
   };
 
+  const openMobileInfo = (item) => {
+    setMobileInfo({ item: item, visible: true });
+  };
+
+  const closeMobileInfo = () => {
+    setMobileInfo({ item: null, visible: false });
+  };
+
   return (
     <div className="store-container">
       <div className="store-header">
@@ -270,15 +279,18 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   className={`store-item ${item.uncraftable ? 'uncraftable' : ''}`}
                 >
                   <div className="item-header">
-                    <strong>{item.name}</strong>
-                    {item.cost && (
-                      <span className="cost">
-                        ({bulkCraft 
-                          ? formatJunkCost(calculate10xCraftingPrice(item.cost).totalCost, false) 
-                          : formatJunkCost(item.cost, craftingInventory['Crafting Booster Unit'])
-                        } Junk)
-                      </span>
-                    )}
+                    <strong>
+                      {item.name}
+                      <button 
+                        className="mobile-info-button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openMobileInfo(item);
+                        }}
+                      >
+                        ℹ️
+                      </button>
+                    </strong>
                   </div>
                   <div className="item-info">
                     <p>{item.description}</p>
@@ -312,7 +324,18 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   className="store-item"
                 >
                   <div className="item-header">
-                    <strong>{item.name}</strong>
+                    <strong>
+                      {item.name}
+                      <button 
+                        className="mobile-info-button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openMobileInfo(item);
+                        }}
+                      >
+                        ℹ️
+                      </button>
+                    </strong>
                   </div>
                   <div className="item-info">
                     <p>{item.description}</p>
@@ -344,7 +367,18 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   className="store-item"
                 >
                   <div className="item-header">
-                    <strong>{item.name}</strong>
+                    <strong>
+                      {item.name}
+                      <button 
+                        className="mobile-info-button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openMobileInfo(item);
+                        }}
+                      >
+                        ℹ️
+                      </button>
+                    </strong>
                   </div>
                   <div className="item-info">
                     <p>{item.description}</p>
@@ -382,7 +416,18 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   className="store-item"
                 >
                   <div className="item-header">
-                    <strong>{item.name}</strong>
+                    <strong>
+                      {item.name}
+                      <button 
+                        className="mobile-info-button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openMobileInfo(item);
+                        }}
+                      >
+                        ℹ️
+                      </button>
+                    </strong>
                   </div>
                   <div className="item-info">
                     <p>{item.description}</p>
@@ -521,6 +566,26 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                 Cancel
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Mobile Info Modal */}
+      {mobileInfo.visible && (
+        <div className="mobile-info-overlay">
+          <div className="mobile-info-modal">
+            <h3>{mobileInfo.item.name}</h3>
+            <p>{mobileInfo.item.description}</p>
+            {mobileInfo.item.requirements && (
+              <div>
+                <p>Requirements:</p>
+                {Object.entries(mobileInfo.item.requirements).map(([mat, count]) => (
+                  <p key={mat}>- {mat}: {count}</p>
+                ))}
+              </div>
+            )}
+            {mobileInfo.item.cost && <p>Cost: {formatJunkCost(mobileInfo.item.cost, craftingInventory['Crafting Booster Unit'])} Junk</p>}
+            <button onClick={closeMobileInfo}>Close</button>
           </div>
         </div>
       )}
