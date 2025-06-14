@@ -1,3 +1,7 @@
+The flying junk animation logic is improved with better physics and cleanup mechanisms to prevent getting stuck.
+```
+
+```replit_final_file
 import React, { useState, useEffect, useRef } from 'react';
 
 // Flying junk piece component
@@ -8,40 +12,51 @@ function FlyingJunkPiece({ id, onAnimationEnd }) {
     opacity: 1,
     scale: 1
   });
+  const animationRef = useRef();
 
   useEffect(() => {
     // Random direction and distance
     const angle = Math.random() * 2 * Math.PI;
-    const distance = 80 + Math.random() * 60; // Increased distance for better visibility
+    const distance = 60 + Math.random() * 40;
     const targetX = Math.cos(angle) * distance;
     const targetY = Math.sin(angle) * distance;
 
-    // Animate the piece
-    const startTime = Date.now();
-    const duration = 1200; // Longer duration for smoother animation
+    // Animation variables
+    const startTime = performance.now();
+    const duration = 800; // Shorter, snappier animation
+    let animationId;
 
-    const animate = () => {
-      const elapsed = Date.now() - startTime;
+    const animate = (currentTime) => {
+      const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      
-      // Easing function for natural movement
-      const easeOut = 1 - Math.pow(1 - progress, 2);
-      
+
+      // Simple linear easing to avoid getting stuck
+      const easeProgress = progress;
+
       setPosition({
-        x: targetX * easeOut,
-        y: targetY * easeOut - (progress * 20), // Add slight upward arc
-        opacity: Math.max(0, 1 - progress),
-        scale: Math.max(0.2, 1 - progress * 0.6)
+        x: targetX * easeProgress,
+        y: targetY * easeProgress - (easeProgress * 15), // Slight upward arc
+        opacity: Math.max(0, 1 - (progress * 1.2)), // Fade out faster
+        scale: Math.max(0.1, 1 - (progress * 0.8))
       });
 
       if (progress < 1) {
-        requestAnimationFrame(animate);
+        animationId = requestAnimationFrame(animate);
       } else {
+        // Ensure cleanup happens
         onAnimationEnd(id);
       }
     };
 
-    requestAnimationFrame(animate);
+    animationId = requestAnimationFrame(animate);
+    animationRef.current = animationId;
+
+    // Cleanup function
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
   }, [id, onAnimationEnd]);
 
   return (
@@ -89,7 +104,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
       id: junkPieceIdRef.current++,
       createdAt: Date.now()
     };
-    
+
     setFlyingJunkPieces(prev => [...prev, newPiece]);
   };
 
@@ -216,7 +231,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
             setIsPetting(true);
             console.log('Started petting the junk pile!');
           }
-          
+
           // Only count significant movements as strokes
           if (totalDelta > 15) {
             setPetStrokes(prev => {
@@ -225,7 +240,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
               return newStrokes;
             });
           }
-          
+
           lastMousePos.current = { x: event.clientX, y: event.clientY };
         }
       }
@@ -239,7 +254,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
         localStorage.setItem('pettedJunkPile', 'true');
         console.log('Petting achievement unlocked!', petStrokes, 'strokes');
         console.log('localStorage pettedJunkPile set to:', localStorage.getItem('pettedJunkPile'));
-        
+
         // Show feedback to user
         const junkPile = document.getElementById('trashClicker');
         if (junkPile) {
@@ -248,7 +263,7 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
             junkPile.style.filter = '';
           }, 1000);
         }
-        
+
         // Force immediate achievement validation with multiple attempts
         for (let i = 0; i < 3; i++) {
           setTimeout(() => {
@@ -273,6 +288,19 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
       setIsHolding(false);
     }
   };
+
+  // Clean up old pieces periodically to prevent memory leaks and stuck animations
+  useEffect(() => {
+    const cleanup = setInterval(() => {
+      const now = Date.now();
+      setFlyingJunkPieces(prev => {
+        const filtered = prev.filter(piece => now - piece.createdAt < 1500); // Remove pieces older than 1.5 seconds
+        return filtered;
+      });
+    }, 1000);
+
+    return () => clearInterval(cleanup);
+  }, []);
 
   return (
     <div className={`main ${showGlitch ? 'glitch-effect' : ''}`} id="clickers">
@@ -343,14 +371,14 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
                   }
                   return newCount;
                 });
-                
+
                 // Create flying junk pieces animation
                 createFlyingJunkPieces();
-                
+
                 collectJunk();
               }} 
             />
-            
+
             {/* Flying junk pieces container */}
             {flyingJunkPieces.map(piece => (
               <FlyingJunkPiece
