@@ -60,12 +60,12 @@ export default function ItemInventory({ craftingInventory, onBack }) {
     'Echo Helmets': {
       description: 'Noise-canceling brainwear for clean signal thinking',
       effect: '+1% mission success rate',
-      icon: '🎧'
+      icon: <img src="../Icons/crafting/echoHelmet.png" alt="Mesh" style={{width: '100%', height: '100%'}} />
     },
     'Chrono Regulator': {
       description: 'A hacked regulator that compresses outbound sync pulses',
       effect: 'All crew missions complete 20 seconds faster',
-      icon: '⏱️'
+      icon: <img src="../Icons/crafting/chronoRegulator.png" alt="Mesh" style={{width: '100%', height: '100%'}} />
     },
     'Stabilized Capacitor': {
       description: 'A perfectly stabilized energy storage unit',
