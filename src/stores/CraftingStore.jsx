@@ -17,6 +17,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
   const [selectedTab, setSelectedTab] = useState('basic');
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [bulkCraft, setBulkCraft] = useState(false);
+  const [mobileInfoModal, setMobileInfoModal] = useState(null);
 
   const tabs = [
     { id: 'basic', label: 'Basic Materials' },
@@ -227,6 +228,23 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
     }
   };
 
+  const openMobileInfo = (item) => {
+    setMobileInfoModal(item);
+  };
+
+  const closeMobileInfo = () => {
+    setMobileInfoModal(null);
+  };
+
+  const handleItemClick = (item, isMobile) => {
+    if (isMobile && window.innerWidth <= 768) {
+      openMobileInfo(item);
+    } else {
+      const quantity = bulkCraft ? 10 : 1;
+      onCraft(item, quantity);
+    }
+  };
+
   return (
     <div className="store-container">
       <div className="store-header">
@@ -262,10 +280,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
               {basicMaterials.map((item) => (
                 <button
                   key={item.name}
-                  onClick={() => {
-                    const quantity = bulkCraft ? 10 : 1;
-                    onCraft(item, quantity);
-                  }}
+                  onClick={() => handleItemClick(item, true)}
                   disabled={item.uncraftable || !canCraft(item)}
                   className={`store-item ${item.uncraftable ? 'uncraftable' : ''}`}
                 >
@@ -284,6 +299,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                     <p>{item.description}</p>
                     <p className="owned">Owned: {craftingInventory[item.name] || 0}</p>
                   </div>
+                  <div className="mobile-info-indicator">ℹ️</div>
                 </button>
               ))}
             </div>
@@ -307,7 +323,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
               }).map((item) => (
                 <button
                   key={item.name}
-                  onClick={() => onCraft(item, bulkCraft ? 10 : 1)}
+                  onClick={() => handleItemClick(item, true)}
                   disabled={!canCraft(item)}
                   className="store-item"
                 >
@@ -326,6 +342,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                     )}
                     {item.cost && <p>Cost: {formatJunkCost(item.cost * ((bulkCraft && !item.onetime) ? 10 : 1), craftingInventory['Crafting Booster Unit'])} Junk</p>}
                   </div>
+                  <div className="mobile-info-indicator">ℹ️</div>
                 </button>
               ))}
             </div>
@@ -339,7 +356,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
               {consumableItems.map((item) => (
                 <button
                   key={item.name}
-                  onClick={() => onCraft(item, bulkCraft ? 10 : 1)}
+                  onClick={() => handleItemClick(item, true)}
                   disabled={!canCraft(item)}
                   className="store-item"
                 >
@@ -358,6 +375,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                     )}
                     <p className="owned">Owned: {craftingInventory[item.name] || 0}</p>
                   </div>
+                  <div className="mobile-info-indicator">ℹ️</div>
                 </button>
               ))}
             </div>
@@ -377,7 +395,13 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
               }).map((item) => (
                 <button
                   key={item.name}
-                  onClick={() => onCraft(item, 1)} // Always craft 1 for enhanced items
+                  onClick={() => {
+                    if (window.innerWidth <= 768) {
+                      openMobileInfo(item);
+                    } else {
+                      onCraft(item, 1);
+                    }
+                  }}
                   disabled={!canCraft(item)}
                   className="store-item"
                 >
@@ -397,6 +421,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                     {item.cost && <p>Cost: {formatJunkCost(item.cost, craftingInventory['Crafting Booster Unit'])} Junk</p>}
                     {item.onetime && <p className="owned">One-time purchase</p>}
                   </div>
+                  <div className="mobile-info-indicator">ℹ️</div>
                 </button>
               ))}
             </div>
@@ -519,6 +544,78 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                 className="cancel-reset-button"
               >
                 Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Mobile Info Modal */}
+      {mobileInfoModal && (
+        <div className="mobile-info-overlay" onClick={closeMobileInfo}>
+          <div className="mobile-info-popup" onClick={(e) => e.stopPropagation()}>
+            <div className="mobile-info-header">
+              <h3>{mobileInfoModal.name}</h3>
+              <button onClick={closeMobileInfo} className="close-mobile-info">×</button>
+            </div>
+            <div className="mobile-info-content">
+              <p className="mobile-info-description">{mobileInfoModal.description}</p>
+              
+              {mobileInfoModal.requirements && (
+                <div className="mobile-info-requirements">
+                  <h4>Requirements:</h4>
+                  {Object.entries(mobileInfoModal.requirements).map(([mat, count]) => {
+                    const multiplier = (bulkCraft && !mobileInfoModal.onetime) ? 10 : 1;
+                    const required = count * multiplier;
+                    const owned = craftingInventory[mat] || 0;
+                    return (
+                      <p key={mat} className={owned >= required ? 'requirement-met' : 'requirement-unmet'}>
+                        {mat}: {required} ({owned} owned)
+                      </p>
+                    );
+                  })}
+                </div>
+              )}
+
+              {mobileInfoModal.cost && (
+                <div className="mobile-info-cost">
+                  <h4>Cost:</h4>
+                  <p>{formatJunkCost(mobileInfoModal.cost * ((bulkCraft && !mobileInfoModal.onetime) ? 10 : 1), craftingInventory['Crafting Booster Unit'])} Junk</p>
+                </div>
+              )}
+
+              {mobileInfoModal.type === 'basic' && (
+                <div className="mobile-info-owned">
+                  <h4>Owned:</h4>
+                  <p>{craftingInventory[mobileInfoModal.name] || 0}</p>
+                </div>
+              )}
+
+              {mobileInfoModal.onetime && (
+                <div className="mobile-info-onetime">
+                  <p><em>One-time purchase</em></p>
+                </div>
+              )}
+            </div>
+            
+            <div className="mobile-info-actions">
+              <button 
+                onClick={() => {
+                  if (mobileInfoModal.type === 'enhanced') {
+                    onCraft(mobileInfoModal, 1);
+                  } else {
+                    const quantity = bulkCraft && !mobileInfoModal.onetime ? 10 : 1;
+                    onCraft(mobileInfoModal, quantity);
+                  }
+                  closeMobileInfo();
+                }}
+                disabled={mobileInfoModal.uncraftable || !canCraft(mobileInfoModal)}
+                className="craft-button"
+              >
+                {mobileInfoModal.uncraftable ? 'Cannot Craft' : 'Craft'}
+              </button>
+              <button onClick={closeMobileInfo} className="cancel-button">
+                Close
               </button>
             </div>
           </div>
