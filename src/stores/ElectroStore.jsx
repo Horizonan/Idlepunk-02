@@ -8,6 +8,7 @@ export default function ElectroStore({
   onBuyCircuitOptimization,onBuyFrequencyTap, onBuyReactiveFeedback, onBuyPickupMagnetArray,
 }) {
   const [selectedTab, setSelectedTab] = useState("basic");
+  const [mobileInfoModal, setMobileInfoModal] = useState(null); // For mobile item info modals
 
   const formatNumber = (num) => {
     if (num >= 1000000) {
@@ -239,6 +240,14 @@ export default function ElectroStore({
     }
   ];
 
+  const openMobileInfo = (item) => {
+    setMobileInfoModal(item);
+  };
+
+  const closeMobileInfo = () => {
+    setMobileInfoModal(null);
+  };
+
   const tabs = [
     { id: "basic", label: "Basic" },
     { id: "advanced", label: "Advanced" }
@@ -292,7 +301,18 @@ export default function ElectroStore({
             className={`store-item ${!canAfford || !item.unlockCondition() ? 'disabled' : ''}`}
           >
             <div className="item-header">
-              <strong>{item.name}</strong>
+              <strong>
+                {item.name}
+                <button 
+                  className="mobile-info-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openMobileInfo(item);
+                  }}
+                >
+                  ℹ️
+                </button>
+              </strong>
               <span className="cost">
                 {item.cost.tronics ? `${formatNumber(item.cost.tronics)} Tronics` : ''}
                 {item.cost.shards ? `${item.cost.shards} Shards` : ''}
@@ -344,6 +364,25 @@ export default function ElectroStore({
         purchasedItems={getPurchasedItems()}
         className="electrostore-purchased"
       />
+
+      {mobileInfoModal && (
+        <div className="mobile-item-info-modal" onClick={closeMobileInfo}>
+          <div className="mobile-item-info-content" onClick={(e) => e.stopPropagation()}>
+            <div className="mobile-item-info-header">
+              <h3>{mobileInfoModal.name}</h3>
+              <button className="mobile-info-close" onClick={closeMobileInfo}>
+                ×
+              </button>
+            </div>
+            <div className="mobile-item-info-body">
+              <p><strong>Cost:</strong> {mobileInfoModal.cost.tronics ? `${formatNumber(mobileInfoModal.cost.tronics)} Tronics` : ''}{mobileInfoModal.cost.shards ? `${mobileInfoModal.cost.shards} Shards` : ''}</p>
+              <p><strong>Description:</strong> {mobileInfoModal.description}</p>
+              <p>{mobileInfoModal.info}</p>
+              <p className="owned"><strong>Owned:</strong> {mobileInfoModal.purchasedCount}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
