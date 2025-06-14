@@ -89,15 +89,15 @@ export default function MenuButtons({ onStoreSelect, showInventory, craftingInve
                 try {
                   const crewStorage = JSON.parse(localStorage.getItem('crew-storage') || '{}');
                   const state = crewStorage.state || {};
-
+                  
                   // Check if there's a completed mission (mission exists but timeLeft <= 0)
                   const hasCompletedMission = state.activeMission && 
                     state.missionStartTime && 
                     (Date.now() - state.missionStartTime) >= (state.activeMission.duration * 1000);
-
+                  
                   // Check if signal relay mini-game should be played
                   const hasSignalRelay = state.showMiniGame === true;
-
+                  
                   if (hasCompletedMission || hasSignalRelay) {
                     return (
                       <span style={{
@@ -120,14 +120,6 @@ export default function MenuButtons({ onStoreSelect, showInventory, craftingInve
           onClick: () => {
             const activeStore = localStorage.getItem('activeStore');
             onStoreSelect(activeStore === 'crew' ? null : 'crew');
-          },
-          locked: false
-        },
-        {
-          label: 'Equipment',
-          onClick: () => {
-            const activeStore = localStorage.getItem('activeStore');
-            onStoreSelect(activeStore === 'equipment' ? null : 'equipment');
           },
           locked: false
         }

@@ -136,7 +136,6 @@ export default function App() {
   const [showOfflineProgress, setShowOfflineProgress] = useState(false);
   const [offlineProgressData, setOfflineProgressData] = useState(null);
   const [forceCogfatherEye, setForceCogfatherEye] = useState(false);
-  const [activeComponent, setActiveComponent] = useState(null);
 
 
   useEffect(() => {
@@ -289,12 +288,12 @@ export default function App() {
         return !prev;
       });
     };
-
+    
     const handleValidateAchievements = () => {
       console.log('Manual achievement validation triggered');
       validateAchievements();
     };
-
+    
     window.addEventListener('toggleUpgradeStats', handleUpgradeStats);
     window.addEventListener('validateAchievements', handleValidateAchievements);
 
@@ -302,7 +301,7 @@ export default function App() {
       setActiveStore(null);
       setShowUpgradeStats(false);
     }
-
+    
     return () => {
       window.removeEventListener('toggleUpgradeStats', handleUpgradeStats);
       window.removeEventListener('validateAchievements', handleValidateAchievements);
@@ -1638,7 +1637,7 @@ export default function App() {
             }
           }}
         />
-)}
+      )}
       {showSettings && (
         <Settings
           showClickEnhancerUI={showClickEnhancerUI}
@@ -2035,32 +2034,6 @@ export default function App() {
           </div>
         </div>
       )}
-        {activeComponent === 'crew' && (
-          <CrewMenu 
-            onClose={() => setActiveComponent(null)} 
-            setCredits={setCredits}
-            credits={credits}
-            setJunk={setJunk}
-            junk={junk}
-          />
-        )}
-
-        {activeComponent === 'equipment' && (
-          <EquipmentMenu 
-            onClose={() => setActiveComponent(null)} 
-          />
-        )}
     </main>
   );
-}
-
-//EquipmentMenu component
-function EquipmentMenu({ onClose }) {
-    return (
-        <div className="equipment-menu">
-            <h2>Equipment Inventory</h2>
-            <p>Manage your equipment here.</p>
-            <button onClick={onClose}>Close</button>
-        </div>
-    );
 }
