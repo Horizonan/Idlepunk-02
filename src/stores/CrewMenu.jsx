@@ -740,13 +740,13 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                   <p>Junk: ${junkReward > 0 ? '+' : ''}${junkReward}</p>
                                   ${equipmentRewards.length > 0 ? 
                                     equipmentRewards.map(equipment => `
-                                      <div class="equipment-crew-reward">
-                                        <div class="equipment-crew-reward-header">
-                                          <span class="equipment-crew-icon">${equipment.icon}</span>
-                                          <span class="equipment-crew-type">${equipment.type.toUpperCase()}</span>
+                                      <div class="equipment-reward">
+                                        <div class="equipment-reward-header">
+                                          <span class="equipment-icon">${equipment.icon}</span>
+                                          <span class="equipment-type">${equipment.type.toUpperCase()}</span>
                                         </div>
-                                        <h4 class="equipment-crew-name">${equipment.name}</h4>
-                                        <div class="equipment-crew-stats">
+                                        <h4 class="equipment-name">${equipment.name}</h4>
+                                        <div class="equipment-stats">
                                           ${Object.entries(equipment.statBonus).map(([stat, bonus]) => 
                                             `<span class="stat-bonus">${stat}: +${bonus}</span>`
                                           ).join(' ')}
@@ -757,7 +757,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                     autoSoldItems.map(item => `
                                       <div class="auto-sold-item">
                                         <div class="auto-sold-header">
-                                          <span class="equipment-crew-icon">${item.icon}</span>
+                                          <span class="equipment-icon">${item.icon}</span>
                                           <span class="auto-sold-label">AUTO-SOLD</span>
                                         </div>
                                         <h4 class="auto-sold-name">${item.name}</h4>
