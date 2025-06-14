@@ -16,6 +16,12 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
     playerAttacking: false,
     criticalHit: false
   });
+  const [showEquipmentModal, setShowEquipmentModal] = useState(false);
+  const [selectedEquipment, setSelectedEquipment] = useState({
+    weapon: null,
+    armor: null,
+    tool: null
+  });
 
   const triggerPlayerAttack = (isCritical = false) => {
     setCombatState(prev => ({ ...prev, playerAttacking: true, criticalHit: isCritical }));
@@ -65,7 +71,7 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
 
   const startCombat = () => {
     if (!selectedStage) return;
-    
+
     setCombatState({
       inProgress: true,
       playerHealth: playerStats.maxHealth,
@@ -78,6 +84,28 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
     });
   };
 
+  const getEffectiveStats = () => {
+    let attackBonus = 0;
+    let defenseBonus = 0;
+    let luckBonus = 0;
+
+    if (selectedEquipment.weapon) {
+      attackBonus += selectedEquipment.weapon.statBonus.attack || 0;
+    }
+    if (selectedEquipment.armor) {
+      defenseBonus += selectedEquipment.armor.statBonus.defense || 0;
+    }
+     if (selectedEquipment.tool) {
+      luckBonus += selectedEquipment.tool.statBonus.luck || 0;
+    }
+
+    return {
+      attack: (playerStats?.attack || 0) + attackBonus,
+      defense: (playerStats?.defense || 0) + defenseBonus,
+      luck: luckBonus
+    };
+  };
+
   useEffect(() => {
     if (combatState.inProgress && combatState.playerHealth > 0) {
       const playerInterval = setInterval(() => {
@@ -85,11 +113,13 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
           if (prev.playerHealth <= 0 || !prev.inProgress) {
             return prev;
           }
-          
-          const isCritical = Math.random() < 0.2;
-          const damage = playerStats.attack * (1 - enemy.defense / 100) * (isCritical ? 1.5 : 1);
+
+          const effectiveStats = getEffectiveStats();
+          const baseDamage = Math.floor(Math.random() * 15) + effectiveStats.attack;
+          const isCritical = Math.random() < (effectiveStats.luck / 100);
+          const damage = isCritical ? Math.floor(baseDamage * 1.5) : baseDamage;
           const newEnemyHealth = Math.max(0, prev.enemyHealth - damage);
-          
+
           triggerPlayerAttack(isCritical);
 
           return {
@@ -109,7 +139,7 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
           if (prev.playerHealth <= 0 || !prev.inProgress) {
             return prev;
           }
-          
+
           const damage = enemy.damage * (1 - playerStats.defense / 100);
           const newPlayerHealth = Math.max(0, prev.playerHealth - damage);
 
@@ -126,7 +156,7 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
         clearInterval(enemyInterval);
       };
     }
-  }, [combatState.inProgress, combatState.playerHealth]);
+  }, [combatState.inProgress, combatState.playerHealth, playerStats.attackSpeed, playerStats.defense, enemy.attackSpeed, enemy.damage, enemy.defense, getEffectiveStats]);
 
   useEffect(() => {
     if (combatState.inProgress && combatState.playerHealth <= 0) {
@@ -145,20 +175,20 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
     } else if (combatState.inProgress && combatState.enemyHealth <= 0 && selectedStage) {
       const rewards = stages[selectedStage].rewards;
       let newWinStreak = winStreak;
-      
+
       // Increment win streak for training stage
       if (selectedStage === 'training') {
         newWinStreak = winStreak + 1;
         setWinStreak(newWinStreak);
         localStorage.setItem('trainingWinStreak', newWinStreak.toString());
       }
-      
+
       const streakMessage = selectedStage === 'training' ? 
         ` Training win streak: ${newWinStreak}/15` : '';
-      
+
       // Give rewards but don't end combat - spawn new enemy
       onCombatEnd(true, rewards);
-      
+
       setCombatState(prev => ({
         ...prev,
         enemyHealth: enemy.maxHealth, // Reset enemy health for new fight
@@ -166,19 +196,149 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
         combatLog: [...prev.combatLog, `Victory! Enemy defeated! Earned ${rewards.junk} junk and ${rewards.credits} credits!${streakMessage}`, `New ${enemy.name} appears!`]
       }));
     }
-  }, [combatState.playerHealth, combatState.enemyHealth, combatState.inProgress, selectedStage, winStreak]);
+  }, [combatState.playerHealth, combatState.enemyHealth, combatState.inProgress, selectedStage, winStreak, onCombatEnd, enemy.maxHealth]);
+
+  const handleEquipItem = (item, slot) => {
+    setSelectedEquipment(prev => ({
+      ...prev,
+      [slot]: item
+    }));
+  };
+
+  const handleUnequipItem = (slot) => {
+    setSelectedEquipment(prev => ({
+      ...prev,
+      [slot]: null
+    }));
+  };
+
+  const getAvailableEquipment = (type) => {
+    return equipment?.filter(item => item.type === type) || [];
+  };
 
   return (
     <div className="scraptagon-combat">
       <div className="combat-header">
         <h2>SCRAPTAGON COMBAT v2.077</h2>
-        <button className="close-combat" onClick={onClose}>Close</button>
+        <div className="combat-header-buttons">
+          <button 
+            className="equipment-button"
+            onClick={() => setShowEquipmentModal(true)}
+          >
+            ⚔️ Equipment
+          </button>
+          <button className="close-combat" onClick={onClose}>Close</button>
+        </div>
       </div>
+
+      {/* Equipment Modal */}
+      {showEquipmentModal && (
+        <div className="equipment-modal-overlay">
+          <div className="equipment-modal">
+            <div className="equipment-modal-header">
+              <h3>Combat Equipment</h3>
+              <button onClick={() => setShowEquipmentModal(false)}>×</button>
+            </div>
+
+            <div className="equipment-sections">
+              <div className="equipped-items">
+                <h4>Currently Equipped</h4>
+                <div className="equipment-slots">
+                  {['weapon', 'armor', 'tool'].map(slot => (
+                    <div key={slot} className="equipment-slot">
+                      <div className="slot-label">{slot.toUpperCase()}</div>
+                      {selectedEquipment[slot] ? (
+                        <div className="equipped-item">
+                          <span className="equipment-icon">{selectedEquipment[slot].icon}</span>
+                          <div className="equipment-details">
+                            <p className="equipment-name">{selectedEquipment[slot].name}</p>
+                            <div className="equipment-stats">
+                              {Object.entries(selectedEquipment[slot].statBonus).map(([stat, bonus]) => (
+                                <span key={stat} className="stat-bonus">
+                                  {stat}: +{bonus}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                          <button 
+                            className="unequip-btn"
+                            onClick={() => handleUnequipItem(slot)}
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="empty-slot">
+                          <span className="empty-icon">+</span>
+                          <p>Empty {slot} slot</p>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="effective-stats-display">
+                  <h4>Effective Combat Stats</h4>
+                  <div className="stats-grid">
+                    {Object.entries(getEffectiveStats()).map(([stat, value]) => (
+                      <div key={stat} className="stat-item">
+                        <span className="stat-name">{stat}:</span>
+                        <span className="stat-value">{value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="available-equipment">
+                <h4>Available Equipment</h4>
+                <div className="equipment-inventory">
+                  {['weapon', 'armor', 'tool'].map(type => (
+                    <div key={type} className="equipment-category">
+                      <h5>{type.toUpperCase()}S</h5>
+                      <div className="equipment-list">
+                        {getAvailableEquipment(type).length === 0 ? (
+                          <p className="no-equipment">No {type}s available</p>
+                        ) : (
+                          getAvailableEquipment(type).map((item) => (
+                            <div key={item.uniqueId || item.id} className="equipment-item">
+                              <span className="equipment-icon">{item.icon}</span>
+                              <div className="equipment-info">
+                                <p className="equipment-name">{item.name}</p>
+                                <p className="equipment-rarity">{item.rarity}</p>
+                                <div className="equipment-stats">
+                                  {Object.entries(item.statBonus).map(([stat, bonus]) => (
+                                    <span key={stat} className="stat-bonus">
+                                      {stat}: +{bonus}
+                                    </span>
+                                  ))}
+                                </div>
+                                <p className="equipment-flavor">{item.flavor}</p>
+                              </div>
+                              <button 
+                                className="equip-btn"
+                                onClick={() => handleEquipItem(item, type)}
+                                disabled={selectedEquipment[type]?.uniqueId === item.uniqueId}
+                              >
+                                {selectedEquipment[type]?.uniqueId === item.uniqueId ? 'Equipped' : 'Equip'}
+                              </button>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="combat-stats">
         <div>PLAYER: [LVL {playerStats?.level || 1}] {playerStats?.name || 'UNKNOWN'}</div>
         <div>COMBAT RATING: {playerStats?.attack || 0} DMG / {playerStats?.defense || 0} DEF</div>
       </div>
-      
+
       {!selectedStage && (
         <div className="stage-selection">
           <h3>SELECT COMBAT STAGE</h3>
@@ -213,7 +373,7 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
           </div>
         </div>
       )}
-      
+
       {selectedStage && (
         <div className="stage-info">
           <div className="current-stage">
