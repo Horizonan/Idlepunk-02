@@ -8,7 +8,6 @@ export default function ElectroStore({
   onBuyCircuitOptimization,onBuyFrequencyTap, onBuyReactiveFeedback, onBuyPickupMagnetArray,
 }) {
   const [selectedTab, setSelectedTab] = useState("basic");
-  const [mobileInfoModal, setMobileInfoModal] = useState(null);
 
   const formatNumber = (num) => {
     if (num >= 1000000) {
@@ -21,7 +20,7 @@ export default function ElectroStore({
 
   const getPurchasedItems = () => {
     const purchased = [];
-
+    
     // Check all purchased items
     if (localStorage.getItem('unlocked_tronics_boost')) {
       const count = parseInt(localStorage.getItem('tronics_boost_count') || '0');
@@ -33,7 +32,7 @@ export default function ElectroStore({
         });
       }
     }
-
+    
     const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
     if (boostIICount > 0) {
       purchased.push({
@@ -42,7 +41,7 @@ export default function ElectroStore({
         count: boostIICount
       });
     }
-
+    
     if (localStorage.getItem('flow_regulator_purchased') === 'true') {
       purchased.push({
         name: "⚡ Flow Regulator",
@@ -50,7 +49,7 @@ export default function ElectroStore({
         count: 1
       });
     }
-
+    
     if (localStorage.getItem('quantum_tap_purchased') === 'true') {
       purchased.push({
         name: "⚡ Quantum Tap Circuit",
@@ -58,7 +57,7 @@ export default function ElectroStore({
         count: 1
       });
     }
-
+    
     if (localStorage.getItem('electro_surge_node_purchased') === 'true') {
       purchased.push({
         name: "⚡ Electro Surge Node",
@@ -66,7 +65,7 @@ export default function ElectroStore({
         count: 1
       });
     }
-
+    
     if (localStorage.getItem('beacon_core_purchased') === 'true') {
       purchased.push({
         name: "🔦 Electro Beacon Core",
@@ -74,7 +73,7 @@ export default function ElectroStore({
         count: 1
       });
     }
-
+    
     const circuitOptCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
     if (circuitOptCount > 0) {
       purchased.push({
@@ -83,7 +82,7 @@ export default function ElectroStore({
         count: circuitOptCount
       });
     }
-
+    
     if (localStorage.getItem('high_freq_tap_purchased') === 'true') {
       purchased.push({
         name: "⚡ High-Frequency Tap Chip",
@@ -91,7 +90,7 @@ export default function ElectroStore({
         count: 1
       });
     }
-
+    
     if (localStorage.getItem('reactive_feedback_purchased') === 'true') {
       purchased.push({
         name: "🔄 Reactive Feedback Loop",
@@ -99,7 +98,7 @@ export default function ElectroStore({
         count: 1
       });
     }
-
+    
     if (localStorage.getItem('pickup_magnet_array_purchased') === 'true') {
       purchased.push({
         name: "🧲 Pickup Magnet Array",
@@ -107,7 +106,7 @@ export default function ElectroStore({
         count: 1
       });
     }
-
+    
     return purchased;
   };
 
@@ -245,14 +244,6 @@ export default function ElectroStore({
     { id: "advanced", label: "Advanced" }
   ];
 
-  const openMobileInfo = (item) => {
-    setMobileInfoModal(item);
-  };
-
-  const closeMobileInfo = () => {
-    setMobileInfoModal(null);
-  };
-
   const renderItems = (items) => (
     <div className="store-items">
       {items.filter(item => {
@@ -301,18 +292,7 @@ export default function ElectroStore({
             className={`store-item ${!canAfford || !item.unlockCondition() ? 'disabled' : ''}`}
           >
             <div className="item-header">
-              <strong>
-                {item.name}
-                <button 
-                  className="mobile-info-button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    openMobileInfo(item);
-                  }}
-                >
-                  ℹ️
-                </button>
-              </strong>
+              <strong>{item.name}</strong>
               <span className="cost">
                 {item.cost.tronics ? `${formatNumber(item.cost.tronics)} Tronics` : ''}
                 {item.cost.shards ? `${item.cost.shards} Shards` : ''}
@@ -358,33 +338,12 @@ export default function ElectroStore({
         {selectedTab === "basic" && renderItems(basicItems)}
         {selectedTab === "advanced" && renderItems(advancedItems)}
       </div>
-
+      
       <PurchasedItemsList 
         title="⚡ Active Electrotech Upgrades"
         purchasedItems={getPurchasedItems()}
         className="electrostore-purchased"
       />
-
-      {mobileInfoModal && (
-        <div className="mobile-item-info-modal" onClick={closeMobileInfo}>
-          <div className="mobile-item-info-content" onClick={(e) => e.stopPropagation()}>
-            <div className="mobile-item-info-header">
-              <h3>{mobileInfoModal.name}</h3>
-              <button className="mobile-info-close" onClick={closeMobileInfo}>
-                ×
-              </button>
-            </div>
-            <div className="mobile-item-info-body">
-              <p><strong>Cost:</strong> {mobileInfoModal.cost.tronics ? `${formatNumber(mobileInfoModal.cost.tronics)} Tronics` : ''} {mobileInfoModal.cost.shards ? `${formatNumber(mobileInfoModal.cost.shards)} Shards` : ''}</p>
-              <p>{mobileInfoModal.description}</p>
-              <p>{mobileInfoModal.info}</p>
-              {mobileInfoModal.purchasedCount !== undefined && (
-                <p><strong>Owned:</strong> {mobileInfoModal.purchasedCount}</p>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
