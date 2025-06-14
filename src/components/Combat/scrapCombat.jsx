@@ -382,7 +382,6 @@ export default function ScraptagonCombat({ playerStats, equipment, onCombatEnd, 
             </button>
           )}
         </div>
-        </>
       )}
 
       {activeTab === 'equipment' && (
