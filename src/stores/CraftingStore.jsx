@@ -93,6 +93,19 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       description: 'A hacked regulator that compresses outbound sync pulses. All crew missions complete 20 seconds faster.',
       type: 'enhanced',
       onetime: true
+    },
+    {
+      name: 'Echo Helmets',
+      requirements: {
+        'Signal Mesh': 4,
+        'Gear Bits': 8,
+        'Capacitor': 1
+      },
+      cost: 5000000,
+      description: 'Noise-canceling brainwear for clean signal thinking.',
+      effect: '+1% mission success rate',
+      type: 'enhanced',
+      onetime: true
     }
   ];
 
