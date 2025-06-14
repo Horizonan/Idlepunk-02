@@ -144,6 +144,31 @@ export const useRecruitmentZustand = create(
         }
       },
 
+// Recover stamina every 30 minutes
+      recoverStamina: () => {
+        const now = Date.now();
+        const lastUpdate = get().lastStaminaUpdate;
+        const timeDiff = now - lastUpdate;
+
+        // Check if Rusted Loyalty Pins are owned for 25% faster recovery
+        const craftingInventory = JSON.parse(localStorage.getItem('craftingInventory') || '{}');
+        const hasRustedLoyaltyPins = craftingInventory['Rusted Loyalty Pins'] && craftingInventory['Rusted Loyalty Pins'] > 0;
+
+        // Base recovery interval is 30 minutes, with pins it's 22.5 minutes (25% faster)
+        const recoveryInterval = hasRustedLoyaltyPins ? 22.5 * 60 * 1000 : 30 * 60 * 1000;
+
+        if (timeDiff >= recoveryInterval) {
+          const recoveryAmount = Math.floor(timeDiff / recoveryInterval) * 10;
+          set(state => ({
+            hiredCrew: state.hiredCrew.map(crew => ({
+              ...crew,
+              stamina: Math.min(100, (crew.stamina || 100) + recoveryAmount)
+            })),
+            lastStaminaUpdate: now
+          }));
+        }
+      },
+
       profiles: [],
       currentIndex: 0,
       score: 0,
@@ -563,13 +588,13 @@ export const useRecruitmentZustand = create(
 
       rotateMission: (completedMissionId) => {
         const prestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
-        
+
         // Only rotate missions after second prestige
         if (prestigeCount < 2) return null;
 
         const { missions, missionCategories } = require('./missions');
         const completedMission = missions[completedMissionId];
-        
+
         if (!completedMission || !completedMission.category) return null;
 
         const categoryMissions = missionCategories[completedMission.category];
@@ -577,20 +602,20 @@ export const useRecruitmentZustand = create(
 
         // Get available missions from the same category (excluding the completed one)
         const availableMissions = categoryMissions.filter(missionKey => missionKey !== completedMissionId);
-        
+
         if (availableMissions.length === 0) return null;
 
         // Select a random mission from the same category
         const randomIndex = Math.floor(Math.random() * availableMissions.length);
         const selectedMissionKey = availableMissions[randomIndex];
-        
+
         // Track the rotated mission in localStorage
         const rotatedMissions = JSON.parse(localStorage.getItem('rotatedMissions') || '[]');
         if (!rotatedMissions.includes(selectedMissionKey)) {
           rotatedMissions.push(selectedMissionKey);
           localStorage.setItem('rotatedMissions', JSON.stringify(rotatedMissions));
         }
-        
+
         return missions[selectedMissionKey];
       },
 
