@@ -639,14 +639,14 @@
 
 .crew-loadouts {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 20px;
 }
 
 .crew-loadout-card {
   background: rgba(34, 34, 34, 0.8);
-  border: 1px solid #9400D3;
-  padding: 15px;
+  border: 2px solid #9400D3;
+  padding: 20px;
   border-radius: 4px;
 }
 
@@ -667,35 +667,86 @@
   margin: 2px 0 0 0;
 }
 
-.loadout-equipment {
+.loadout-slots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
   margin-bottom: 15px;
 }
 
-.equipment-slot {
-  margin-bottom: 10px;
+.loadout-slot {
+  background: #222;
+  border: 2px solid #9400D3;
+  padding: 15px;
+  border-radius: 4px;
+  text-align: center;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.equipment-slot label {
-  display: block;
+.slot-type {
   color: #00FF00;
-  font-size: 0.9em;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+  font-size: 12px;
   text-transform: uppercase;
+  font-weight: bold;
 }
 
-.equipment-slot select {
-  width: 100%;
+.slot-icon {
+  font-size: 24px;
+  color: #00FF00;
+}
+
+.equipped-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+}
+
+.equipped-item .equipment-icon {
+  font-size: 1.5em;
+}
+
+.equipped-item .equipment-info {
+  text-align: center;
+}
+
+.equipped-item .equipment-info p {
+  color: #00FF00;
+  font-size: 0.8em;
+  margin: 2px 0;
+}
+
+.unequip-button {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #FF0000;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-slot select {
   background: #222;
   color: #00FF00;
   border: 1px solid #9400D3;
-  padding: 8px;
-  border-radius: 4px;
-  font-size: 0.9em;
-}
-
-.equipment-slot select:focus {
-  outline: none;
-  border-color: #00FF00;
+  padding: 5px;
+  border-radius: 3px;
+  font-size: 0.8em;
+  width: 100%;
+  margin-top: 10px;
 }
 
 .effective-stats {
