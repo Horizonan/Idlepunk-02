@@ -479,20 +479,34 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                             );
                           })}
                         </div>
-                        <div className="success-chance">
-                          Success Chance: {calculateMissionSuccess(
-                            hiredCrew
-                              .filter(crew => (selectedCrew || []).includes(crew.id))
-                              .reduce((stats, crew) => {
+                        {activeMission && (
+                          <div className="success-chance">
+                            Success Chance: {(() => {
+                              const selectedCrewMembers = selectedCrew.map(id => 
+                                hiredCrew.find(c => c.id === id)
+                              ).filter(Boolean);
+
+                              const crewStats = selectedCrewMembers.reduce((stats, crew) => {
                                 const effectiveStats = getCrewEffectiveStats(crew.id);
-                                Object.entries(mission.requirements).forEach(([stat]) => {
-                                  stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + (effectiveStats?.[stat.toLowerCase()] || 0);
+                                Object.entries(activeMission.requirements).forEach(([stat]) => {
+                                  const crewStat = effectiveStats?.[stat.toLowerCase()] || 0;
+                                  stats[stat.toLowerCase()] = (stats[stat.toLowerCase()] || 0) + crewStat;
                                 });
                                 return stats;
-                              }, {}),
-                            mission.requirements
-                          ).toFixed(1)}%
-                        </div>
+                              }, {});
+
+                              let successRate = calculateMissionSuccess(crewStats, activeMission.requirements);
+
+                              // Apply Echo Helmets bonus
+                              const craftingInventory = JSON.parse(localStorage.getItem('craftingInventory') || '{}');
+                              if (craftingInventory['Echo Helmets'] && craftingInventory['Echo Helmets'] > 0) {
+                                successRate += 1;
+                              }
+
+                              return `${Math.min(100, successRate).toFixed(1)}%`;
+                            })()}
+                          </div>
+                        )}
                       </div>
                       <div className="crew-selection-list">
                         {hiredCrew.map((crew) => (
