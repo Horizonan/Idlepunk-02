@@ -106,6 +106,19 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       effect: '+1% mission success rate',
       type: 'enhanced',
       onetime: true
+    },
+    {
+      name: 'Rusted Loyalty Pins',
+      requirements: {
+        'Gear Bits': 12,
+        'Scrap Core': 1,
+        'Glitched Scrap Core': 1
+      },
+      cost: 6000000,
+      description: 'These crude pins bind crew to your cause. Or maybe they just look cool.',
+      effect: 'Crew recovers stamina 25% faster',
+      type: 'enhanced',
+      onetime: true
     }
   ];
 

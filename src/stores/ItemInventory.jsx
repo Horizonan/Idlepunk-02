@@ -67,6 +67,11 @@ export default function ItemInventory({ craftingInventory, onBack }) {
       effect: 'All crew missions complete 20 seconds faster',
       icon: <img src="../Icons/crafting/chronoRegulator.png" alt="Mesh" style={{width: '100%', height: '100%'}} />
     },
+    'Rusted Loyalty Pins': {
+      description: 'These crude pins bind crew to your cause. Or maybe they just look cool',
+      effect: 'Crew recovers stamina 25% faster',
+      icon: '📌'
+    },
     'Stabilized Capacitor': {
       description: 'A perfectly stabilized energy storage unit',
       effect: 'Required for advanced tech progression',

@@ -419,7 +419,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         const skillLevels = JSON.parse(localStorage.getItem('skillLevels') || '{}');
                         const heistingSpeedLevel = skillLevels.heistingSpeed || 0;
                         const hasChronoRegulator = craftingInventory['Chrono Regulator'] && craftingInventory['Chrono Regulator'] > 0;
-                        
+
                         const modifiers = [];
                         if (hasChronoRegulator) {
                           modifiers.push(<span key="chrono" style={{color: '#00ff00'}}> (Chrono Regulator: -20s)</span>);
@@ -428,7 +428,7 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                           const speedBonus = (heistingSpeedLevel * 0.5).toFixed(1);
                           modifiers.push(<span key="heisting" style={{color: '#9400D3'}}> (Heisting Speed: -{speedBonus}%)</span>);
                         }
-                        
+
                         return modifiers;
                       })()}
                     </div>
