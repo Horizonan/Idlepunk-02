@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default function Changelog({ onClose }) {
-  const [expandedVersion, setExpandedVersion] = useState('0.1.1');
+  const [expandedVersion, setExpandedVersion] = useState('0.1.2');
 
   const toggleVersion = (version) => {
     setExpandedVersion(expandedVersion === version ? null : version);
@@ -18,6 +18,60 @@ export default function Changelog({ onClose }) {
 
       <div className="changelog-content">
 
+
+
+        <div className="changelog-entry">
+          <h3 onClick={() => toggleVersion('0.1.2')} style={{ cursor: 'pointer' }}>
+            🎯 Achievements, UI Overhaul & New Missions – Update Log 0.1.2 {expandedVersion === '0.1.2' ? '▼' : '▶'}
+          </h3>
+          {expandedVersion === '0.1.2' && (
+            <>
+              <p>v0.1.2 sharpens the UI, expands achievements, and adds new missions and lore — including a second hidden fragment 👀</p>
+              <div className="changelog-section">
+                <h3>🐞 Bug Fixes</h3>
+                <p>🐞 Fixed negative Junk/Sec display bug</p>
+                <p>🐞 Fixed logic bug in “Befriend Junk Pile”</p>
+                <p>🐞 Fixed Crew appearing as unlocked even when not</p>
+
+                <h3>👥 Crew Updates</h3>
+                <p>👥 New Heist mission: **Clawback Job**</p>
+                <p>👥 New Void mission: **Echo Harvest**</p>
+                <p>👥 Duplicate gear can now be sold or kept</p>
+
+                <h3>🏆 Achievements System</h3>
+                <p>🏆 Reduced visual clutter (box size, spacing)</p>
+                <p>🏆 Badge window now toggleable</p>
+                <p>🏆 Mobile-friendly layout & badge effects shown</p>
+                <p>🏆 Consistent tooltip styling</p>
+                <p>🏆 New Achievements:  
+                “Who clicks the clickers” & “Befriend Junk Pile”</p>
+                <p>🏆 More new achievements added!</p>
+
+                <h3>📚 Second Lore Fragment</h3>
+                <p>📚 The second fragment has been added...  
+                _Can you find it?_ 😉</p>
+
+                <h3>🖥️ UI & Design</h3>
+                <p>🖥️ New icons: Scrap Core, Wires, Metal Plates, Mesh</p>
+                <p>🖥️ Info modals added for Scratz, Electro & Crafting Stores (Mobile)</p>
+                <p>🖥️ QuestLog and Tech Tree now better on mobile</p>
+                <p>🖥️ Mobile notifications fully redesigned</p>
+
+                <h3>⚔️ Scraptagon</h3>
+                <p>⚔️ Slight UI revamp for clarity</p>
+
+                <h3>🎮 Content Additions</h3>
+                <p>🎮 Cogfather’s Eye added (try playing at night 👁️)</p>
+                <p>🎮 New Skill added to Skills Center (finally!)</p>
+                <p>🎮 New stat: **Heist Speedup**</p>
+                <p>🎮 (!) icon appears in Skills Center when a new skill unlocks</p>
+              </div>
+              <p className="changelog-footer">Thanks again for being part of this growing junkyard! More polish, more story, and more weirdness coming soon 💛</p>
+            </>
+          )}
+        </div>
+
+        
         <div className="changelog-entry">
 
           <div className="changelog-entry">

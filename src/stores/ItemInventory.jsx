@@ -5,27 +5,27 @@ export default function ItemInventory({ craftingInventory, onBack }) {
     'Wires': {
       description: 'Basic conductive material',
       effect: 'Used in basic crafting',
-      icon: <img src="../Icons/crafting/wire.png" alt="Scrap Core" style={{width: '100%', height: '100%'}} />
+      icon: <img src="../Icons/crafting/wire.png" alt="Wires" style={{width: '100%', height: '100%'}} />
     },
     'Metal Plates': {
       description: 'Sturdy metal sheets',
       effect: 'Used in basic crafting',
-      icon: <img src="../Icons/crafting/metalPlates.png" alt="Scrap Core" style={{width: '100%', height: '100%'}} />
+      icon: <img src="../Icons/crafting/metalPlates.png" alt="Metal Sheet" style={{width: '100%', height: '100%'}} />
     },
     'Gear Bits': {
       description: 'Mechanical components',
       effect: 'Used in basic crafting',
-      icon: '⚙️'
+      icon: <img src="../Icons/crafting/gears.png" alt="Gears" style={{width: '100%', height: '100%'}} />
     },
     'Signal Mesh': {
       description: 'A tangled net of conductive filaments and memory threads',
       effect: 'Used for comms, signal boosting, and mysterious tech',
-      icon: '📡'
+      icon: <img src="../Icons/crafting/signalMesh.png" alt="Mesh" style={{width: '100%', height: '100%'}} />
     },
     'Capacitor': {
       description: 'Basic Electric Component',
       effect: 'Used for Energy Storage',
-      icon: '⚡'
+      icon: <img src="../Icons/crafting/capacitor.png" alt="Mesh" style={{width: '100%', height: '100%'}} />
     },
     'Scrap Core': {
       description: 'A basic power core made from scrap',
@@ -35,27 +35,27 @@ export default function ItemInventory({ craftingInventory, onBack }) {
     'Click Rig Mk I': {
       description: 'Advanced clicking mechanism',
       effect: 'Increases click power by 25%',
-      icon: '🔧'
+      icon: <img src="../Icons/crafting/clickRigMk1.png" alt="Mesh" style={{width: '100%', height: '100%'}} />
     },
     'Auto Toolkit': {
       description: 'Collection of automated tools',
       effect: 'Increases Auto Click efficiency by 25%',
-      icon: '⚙️'
+      icon: <img src="../Icons/crafting/autoToolkit.png" alt="Mesh" style={{width: '100%', height: '100%'}} />
     },
     'Compression Pack': {
       description: 'Advanced storage solution',
       effect: 'Increases Junk/sec by 25%',
-      icon: '📦'
+      icon: <img src="../Icons/crafting/compressionPack.png" alt="Mesh" style={{width: '100%', height: '100%'}} />
     },
     'Reinforced Backpack': {
       description: 'Heavy-duty storage pack',
       effect: 'Reduces cost scaling by 1% permanently',
-      icon: '🎒'
+      icon: <img src="../Icons/crafting/reinforcedBackpack.png" alt="Mesh" style={{width: '100%', height: '100%'}} />
     },
     'Surge Capacitor Module': {
       description: 'Power surge enhancement device',
       effect: 'Increases Trash Surge duration from 5s → 10s',
-      icon: '⚡'
+      icon: <img src="../Icons/crafting/surgeCapacitor.png" alt="Mesh" style={{width: '100%', height: '100%'}} />
     },
     'Stabilized Capacitor': {
       description: 'A perfectly stabilized energy storage unit',
@@ -90,12 +90,12 @@ export default function ItemInventory({ craftingInventory, onBack }) {
     'Luck Engine': {
       description: 'A humming mass of fused chance. Feels... oddly warm.',
       effect: 'Gives you the ability to buy Auto Slotter and Ultimate Slots',
-      icon: '🎲'
+      icon: <img src="../Icons/crafting/luckEngine.png" alt="Mesh" style={{width: '80%', height: '100%'}} />
     },
     'Junk Cells': {
       description: 'Portable power source that lasts about 4 hours',
       effect: 'Used to power items temporarily',
-      icon: '🔋'
+      icon: <img src="../Icons/crafting/junkCell.png" alt="Mesh" style={{width: '80%', height: '100%'}} />
     }
   };
 
