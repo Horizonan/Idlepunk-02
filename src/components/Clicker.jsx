@@ -12,26 +12,26 @@ function FlyingJunkPiece({ id, onAnimationEnd }) {
   useEffect(() => {
     // Random direction and distance
     const angle = Math.random() * 2 * Math.PI;
-    const distance = 50 + Math.random() * 100;
+    const distance = 80 + Math.random() * 60; // Increased distance for better visibility
     const targetX = Math.cos(angle) * distance;
     const targetY = Math.sin(angle) * distance;
 
     // Animate the piece
     const startTime = Date.now();
-    const duration = 800;
+    const duration = 1200; // Longer duration for smoother animation
 
     const animate = () => {
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
       
       // Easing function for natural movement
-      const easeOut = 1 - Math.pow(1 - progress, 3);
+      const easeOut = 1 - Math.pow(1 - progress, 2);
       
       setPosition({
         x: targetX * easeOut,
-        y: targetY * easeOut,
-        opacity: 1 - progress,
-        scale: 1 - progress * 0.5
+        y: targetY * easeOut - (progress * 20), // Add slight upward arc
+        opacity: Math.max(0, 1 - progress),
+        scale: Math.max(0.2, 1 - progress * 0.6)
       });
 
       if (progress < 1) {
@@ -52,12 +52,13 @@ function FlyingJunkPiece({ id, onAnimationEnd }) {
         position: 'absolute',
         left: '50%',
         top: '50%',
-        width: '16px',
-        height: '16px',
+        width: '20px',
+        height: '20px',
         transform: `translate(-50%, -50%) translate(${position.x}px, ${position.y}px) scale(${position.scale})`,
         opacity: position.opacity,
         pointerEvents: 'none',
-        zIndex: 1000
+        zIndex: 1000,
+        imageRendering: 'pixelated' // Better rendering for small images
       }}
     />
   );
@@ -84,17 +85,12 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
 
   // Function to create flying junk pieces
   const createFlyingJunkPieces = () => {
-    const numPieces = 3 + Math.floor(Math.random() * 3); // 3-5 pieces
-    const newPieces = [];
+    const newPiece = {
+      id: junkPieceIdRef.current++,
+      createdAt: Date.now()
+    };
     
-    for (let i = 0; i < numPieces; i++) {
-      newPieces.push({
-        id: junkPieceIdRef.current++,
-        createdAt: Date.now() + i * 50 // Slight delay between pieces
-      });
-    }
-    
-    setFlyingJunkPieces(prev => [...prev, ...newPieces]);
+    setFlyingJunkPieces(prev => [...prev, newPiece]);
   };
 
   // Function to remove finished animation pieces
@@ -316,7 +312,15 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
           />
         )}  
         {activeClicker === 'trash' && (
-          <div style={{ position: 'relative' }}>
+          <div style={{ 
+            position: 'relative',
+            overflow: 'visible',
+            minHeight: '200px',
+            minWidth: '200px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
             <img 
               src="Icons/TrashButtonBig.svg" 
               alt="Trash Clicker" 
