@@ -17,7 +17,6 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
   const [selectedTab, setSelectedTab] = useState('basic');
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [bulkCraft, setBulkCraft] = useState(false);
-  const [itemInfo, setItemInfo] = useState({}); // Added state to manage item info visibility
 
   const tabs = [
     { id: 'basic', label: 'Basic Materials' },
@@ -228,14 +227,6 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
     }
   };
 
-  const toggleItemInfo = (itemName, event) => {
-    event.stopPropagation(); // Prevent triggering the craft button click
-    setItemInfo(prevState => ({
-      ...prevState,
-      [itemName]: !prevState[itemName]
-    }));
-  };
-
   return (
     <div className="store-container">
       <div className="store-header">
@@ -279,16 +270,15 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   className={`store-item ${item.uncraftable ? 'uncraftable' : ''}`}
                 >
                   <div className="item-header">
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <strong>{item.name}</strong>
-                      <button 
-                        className="item-info-icon"
-                        onClick={(e) => toggleItemInfo(item.name, e)}
-                        style={{ display: window.innerWidth <= 768 ? 'inline-flex' : 'none' }}
-                      >
-                        i
-                      </button>
-                    </div>
+                    <strong>{item.name}</strong>
+                    {item.cost && (
+                      <span className="cost">
+                        ({bulkCraft 
+                          ? formatJunkCost(calculate10xCraftingPrice(item.cost).totalCost, false) 
+                          : formatJunkCost(item.cost, craftingInventory['Crafting Booster Unit'])
+                        } Junk)
+                      </span>
+                    )}
                   </div>
                   <div className="item-info">
                     <p>{item.description}</p>
@@ -322,16 +312,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   className="store-item"
                 >
                   <div className="item-header">
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <strong>{item.name}</strong>
-                      <button 
-                        className="item-info-icon"
-                        onClick={(e) => toggleItemInfo(item.name, e)}
-                        style={{ display: window.innerWidth <= 768 ? 'inline-flex' : 'none' }}
-                      >
-                        i
-                      </button>
-                    </div>
+                    <strong>{item.name}</strong>
                   </div>
                   <div className="item-info">
                     <p>{item.description}</p>
@@ -363,16 +344,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   className="store-item"
                 >
                   <div className="item-header">
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <strong>{item.name}</strong>
-                      <button 
-                        className="item-info-icon"
-                        onClick={(e) => toggleItemInfo(item.name, e)}
-                        style={{ display: window.innerWidth <= 768 ? 'inline-flex' : 'none' }}
-                      >
-                        i
-                      </button>
-                    </div>
+                    <strong>{item.name}</strong>
                   </div>
                   <div className="item-info">
                     <p>{item.description}</p>
@@ -410,16 +382,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   className="store-item"
                 >
                   <div className="item-header">
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <strong>{item.name}</strong>
-                      <button 
-                        className="item-info-icon"
-                        onClick={(e) => toggleItemInfo(item.name, e)}
-                        style={{ display: window.innerWidth <= 768 ? 'inline-flex' : 'none' }}
-                      >
-                        i
-                      </button>
-                    </div>
+                    <strong>{item.name}</strong>
                   </div>
                   <div className="item-info">
                     <p>{item.description}</p>
@@ -471,17 +434,8 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                 className="store-item mysterious"
               >
                 <div className="item-header">
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <strong>💎 Prestige Crystal</strong>
-                      <button 
-                        className="item-info-icon"
-                        onClick={(e) => toggleItemInfo('Prestige Crystal', e)}
-                        style={{ display: window.innerWidth <= 768 ? 'inline-flex' : 'none' }}
-                      >
-                        i
-                      </button>
-                    </div>
-                  </div>
+                  <strong>💎 Prestige Crystal</strong>
+                </div>
                 <div className="item-info">
                   <p>A mysterious crystal pulsing with otherworldly power</p>
                   <p>Requirements:</p>
@@ -516,17 +470,8 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                 className="store-item mysterious"
               >
                 <div className="item-header">
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <strong>💎Overcharged Prestige Crystal</strong>
-                      <button 
-                        className="item-info-icon"
-                        onClick={(e) => toggleItemInfo('Overcharged Prestige Crystal', e)}
-                        style={{ display: window.innerWidth <= 768 ? 'inline-flex' : 'none' }}
-                      >
-                        i
-                      </button>
-                    </div>
-                  </div>
+                  <strong>💎Overcharged Prestige Crystal</strong>
+                </div>
                 <div className="item-info">
                   <p>A mysterious crystal pulsing with otherworldly power</p>
                   <p>Requirements:</p>
