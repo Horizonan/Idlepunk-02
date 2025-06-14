@@ -238,6 +238,11 @@
     display: none !important;
   }
   
+  /* Hide all notification content except the mobile button text */
+  .notifications-container .notification {
+    display: none !important;
+  }
+  
   .notifications-reopen-button {
     min-height: 44px !important;
     touch-action: manipulation !important;
