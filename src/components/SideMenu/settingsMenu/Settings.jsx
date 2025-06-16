@@ -102,6 +102,13 @@ export default function Settings({
       section: 'Gameplay'
     },
     { 
+      id: 'skipRecruitmentMiniGame', 
+      name: 'Skip Recruitment Mini-Game', 
+      description: 'Automatically get median points instead of playing the mini-game',
+      keywords: ['skip', 'recruitment', 'mini', 'game', 'auto', 'median', 'points'],
+      section: 'Gameplay'
+    },
+    { 
       id: 'quantumTapNotification', 
       name: 'Quantum Tap Notification', 
       description: 'Show notification when quantum tap triggers',
@@ -440,6 +447,20 @@ export default function Settings({
                   />
                 </label>
                 )}
+
+                <label className="setting-option modern">
+                  <div className="setting-info">
+                    <span className="setting-name">Skip Recruitment Mini-Game</span>
+                    <span className="setting-description">Automatically get median points instead of playing the mini-game</span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={localStorage.getItem('skipRecruitmentMiniGame') === 'true'}
+                    onChange={(e) => {
+                      localStorage.setItem('skipRecruitmentMiniGame', e.target.checked);
+                    }}
+                  />
+                </label>
               </div>
             </div>
             )}

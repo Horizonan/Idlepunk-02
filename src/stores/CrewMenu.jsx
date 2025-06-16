@@ -255,12 +255,28 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                 onClick={() => {
                   if(Number(localStorage.getItem('credits')) >= 10){
                     setCredits(prev => prev - 10);
-                    // Randomly select between profile screening (70%) and skills assessment (30%)
-                    const random = Math.random();
-                    if (random < 0.7) {
-                      startGame(); // Profile screening
+                    
+                    // Check if mini-game is disabled
+                    if (localStorage.getItem('skipRecruitmentMiniGame') === 'true') {
+                      // Auto-complete with median score
+                      const profileCount = localStorage.getItem('signal_expander_purchased') ? 10 : 8;
+                      const medianScore = Math.floor(profileCount * 0.6); // ~60% success rate for median
+                      
+                      // Randomly select game variant for unlocks
+                      const random = Math.random();
+                      if (random < 0.7) {
+                        useRecruitmentZustand.getState().handleGameEnd(medianScore);
+                      } else {
+                        useRecruitmentZustand.getState().handleSkillsGameEnd(medianScore);
+                      }
                     } else {
-                      useRecruitmentZustand.getState().startSkillsGame(); // Skills assessment
+                      // Play mini-game normally
+                      const random = Math.random();
+                      if (random < 0.7) {
+                        startGame(); // Profile screening
+                      } else {
+                        useRecruitmentZustand.getState().startSkillsGame(); // Skills assessment
+                      }
                     }
                   }
                 }}
