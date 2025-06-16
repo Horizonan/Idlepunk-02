@@ -65,21 +65,28 @@ export default function Menu({ onStoreSelect }) {
         {showMenu ? 'Close' : '≡'}
       </button>
       <div className="menu-buttons">
-        {Object.entries(menuCategories).map(([category, { header, buttons }]) => (
-          <div key={category} className="menu-category">
-            <h3 className="menu-category-header">{header}</h3>
-            {buttons.map(button => (
-              isUnlocked(button.id) && (
-                <button
-                  key={button.id}
-                  className={`menu-button ${button.id}-btn`}
-                  onClick={() => onStoreSelect(button.id)}>
-                  {button.label}
-                </button>
-              )
-            ))}
-          </div>
-        ))}
+        {Object.entries(menuCategories).map(([category, { header, buttons }]) => {
+          const visibleButtons = buttons.filter(button => isUnlocked(button.id));
+          
+          // Only render the section if it has visible buttons
+          if (visibleButtons.length === 0) return null;
+          
+          return (
+            <div key={category} className="menu-category">
+              <h3 className="menu-category-header">{header}</h3>
+              {buttons.map(button => (
+                isUnlocked(button.id) && (
+                  <button
+                    key={button.id}
+                    className={`menu-button ${button.id}-btn`}
+                    onClick={() => onStoreSelect(button.id)}>
+                    {button.label}
+                  </button>
+                )
+              ))}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

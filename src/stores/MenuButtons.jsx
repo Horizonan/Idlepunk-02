@@ -161,21 +161,29 @@ export default function MenuButtons({ onStoreSelect, showInventory, craftingInve
       <button className="menu-toggle" onClick={() => setShowMenu(prev => !prev)}>
         {showMenu ? 'Close' : '≡'}
       </button>
-      {showMenu && Object.entries(menuCategories).map(([category, { header, buttons }]) => (
-        <div key={category} className="menu-category">
-          <h3 className="menu-category-header">{header}</h3>
-          {buttons.map((button, index) => (
-            <button
-              key={index}
-              onClick={button.onClick}
-              className={`menu-button ${button.locked ? 'locked-store' : ''}`}
-              disabled={button.locked}
-            >
-              {button.label} {button.locked && '🔒'}
-            </button>
-          ))}
-        </div>
-      ))}
+      {showMenu && Object.entries(menuCategories).map(([category, { header, buttons }]) => {
+        const visibleButtons = buttons.filter(button => !button.locked);
+        
+        // Only render the section if it has visible buttons
+        if (visibleButtons.length === 0) return null;
+        
+        return (
+          <div key={category} className="menu-category">
+            <h3 className="menu-category-header">{header}</h3>
+            {buttons.map((button, index) => (
+              !button.locked && (
+                <button
+                  key={index}
+                  onClick={button.onClick}
+                  className="menu-button"
+                >
+                  {button.label}
+                </button>
+              )
+            ))}
+          </div>
+        );
+      })}
     </div>
   );
 }
