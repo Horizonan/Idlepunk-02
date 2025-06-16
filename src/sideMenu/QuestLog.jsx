@@ -192,14 +192,9 @@ export default function QuestLog({ tutorialStage, onClose }) {
           {availableQuestLines.map(({ key, name }) => (
             <button
               key={key}
-              className={`quest-tab ${selectedQuestLine === key ? 'active' : ''} ${
-                key === 'ascension' && localStorage.getItem('cogfatherEvent') === 'true' && !localStorage.getItem('ascension_tab_clicked') ? 'highlight' : ''
-              }`}
+              className={`quest-tab ${selectedQuestLine === key ? 'active' : ''}`}
               onClick={() => {
                 setSelectedQuestLine(key);
-                if (key === 'ascension') {
-                  localStorage.setItem('ascension_tab_clicked', 'true');
-                }
               }}
             >
               {name}
