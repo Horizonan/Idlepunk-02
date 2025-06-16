@@ -773,9 +773,16 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                     </div>
                                   ` : ''}
                                 </div>
-                                <button onclick="this.parentElement.parentElement.remove()">Close</button>
+                                <button class="mission-close-button">Close</button>
                               </div>
                             `;
+                            
+                            // Add proper event listener for the close button
+                            const closeButton = missionWindow.querySelector('.mission-close-button');
+                            closeButton.addEventListener('click', () => {
+                              missionWindow.remove();
+                            });
+                            
                             document.body.appendChild(missionWindow);
 
                             // Reset mini-game bonus state
