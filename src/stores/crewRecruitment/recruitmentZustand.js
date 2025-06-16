@@ -540,12 +540,12 @@ export const useRecruitmentZustand = create(
           return;
         }
 
-        // Normal crew unlocking logic for subsequent recruits
+        // Normal crew unlocking logic for all subsequent recruits (including skip mode after Maya Chen)
         const eligibleCrew = crewDatabase.filter(crew => {
           const conditions = crew.unlockConditions;
           if (!conditions) return false;
 
-          // Skip Maya Chen for normal unlocking
+          // Skip Maya Chen for normal unlocking (she's handled above)
           if (conditions.skipModeOnly) return false;
 
           const alreadyUnlocked = get().unlockedCrew.some(c => c.id === crew.id);
@@ -568,12 +568,7 @@ export const useRecruitmentZustand = create(
           return true;
         });
 
-        if (eligibleCrew.length === 0) {
-          set({ selectedCrew: [] });
-          return;
-        }
-
-        if (eligibleCrew && eligibleCrew.length > 0) {
+        if (eligibleCrew.length > 0) {
           const randomIndex = Math.floor(Math.random() * eligibleCrew.length);
           const selectedCrew = eligibleCrew[randomIndex];
           set({ 
