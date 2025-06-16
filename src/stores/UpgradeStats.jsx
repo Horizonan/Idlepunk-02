@@ -6,6 +6,39 @@ import SkillsCenterIntro from '../components/SkillsCenterIntro';
 export default function UpgradeStats({ onClose }) {
   const { skillXp, skillLevels, activeSkill, setActiveSkill, loadFromLocalStorage } = useSkillsStore();
   const [showIntro, setShowIntro] = useState(false);
+  const [ownedItems, setOwnedItems] = useState(() => JSON.parse(localStorage.getItem('ownedItems')) || {});
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const updated = JSON.parse(localStorage.getItem('ownedItems')) || {};
+      setOwnedItems(updated);
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  // Helper function to get upgraded name or fallback to original
+  const getUpgradedName = (itemKey, originalName) => {
+    return localStorage.getItem(`${itemKey}_upgradedName`) || originalName;
+  };
+
+  const itemDisplayNames = {
+    trashBag: getUpgradedName("trashBag", "Scrap Bags"),
+    trashPicker: getUpgradedName("trashPicker", "Trash Pickers"), 
+    streetrat: getUpgradedName("streetrat", "Streetrats"),
+    cart: getUpgradedName("cart", "Shopping Carts"),
+    junkMagnet: getUpgradedName("junkMagnet", "Junk Magnets"),
+    urbanRecycler: getUpgradedName("urbanRecycler", "Urban Recyclers"),
+    clickEnhancer: getUpgradedName("clickEnhancer", "Click Enhancers"),
+    clampjawRig: getUpgradedName("clampjawRig", "Clampjaw Rigs"),
+    scrapDrone: getUpgradedName("scrapDrone", "Scrap Drones"),
+    holoBillboard: getUpgradedName("holoBillboard", "Holo Billboards"),
+    junkRefinery: getUpgradedName("junkRefinery", "Junk Refineries"),
+    modularScrapper: getUpgradedName("modularScrapper", "Modular Scrappers"),
+    scratzMiner: getUpgradedName("scratzMiner", "Scratz Miners"),
+    autoRecycler: getUpgradedName("autoRecycler", "Auto Recyclers")
+  };
 
   // Check if this is the first time opening Skills Center
   useEffect(() => {
