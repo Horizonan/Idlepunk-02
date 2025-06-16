@@ -458,15 +458,6 @@ export default function Settings({
                     checked={localStorage.getItem('skipRecruitmentMiniGame') === 'true'}
                     onChange={(e) => {
                       localStorage.setItem('skipRecruitmentMiniGame', e.target.checked);
-                      
-                      // If enabling skip mode, close any active recruitment games
-                      if (e.target.checked) {
-                        import('../../stores/crewRecruitment/recruitmentZustand').then(({ useRecruitmentZustand }) => {
-                          const store = useRecruitmentZustand.getState();
-                          store.setShowRecruitmentGame(false);
-                          store.setShowSkillsGame(false);
-                        });
-                      }
                     }}
                   />
                 </label>

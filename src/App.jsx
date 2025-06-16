@@ -2050,22 +2050,15 @@ export default function App() {
                     const profileCount = localStorage.getItem('signal_expander_purchased') ? 10 : 8;
                     const medianScore = Math.floor(profileCount * 0.6);
                     
-                    // Import and use the recruitment store
-                    import('./stores/crewRecruitment/recruitmentZustand').then(({ useRecruitmentZustand }) => {
-                      const store = useRecruitmentZustand.getState();
-                      
-                      // Close any active mini-game windows
-                      store.setShowRecruitmentGame(false);
-                      store.setShowSkillsGame(false);
-                      
-                      // Randomly select game variant for unlocks
-                      const random = Math.random();
-                      if (random < 0.7) {
-                        store.handleGameEnd(medianScore);
-                      } else {
-                        store.handleSkillsGameEnd(medianScore);
-                      }
-                    });
+                    // Randomly select game variant for unlocks
+                    const random = Math.random();
+                    if (random < 0.7) {
+                      const { useRecruitmentZustand } = require('./stores/crewRecruitment/recruitmentZustand');
+                      useRecruitmentZustand.getState().handleGameEnd(medianScore);
+                    } else {
+                      const { useRecruitmentZustand } = require('./stores/crewRecruitment/recruitmentZustand');
+                      useRecruitmentZustand.getState().handleSkillsGameEnd(medianScore);
+                    }
                   }}>
                     ⚡ Skip & Get Median Points (~60%)
                   </button>
