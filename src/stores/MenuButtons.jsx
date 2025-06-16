@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export default function MenuButtons({ onStoreSelect, showInventory, craftingInventory = {} }) {
+export default function MenuButtons({ onStoreSelect, showInventory, craftingInventory = {}, ownedItems = {} }) {
   const [showMenu, setShowMenu] = useState(true);
   const [canCraftPrestigeCrystal, setCanCraftPrestigeCrystal] = useState(false);
   const [hasNewUpgrades, setHasNewUpgrades] = useState(false);
@@ -22,7 +22,7 @@ export default function MenuButtons({ onStoreSelect, showInventory, craftingInve
     checkNewUpgrades();
     const interval = setInterval(checkNewUpgrades, 1000);
     return () => clearInterval(interval);
-  }, [craftingInventory]);
+  }, [craftingInventory, ownedItems]);
 
   // Check if Prestige Crystal is craftable
   useEffect(() => {

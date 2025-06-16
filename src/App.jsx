@@ -1342,6 +1342,7 @@ export default function App() {
           }}
           showInventory={showInventory}
           craftingInventory={craftingInventory}
+          ownedItems={ownedItems}
         />
       </div>
       {showUpgradeStats && (
