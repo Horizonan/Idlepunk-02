@@ -722,11 +722,11 @@ button.locked {
   border: 1px solid #9400D3;
   color: #00FF00;
   border-radius: 4px;
-  transition: all 0.3s ease;
+  transition: background 0.2s ease;
 }
 
 .menu-button:hover {
-  background: rgba(148, 0, 211, 0.6);
+  background: rgba(148, 0, 211, 0.2);
 }
 
 .main.collapsed {
@@ -768,12 +768,12 @@ button.locked {
   border: 1px solid #9400D3;
   color: #00FF00;
   border-radius: 4px;
-  transition: all 0.3s ease;
+  transition: background 0.2s ease;
 }
 
 .menu-toggle:hover {
-  background: #9400D3;
-  color: #222;
+  background: rgba(148, 0, 211, 0.2);
+  color: #00FF00;
 }
 
 

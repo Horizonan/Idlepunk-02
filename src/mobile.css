@@ -210,17 +210,15 @@
   }
 
   .menu-button:active {
-    background: linear-gradient(135deg, #9400D3, #7A00A3) !important;
-    color: #FFFFFF !important;
-    transform: scale(0.95) !important;
-    box-shadow: 0 0 20px rgba(148, 0, 211, 0.8) !important;
-    border-color: #00FF00 !important;
+    background: #333 !important;
+    color: #00FF00 !important;
+    transform: scale(0.98) !important;
+    border-color: #9400D3 !important;
   }
 
   .menu-button:hover {
-    background: linear-gradient(135deg, #333, #444) !important;
-    box-shadow: 0 4px 16px rgba(148, 0, 211, 0.4) !important;
-    border-color: #00FF00 !important;
+    background: #333 !important;
+    border-color: #9400D3 !important;
   }
 
   .menu-toggle {
@@ -244,11 +242,10 @@
   }
 
   .menu-toggle:active {
-    background: linear-gradient(135deg, #9400D3, #7A00A3) !important;
-    color: #FFFFFF !important;
-    transform: scale(0.95) !important;
-    box-shadow: 0 0 20px rgba(148, 0, 211, 0.8) !important;
-    border-color: #00FF00 !important;
+    background: #333 !important;
+    color: #00FF00 !important;
+    transform: scale(0.98) !important;
+    border-color: #9400D3 !important;
   }
 
   .menu-toggle:hover {
