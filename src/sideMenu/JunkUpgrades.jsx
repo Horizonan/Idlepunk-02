@@ -1,8 +1,9 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/JunkUpgrades.css';
 
 export default function JunkUpgrades({ onClose }) {
+  const [mobileInfoModal, setMobileInfoModal] = useState(null);
   const junk = parseInt(localStorage.getItem('junk') || '0');
   const credits = parseInt(localStorage.getItem('credits') || '0');
 
@@ -11,39 +12,66 @@ export default function JunkUpgrades({ onClose }) {
       name: "Basic Junk Magnet",
       cost: 50000,
       description: "+5% Junk Collection Rate",
-      info: "A simple magnetic device that attracts nearby junk",
+      info: "A simple magnetic device that attracts nearby junk. Perfect for beginners looking to boost their collection efficiency.",
       owned: parseInt(localStorage.getItem('basicJunkMagnet') || '0'),
+      category: "collection",
+      tier: "basic"
     },
     {
       name: "Advanced Picker Kit",
       cost: 150000,
       description: "+10% Click Power",
-      info: "Professional-grade tools for enhanced junk collection",
+      info: "Professional-grade tools for enhanced junk collection. Includes reinforced grabbers and precision targeting.",
       owned: parseInt(localStorage.getItem('advancedPickerKit') || '0'),
+      category: "clicking",
+      tier: "advanced"
     },
     {
       name: "Quantum Sorter",
       cost: 500000,
       description: "+15% Passive Income",
-      info: "Quantum technology that optimizes junk sorting processes",
+      info: "Quantum technology that optimizes junk sorting processes at the molecular level for maximum efficiency.",
       owned: parseInt(localStorage.getItem('quantumSorter') || '0'),
+      category: "passive",
+      tier: "quantum"
     },
     {
       name: "Neural Interface",
       cost: 1000000,
       description: "+20% All Bonuses",
-      info: "Direct neural connection for maximum efficiency",
+      info: "Direct neural connection for maximum efficiency. Interfaces with your brain to optimize all junk operations.",
       owned: parseInt(localStorage.getItem('neuralInterface') || '0'),
+      category: "universal",
+      tier: "neural"
     },
+    {
+      name: "Plasma Field Generator",
+      cost: 2500000,
+      description: "+25% Collection Speed",
+      info: "Creates an electromagnetic field that accelerates junk collection in a wide radius around your operations.",
+      owned: parseInt(localStorage.getItem('plasmaFieldGenerator') || '0'),
+      category: "collection",
+      tier: "plasma"
+    },
+    {
+      name: "Cybernetic Enhancement Suite",
+      cost: 5000000,
+      description: "+30% Click Efficiency",
+      info: "Permanent cybernetic modifications that enhance your clicking capabilities beyond human limits.",
+      owned: parseInt(localStorage.getItem('cyberneticEnhancement') || '0'),
+      category: "clicking",
+      tier: "cybernetic"
+    }
   ];
 
   const handlePurchase = (item) => {
     if (junk >= item.cost) {
       const newJunk = junk - item.cost;
       const newOwned = item.owned + 1;
+      const storageKey = item.name.toLowerCase().replace(/\s+/g, '');
 
       localStorage.setItem('junk', newJunk.toString());
-      localStorage.setItem(item.name.toLowerCase().replace(/\s+/g, ''), newOwned.toString());
+      localStorage.setItem(storageKey, newOwned.toString());
 
       // Trigger UI update
       window.dispatchEvent(new Event('storage'));
@@ -59,14 +87,55 @@ export default function JunkUpgrades({ onClose }) {
     return num.toLocaleString();
   };
 
+  const getTierIcon = (tier) => {
+    switch(tier) {
+      case 'basic': return '🔧';
+      case 'advanced': return '⚡';
+      case 'quantum': return '🌀';
+      case 'neural': return '🧠';
+      case 'plasma': return '⚛️';
+      case 'cybernetic': return '🤖';
+      default: return '🔹';
+    }
+  };
+
+  const getTierColor = (tier) => {
+    switch(tier) {
+      case 'basic': return '#00FF00';
+      case 'advanced': return '#00FFFF';
+      case 'quantum': return '#9400D3';
+      case 'neural': return '#FF00FF';
+      case 'plasma': return '#FF4500';
+      case 'cybernetic': return '#FFD700';
+      default: return '#CCCCCC';
+    }
+  };
+
+  const openMobileInfo = (item) => {
+    setMobileInfoModal(item);
+  };
+
+  const closeMobileInfo = () => {
+    setMobileInfoModal(null);
+  };
+
   return (
     <div className="store-container">
       <div className="store-header">
         <h2>Junk Upgrades</h2>
-        <button onClick={onClose} className="close-button">Close</button>
+        <div className="store-controls">
+          <div className="currency-display">
+            <span className="currency-amount">{formatNumber(junk)} Junk</span>
+          </div>
+          <button onClick={onClose} className="close-button">Close</button>
+        </div>
       </div>
 
       <div className="store-content">
+        <div className="upgrade-description">
+          <p>Enhance your junk collection capabilities with advanced technological upgrades. Each upgrade provides permanent bonuses to boost your efficiency.</p>
+        </div>
+
         <div className="store-items">
           {upgradeItems.map((item, index) => (
             <button
@@ -76,18 +145,58 @@ export default function JunkUpgrades({ onClose }) {
               className={`store-item ${junk < item.cost ? 'disabled' : ''}`}
             >
               <div className="item-header">
-                <strong>{item.name}</strong>
+                <div className="item-title-section">
+                  <span className="tier-icon" style={{ color: getTierColor(item.tier) }}>
+                    {getTierIcon(item.tier)}
+                  </span>
+                  <strong>{item.name}</strong>
+                  <button 
+                    className="mobile-info-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openMobileInfo(item);
+                    }}
+                  >
+                    ℹ️
+                  </button>
+                </div>
                 <span className="cost">({formatNumber(item.cost)} Junk)</span>
               </div>
               <div className="item-info">
-                <p>{item.description}</p>
-                <p>{item.info}</p>
-                <p className="owned">Owned: {item.owned}</p>
+                <p className="item-description">{item.description}</p>
+                <p className="item-details">{item.info}</p>
+                <div className="item-footer">
+                  <span className="category-tag">{item.category}</span>
+                  <span className="owned">Owned: {item.owned}</span>
+                </div>
               </div>
             </button>
           ))}
         </div>
       </div>
+
+      {mobileInfoModal && (
+        <div className="mobile-item-info-modal" onClick={closeMobileInfo}>
+          <div className="mobile-item-info-content" onClick={(e) => e.stopPropagation()}>
+            <div className="mobile-item-info-header">
+              <span className="tier-icon" style={{ color: getTierColor(mobileInfoModal.tier) }}>
+                {getTierIcon(mobileInfoModal.tier)}
+              </span>
+              <h3>{mobileInfoModal.name}</h3>
+              <button className="mobile-info-close" onClick={closeMobileInfo}>
+                ×
+              </button>
+            </div>
+            <div className="mobile-item-info-body">
+              <p><strong>Cost:</strong> {formatNumber(mobileInfoModal.cost)} Junk</p>
+              <p><strong>Effect:</strong> {mobileInfoModal.description}</p>
+              <p>{mobileInfoModal.info}</p>
+              <p><strong>Category:</strong> {mobileInfoModal.category}</p>
+              <p><strong>Owned:</strong> {mobileInfoModal.owned}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
