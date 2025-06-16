@@ -1602,7 +1602,6 @@ export default function App() {
         />
       )}
       {(() => {
-        console.log('JunkUpgrades render check - showJunkUpgrades:', showJunkUpgrades);
         if (showJunkUpgrades) {
           console.log('Rendering JunkUpgrades component');
           return (
