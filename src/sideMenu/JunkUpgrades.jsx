@@ -1,4 +1,5 @@
 
+
 import React, { useState } from 'react';
 import '../styles/JunkUpgrades.css';
 
@@ -120,38 +121,38 @@ export default function JunkUpgrades({ onClose }) {
   };
 
   return (
-    <div className="store-container">
-      <div className="store-header">
+    <div className="junk-upgrades-container">
+      <div className="junk-upgrades-header">
         <h2>Junk Upgrades</h2>
-        <div className="store-controls">
-          <div className="currency-display">
-            <span className="currency-amount">{formatNumber(junk)} Junk</span>
+        <div className="junk-upgrades-controls">
+          <div className="junk-upgrades-currency-display">
+            <span className="junk-upgrades-currency-amount">{formatNumber(junk)} Junk</span>
           </div>
-          <button onClick={onClose} className="close-button">Close</button>
+          <button onClick={onClose} className="junk-upgrades-close-button">Close</button>
         </div>
       </div>
 
-      <div className="store-content">
-        <div className="upgrade-description">
+      <div className="junk-upgrades-content">
+        <div className="junk-upgrades-description">
           <p>Enhance your junk collection capabilities with advanced technological upgrades. Each upgrade provides permanent bonuses to boost your efficiency.</p>
         </div>
 
-        <div className="store-items">
+        <div className="junk-upgrades-items">
           {upgradeItems.map((item, index) => (
             <button
               key={index}
               onClick={() => handlePurchase(item)}
               disabled={junk < item.cost}
-              className={`store-item ${junk < item.cost ? 'disabled' : ''}`}
+              className={`junk-upgrade-item ${junk < item.cost ? 'junk-upgrade-disabled' : ''}`}
             >
-              <div className="item-header">
-                <div className="item-title-section">
-                  <span className="tier-icon" style={{ color: getTierColor(item.tier) }}>
+              <div className="junk-upgrade-item-header">
+                <div className="junk-upgrade-item-title-section">
+                  <span className="junk-upgrade-tier-icon" style={{ color: getTierColor(item.tier) }}>
                     {getTierIcon(item.tier)}
                   </span>
                   <strong>{item.name}</strong>
                   <button 
-                    className="mobile-info-button"
+                    className="junk-upgrades-mobile-info-button"
                     onClick={(e) => {
                       e.stopPropagation();
                       openMobileInfo(item);
@@ -160,14 +161,14 @@ export default function JunkUpgrades({ onClose }) {
                     ℹ️
                   </button>
                 </div>
-                <span className="cost">({formatNumber(item.cost)} Junk)</span>
+                <span className="junk-upgrade-cost">({formatNumber(item.cost)} Junk)</span>
               </div>
-              <div className="item-info">
-                <p className="item-description">{item.description}</p>
-                <p className="item-details">{item.info}</p>
-                <div className="item-footer">
-                  <span className="category-tag">{item.category}</span>
-                  <span className="owned">Owned: {item.owned}</span>
+              <div className="junk-upgrade-item-info">
+                <p className="junk-upgrade-item-description">{item.description}</p>
+                <p className="junk-upgrade-item-details">{item.info}</p>
+                <div className="junk-upgrade-item-footer">
+                  <span className="junk-upgrade-category-tag">{item.category}</span>
+                  <span className="junk-upgrade-owned">Owned: {item.owned}</span>
                 </div>
               </div>
             </button>
@@ -176,18 +177,18 @@ export default function JunkUpgrades({ onClose }) {
       </div>
 
       {mobileInfoModal && (
-        <div className="mobile-item-info-modal" onClick={closeMobileInfo}>
-          <div className="mobile-item-info-content" onClick={(e) => e.stopPropagation()}>
-            <div className="mobile-item-info-header">
-              <span className="tier-icon" style={{ color: getTierColor(mobileInfoModal.tier) }}>
+        <div className="junk-upgrades-mobile-item-info-modal" onClick={closeMobileInfo}>
+          <div className="junk-upgrades-mobile-item-info-content" onClick={(e) => e.stopPropagation()}>
+            <div className="junk-upgrades-mobile-item-info-header">
+              <span className="junk-upgrade-tier-icon" style={{ color: getTierColor(mobileInfoModal.tier) }}>
                 {getTierIcon(mobileInfoModal.tier)}
               </span>
               <h3>{mobileInfoModal.name}</h3>
-              <button className="mobile-info-close" onClick={closeMobileInfo}>
+              <button className="junk-upgrades-mobile-info-close" onClick={closeMobileInfo}>
                 ×
               </button>
             </div>
-            <div className="mobile-item-info-body">
+            <div className="junk-upgrades-mobile-item-info-body">
               <p><strong>Cost:</strong> {formatNumber(mobileInfoModal.cost)} Junk</p>
               <p><strong>Effect:</strong> {mobileInfoModal.description}</p>
               <p>{mobileInfoModal.info}</p>
@@ -200,3 +201,4 @@ export default function JunkUpgrades({ onClose }) {
     </div>
   );
 }
+

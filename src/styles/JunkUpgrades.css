@@ -1,6 +1,7 @@
 
-/* Main Store Container */
-.store-container {
+
+/* Main Junk Upgrades Container */
+.junk-upgrades-container {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -17,8 +18,8 @@
   box-shadow: 0 0 30px rgba(148, 0, 211, 0.4);
 }
 
-/* Store Header */
-.store-header {
+/* Junk Upgrades Header */
+.junk-upgrades-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -30,7 +31,7 @@
   z-index: 100;
 }
 
-.store-header h2 {
+.junk-upgrades-header h2 {
   color: #9400D3;
   margin: 0;
   font-size: 1.8em;
@@ -38,26 +39,26 @@
   font-weight: bold;
 }
 
-.store-controls {
+.junk-upgrades-controls {
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
-.currency-display {
+.junk-upgrades-currency-display {
   background: rgba(0, 255, 0, 0.1);
   border: 1px solid #00FF00;
   border-radius: 6px;
   padding: 8px 12px;
 }
 
-.currency-amount {
+.junk-upgrades-currency-amount {
   color: #00FF00;
   font-weight: bold;
   font-size: 1.1em;
 }
 
-.close-button {
+.junk-upgrades-close-button {
   background: linear-gradient(135deg, #222, #333);
   border: 2px solid #9400D3;
   color: #00FF00;
@@ -68,15 +69,15 @@
   font-weight: bold;
 }
 
-.close-button:hover {
+.junk-upgrades-close-button:hover {
   background: linear-gradient(135deg, #9400D3, #B020E0);
   color: #222;
   transform: scale(1.05);
   box-shadow: 0 0 15px rgba(148, 0, 211, 0.5);
 }
 
-/* Store Content */
-.store-content {
+/* Junk Upgrades Content */
+.junk-upgrades-content {
   height: calc(100% - 84px);
   overflow-y: auto;
   padding: 20px 25px;
@@ -84,21 +85,21 @@
   scrollbar-color: #9400D3 rgba(26, 26, 26, 0.9);
 }
 
-.store-content::-webkit-scrollbar {
+.junk-upgrades-content::-webkit-scrollbar {
   width: 8px;
 }
 
-.store-content::-webkit-scrollbar-track {
+.junk-upgrades-content::-webkit-scrollbar-track {
   background: rgba(26, 26, 26, 0.9);
   border-radius: 4px;
 }
 
-.store-content::-webkit-scrollbar-thumb {
+.junk-upgrades-content::-webkit-scrollbar-thumb {
   background: #9400D3;
   border-radius: 4px;
 }
 
-.upgrade-description {
+.junk-upgrades-description {
   background: rgba(148, 0, 211, 0.1);
   border: 1px solid rgba(148, 0, 211, 0.3);
   border-radius: 8px;
@@ -107,22 +108,22 @@
   text-align: center;
 }
 
-.upgrade-description p {
+.junk-upgrades-description p {
   color: #CCCCCC;
   margin: 0;
   font-size: 1em;
   line-height: 1.4;
 }
 
-/* Store Items Grid */
-.store-items {
+/* Junk Upgrades Items Grid */
+.junk-upgrades-items {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 15px;
 }
 
-/* Individual Store Item */
-.store-item {
+/* Individual Junk Upgrade Item */
+.junk-upgrade-item {
   background: linear-gradient(135deg, rgba(34, 34, 34, 0.9), rgba(42, 42, 42, 0.9));
   border: 2px solid #9400D3;
   border-radius: 10px;
@@ -136,7 +137,7 @@
   overflow: hidden;
 }
 
-.store-item::before {
+.junk-upgrade-item::before {
   content: '';
   position: absolute;
   top: 0;
@@ -147,56 +148,56 @@
   transition: left 0.5s ease;
 }
 
-.store-item:hover:not(.disabled)::before {
+.junk-upgrade-item:hover:not(.junk-upgrade-disabled)::before {
   left: 100%;
 }
 
-.store-item:hover:not(.disabled) {
+.junk-upgrade-item:hover:not(.junk-upgrade-disabled) {
   background: linear-gradient(135deg, rgba(148, 0, 211, 0.2), rgba(42, 42, 42, 0.9));
   border-color: #00FF00;
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(148, 0, 211, 0.3);
 }
 
-.store-item.disabled {
+.junk-upgrade-item.junk-upgrade-disabled {
   opacity: 0.5;
   cursor: not-allowed;
   border-color: #666;
   background: linear-gradient(135deg, rgba(34, 34, 34, 0.6), rgba(42, 42, 42, 0.6));
 }
 
-.store-item.disabled:hover {
+.junk-upgrade-item.junk-upgrade-disabled:hover {
   transform: none;
   box-shadow: none;
 }
 
-/* Item Header */
-.item-header {
+/* Junk Upgrade Item Header */
+.junk-upgrade-item-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
 }
 
-.item-title-section {
+.junk-upgrade-item-title-section {
   display: flex;
   align-items: center;
   gap: 10px;
   flex: 1;
 }
 
-.tier-icon {
+.junk-upgrade-tier-icon {
   font-size: 1.4em;
   filter: drop-shadow(0 0 8px currentColor);
 }
 
-.item-header strong {
+.junk-upgrade-item-header strong {
   color: #00FF00;
   font-size: 1.2em;
   text-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
 }
 
-.cost {
+.junk-upgrade-cost {
   color: #9400D3;
   font-weight: bold;
   font-size: 1em;
@@ -206,27 +207,27 @@
   border: 1px solid rgba(148, 0, 211, 0.3);
 }
 
-/* Item Info */
-.item-info {
+/* Junk Upgrade Item Info */
+.junk-upgrade-item-info {
   position: relative;
   z-index: 2;
 }
 
-.item-description {
+.junk-upgrade-item-description {
   color: #00FFFF;
   font-weight: bold;
   margin: 8px 0;
   font-size: 1em;
 }
 
-.item-details {
+.junk-upgrade-item-details {
   color: #CCCCCC;
   margin: 8px 0;
   font-size: 0.9em;
   line-height: 1.4;
 }
 
-.item-footer {
+.junk-upgrade-item-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -235,7 +236,7 @@
   border-top: 1px solid rgba(148, 0, 211, 0.3);
 }
 
-.category-tag {
+.junk-upgrade-category-tag {
   background: rgba(0, 255, 255, 0.2);
   color: #00FFFF;
   padding: 4px 8px;
@@ -246,7 +247,7 @@
   border: 1px solid rgba(0, 255, 255, 0.3);
 }
 
-.owned {
+.junk-upgrade-owned {
   color: #FFD700;
   font-weight: bold;
   font-size: 0.9em;
@@ -257,7 +258,7 @@
 }
 
 /* Mobile Info Button */
-.mobile-info-button {
+.junk-upgrades-mobile-info-button {
   background: rgba(148, 0, 211, 0.8) !important;
   border: 1px solid #9400D3 !important;
   color: white !important;
@@ -274,13 +275,13 @@
   transition: all 0.3s ease !important;
 }
 
-.mobile-info-button:hover {
+.junk-upgrades-mobile-info-button:hover {
   background: rgba(148, 0, 211, 1) !important;
   transform: scale(1.1) !important;
 }
 
 /* Mobile Modal */
-.mobile-item-info-modal {
+.junk-upgrades-mobile-item-info-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -295,7 +296,7 @@
   box-sizing: border-box;
 }
 
-.mobile-item-info-content {
+.junk-upgrades-mobile-item-info-content {
   background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(42, 42, 42, 0.95));
   border: 2px solid #9400D3;
   border-radius: 12px;
@@ -306,7 +307,7 @@
   backdrop-filter: blur(10px);
 }
 
-.mobile-item-info-header {
+.junk-upgrades-mobile-item-info-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -315,7 +316,7 @@
   background: rgba(148, 0, 211, 0.1);
 }
 
-.mobile-item-info-header h3 {
+.junk-upgrades-mobile-item-info-header h3 {
   color: #9400D3;
   margin: 0;
   font-size: 1.3em;
@@ -324,7 +325,7 @@
   text-shadow: 0 0 8px rgba(148, 0, 211, 0.5);
 }
 
-.mobile-info-close {
+.junk-upgrades-mobile-info-close {
   background: transparent !important;
   border: none !important;
   color: #9400D3 !important;
@@ -340,86 +341,86 @@
   transition: all 0.3s !important;
 }
 
-.mobile-info-close:hover {
+.junk-upgrades-mobile-info-close:hover {
   background: rgba(148, 0, 211, 0.2) !important;
   transform: scale(1.1) !important;
 }
 
-.mobile-item-info-body {
+.junk-upgrades-mobile-item-info-body {
   padding: 25px;
   color: #00FF00;
   line-height: 1.6;
 }
 
-.mobile-item-info-body p {
+.junk-upgrades-mobile-item-info-body p {
   margin: 15px 0;
   font-size: 1em;
 }
 
-.mobile-item-info-body strong {
+.junk-upgrades-mobile-item-info-body strong {
   color: #9400D3;
 }
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
-  .store-container {
+  .junk-upgrades-container {
     width: 95vw;
     height: 90vh;
     border-radius: 8px;
   }
   
-  .store-header {
+  .junk-upgrades-header {
     padding: 15px 20px;
     flex-direction: column;
     gap: 10px;
   }
   
-  .store-header h2 {
+  .junk-upgrades-header h2 {
     font-size: 1.5em;
   }
   
-  .store-controls {
+  .junk-upgrades-controls {
     width: 100%;
     justify-content: space-between;
   }
   
-  .store-content {
+  .junk-upgrades-content {
     padding: 15px 20px;
   }
   
-  .store-items {
+  .junk-upgrades-items {
     grid-template-columns: 1fr;
     gap: 12px;
   }
   
-  .store-item {
+  .junk-upgrade-item {
     padding: 15px;
   }
   
-  .item-header {
+  .junk-upgrade-item-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
   }
   
-  .item-title-section {
+  .junk-upgrade-item-title-section {
     width: 100%;
   }
   
-  .item-header strong {
+  .junk-upgrade-item-header strong {
     font-size: 1.1em;
   }
   
-  .cost {
+  .junk-upgrade-cost {
     font-size: 0.9em;
     align-self: flex-end;
   }
   
-  .mobile-info-button {
+  .junk-upgrades-mobile-info-button {
     display: flex !important;
   }
   
-  .item-footer {
+  .junk-upgrade-item-footer {
     flex-direction: column;
     gap: 8px;
     align-items: flex-start;
@@ -427,17 +428,17 @@
 }
 
 @media (max-width: 480px) {
-  .store-container {
+  .junk-upgrades-container {
     width: 100vw;
     height: 100vh;
     border-radius: 0;
   }
   
-  .store-items {
+  .junk-upgrades-items {
     grid-template-columns: 1fr;
   }
   
-  .upgrade-description {
+  .junk-upgrades-description {
     padding: 12px;
     font-size: 0.9em;
   }
@@ -445,7 +446,8 @@
 
 /* Desktop hover tooltips are disabled in favor of mobile info buttons */
 @media (min-width: 769px) {
-  .mobile-info-button {
+  .junk-upgrades-mobile-info-button {
     display: none !important;
   }
 }
+
