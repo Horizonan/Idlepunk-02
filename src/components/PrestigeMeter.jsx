@@ -1,34 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/PrestigeMeter.css';
+import { getCurrentQuestLine, getQuestProgress, QUEST_LINES } from '../utils/questValidation';
 
 export default function PrestigeMeter() {
   const [completedQuests, setCompletedQuests] = useState(0);
   const [showMeter, setShowMeter] = useState(false);
   const [prestigeCount, setPrestigeCount] = useState(0);
   const [showPrestigeMeter, setShowPrestigeMeter] = useState(true);
-
-  // Pre-prestige quests only
-  const prePrestigeQuests = [
-    "First Steps", "Shopping Time", "Tool Master", "Passive Income", "Begin Crafting", 
-    "Surge Rider", "Scratz $$$", "Alone or Lonely?", "Automation Punk", 
-    "Unlock Ascension Protocol", "Gambling Addiction", "Surge Overflow", 
-    "The Circuit Speaks", "Whispers in the Scrap", "Forge the Future"
-  ];
-
-  // Post-prestige quests
-  const postPrestigeQuests = [
-    "System Memory Detected", "Tap the Pulse", "Upgrade Cascade", 
-    "Beacon Protocol", "Forge the Overcrystal"
-  ];
-
-  // Prestige 2 quests
-    const prestige2Quests = [
-        "Beyond the Heap",
-        "Quantum Resonance", 
-        "Crafted Ascendancy",
-        "Surge Harvester",
-        "Become A Scratzionaire"
-    ];
+  const [currentQuestLine, setCurrentQuestLine] = useState('progression');
 
   useEffect(() => {
     const updateQuestCount = () => {
@@ -40,24 +19,12 @@ export default function PrestigeMeter() {
       const meterEnabled = localStorage.getItem('showPrestigeMeter') !== 'false';
       setShowPrestigeMeter(meterEnabled);
 
-      // Check if user has prestiged
-      const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
-      const prestige2Active = localStorage.getItem('prestige2Active') === 'true';
+      // Get current quest line based on prestige status
+      const questLineKey = getCurrentQuestLine();
+      setCurrentQuestLine(questLineKey);
 
-      // Use appropriate quest list based on prestige status
-      let questsToCount;
-      if (prestige2Active) {
-        questsToCount = prestige2Quests;
-      } else if (hasPrestiged) {
-        questsToCount = postPrestigeQuests;
-      } else {
-        questsToCount = prePrestigeQuests;
-      }
-
-      const completed = questsToCount.filter(quest => 
-        localStorage.getItem(`quest_sync_${quest}`) === 'true'
-      ).length;
-
+      // Get quest progress for current line
+      const { completed, total } = getQuestProgress(questLineKey);
       setCompletedQuests(completed);
       setShowMeter(completed >= 1 && meterEnabled);
     };
@@ -80,35 +47,16 @@ export default function PrestigeMeter() {
 
   if (!showMeter || !showPrestigeMeter) return null;
 
-  // Check if user has prestiged to determine which quest list to use
-  const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
-  const prestige2Active = localStorage.getItem('prestige2Active') === 'true';
+  // Get current quest line data
+  const questLineData = QUEST_LINES[currentQuestLine];
+  if (!questLineData) return null;
 
-  let questsToCount;
-      if (prestige2Active) {
-        questsToCount = prestige2Quests;
-      } else if (hasPrestiged) {
-        questsToCount = postPrestigeQuests;
-      } else {
-        questsToCount = prePrestigeQuests;
-      }
-  const totalQuests = questsToCount.length;
-
-  // Check completion conditions based on current questline
-  let progressPercentage;
-  if (prestige2Active) {
-        const lastQuestCompleted = localStorage.getItem(`quest_sync_${prestige2Quests[prestige2Quests.length-1]}`) === 'true';
-        progressPercentage = lastQuestCompleted ? 100 : (completedQuests / totalQuests) * 100;
-  }
-  else if (hasPrestiged) {
-    // Post-prestige: Check if "Forge the Overcrystal" is completed
-    const overcrystalCompleted = localStorage.getItem('quest_sync_Forge the Overcrystal') === 'true';
-    progressPercentage = overcrystalCompleted ? 100 : (completedQuests / totalQuests) * 100;
-  } else {
-    // Pre-prestige: Check if "Forge the Future" is completed
-    const forgeTheFutureCompleted = localStorage.getItem('quest_sync_Forge the Future') === 'true';
-    progressPercentage = forgeTheFutureCompleted ? 100 : (completedQuests / totalQuests) * 100;
-  }
+  const { completed: currentCompleted, total: totalQuests } = getQuestProgress(currentQuestLine);
+  
+  // Check if final quest is completed for 100% progress
+  const finalQuest = questLineData.quests[questLineData.quests.length - 1];
+  const finalQuestCompleted = localStorage.getItem(`quest_sync_${finalQuest.title}`) === 'true';
+  const progressPercentage = finalQuestCompleted ? 100 : (currentCompleted / totalQuests) * 100;
 
   // Show current prestige level, minimum 1
   const prestigeLevel = Math.max(prestigeCount, 1);
