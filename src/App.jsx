@@ -833,8 +833,76 @@ export default function App() {
     return junk >= itemCosts.autoClickerV2;
   }
 
+  // Quest system integration
+  useEffect(() => {
+    const updateQuestProgress = () => {
+      const gameState = {
+        junk,
+        tronics,
+        scratz: electroShards, // Using electroShards as scratz for now
+        electroShards,
+        quantumFlux: 0, // Will need to add quantum flux state
+        prestigeCount: parseInt(localStorage.getItem('prestigeCount') || '0'),
+        craftingInventory,
+        ownedItems,
+        maxSkillLevel: Math.max(...Object.values(skillLevels)),
+        skillPointsSpent: Object.values(skillLevels).reduce((sum, level) => sum + level, 0),
+        skillsInvested: Object.values(skillLevels).filter(level => level > 0).length,
+        crewMembers: 0, // Will need crew state
+        missionsCompleted: 0, // Will need mission state
+        hasPurchasedUpgrade: Object.values(ownedItems).some(count => count > 0),
+        techUnlocked: Object.values(ownedItems).filter(count => count > 0).length,
+        hasCraftedItem: Object.values(craftingInventory).some(count => count > 0)
+      };
 
+      // Check for quest completions
+      import('../utils/questValidation').then(({ getAvailableQuests, completeQuest }) => {
+        const availableQuests = getAvailableQuests(gameState);
 
+        // Auto-complete quests that meet requirements
+        availableQuests.forEach(quest => {
+          const rewards = completeQuest(quest.id, gameState);
+          if (rewards) {
+            console.log(`Quest completed: ${quest.name}`);
+
+            // Apply rewards
+            if (rewards.junk) {
+              setJunk(prev => prev + rewards.junk);
+            }
+            if (rewards.tronics) {
+              setTronics(prev => prev + rewards.tronics);
+            }
+            if (rewards.electroShards) {
+              setElectroShards(prev => prev + rewards.electroShards);
+            }
+            if (rewards.craftingInventory) {
+              setCraftingInventory(prev => {
+                const updated = { ...prev };
+                Object.entries(rewards.craftingInventory).forEach(([item, amount]) => {
+                  updated[item] = (updated[item] || 0) + amount;
+                });
+                return updated;
+              });
+            }
+            if (rewards.prestige) {
+              // Handle prestige reward
+              console.log('Quest triggered prestige eligibility');
+            }
+
+            // Trigger quest update event
+            window.dispatchEvent(new CustomEvent('questsUpdated'));
+          }
+        });
+      });
+    };
+
+    updateQuestProgress();
+    window.addEventListener('questsUpdated', updateQuestProgress);
+
+    return () => {
+      window.removeEventListener('questsUpdated', updateQuestProgress);
+    };
+  }, [junk, tronics, electroShards, craftingInventory, ownedItems, skillLevels]);
 
   useEffect(() => {
     localStorage.setItem('tutorialStage', tutorialStage);
@@ -882,8 +950,6 @@ export default function App() {
       setPrestigeQuestCompleted(true);
     }
   }, [craftingInventory]);
-
-
 
   useEffect(() => {
     const handleCreditsUpdate = (event) => {
