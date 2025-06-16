@@ -58,8 +58,8 @@ export default function PrestigeMeter() {
   const finalQuestCompleted = localStorage.getItem(`quest_sync_${finalQuest.title}`) === 'true';
   const progressPercentage = finalQuestCompleted ? 100 : (currentCompleted / totalQuests) * 100;
 
-  // Show current prestige level, minimum 1
-  const prestigeLevel = Math.max(prestigeCount, 1);
+  // Show current prestige level
+  const prestigeLevel = prestigeCount;
   
   // Check what features are available at current prestige
   const getAvailableFeatures = (prestige) => {
