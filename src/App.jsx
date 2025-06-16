@@ -298,7 +298,7 @@ export default function App() {
     window.addEventListener('toggleUpgradeStats', handleUpgradeStats);
     window.addEventListener('validateAchievements', handleValidateAchievements);
 
-    if (showSlotMachine || showAchievements || showSettings || showQuestLog || showTooltips || showCoinFlip || showCombat) {
+    if (showSlotMachine || showAchievements || showSettings || showQuestLog || showTooltips || showCoinFlip || showCombat || showJunkUpgrades) {
       setActiveStore(null);
       setShowUpgradeStats(false);
     }
@@ -311,7 +311,7 @@ export default function App() {
     return () => {
       window.removeEventListener('toggleUpgradeStats', handleUpgradeStats);
     };
-  }, [showSlotMachine, showAchievements, showSettings, showQuestLog, showTooltips, showCoinFlip, showCombat]);
+  }, [showSlotMachine, showAchievements, showSettings, showQuestLog, showTooltips, showCoinFlip, showCombat, showJunkUpgrades]);
 
 
   useEffect(() => {
