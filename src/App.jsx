@@ -776,8 +776,7 @@ export default function App() {
     const currentTotal = parseInt(localStorage.getItem('totalJunkCollected') || '0');
     localStorage.setItem('totalJunkCollected', (currentTotal + junkGained).toString());
 
-    // Random material finding
-    const random = Math.random();
+    // Random material finding    const random = Math.random();
     if (random < 0.0001) { 
       const materials = ['Wires', 'Metal Plates', 'Gear Bits'];
       const randomMaterial = materials[Math.floor(Math.random() * materials.length)];
@@ -951,7 +950,8 @@ export default function App() {
           setOwnedItems,
           setNotifications,
           setPermanentAutoClicks,
-          setElectroMultiplier
+          setElectroMultiplier,
+          setTotalTronicsClicks
         }
       );
 
@@ -1016,7 +1016,8 @@ export default function App() {
           setOwnedItems,
           setNotifications,
           setPermanentAutoClicks,
-          setElectroMultiplier
+          setElectroMultiplier,
+          setTotalTronicsClicks
         }
       );
 
@@ -1639,7 +1640,7 @@ export default function App() {
           setCredits={setCredits}
           setCraftingInventory={setCraftingInventory}
           onLaunchRelayCascade={() => setShowRelayCascade(true)} // Cheat button to launch Relay Cascade
-          onForcePrestige={() => setShowPrestigePopup(true)} // Force prestige without requirements        
+          onForcePrestige={()> setShowPrestigePopup(true)} // Force prestige without requirements        
           />
       )}
       {showActiveCheats && (
