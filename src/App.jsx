@@ -25,7 +25,7 @@ import TronicsSurge from './components/Effects/surges/TronicsSurge';
 //Side Menu
 import QuestLog from './sideMenu/QuestLog';
 import Achievements from './sideMenu/Achievements';
-import JunkUpgrades from './sideMenu/JunkUpgrades';
+import TechTree from './sideMenu/TechTree';
 import Menu from './sideMenu/Menu';
 import Marketplace from './sideMenu/Marketplace';
 import Stats from './sideMenu/Stats';
@@ -136,7 +136,6 @@ export default function App() {
   const [showOfflineProgress, setShowOfflineProgress] = useState(false);
   const [offlineProgressData, setOfflineProgressData] = useState(null);
   const [forceCogfatherEye, setForceCogfatherEye] = useState(false);
-  const [showJunkUpgrades, setShowJunkUpgrades] = useState(false);
 
 
   useEffect(() => {
@@ -298,7 +297,7 @@ export default function App() {
     window.addEventListener('toggleUpgradeStats', handleUpgradeStats);
     window.addEventListener('validateAchievements', handleValidateAchievements);
 
-    if (showSlotMachine || showAchievements || showSettings || showQuestLog || showTooltips || showCoinFlip || showCombat || showJunkUpgrades) {
+    if (showSlotMachine || showAchievements || showSettings || showQuestLog || showTooltips || showCoinFlip || showCombat) {
       setActiveStore(null);
       setShowUpgradeStats(false);
     }
@@ -311,7 +310,7 @@ export default function App() {
     return () => {
       window.removeEventListener('toggleUpgradeStats', handleUpgradeStats);
     };
-  }, [showSlotMachine, showAchievements, showSettings, showQuestLog, showTooltips, showCoinFlip, showCombat, showJunkUpgrades]);
+  }, [showSlotMachine, showAchievements, showSettings, showQuestLog, showTooltips, showCoinFlip, showCombat]);
 
 
   useEffect(() => {
@@ -1233,18 +1232,7 @@ export default function App() {
       />
       <Menu onStoreSelect={(type) => {
         switch(type) {
-          case 'store':
-          setActiveStore(prev => prev === 'store' ? null : 'store');
-          break;
-        case 'junkUpgrades':
-          console.log('JunkUpgrades button clicked, current state:', showJunkUpgrades);
-          setShowJunkUpgrades(prev => {
-            const newValue = !prev;
-            console.log('Setting showJunkUpgrades to:', newValue);
-            return newValue;
-          });
-          break;
-        case 'marketplace':
+          case 'marketplace':
             setActiveStore(prev => prev === 'marketplace' ? null : 'marketplace');
             break;
           case 'achievements':
@@ -1601,20 +1589,6 @@ export default function App() {
           }}
         />
       )}
-      {(() => {
-        if (showJunkUpgrades) {
-          console.log('Rendering JunkUpgrades component');
-          return (
-            <JunkUpgrades
-              onClose={() => {
-                console.log('JunkUpgrades close button clicked');
-                setShowJunkUpgrades(false);
-              }}
-            />
-          );
-        }
-        return null;
-      })()}
       {beaconCount > 0 && showBeaconVisual && (
         <div className={`shard-beacon ${localStorage.getItem('beacon_core_purchased') === 'true' ? 'core-active' : ''}`}>
           <div className="beacon-rays"></div>
