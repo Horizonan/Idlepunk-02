@@ -1,3 +1,4 @@
+
 .crew-menu {
   position: fixed;
   top: 50%;
@@ -237,13 +238,11 @@
   box-shadow: 0 0 20px rgba(148, 0, 211, 0.3);
 }
 
-
 .recruit-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
 }
-
 
 .unlock-cost {
   margin: 10px 0;
@@ -574,14 +573,14 @@
   padding-bottom: 5px;
 }
 
-.equipment-crew-inventory {
+.crew-equipment-inventory {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 15px;
   margin-bottom: 20px;
 }
 
-.equipment-crew--item {
+.crew-equipment-item {
   background: rgba(34, 34, 34, 0.8);
   border: 1px solid #9400D3;
   padding: 15px;
@@ -591,38 +590,38 @@
   gap: 15px;
 }
 
-.equipment-crew--icon {
+.crew-equipment-icon {
   font-size: 2em;
   min-width: 50px;
   text-align: center;
 }
 
-.equipment-crew--info h5 {
+.crew-equipment-info h5 {
   color: #00FF00;
   margin: 0 0 5px 0;
 }
 
-.equipment-crew--rarity {
+.crew-equipment-rarity {
   color: #9400D3;
   text-transform: capitalize;
   font-size: 0.9em;
   margin: 2px 0;
 }
 
-.equipment-crew--type {
+.crew-equipment-type {
   color: #00FFFF;
   text-transform: capitalize;
   font-size: 0.9em;
   margin: 2px 0;
 }
 
-.equipment-crew--stats {
+.crew-equipment-stats {
   display: flex;
   gap: 10px;
   margin: 5px 0;
 }
 
-.equipment-crew--stats span {
+.crew-equipment-stats span {
   background: rgba(0, 255, 0, 0.1);
   padding: 2px 6px;
   border-radius: 3px;
@@ -630,7 +629,7 @@
   color: #00FF00;
 }
 
-.equipment-crew--flavor {
+.crew-equipment-flavor {
   font-style: italic;
   color: #999;
   font-size: 0.8em;
@@ -701,15 +700,15 @@
   position: relative;
 }
 
-.equipped-item .equipment-icon {
+.equipped-item .crew-equipment-icon {
   font-size: 1.5em;
 }
 
-.equipped-item .equipment-info {
+.equipped-item .crew-equipment-info {
   text-align: center;
 }
 
-.equipped-item .equipment-info p {
+.equipped-item .crew-equipment-info p {
   color: #00FF00;
   font-size: 0.8em;
   margin: 2px 0;
@@ -891,7 +890,6 @@
   font-size: 0.8em;
   color: #00FF00;
 }
-
 
 .ongoing-missions-list {
   width: 100%;
