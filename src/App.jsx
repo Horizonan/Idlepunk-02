@@ -1255,7 +1255,7 @@ export default function App() {
           onClose={() => setShowSlotMachine(false)}
         />
       )}
-      {showCombat && (
+      {showCombat && localStorage.getItem('scraptagon') === 'true' && parseInt(localStorage.getItem('prestigeCount') || '0') >= 4 && (
         <ScraptagonCombat
           playerStats={{ 
             maxHealth: 100, 
@@ -1402,7 +1402,7 @@ export default function App() {
             onClose={() => setActiveStore(null)}
           />
         )}
-      {activeStore === 'crew' && (
+      {activeStore === 'crew' && parseInt(localStorage.getItem('prestigeCount') || '0') >= 2 && (
         <CrewMenu
           setCredits={setCredits}
           setJunk={setJunk}
@@ -1531,7 +1531,7 @@ export default function App() {
           }}
         />
       )}
-      {activeStore === 'credstore' && (
+      {activeStore === 'credstore' && parseInt(localStorage.getItem('prestigeCount') || '0') >= 2 && (
         <CredStore
           junk={junk}
           credits={credits}

@@ -11,6 +11,22 @@ import DuplicateEquipmentDialog from '../components/DuplicateEquipmentDialog';
 
 
 export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }) {
+  // Check prestige requirement
+  const prestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
+  if (prestigeCount < 2) {
+    return (
+      <div className="crew-menu">
+        <div className="crew-header">
+          <h2>Crew Management</h2>
+          <button className="store-item" onClick={onClose}>Close</button>
+        </div>
+        <div className="crew-content" style={{textAlign: 'center', padding: '20px'}}>
+          <h3>🔒 Prestige 2 Required</h3>
+          <p>Crew Management unlocks at Prestige 2.</p>
+        </div>
+      </div>
+    );
+  }
   const [activeTab, setActiveTab] = useState('view');
   const [showCrewSelect, setShowCrewSelect] = useState(false);
   const storedSelectedCrew = useRecruitmentZustand(state => state.selectedCrew);

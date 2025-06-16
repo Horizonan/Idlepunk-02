@@ -17,10 +17,10 @@ export default function Menu({ onStoreSelect }) {
     activities: {
       header: 'Activities',
       buttons: [
-        { id: 'marketplace', label: 'Junktown Nexus' },
-        { id: 'slotMachine', label: 'Slot Machine' },
-        { id: 'coinflip', label: 'Junk Flip' },
-        { id: 'combat', label: 'Scraptagon Combat' }
+        { id: 'marketplace', label: 'Junktown Nexus', prestige: 0 },
+        { id: 'slotMachine', label: 'Slot Machine', prestige: 2 },
+        { id: 'coinflip', label: 'Junk Flip', prestige: 2 },
+        { id: 'combat', label: 'Scraptagon Combat', prestige: 4 }
       ]
     },
     help: {
@@ -34,17 +34,28 @@ export default function Menu({ onStoreSelect }) {
   };
 
   const isUnlocked = (itemId) => {
+    const item = Object.values(menuCategories)
+      .flatMap(category => category.buttons)
+      .find(button => button.id === itemId);
+
+    if (!item) {
+      return true; // Default to unlocked if item not found
+    }
+
+    const prestigeRequired = item.prestige || 0;
+    const currentPrestige = parseInt(localStorage.getItem('prestigeCount') || '0');
+
     switch(itemId) {
       case 'marketplace':
         return true; // Always unlocked
       case 'slotMachine':
-        return junk >= 10000;
+        return junk >= 10000 && currentPrestige >= prestigeRequired;
       case 'coinflip':
-        return junk >= 1000;
+        return junk >= 1000 && currentPrestige >= prestigeRequired;
       case 'combat':
-        return localStorage.getItem('scraptagon') === 'true';
+        return localStorage.getItem('scraptagon') === 'true' && currentPrestige >= prestigeRequired;
       default:
-        return true;
+        return currentPrestige >= prestigeRequired;
     }
   };
 

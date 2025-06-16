@@ -38,9 +38,14 @@ export default function MenuButtons({ onStoreSelect, showInventory, craftingInve
         {
           label: 'Scratz Store',
           onClick: () => {
+            const prestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
+            if (prestigeCount < 2) {
+              return; // Don't allow opening if prestige requirement not met
+            }
             const activeStore = localStorage.getItem('activeStore');
             onStoreSelect(activeStore === 'credstore' ? null : 'credstore');
-          }
+          },
+          locked: parseInt(localStorage.getItem('prestigeCount') || '0') < 2
         }
       ]
     },
@@ -79,25 +84,26 @@ export default function MenuButtons({ onStoreSelect, showInventory, craftingInve
           onClick: () => {
             const event = new CustomEvent('toggleUpgradeStats');
             window.dispatchEvent(event);
-          }
+          },
+          locked: !localStorage.getItem('skillsMenu') || parseInt(localStorage.getItem('prestigeCount') || '0') < 3
         },
         {
           label: (
             <>
-              Crew
+              Crew Management
               {(() => {
                 try {
                   const crewStorage = JSON.parse(localStorage.getItem('crew-storage') || '{}');
                   const state = crewStorage.state || {};
-                  
+
                   // Check if there's a completed mission (mission exists but timeLeft <= 0)
                   const hasCompletedMission = state.activeMission && 
                     state.missionStartTime && 
                     (Date.now() - state.missionStartTime) >= (state.activeMission.duration * 1000);
-                  
+
                   // Check if signal relay mini-game should be played
                   const hasSignalRelay = state.showMiniGame === true;
-                  
+
                   if (hasCompletedMission || hasSignalRelay) {
                     return (
                       <span style={{
@@ -118,10 +124,14 @@ export default function MenuButtons({ onStoreSelect, showInventory, craftingInve
             </>
           ),
           onClick: () => {
+            const prestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
+            if (prestigeCount < 2) {
+              return; // Don't allow opening if prestige requirement not met
+            }
             const activeStore = localStorage.getItem('activeStore');
             onStoreSelect(activeStore === 'crew' ? null : 'crew');
           },
-          locked: false
+          locked: parseInt(localStorage.getItem('prestigeCount') || '0') < 2
         }
       ]
     },

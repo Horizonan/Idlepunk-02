@@ -3,6 +3,22 @@ import React, { useState } from 'react';
 import { useCrystalZustand } from '../utils/crystalZustand';
 
 export default function CredStore({ credits, junk, craftingInventory, onBuyHoverDrone, onBuyBooster, onBuyReclaimer, autoClicks, onBack, creditStoreItems, onSetCredits, onSetJunk, onSetNotification, onSetBeaconCount, onSetShowBeacon, onSetCreditStoreItems, onSetShowCrystal, onSetCraftingInventory, onSetPreservedHelper }) {
+  // Check prestige requirement
+  const prestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
+  if (prestigeCount < 2) {
+    return (
+      <div className="store-container">
+        <div className="store-header">
+          <h2>Scratz Store</h2>
+          <button onClick={onBack}>Close</button>
+        </div>
+        <div className="store-items" style={{textAlign: 'center', padding: '20px'}}>
+          <h3>🔒 Prestige 2 Required</h3>
+          <p>The Scratz Store unlocks at Prestige 2.</p>
+        </div>
+      </div>
+    );
+  }
   const [selectedTab, setSelectedTab] = useState("basic");
   const [mobileInfoModal, setMobileInfoModal] = useState(null); // For mobile item info modals
 
