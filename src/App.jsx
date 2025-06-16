@@ -750,16 +750,19 @@ export default function App() {
       cogfatherLore,
       craftingInventory,
       ownedItems,
+      credits
+    }, {
       setElectroShards,
       setNotifications,
       setCraftingInventory,
-      setAutoClicks, setPermanentAutoClicks, setCredits, credits,
+      setAutoClicks,
+      setPermanentAutoClicks,
+      setCredits,
       setPassiveIncome,
       setJunk,
       setClickMultiplier,
       setGlobalJpsMultiplier,
-      setOwnedItems,
-      setNotifications
+      setOwnedItems
     });
   };
 
