@@ -118,9 +118,34 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
       localStorage.setItem(item.storageKey, 'true');
       localStorage.setItem(`upgrade_seen_${item.storageKey}`, 'true');
 
-      // Call the specific action handler
+      // Call the specific action handler and handle renaming
       if (item.action) {
         item.action();
+      }
+
+      // Handle item renaming based on upgrade type
+      switch(item.storageKey) {
+        case 'trashPickerUpgrade':
+          localStorage.setItem('trashPickerName', 'Braced Trash Picker');
+          break;
+        case 'cartUpgrade':
+          localStorage.setItem('cartName', 'Suspended Cart');
+          break;
+        case 'scrapBagUpgrade':
+          localStorage.setItem('trashBagName', 'Reinforced Trash Bag');
+          break;
+        case 'streetratUpgrade':
+          localStorage.setItem('streetratName', 'Whistling Streetrat');
+          break;
+        case 'urbanRecyclerUpgrade':
+          localStorage.setItem('urbanRecyclerName', 'Flame-Boosted Recycler');
+          break;
+        case 'clickEnhancerUpgrade':
+          localStorage.setItem('clickEnhancerName', 'Overclocked Click Enhancer');
+          break;
+        case 'junkMagnetUpgrade':
+          localStorage.setItem('junkMagnetName', 'Overcharged Junk Magnet');
+          break;
       }
 
       // Trigger UI update
