@@ -143,6 +143,41 @@ export default function App() {
     setNotifications(prev => [...prev, `Scrap Bag Reinforcement purchased! Each Scrap Bag now provides +1 additional Junk/Click (+${scrapBagCount} click power).`]);
   };
 
+  const handleBuyTrashPickerUpgrade = () => {
+    // This upgrade adds +1 junk per click from trash pickers
+    const trashPickerCount = ownedItems.trashPicker || 0;
+    setClickMultiplier(prev => prev + trashPickerCount);
+    setNotifications(prev => [...prev, `Trash Picker Wrist Braces purchased! Each Trash Picker now provides +1 additional Junk/Click (+${trashPickerCount} click power).`]);
+  };
+
+  const handleBuyCartUpgrade = () => {
+    // This upgrade adds +5 junk per second from carts
+    const cartCount = ownedItems.cart || 0;
+    setPassiveIncome(prev => prev + (cartCount * 5));
+    setNotifications(prev => [...prev, `Cart Suspension Mods purchased! Each Cart now produces +5 additional Junk/sec (+${cartCount * 5} JPS).`]);
+  };
+
+  const handleBuyUrbanRecyclerUpgrade = () => {
+    // This upgrade adds +10 junk per second from urban recyclers
+    const recyclerCount = ownedItems.urbanRecycler || 0;
+    setPassiveIncome(prev => prev + (recyclerCount * 10));
+    setNotifications(prev => [...prev, `Recycler Flame Boost purchased! Each Urban Recycler now produces +10 additional Junk/sec (+${recyclerCount * 10} JPS).`]);
+  };
+
+  const handleBuyClickEnhancerUpgrade = () => {
+    // This upgrade adds +3 junk per click from click enhancers
+    const enhancerCount = ownedItems.clickEnhancer || 0;
+    setClickMultiplier(prev => prev + (enhancerCount * 3));
+    setNotifications(prev => [...prev, `Click Enhancer Overclock purchased! Each Click Enhancer now provides +3 additional Junk/Click (+${enhancerCount * 3} click power).`]);
+  };
+
+  const handleBuyJunkMagnetUpgrade = () => {
+    // This upgrade adds +10 junk per second from junk magnets
+    const magnetCount = ownedItems.junkMagnet || 0;
+    setPassiveIncome(prev => prev + (magnetCount * 10));
+    setNotifications(prev => [...prev, `Junk Magnet Overcharge purchased! Each Junk Magnet now produces +10 additional Junk/sec (+${magnetCount * 10} JPS).`]);
+  };
+
   const [showCoinFlip, setShowCoinFlip] = useState(false);
   const [showRelayCascade, setShowRelayCascade] = useState(false);
   const [showMiniGameWindow, setShowMiniGameWindow] = useState(false);
@@ -1377,6 +1412,11 @@ export default function App() {
           ownedItems={ownedItems}
           onBuyStreetratUpgrade={handleBuyStreetratUpgrade}
           onBuyScrapBagUpgrade={handleBuyScrapBagUpgrade}
+          onBuyTrashPickerUpgrade={handleBuyTrashPickerUpgrade}
+          onBuyCartUpgrade={handleBuyCartUpgrade}
+          onBuyUrbanRecyclerUpgrade={handleBuyUrbanRecyclerUpgrade}
+          onBuyClickEnhancerUpgrade={handleBuyClickEnhancerUpgrade}
+          onBuyJunkMagnetUpgrade={handleBuyJunkMagnetUpgrade}
         />
       )}
       {activeStore === 'store' && (

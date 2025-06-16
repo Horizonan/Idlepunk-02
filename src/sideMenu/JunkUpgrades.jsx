@@ -2,18 +2,42 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/JunkUpgrades.css';
 
-export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrade, onBuyScrapBagUpgrade }) {
+export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrade, onBuyScrapBagUpgrade, onBuyTrashPickerUpgrade, onBuyCartUpgrade, onBuyUrbanRecyclerUpgrade, onBuyClickEnhancerUpgrade, onBuyJunkMagnetUpgrade }) {
   const [mobileInfoModal, setMobileInfoModal] = useState(null);
   const [hasNewUpgrades, setHasNewUpgrades] = useState(false);
   const junk = parseInt(localStorage.getItem('junk') || '0');
 
   const upgradeItems = [
     {
-      name: "Reinforced Scrap Bag Upgrade",
-      cost: 30000,
-      description: "+1 Junk/Click from Reinforced Scrap Bags",
+      name: "Trash Picker Wrist Braces",
+      cost: 50000,
+      description: "+1 Junk/Click from Trash Pickers",
+      info: "Ergonomics, but make it trashcore.",
+      unlockCondition: () => (ownedItems?.trashPicker || 0) >= 10 && !localStorage.getItem('trashPickerUpgrade'),
+      owned: localStorage.getItem('trashPickerUpgrade') ? 1 : 0,
+      category: "clicking",
+      tier: "basic",
+      storageKey: "trashPickerUpgrade",
+      action: onBuyTrashPickerUpgrade
+    },
+    {
+      name: "Cart Suspension Mods",
+      cost: 75000,
+      description: "Carts produce +5 Junk/sec",
+      info: "Rides smoother. Holds more junk. Scares more pigeons.",
+      unlockCondition: () => (ownedItems?.cart || 0) >= 10 && !localStorage.getItem('cartUpgrade'),
+      owned: localStorage.getItem('cartUpgrade') ? 1 : 0,
+      category: "passive",
+      tier: "basic",
+      storageKey: "cartUpgrade",
+      action: onBuyCartUpgrade
+    },
+    {
+      name: "Trash Bag Reinforcement",
+      cost: 120000,
+      description: "+1 Junk/Click from Trash Bags",
       info: "Reinforced with duct tape and ambition.",
-      unlockCondition: () => (ownedItems?.trashBag || 0) >= 10 && !localStorage.getItem('scrapBagUpgrade'),
+      unlockCondition: () => (ownedItems?.trashBag || 0) >= 12 && !localStorage.getItem('scrapBagUpgrade'),
       owned: localStorage.getItem('scrapBagUpgrade') ? 1 : 0,
       category: "clicking",
       tier: "basic",
@@ -22,8 +46,8 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
     },
     {
       name: "Streetrat Efficiency Training",
-      cost: 50000,
-      description: "Doubles output of all Whistling Streetrats",
+      cost: 180000,
+      description: "Doubles output of all Streetrats",
       info: "They now wear matching vests and whistle while they work.",
       unlockCondition: () => (ownedItems?.streetrat || 0) >= 10 && !localStorage.getItem('streetratUpgrade'),
       owned: localStorage.getItem('streetratUpgrade') ? 1 : 0,
@@ -31,6 +55,42 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
       tier: "advanced",
       storageKey: "streetratUpgrade",
       action: onBuyStreetratUpgrade
+    },
+    {
+      name: "Recycler Flame Boost",
+      cost: 250000,
+      description: "+10 Junk/sec from Urban Recyclers",
+      info: "Powered by fumes and blind optimism.",
+      unlockCondition: () => (ownedItems?.urbanRecycler || 0) >= 5 && !localStorage.getItem('urbanRecyclerUpgrade'),
+      owned: localStorage.getItem('urbanRecyclerUpgrade') ? 1 : 0,
+      category: "passive",
+      tier: "advanced",
+      storageKey: "urbanRecyclerUpgrade",
+      action: onBuyUrbanRecyclerUpgrade
+    },
+    {
+      name: "Click Enhancer Overclock",
+      cost: 320000,
+      description: "+3 Junk/Click from Click Enhancers",
+      info: "We added more wires and crossed our fingers.",
+      unlockCondition: () => (ownedItems?.clickEnhancer || 0) >= 10 && !localStorage.getItem('clickEnhancerUpgrade'),
+      owned: localStorage.getItem('clickEnhancerUpgrade') ? 1 : 0,
+      category: "clicking",
+      tier: "advanced",
+      storageKey: "clickEnhancerUpgrade",
+      action: onBuyClickEnhancerUpgrade
+    },
+    {
+      name: "Junk Magnet Overcharge",
+      cost: 400000,
+      description: "+10 Junk/sec from Junk Magnets",
+      info: "Now hums aggressively at small animals.",
+      unlockCondition: () => (ownedItems?.junkMagnet || 0) >= 5 && !localStorage.getItem('junkMagnetUpgrade'),
+      owned: localStorage.getItem('junkMagnetUpgrade') ? 1 : 0,
+      category: "passive",
+      tier: "advanced",
+      storageKey: "junkMagnetUpgrade",
+      action: onBuyJunkMagnetUpgrade
     }
   ];
 
