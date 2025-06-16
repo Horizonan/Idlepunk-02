@@ -1,4 +1,6 @@
-.junk-upgrades-container {
+
+/* Use the standard store container styling */
+.store-container {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -13,7 +15,7 @@
   overflow-y: auto;
 }
 
-.junk-upgrades-header {
+.store-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -22,7 +24,7 @@
   border-bottom: 2px solid #9400D3;
 }
 
-.junk-upgrades-header h2 {
+.store-header h2 {
   color: #9400D3;
   margin: 0;
   text-shadow: 0 0 10px rgba(148, 0, 211, 0.5);
@@ -43,75 +45,102 @@
   color: #222;
 }
 
-.junk-upgrades-content {
+.store-content {
+  height: calc(100% - 80px);
+  overflow-y: auto;
+}
+
+.store-items {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-.upgrade-item {
+.store-item {
   background: rgba(34, 34, 34, 0.8);
-  border: 1px solid #9400D3;
+  border: 2px solid #9400D3;
   border-radius: 6px;
   padding: 15px;
+  cursor: pointer;
   transition: all 0.3s ease;
+  color: #00FF00;
+  text-align: left;
+  width: 100%;
 }
 
-.upgrade-item:hover {
+.store-item:hover:not(.disabled) {
   background: rgba(148, 0, 211, 0.1);
   border-color: #00FF00;
+  transform: scale(1.02);
 }
 
-.upgrade-header {
+.store-item.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: #666;
+}
+
+.store-item.disabled:hover {
+  transform: none;
+  background: rgba(34, 34, 34, 0.8);
+  border-color: #666;
+}
+
+.item-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
 }
 
-.upgrade-name {
+.item-header strong {
   color: #00FF00;
-  font-weight: bold;
   font-size: 1.1em;
 }
 
-.upgrade-cost {
+.cost {
   color: #9400D3;
   font-weight: bold;
 }
 
-.upgrade-description {
+.item-info {
   color: #CCCCCC;
-  margin-bottom: 8px;
+}
+
+.item-info p {
+  margin: 5px 0;
   font-size: 0.9em;
 }
 
-.upgrade-owned {
-  color: #FFD700;
-  font-size: 0.8em;
-  margin-bottom: 10px;
-}
-
-.purchase-button {
-  width: 100%;
-  background: #222;
-  border: 2px solid #9400D3;
-  color: #00FF00;
-  padding: 10px;
-  border-radius: 4px;
-  cursor: pointer;
+.owned {
+  color: #FFD700 !important;
   font-weight: bold;
-  transition: all 0.3s ease;
+  font-size: 0.8em !important;
 }
 
-.purchase-button:hover:not(.disabled) {
-  background: #9400D3;
-  color: #222;
-}
-
-.purchase-button.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  border-color: #666;
-  color: #666;
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .store-container {
+    width: 95vw;
+    height: 90vh;
+    padding: 15px;
+  }
+  
+  .store-item {
+    padding: 12px;
+  }
+  
+  .item-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  
+  .item-header strong {
+    font-size: 1em;
+  }
+  
+  .cost {
+    font-size: 0.9em;
+  }
 }
