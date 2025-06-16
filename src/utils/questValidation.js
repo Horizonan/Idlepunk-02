@@ -591,5 +591,3 @@ export const getNextIncompleteQuest = (questLineKey) => {
     localStorage.getItem(`quest_sync_${quest.title}`) !== 'true'
   );
 };
-
-export { validateQuests };
