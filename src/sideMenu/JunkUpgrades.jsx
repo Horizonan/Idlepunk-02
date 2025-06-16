@@ -60,15 +60,11 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
 
       // Call the specific action handler
       if (item.action) {
-        console.log(`Calling upgrade action for ${item.name}`);
         item.action();
       }
 
       // Trigger UI update
       window.dispatchEvent(new Event('storage'));
-      window.dispatchEvent(new CustomEvent('junkUpgradePurchased', { 
-        detail: { upgrade: item.name, storageKey: item.storageKey } 
-      }));
     }
   };
 
