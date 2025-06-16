@@ -143,9 +143,8 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
           <p>Enhance your junk collection capabilities with specialized upgrades. Each upgrade provides permanent bonuses to boost your efficiency.</p>
         </div>
 
-        {availableUpgrades.length > 0 && (
+        {availableUpgrades.length > 0 ? (
           <div className="junk-upgrades-section">
-            <h3 className="junk-upgrades-section-title">Available Upgrades</h3>
             <div className="junk-upgrades-items">
               {availableUpgrades.map((item, index) => (
                 <button
@@ -190,31 +189,7 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
               ))}
             </div>
           </div>
-        )}
-
-        {lockedUpgrades.length > 0 && (
-          <div className="junk-upgrades-section">
-            <h3 className="junk-upgrades-section-title">Locked Upgrades</h3>
-            <div className="junk-upgrades-locked-items">
-              {lockedUpgrades.map((item, index) => (
-                <div key={index} className="junk-upgrade-locked-item">
-                  <div className="junk-upgrade-locked-header">
-                    <span className="junk-upgrade-tier-icon" style={{ color: getTierColor(item.tier) }}>
-                      {getTierIcon(item.tier)}
-                    </span>
-                    <strong>{item.name}</strong>
-                    <span className="junk-upgrade-locked-badge">🔒</span>
-                  </div>
-                  <p className="junk-upgrade-locked-requirement">
-                    Requires: {item.category === 'clicking' ? `${(ownedItems?.trashBag || 0)}/10 Reinforced Scrap Bags` : `${(ownedItems?.streetrat || 0)}/10 Whistling Streetrats`}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {availableUpgrades.length === 0 && lockedUpgrades.length === 0 && (
+        ) : (
           <div className="junk-upgrades-empty">
             <p>No upgrades available at this time. Keep collecting junk and purchasing items to unlock new upgrades!</p>
           </div>
