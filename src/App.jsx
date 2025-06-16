@@ -712,6 +712,31 @@ export default function App() {
     localStorage.setItem('autoClickerV1Count', autoClickerV1Count); 
   }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts, autoClicks, clickCount, achievements, ownedItems, clickEnhancerLevel, globalJpsMultiplier, autoClickerV1Count]);
 
+  // Electronics unlock logic - Auto-unlock at Prestige 1
+  useEffect(() => {
+    const checkElectronicsUnlock = () => {
+      const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
+
+      if (hasPrestiged) {
+        setElectronicsUnlock(true);
+        localStorage.setItem('electronicsUnlock', 'true');
+      }
+    };
+
+    checkElectronicsUnlock();
+
+    // Listen for prestige completion events
+    const handlePrestigeUpdate = () => {
+      checkElectronicsUnlock();
+    };
+
+    window.addEventListener('prestigeComplete', handlePrestigeUpdate);
+
+    return () => {
+      window.removeEventListener('prestigeComplete', handlePrestigeUpdate);
+    };
+  }, []);
+
   const validateQuestsAndAchievements = () => {
     validateQuests({
       junk,
@@ -1787,20 +1812,20 @@ export default function App() {
                 // Click multiplier bonus (5% per prestige)
                 const clickBonus = 1 + (prestige * 0.05);
                 localStorage.setItem('prestigeClickBonus', clickBonus.toString());
-                
+
                 // Starting autoclicks (2 per prestige after first)
                 const autoclicks = Math.max(0, (prestige - 1) * 2);
                 localStorage.setItem('prestigeAutoclicks', autoclicks.toString());
-                
+
                 // Starting credits (50 per prestige after first)
                 const startingCredits = Math.max(0, (prestige - 1) * 50);
                 localStorage.setItem('prestigeStartingCredits', startingCredits.toString());
-                
+
                 // Crafting speed bonus (10% per prestige after second)
                 const craftingSpeed = 1 + (Math.max(0, prestige - 2) * 0.1);
                 localStorage.setItem('prestigeCraftingSpeed', craftingSpeed.toString());
               };
-              
+
               applyPrestigeBonuses(newCount);
 
               // Set prestige2Active flag if this is the second prestige
@@ -1826,14 +1851,14 @@ export default function App() {
             const prestigeClickBonus = parseFloat(localStorage.getItem('prestigeClickBonus') || '1');
             const prestigeAutoclicks = parseInt(localStorage.getItem('prestigeAutoclicks') || '0');
             const prestigeStartingCredits = parseInt(localStorage.getItem('prestigeStartingCredits') || '0');
-            
+
             setJunk(0);
             setClickMultiplier(prestigeClickBonus);
             setPassiveIncome(0);
             setAutoClicks(preservedAutoClicks + prestigeAutoclicks); 
             setClickEnhancerLevel(0);
             setAutoClickerV1Count(0);
-            
+
             // Set starting credits from prestige bonus
             setCredits(prestigeStartingCredits); 
 
