@@ -80,13 +80,53 @@ export default function QuestLog({ tutorialStage, onClose }) {
       id: index + 1,
       title: quest.title,
       task: quest.description,
-      reward: quest.reward?.message?.includes('Received') ? quest.reward.message.split('Received: ')[1] : 
-              quest.reward?.extraMessage?.includes('Obtained') ? quest.reward.extraMessage.split('Obtained: ')[1] :
-              quest.reward?.extraMessage?.includes('Unlocked') ? quest.reward.extraMessage.split('Unlocked: ')[1] :
-              quest.reward?.type === 'electroShards' ? `${quest.reward.amount}x Electro Shard` :
-              quest.reward?.type === 'credits' ? `${quest.reward.amount} Scratz` :
-              quest.reward?.type === 'permanentAutoClicks' ? `+${quest.reward.amount} Permanent Autoclick${quest.reward.amount > 1 ? 's' : ''}` :
-              'Special Reward',
+      reward: (() => {
+        const reward = quest.reward;
+        if (!reward) return 'No reward';
+        
+        // Check for specific extracted rewards first
+        if (reward.message?.includes('Received: ')) {
+          return reward.message.split('Received: ')[1];
+        }
+        if (reward.extraMessage?.includes('Obtained: ')) {
+          return reward.extraMessage.split('Obtained: ')[1];
+        }
+        if (reward.extraMessage?.includes('Unlocked: ')) {
+          return reward.extraMessage.split('Unlocked: ')[1];
+        }
+        
+        // Handle different reward types
+        switch (reward.type) {
+          case 'electroShards':
+            return `${reward.amount}x Electro Shard${reward.amount > 1 ? 's' : ''}`;
+          case 'credits':
+            return `${reward.amount} Scratz`;
+          case 'autoClicks':
+            return `+${reward.amount} Auto Click${reward.amount > 1 ? 's' : ''}`;
+          case 'permanentAutoClicks':
+            return `+${reward.amount} Permanent Auto Click${reward.amount > 1 ? 's' : ''}`;
+          case 'craftingMaterial':
+            return `${reward.amount}x ${reward.material}`;
+          case 'special':
+            // For special rewards, show what they unlock
+            switch (reward.action) {
+              case 'unlockPrestige':
+                return 'Prestige System Unlock';
+              case 'unlockPrestige1':
+                return 'Advanced Prestige Unlock';
+              case 'unlockAdvancedMissions':
+                return 'Advanced Missions & Elite Gear';
+              case 'unlockSuperOvercharged':
+                return 'Super Overcharged Crystal Recipe';
+              default:
+                return 'Special Unlock';
+            }
+          case 'notification':
+            return 'Achievement Badge';
+          default:
+            return 'Special Reward';
+        }
+      })(),
       category: quest.category,
       difficulty: quest.difficulty
     }));
