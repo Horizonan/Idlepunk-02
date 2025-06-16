@@ -258,13 +258,17 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                     
                     // Check if mini-game is disabled
                     if (localStorage.getItem('skipRecruitmentMiniGame') === 'true') {
-                      // Auto-complete with median score without opening any interface
+                      // Auto-complete with median score
                       const profileCount = localStorage.getItem('signal_expander_purchased') ? 10 : 8;
-                      const medianScore = Math.floor(profileCount * 0.6);
+                      const medianScore = Math.floor(profileCount * 0.6); // ~60% success rate for median
                       
-                      // Use the game end handler directly to unlock crew based on score
-                      useRecruitmentZustand.getState().handleGameEnd(medianScore);
-                      return; // Exit early, don't start any game interface
+                      // Randomly select game variant for unlocks
+                      const random = Math.random();
+                      if (random < 0.7) {
+                        useRecruitmentZustand.getState().handleGameEnd(medianScore);
+                      } else {
+                        useRecruitmentZustand.getState().handleSkillsGameEnd(medianScore);
+                      }
                     } else {
                       // Play mini-game normally
                       const random = Math.random();

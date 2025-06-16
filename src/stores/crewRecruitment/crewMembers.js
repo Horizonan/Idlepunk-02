@@ -1,27 +1,4 @@
 export const crewDatabase = [
-  // Guaranteed starter crew member for skip mode ONLY
-  {
-    id: 'starter_scrapper',
-    name: 'Maya Chen',
-    role: 'Junior Scrapper',
-    rarity: 'Common',
-    stats: {
-      tech: 2,
-      grit: 3,
-      stealth: 1,
-      luck: 2,
-      psyche: 2
-    },
-    stamina: 100,
-    perks: 'Eager to learn, reliable in basic operations',
-    unlockConditions: {
-      skipModeOnly: true // Special flag - only unlocked when skipping
-    },
-    unlockCost: {
-      amount: 100000,
-      type: 'junk'
-    }
-  },
   {
     id: 'c1',
     name: 'Rivet',

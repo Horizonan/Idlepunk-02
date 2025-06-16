@@ -288,12 +288,12 @@ export default function App() {
         return !prev;
       });
     };
-
+    
     const handleValidateAchievements = () => {
       console.log('Manual achievement validation triggered');
       validateAchievements();
     };
-
+    
     window.addEventListener('toggleUpgradeStats', handleUpgradeStats);
     window.addEventListener('validateAchievements', handleValidateAchievements);
 
@@ -301,7 +301,7 @@ export default function App() {
       setActiveStore(null);
       setShowUpgradeStats(false);
     }
-
+    
     return () => {
       window.removeEventListener('toggleUpgradeStats', handleUpgradeStats);
       window.removeEventListener('validateAchievements', handleValidateAchievements);
@@ -2028,7 +2028,7 @@ export default function App() {
               <p className="tooltip-tip">🎯 Pro Tip: When in doubt, look for internal consistency - real profiles tell a coherent story.</p>
             </div>
             <p className="refresher-note">📚 You can always check <strong>Game Tips</strong> in the main menu for a refresher!</p>
-
+            
             {localStorage.getItem('skipRecruitmentMiniGame') === null && (
               <div className="mini-game-choice-section">
                 <h4>🎮 Mini-Game Preference</h4>
@@ -2041,18 +2041,24 @@ export default function App() {
                   }}>
                     🎯 Play Mini-Game
                   </button>
-                  <button className="intro-tooltip-button skip-button" onClick={async () => {
+                  <button className="intro-tooltip-button skip-button" onClick={() => {
                     localStorage.setItem('skipRecruitmentMiniGame', 'true');
                     localStorage.setItem('crewGameIntroSeen', 'true');
                     setShowCrewIntroTooltip(false);
-
-                    // Auto-complete with median score to unlock crew normally
-                    const { useRecruitmentZustand } = await import('./stores/crewRecruitment/recruitmentZustand');
+                    
+                    // Auto-complete with median score
                     const profileCount = localStorage.getItem('signal_expander_purchased') ? 10 : 8;
                     const medianScore = Math.floor(profileCount * 0.6);
                     
-                    // Use the game end handler to unlock crew based on score
-                    useRecruitmentZustand.getState().handleGameEnd(medianScore);
+                    // Randomly select game variant for unlocks
+                    const random = Math.random();
+                    if (random < 0.7) {
+                      const { useRecruitmentZustand } = require('./stores/crewRecruitment/recruitmentZustand');
+                      useRecruitmentZustand.getState().handleGameEnd(medianScore);
+                    } else {
+                      const { useRecruitmentZustand } = require('./stores/crewRecruitment/recruitmentZustand');
+                      useRecruitmentZustand.getState().handleSkillsGameEnd(medianScore);
+                    }
                   }}>
                     ⚡ Skip & Get Median Points (~60%)
                   </button>
@@ -2060,7 +2066,7 @@ export default function App() {
                 <p className="choice-note">💡 You can change this later in Settings > Gameplay</p>
               </div>
             )}
-
+            
             {localStorage.getItem('skipRecruitmentMiniGame') !== null && (
               <button className="intro-tooltip-button" onClick={() => {
                 localStorage.setItem('crewGameIntroSeen', 'true');

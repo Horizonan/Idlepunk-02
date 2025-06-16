@@ -12,9 +12,8 @@ export const useRecruitmentZustand = create(
       selectedCrew: [],
       lastFeedback: null,
       unlockedCrew: [...crewDatabase.filter(crew => 
-        (crew.unlockConditions?.minGameScore === 0 || 
-        !crew.unlockConditions?.minGameScore) &&
-        !crew.unlockConditions?.skipModeOnly
+        crew.unlockConditions?.minGameScore === 0 || 
+        !crew.unlockConditions?.minGameScore
       )],
       hiredCrew: [],
       newlyHiredCrew: [],
@@ -518,35 +517,9 @@ export const useRecruitmentZustand = create(
       handleGameEnd: (finalScore) => {
         localStorage.setItem('recruitment_game_completed', 'true');
 
-        // Check if we're in skip mode and Maya Chen hasn't been unlocked yet
-        const isSkipMode = localStorage.getItem('skipRecruitmentMiniGame') === 'true';
-        const mayaChen = crewDatabase.find(crew => crew.unlockConditions?.skipModeOnly);
-        const mayaChenAlreadyUnlocked = mayaChen && (
-          get().unlockedCrew.some(c => c.id === mayaChen.id) || 
-          get().hiredCrew.some(c => c.id === mayaChen.id)
-        );
-
-        // If in skip mode and Maya Chen hasn't been unlocked, unlock her first
-        if (isSkipMode && mayaChen && !mayaChenAlreadyUnlocked) {
-          set({ 
-            selectedCrew: mayaChen,
-            unlockedCrew: [...get().unlockedCrew, mayaChen],
-            newlyHiredCrew: [...get().newlyHiredCrew, mayaChen.id]
-          });
-
-          setTimeout(() => {
-            get().markCrewAsNotNew(mayaChen.id);
-          }, 10000);
-          return;
-        }
-
-        // Normal crew unlocking logic for all subsequent recruits (including skip mode after Maya Chen)
         const eligibleCrew = crewDatabase.filter(crew => {
           const conditions = crew.unlockConditions;
           if (!conditions) return false;
-
-          // Skip Maya Chen for normal unlocking (she's handled above)
-          if (conditions.skipModeOnly) return false;
 
           const alreadyUnlocked = get().unlockedCrew.some(c => c.id === crew.id);
           const alreadyHired = get().hiredCrew.some(c => c.id === crew.id);
@@ -568,7 +541,12 @@ export const useRecruitmentZustand = create(
           return true;
         });
 
-        if (eligibleCrew.length > 0) {
+        if (eligibleCrew.length === 0) {
+          set({ selectedCrew: [] });
+          return;
+        }
+
+        if (eligibleCrew && eligibleCrew.length > 0) {
           const randomIndex = Math.floor(Math.random() * eligibleCrew.length);
           const selectedCrew = eligibleCrew[randomIndex];
           set({ 
@@ -677,9 +655,8 @@ export const useRecruitmentZustand = create(
           selectedCrew: [],
           lastFeedback: null,
           unlockedCrew: [...crewDatabase.filter(crew => 
-            (crew.unlockConditions?.minGameScore === 0 || 
-            !crew.unlockConditions?.minGameScore) &&
-            !crew.unlockConditions?.skipModeOnly
+            crew.unlockConditions?.minGameScore === 0 || 
+            !crew.unlockConditions?.minGameScore
           )],
           hiredCrew: [],
           newlyHiredCrew: [],
