@@ -81,9 +81,15 @@ export const gameHandlers = (gameState, setGameState) => {
 
       setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setNotifications(prev => [...prev, "Scrap Bag purchased!"]);
-      setGameState.setClickMultiplier(prev => prev + (gameState.bulkBuy ? 10 : 1));
+      
+      // Check if reinforcement upgrade is purchased to determine click power per bag
+      const hasReinforcementUpgrade = localStorage.getItem('scrapBagUpgrade') === 'true';
+      const clickPowerPerBag = hasReinforcementUpgrade ? 2 : 1;
+      const bagsToAdd = gameState.bulkBuy ? 10 : 1;
+      
+      setGameState.setClickMultiplier(prev => prev + (bagsToAdd * clickPowerPerBag));
       setGameState.setItemCosts(prev => ({...prev, trashBag: costData.endCost}));
-      setGameState.setOwnedItems(prev => ({...prev, trashBag: (prev.trashBag || 0)  + (gameState.bulkBuy ? 10 : 1)}));
+      setGameState.setOwnedItems(prev => ({...prev, trashBag: (prev.trashBag || 0) + bagsToAdd}));
       setGameState.setHasUpgrade(true);
     }
   };
@@ -154,9 +160,15 @@ export const gameHandlers = (gameState, setGameState) => {
     if (gameState.junk >= costData.totalCost) {
       setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setNotifications(prev => [...prev, "Streetrat hired!"]);
-      setGameState.setPassiveIncome(prev => prev + (gameState.bulkBuy ? 10 : 1));
+      
+      // Check if efficiency upgrade is purchased to determine income per streetrat
+      const hasEfficiencyUpgrade = localStorage.getItem('streetratUpgrade') === 'true';
+      const incomePerStreetrat = hasEfficiencyUpgrade ? 2 : 1;
+      const streetratsToAdd = gameState.bulkBuy ? 10 : 1;
+      
+      setGameState.setPassiveIncome(prev => prev + (streetratsToAdd * incomePerStreetrat));
       setGameState.setItemCosts(prev => ({...prev, streetrat: costData.endCost}));
-      setGameState.setOwnedItems(prev => ({...prev, streetrat: (prev.streetrat || 0) + (gameState.bulkBuy ? 10 : 1)}));
+      setGameState.setOwnedItems(prev => ({...prev, streetrat: (prev.streetrat || 0) + streetratsToAdd}));
       setGameState.setHasHelper(true);
     }
   };

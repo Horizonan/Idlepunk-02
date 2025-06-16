@@ -126,6 +126,23 @@ export default function App() {
     setClickEnhancerLevel,clickEnhancerLevel, setPassiveIncome, setAutoClickerV1Count, autoClickerV1Count, setAutoClickerV2Count, setElectroShards, setElectroMultiplier, setHasUpgrade
   });
 
+  // Upgrade handlers for JunkUpgrades component
+  const handleBuyStreetratUpgrade = () => {
+    // This upgrade doubles the output of all streetrats
+    // Since each streetrat gives 1 JPS, this effectively adds 1 JPS per streetrat
+    const streetratCount = ownedItems.streetrat || 0;
+    setPassiveIncome(prev => prev + streetratCount);
+    setNotifications(prev => [...prev, `Streetrat Efficiency Training purchased! All Streetrats now produce double output (+${streetratCount} JPS).`]);
+  };
+
+  const handleBuyScrapBagUpgrade = () => {
+    // This upgrade adds +1 junk per click from scrap bags
+    // Since each scrap bag gives 1 click multiplier, this effectively adds 1 more per scrap bag
+    const scrapBagCount = ownedItems.trashBag || 0;
+    setClickMultiplier(prev => prev + scrapBagCount);
+    setNotifications(prev => [...prev, `Scrap Bag Reinforcement purchased! Each Scrap Bag now provides +1 additional Junk/Click (+${scrapBagCount} click power).`]);
+  };
+
   const [showCoinFlip, setShowCoinFlip] = useState(false);
   const [showRelayCascade, setShowRelayCascade] = useState(false);
   const [showMiniGameWindow, setShowMiniGameWindow] = useState(false);
@@ -1358,22 +1375,8 @@ export default function App() {
             localStorage.setItem('activeStore', null);
           }}
           ownedItems={ownedItems}
-          onBuyStreetratUpgrade={() => {
-            // Handle streetrat upgrade purchase
-            setNotifications(prev => [...prev, {
-              id: Date.now(),
-              message: "Streetrat Efficiency Training purchased! All Streetrats now produce double output.",
-              type: 'upgrade'
-            }]);
-          }}
-          onBuyScrapBagUpgrade={() => {
-            // Handle scrap bag upgrade purchase  
-            setNotifications(prev => [...prev, {
-              id: Date.now(),
-              message: "Scrap Bag Reinforcement purchased! Each Scrap Bag now provides +1 additional Junk/Click.",
-              type: 'upgrade'
-            }]);
-          }}
+          onBuyStreetratUpgrade={handleBuyStreetratUpgrade}
+          onBuyScrapBagUpgrade={handleBuyScrapBagUpgrade}
         />
       )}
       {activeStore === 'store' && (
