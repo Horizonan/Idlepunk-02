@@ -8,43 +8,37 @@ export default function NextQuest() {
   const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
 
   const questLines = {
-    prestige0: [
+    progression: [
       { id: 1, title: "First Steps", task: "Click on the junk pile to collect some scrap", category: "tutorial", difficulty: "easy" },
       { id: 2, title: "Shopping Time", task: "Visit the store and buy your first upgrade", category: "tutorial", difficulty: "easy" },
       { id: 3, title: "Tool Master", task: "Keep collecting and upgrading your tools", reward: "1x Electro Shard", category: "progression", difficulty: "easy" },
-      { id: 4, title: "Passive Income Paradise", task: "Purchase something that generates passive income", category: "progression", difficulty: "medium" },
+      { id: 4, title: "Passive Income", task: "Purchase something that generates passive income", category: "progression", difficulty: "medium" },
       { id: 5, title: "Begin Crafting", task: "Start crafting items from your collected junk", category: "progression", difficulty: "medium" },
       { id: 6, title: "Surge Rider", task: "Take advantage of the surge to collect extra junk", reward: "1x Electro Shard", category: "advanced", difficulty: "medium" },
       { id: 7, title: "Automation Punk", task: "Tired of clicking? Buy 10 Autoclickers!", reward: "+1 Permanent Autoclick", category: "advanced", difficulty: "hard" },
-      { id: 8, title: "Gambling Addiction", task: "Buy the Big Slot Machine", reward: "Become a gambler", category: "side", difficulty: "medium" },
-      { id: 9, title: "Surge Overflow", task: "Trigger 3 Trash Surges", reward: "1x Stabilized Capacitor", category: "advanced", difficulty: "medium" },
-      { id: 10, title: "The Circuit Speaks", task: "Collect 4 Electro Shards", reward: "1x Voltage Node", category: "advanced", difficulty: "medium" },
-      { id: 11, title: "Whispers in the Scrap", task: "Reach 20M Junk", reward: "1x Synthcore Fragment", category: "milestone", difficulty: "hard" },
-      { id: 12, title: "Unlock Ascension Protocol", task: "Reach 4 million junk to unlock the path to prestige", reward: "Unlocks the Ascension Protocol Questline", category: "milestone", difficulty: "hard" },
-      { id: 13, title: "Forge the Future", task: "Craft the Prestige Crystal", reward: "Unlocks First Prestige", category: "prestige", difficulty: "epic" }
+      { id: 8, title: "Unlock Ascension Protocol", task: "Reach 4 million junk to unlock the path to prestige", reward: "Unlocks the Ascension Protocol Questline", category: "milestone", difficulty: "hard" },
+      { id: 9, title: "Gambling Addiction", task: "Buy the Big Slot Machine", reward: "Become a gambler", category: "side", difficulty: "medium" }
     ],
-    prestige1: [
-      { id: 1, title: "System Memory Detected", task: "Reach 50M Junk (enhanced automation)", reward: "Encrypted Coil", category: "milestone", difficulty: "hard" },
+    ascension: [ 
+      { id: 7, title: "Surge Overflow", task: "Trigger 3 Trash Surges", reward: "1x Stabilized Capacitor", category: "challenge", difficulty: "medium" },
+      { id: 8, title: "The Circuit Speaks", task: "Collect 4 Electro Shards", reward: "1x Voltage Node", category: "collection", difficulty: "medium" },
+      { id: 9, title: "Whispers in the Scrap", task: "Reach 20M Junk", reward: "1x Synthcore Fragment", category: "collection", difficulty: "hard" },
+      { id: 10, title: "Forge the Future", task: "Craft the Prestige Crystal", reward: "Unlocks Ascension", category: "milestone", difficulty: "epic" }
+    ],
+    awakenTheCore: [
+      { id: 1, title: "System Memory Detected", task: "Reach 50M Junk (post-prestige)", reward: "Encrypted Coil", category: "milestone", difficulty: "hard" },
       { id: 2, title: "Tap the Pulse", task: "Click the Tronics Clicker 5000 times", reward: "+5 Auto clicks", category: "challenge", difficulty: "medium" },
-      { id: 3, title: "Upgrade Cascade", task: "Purchase 8 ElectroShop Upgrades", reward: "Surge Capacitor Fragment", category: "progression", difficulty: "hard" },
-      { id: 4, title: "Forge the Overcrystal", task: "Craft the Overcharged Prestige Crystal", reward: "Unlocks Crew & Scratz systems", category: "milestone", difficulty: "legendary" }
+      { id: 3, title: "Upgrade Cascade", task: "Purchase 10 ElectroShop Upgrades", reward: "Surge Capacitor Fragment", category: "progression", difficulty: "hard" },
+      { id: 4, title: "Beacon Protocol", task: "Own 10 Electro Shard Beacons", reward: "Unlocks crafting recipe for Overcharged Prestige Crystal", category: "collection", difficulty: "epic" },
+      { id: 5, title: "Mission Obsessed", task: "Complete 20 Missions and gather 2000 Scratz", reward: "Unlocks multiple new Missions and Gear", category: "collection", difficulty: "legendary" },
+      { id: 6, title: "Forge the Overcrystal", task: "Craft the Overcharged Prestige Crystal", reward: "Unlocks Second Prestige", category: "milestone", difficulty: "legendary" }
     ],
     prestige2: [
-      { id: 1, title: "Beyond the Heap", task: "Reach 100M Junk (crew operations)", reward: "1x Dimensional Residue", category: "milestone", difficulty: "hard" },
-      { id: 2, title: "Recruitment Drive", task: "Hire 3 crew members", reward: "100 Scratz", category: "progression", difficulty: "medium" },
-      { id: 3, title: "Mission Control", task: "Complete 10 successful missions", reward: "Unlocks elite gear & advanced missions", category: "progression", difficulty: "hard" },
-      { id: 4, title: "Scratz Empire", task: "Accumulate 5000 Scratz", reward: "Unlocks Skills Menu", category: "milestone", difficulty: "epic" }
-    ],
-    prestige3: [
-      { id: 1, title: "Neural Pattern Recognition", task: "Reach 200M Junk (skills era)", reward: "1x Cognitive Enhancer", category: "milestone", difficulty: "hard" },
-      { id: 2, title: "Jack of All Trades", task: "Reach 25 total skill levels", reward: "+3 Permanent Autoclicks", category: "progression", difficulty: "medium" },
-      { id: 3, title: "Cognitive Overflow", task: "Unlock 3 advanced skills", reward: "1x Quantum Processor", category: "progression", difficulty: "hard" },
-      { id: 4, title: "Prepare the Scraptagon", task: "Craft 3 neural enhancement items", reward: "Unlocks the Scraptagon", category: "milestone", difficulty: "legendary" }
-    ],
-    prestige4: [
-      { id: 1, title: "The Scraptagon Awakens", task: "Reach 500M Junk (transcendent power)", reward: "3x Void Essence", category: "milestone", difficulty: "legendary" },
-      { id: 2, title: "Dimensional Engineering", task: "Craft 5 dimensional/quantum items", reward: "Unlocks Void Expeditions", category: "progression", difficulty: "epic" },
-      { id: 3, title: "Master of the Void", task: "Complete 3 Void Expeditions", reward: "Unlocks Reality Hacking", category: "milestone", difficulty: "legendary" }
+      { id: 1, title: "Beyond the Heap", task: "Reach 100M Junk post-Overcrystal", reward: "1x Dimensional Residue", category: "milestone", difficulty: "hard" },
+      { id: 2, title: "Quantum Resonance", task: "Activate the Quantum Stabilizer 10 times", reward: "1x Quantum Fragment", category: "progression", difficulty: "medium" },
+      { id: 3, title: "Crafted Ascendancy", task: "Craft 3 Advanced Prestige Items", reward: "+2 Permanent Autoclicks", category: "progression", difficulty: "epic" },
+      { id: 4, title: "Surge Harvester", task: "Harvest Junk during 3 Trash Surges", reward: "1x Surge Core Stabilizer", category: "collection", difficulty: "hard" },
+      { id: 5, title: "Become A Scratzionaire", task: "Reach 1mil Scratz", reward: "Unlocks Super Overcharged Crystal", category: "milestone", difficulty: "legendary" }
     ]
   };
 
@@ -75,21 +69,26 @@ export default function NextQuest() {
   useEffect(() => {
     const updateQuestStates = () => {
       const newQuestStates = {};
-      let currentQuestLine = 'prestige0';
+      let currentQuestLine = 'progression';
       
-      // Determine which quest line to use based on prestige count
+      // Determine which quest line to use
+      const currentPrestige2Active = localStorage.getItem('prestige2Active') === 'true';
+      const cogfatherActive = localStorage.getItem('cogfatherEvent') === 'true';
       const prestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
       
-      if (prestigeCount >= 4) {
-        currentQuestLine = 'prestige4';
-      } else if (prestigeCount === 3) {
-        currentQuestLine = 'prestige3';
-      } else if (prestigeCount === 2) {
+
+      
+      // Update prestige2Active state if it changed
+      if (currentPrestige2Active !== prestige2Active) {
+        setPrestige2Active(currentPrestige2Active);
+      }
+      
+      if (currentPrestige2Active) {
         currentQuestLine = 'prestige2';
-      } else if (prestigeCount === 1) {
-        currentQuestLine = 'prestige1';
-      } else {
-        currentQuestLine = 'prestige0';
+      } else if (hasPrestiged) {
+        currentQuestLine = 'awakenTheCore';
+      } else if (cogfatherActive) {
+        currentQuestLine = 'ascension';
       }
       
       const quests = questLines[currentQuestLine] || [];
