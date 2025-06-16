@@ -122,6 +122,24 @@ export default function PrestigeMeter() {
     if (prestige >= 4) features.push('Scraptagon Arena');
     return features;
   };
+  
+  // Get current prestige bonuses
+  const getCurrentBonuses = (prestige) => {
+    const bonuses = [];
+    if (prestige >= 1) {
+      const clickBonus = ((1 + (prestige * 0.05)) - 1) * 100;
+      bonuses.push(`+${clickBonus.toFixed(0)}% Click Power`);
+    }
+    if (prestige >= 2) {
+      const autoclicks = (prestige - 1) * 2;
+      bonuses.push(`+${autoclicks} Auto-clicks`);
+    }
+    if (prestige >= 3) {
+      const craftingSpeed = (Math.max(0, prestige - 2) * 0.1) * 100;
+      bonuses.push(`+${craftingSpeed.toFixed(0)}% Crafting Speed`);
+    }
+    return bonuses;
+  };
 
   return (
     <div className="prestige-meter-container">
@@ -143,6 +161,14 @@ export default function PrestigeMeter() {
             {getAvailableFeatures(prestigeLevel).join(' • ')}
           </span>
         </div>
+        {prestigeLevel > 0 && (
+          <div className="prestige-bonuses">
+            <span className="bonuses-label">Active Bonuses:</span>
+            <span className="bonuses-list">
+              {getCurrentBonuses(prestigeLevel).join(' • ')}
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

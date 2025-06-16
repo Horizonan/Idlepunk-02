@@ -7,6 +7,18 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
   const hasScraptagon = localStorage.getItem('scraptagon') === 'true';
 
   const currentPrestige = parseInt(localStorage.getItem('prestigeCount') || '0');
+  
+  // Get prestige bonuses from localStorage
+  const getPrestigeBonuses = () => {
+    return {
+      clickMultiplier: parseFloat(localStorage.getItem('prestigeClickBonus') || '1'),
+      startingAutoclicks: parseInt(localStorage.getItem('prestigeAutoclicks') || '0'),
+      startingCredits: parseInt(localStorage.getItem('prestigeStartingCredits') || '0'),
+      craftingSpeedBonus: parseFloat(localStorage.getItem('prestigeCraftingSpeed') || '1')
+    };
+  };
+  
+  const bonuses = getPrestigeBonuses();
 
   return (
     <div className="tech-tree-container">
@@ -19,6 +31,12 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
         {/* Prestige 1 - Foundation Node */}
         <div className="tech-tier tier-1">
           <h3>Prestige 1 - Foundation</h3>
+          <div className="prestige-rewards">
+            <div className="rewards-header">🎁 Prestige Rewards:</div>
+            <div className="reward-item">• +{((bonuses.clickMultiplier - 1) * 100).toFixed(0)}% Click Power</div>
+            <div className="reward-item">• {bonuses.startingAutoclicks} Starting Auto-clicks</div>
+            <div className="reward-item">• Keep 1 Random Helper on Reset</div>
+          </div>
           <div className="tech-nodes-row">
             <div className="tech-node foundation-node">
               <button 
@@ -32,7 +50,7 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
                   {currentPrestige < 1 ? 'PRESTIGE 1 REQUIRED' : hasTronicsClicker ? 'UNLOCKED' : 'AVAILABLE'}
                 </div>
                 <div className="tech-description">
-                  Essential foundation for advanced progression. Generate Tronics with each click and access to ElectroShop.
+                  Essential foundation for advanced progression. Generate Tronics with each click and access to ElectroShop. <strong>Unlock Crafting System & Electro Currency!</strong>
                 </div>
               </button>
             </div>
@@ -45,6 +63,12 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
         {/* Prestige 2 - Crew Operations */}
         <div className="tech-tier tier-2">
           <h3>Prestige 2 - Crew Operations</h3>
+          <div className="prestige-rewards">
+            <div className="rewards-header">🎁 Prestige Rewards:</div>
+            <div className="reward-item">• +{bonuses.startingCredits} Starting Scratz</div>
+            <div className="reward-item">• +25% Mission Success Rate</div>
+            <div className="reward-item">• Unlock Advanced Questlines</div>
+          </div>
           <div className="tech-nodes-row">
             <div className="tech-node milestone-node">
               <button 
@@ -58,7 +82,7 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
                   {currentPrestige < 2 ? 'PRESTIGE 2 REQUIRED' : hasCrewMenu ? 'UNLOCKED' : 'MILESTONE'}
                 </div>
                 <div className="tech-description">
-                  "No one survives the heap alone. Time to build a crew." Recruit and manage crew members, send them on missions.
+                  "No one survives the heap alone. Time to build a crew." <strong>Recruit crew members, send them on passive missions for Scratz & resources!</strong> Unlock recruitment mini-games.
                 </div>
               </button>
             </div>
@@ -71,6 +95,12 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
         {/* Prestige 3 - Skills Mastery */}
         <div className="tech-tier tier-3">
           <h3>Prestige 3 - Skills Mastery</h3>
+          <div className="prestige-rewards">
+            <div className="rewards-header">🎁 Prestige Rewards:</div>
+            <div className="reward-item">• +{((bonuses.craftingSpeedBonus - 1) * 100).toFixed(0)}% Crafting Speed</div>
+            <div className="reward-item">• Permanent XP Gain Boost</div>
+            <div className="reward-item">• Unlock Elite Equipment</div>
+          </div>
           <div className="tech-nodes-row">
             <div className="tech-node milestone-node">
               <button 
@@ -84,7 +114,7 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
                   {currentPrestige < 3 ? 'PRESTIGE 3 REQUIRED' : hasSkillsMenu ? 'UNLOCKED' : 'MILESTONE'}
                 </div>
                 <div className="tech-description">
-                  "Master the arts of the wasteland. Knowledge is the ultimate upgrade." Unlock specialized skills and passive bonuses.
+                  "Master the arts of the wasteland. Knowledge is the ultimate upgrade." <strong>Train specialized skills, unlock passive bonuses & skill-based challenges!</strong> Access to permanent progression.
                 </div>
               </button>
             </div>
@@ -97,6 +127,12 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
         {/* Prestige 4 - Combat Systems */}
         <div className="tech-tier tier-4">
           <h3>Prestige 4 - Combat Systems</h3>
+          <div className="prestige-rewards">
+            <div className="rewards-header">🎁 Prestige Rewards:</div>
+            <div className="reward-item">• Unlock Combat Currency</div>
+            <div className="reward-item">• +50% Rare Drop Rates</div>
+            <div className="reward-item">• Access to Endgame Content</div>
+          </div>
           <div className="tech-nodes-row">
             <div className="tech-node milestone-node">
               <button 
@@ -110,7 +146,7 @@ export default function TechTree({ prestigeTokens, onUnlock, onClose }) {
                   {currentPrestige < 4 ? 'PRESTIGE 4 REQUIRED' : hasScraptagon ? 'UNLOCKED' : 'MILESTONE'}
                 </div>
                 <div className="tech-description">
-                  "You've built the junk. Now prove you can survive it." Access to Combat Grounds and training systems.
+                  "You've built the junk. Now prove you can survive it." <strong>Enter real-time combat, fight bosses, earn combat tokens & legendary equipment!</strong> The ultimate endgame system.
                 </div>
               </button>
             </div>

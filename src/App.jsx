@@ -1782,6 +1782,27 @@ export default function App() {
               const newCount = prev + 1;
               localStorage.setItem('prestigeCount', newCount.toString());
 
+              // Apply prestige bonuses
+              const applyPrestigeBonuses = (prestige) => {
+                // Click multiplier bonus (5% per prestige)
+                const clickBonus = 1 + (prestige * 0.05);
+                localStorage.setItem('prestigeClickBonus', clickBonus.toString());
+                
+                // Starting autoclicks (2 per prestige after first)
+                const autoclicks = Math.max(0, (prestige - 1) * 2);
+                localStorage.setItem('prestigeAutoclicks', autoclicks.toString());
+                
+                // Starting credits (50 per prestige after first)
+                const startingCredits = Math.max(0, (prestige - 1) * 50);
+                localStorage.setItem('prestigeStartingCredits', startingCredits.toString());
+                
+                // Crafting speed bonus (10% per prestige after second)
+                const craftingSpeed = 1 + (Math.max(0, prestige - 2) * 0.1);
+                localStorage.setItem('prestigeCraftingSpeed', craftingSpeed.toString());
+              };
+              
+              applyPrestigeBonuses(newCount);
+
               // Set prestige2Active flag if this is the second prestige
               if (newCount === 2) {
                 localStorage.setItem('prestige2Active', 'true');
@@ -1801,12 +1822,20 @@ export default function App() {
               if (helper === 'Auto Clicker Bot') preservedAutoClicks++;
             });
 
+            // Apply prestige bonuses
+            const prestigeClickBonus = parseFloat(localStorage.getItem('prestigeClickBonus') || '1');
+            const prestigeAutoclicks = parseInt(localStorage.getItem('prestigeAutoclicks') || '0');
+            const prestigeStartingCredits = parseInt(localStorage.getItem('prestigeStartingCredits') || '0');
+            
             setJunk(0);
-            setClickMultiplier(1);
+            setClickMultiplier(prestigeClickBonus);
             setPassiveIncome(0);
-            setAutoClicks(preservedAutoClicks); 
+            setAutoClicks(preservedAutoClicks + prestigeAutoclicks); 
             setClickEnhancerLevel(0);
-            setAutoClickerV1Count(0); 
+            setAutoClickerV1Count(0);
+            
+            // Set starting credits from prestige bonus
+            setCredits(prestigeStartingCredits); 
 
             //Reset Zustand
             useCrystalZustand.getState().setHasChronoCrystalTimer(false);

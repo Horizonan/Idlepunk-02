@@ -79,6 +79,24 @@
   font-size: 0.9em;
 }
 
+.prestige-bonuses {
+  display: flex;
+  flex-direction: column;
+  margin-top: 3px;
+  font-size: 0.7em;
+}
+
+.bonuses-label {
+  color: #FF6B35;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.bonuses-list {
+  color: #FFD700;
+  font-size: 0.9em;
+}
+
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .prestige-meter-container {
