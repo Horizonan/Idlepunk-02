@@ -843,23 +843,23 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
             <div className="loadout-section">
               <h4>Available Equipment</h4>
-              <div className="equipment-crew-inventory">
+              <div className="crew-equipment-inventory">
                 {equipment.length === 0 ? (
                   <p>No equipment available. Complete missions to find equipment!</p>
                 ) : (
                   equipment.map((item) => (
-                    <div key={item.uniqueId} className="equipment-crew--item">
-                      <span className="equipment-crew-icon">{item.icon}</span>
-                      <div className="equipment-crew-info">
+                    <div key={item.uniqueId} className="crew-equipment-item">
+                      <span className="crew-equipment-icon">{item.icon}</span>
+                      <div className="crew-equipment-info">
                         <h5>{item.name}</h5>
-                        <p className="equipment-crew-rarity">{item.rarity}</p>
-                        <p className="equipment-crew-type">{item.type}</p>
-                        <div className="equipment-crew-stats">
+                        <p className="crew-equipment-rarity">{item.rarity}</p>
+                        <p className="crew-equipment-type">{item.type}</p>
+                        <div className="crew-equipment-stats">
                           {Object.entries(item.statBonus).map(([stat, bonus]) => (
                             <span key={stat}>{stat}: +{bonus}</span>
                           ))}
                         </div>
-                        <p className="equipment-crew-flavor">{item.flavor}</p>
+                        <p className="crew-equipment-flavor">{item.flavor}</p>
                       </div>
                     </div>
                   ))
