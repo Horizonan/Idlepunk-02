@@ -774,8 +774,7 @@ export default function App() {
     setJunk(prev => prev + junkGained);
 
     // Track total junk collected
-    const currentTotal```tool_code
- = parseInt(localStorage.getItem('totalJunkCollected') || '0');
+    const currentTotal = parseInt(localStorage.getItem('totalJunkCollected') || '0');
     localStorage.setItem('totalJunkCollected', (currentTotal + junkGained).toString());
 
     // Random material finding
