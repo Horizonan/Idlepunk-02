@@ -25,7 +25,7 @@ import TronicsSurge from './components/Effects/surges/TronicsSurge';
 //Side Menu
 import QuestLog from './sideMenu/QuestLog';
 import Achievements from './sideMenu/Achievements';
-import TechTree from './sideMenu/TechTree';
+import JunkUpgrades from './sideMenu/JunkUpgrades';
 import Menu from './sideMenu/Menu';
 import Marketplace from './sideMenu/Marketplace';
 import Stats from './sideMenu/Stats';
@@ -136,6 +136,7 @@ export default function App() {
   const [showOfflineProgress, setShowOfflineProgress] = useState(false);
   const [offlineProgressData, setOfflineProgressData] = useState(null);
   const [forceCogfatherEye, setForceCogfatherEye] = useState(false);
+  const [showJunkUpgrades, setShowJunkUpgrades] = useState(false);
 
 
   useEffect(() => {
@@ -773,7 +774,8 @@ export default function App() {
     setJunk(prev => prev + junkGained);
 
     // Track total junk collected
-    const currentTotal = parseInt(localStorage.getItem('totalJunkCollected') || '0');
+    const currentTotal```tool_code
+ = parseInt(localStorage.getItem('totalJunkCollected') || '0');
     localStorage.setItem('totalJunkCollected', (currentTotal + junkGained).toString());
 
     // Random material finding
@@ -1232,7 +1234,13 @@ export default function App() {
       />
       <Menu onStoreSelect={(type) => {
         switch(type) {
-          case 'marketplace':
+          case 'store':
+          setActiveStore(prev => prev === 'store' ? null : 'store');
+          break;
+        case 'junkUpgrades':
+          setShowJunkUpgrades(prev => !prev);
+          break;
+        case 'marketplace':
             setActiveStore(prev => prev === 'marketplace' ? null : 'marketplace');
             break;
           case 'achievements':
@@ -1706,6 +1714,11 @@ export default function App() {
       {showUpgradeStats && (
         <UpgradeStats
           onClose={() => setShowUpgradeStats(false)}
+        />
+      )}
+            {showJunkUpgrades && (
+        <JunkUpgrades
+          onClose={() => setShowJunkUpgrades(false)}
         />
       )}
       <Notifications notifications={notifications} />
