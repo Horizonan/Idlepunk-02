@@ -758,7 +758,8 @@ export default function App() {
       setJunk,
       setClickMultiplier,
       setGlobalJpsMultiplier,
-      setOwnedItems
+      setOwnedItems,
+      setNotifications
     });
   };
 
