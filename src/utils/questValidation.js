@@ -2,7 +2,7 @@
 // Quest System - Uniform and Prestige-based
 export const QUEST_LINES = {
   progression: {
-    name: "Early Progression",
+    name: "Junk to Glory",
     prestigeRequirement: 0,
     quests: [
       {
@@ -133,15 +133,7 @@ export const QUEST_LINES = {
         },
         category: "milestone",
         difficulty: "hard"
-      }
-    ]
-  },
-  
-  ascension: {
-    name: "Ascension Protocol",
-    prestigeRequirement: 0,
-    unlockCondition: () => localStorage.getItem('cogfatherEvent') === 'true',
-    quests: [
+      },
       {
         id: "surge_overflow",
         title: "Surge Overflow",
@@ -432,8 +424,6 @@ export const getCurrentQuestLine = () => {
     return 'prestige2';
   } else if (prestigeCount >= 1) {
     return 'awakenTheCore';
-  } else if (localStorage.getItem('cogfatherEvent') === 'true') {
-    return 'ascension';
   } else {
     return 'progression';
   }
