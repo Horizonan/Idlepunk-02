@@ -2046,33 +2046,13 @@ export default function App() {
                     localStorage.setItem('crewGameIntroSeen', 'true');
                     setShowCrewIntroTooltip(false);
 
-                    // Directly unlock Maya Chen for skip mode
+                    // Auto-complete with median score to unlock crew normally
                     const { useRecruitmentZustand } = await import('./stores/crewRecruitment/recruitmentZustand');
-                    const { crewDatabase } = await import('./stores/crewRecruitment/crewMembers');
+                    const profileCount = localStorage.getItem('signal_expander_purchased') ? 10 : 8;
+                    const medianScore = Math.floor(profileCount * 0.6);
                     
-                    const state = useRecruitmentZustand.getState();
-                    
-                    // Find Maya Chen specifically for skip mode
-                    const mayaChen = crewDatabase.find(crew => crew.unlockConditions?.skipModeOnly);
-                    
-                    if (mayaChen) {
-                      const alreadyUnlocked = state.unlockedCrew.some(c => c.id === mayaChen.id);
-                      const alreadyHired = state.hiredCrew.some(c => c.id === mayaChen.id);
-                      
-                      if (!alreadyUnlocked && !alreadyHired) {
-                        useRecruitmentZustand.setState(state => ({
-                          unlockedCrew: [...state.unlockedCrew, mayaChen],
-                          newlyHiredCrew: [...state.newlyHiredCrew, mayaChen.id]
-                        }));
-                        
-                        // Remove "New!" badge after 10 seconds
-                        setTimeout(() => {
-                          useRecruitmentZustand.getState().markCrewAsNotNew(mayaChen.id);
-                        }, 10000);
-                        
-                        setNotifications(prev => [...prev, `New crew member available: ${mayaChen.name}!`]);
-                      }
-                    }
+                    // Use the game end handler to unlock crew based on score
+                    useRecruitmentZustand.getState().handleGameEnd(medianScore);
                   }}>
                     ⚡ Skip & Get Median Points (~60%)
                   </button>

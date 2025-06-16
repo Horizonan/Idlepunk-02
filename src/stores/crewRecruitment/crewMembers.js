@@ -18,8 +18,8 @@ export const crewDatabase = [
       skipModeOnly: true // Special flag - only unlocked when skipping
     },
     unlockCost: {
-      amount: 50,
-      type: 'credits'
+      amount: 100000,
+      type: 'junk'
     }
   },
   {

@@ -258,31 +258,13 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                     
                     // Check if mini-game is disabled
                     if (localStorage.getItem('skipRecruitmentMiniGame') === 'true') {
-                      // Directly handle crew unlocking without game interface
-                      const { crewDatabase } = require('./crewRecruitment/crewMembers');
-                      const state = useRecruitmentZustand.getState();
+                      // Auto-complete with median score without opening any interface
+                      const profileCount = localStorage.getItem('signal_expander_purchased') ? 10 : 8;
+                      const medianScore = Math.floor(profileCount * 0.6);
                       
-                      // Find Maya Chen specifically for skip mode
-                      const mayaChen = crewDatabase.find(crew => crew.unlockConditions?.skipModeOnly);
-                      
-                      if (mayaChen) {
-                        const alreadyUnlocked = state.unlockedCrew.some(c => c.id === mayaChen.id);
-                        const alreadyHired = state.hiredCrew.some(c => c.id === mayaChen.id);
-                        
-                        if (!alreadyUnlocked && !alreadyHired) {
-                          useRecruitmentZustand.setState(state => ({
-                            unlockedCrew: [...state.unlockedCrew, mayaChen],
-                            newlyHiredCrew: [...state.newlyHiredCrew, mayaChen.id]
-                          }));
-                          
-                          setTimeout(() => {
-                            useRecruitmentZustand.getState().markCrewAsNotNew(mayaChen.id);
-                          }, 10000);
-                          
-                          setNotifications(prev => [...prev, `New crew member found: ${mayaChen.name}!`]);
-                        }
-                      }
-                      return; // Exit early, don't start any game
+                      // Use the game end handler directly to unlock crew based on score
+                      useRecruitmentZustand.getState().handleGameEnd(medianScore);
+                      return; // Exit early, don't start any game interface
                     } else {
                       // Play mini-game normally
                       const random = Math.random();
