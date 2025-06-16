@@ -155,8 +155,6 @@ export default function App() {
     const cartCount = ownedItems.cart || 0;
     setPassiveIncome(prev => prev + (cartCount * 5));
     setNotifications(prev => [...prev, `Cart Suspension Mods purchased! Each Cart now produces +5 additional Junk/sec (+${cartCount * 5} JPS).`]);
-    // Force immediate UI update
-    window.dispatchEvent(new Event('storage'));
   };
 
   const handleBuyUrbanRecyclerUpgrade = () => {
@@ -164,8 +162,6 @@ export default function App() {
     const recyclerCount = ownedItems.urbanRecycler || 0;
     setPassiveIncome(prev => prev + (recyclerCount * 10));
     setNotifications(prev => [...prev, `Recycler Flame Boost purchased! Each Urban Recycler now produces +10 additional Junk/sec (+${recyclerCount * 10} JPS).`]);
-    // Force immediate UI update
-    window.dispatchEvent(new Event('storage'));
   };
 
   const handleBuyClickEnhancerUpgrade = () => {
@@ -173,8 +169,6 @@ export default function App() {
     const enhancerCount = ownedItems.clickEnhancer || 0;
     setClickMultiplier(prev => prev + (enhancerCount * 3));
     setNotifications(prev => [...prev, `Click Enhancer Overclock purchased! Each Click Enhancer now provides +3 additional Junk/Click (+${enhancerCount * 3} click power).`]);
-    // Force immediate UI update
-    window.dispatchEvent(new Event('storage'));
   };
 
   const handleBuyJunkMagnetUpgrade = () => {
@@ -182,8 +176,6 @@ export default function App() {
     const magnetCount = ownedItems.junkMagnet || 0;
     setPassiveIncome(prev => prev + (magnetCount * 10));
     setNotifications(prev => [...prev, `Junk Magnet Overcharge purchased! Each Junk Magnet now produces +10 additional Junk/sec (+${magnetCount * 10} JPS).`]);
-    // Force immediate UI update
-    window.dispatchEvent(new Event('storage'));
   };
 
   const [showCoinFlip, setShowCoinFlip] = useState(false);
