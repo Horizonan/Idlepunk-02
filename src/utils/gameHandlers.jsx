@@ -23,7 +23,7 @@ export const gameHandlers = (gameState, setGameState) => {
         endCost = currentCost;
       }
     }
-    console.log("Total Cost: " + totalCost + " End Cost: " + endCost);
+
     return {
       totalCost: adjustForBulk ? Math.floor(totalCost * 1.1) : totalCost,
       endCost: endCost
@@ -77,7 +77,7 @@ export const gameHandlers = (gameState, setGameState) => {
     };
 
     if (gameState.junk >= costData.totalCost) {
-      console.log("Cost: " + costData.totalCost + " End Cost: " + costData.endCost);
+
 
       setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setNotifications(prev => [...prev, "Scrap Bag purchased!"]);
@@ -299,7 +299,6 @@ export const gameHandlers = (gameState, setGameState) => {
 
   //After Prestige
   const handleBuyJunkRefinery = () => {
-    console.log(!localStorage.getItem("modularScrapperPurchased"))
     if (gameState.junk >= gameState.bulkBuy ? calculate10x02(gameState.itemCosts.junkRefinery) : gameState.itemCosts.junkRefinery) {
       const costData = gameState.bulkBuy ? calculate10x02(gameState.itemCosts.junkRefinery) : {
         totalCost: gameState.itemCosts.junkRefinery,
