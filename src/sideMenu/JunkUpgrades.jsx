@@ -121,19 +121,15 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
 
   // Filter items based on unlock conditions
   const availableUpgrades = upgradeItems.filter(item => item.unlockCondition());
-  const lockedUpgrades = upgradeItems.filter(item => !item.unlockCondition());
 
   return (
     <div className="junk-upgrades-container">
       <div className="junk-upgrades-header">
         <h2>
           Junk Upgrades
-          {hasNewUpgrades && <span className="junk-upgrades-new-indicator"> (!)</span>}
+          
         </h2>
         <div className="junk-upgrades-controls">
-          <div className="junk-upgrades-currency-display">
-            <span className="junk-upgrades-currency-amount">{formatNumber(junk)} Junk</span>
-          </div>
           <button onClick={onClose} className="junk-upgrades-close-button">Close</button>
         </div>
       </div>
