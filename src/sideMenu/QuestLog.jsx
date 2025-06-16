@@ -1,20 +1,8 @@
+
 import React, { useState, useEffect } from 'react';
-import { getAvailableQuests, getQuestProgress, completeQuest } from '../utils/questValidation';
 import '../styles/mobile/QuestLogMobile.css';
 
-const QuestLog = ({ 
-  junk, 
-  tronics, 
-  electroShards, 
-  craftingInventory, 
-  ownedItems, 
-  onClose,
-  onAddJunk,
-  onAddTronics,
-  onAddElectroShard,
-  setCraftingInventory,
-  skillLevels 
-}) => {
+export default function QuestLog({ tutorialStage, onClose }) {
   const [showQuestLog, setShowQuestLog] = useState(true);
   const [selectedQuestLine, setSelectedQuestLine] = useState('progression');
   const [position, setPosition] = useState(() => {
@@ -25,8 +13,6 @@ const QuestLog = ({
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [questStates, setQuestStates] = useState({});
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const [availableQuests, setAvailableQuests] = useState([]);
-  const [questProgress, setQuestProgress] = useState({ completed: 0, total: 0, percentage: 0, header: 'Unknown' });
 
   useEffect(() => {
     const handleResize = () => {
@@ -59,33 +45,6 @@ const QuestLog = ({
       clearInterval(interval);
     };
   }, [selectedQuestLine]);
-
-  useEffect(() => {
-    const gameState = {
-      junk,
-      tronics,
-      scratz: electroShards, // Using electroShards as scratz for now
-      electroShards,
-      quantumFlux: 0,
-      prestigeCount: parseInt(localStorage.getItem('prestigeCount') || '0'),
-      craftingInventory,
-      ownedItems,
-      maxSkillLevel: Math.max(...Object.values(skillLevels)),
-      skillPointsSpent: Object.values(skillLevels).reduce((sum, level) => sum + level, 0),
-      skillsInvested: Object.values(skillLevels).filter(level => level > 0).length,
-      crewMembers: 0,
-      missionsCompleted: 0,
-      hasPurchasedUpgrade: Object.values(ownedItems).some(count => count > 0),
-      techUnlocked: Object.values(ownedItems).filter(count => count > 0).length,
-      hasCraftedItem: Object.values(craftingInventory).some(count => count > 0)
-    };
-
-    const quests = getAvailableQuests(gameState);
-    const progress = getQuestProgress(gameState);
-
-    setAvailableQuests(quests);
-    setQuestProgress(progress);
-  }, [junk, tronics, electroShards, craftingInventory, ownedItems, skillLevels]);
 
   const handleMouseDown = (e) => {
     if (isMobile) return; // Disable dragging on mobile
@@ -178,7 +137,7 @@ const QuestLog = ({
   // Set initial questline based on prestige status
   useEffect(() => {
     const prestige2Active = localStorage.getItem('prestige2Active') === 'true';
-
+    
     if (prestige2Active && selectedQuestLine !== 'prestige2') {
       setSelectedQuestLine('prestige2');
     } else if (hasPrestiged && !prestige2Active && selectedQuestLine !== 'awakenTheCore') {
@@ -207,18 +166,6 @@ const QuestLog = ({
         <div className="quest-header sticky">
           <h3>Quest Log</h3>
           <button className="close-button" onClick={onClose}>Close</button>
-        </div>
-        <div className="quest-progress-summary">
-          <h3>{questProgress.header}</h3>
-          <div className="progress-bar-container">
-            <div className="progress-bar">
-              <div 
-                className="progress-fill" 
-                style={{ width: `${questProgress.percentage}%` }}
-              />
-            </div>
-            <span>{questProgress.completed}/{questProgress.total} Completed</span>
-          </div>
         </div>
         <div className="quest-tabs">
           {!hasPrestiged && (
@@ -260,65 +207,41 @@ const QuestLog = ({
           )}
         </div>
         <div className="quest-list">
-          {availableQuests.length > 0 ? (
-            <div className="quest-category">
-              <h3>🎯 Active Quests</h3>
-              {availableQuests.map(quest => (
-                <div key={quest.id} className="quest-item active">
-                  <div className="quest-header">
-                    <h4>{quest.name}</h4>
-                  </div>
-                  <p className="quest-description">{quest.description}</p>
-                  <div className="quest-requirements">
-                    <strong>Requirements:</strong>
-                    <ul>
-                      {Object.entries(quest.requirements).map(([req, value]) => (
-                        <li key={req}>
-                          {req === 'junk' && `${value.toLocaleString()} Junk`}
-                          {req === 'tronics' && `${value.toLocaleString()} Tronics`}
-                          {req === 'electroShards' && `${value.toLocaleString()} Electro Shards`}
-                          {req === 'scratz' && `${value.toLocaleString()} Scratz`}
-                          {req === 'prestigeCount' && `Prestige ${value}`}
-                          {req === 'ownedItems' && Object.entries(value).map(([item, count]) => 
-                            `${count}x ${item}`
-                          ).join(', ')}
-                          {req === 'craftingInventory' && Object.entries(value).map(([item, count]) => 
-                            `${count}x ${item}`
-                          ).join(', ')}
-                          {req === 'skillLevel' && `Skill Level ${value}`}
-                          {req === 'purchaseAnyUpgrade' && 'Purchase any upgrade'}
-                          {req === 'techUnlocked' && `Unlock ${value} technologies`}
-                          {req === 'craftItem' && `Craft ${value}`}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="quest-rewards">
-                    <strong>Rewards:</strong>
-                    <ul>
-                      {quest.rewards.junk && <li>💰 {quest.rewards.junk.toLocaleString()} Junk</li>}
-                      {quest.rewards.tronics && <li>⚡ {quest.rewards.tronics.toLocaleString()} Tronics</li>}
-                      {quest.rewards.electroShards && <li>💎 {quest.rewards.electroShards.toLocaleString()} Electro Shards</li>}
-                      {quest.rewards.scratz && <li>🪙 {quest.rewards.scratz.toLocaleString()} Scratz</li>}
-                      {quest.rewards.craftingInventory && Object.entries(quest.rewards.craftingInventory).map(([item, count]) => (
-                        <li key={item}>🔧 {count}x {item}</li>
-                      ))}
-                      {quest.rewards.prestige && <li>🔮 Enables Prestige</li>}
-                    </ul>
-                  </div>
-                </div>
-              ))}
+          {questLines[selectedQuestLine]?.map((quest) => (
+            <div 
+              key={quest.id} 
+              className={`quest-item ${questStates[quest.title] ? 'completed' : 'active'}`}
+            >
+              <div className="quest-title">
+                <span className="quest-category-icon">{getCategoryIcon(quest.category)}</span>
+                <span className="quest-title-text">{quest.title}</span>
+                <span 
+                  className="quest-difficulty" 
+                  style={{ 
+                    color: getDifficultyColor(quest.difficulty),
+                    fontSize: '0.8em',
+                    fontWeight: 'bold',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                    marginLeft: '8px'
+                  }}
+                >
+                  {quest.difficulty}
+                </span>
+              </div>
+              {!questStates[quest.title] && (
+                <>
+                  <div className="quest-task">{quest.task}</div>
+                  {quest.reward && <div className="quest-reward">🎁 {quest.reward}</div>}
+                </>
+              )}
+              {questStates[quest.title] && (
+                <div className="quest-completed-text">Quest Completed! ✨</div>
+              )}
             </div>
-          ) : (
-            <div className="no-quests">
-              <h3>✅ All Available Quests Completed!</h3>
-              <p>Continue progressing to unlock new challenges.</p>
-            </div>
-          )}
+          ))}
         </div>
       </div>
     </div>
   );
 }
-
-export default QuestLog;

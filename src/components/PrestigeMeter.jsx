@@ -1,188 +1,175 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/PrestigeMeter.css';
-import { getQuestProgress } from '../utils/questValidation';
 
-const PrestigeMeter = ({ 
-  junk, 
-  tronics = 0,
-  scratz = 0,
-  electroShards = 0,
-  quantumFlux = 0,
-  prestigeCount = 0, 
-  onPrestige, 
-  showPrestigeMeter = true,
-  craftingInventory = {}
-}) => {
-  if (!showPrestigeMeter) return null;
+export default function PrestigeMeter() {
+  const [completedQuests, setCompletedQuests] = useState(0);
+  const [showMeter, setShowMeter] = useState(false);
+  const [prestigeCount, setPrestigeCount] = useState(0);
+  const [showPrestigeMeter, setShowPrestigeMeter] = useState(true);
 
-  // Get current quest progress
-  const gameState = {
-    junk,
-    tronics,
-    scratz,
-    electroShards,
-    quantumFlux,
-    prestigeCount,
-    craftingInventory
+  // Pre-prestige quests only
+  const prePrestigeQuests = [
+    "First Steps", "Shopping Time", "Tool Master", "Passive Income", "Begin Crafting", 
+    "Surge Rider", "Scratz $$$", "Alone or Lonely?", "Automation Punk", 
+    "Unlock Ascension Protocol", "Gambling Addiction", "Surge Overflow", 
+    "The Circuit Speaks", "Whispers in the Scrap", "Forge the Future"
+  ];
+
+  // Post-prestige quests
+  const postPrestigeQuests = [
+    "System Memory Detected", "Tap the Pulse", "Upgrade Cascade", 
+    "Beacon Protocol", "Forge the Overcrystal"
+  ];
+
+  // Prestige 2 quests
+    const prestige2Quests = [
+        "Beyond the Heap",
+        "Quantum Resonance", 
+        "Crafted Ascendancy",
+        "Surge Harvester",
+        "Become A Scratzionaire"
+    ];
+
+  useEffect(() => {
+    const updateQuestCount = () => {
+      // Get prestige count from localStorage
+      const storedPrestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
+      setPrestigeCount(storedPrestigeCount);
+
+      // Check if prestige meter is enabled
+      const meterEnabled = localStorage.getItem('showPrestigeMeter') !== 'false';
+      setShowPrestigeMeter(meterEnabled);
+
+      // Check if user has prestiged
+      const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
+      const prestige2Active = localStorage.getItem('prestige2Active') === 'true';
+
+      // Use appropriate quest list based on prestige status
+      let questsToCount;
+      if (prestige2Active) {
+        questsToCount = prestige2Quests;
+      } else if (hasPrestiged) {
+        questsToCount = postPrestigeQuests;
+      } else {
+        questsToCount = prePrestigeQuests;
+      }
+
+      const completed = questsToCount.filter(quest => 
+        localStorage.getItem(`quest_sync_${quest}`) === 'true'
+      ).length;
+
+      setCompletedQuests(completed);
+      setShowMeter(completed >= 1 && meterEnabled);
+    };
+
+    updateQuestCount();
+
+    // Listen for quest updates and prestige completion
+    const interval = setInterval(updateQuestCount, 1000);
+    window.addEventListener('storage', updateQuestCount);
+    window.addEventListener('questUpdate', updateQuestCount);
+    window.addEventListener('prestigeComplete', updateQuestCount);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('storage', updateQuestCount);
+      window.removeEventListener('questUpdate', updateQuestCount);
+      window.removeEventListener('prestigeComplete', updateQuestCount);
+    };
+  }, []);
+
+  if (!showMeter || !showPrestigeMeter) return null;
+
+  // Check if user has prestiged to determine which quest list to use
+  const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
+  const prestige2Active = localStorage.getItem('prestige2Active') === 'true';
+
+  let questsToCount;
+      if (prestige2Active) {
+        questsToCount = prestige2Quests;
+      } else if (hasPrestiged) {
+        questsToCount = postPrestigeQuests;
+      } else {
+        questsToCount = prePrestigeQuests;
+      }
+  const totalQuests = questsToCount.length;
+
+  // Check completion conditions based on current questline
+  let progressPercentage;
+  if (prestige2Active) {
+        const lastQuestCompleted = localStorage.getItem(`quest_sync_${prestige2Quests[prestige2Quests.length-1]}`) === 'true';
+        progressPercentage = lastQuestCompleted ? 100 : (completedQuests / totalQuests) * 100;
+  }
+  else if (hasPrestiged) {
+    // Post-prestige: Check if "Forge the Overcrystal" is completed
+    const overcrystalCompleted = localStorage.getItem('quest_sync_Forge the Overcrystal') === 'true';
+    progressPercentage = overcrystalCompleted ? 100 : (completedQuests / totalQuests) * 100;
+  } else {
+    // Pre-prestige: Check if "Forge the Future" is completed
+    const forgeTheFutureCompleted = localStorage.getItem('quest_sync_Forge the Future') === 'true';
+    progressPercentage = forgeTheFutureCompleted ? 100 : (completedQuests / totalQuests) * 100;
+  }
+
+  // Show current prestige level, minimum 1
+  const prestigeLevel = Math.max(prestigeCount, 1);
+  
+  // Check what features are available at current prestige
+  const getAvailableFeatures = (prestige) => {
+    const features = [];
+    if (prestige >= 1) features.push('Tronics & Crafting');
+    if (prestige >= 2) features.push('Crew Management');
+    if (prestige >= 3) features.push('Skills Center');
+    if (prestige >= 4) features.push('Scraptagon Arena');
+    return features;
   };
-
-  const questProgress = getQuestProgress(gameState);
-
-  // Define crystal requirements based on prestige level
-  const getCrystalRequirements = (prestige) => {
-    switch(prestige) {
-      case 0:
-        return {
-          name: 'Ascension Crystal',
-          requirements: {
-            'Scrap Core': 1,
-            'Wires': 10,
-            'Metal Plates': 5
-          },
-          threshold: 500000
-        };
-      case 1:
-        return {
-          name: 'Enhanced Ascension Crystal',
-          requirements: {
-            'Glitched Scrap Core': 1,
-            'Encrypted Coil': 1,
-            'Surge Capacitor': 1
-          },
-          threshold: 100000 // tronics
-        };
-      case 2:
-        return {
-          name: 'Leadership Crystal',
-          requirements: {
-            'Leadership Matrix': 1,
-            'Advanced Core': 1,
-            'Echo Helmet': 1
-          },
-          threshold: 50000 // scratz
-        };
-      case 3:
-        return {
-          name: 'Mastery Crystal',
-          requirements: {
-            'Transcendence Catalyst': 1,
-            'Enlightenment Core': 1,
-            'Perfection Matrix': 1
-          },
-          threshold: 25000 // electroShards
-        };
-      case 4:
-        return {
-          name: 'Ultimate Crystal',
-          requirements: {
-            'Ultimate Catalyst': 1,
-            'Impossibility Core': 1,
-            'Perfect Form': 1
-          },
-          threshold: 50000 // quantumFlux
-        };
-      default:
-        return {
-          name: 'Transcendence Crystal',
-          requirements: {},
-          threshold: Infinity
-        };
+  
+  // Get current prestige bonuses
+  const getCurrentBonuses = (prestige) => {
+    const bonuses = [];
+    if (prestige >= 1) {
+      const clickBonus = ((1 + (prestige * 0.05)) - 1) * 100;
+      bonuses.push(`+${clickBonus.toFixed(0)}% Click Power`);
     }
-  };
-
-  const crystalInfo = getCrystalRequirements(prestigeCount);
-
-  // Check if player has required materials
-  const hasRequiredMaterials = Object.entries(crystalInfo.requirements).every(
-    ([material, required]) => (craftingInventory[material] || 0) >= required
-  );
-
-  // Calculate progress based on prestige level
-  const getCurrentResource = () => {
-    switch(prestigeCount) {
-      case 0: return junk;
-      case 1: return tronics;
-      case 2: return scratz;
-      case 3: return electroShards;
-      case 4: return quantumFlux;
-      default: return 0;
+    if (prestige >= 2) {
+      const autoclicks = (prestige - 1) * 2;
+      bonuses.push(`+${autoclicks} Auto-clicks`);
     }
+    if (prestige >= 3) {
+      const craftingSpeed = (Math.max(0, prestige - 2) * 0.1) * 100;
+      bonuses.push(`+${craftingSpeed.toFixed(0)}% Crafting Speed`);
+    }
+    return bonuses;
   };
-
-  const currentResource = getCurrentResource();
-  const progress = Math.min((currentResource / crystalInfo.threshold) * 100, 100);
-  const canPrestige = currentResource >= crystalInfo.threshold && hasRequiredMaterials;
 
   return (
     <div className="prestige-meter-container">
-      <div className="prestige-meter">
+      <div className="prestige-meter-content">
         <div className="prestige-info">
-          <span className="prestige-level">
-            {questProgress.header} (P{prestigeCount})
-          </span>
-          <span className="prestige-progress">
-            {currentResource.toLocaleString()} / {crystalInfo.threshold.toLocaleString()}
-          </span>
+          <span className="prestige-level">Prestige {prestigeLevel}</span>
+          <span className="quest-count">{completedQuests}/{totalQuests}</span>
         </div>
-
         <div className="prestige-bar">
           <div 
             className="prestige-fill" 
-            style={{ width: `${progress}%` }}
+            style={{ width: `${progressPercentage}%` }}
           />
+          <span className="prestige-percentage">{progressPercentage.toFixed(0)}%</span>
         </div>
-
-        <div className="quest-progress">
-          <span>Quest Progress: {questProgress.completed}/{questProgress.total}</span>
-          <div className="quest-bar">
-            <div 
-              className="quest-fill" 
-              style={{ width: `${questProgress.percentage}%` }}
-            />
+        <div className="available-features">
+          <span className="features-label">Available:</span>
+          <span className="features-list">
+            {getAvailableFeatures(prestigeLevel).join(' • ')}
+          </span>
+        </div>
+        {prestigeLevel > 0 && (
+          <div className="prestige-bonuses">
+            <span className="bonuses-label">Active Bonuses:</span>
+            <span className="bonuses-list">
+              {getCurrentBonuses(prestigeLevel).join(' • ')}
+            </span>
           </div>
-        </div>
-
-        <div className="crystal-requirements">
-          <span className="crystal-name">Next: {crystalInfo.name}</span>
-          <div className="materials-list">
-            {Object.entries(crystalInfo.requirements).map(([material, required]) => {
-              const owned = craftingInventory[material] || 0;
-              const hasEnough = owned >= required;
-              return (
-                <span 
-                  key={material} 
-                  className={`material ${hasEnough ? 'has-enough' : 'needs-more'}`}
-                >
-                  {material}: {owned}/{required}
-                </span>
-              );
-            })}
-          </div>
-        </div>
-
-        {canPrestige && (
-          <button 
-            className="prestige-button available"
-            onClick={onPrestige}
-          >
-            🔮 CRAFT {crystalInfo.name.toUpperCase()}
-          </button>
-        )}
-
-        {!canPrestige && (
-          <button 
-            className="prestige-button disabled"
-            disabled
-          >
-            {currentResource < crystalInfo.threshold 
-              ? `Need ${(crystalInfo.threshold - currentResource).toLocaleString()} more`
-              : 'Missing Materials'
-            }
-          </button>
         )}
       </div>
     </div>
   );
-};
-
-export default PrestigeMeter;
+}
