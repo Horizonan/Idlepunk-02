@@ -177,25 +177,6 @@ export const QUEST_LINES = {
         difficulty: "hard"
       },
       {
-        id: "scratz_to_riches",
-        title: "Scratz to Riches",
-        description: "Collect 200 Scratz and Complete 5 Crew Missions",
-        condition: (state) => {
-          const crewStorage = JSON.parse(localStorage.getItem('crew-storage') || '{}');
-          const successfulMissions = crewStorage.state?.successfulMissions || 0;
-          return state.credits > 199 && successfulMissions >= 5;
-        },
-        reward: { 
-          type: "craftingMaterial", 
-          material: "Quantum Entangler",
-          amount: 1,
-          message: "Congratulations! Your efforts have been logged, monetized, and mildly appreciated. Please enjoy this pixelated sense of pride.",
-          extraMessage: "Received: 1x Quantum Entangler"
-        },
-        category: "prestige",
-        difficulty: "epic"
-      },
-      {
         id: "forge_the_future",
         title: "Forge the Future",
         description: "Craft the Prestige Crystal",
