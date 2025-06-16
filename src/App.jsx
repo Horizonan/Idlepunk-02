@@ -1640,7 +1640,7 @@ export default function App() {
           setCredits={setCredits}
           setCraftingInventory={setCraftingInventory}
           onLaunchRelayCascade={() => setShowRelayCascade(true)} // Cheat button to launch Relay Cascade
-          onForcePrestige={()> setShowPrestigePopup(true)} // Force prestige without requirements        
+          onForcePrestige={() => setShowPrestigePopup(true)} // Force prestige without requirements        
           />
       )}
       {showActiveCheats && (
