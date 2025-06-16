@@ -2041,23 +2041,45 @@ export default function App() {
                   }}>
                     🎯 Play Mini-Game
                   </button>
-                  <button className="intro-tooltip-button skip-button" onClick={() => {
+                  <button className="intro-tooltip-button skip-button" onClick={async () => {
                     localStorage.setItem('skipRecruitmentMiniGame', 'true');
                     localStorage.setItem('crewGameIntroSeen', 'true');
                     setShowCrewIntroTooltip(false);
 
-                    // Auto-complete with median score without opening game interface
-                    const profileCount = localStorage.getItem('signal_expander_purchased') ? 10 : 8;
-                    const medianScore = Math.floor(profileCount * 0.6);
-
-                    // Randomly select game variant for unlocks but handle silently
-                    const random = Math.random();
-                    if (random < 0.7) {
-                      const { useRecruitmentZustand } = require('./stores/crewRecruitment/recruitmentZustand');
-                      useRecruitmentZustand.getState().handleGameEnd(medianScore);
-                    } else {
-                      const { useRecruitmentZustand } = require('./stores/crewRecruitment/recruitmentZustand');
-                      useRecruitmentZustand.getState().handleSkillsGameEnd(medianScore);
+                    // Directly unlock a crew member without opening any game interface
+                    const { useRecruitmentZustand } = await import('./stores/crewRecruitment/recruitmentZustand');
+                    const { crewDatabase } = await import('./stores/crewRecruitment/crewMembers');
+                    
+                    const state = useRecruitmentZustand.getState();
+                    
+                    // Find available crew members that can be unlocked at the start
+                    const availableCrew = crewDatabase.filter(crew => {
+                      const conditions = crew.unlockConditions;
+                      if (!conditions) return false;
+                      
+                      const alreadyUnlocked = state.unlockedCrew.some(c => c.id === crew.id);
+                      const alreadyHired = state.hiredCrew.some(c => c.id === crew.id);
+                      if (alreadyUnlocked || alreadyHired) return false;
+                      
+                      // Allow crew that can be unlocked with a low score (representing skip/median performance)
+                      const medianScore = 5; // Median-ish score for skip
+                      return (conditions.minGameScore || 0) <= medianScore;
+                    });
+                    
+                    if (availableCrew.length > 0) {
+                      // Always unlock at least one crew member, preferring easier ones first
+                      const selectedCrew = availableCrew[0];
+                      useRecruitmentZustand.setState(state => ({
+                        unlockedCrew: [...state.unlockedCrew, selectedCrew],
+                        newlyHiredCrew: [...state.newlyHiredCrew, selectedCrew.id]
+                      }));
+                      
+                      // Remove "New!" badge after 10 seconds
+                      setTimeout(() => {
+                        useRecruitmentZustand.getState().markCrewAsNotNew(selectedCrew.id);
+                      }, 10000);
+                      
+                      setNotifications(prev => [...prev, `New crew member available: ${selectedCrew.name}!`]);
                     }
                   }}>
                     ⚡ Skip & Get Median Points (~60%)
