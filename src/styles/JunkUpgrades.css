@@ -70,10 +70,9 @@
 }
 
 .junk-upgrades-close-button:hover {
-  background: linear-gradient(135deg, #9400D3, #B020E0);
-  color: #222;
-  transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(148, 0, 211, 0.5);
+  background: rgba(148, 0, 211, 0.3);
+  color: #00FF00;
+  transform: none;
 }
 
 /* Junk Upgrades Content */
@@ -153,10 +152,9 @@
 }
 
 .junk-upgrade-item:hover:not(.junk-upgrade-disabled) {
-  background: linear-gradient(135deg, rgba(148, 0, 211, 0.2), rgba(42, 42, 42, 0.9));
-  border-color: #00FF00;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(148, 0, 211, 0.3);
+  background: rgba(148, 0, 211, 0.1);
+  border-color: #9400D3;
+  transform: none;
 }
 
 .junk-upgrade-item.junk-upgrade-disabled {
@@ -276,8 +274,8 @@
 }
 
 .junk-upgrades-mobile-info-button:hover {
-  background: rgba(148, 0, 211, 1) !important;
-  transform: scale(1.1) !important;
+  background: rgba(148, 0, 211, 0.9) !important;
+  transform: none !important;
 }
 
 /* Mobile Modal */
@@ -343,7 +341,7 @@
 
 .junk-upgrades-mobile-info-close:hover {
   background: rgba(148, 0, 211, 0.2) !important;
-  transform: scale(1.1) !important;
+  transform: none !important;
 }
 
 .junk-upgrades-mobile-item-info-body {
@@ -370,8 +368,6 @@
 
 .junk-upgrade-new {
   border-color: #FFD700 !important;
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.5) !important;
-  animation: glow 2s infinite alternate;
 }
 
 .junk-upgrade-new-badge {
@@ -387,11 +383,6 @@
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
-}
-
-@keyframes glow {
-  0% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); }
-  100% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.7); }
 }
 
 /* Section styling */
