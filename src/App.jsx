@@ -1596,6 +1596,11 @@ export default function App() {
           }}
         />
       )}
+      {showJunkUpgrades && (
+        <JunkUpgrades
+          onClose={() => setShowJunkUpgrades(false)}
+        />
+      )}
       {beaconCount > 0 && showBeaconVisual && (
         <div className={`shard-beacon ${localStorage.getItem('beacon_core_purchased') === 'true' ? 'core-active' : ''}`}>
           <div className="beacon-rays"></div>
@@ -1713,11 +1718,6 @@ export default function App() {
       {showUpgradeStats && (
         <UpgradeStats
           onClose={() => setShowUpgradeStats(false)}
-        />
-      )}
-            {showJunkUpgrades && (
-        <JunkUpgrades
-          onClose={() => setShowJunkUpgrades(false)}
         />
       )}
       <Notifications notifications={notifications} />
