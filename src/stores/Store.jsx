@@ -19,10 +19,10 @@ export default function Store({
 
   const clickItems = [
     {
-      name: "Reinforced Scrap Bag",
+      name: localStorage.getItem('scrapBagUpgrade') ? "Reinforced Scrap Bag" : "Scrap Bag",
       cost: bulkBuy ? calculate10xPriceJunkClicker(itemCosts.trashBag).totalCost :  itemCosts.trashBag,
-      description: "+1 Junk/Click, +10% Cost per purchase",
-      info: "A sturdy bag that helps you collect more junk with each click",
+      description: localStorage.getItem('scrapBagUpgrade') ? "+2 Junk/Click, +10% Cost per purchase" : "+1 Junk/Click, +10% Cost per purchase",
+      info: localStorage.getItem('scrapBagUpgrade') ? "A reinforced bag with duct tape and ambition that helps you collect more junk" : "A sturdy bag that helps you collect more junk with each click",
       action: onBuyTrashBag,
       purchasedCount: ownedItems.trashBag || 0,
     },
@@ -67,10 +67,10 @@ export default function Store({
   //Junk store
   const passiveItems = [
     {
-      name: "Whistling Streetrat",
+      name: localStorage.getItem('streetratUpgrade') ? "Whistling Streetrat" : "Streetrat",
       cost: bulkBuy ? calculate10xPriceJPS(itemCosts.streetrat).totalCost : itemCosts.streetrat,
-      description: `+${Math.floor(1 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
-      info: "Hire a local to automatically collect junk for you",
+      description: localStorage.getItem('streetratUpgrade') ? `+${Math.floor(2 * globalJpsMultiplier)} Junk/sec, +15% Cost` : `+${Math.floor(1 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
+      info: localStorage.getItem('streetratUpgrade') ? "Efficient hired local with matching vest who whistles while collecting junk" : "Hire a local to automatically collect junk for you",
       action: onBuyStreetrat,
       purchasedCount: ownedItems.streetrat || 0,
     },

@@ -9,12 +9,12 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
 
   const upgradeItems = [
     {
-      name: "Scrap Bag Reinforcement",
+      name: "Reinforced Scrap Bag Upgrade",
       cost: 30000,
-      description: "+1 Junk/Click from Scrap Bags",
+      description: "+1 Junk/Click from Reinforced Scrap Bags",
       info: "Reinforced with duct tape and ambition.",
-      unlockCondition: () => (ownedItems?.trashBag || 0) >= 10,
-      owned: parseInt(localStorage.getItem('scrapBagUpgrade') || '0'),
+      unlockCondition: () => (ownedItems?.trashBag || 0) >= 10 && !localStorage.getItem('scrapBagUpgrade'),
+      owned: localStorage.getItem('scrapBagUpgrade') ? 1 : 0,
       category: "clicking",
       tier: "basic",
       storageKey: "scrapBagUpgrade",
@@ -23,10 +23,10 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
     {
       name: "Streetrat Efficiency Training",
       cost: 50000,
-      description: "Doubles output of all Streetrats",
+      description: "Doubles output of all Whistling Streetrats",
       info: "They now wear matching vests and whistle while they work.",
-      unlockCondition: () => (ownedItems?.streetrat || 0) >= 10,
-      owned: parseInt(localStorage.getItem('streetratUpgrade') || '0'),
+      unlockCondition: () => (ownedItems?.streetrat || 0) >= 10 && !localStorage.getItem('streetratUpgrade'),
+      owned: localStorage.getItem('streetratUpgrade') ? 1 : 0,
       category: "passive",
       tier: "advanced",
       storageKey: "streetratUpgrade",
@@ -39,7 +39,7 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
     const checkNewUpgrades = () => {
       const newUpgradesAvailable = upgradeItems.some(item => 
         item.unlockCondition() && 
-        item.owned === 0 && 
+        !localStorage.getItem(item.storageKey) && 
         !localStorage.getItem(`upgrade_seen_${item.storageKey}`)
       );
       setHasNewUpgrades(newUpgradesAvailable);
@@ -53,10 +53,9 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
   const handlePurchase = (item) => {
     if (junk >= item.cost && item.unlockCondition()) {
       const newJunk = junk - item.cost;
-      const newOwned = item.owned + 1;
 
       localStorage.setItem('junk', newJunk.toString());
-      localStorage.setItem(item.storageKey, newOwned.toString());
+      localStorage.setItem(item.storageKey, 'true');
       localStorage.setItem(`upgrade_seen_${item.storageKey}`, 'true');
 
       // Call the specific action handler
@@ -116,7 +115,7 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
 
   const isNewUpgrade = (item) => {
     return item.unlockCondition() && 
-           item.owned === 0 && 
+           !localStorage.getItem(item.storageKey) && 
            !localStorage.getItem(`upgrade_seen_${item.storageKey}`);
   };
 
@@ -207,7 +206,7 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
                     <span className="junk-upgrade-locked-badge">🔒</span>
                   </div>
                   <p className="junk-upgrade-locked-requirement">
-                    Requires: {item.category === 'clicking' ? `${(ownedItems?.trashBag || 0)}/10 Scrap Bags` : `${(ownedItems?.streetrat || 0)}/10 Streetrats`}
+                    Requires: {item.category === 'clicking' ? `${(ownedItems?.trashBag || 0)}/10 Reinforced Scrap Bags` : `${(ownedItems?.streetrat || 0)}/10 Whistling Streetrats`}
                   </p>
                 </div>
               ))}
