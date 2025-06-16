@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import '../styles/mobile/QuestLogMobile.css';
-import { getAvailableQuestLines, getCurrentQuestLine, QUEST_LINES } from '../utils/questValidation';
+import { getCurrentQuestLine, QUEST_LINES } from '../utils/questValidation';
 
 export default function QuestLog({ tutorialStage, onClose }) {
   const [showQuestLog, setShowQuestLog] = useState(true);
@@ -27,8 +27,11 @@ export default function QuestLog({ tutorialStage, onClose }) {
   useEffect(() => {
     const handleStorageChange = () => {
       const newQuestStates = {};
-      if (questLines[selectedQuestLine]) {
-        questLines[selectedQuestLine].forEach(quest => {
+      const currentQuestLineKey = getCurrentQuestLine();
+      const currentQuestLineData = QUEST_LINES[currentQuestLineKey];
+      
+      if (currentQuestLineData) {
+        currentQuestLineData.quests.forEach(quest => {
           newQuestStates[quest.title] = localStorage.getItem(`quest_sync_${quest.title}`) === 'true';
         });
       }
@@ -74,11 +77,11 @@ export default function QuestLog({ tutorialStage, onClose }) {
   // Get only the current quest line, not all available ones
   const currentQuestLineKey = getCurrentQuestLine();
   const currentQuestLineData = QUEST_LINES[currentQuestLineKey];
-  const questLinesMap = {};
   
-  // Only add the current quest line to the map
+  // Create quest lines map with only the current quest line
+  const questLines = {};
   if (currentQuestLineData) {
-    questLinesMap[currentQuestLineKey] = currentQuestLineData.quests.map((quest, index) => ({
+    questLines[currentQuestLineKey] = currentQuestLineData.quests.map((quest, index) => ({
       id: index + 1,
       title: quest.title,
       task: quest.description,
@@ -132,9 +135,7 @@ export default function QuestLog({ tutorialStage, onClose }) {
       category: quest.category,
       difficulty: quest.difficulty
     }));
-  });
-  
-  const questLines = questLinesMap;
+  }
 
   const getDifficultyColor = (difficulty) => {
     switch(difficulty) {
@@ -159,8 +160,6 @@ export default function QuestLog({ tutorialStage, onClose }) {
       default: return '⭐';
     }
   };
-
-  const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
 
   // Set initial questline based on prestige status
   useEffect(() => {
