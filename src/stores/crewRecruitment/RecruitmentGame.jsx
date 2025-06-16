@@ -22,27 +22,6 @@ export function RecruitmentGame() {
   React.useEffect(() => {
     if (!localStorage.getItem('crewGameIntroSeen')) {
       window.dispatchEvent(new CustomEvent('showCrewIntroTooltip'));
-      
-      // Show mini-game skip setting dialog on first play
-      if (localStorage.getItem('skipRecruitmentMiniGame') === null) {
-        const skipMiniGame = window.confirm(
-          "Welcome to the Signal Sort recruitment mini-game!\n\n" +
-          "Would you like to skip the mini-game and automatically get median points instead?\n\n" +
-          "• Choose 'OK' to skip mini-games and get ~60% success rate automatically\n" +
-          "• Choose 'Cancel' to play the mini-game normally\n\n" +
-          "You can change this setting later in Settings > Gameplay"
-        );
-        localStorage.setItem('skipRecruitmentMiniGame', skipMiniGame.toString());
-        
-        if (skipMiniGame) {
-          // If they chose to skip, close the game and auto-complete
-          const profileCount = localStorage.getItem('signal_expander_purchased') ? 10 : 8;
-          const medianScore = Math.floor(profileCount * 0.6);
-          handleGameEnd(medianScore);
-          resetGame();
-          return;
-        }
-      }
     }
   }, []);
 

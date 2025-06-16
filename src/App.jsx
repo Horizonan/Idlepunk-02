@@ -1959,6 +1959,45 @@ export default function App() {
       {showCrewIntroTooltip && (
         <div className="intro-tooltip-overlay">
           <div className="intro-tooltip">
+            <style jsx>{`
+              .mini-game-choice-section {
+                margin: 20px 0;
+                padding: 15px;
+                background: rgba(148, 0, 211, 0.1);
+                border: 1px solid #9400D3;
+                border-radius: 8px;
+              }
+              .mini-game-choice-section h4 {
+                color: #9400D3;
+                margin: 0 0 10px 0;
+                text-align: center;
+              }
+              .choice-buttons {
+                display: flex;
+                gap: 10px;
+                margin: 15px 0;
+              }
+              .choice-buttons button {
+                flex: 1;
+              }
+              .play-button {
+                background: #00FF00 !important;
+                color: #222 !important;
+                border-color: #00FF00 !important;
+              }
+              .skip-button {
+                background: #9400D3 !important;
+                color: white !important;
+                border-color: #9400D3 !important;
+              }
+              .choice-note {
+                font-size: 0.9em;
+                color: #ccc;
+                text-align: center;
+                margin: 10px 0 0 0;
+                font-style: italic;
+              }
+            `}</style>
             <h3>👥 Crew Recruitment</h3>
             <div className="tooltip-section">
               <p>"Buried in static and noise are identity fragments. Some are real. Most are not."</p>
@@ -1989,12 +2028,53 @@ export default function App() {
               <p className="tooltip-tip">🎯 Pro Tip: When in doubt, look for internal consistency - real profiles tell a coherent story.</p>
             </div>
             <p className="refresher-note">📚 You can always check <strong>Game Tips</strong> in the main menu for a refresher!</p>
-            <button className="intro-tooltip-button" onClick={() => {
-              localStorage.setItem('crewGameIntroSeen', 'true');
-              setShowCrewIntroTooltip(false);
-            }}>
-              Begin Verification
-            </button>
+            
+            {localStorage.getItem('skipRecruitmentMiniGame') === null && (
+              <div className="mini-game-choice-section">
+                <h4>🎮 Mini-Game Preference</h4>
+                <p>Would you like to play the mini-game or automatically get median points?</p>
+                <div className="choice-buttons">
+                  <button className="intro-tooltip-button play-button" onClick={() => {
+                    localStorage.setItem('skipRecruitmentMiniGame', 'false');
+                    localStorage.setItem('crewGameIntroSeen', 'true');
+                    setShowCrewIntroTooltip(false);
+                  }}>
+                    🎯 Play Mini-Game
+                  </button>
+                  <button className="intro-tooltip-button skip-button" onClick={() => {
+                    localStorage.setItem('skipRecruitmentMiniGame', 'true');
+                    localStorage.setItem('crewGameIntroSeen', 'true');
+                    setShowCrewIntroTooltip(false);
+                    
+                    // Auto-complete with median score
+                    const profileCount = localStorage.getItem('signal_expander_purchased') ? 10 : 8;
+                    const medianScore = Math.floor(profileCount * 0.6);
+                    
+                    // Randomly select game variant for unlocks
+                    const random = Math.random();
+                    if (random < 0.7) {
+                      const { useRecruitmentZustand } = require('./stores/crewRecruitment/recruitmentZustand');
+                      useRecruitmentZustand.getState().handleGameEnd(medianScore);
+                    } else {
+                      const { useRecruitmentZustand } = require('./stores/crewRecruitment/recruitmentZustand');
+                      useRecruitmentZustand.getState().handleSkillsGameEnd(medianScore);
+                    }
+                  }}>
+                    ⚡ Skip & Get Median Points (~60%)
+                  </button>
+                </div>
+                <p className="choice-note">💡 You can change this later in Settings > Gameplay</p>
+              </div>
+            )}
+            
+            {localStorage.getItem('skipRecruitmentMiniGame') !== null && (
+              <button className="intro-tooltip-button" onClick={() => {
+                localStorage.setItem('crewGameIntroSeen', 'true');
+                setShowCrewIntroTooltip(false);
+              }}>
+                Begin Verification
+              </button>
+            )}
           </div>
         </div>
       )}
