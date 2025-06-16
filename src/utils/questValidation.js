@@ -68,35 +68,6 @@ export const QUEST_LINES = {
         difficulty: "medium"
       },
       {
-        id: "scratz_money",
-        title: "Scratz $$$",
-        description: "Buy a miner and create cash from air... and uh junk cells",
-        condition: (state) => state.ownedItems.scratzMiner >= 1,
-        reward: { 
-          type: "credits", 
-          amount: 30,
-          message: "Quest Completed: Scratz $$$"
-        },
-        category: "advanced",
-        difficulty: "medium"
-      },
-      {
-        id: "alone_or_lonely",
-        title: "Alone or Lonely?",
-        description: "Don't waste those Scratz you just got! Go recruit some crew members...",
-        condition: (state) => {
-          const crewStorage = JSON.parse(localStorage.getItem('crew-storage') || '{}');
-          return crewStorage.state?.hiredCrew?.length > 0;
-        },
-        reward: { 
-          type: "credits", 
-          amount: 30,
-          message: "Quest Completed: Alone or Lonely?"
-        },
-        category: "advanced",
-        difficulty: "medium"
-      },
-      {
         id: "clickpocalypse_now",
         title: "Clickpocalypse Now",
         description: "Reach 500 clicks",
