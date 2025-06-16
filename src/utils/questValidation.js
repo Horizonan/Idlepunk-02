@@ -163,18 +163,6 @@ export const QUEST_LINES = {
         difficulty: "hard"
       },
       {
-        id: "gambling_addiction",
-        title: "Gambling Addiction",
-        description: "Buy the Big Slot Machine",
-        condition: (state) => localStorage.getItem('bigSlots') === 'true',
-        reward: { 
-          type: "notification", 
-          message: "Quest Completed: You are now addicted to gambling! - Unlocked more Gambling related content"
-        },
-        category: "side",
-        difficulty: "medium"
-      },
-      {
         id: "surge_overflow",
         title: "Surge Overflow",
         description: "Trigger 3 Trash Surges",
