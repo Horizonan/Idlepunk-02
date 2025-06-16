@@ -1237,7 +1237,12 @@ export default function App() {
           setActiveStore(prev => prev === 'store' ? null : 'store');
           break;
         case 'junkUpgrades':
-          setShowJunkUpgrades(prev => !prev);
+          console.log('JunkUpgrades button clicked, current state:', showJunkUpgrades);
+          setShowJunkUpgrades(prev => {
+            const newValue = !prev;
+            console.log('Setting showJunkUpgrades to:', newValue);
+            return newValue;
+          });
           break;
         case 'marketplace':
             setActiveStore(prev => prev === 'marketplace' ? null : 'marketplace');
@@ -1596,11 +1601,21 @@ export default function App() {
           }}
         />
       )}
-      {showJunkUpgrades && (
-        <JunkUpgrades
-          onClose={() => setShowJunkUpgrades(false)}
-        />
-      )}
+      {(() => {
+        console.log('JunkUpgrades render check - showJunkUpgrades:', showJunkUpgrades);
+        if (showJunkUpgrades) {
+          console.log('Rendering JunkUpgrades component');
+          return (
+            <JunkUpgrades
+              onClose={() => {
+                console.log('JunkUpgrades close button clicked');
+                setShowJunkUpgrades(false);
+              }}
+            />
+          );
+        }
+        return null;
+      })()}
       {beaconCount > 0 && showBeaconVisual && (
         <div className={`shard-beacon ${localStorage.getItem('beacon_core_purchased') === 'true' ? 'core-active' : ''}`}>
           <div className="beacon-rays"></div>

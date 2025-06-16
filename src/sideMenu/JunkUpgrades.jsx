@@ -3,11 +3,23 @@ import React from 'react';
 import '../styles/JunkUpgrades.css';
 
 export default function JunkUpgrades({ onClose }) {
+  console.log('JunkUpgrades component is rendering');
+  
+  React.useEffect(() => {
+    console.log('JunkUpgrades component mounted');
+    return () => {
+      console.log('JunkUpgrades component unmounted');
+    };
+  }, []);
+
   return (
     <div className="store-container">
       <div className="store-header">
         <h2>🔧 Junk Upgrades</h2>
-        <button onClick={onClose}>Close</button>
+        <button onClick={() => {
+          console.log('JunkUpgrades close button clicked from header');
+          onClose();
+        }}>Close</button>
       </div>
       
       <div className="junk-upgrades-content">
