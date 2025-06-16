@@ -1963,6 +1963,7 @@ export default function App() {
             <div className="tooltip-section">
               <p>"Buried in static and noise are identity fragments. Some are real. Most are not."</p>
               <p>🔍 <strong>Objective:</strong> Sort through intercepted profiles and decide who's real.</p>
+              <p className="tooltip-tip">💡 <strong>Tip:</strong> You can disable this mini-game in Settings > Gameplay if you prefer to automatically get median points instead of playing.</p>
               <ul>
                 <li>Accept real candidates</li>
                 <li>Reject fake ones</li>
