@@ -1,78 +1,68 @@
 
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/JunkUpgrades.css';
 
-export default function JunkUpgrades({ onClose }) {
+export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrade, onBuyScrapBagUpgrade }) {
   const [mobileInfoModal, setMobileInfoModal] = useState(null);
+  const [hasNewUpgrades, setHasNewUpgrades] = useState(false);
   const junk = parseInt(localStorage.getItem('junk') || '0');
-  const credits = parseInt(localStorage.getItem('credits') || '0');
 
   const upgradeItems = [
     {
-      name: "Basic Junk Magnet",
+      name: "Scrap Bag Reinforcement",
+      cost: 30000,
+      description: "+1 Junk/Click from Scrap Bags",
+      info: "Reinforced with duct tape and ambition.",
+      unlockCondition: () => (ownedItems?.trashBag || 0) >= 10,
+      owned: parseInt(localStorage.getItem('scrapBagUpgrade') || '0'),
+      category: "clicking",
+      tier: "basic",
+      storageKey: "scrapBagUpgrade",
+      action: onBuyScrapBagUpgrade
+    },
+    {
+      name: "Streetrat Efficiency Training",
       cost: 50000,
-      description: "+5% Junk Collection Rate",
-      info: "A simple magnetic device that attracts nearby junk. Perfect for beginners looking to boost their collection efficiency.",
-      owned: parseInt(localStorage.getItem('basicJunkMagnet') || '0'),
-      category: "collection",
-      tier: "basic"
-    },
-    {
-      name: "Advanced Picker Kit",
-      cost: 150000,
-      description: "+10% Click Power",
-      info: "Professional-grade tools for enhanced junk collection. Includes reinforced grabbers and precision targeting.",
-      owned: parseInt(localStorage.getItem('advancedPickerKit') || '0'),
-      category: "clicking",
-      tier: "advanced"
-    },
-    {
-      name: "Quantum Sorter",
-      cost: 500000,
-      description: "+15% Passive Income",
-      info: "Quantum technology that optimizes junk sorting processes at the molecular level for maximum efficiency.",
-      owned: parseInt(localStorage.getItem('quantumSorter') || '0'),
+      description: "Doubles output of all Streetrats",
+      info: "They now wear matching vests and whistle while they work.",
+      unlockCondition: () => (ownedItems?.streetrat || 0) >= 10,
+      owned: parseInt(localStorage.getItem('streetratUpgrade') || '0'),
       category: "passive",
-      tier: "quantum"
-    },
-    {
-      name: "Neural Interface",
-      cost: 1000000,
-      description: "+20% All Bonuses",
-      info: "Direct neural connection for maximum efficiency. Interfaces with your brain to optimize all junk operations.",
-      owned: parseInt(localStorage.getItem('neuralInterface') || '0'),
-      category: "universal",
-      tier: "neural"
-    },
-    {
-      name: "Plasma Field Generator",
-      cost: 2500000,
-      description: "+25% Collection Speed",
-      info: "Creates an electromagnetic field that accelerates junk collection in a wide radius around your operations.",
-      owned: parseInt(localStorage.getItem('plasmaFieldGenerator') || '0'),
-      category: "collection",
-      tier: "plasma"
-    },
-    {
-      name: "Cybernetic Enhancement Suite",
-      cost: 5000000,
-      description: "+30% Click Efficiency",
-      info: "Permanent cybernetic modifications that enhance your clicking capabilities beyond human limits.",
-      owned: parseInt(localStorage.getItem('cyberneticEnhancement') || '0'),
-      category: "clicking",
-      tier: "cybernetic"
+      tier: "advanced",
+      storageKey: "streetratUpgrade",
+      action: onBuyStreetratUpgrade
     }
   ];
 
+  // Check for new unlocked upgrades
+  useEffect(() => {
+    const checkNewUpgrades = () => {
+      const newUpgradesAvailable = upgradeItems.some(item => 
+        item.unlockCondition() && 
+        item.owned === 0 && 
+        !localStorage.getItem(`upgrade_seen_${item.storageKey}`)
+      );
+      setHasNewUpgrades(newUpgradesAvailable);
+    };
+
+    checkNewUpgrades();
+    const interval = setInterval(checkNewUpgrades, 1000);
+    return () => clearInterval(interval);
+  }, [ownedItems]);
+
   const handlePurchase = (item) => {
-    if (junk >= item.cost) {
+    if (junk >= item.cost && item.unlockCondition()) {
       const newJunk = junk - item.cost;
       const newOwned = item.owned + 1;
-      const storageKey = item.name.toLowerCase().replace(/\s+/g, '');
 
       localStorage.setItem('junk', newJunk.toString());
-      localStorage.setItem(storageKey, newOwned.toString());
+      localStorage.setItem(item.storageKey, newOwned.toString());
+      localStorage.setItem(`upgrade_seen_${item.storageKey}`, 'true');
+
+      // Call the specific action handler
+      if (item.action) {
+        item.action();
+      }
 
       // Trigger UI update
       window.dispatchEvent(new Event('storage'));
@@ -120,10 +110,27 @@ export default function JunkUpgrades({ onClose }) {
     setMobileInfoModal(null);
   };
 
+  const markUpgradeAsSeen = (item) => {
+    localStorage.setItem(`upgrade_seen_${item.storageKey}`, 'true');
+  };
+
+  const isNewUpgrade = (item) => {
+    return item.unlockCondition() && 
+           item.owned === 0 && 
+           !localStorage.getItem(`upgrade_seen_${item.storageKey}`);
+  };
+
+  // Filter items based on unlock conditions
+  const availableUpgrades = upgradeItems.filter(item => item.unlockCondition());
+  const lockedUpgrades = upgradeItems.filter(item => !item.unlockCondition());
+
   return (
     <div className="junk-upgrades-container">
       <div className="junk-upgrades-header">
-        <h2>Junk Upgrades</h2>
+        <h2>
+          Junk Upgrades
+          {hasNewUpgrades && <span className="junk-upgrades-new-indicator"> (!)</span>}
+        </h2>
         <div className="junk-upgrades-controls">
           <div className="junk-upgrades-currency-display">
             <span className="junk-upgrades-currency-amount">{formatNumber(junk)} Junk</span>
@@ -134,46 +141,85 @@ export default function JunkUpgrades({ onClose }) {
 
       <div className="junk-upgrades-content">
         <div className="junk-upgrades-description">
-          <p>Enhance your junk collection capabilities with advanced technological upgrades. Each upgrade provides permanent bonuses to boost your efficiency.</p>
+          <p>Enhance your junk collection capabilities with specialized upgrades. Each upgrade provides permanent bonuses to boost your efficiency.</p>
         </div>
 
-        <div className="junk-upgrades-items">
-          {upgradeItems.map((item, index) => (
-            <button
-              key={index}
-              onClick={() => handlePurchase(item)}
-              disabled={junk < item.cost}
-              className={`junk-upgrade-item ${junk < item.cost ? 'junk-upgrade-disabled' : ''}`}
-            >
-              <div className="junk-upgrade-item-header">
-                <div className="junk-upgrade-item-title-section">
-                  <span className="junk-upgrade-tier-icon" style={{ color: getTierColor(item.tier) }}>
-                    {getTierIcon(item.tier)}
-                  </span>
-                  <strong>{item.name}</strong>
-                  <button 
-                    className="junk-upgrades-mobile-info-button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      openMobileInfo(item);
-                    }}
-                  >
-                    ℹ️
-                  </button>
+        {availableUpgrades.length > 0 && (
+          <div className="junk-upgrades-section">
+            <h3 className="junk-upgrades-section-title">Available Upgrades</h3>
+            <div className="junk-upgrades-items">
+              {availableUpgrades.map((item, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    handlePurchase(item);
+                    markUpgradeAsSeen(item);
+                  }}
+                  disabled={junk < item.cost}
+                  className={`junk-upgrade-item ${junk < item.cost ? 'junk-upgrade-disabled' : ''} ${isNewUpgrade(item) ? 'junk-upgrade-new' : ''}`}
+                >
+                  <div className="junk-upgrade-item-header">
+                    <div className="junk-upgrade-item-title-section">
+                      <span className="junk-upgrade-tier-icon" style={{ color: getTierColor(item.tier) }}>
+                        {getTierIcon(item.tier)}
+                      </span>
+                      <strong>
+                        {item.name}
+                        {isNewUpgrade(item) && <span className="junk-upgrade-new-badge"> NEW!</span>}
+                      </strong>
+                      <button 
+                        className="junk-upgrades-mobile-info-button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openMobileInfo(item);
+                        }}
+                      >
+                        ℹ️
+                      </button>
+                    </div>
+                    <span className="junk-upgrade-cost">({formatNumber(item.cost)} Junk)</span>
+                  </div>
+                  <div className="junk-upgrade-item-info">
+                    <p className="junk-upgrade-item-description">{item.description}</p>
+                    <p className="junk-upgrade-item-details">{item.info}</p>
+                    <div className="junk-upgrade-item-footer">
+                      <span className="junk-upgrade-category-tag">{item.category}</span>
+                      <span className="junk-upgrade-owned">Owned: {item.owned}</span>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {lockedUpgrades.length > 0 && (
+          <div className="junk-upgrades-section">
+            <h3 className="junk-upgrades-section-title">Locked Upgrades</h3>
+            <div className="junk-upgrades-locked-items">
+              {lockedUpgrades.map((item, index) => (
+                <div key={index} className="junk-upgrade-locked-item">
+                  <div className="junk-upgrade-locked-header">
+                    <span className="junk-upgrade-tier-icon" style={{ color: getTierColor(item.tier) }}>
+                      {getTierIcon(item.tier)}
+                    </span>
+                    <strong>{item.name}</strong>
+                    <span className="junk-upgrade-locked-badge">🔒</span>
+                  </div>
+                  <p className="junk-upgrade-locked-requirement">
+                    Requires: {item.category === 'clicking' ? `${(ownedItems?.trashBag || 0)}/10 Scrap Bags` : `${(ownedItems?.streetrat || 0)}/10 Streetrats`}
+                  </p>
                 </div>
-                <span className="junk-upgrade-cost">({formatNumber(item.cost)} Junk)</span>
-              </div>
-              <div className="junk-upgrade-item-info">
-                <p className="junk-upgrade-item-description">{item.description}</p>
-                <p className="junk-upgrade-item-details">{item.info}</p>
-                <div className="junk-upgrade-item-footer">
-                  <span className="junk-upgrade-category-tag">{item.category}</span>
-                  <span className="junk-upgrade-owned">Owned: {item.owned}</span>
-                </div>
-              </div>
-            </button>
-          ))}
-        </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {availableUpgrades.length === 0 && lockedUpgrades.length === 0 && (
+          <div className="junk-upgrades-empty">
+            <p>No upgrades available at this time. Keep collecting junk and purchasing items to unlock new upgrades!</p>
+          </div>
+        )}
       </div>
 
       {mobileInfoModal && (
@@ -201,4 +247,3 @@ export default function JunkUpgrades({ onClose }) {
     </div>
   );
 }
-

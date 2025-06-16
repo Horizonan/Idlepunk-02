@@ -1352,9 +1352,26 @@ export default function App() {
 
       {activeStore === 'junkUpgrades' && (
         <JunkUpgrades
-          onBack={() => {
+          onClose={() => {
             setActiveStore(null);
             localStorage.setItem('activeStore', null);
+          }}
+          ownedItems={ownedItems}
+          onBuyStreetratUpgrade={() => {
+            // Handle streetrat upgrade purchase
+            setNotifications(prev => [...prev, {
+              id: Date.now(),
+              message: "Streetrat Efficiency Training purchased! All Streetrats now produce double output.",
+              type: 'upgrade'
+            }]);
+          }}
+          onBuyScrapBagUpgrade={() => {
+            // Handle scrap bag upgrade purchase  
+            setNotifications(prev => [...prev, {
+              id: Date.now(),
+              message: "Scrap Bag Reinforcement purchased! Each Scrap Bag now provides +1 additional Junk/Click.",
+              type: 'upgrade'
+            }]);
           }}
         />
       )}

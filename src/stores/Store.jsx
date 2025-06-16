@@ -19,7 +19,7 @@ export default function Store({
 
   const clickItems = [
     {
-      name: "Scrap Bag",
+      name: "Reinforced Scrap Bag",
       cost: bulkBuy ? calculate10xPriceJunkClicker(itemCosts.trashBag).totalCost :  itemCosts.trashBag,
       description: "+1 Junk/Click, +10% Cost per purchase",
       info: "A sturdy bag that helps you collect more junk with each click",
@@ -67,7 +67,7 @@ export default function Store({
   //Junk store
   const passiveItems = [
     {
-      name: "Streetrat",
+      name: "Whistling Streetrat",
       cost: bulkBuy ? calculate10xPriceJPS(itemCosts.streetrat).totalCost : itemCosts.streetrat,
       description: `+${Math.floor(1 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
       info: "Hire a local to automatically collect junk for you",

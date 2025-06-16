@@ -1,8 +1,28 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function MenuButtons({ onStoreSelect, showInventory, craftingInventory = {} }) {
   const [showMenu, setShowMenu] = useState(true);
   const [canCraftPrestigeCrystal, setCanCraftPrestigeCrystal] = useState(false);
+  const [hasNewUpgrades, setHasNewUpgrades] = useState(false);
+
+  // Check for new upgrades
+  useEffect(() => {
+    const checkNewUpgrades = () => {
+      const scrapBagUpgradeAvailable = (ownedItems?.trashBag || 0) >= 10 && 
+        !localStorage.getItem('upgrade_seen_scrapBagUpgrade') &&
+        parseInt(localStorage.getItem('scrapBagUpgrade') || '0') === 0;
+
+      const streetratUpgradeAvailable = (ownedItems?.streetrat || 0) >= 10 && 
+        !localStorage.getItem('upgrade_seen_streetratUpgrade') &&
+        parseInt(localStorage.getItem('streetratUpgrade') || '0') === 0;
+
+      setHasNewUpgrades(scrapBagUpgradeAvailable || streetratUpgradeAvailable);
+    };
+
+    checkNewUpgrades();
+    const interval = setInterval(checkNewUpgrades, 1000);
+    return () => clearInterval(interval);
+  }, [craftingInventory]);
 
   // Check if Prestige Crystal is craftable
   useEffect(() => {
@@ -28,7 +48,11 @@ export default function MenuButtons({ onStoreSelect, showInventory, craftingInve
           }
         },
         {
-          label: 'Junk Upgrades',
+          label: (
+            <>
+              Junk Upgrades{hasNewUpgrades && ' (!)'}
+            </>
+          ),
           onClick: () => {
             const activeStore = localStorage.getItem('activeStore');
             onStoreSelect(activeStore === 'junkUpgrades' ? null : 'junkUpgrades');
@@ -170,10 +194,10 @@ export default function MenuButtons({ onStoreSelect, showInventory, craftingInve
       </button>
       {showMenu && Object.entries(menuCategories).map(([category, { header, buttons }]) => {
         const visibleButtons = buttons.filter(button => !button.locked);
-        
+
         // Only render the section if it has visible buttons
         if (visibleButtons.length === 0) return null;
-        
+
         return (
           <div key={category} className="menu-category">
             <h3 className="menu-category-header">{header}</h3>
