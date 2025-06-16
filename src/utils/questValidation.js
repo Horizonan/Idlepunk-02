@@ -459,9 +459,19 @@ export const getCurrentQuestLine = () => {
 
 export const getAvailableQuestLines = () => {
   const prestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
+  const prestige2Active = localStorage.getItem('prestige2Active') === 'true';
   const available = [];
   
   Object.entries(QUEST_LINES).forEach(([key, questLine]) => {
+    // Special handling for prestige2 questline
+    if (key === 'prestige2') {
+      if (prestige2Active) {
+        available.push({ key, ...questLine });
+      }
+      return;
+    }
+    
+    // Regular prestige requirement check for other questlines
     if (prestigeCount >= questLine.prestigeRequirement) {
       if (questLine.unlockCondition) {
         if (questLine.unlockCondition()) {
