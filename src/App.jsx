@@ -12,6 +12,7 @@ import CraftingStore from './stores/CraftingStore';
 import MenuButtons from './stores/MenuButtons';
 import UpgradeStats from './stores/UpgradeStats';
 import Store from './stores/Store';
+import JunkUpgrades from './sideMenu/JunkUpgrades';
 import ElectroStore from './stores/ElectroStore';
 import CrewMenu from './stores/CrewMenu';
 
@@ -1232,6 +1233,9 @@ export default function App() {
       />
       <Menu onStoreSelect={(type) => {
         switch(type) {
+          case 'junkUpgrades':
+            setActiveStore(prev => prev === 'junkUpgrades' ? null : 'junkUpgrades');
+            break;
           case 'marketplace':
             setActiveStore(prev => prev === 'marketplace' ? null : 'marketplace');
             break;
@@ -1346,6 +1350,14 @@ export default function App() {
         />
       )}
 
+      {activeStore === 'junkUpgrades' && (
+        <JunkUpgrades
+          onBack={() => {
+            setActiveStore(null);
+            localStorage.setItem('activeStore', null);
+          }}
+        />
+      )}
       {activeStore === 'store' && (
         <Store 
           credits={junk}

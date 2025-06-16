@@ -28,6 +28,13 @@ export default function MenuButtons({ onStoreSelect, showInventory, craftingInve
           }
         },
         {
+          label: 'Junk Upgrades',
+          onClick: () => {
+            const activeStore = localStorage.getItem('activeStore');
+            onStoreSelect(activeStore === 'junkUpgrades' ? null : 'junkUpgrades');
+          }
+        },
+        {
           label: 'Electro Store',
           onClick: () => {
             const activeStore = localStorage.getItem('activeStore');
