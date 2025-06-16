@@ -122,7 +122,7 @@ export default function App() {
 
   }, {
     setJunk, tronics, setTronics, setNotifications, setClickMultiplier, setItemCosts, setOwnedItems, setHasHelper, setGlobalJpsMultiplier, setAutoClicks,
-    setClickEnhancerLevel,clickEnhancerLevel, setPassiveIncome, setAutoClickerV1Count, autoClickerV1Count, setAutoClickerV2Count, setElectroShards, setElectroMultiplier
+    setClickEnhancerLevel,clickEnhancerLevel, setPassiveIncome, setAutoClickerV1Count, autoClickerV1Count, setAutoClickerV2Count, setElectroShards, setElectroMultiplier, setHasUpgrade
   });
 
   const [showCoinFlip, setShowCoinFlip] = useState(false);
