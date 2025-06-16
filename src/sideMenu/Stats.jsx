@@ -30,21 +30,21 @@ export default function Stats({
         <div className="stats-section">
           <h3>📊 Performance Stats</h3>
           <div className="stats-grid">
-            <div className="stat-item">
-              <span className="stat-label">Total Clicks:</span>
-              <span className="stat-value">{clickCount.toLocaleString()}</span>
+            <div className="stats-item">
+              <span className="stats-label">Total Clicks:</span>
+              <span className="stats-value">{clickCount.toLocaleString()}</span>
             </div>
-            <div className="stat-item">
-              <span className="stat-label">Total Tronics Clicks:</span>
-              <span className="stat-value">{totalTronicsClicks.toLocaleString()}</span>
+            <div className="stats-item">
+              <span className="stats-label">Total Tronics Clicks:</span>
+              <span className="stats-value">{totalTronicsClicks.toLocaleString()}</span>
             </div>
-            <div className="stat-item">
-              <span className="stat-label">Total Junk Collected:</span>
-              <span className="stat-value">{totalJunkCollected.toLocaleString()}</span>
+            <div className="stats-item">
+              <span className="stats-label">Total Junk Collected:</span>
+              <span className="stats-value">{totalJunkCollected.toLocaleString()}</span>
             </div>
-            <div className="stat-item">
-              <span className="stat-label">Average JPS:</span>
-              <span className="stat-value">{Math.floor((passiveIncome * globalJpsMultiplier)).toLocaleString()}</span>
+            <div className="stats-item">
+              <span className="stats-label">Average JPS:</span>
+              <span className="stats-value">{Math.floor((passiveIncome * globalJpsMultiplier)).toLocaleString()}</span>
             </div>
           </div>
         </div>
@@ -52,13 +52,13 @@ export default function Stats({
         <div className="stats-section">
           <h3>⚡ Multipliers</h3>
           <div className="stats-grid">
-            <div className="stat-item">
-              <span className="stat-label">Global JPS Multiplier:</span>
-              <span className="stat-value">{(1 + (globalJpsMultiplier - 1) + (craftingInventory['Compression Pack'] ? 0.25 : 0)).toFixed(2)}x</span>
+            <div className="stats-item">
+              <span className="stats-label">Global JPS Multiplier:</span>
+              <span className="stats-value">{(1 + (globalJpsMultiplier - 1) + (craftingInventory['Compression Pack'] ? 0.25 : 0)).toFixed(2)}x</span>
             </div>
-            <div className="stat-item">
-              <span className="stat-label">Global Electro Multiplier:</span>
-              <span className="stat-value">{(electroMultiplier.toFixed(2))}x</span>
+            <div className="stats-item">
+              <span className="stats-label">Global Electro Multiplier:</span>
+              <span className="stats-value">{(electroMultiplier.toFixed(2))}x</span>
             </div>
           </div>
         </div>
@@ -66,21 +66,21 @@ export default function Stats({
         <div className="stats-section">
           <h3>🎯 Achievements</h3>
           <div className="stats-grid">
-            <div className="stat-item">
-              <span className="stat-label">Trash Surges Completed:</span>
-              <span className="stat-value">{surgeCount.toLocaleString()}</span>
+            <div className="stats-item">
+              <span className="stats-label">Trash Surges Completed:</span>
+              <span className="stats-value">{surgeCount.toLocaleString()}</span>
             </div>
-            <div className="stat-item">
-              <span className="stat-label">Times Prestiged:</span>
-              <span className="stat-value">{prestigeCount}</span>
+            <div className="stats-item">
+              <span className="stats-label">Times Prestiged:</span>
+              <span className="stats-value">{prestigeCount}</span>
             </div>
-            <div className="stat-item">
-              <span className="stat-label">Permanent AutoClicks:</span>
-              <span className="stat-value">{permanentAutoClicks}</span>
+            <div className="stats-item">
+              <span className="stats-label">Permanent AutoClicks:</span>
+              <span className="stats-value">{permanentAutoClicks}</span>
             </div>
-            <div className="stat-item">
-              <span className="stat-label">Successful Crew Missions:</span>
-              <span className="stat-value">{successfulMissions}</span>
+            <div className="stats-item">
+              <span className="stats-label">Successful Crew Missions:</span>
+              <span className="stats-value">{successfulMissions}</span>
             </div>
           </div>
         </div>
@@ -88,13 +88,13 @@ export default function Stats({
         <div className="stats-section">
           <h3>⏱️ Pickup Time</h3>
           <div className="stats-grid">
-            <div className="stat-item">
-              <span className="stat-label">Trash Pickup Duration:</span>
-              <span className="stat-value">{getTrashPickupDuration()}s</span>
+            <div className="stats-item">
+              <span className="stats-label">Trash Pickup Duration:</span>
+              <span className="stats-value">{getTrashPickupDuration()}s</span>
             </div>
-            <div className="stat-item">
-              <span className="stat-label">Crystal Pickup Duration:</span>
-              <span className="stat-value">{getCrystalPickupDuration()}s</span>
+            <div className="stats-item">
+              <span className="stats-label">Crystal Pickup Duration:</span>
+              <span className="stats-value">{getCrystalPickupDuration()}s</span>
             </div>
           </div>
         </div>
@@ -102,13 +102,13 @@ export default function Stats({
         <div className="stats-section">
           <h3>🔧 Game Modifiers</h3>
           <div className="stats-grid">
-            <div className="stat-item">
-              <span className="stat-label">Crystal Time Reduction:</span>
-              <span className="stat-value">{calculateCrystalTimeReduction().percentageReduction}%</span>
+            <div className="stats-item">
+              <span className="stats-label">Crystal Time Reduction:</span>
+              <span className="stats-value">{calculateCrystalTimeReduction().percentageReduction}%</span>
             </div>
-            <div className="stat-item">
-              <span className="stat-label">Mission Speedup:</span>
-              <span className="stat-value">{(() => {
+            <div className="stats-item">
+              <span className="stats-label">Mission Speedup:</span>
+              <span className="stats-value">{(() => {
                 const skillLevels = JSON.parse(localStorage.getItem('skillLevels') || '{}');
                 const heistingSpeedLevel = skillLevels.heistingSpeed || 0;
                 const craftingInventory = JSON.parse(localStorage.getItem('craftingInventory') || '{}');
@@ -132,8 +132,8 @@ export default function Stats({
           <div className="stats-section">
             <h3>🛡️ Energy Shielded Helpers</h3>
             <div className="preserved-helpers">
-              <span className="stat-label">Preserved Helper{preservedHelper.includes(',') ? 's' : ''}:</span>
-              <span className="stat-value preserved-helper">{preservedHelper}</span>
+              <span className="stats-label">Preserved Helper{preservedHelper.includes(',') ? 's' : ''}:</span>
+              <span className="stats-value preserved-helper">{preservedHelper}</span>
             </div>
           </div>
         )}

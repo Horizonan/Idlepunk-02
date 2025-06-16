@@ -15,13 +15,13 @@
   padding-bottom: 8px;
 }
 
-.stats-grid {
+.stats-menu .stats-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 12px;
 }
 
-.stat-item {
+.stats-menu .stats-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -29,28 +29,28 @@
   border-bottom: 1px solid rgba(148, 0, 211, 0.3);
 }
 
-.stat-item:last-child {
+.stats-menu .stats-item:last-child {
   border-bottom: none;
 }
 
-.stat-label {
+.stats-menu .stats-label {
   color: #00FF00;
   font-weight: normal;
 }
 
-.stat-value {
+.stats-menu .stats-value {
   color: #00ff4c;
   font-weight: bold;
   text-align: right;
 }
 
-.preserved-helpers {
+.stats-menu .preserved-helpers {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.preserved-helper {
+.stats-menu .preserved-helper {
   background: rgba(148, 0, 211, 0.2);
   padding: 8px;
   border-radius: 4px;
