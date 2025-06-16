@@ -269,6 +269,8 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                       } else {
                         useRecruitmentZustand.getState().handleSkillsGameEnd(medianScore);
                       }
+                      // Don't start any game interface when skipping
+                      return;
                     } else {
                       // Play mini-game normally
                       const random = Math.random();
