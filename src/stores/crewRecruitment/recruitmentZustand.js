@@ -12,8 +12,9 @@ export const useRecruitmentZustand = create(
       selectedCrew: [],
       lastFeedback: null,
       unlockedCrew: [...crewDatabase.filter(crew => 
-        crew.unlockConditions?.minGameScore === 0 || 
-        !crew.unlockConditions?.minGameScore
+        (crew.unlockConditions?.minGameScore === 0 || 
+        !crew.unlockConditions?.minGameScore) &&
+        !crew.unlockConditions?.skipModeOnly
       )],
       hiredCrew: [],
       newlyHiredCrew: [],
@@ -655,8 +656,9 @@ export const useRecruitmentZustand = create(
           selectedCrew: [],
           lastFeedback: null,
           unlockedCrew: [...crewDatabase.filter(crew => 
-            crew.unlockConditions?.minGameScore === 0 || 
-            !crew.unlockConditions?.minGameScore
+            (crew.unlockConditions?.minGameScore === 0 || 
+            !crew.unlockConditions?.minGameScore) &&
+            !crew.unlockConditions?.skipModeOnly
           )],
           hiredCrew: [],
           newlyHiredCrew: [],

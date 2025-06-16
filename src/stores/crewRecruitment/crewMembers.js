@@ -1,5 +1,5 @@
 export const crewDatabase = [
-  // Guaranteed starter crew member for skip mode
+  // Guaranteed starter crew member for skip mode ONLY
   {
     id: 'starter_scrapper',
     name: 'Maya Chen',
@@ -15,7 +15,7 @@ export const crewDatabase = [
     stamina: 100,
     perks: 'Eager to learn, reliable in basic operations',
     unlockConditions: {
-      minGameScore: 0 // Can always be unlocked
+      skipModeOnly: true // Special flag - only unlocked when skipping
     },
     unlockCost: {
       amount: 50,

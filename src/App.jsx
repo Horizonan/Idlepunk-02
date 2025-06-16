@@ -2046,40 +2046,32 @@ export default function App() {
                     localStorage.setItem('crewGameIntroSeen', 'true');
                     setShowCrewIntroTooltip(false);
 
-                    // Directly unlock a crew member without opening any game interface
+                    // Directly unlock Maya Chen for skip mode
                     const { useRecruitmentZustand } = await import('./stores/crewRecruitment/recruitmentZustand');
                     const { crewDatabase } = await import('./stores/crewRecruitment/crewMembers');
                     
                     const state = useRecruitmentZustand.getState();
                     
-                    // Find available crew members that can be unlocked at the start
-                    const availableCrew = crewDatabase.filter(crew => {
-                      const conditions = crew.unlockConditions;
-                      if (!conditions) return false;
-                      
-                      const alreadyUnlocked = state.unlockedCrew.some(c => c.id === crew.id);
-                      const alreadyHired = state.hiredCrew.some(c => c.id === crew.id);
-                      if (alreadyUnlocked || alreadyHired) return false;
-                      
-                      // Allow crew that can be unlocked with a low score (representing skip/median performance)
-                      const medianScore = 5; // Median-ish score for skip
-                      return (conditions.minGameScore || 0) <= medianScore;
-                    });
+                    // Find Maya Chen specifically for skip mode
+                    const mayaChen = crewDatabase.find(crew => crew.unlockConditions?.skipModeOnly);
                     
-                    if (availableCrew.length > 0) {
-                      // Always unlock at least one crew member, preferring easier ones first
-                      const selectedCrew = availableCrew[0];
-                      useRecruitmentZustand.setState(state => ({
-                        unlockedCrew: [...state.unlockedCrew, selectedCrew],
-                        newlyHiredCrew: [...state.newlyHiredCrew, selectedCrew.id]
-                      }));
+                    if (mayaChen) {
+                      const alreadyUnlocked = state.unlockedCrew.some(c => c.id === mayaChen.id);
+                      const alreadyHired = state.hiredCrew.some(c => c.id === mayaChen.id);
                       
-                      // Remove "New!" badge after 10 seconds
-                      setTimeout(() => {
-                        useRecruitmentZustand.getState().markCrewAsNotNew(selectedCrew.id);
-                      }, 10000);
-                      
-                      setNotifications(prev => [...prev, `New crew member available: ${selectedCrew.name}!`]);
+                      if (!alreadyUnlocked && !alreadyHired) {
+                        useRecruitmentZustand.setState(state => ({
+                          unlockedCrew: [...state.unlockedCrew, mayaChen],
+                          newlyHiredCrew: [...state.newlyHiredCrew, mayaChen.id]
+                        }));
+                        
+                        // Remove "New!" badge after 10 seconds
+                        setTimeout(() => {
+                          useRecruitmentZustand.getState().markCrewAsNotNew(mayaChen.id);
+                        }, 10000);
+                        
+                        setNotifications(prev => [...prev, `New crew member available: ${mayaChen.name}!`]);
+                      }
                     }
                   }}>
                     ⚡ Skip & Get Median Points (~60%)

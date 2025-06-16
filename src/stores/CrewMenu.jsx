@@ -262,31 +262,25 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                       const { crewDatabase } = require('./crewRecruitment/crewMembers');
                       const state = useRecruitmentZustand.getState();
                       
-                      // Find eligible crew members for median performance
-                      const medianScore = 5;
-                      const availableCrew = crewDatabase.filter(crew => {
-                        const conditions = crew.unlockConditions;
-                        if (!conditions) return false;
-                        
-                        const alreadyUnlocked = state.unlockedCrew.some(c => c.id === crew.id);
-                        const alreadyHired = state.hiredCrew.some(c => c.id === crew.id);
-                        if (alreadyUnlocked || alreadyHired) return false;
-                        
-                        return (conditions.minGameScore || 0) <= medianScore;
-                      });
+                      // Find Maya Chen specifically for skip mode
+                      const mayaChen = crewDatabase.find(crew => crew.unlockConditions?.skipModeOnly);
                       
-                      if (availableCrew.length > 0) {
-                        const selectedCrew = availableCrew[Math.floor(Math.random() * availableCrew.length)];
-                        useRecruitmentZustand.setState(state => ({
-                          unlockedCrew: [...state.unlockedCrew, selectedCrew],
-                          newlyHiredCrew: [...state.newlyHiredCrew, selectedCrew.id]
-                        }));
+                      if (mayaChen) {
+                        const alreadyUnlocked = state.unlockedCrew.some(c => c.id === mayaChen.id);
+                        const alreadyHired = state.hiredCrew.some(c => c.id === mayaChen.id);
                         
-                        setTimeout(() => {
-                          useRecruitmentZustand.getState().markCrewAsNotNew(selectedCrew.id);
-                        }, 10000);
-                        
-                        setNotifications(prev => [...prev, `New crew member found: ${selectedCrew.name}!`]);
+                        if (!alreadyUnlocked && !alreadyHired) {
+                          useRecruitmentZustand.setState(state => ({
+                            unlockedCrew: [...state.unlockedCrew, mayaChen],
+                            newlyHiredCrew: [...state.newlyHiredCrew, mayaChen.id]
+                          }));
+                          
+                          setTimeout(() => {
+                            useRecruitmentZustand.getState().markCrewAsNotNew(mayaChen.id);
+                          }, 10000);
+                          
+                          setNotifications(prev => [...prev, `New crew member found: ${mayaChen.name}!`]);
+                        }
                       }
                       return; // Exit early, don't start any game
                     } else {
