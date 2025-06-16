@@ -1,0 +1,57 @@
+I need you to rewrite my idle game’s questlines from the ground up — carefully and without breaking any systems. The previous rewrite caused major problems.
+
+🔁 What Went Wrong Before (Must Fix All):
+Prestige Meter was removed — restore it so players can visibly track progress to the next crystal
+
+Prestige crystal crafting was broken — key components were missing due to cut quests
+
+Invalid quests were added — they referenced non-existent mechanics or systems not yet implemented
+
+Critical old quests were deleted — do not remove quests that are logically valid or mechanically required
+
+Quest headers showed empty sections — clean this up and only show headers with active quests
+
+Pacing broke down — players could prestige in seconds due to shortcut quests
+
+🔧 Prestige Structure (Strict):
+Prestige 0: Basic junk gameplay, intro tech
+
+Prestige 1: Unlocks automation, base upgrades
+
+Prestige 2: Unlocks Crew Menu and Scratz Store
+
+Prestige 3: Unlocks Skills Menu
+
+Prestige 4: Unlocks Scraptagon
+
+❗ Do not reference or require features before their proper unlock.
+❗ Do not break the game’s intended pacing. Prestiges must be earned through effort.
+
+✅ What You Must Do:
+Provide 10–15 quests per Prestige tier
+
+Each Prestige tier must end with a crystal crafting quest
+
+Ensure every component required for crystal recipes is obtainable through quests or systems available at that prestige
+
+Preserve old quests if they still make sense — do not cut working content
+
+Only add new quests if necessary and the mechanics they require already exist
+
+Clean up the quest UI by removing headers for deactivated questlines
+
+Keep the game’s signature funny/quirky tone
+
+🚨 Implementation Integrity:
+Before making changes, take into account the current implementation.
+The quest system is deeply woven into other systems — do not break interdependencies like tech unlocks, crafting access, automation triggers, or tutorial logic.
+
+All changes must respect the existing system structure and ensure the game remains fully functional and logically complete. If a quest previously enabled progression or access, it must be preserved or replaced with something that fills the same role.
+
+📦 Format Example (for each quest):
+Quest Name: [funny name]
+Description: [quirky and thematic]
+Requirements: [clear and valid]
+Rewards: [scrap, tech, item, crystal, etc.]
+
+Group all quests by Prestige tier and ensure everything works from a mechanical and narrative point of view. This must be a safe, functional, balanced, and final rewrite.
