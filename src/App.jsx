@@ -776,7 +776,8 @@ export default function App() {
     const currentTotal = parseInt(localStorage.getItem('totalJunkCollected') || '0');
     localStorage.setItem('totalJunkCollected', (currentTotal + junkGained).toString());
 
-    // Random material finding    const random = Math.random();
+    // Random material finding
+    const random = Math.random();
     if (random < 0.0001) { 
       const materials = ['Wires', 'Metal Plates', 'Gear Bits'];
       const randomMaterial = materials[Math.floor(Math.random() * materials.length)];
