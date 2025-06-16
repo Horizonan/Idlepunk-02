@@ -97,6 +97,59 @@ export const QUEST_LINES = {
         difficulty: "medium"
       },
       {
+        id: "clickpocalypse_now",
+        title: "Clickpocalypse Now",
+        description: "Reach 500 clicks",
+        condition: (state) => state.clickCount >= 500,
+        reward: { 
+          type: "electroShards", 
+          amount: 1,
+          message: "Quest Completed: Clickpocalypse Now - Received 1x Electro Shard!"
+        },
+        category: "tutorial",
+        difficulty: "easy"
+      },
+      {
+        id: "junk_mountaineer",
+        title: "Junk Mountaineer",
+        description: "Reach 100,000 junk",
+        condition: (state) => state.junk >= 100000,
+        reward: { 
+          type: "craftingMaterial", 
+          material: "Synthcore Fragment",
+          amount: 1,
+          message: "Quest Completed: Junk Mountaineer - Received 1x Synthcore Fragment!"
+        },
+        category: "progression",
+        difficulty: "medium"
+      },
+      {
+        id: "auto_lifer",
+        title: "Auto-Lifer",
+        description: "Reach 5 auto clicks",
+        condition: (state) => state.autoClicks >= 5,
+        reward: { 
+          type: "notification", 
+          message: "Quest Completed: Auto-Lifer - Welcome to the automated life!"
+        },
+        category: "progression",
+        difficulty: "easy"
+      },
+      {
+        id: "craft_collector",
+        title: "Craft Collector",
+        description: "Own 5 different crafted items",
+        condition: (state) => Object.values(state.craftingInventory).filter(count => count > 0).length >= 5,
+        reward: { 
+          type: "craftingMaterial", 
+          material: "Encrypted Coil",
+          amount: 1,
+          message: "Quest Completed: Craft Collector - Received 1x Encrypted Coil!"
+        },
+        category: "progression",
+        difficulty: "medium"
+      },
+      {
         id: "automation_punk",
         title: "Automation Punk",
         description: "Tired of clicking? Buy 10 Autoclickers!",
@@ -120,19 +173,6 @@ export const QUEST_LINES = {
         },
         category: "side",
         difficulty: "medium"
-      },
-      {
-        id: "unlock_ascension_protocol",
-        title: "Unlock Ascension Protocol",
-        description: "Reach 4 million junk to unlock the path to prestige",
-        condition: (state) => state.junk >= 4000000,
-        reward: { 
-          type: "special", 
-          action: "unlockAscensionProtocol",
-          message: "You've reached 4 million scrap! Unlocking Ascension Protocol."
-        },
-        category: "milestone",
-        difficulty: "hard"
       },
       {
         id: "surge_overflow",
@@ -521,15 +561,6 @@ const completeQuest = (quest, setters) => {
 
 const handleSpecialReward = (reward, setters) => {
   switch (reward.action) {
-    case 'unlockAscensionProtocol':
-      localStorage.setItem('cogfatherEvent', 'true');
-      // Add animation to quest log buttons
-      const questLogBtn = document.querySelector('.quest-log-toggle');
-      const mainQuestLog = document.querySelector('.quest-log');
-      if (questLogBtn) questLogBtn.classList.add('quest-log-attention');
-      if (mainQuestLog) mainQuestLog.classList.add('quest-log-attention');
-      break;
-      
     case 'unlockPrestige':
       localStorage.setItem('prestigeUnlocked', 'true');
       break;
@@ -572,3 +603,5 @@ export const getNextIncompleteQuest = (questLineKey) => {
     localStorage.getItem(`quest_sync_${quest.title}`) !== 'true'
   );
 };
+
+export { validateQuests };
