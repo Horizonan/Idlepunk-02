@@ -25,6 +25,26 @@ export function RecruitmentGame() {
     }
   }, []);
 
+  // Auto-close if skip mode is enabled - check immediately on mount
+  React.useEffect(() => {
+    if (localStorage.getItem('skipRecruitmentMiniGame') === 'true') {
+      // Immediately close the game
+      resetGame();
+
+      // Auto-complete with median score
+      const profileCount = localStorage.getItem('signal_expander_purchased') ? 10 : 8;
+      const medianScore = Math.floor(profileCount * 0.6);
+
+      // Randomly select game variant for unlocks
+      const random = Math.random();
+      if (random < 0.7) {
+        handleGameEnd(medianScore);
+      } else {
+        useRecruitmentZustand.getState().handleSkillsGameEnd(medianScore);
+      }
+    }
+  }, []);
+
   useEffect(() => {
     if (isRunning) {
       const timer = setInterval(tick, 1000)
@@ -43,15 +63,15 @@ export function RecruitmentGame() {
       handleGameEnd(finalScore)
       gameEnded +1
       }
-      
-    
-    
+
+
+
     return (
       <div className="game-over">
         <button onClick={resetGame}>Close</button>
         <h2>Game Over</h2>
         <p>Final Score: {finalScore}</p>
-        
+
         {selectedCrew && selectedCrew.name ? (
           <div className="crew-unlock">
             <h3>Crew Member Unlocked!</h3>
