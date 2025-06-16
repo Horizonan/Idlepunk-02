@@ -46,11 +46,50 @@ export const QUEST_LINES = {
         difficulty: "medium"
       },
       {
+        id: "clickpocalypse_now",
+        title: "Clickpocalypse Now",
+        description: "Reach 500 clicks (the revolution starts with one click, but really gets going around 500)",
+        condition: (state) => state.clickCount >= 500,
+        reward: { 
+          type: "electroShards", 
+          amount: 1,
+          message: "Quest Completed: Clickpocalypse Now - The clicking never stops! Received 1x Electro Shard!"
+        },
+        category: "progression",
+        difficulty: "medium"
+      },
+      {
         id: "begin_crafting",
         title: "Begin Crafting",
         description: "Start crafting items from your collected junk",
         condition: (state) => Object.values(state.craftingInventory).some(count => count > 0),
         reward: { type: "notification", message: "Quest Completed: Begin Crafting" },
+        category: "progression",
+        difficulty: "medium"
+      },
+      {
+        id: "junk_mountaineer",
+        title: "Junk Mountaineer",
+        description: "Reach 100,000 junk (because sometimes you need to build a mountain before you can move it)",
+        condition: (state) => state.junk >= 100000,
+        reward: { 
+          type: "craftingMaterial", 
+          material: "Synthcore Fragment",
+          amount: 1,
+          message: "Quest Completed: Junk Mountaineer - You've peaked! Received 1x Synthcore Fragment!"
+        },
+        category: "progression",
+        difficulty: "medium"
+      },
+      {
+        id: "auto_lifer",
+        title: "Auto-Lifer",
+        description: "Reach 5 auto clicks (welcome to the automated life, where clicking is optional)",
+        condition: (state) => state.autoClicks >= 5,
+        reward: { 
+          type: "notification", 
+          message: "Quest Completed: Auto-Lifer - You've ascended beyond manual labor!"
+        },
         category: "progression",
         difficulty: "medium"
       },
@@ -68,70 +107,20 @@ export const QUEST_LINES = {
         difficulty: "medium"
       },
       {
-        id: "scratz_money",
-        title: "Scratz $$$",
-        description: "Buy a miner and create cash from air... and uh junk cells",
-        condition: (state) => state.ownedItems.scratzMiner >= 1,
-        reward: { 
-          type: "credits", 
-          amount: 30,
-          message: "Quest Completed: Scratz $$$"
-        },
-        category: "advanced",
-        difficulty: "medium"
-      },
-      {
-        id: "alone_or_lonely",
-        title: "Alone or Lonely?",
-        description: "Don't waste those Scratz you just got! Go recruit some crew members...",
+        id: "craft_collector",
+        title: "Craft Collector",
+        description: "Own 5 different crafted items (variety is the spice of post-apocalyptic life)",
         condition: (state) => {
-          const crewStorage = JSON.parse(localStorage.getItem('crew-storage') || '{}');
-          return crewStorage.state?.hiredCrew?.length > 0;
+          const uniqueCraftedItems = Object.entries(state.craftingInventory).filter(([item, count]) => count > 0).length;
+          return uniqueCraftedItems >= 5;
         },
         reward: { 
-          type: "credits", 
-          amount: 30,
-          message: "Quest Completed: Alone or Lonely?"
-        },
-        category: "advanced",
-        difficulty: "medium"
-      },
-      {
-        id: "automation_punk",
-        title: "Automation Punk",
-        description: "Tired of clicking? Buy 10 Autoclickers!",
-        condition: (state) => state.autoClicks >= 10,
-        reward: { 
-          type: "permanentAutoClicks", 
+          type: "craftingMaterial", 
+          material: "Encrypted Coil",
           amount: 1,
-          message: "Quest Completed: Automation Punk - Received +1 Permanent AutoClick!"
+          message: "Quest Completed: Craft Collector - Your collection grows! Received 1x Encrypted Coil!"
         },
         category: "advanced",
-        difficulty: "hard"
-      },
-      {
-        id: "gambling_addiction",
-        title: "Gambling Addiction",
-        description: "Buy the Big Slot Machine",
-        condition: (state) => localStorage.getItem('bigSlots') === 'true',
-        reward: { 
-          type: "notification", 
-          message: "Quest Completed: You are now addicted to gambling! - Unlocked more Gambling related content"
-        },
-        category: "side",
-        difficulty: "medium"
-      },
-      {
-        id: "unlock_ascension_protocol",
-        title: "Unlock Ascension Protocol",
-        description: "Reach 4 million junk to unlock the path to prestige",
-        condition: (state) => state.junk >= 4000000,
-        reward: { 
-          type: "special", 
-          action: "unlockAscensionProtocol",
-          message: "You've reached 4 million scrap! Unlocking Ascension Protocol."
-        },
-        category: "milestone",
         difficulty: "hard"
       }
     ]
@@ -173,8 +162,8 @@ export const QUEST_LINES = {
       {
         id: "whispers_in_the_scrap",
         title: "Whispers in the Scrap",
-        description: "Collect 20M Junk",
-        condition: (state) => state.cogfatherLore.length >= 10 || state.junk >= 20000000,
+        description: "Collect 20M Junk or discover Cogfather lore",
+        condition: (state) => state.cogfatherLore.length >= 1 || state.junk >= 20000000,
         reward: { 
           type: "craftingMaterial", 
           material: "Synthcore Fragment",
@@ -184,25 +173,6 @@ export const QUEST_LINES = {
         },
         category: "ascension",
         difficulty: "hard"
-      },
-      {
-        id: "scratz_to_riches",
-        title: "Scratz to Riches",
-        description: "Collect 200 Scratz and Complete 5 Crew Missions",
-        condition: (state) => {
-          const crewStorage = JSON.parse(localStorage.getItem('crew-storage') || '{}');
-          const successfulMissions = crewStorage.state?.successfulMissions || 0;
-          return state.credits > 199 && successfulMissions >= 5;
-        },
-        reward: { 
-          type: "craftingMaterial", 
-          material: "Quantum Entangler",
-          amount: 1,
-          message: "Congratulations! Your efforts have been logged, monetized, and mildly appreciated. Please enjoy this pixelated sense of pride.",
-          extraMessage: "Received: 1x Quantum Entangler"
-        },
-        category: "prestige",
-        difficulty: "epic"
       },
       {
         id: "forge_the_future",
@@ -293,25 +263,6 @@ export const QUEST_LINES = {
         },
         category: "collection",
         difficulty: "epic"
-      },
-      {
-        id: "mission_obsessed",
-        title: "Mission Obsessed",
-        description: "Complete 20 Missions and gather 2000 Scratz",
-        condition: (state) => {
-          const crewStorage = JSON.parse(localStorage.getItem('crew-storage') || '{}');
-          const successfulMissions = crewStorage.state?.successfulMissions || 0;
-          return successfulMissions >= 20 && state.credits >= 2000;
-        },
-        reward: { 
-          type: "special", 
-          action: "unlockAdvancedMissions",
-          message: "Quest Complete: Mission Obsessed",
-          extraMessage: "Unlocked: New missions and gear available!",
-          news: "Your dedication to missions has caught the attention of underground networks. New opportunities await."
-        },
-        category: "collection",
-        difficulty: "legendary"
       },
       {
         id: "forge_the_overcrystal",
