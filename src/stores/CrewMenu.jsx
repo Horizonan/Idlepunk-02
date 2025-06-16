@@ -882,29 +882,29 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
                       <div className="crew-loadout-slots">
                         {['weapon', 'armor', 'tool'].map(slotType => (
-                          <div key={slotType} className="loadout-slot">
-                            <div className="slot-type">{slotType}</div>
+                          <div key={slotType} className="crew-loadout-slot">
+                            <div className="crew-slot-type">{slotType}</div>
                             {loadout[slotType] ? (
-                              <div className="equipped-item">
-                                <span className="equipment-crew-icon">{loadout[slotType].icon}</span>
-                                <div className="equipment-crew-info">
+                              <div className="crew-equipped-item">
+                                <span className="crew-equipment-icon">{loadout[slotType].icon}</span>
+                                <div className="crew-equipment-info">
                                   <p>{loadout[slotType].name}</p>
-                                  <div className="equipment-crew-stats">
+                                  <div className="crew-equipment-stats">
                                     {Object.entries(loadout[slotType].statBonus).map(([stat, bonus]) => (
                                       <span key={stat}>{stat}: +{bonus}</span>
                                     ))}
                                   </div>
                                 </div>
                                 <button 
-                                  className="unequip-button"
+                                  className="crew-unequip-button"
                                   onClick={() => unequipItemFromCrew(crew.id, slotType)}
                                 >
                                   ✕
                                 </button>
                               </div>
                             ) : (
-                              <div className="empty-slot">
-                                <div className="slot-icon">+</div>
+                              <div className="crew-empty-slot">
+                                <div className="crew-slot-icon">+</div>
                                 <select 
                                   value=""
                                   onChange={(e) => {
@@ -929,9 +929,9 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                         ))}
                       </div>
 
-                      <div className="effective-stats">
+                      <div className="crew-effective-stats">
                         <h6>Effective Stats:</h6>
-                        <div className="stats-display">
+                        <div className="crew-stats-display">
                           {Object.entries(effectiveStats || {}).map(([stat, value]) => (
                             <span key={stat}>{stat}: {value}</span>
                           ))}

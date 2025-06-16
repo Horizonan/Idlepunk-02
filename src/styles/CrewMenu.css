@@ -679,7 +679,7 @@
   justify-content: center;
 }
 
-.slot-type {
+.crew-slot-type {
   color: #00FF00;
   margin-bottom: 10px;
   font-size: 12px;
@@ -687,12 +687,12 @@
   font-weight: bold;
 }
 
-.slot-icon {
+.crew-slot-icon {
   font-size: 24px;
   color: #00FF00;
 }
 
-.equipped-item {
+.crew-equipped-item {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -700,21 +700,21 @@
   position: relative;
 }
 
-.equipped-item .crew-equipment-icon {
+.crew-equipped-item .crew-equipment-icon {
   font-size: 1.5em;
 }
 
-.equipped-item .crew-equipment-info {
+.crew-equipped-item .crew-equipment-info {
   text-align: center;
 }
 
-.equipped-item .crew-equipment-info p {
+.crew-equipped-item .crew-equipment-info p {
   color: #00FF00;
   font-size: 0.8em;
   margin: 2px 0;
 }
 
-.unequip-button {
+.crew-unequip-button {
   position: absolute;
   top: -5px;
   right: -5px;
@@ -731,7 +731,7 @@
   justify-content: center;
 }
 
-.empty-slot select {
+.crew-empty-slot select {
   background: #222;
   color: #00FF00;
   border: 1px solid #9400D3;
@@ -742,27 +742,27 @@
   margin-top: 10px;
 }
 
-.effective-stats {
+.crew-effective-stats {
   background: rgba(0, 255, 0, 0.1);
   padding: 10px;
   border-radius: 4px;
   border: 1px solid #00FF00;
 }
 
-.effective-stats h6 {
+.crew-effective-stats h6 {
   color: #00FF00;
   margin: 0 0 8px 0;
   font-size: 0.9em;
 }
 
-.stats-display {
+.crew-stats-display {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   max-width: 90%;
 }
 
-.mission-completion-window {
+.crew-mission-completion-window {
   position: fixed;
   top: 0;
   left: 0;
@@ -883,7 +883,7 @@
   margin: 0;
 }
 
-.stats-display span {
+.crew-stats-display span {
   background: rgba(0, 255, 0, 0.2);
   padding: 3px 8px;
   border-radius: 3px;
