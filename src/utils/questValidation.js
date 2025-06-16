@@ -14,415 +14,364 @@ export const validateQuests = ({
   setElectroShards,
   setNotifications,
   setCraftingInventory,
-  setAutoClicks, 
-  setPermanentAutoClicks, 
-  setCredits, 
-  credits,
+  setAutoClicks, setPermanentAutoClicks, setCredits, credits,
 }) => {
-  const prestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
+  const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
+  const totalTronicsClicks = parseInt(localStorage.getItem('totalTronicsClicks'));
+  const electroStoreUpgrades = localStorage.getItem('upgradeCount');
+
+
+  // Prestige 2 quest validation
+  if (localStorage.getItem('prestige2Active') === 'true') {
+    
+    if (junk >= 100000000 && !localStorage.getItem('quest_sync_Beyond the Heap')) {
+      localStorage.setItem('quest_sync_Beyond the Heap', 'true');
+      setCraftingInventory(prev => ({
+        ...prev,
+        'Dimensional Residue': (prev['Dimensional Residue'] || 0) + 1
+      }));
+      setNotifications(prev => [...prev, "Quest Complete: Beyond the Heap"]);
+      setNotifications(prev => [...prev, "Obtained: Dimensional Residue"]);
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: "The dimensional barriers weaken as you transcend the material heap..." }
+      }));
+      return;
+    }
+
+    // Placeholder for quest 2 - Quantum Resonance
+    const quantumStabilizations = parseInt(localStorage.getItem('quantumStabilizations') || '0');
+    if (quantumStabilizations >= 10 && !localStorage.getItem('quest_sync_Quantum Resonance')) {
+      localStorage.setItem('quest_sync_Quantum Resonance', 'true');
+      setCraftingInventory(prev => ({
+        ...prev,
+        'Quantum Fragment': (prev['Quantum Fragment'] || 0) + 1
+      }));
+      setNotifications(prev => [...prev, "Quest Complete: Quantum Resonance"]);
+      setNotifications(prev => [...prev, "Obtained: Quantum Fragment"]);
+      return;
+    }
+
+    // Crafted Ascendancy - craft 3 advanced prestige items
+    const advancedPrestigeCount = (craftingInventory['Advanced Prestige Core'] || 0) + 
+                                  (craftingInventory['Dimensional Stabilizer'] || 0) + 
+                                  (craftingInventory['Quantum Matrix'] || 0);
+    if (advancedPrestigeCount >= 3 && !localStorage.getItem('quest_sync_Crafted Ascendancy')) {
+      localStorage.setItem('quest_sync_Crafted Ascendancy', 'true');
+      setPermanentAutoClicks(prev => prev + 2);
+      setNotifications(prev => [...prev, "Quest Complete: Crafted Ascendancy"]);
+      setNotifications(prev => [...prev, "Obtained: +2 Permanent Autoclicks"]);
+      return;
+    }
+
+    // Surge Harvester - harvest during 3 trash surges
+    const surgeHarvests = parseInt(localStorage.getItem('surgeHarvests') || '0');
+    if (surgeHarvests >= 3 && !localStorage.getItem('quest_sync_Surge Harvester')) {
+      localStorage.setItem('quest_sync_Surge Harvester', 'true');
+      setCraftingInventory(prev => ({
+        ...prev,
+        'Surge Core Stabilizer': (prev['Surge Core Stabilizer'] || 0) + 1
+      }));
+      setNotifications(prev => [...prev, "Quest Complete: Surge Harvester"]);
+      setNotifications(prev => [...prev, "Obtained: Surge Core Stabilizer"]);
+      return;
+    }
+
+    // Become A Scratzionaire - reach 1 million scratz
+    if (credits >= 1000000 && !localStorage.getItem('quest_sync_Become A Scratzionaire')) {
+      localStorage.setItem('quest_sync_Become A Scratzionaire', 'true');
+      localStorage.setItem('superOverchargedUnlocked', 'true');
+      setNotifications(prev => [...prev, "Quest Complete: Become A Scratzionaire"]);
+      setNotifications(prev => [...prev, "Unlocked: Super Overcharged Crystal crafting recipe!"]);
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: "Your wealth transcends mere currency. The final crystal awaits..." }
+      }));
+      return;
+    }
+
+    return; // Exit early if in prestige 2 mode
+  }
+
+  if (hasPrestiged) {
+
+
+    if (junk >= 50000000 && !localStorage.getItem('quest_sync_System Memory Detected')) {
+      localStorage.setItem('quest_sync_System Memory Detected', 'true');
+      setCraftingInventory(prev => ({
+        ...prev,
+        'Encrypted Coil': (prev['Encrypted Coil'] || 0) + 1
+      }));
+      setNotifications(prev => [...prev, "Quest Complete: System Memory Detected"]);
+      setNotifications(prev => [...prev, "Obtained: Encrypted Coil"]);
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: "There's data buried in the circuits… waiting to be recompiled." }
+      }));
+      return;
+    }
+
+  
+      if (totalTronicsClicks >= 10000 && !localStorage.getItem('quest_sync_Tap the Pulse')) {
+        localStorage.setItem('quest_sync_Tap the Pulse', 'true');
+        setAutoClicks(prev => prev + 5);
+        setNotifications(prev => [...prev, "Quest Complete: Tap the Pulse"]);
+        setNotifications(prev => [...prev, "Obtained: 5 Auto Clicks"]);
+        window.dispatchEvent(new CustomEvent('nextNews', { 
+          detail: { message: "You feel the rhythm of the grid. Tronics flow faster now." }
+        }));
+        return;
+      }
+
+
+      
+      if (electroStoreUpgrades >= 10 && !localStorage.getItem('quest_sync_Upgrade Cascade')) {
+        localStorage.setItem('quest_sync_Upgrade Cascade', 'true');
+        setCraftingInventory(prev => ({
+          ...prev,
+          'Surge Capacitor Fragment': (prev['Surge Capacitor Fragment'] || 0) + 1
+        }));
+        setNotifications(prev => [...prev, "Quest Complete: Upgrade Cascade"]);
+        setNotifications(prev => [...prev, "Obtained: ..."]);
+        window.dispatchEvent(new CustomEvent('nextNews', { 
+          detail: { message: "With each spark, the system grows stronger." }
+        }));
+      return;
+    }
+
+ 
+    if (localStorage.getItem('beaconCount') == 10 && !localStorage.getItem('quest_sync_Beacon Protocol')) {
+      localStorage.setItem('quest_sync_Beacon Protocol', 'true');
+      setCraftingInventory(prev => ({
+        ...prev,
+        'Surge Capacitor Fragment': (prev['Surge Capacitor Fragment'] || 0) + 1
+      }));
+      setNotifications(prev => [...prev, "Quest Complete: Beacon Protocol"]);
+      setNotifications(prev => [...prev, "Obtained: ..."]);
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: "The grid is lit. The path ahead is clear." }
+      }));
+      return;
+    }
+
+    // Mission Obsessed quest validation
+    const successfulMissions = JSON.parse(localStorage.getItem('crew-storage') || '{}').state?.successfulMissions || 0;
+    if (successfulMissions >= 20 && credits >= 2000 && !localStorage.getItem('quest_sync_Mission Obsessed')) {
+      localStorage.setItem('quest_sync_Mission Obsessed', 'true');
+      setNotifications(prev => [...prev, "Quest Complete: Mission Obsessed"]);
+      setNotifications(prev => [...prev, "Unlocked: New missions and gear available!"]);
+      
+      // Unlock advanced missions and gear
+      localStorage.setItem('advancedMissionsUnlocked', 'true');
+      localStorage.setItem('eliteGearUnlocked', 'true');
+      
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: "Your dedication to missions has caught the attention of underground networks. New opportunities await." }
+      }));
+      return;
+    }
+
+    
+
+  
+    if (craftingInventory['Overcharged Prestige Crystal'] >= 1 && !localStorage.getItem('quest_sync_Forge the Overcrystal')) {
+      localStorage.setItem('prestige1Unlocked', 'true');
+      localStorage.setItem('quest_sync_Forge the Overcrystal', 'true');
+      setNotifications(prev => [...prev, "The Prestige System has been unlocked!"]);
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: "The signal breaks through. You're no longer just salvaging — you're rewriting the system" }
+      }));
+      return;
+    }
+    return; 
+  }
+
+ 
   const hasAnyUpgrade = ownedItems.trashBag > 0 || ownedItems.trashPicker > 0;
   const totalPassiveIncome = Math.floor(passiveIncome * globalJpsMultiplier + (autoClicks * clickMultiplier));
 
-  // Prestige 0 Quests
-  if (prestigeCount === 0) {
-    const questChecks = [
-      {
-        title: "First Contact with Junk",
-        condition: clickCount >= 10,
-        category: 'tutorial'
-      },
-      {
-        title: "Window Shopping Spree",
-        condition: hasAnyUpgrade,
-        category: 'tutorial'
-      },
-      {
-        title: "Tool Supremacy",
-        condition: clickMultiplier >= 5,
-        category: 'progression',
-        onComplete: () => {
-          setElectroShards(prev => {
-            const newValue = prev + 1;
-            localStorage.setItem('electroShards', newValue);
-            return newValue;
-          });
-          setNotifications(prev => [...prev, "Quest Completed: Tool Supremacy - Received 1x Electro Shard!"]);
-        }
-      },
-      {
-        title: "Passive Aggressive Income",
-        condition: totalPassiveIncome > 5,
-        category: 'progression'
-      },
-      {
-        title: "Crafting for Dummies",
-        condition: Object.values(craftingInventory).some(count => count > 0),
-        category: 'progression'
-      },
-      {
-        title: "Surge Surfer",
-        condition: surgeCount >= 1,
-        category: 'advanced',
-        onComplete: () => {
-          setElectroShards(prev => {
-            const newValue = prev + 1;
-            localStorage.setItem('electroShards', newValue);
-            return newValue;
-          });
-          setNotifications(prev => [...prev, "Quest Completed: Surge Surfer - Received 1x Electro Shard!"]);
-        }
-      },
-      {
-        title: "Crystal Forge Master",
-        condition: craftingInventory['Basic Prestige Crystal'] >= 1,
-        category: 'milestone',
-        onComplete: () => {
-          localStorage.setItem('prestige1Unlocked', 'true');
-          setNotifications(prev => [...prev, "Prestige 1 System Unlocked!"]);
+  const questChecks = [
+    {
+      title: "Begin Crafting",
+      condition: Object.values(craftingInventory).some(count => count > 0),
+      category: 'progression',
+      onComplete: () => {
+        const questKey = 'quest_sync_Begin Crafting';
+        if (localStorage.getItem(questKey) !== 'true') {
+          localStorage.setItem(questKey, 'true');
+          window.dispatchEvent(new Event('storage'));
+          setNotifications(prev => [...prev, "Quest Completed: Begin Crafting"]);
         }
       }
-    ];
+    },
+    { 
+      title: "First Steps", 
+      condition: clickCount > 9,
+      category: 'progression'
+    },
+    { 
+      title: "Shopping Time", 
+      condition: hasAnyUpgrade,
+      category: 'progression'
+    },
+    { 
+      title: "Tool Master", 
+      condition: clickMultiplier > 5,
+      category: 'progression',
+      onComplete: () => {
+        setElectroShards(prev => {
+          const newValue = prev + 1;
+          localStorage.setItem('electroShards', newValue);
+          return newValue;
+        });
+        setNotifications(prev => [...prev, "Quest Completed: Tool Master - Received 1x Electro Shard!"]);
+      }
+    },
+    { 
+      title: "Passive Income", 
+      condition: totalPassiveIncome > 10,
+      category: 'progression'
+    },
+    {
+      title: "Surge Rider",
+      condition: surgeCount >= 1,
+      category: 'ascension',
+      onComplete: () => {
+        setElectroShards(prev => {
+          const newValue = prev + 1;
+          localStorage.setItem('electroShards', newValue);
+          return newValue;
+        });
+        setNotifications(prev => [...prev, "Quest Completed: Surge Rider - Received 1x Electro Shard!"]);
+      }
+    },
+    {
+      title: "Scratz $$$",
+      condition: ownedItems.scratzMiner <= 1,
+      category: 'progression',
+      onComplete: () => {
+        setCredits(prev => prev + 30);
+      }
+    },
+    {
+      title: "Alone or Lonely?",
+      condition: localStorage.getItem('crew-storage') && JSON.parse(localStorage.getItem('crew-storage') || '{}').state?.hiredCrew?.length > 0,
+      category: 'progression',
+      onComplete: () => {
+        setCredits(prev => prev + 30);
+      }
+    },
+    {
+      title: "Automation Punk",
+      condition: autoClicks >= 10,
+      category: 'ascension',
+      onComplete: () => {
+        setPermanentAutoClicks(prev => prev + 1);
+        setNotifications(prev => [...prev, "Quest Completed: Automation Punk - Received +1 Permanent AutoClick!"]);
+      }
+    },
+    {
+      title: "Gambling Addiction",
+      condition: localStorage.getItem('bigSlots'),
+      category: 'progression',
+      onComplete: () => {
+        
+        setNotifications(prev => [...prev, "Quest Completed: You are now addicted to gambling! - Unlocked more Gambling related content"]);
+      }
+    },
+    { 
+      title: "Surge Overflow", 
+      condition: surgeCount >= 3,
+      category: 'ascension',
+      onComplete: () => {
+        setCraftingInventory(prev => ({
+          ...prev,
+          'Stabilized Capacitor': (prev['Stabilized Capacitor'] || 0) + 1
+        }));
+        setNotifications(prev => [...prev, "Received: 1x Stabilized Capacitor"]);
+      }
+    },
+    { 
+      title: "The Circuit Speaks", 
+      condition: electroShards >= 4,
+      category: 'ascension',
+      onComplete: () => {
+        setCraftingInventory(prev => ({
+          ...prev,
+          'Voltage Node': (prev['Voltage Node'] || 0) + 1
+        }));
+        setNotifications(prev => [...prev, "The circuit's secrets are revealed. Received: 1x Voltage Node"]);
+      }
+    },
+    {
+      title: "Whispers in the Scrap",
+      condition: (cogfatherLore.length >= 10 || junk >= 20000000),
+      category: 'ascension',
+      onComplete: () => {
+        setCraftingInventory(prev => ({
+          ...prev,
+          'Synthcore Fragment': (prev['Synthcore Fragment'] || 0) + 1
+        }));
+        window.dispatchEvent(new CustomEvent('nextNews', { 
+          detail: { message: "A strange resonance echoes from your scrap..." }
+        }));
+        setNotifications(prev => [...prev, "The whispers grow stronger. Received: 1x Synthcore Fragment"]);
+      }
+    },
+    {
+      title: "Unlock Ascension Protocol",
+      condition: junk >= 4000000,
+      category: 'milestone',
+      onComplete: () => {
+        localStorage.setItem('quest_sync_Unlock Ascension Protocol', 'true');
+        localStorage.setItem('cogfatherEvent', 'true');
+        setNotifications(prev => [...prev, "You've reached 4 million scrap! Unlocking Ascension Protocol."]);
+        
+        // Add animation to quest log buttons
+        const questLogBtn = document.querySelector('.quest-log-toggle');
+        const mainQuestLog = document.querySelector('.quest-log');
+        if (questLogBtn) questLogBtn.classList.add('quest-log-attention');
+        if (mainQuestLog) mainQuestLog.classList.add('quest-log-attention');
+      }
+    },
+    {
+      title: "Forge the Future",
+      condition: craftingInventory['Prestige Crystal'] >= 1,
+      category: 'prestige',
+      onComplete: () => {
+        localStorage.setItem('prestigeUnlocked', 'true');
+        localStorage.setItem('quest_sync_Forge the Future', 'true');
+        setNotifications(prev => [...prev, "The Prestige System has been unlocked!"]);
+        window.dispatchEvent(new CustomEvent('nextNews', { 
+          detail: { message: "Cogfather: The crystal's power flows through the system. You're ready for what comes next." }
+        }));
+      }
+    },
+    {
+      title: "Scratz to Riches",
+      condition: credits > 199 && (JSON.parse(localStorage.getItem('crew-storage') || '{}').state?.successfulMissions || 0) >= 5,
+      category: 'prestige',
+      onComplete: () => {
+        localStorage.setItem('Scratz_to_Riches', 'true');
+        setCraftingInventory(prev => ({
+          ...prev,
+          'Quantum Entangler': (prev['Quantum Entangler'] || 0) + 1
+        }));
+        setNotifications(prev => [...prev, "Congratulations! Your efforts have been logged, monetized, and mildly appreciated. Please enjoy this pixelated sense of pride."]);
+        setNotifications(prev => [...prev, "Received: 1x Quantum Entangler"]);
+      }
+    },
 
-    questChecks.forEach(quest => {
-      if (quest.condition) {
-        const questSyncKey = `quest_sync_${quest.title}`;
-        if (!localStorage.getItem(questSyncKey)) {
-          localStorage.setItem(questSyncKey, 'true');
-          setNotifications(prev => [...prev, `Quest Completed: ${quest.title}`]);
-          if (quest.onComplete) {
-            quest.onComplete();
-          }
+
+  ];
+
+  questChecks.forEach(quest => {
+    if (quest.condition) {
+      const questSyncKey = `quest_sync_${quest.title}`;
+      if (!localStorage.getItem(questSyncKey)) {
+        localStorage.setItem(questSyncKey, 'true');
+        setNotifications(prev => [...prev, `Quest Completed: ${quest.title}`]);
+        if (quest.onComplete) {
+          quest.onComplete();
         }
       }
-    });
-  }
-
-  // Prestige 1 Quests
-  if (prestigeCount === 1) {
-    const questChecks = [
-      {
-        title: "Reboot Protocols",
-        condition: junk >= 1000000,
-        category: 'milestone'
-      },
-      {
-        title: "Automation Station",
-        condition: autoClicks >= 5,
-        category: 'progression',
-        onComplete: () => {
-          setPermanentAutoClicks(prev => prev + 1);
-          setNotifications(prev => [...prev, "Quest Completed: Automation Station - Received +1 Permanent Autoclick!"]);
-        }
-      },
-      {
-        title: "Tech Tree Climber",
-        condition: parseInt(localStorage.getItem('techUpgradeCount') || '0') >= 3,
-        category: 'progression',
-        onComplete: () => {
-          // Award tech points
-          setNotifications(prev => [...prev, "Quest Completed: Tech Tree Climber - Received 2x Tech Points!"]);
-        }
-      },
-      {
-        title: "Efficiency Expert",
-        condition: clickMultiplier >= 10,
-        category: 'progression',
-        onComplete: () => {
-          setCraftingInventory(prev => ({
-            ...prev,
-            'Voltage Capacitor': (prev['Voltage Capacitor'] || 0) + 1
-          }));
-          setNotifications(prev => [...prev, "Received: 1x Voltage Capacitor"]);
-        }
-      },
-      {
-        title: "Mass Production",
-        condition: surgeCount >= 3,
-        category: 'challenge',
-        onComplete: () => {
-          setCraftingInventory(prev => ({
-            ...prev,
-            'Stabilized Core': (prev['Stabilized Core'] || 0) + 1
-          }));
-          setNotifications(prev => [...prev, "Received: 1x Stabilized Core"]);
-        }
-      },
-      {
-        title: "Advanced Crystal Synthesis",
-        condition: craftingInventory['Enhanced Prestige Crystal'] >= 1,
-        category: 'milestone',
-        onComplete: () => {
-          localStorage.setItem('prestige2Unlocked', 'true');
-          setNotifications(prev => [...prev, "Prestige 2 System Unlocked!"]);
-        }
-      }
-    ];
-
-    questChecks.forEach(quest => {
-      if (quest.condition) {
-        const questSyncKey = `quest_sync_${quest.title}`;
-        if (!localStorage.getItem(questSyncKey)) {
-          localStorage.setItem(questSyncKey, 'true');
-          setNotifications(prev => [...prev, `Quest Completed: ${quest.title}`]);
-          if (quest.onComplete) {
-            quest.onComplete();
-          }
-        }
-      }
-    });
-  }
-
-  // Prestige 2 Quests
-  if (prestigeCount === 2) {
-    const crewStorage = JSON.parse(localStorage.getItem('crew-storage') || '{}');
-    const hiredCrew = crewStorage.state?.hiredCrew || [];
-    const successfulMissions = crewStorage.state?.successfulMissions || 0;
-
-    const questChecks = [
-      {
-        title: "Second Wind",
-        condition: junk >= 5000000,
-        category: 'milestone'
-      },
-      {
-        title: "Scratz Entrepreneur",
-        condition: credits >= 50,
-        category: 'progression'
-      },
-      {
-        title: "People Manager",
-        condition: hiredCrew.length >= 1,
-        category: 'progression',
-        onComplete: () => {
-          setCredits(prev => prev + 30);
-          setNotifications(prev => [...prev, "Quest Completed: People Manager - Received 30 Scratz!"]);
-        }
-      },
-      {
-        title: "Mission Commander",
-        condition: successfulMissions >= 5,
-        category: 'progression',
-        onComplete: () => {
-          setCraftingInventory(prev => ({
-            ...prev,
-            'Quantum Relay': (prev['Quantum Relay'] || 0) + 1
-          }));
-          setNotifications(prev => [...prev, "Received: 1x Quantum Relay"]);
-        }
-      },
-      {
-        title: "Gambling Problem",
-        condition: localStorage.getItem('bigSlots') === 'true',
-        category: 'side',
-        onComplete: () => {
-          setNotifications(prev => [...prev, "Quest Completed: Gambling Problem - You're officially addicted!"]);
-        }
-      },
-      {
-        title: "Crew Chief",
-        condition: hiredCrew.length >= 3,
-        category: 'progression',
-        onComplete: () => {
-          setCraftingInventory(prev => ({
-            ...prev,
-            'Neural Interface': (prev['Neural Interface'] || 0) + 1
-          }));
-          setNotifications(prev => [...prev, "Received: 1x Neural Interface"]);
-        }
-      },
-      {
-        title: "Superior Crystal Engineering",
-        condition: craftingInventory['Superior Prestige Crystal'] >= 1,
-        category: 'milestone',
-        onComplete: () => {
-          localStorage.setItem('prestige3Unlocked', 'true');
-          setNotifications(prev => [...prev, "Prestige 3 System Unlocked!"]);
-        }
-      }
-    ];
-
-    questChecks.forEach(quest => {
-      if (quest.condition) {
-        const questSyncKey = `quest_sync_${quest.title}`;
-        if (!localStorage.getItem(questSyncKey)) {
-          localStorage.setItem(questSyncKey, 'true');
-          setNotifications(prev => [...prev, `Quest Completed: ${quest.title}`]);
-          if (quest.onComplete) {
-            quest.onComplete();
-          }
-        }
-      }
-    });
-  }
-
-  // Prestige 3 Quests
-  if (prestigeCount === 3) {
-    const crewStorage = JSON.parse(localStorage.getItem('crew-storage') || '{}');
-    const successfulMissions = crewStorage.state?.successfulMissions || 0;
-    const skillsData = JSON.parse(localStorage.getItem('skillsData') || '{}');
-    const skillsUnlocked = localStorage.getItem('skillsUnlocked') === 'true';
-
-    const questChecks = [
-      {
-        title: "Third Time's the Charm",
-        condition: junk >= 20000000,
-        category: 'milestone'
-      },
-      {
-        title: "Skills Assessment",
-        condition: skillsUnlocked,
-        category: 'progression'
-      },
-      {
-        title: "Multi-Talented",
-        condition: Object.values(skillsData).filter(level => level >= 5).length >= 3,
-        category: 'progression',
-        onComplete: () => {
-          setCraftingInventory(prev => ({
-            ...prev,
-            'Skill Amplifier': (prev['Skill Amplifier'] || 0) + 1
-          }));
-          setNotifications(prev => [...prev, "Received: 1x Skill Amplifier"]);
-        }
-      },
-      {
-        title: "Elite Crew Operations",
-        condition: successfulMissions >= 15,
-        category: 'progression',
-        onComplete: () => {
-          setCraftingInventory(prev => ({
-            ...prev,
-            'Command Matrix': (prev['Command Matrix'] || 0) + 1
-          }));
-          setNotifications(prev => [...prev, "Received: 1x Command Matrix"]);
-        }
-      },
-      {
-        title: "Resource Tycoon",
-        condition: credits >= 500,
-        category: 'collection',
-        onComplete: () => {
-          setCraftingInventory(prev => ({
-            ...prev,
-            'Wealth Converter': (prev['Wealth Converter'] || 0) + 1
-          }));
-          setNotifications(prev => [...prev, "Received: 1x Wealth Converter"]);
-        }
-      },
-      {
-        title: "Perfect Crystal Mastery",
-        condition: craftingInventory['Perfect Prestige Crystal'] >= 1,
-        category: 'milestone',
-        onComplete: () => {
-          localStorage.setItem('prestige4Unlocked', 'true');
-          setNotifications(prev => [...prev, "Prestige 4 System Unlocked!"]);
-        }
-      }
-    ];
-
-    questChecks.forEach(quest => {
-      if (quest.condition) {
-        const questSyncKey = `quest_sync_${quest.title}`;
-        if (!localStorage.getItem(questSyncKey)) {
-          localStorage.setItem(questSyncKey, 'true');
-          setNotifications(prev => [...prev, `Quest Completed: ${quest.title}`]);
-          if (quest.onComplete) {
-            quest.onComplete();
-          }
-        }
-      }
-    });
-  }
-
-  // Prestige 4 Quests
-  if (prestigeCount === 4) {
-    const crewStorage = JSON.parse(localStorage.getItem('crew-storage') || '{}');
-    const successfulMissions = crewStorage.state?.successfulMissions || 0;
-    const skillsData = JSON.parse(localStorage.getItem('skillsData') || '{}');
-    const scraptagonUnlocked = localStorage.getItem('scraptagonUnlocked') === 'true';
-    const scraptagonWins = parseInt(localStorage.getItem('scraptagonWins') || '0');
-
-    const questChecks = [
-      {
-        title: "Fourth Dimension",
-        condition: junk >= 100000000,
-        category: 'milestone'
-      },
-      {
-        title: "Scraptagon Initiate",
-        condition: scraptagonUnlocked,
-        category: 'progression'
-      },
-      {
-        title: "Combat Training",
-        condition: scraptagonWins >= 5,
-        category: 'progression',
-        onComplete: () => {
-          setCraftingInventory(prev => ({
-            ...prev,
-            'Battle Core': (prev['Battle Core'] || 0) + 1
-          }));
-          setNotifications(prev => [...prev, "Received: 1x Battle Core"]);
-        }
-      },
-      {
-        title: "Skill Master",
-        condition: Object.values(skillsData).filter(level => level >= 10).length >= 2,
-        category: 'progression',
-        onComplete: () => {
-          setCraftingInventory(prev => ({
-            ...prev,
-            'Mastery Gem': (prev['Mastery Gem'] || 0) + 1
-          }));
-          setNotifications(prev => [...prev, "Received: 1x Mastery Gem"]);
-        }
-      },
-      {
-        title: "Arena Champion",
-        condition: scraptagonWins >= 25,
-        category: 'challenge',
-        onComplete: () => {
-          setCraftingInventory(prev => ({
-            ...prev,
-            'Victory Essence': (prev['Victory Essence'] || 0) + 1
-          }));
-          setNotifications(prev => [...prev, "Received: 1x Victory Essence"]);
-        }
-      },
-      {
-        title: "Legendary Status",
-        condition: credits >= 2000 && successfulMissions >= 50,
-        category: 'collection',
-        onComplete: () => {
-          setCraftingInventory(prev => ({
-            ...prev,
-            'Legend Fragment': (prev['Legend Fragment'] || 0) + 1
-          }));
-          setNotifications(prev => [...prev, "Received: 1x Legend Fragment"]);
-        }
-      },
-      {
-        title: "Ultimate Crystal Creation",
-        condition: craftingInventory['Ultimate Prestige Crystal'] >= 1,
-        category: 'milestone',
-        onComplete: () => {
-          localStorage.setItem('prestige5Unlocked', 'true');
-          setNotifications(prev => [...prev, "Prestige 5 System Unlocked!"]);
-        }
-      }
-    ];
-
-    questChecks.forEach(quest => {
-      if (quest.condition) {
-        const questSyncKey = `quest_sync_${quest.title}`;
-        if (!localStorage.getItem(questSyncKey)) {
-          localStorage.setItem(questSyncKey, 'true');
-          setNotifications(prev => [...prev, `Quest Completed: ${quest.title}`]);
-          if (quest.onComplete) {
-            quest.onComplete();
-          }
-        }
-      }
-    });
-  }
+    }
+  });
 };

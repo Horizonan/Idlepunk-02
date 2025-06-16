@@ -7,32 +7,28 @@ export default function PrestigeMeter() {
   const [prestigeCount, setPrestigeCount] = useState(0);
   const [showPrestigeMeter, setShowPrestigeMeter] = useState(true);
 
-  // Quest lists for each prestige tier
-  const prestigeQuests = {
-    0: [
-      "First Contact with Junk", "Window Shopping Spree", "Tool Supremacy", 
-      "Passive Aggressive Income", "Crafting for Dummies", "Surge Surfer", 
-      "Crystal Forge Master"
-    ],
-    1: [
-      "Reboot Protocols", "Automation Station", "Tech Tree Climber", 
-      "Efficiency Expert", "Mass Production", "Advanced Crystal Synthesis"
-    ],
-    2: [
-      "Second Wind", "Scratz Entrepreneur", "People Manager", 
-      "Mission Commander", "Gambling Problem", "Crew Chief", 
-      "Superior Crystal Engineering"
-    ],
-    3: [
-      "Third Time's the Charm", "Skills Assessment", "Multi-Talented", 
-      "Elite Crew Operations", "Resource Tycoon", "Perfect Crystal Mastery"
-    ],
-    4: [
-      "Fourth Dimension", "Scraptagon Initiate", "Combat Training", 
-      "Skill Master", "Arena Champion", "Legendary Status", 
-      "Ultimate Crystal Creation"
-    ]
-  };
+  // Pre-prestige quests only
+  const prePrestigeQuests = [
+    "First Steps", "Shopping Time", "Tool Master", "Passive Income", "Begin Crafting", 
+    "Surge Rider", "Scratz $$$", "Alone or Lonely?", "Automation Punk", 
+    "Unlock Ascension Protocol", "Gambling Addiction", "Surge Overflow", 
+    "The Circuit Speaks", "Whispers in the Scrap", "Forge the Future"
+  ];
+
+  // Post-prestige quests
+  const postPrestigeQuests = [
+    "System Memory Detected", "Tap the Pulse", "Upgrade Cascade", 
+    "Beacon Protocol", "Forge the Overcrystal"
+  ];
+
+  // Prestige 2 quests
+    const prestige2Quests = [
+        "Beyond the Heap",
+        "Quantum Resonance", 
+        "Crafted Ascendancy",
+        "Surge Harvester",
+        "Become A Scratzionaire"
+    ];
 
   useEffect(() => {
     const updateQuestCount = () => {
@@ -44,9 +40,19 @@ export default function PrestigeMeter() {
       const meterEnabled = localStorage.getItem('showPrestigeMeter') !== 'false';
       setShowPrestigeMeter(meterEnabled);
 
-      // Use appropriate quest list based on current prestige tier
-      const currentTier = Math.min(storedPrestigeCount, 4);
-      const questsToCount = prestigeQuests[currentTier] || [];
+      // Check if user has prestiged
+      const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
+      const prestige2Active = localStorage.getItem('prestige2Active') === 'true';
+
+      // Use appropriate quest list based on prestige status
+      let questsToCount;
+      if (prestige2Active) {
+        questsToCount = prestige2Quests;
+      } else if (hasPrestiged) {
+        questsToCount = postPrestigeQuests;
+      } else {
+        questsToCount = prePrestigeQuests;
+      }
 
       const completed = questsToCount.filter(quest => 
         localStorage.getItem(`quest_sync_${quest}`) === 'true'
@@ -74,43 +80,95 @@ export default function PrestigeMeter() {
 
   if (!showMeter || !showPrestigeMeter) return null;
 
-  // Determine current tier and quest list
-  const currentTier = Math.min(prestigeCount, 4);
-  const questsToCount = prestigeQuests[currentTier] || [];
+  // Check if user has prestiged to determine which quest list to use
+  const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
+  const prestige2Active = localStorage.getItem('prestige2Active') === 'true';
+
+  let questsToCount;
+      if (prestige2Active) {
+        questsToCount = prestige2Quests;
+      } else if (hasPrestiged) {
+        questsToCount = postPrestigeQuests;
+      } else {
+        questsToCount = prePrestigeQuests;
+      }
   const totalQuests = questsToCount.length;
 
   // Check completion conditions based on current questline
   let progressPercentage;
-  const finalQuestCompleted = localStorage.getItem(`quest_sync_${questsToCount[questsToCount.length-1]}`) === 'true';
-  progressPercentage = finalQuestCompleted ? 100 : (completedQuests / totalQuests) * 100;
+  if (prestige2Active) {
+        const lastQuestCompleted = localStorage.getItem(`quest_sync_${prestige2Quests[prestige2Quests.length-1]}`) === 'true';
+        progressPercentage = lastQuestCompleted ? 100 : (completedQuests / totalQuests) * 100;
+  }
+  else if (hasPrestiged) {
+    // Post-prestige: Check if "Forge the Overcrystal" is completed
+    const overcrystalCompleted = localStorage.getItem('quest_sync_Forge the Overcrystal') === 'true';
+    progressPercentage = overcrystalCompleted ? 100 : (completedQuests / totalQuests) * 100;
+  } else {
+    // Pre-prestige: Check if "Forge the Future" is completed
+    const forgeTheFutureCompleted = localStorage.getItem('quest_sync_Forge the Future') === 'true';
+    progressPercentage = forgeTheFutureCompleted ? 100 : (completedQuests / totalQuests) * 100;
+  }
 
-  const isMaxed = progressPercentage >= 100;
+  // Show current prestige level, minimum 1
+  const prestigeLevel = Math.max(prestigeCount, 1);
+  
+  // Check what features are available at current prestige
+  const getAvailableFeatures = (prestige) => {
+    const features = [];
+    if (prestige >= 1) features.push('Tronics & Crafting');
+    if (prestige >= 2) features.push('Crew Management');
+    if (prestige >= 3) features.push('Skills Center');
+    if (prestige >= 4) features.push('Scraptagon Arena');
+    return features;
+  };
+  
+  // Get current prestige bonuses
+  const getCurrentBonuses = (prestige) => {
+    const bonuses = [];
+    if (prestige >= 1) {
+      const clickBonus = ((1 + (prestige * 0.05)) - 1) * 100;
+      bonuses.push(`+${clickBonus.toFixed(0)}% Click Power`);
+    }
+    if (prestige >= 2) {
+      const autoclicks = (prestige - 1) * 2;
+      bonuses.push(`+${autoclicks} Auto-clicks`);
+    }
+    if (prestige >= 3) {
+      const craftingSpeed = (Math.max(0, prestige - 2) * 0.1) * 100;
+      bonuses.push(`+${craftingSpeed.toFixed(0)}% Crafting Speed`);
+    }
+    return bonuses;
+  };
 
   return (
-    <div className="prestige-meter">
-      <div className="prestige-meter-header">
-        <span className="prestige-meter-title">
-          {currentTier === 0 ? 'Tutorial Progress' : `Prestige ${currentTier} Progress`}
-        </span>
-        <span className="prestige-count">Tier: {currentTier}</span>
-      </div>
-      <div className="prestige-meter-bar">
-        <div 
-          className="prestige-meter-fill" 
-          style={{ 
-            width: `${progressPercentage}%`,
-            backgroundColor: isMaxed ? '#00FF00' : '#9400D3'
-          }}
-        ></div>
-        <div className="prestige-meter-text">
-          {completedQuests}/{totalQuests} Quests {isMaxed ? '✓' : ''}
+    <div className="prestige-meter-container">
+      <div className="prestige-meter-content">
+        <div className="prestige-info">
+          <span className="prestige-level">Prestige {prestigeLevel}</span>
+          <span className="quest-count">{completedQuests}/{totalQuests}</span>
         </div>
-      </div>
-      <div className="prestige-meter-status">
-        {isMaxed ? 
-          `Ready for ${currentTier === 4 ? 'Final' : 'Next'} Prestige!` : 
-          `${totalQuests - completedQuests} quests remaining`
-        }
+        <div className="prestige-bar">
+          <div 
+            className="prestige-fill" 
+            style={{ width: `${progressPercentage}%` }}
+          />
+          <span className="prestige-percentage">{progressPercentage.toFixed(0)}%</span>
+        </div>
+        <div className="available-features">
+          <span className="features-label">Available:</span>
+          <span className="features-list">
+            {getAvailableFeatures(prestigeLevel).join(' • ')}
+          </span>
+        </div>
+        {prestigeLevel > 0 && (
+          <div className="prestige-bonuses">
+            <span className="bonuses-label">Active Bonuses:</span>
+            <span className="bonuses-list">
+              {getCurrentBonuses(prestigeLevel).join(' • ')}
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );
