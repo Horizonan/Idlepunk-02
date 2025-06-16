@@ -607,16 +607,15 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
 
                             const currentActiveMission = activeMission;
 
-                            // Store mission data before clearing state
+                            // Clear mission immediately to prevent spam but keep crew assignment visible
                             const completingMission = currentActiveMission;
                             const completingCrew = [...selectedCrew];
 
-                            // Clear mission state immediately to prevent spam
                             setActiveMission(null);
                             useRecruitmentZustand.setState({ 
                               activeMission: null,
-                              missionStartTime: null,
-                              selectedCrew: []
+                              missionStartTime: null
+                              // Keep selectedCrew intact for display purposes
                             });
                             const selectedCrewMembers = selectedCrew.map(id => 
                               hiredCrew.find(c => c.id === id)
@@ -720,22 +719,8 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                             // Check for mission rotation after second prestige
                             const rotatedMission = useRecruitmentZustand.getState().rotateMission(completingMission.id);
 
-                            // Create and show mission completion popup
-                            console.log('Creating mission completion popup...');
                             const missionWindow = document.createElement('div');
                             missionWindow.className = 'mission-completion-window';
-                            missionWindow.style.cssText = `
-                              position: fixed;
-                              top: 0;
-                              left: 0;
-                              width: 100%;
-                              height: 100%;
-                              background: rgba(0, 0, 0, 0.8);
-                              display: flex;
-                              justify-content: center;
-                              align-items: center;
-                              z-index: 2000;
-                            `;
                             missionWindow.innerHTML = `
                               <div class="mission-result ${success ? 'success' : 'failure'}">
                                 <h2>${success ? 'Mission Successful!' : 'Mission Failed'}</h2>
@@ -788,30 +773,16 @@ export default function CrewMenu({ onClose, setCredits, credits, setJunk, junk }
                                     </div>
                                   ` : ''}
                                 </div>
-                                <button onclick="console.log('Closing mission popup...'); this.parentElement.parentElement.remove()">Close</button>
+                                <button onclick="this.parentElement.parentElement.remove()">Close</button>
                               </div>
                             `;
-                            
-                            console.log('Appending mission popup to document body...');
                             document.body.appendChild(missionWindow);
-                            
-                            // Force visibility and log for debugging
-                            setTimeout(() => {
-                              console.log('Mission popup should now be visible');
-                              console.log('Popup element:', missionWindow);
-                              console.log('Popup parent:', missionWindow.parentElement);
-                            }, 100);
 
-                            // Reset mini-game bonus state and completion state
+                            // Reset mini-game bonus state
                             useRecruitmentZustand.setState(state => ({ 
                               ...state,
                               miniGameBonus: { rewardChanceBonus: 0, successPenalty: 0 }
                             }));
-
-                            // Reset completion state after a delay
-                            setTimeout(() => {
-                              setMissionCompleting(false);
-                            }, 1000);
                           }}
                         >
                           Complete Mission
