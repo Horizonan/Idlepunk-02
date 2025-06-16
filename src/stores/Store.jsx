@@ -17,11 +17,6 @@ export default function Store({
   const [mobileInfoModal, setMobileInfoModal] = useState(null); // For mobile item info modals
 
 
-  // Helper function to get item name (upgraded or original)
-  const getItemName = (itemKey, originalName) => {
-    return localStorage.getItem(`${itemKey}_upgradedName`) || originalName;
-  };
-
   const clickItems = [
     {
       name: localStorage.getItem('scrapBagUpgrade') ? "Reinforced Scrap Bag" : "Scrap Bag",
