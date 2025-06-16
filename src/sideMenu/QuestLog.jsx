@@ -71,12 +71,14 @@ export default function QuestLog({ tutorialStage, onClose }) {
     setIsDragging(false);
   };
 
-  // Get available quest lines dynamically
-  const availableQuestLines = getAvailableQuestLines();
+  // Get only the current quest line, not all available ones
+  const currentQuestLineKey = getCurrentQuestLine();
+  const currentQuestLineData = QUEST_LINES[currentQuestLineKey];
   const questLinesMap = {};
   
-  availableQuestLines.forEach(({ key, quests }) => {
-    questLinesMap[key] = quests.map((quest, index) => ({
+  // Only add the current quest line to the map
+  if (currentQuestLineData) {
+    questLinesMap[currentQuestLineKey] = currentQuestLineData.quests.map((quest, index) => ({
       id: index + 1,
       title: quest.title,
       task: quest.description,
@@ -163,10 +165,8 @@ export default function QuestLog({ tutorialStage, onClose }) {
   // Set initial questline based on prestige status
   useEffect(() => {
     const currentQuestLine = getCurrentQuestLine();
-    if (selectedQuestLine !== currentQuestLine && questLines[currentQuestLine]) {
-      setSelectedQuestLine(currentQuestLine);
-    }
-  }, [selectedQuestLine, questLines]);
+    setSelectedQuestLine(currentQuestLine);
+  }, []);
 
   return (
     <div 
@@ -189,22 +189,17 @@ export default function QuestLog({ tutorialStage, onClose }) {
           <button className="close-button" onClick={onClose}>Close</button>
         </div>
         <div className="quest-tabs">
-          {availableQuestLines.map(({ key, name }) => (
+          {currentQuestLineData && (
             <button
-              key={key}
-              className={`quest-tab ${selectedQuestLine === key ? 'active' : ''} ${
-                key === 'ascension' && localStorage.getItem('cogfatherEvent') === 'true' && !localStorage.getItem('ascension_tab_clicked') ? 'highlight' : ''
-              }`}
+              key={currentQuestLineKey}
+              className={`quest-tab active`}
               onClick={() => {
-                setSelectedQuestLine(key);
-                if (key === 'ascension') {
-                  localStorage.setItem('ascension_tab_clicked', 'true');
-                }
+                setSelectedQuestLine(currentQuestLineKey);
               }}
             >
-              {name}
+              {currentQuestLineData.name}
             </button>
-          ))}
+          )}
         </div>
         <div className="quest-list">
           {questLines[selectedQuestLine]?.map((quest) => (
