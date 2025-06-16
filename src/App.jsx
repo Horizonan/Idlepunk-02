@@ -2046,6 +2046,13 @@ export default function App() {
                     localStorage.setItem('crewGameIntroSeen', 'true');
                     setShowCrewIntroTooltip(false);
                     
+                    // Import and close any active recruitment games
+                    const { useRecruitmentZustand } = require('./stores/crewRecruitment/recruitmentZustand');
+                    const store = useRecruitmentZustand.getState();
+                    
+                    // Close any open mini-game windows
+                    store.resetGame();
+                    
                     // Auto-complete with median score
                     const profileCount = localStorage.getItem('signal_expander_purchased') ? 10 : 8;
                     const medianScore = Math.floor(profileCount * 0.6);
@@ -2053,11 +2060,9 @@ export default function App() {
                     // Randomly select game variant for unlocks
                     const random = Math.random();
                     if (random < 0.7) {
-                      const { useRecruitmentZustand } = require('./stores/crewRecruitment/recruitmentZustand');
-                      useRecruitmentZustand.getState().handleGameEnd(medianScore);
+                      store.handleGameEnd(medianScore);
                     } else {
-                      const { useRecruitmentZustand } = require('./stores/crewRecruitment/recruitmentZustand');
-                      useRecruitmentZustand.getState().handleSkillsGameEnd(medianScore);
+                      store.handleSkillsGameEnd(medianScore);
                     }
                   }}>
                     ⚡ Skip & Get Median Points (~60%)
