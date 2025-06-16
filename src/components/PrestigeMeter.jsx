@@ -112,6 +112,16 @@ export default function PrestigeMeter() {
 
   // Show current prestige level, minimum 1
   const prestigeLevel = Math.max(prestigeCount, 1);
+  
+  // Check what features are available at current prestige
+  const getAvailableFeatures = (prestige) => {
+    const features = [];
+    if (prestige >= 1) features.push('Tronics & Crafting');
+    if (prestige >= 2) features.push('Crew Management');
+    if (prestige >= 3) features.push('Skills Center');
+    if (prestige >= 4) features.push('Scraptagon Arena');
+    return features;
+  };
 
   return (
     <div className="prestige-meter-container">
@@ -126,6 +136,12 @@ export default function PrestigeMeter() {
             style={{ width: `${progressPercentage}%` }}
           />
           <span className="prestige-percentage">{progressPercentage.toFixed(0)}%</span>
+        </div>
+        <div className="available-features">
+          <span className="features-label">Available:</span>
+          <span className="features-list">
+            {getAvailableFeatures(prestigeLevel).join(' • ')}
+          </span>
         </div>
       </div>
     </div>

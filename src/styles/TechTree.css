@@ -25,22 +25,36 @@
   margin: 10px 0 20px;
 }
 
-.tech-tree {
+.tech-tree-linear {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 20px;
+  gap: 30px;
+  max-height: 70vh;
+  overflow-y: auto;
 }
 
 .tech-tier {
   display: flex;
-  gap: 40px;
-  justify-content: center;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+  background: rgba(40, 40, 40, 0.8);
+  border-radius: 10px;
+  border: 1px solid #9400D3;
+}
+
+.tech-tier h3 {
+  color: #00FF00;
+  text-align: center;
+  margin: 0 0 15px 0;
+  font-size: 1.2em;
+  border-bottom: 2px solid #9400D3;
+  padding-bottom: 10px;
 }
 
 .tech-node {
-  width: 200px;
-  text-align: center;
+  width: 100%;
+  text-align: left;
 }
 
 .tech-button {
@@ -52,11 +66,13 @@
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s;
+  text-align: left;
 }
 
 .tech-button:hover:not(:disabled) {
   background: #9400D3;
   color: #222;
+  transform: translateY(-2px);
 }
 
 .tech-button:disabled {
@@ -64,40 +80,78 @@
   cursor: not-allowed;
 }
 
+.tech-button.locked-tier {
+  background: #333;
+  border-color: #666;
+  color: #888;
+}
+
+.tech-button.locked-tier:hover {
+  background: #333;
+  color: #888;
+  transform: none;
+}
+
 .tech-cost {
-  font-size: 0.8em;
+  font-size: 0.9em;
   margin-top: 5px;
   color: #FF00FF;
+  font-weight: bold;
 }
 
 .tech-cost.purchased {
   display: none;
-  visibility: hidden;
 }
 
-.tech-connections {
-  position: relative;
-  height: 50px;
-  width: 100%;
+.tech-status {
+  font-size: 0.8em;
+  margin-top: 5px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  font-weight: bold;
 }
 
-.vertical-line {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  height: 100%;
-  width: 2px;
-  background: #9400D3;
+.tech-status.purchased {
+  background: #00AA00;
+  color: #000;
 }
 
-.horizontal-line {
-    position: absolute;
-    bottom: 0;
-    left: 25%;
-    width: 50%;
-    height: 2px;
-    background: #9400D3;
-  }
+.tech-divider {
+  height: 2px;
+  background: linear-gradient(to right, transparent, #9400D3, transparent);
+  margin: 10px 0;
+}
+
+.tech-progression-info {
+  background: rgba(20, 20, 20, 0.9);
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #9400D3;
+  margin-top: 20px;
+}
+
+.tech-progression-info h4 {
+  color: #00FF00;
+  margin-top: 0;
+}
+
+.tech-progression-info ul {
+  color: #CCCCCC;
+  margin: 10px 0;
+}
+
+.tech-progression-info li {
+  margin: 5px 0;
+}
+
+.current-prestige {
+  color: #FF00FF;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 15px;
+  font-size: 1.1em;
+}
 
 .required-label {
   color: #FF0000;

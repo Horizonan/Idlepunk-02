@@ -288,12 +288,12 @@ export default function App() {
         return !prev;
       });
     };
-    
+
     const handleValidateAchievements = () => {
       console.log('Manual achievement validation triggered');
       validateAchievements();
     };
-    
+
     window.addEventListener('toggleUpgradeStats', handleUpgradeStats);
     window.addEventListener('validateAchievements', handleValidateAchievements);
 
@@ -301,7 +301,7 @@ export default function App() {
       setActiveStore(null);
       setShowUpgradeStats(false);
     }
-    
+
     return () => {
       window.removeEventListener('toggleUpgradeStats', handleUpgradeStats);
       window.removeEventListener('validateAchievements', handleValidateAchievements);
@@ -1053,6 +1053,43 @@ export default function App() {
       window.removeEventListener('pagehide', handlePageHide);
     };  }, [junk]);
 
+    const handleTechUnlock = (techName) => {
+    const currentPrestige = parseInt(localStorage.getItem('prestigeCount') || '0');
+
+    // Check prestige requirements for new features
+    const prestigeRequirements = {
+      'crewMenu': 2,
+      'skillsMenu': 3,
+      'scraptagon': 4
+    };
+
+    const requiredPrestige = prestigeRequirements[techName];
+    if (requiredPrestige && currentPrestige < requiredPrestige) {
+      setNotifications(prev => [...prev, `${techName} requires Prestige ${requiredPrestige}!`]);
+      return;
+    }
+
+    if (prestigeTokens > 0) {
+      setPrestigeTokens(prev => prev - 1);
+      localStorage.setItem('prestigeTokens', (prestigeTokens - 1).toString());
+      localStorage.setItem(techName, 'true');
+
+      // Special notifications for milestone unlocks
+      const milestoneMessages = {
+        'tronicsClicker': 'Tronics Clicker unlocked! The foundation of your empire.',
+        'crewMenu': 'Crew Management unlocked! Build your team and send them on missions.',
+        'skillsMenu': 'Skills Center unlocked! Master the arts of the wasteland.',
+        'scraptagon': 'Scraptagon Arena unlocked! Prove your worth in combat.',
+        'craftingBenchV2': 'Advanced Crafting unlocked! Create superior items.',
+        'modcrafting': 'Modcrafting Station unlocked! Enhance yourself with mods.'
+      };
+
+      const message = milestoneMessages[techName] || `${techName} unlocked!`;
+      setNotifications(prev => [...prev, message]);
+      setShowTechTree(false);
+    }
+  };
+
   return (
     <main>      <VersionPopup onClose={() => {}} />
       {showQuestLog && <QuestLog tutorialStage={tutorialStage} onClose={() => setShowQuestLog(false)} />}
@@ -1589,52 +1626,7 @@ export default function App() {
           prestigeTokens={craftingInventory['Prestige Token'] || 0}
           onClose={() => setShowTechTree(false)}
           onUnlock={(techName) => {
-            const tokenCost = 1; // All tech items cost 1 token
-            if ((craftingInventory['Prestige Token'] || 0) >= tokenCost) {
-              // Check if prerequisites are met
-              const hasTronicsClicker = localStorage.getItem('tronicsClicker') === 'true';
-
-              if (techName !== 'tronicsClicker' && !hasTronicsClicker) {
-                setNotifications(prev => [...prev, "Tronics Clicker required first!"]);
-                return;
-              }
-
-              // Check if already unlocked
-              if (localStorage.getItem(techName) === 'true') {
-                setNotifications(prev => [...prev, `${techName} already unlocked!`]);
-                return;
-              }
-
-              // Deduct the token
-              setCraftingInventory(prev => ({
-                ...prev,
-                'Prestige Token': (prev['Prestige Token'] || 0) - tokenCost
-              }));
-
-              // Unlock the technology
-              localStorage.setItem(techName, 'true');
-
-              // Handle specific unlocks
-              switch(techName) {
-                case 'tronicsClicker':
-                  setElectronicsUnlock(true);
-                  setNotifications(prev => [...prev, "Tronics Clicker and ElectroShop Unlocked!"]);
-                  break;
-                case 'scraptagon':
-                  setNotifications(prev => [...prev, "Scraptagon unlocked!"]);
-                  setNotifications(prev => [...prev, "Combat Grounds now available!"]);
-                  break;
-                case 'craftingBenchV2':
-                  setNotifications(prev => [...prev, "Crafting Bench v2 unlocked!"]);
-                  setNotifications(prev => [...prev, "Advanced crafting recipes unlocked!"]);
-                  break;
-                case 'modcrafting':
-                  setNotifications(prev => [...prev, "Modcrafting Station unlocked!"]);
-                  break;
-              }
-            } else {
-              setNotifications(prev => [...prev, "Not enough Prestige Tokens!"]);
-            }
+            handleTechUnlock(techName);
           }}
         />
       )}
@@ -2028,7 +2020,7 @@ export default function App() {
               <p className="tooltip-tip">🎯 Pro Tip: When in doubt, look for internal consistency - real profiles tell a coherent story.</p>
             </div>
             <p className="refresher-note">📚 You can always check <strong>Game Tips</strong> in the main menu for a refresher!</p>
-            
+
             {localStorage.getItem('skipRecruitmentMiniGame') === null && (
               <div className="mini-game-choice-section">
                 <h4>🎮 Mini-Game Preference</h4>
@@ -2045,18 +2037,18 @@ export default function App() {
                     localStorage.setItem('skipRecruitmentMiniGame', 'true');
                     localStorage.setItem('crewGameIntroSeen', 'true');
                     setShowCrewIntroTooltip(false);
-                    
+
                     // Import and close any active recruitment games
                     const { useRecruitmentZustand } = require('./stores/crewRecruitment/recruitmentZustand');
                     const store = useRecruitmentZustand.getState();
-                    
+
                     // Close any open mini-game windows
                     store.resetGame();
-                    
+
                     // Auto-complete with median score
                     const profileCount = localStorage.getItem('signal_expander_purchased') ? 10 : 8;
                     const medianScore = Math.floor(profileCount * 0.6);
-                    
+
                     // Randomly select game variant for unlocks
                     const random = Math.random();
                     if (random < 0.7) {
@@ -2071,7 +2063,7 @@ export default function App() {
                 <p className="choice-note">💡 You can change this later in Settings > Gameplay</p>
               </div>
             )}
-            
+
             {localStorage.getItem('skipRecruitmentMiniGame') !== null && (
               <button className="intro-tooltip-button" onClick={() => {
                 localStorage.setItem('crewGameIntroSeen', 'true');
