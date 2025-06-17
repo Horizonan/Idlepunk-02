@@ -631,6 +631,24 @@ export const gameHandlers = (gameState, setGameState) => {
       setGameState.setNotifications(prev => [...prev, `Junk Magnet Overcharge purchased! Each Junk Magnet now produces +10 additional Junk/sec (+${magnetCount * 10} JPS).`]);
     };
 
+  const handleBuyGutterlineExtractor = () => {
+    const costData = gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.gutterlineExtractor) : {
+      totalCost: gameState.itemCosts.gutterlineExtractor,
+      endCost: Math.floor(gameState.itemCosts.gutterlineExtractor * 1.15)
+    };
+
+    if (gameState.junk >= costData.totalCost) {
+      setGameState.setJunk(prev => prev - costData.totalCost);
+      setGameState.setNotifications(prev => [...prev, "Gutterline Extractor purchased!"]);
+      
+      const extractorsToAdd = gameState.bulkBuy ? 10 : 1;
+      
+      setGameState.setPassiveIncome(prev => prev + (extractorsToAdd * 75));
+      setGameState.setItemCosts(prev => ({...prev, gutterlineExtractor: costData.endCost}));
+      setGameState.setOwnedItems(prev => ({...prev, gutterlineExtractor: (prev.gutterlineExtractor || 0) + extractorsToAdd}));
+    }
+  };
+
     
   return {
     collectJunk,handleBuyTrashBag,handleBuyPicker,
@@ -646,7 +664,8 @@ export const gameHandlers = (gameState, setGameState) => {
     handleBuyPickupMagnetArray,
     handleBuyScratzMiner,
     handleBuyAutoRecycler,
-    handleBuyShardMiner, handleBuyStreetratUpgrade, handleBuyScrapBagUpgrade, handleBuyTrashPickerUpgrade, handleBuyCartUpgrade, handleBuyUrbanRecyclerUpgrade, handleBuyClickEnhancerUpgrade,handleBuyJunkMagnetUpgrade
+    handleBuyShardMiner, handleBuyStreetratUpgrade, handleBuyScrapBagUpgrade, handleBuyTrashPickerUpgrade, handleBuyCartUpgrade, handleBuyUrbanRecyclerUpgrade, handleBuyClickEnhancerUpgrade,handleBuyJunkMagnetUpgrade,
+    handleBuyGutterlineExtractor
   };
 }
 }

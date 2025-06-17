@@ -10,6 +10,7 @@ export default function Store({
   onGetAutoClickersV2, onBuyAutoClickerV2, calculate10xPriceJunkClicker,
   onBack, bulkBuy, setBulkBuy, calculate10xPriceJPS, calculate10xPriceBillBoard,
   onBuyModularScrapper, onBuyScratzMiner, onBuyAutoRecycler, onBuyTwitchweaveGauntlets,
+  onBuyGutterlineExtractor,
 }) {
   const [selectedTab, setSelectedTab] = useState("prePres");
   const [currentTab, setCurrentTab] = useState('Main');
@@ -145,6 +146,15 @@ export default function Store({
         passiveIncome >= 50 ||
         (ownedItems.scrapDrone && ownedItems.scrapDrone > 0)
       ),
+    },
+    {
+      name: "Gutterline Extractor",
+      cost: bulkBuy ? calculate10xPriceJPS(itemCosts.gutterlineExtractor).totalCost : itemCosts.gutterlineExtractor,
+      description: `+${Math.floor(75 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
+      info: "Scavenges micro-scrap sludge from the gutter runoff. Smells like credits.",
+      action: onBuyGutterlineExtractor,
+      purchasedCount: ownedItems.gutterlineExtractor || 0,
+      hidden: !(parseInt(localStorage.getItem('prestigeCount') || '0') >= 1),
     },
   ];
 

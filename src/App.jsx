@@ -183,9 +183,9 @@ export default function App() {
     }
   };
 
-  
 
-  
+
+
 
 
   const [creditStoreItems, setCreditStoreItems] = useState(() => JSON.parse(localStorage.getItem('creditStoreItems')) || {
@@ -198,7 +198,7 @@ export default function App() {
     localStorage.setItem('creditStoreItems', JSON.stringify(creditStoreItems));
   }, [creditStoreItems]);
 
-  
+
 
   const collectJunk = () => {
     const surgeMultiplier = isSurgeActive ? 2 : 1;
@@ -271,7 +271,7 @@ export default function App() {
     return junk >= itemCosts.autoClickerV2;
   }
 
-  
+
 
     const handleTechUnlock = (techName) => {
     const currentPrestige = parseInt(localStorage.getItem('prestigeCount') || '0');
@@ -307,6 +307,24 @@ export default function App() {
       const message = milestoneMessages[techName] || `${techName} unlocked!`;
       setNotifications(prev => [...prev, message]);
       setShowTechTree(false);
+    }
+  };
+
+  // Purchase handler for Gutterline Extractor
+  const handleBuyGutterlineExtractor = () => {
+    const cost = 2500000;
+    const prestigeLevel = parseInt(localStorage.getItem('prestigeCount') || '0');
+
+    if (junk >= cost && prestigeLevel >= 1) {
+      setJunk(prev => prev - cost);
+      setOwnedItems(prev => ({ ...prev, gutterlineExtractor: (prev.gutterlineExtractor || 0) + 1 }));
+      setPassiveIncome(prev => prev + 75);
+      setNotifications(prev => [...prev, "Gutterline Extractor purchased! +75 Junk/sec"]);
+    } else if (prestigeLevel < 1) {
+        setNotifications(prev => [...prev, "Requires Prestige 1 to purchase Gutterline Extractor"]);
+    }
+     else {
+      setNotifications(prev => [...prev, "Not enough junk to purchase Gutterline Extractor!"]);
     }
   };
 
@@ -610,6 +628,7 @@ export default function App() {
               setNotifications(prev => [...prev, "Auto Recycler Unit purchased!"]);
             }
           }}
+          onBuyGutterlineExtractor={handleBuyGutterlineExtractor}
         />
       )}
       {activeStore === 'marketplace' && (
