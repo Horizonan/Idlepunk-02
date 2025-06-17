@@ -9,7 +9,7 @@ export default function Store({
   onBuyClampjawRig, onBuyAutoClicker, onGetAutoClickersV1, canAffordV1, canAffordV2,
   onGetAutoClickersV2, onBuyAutoClickerV2, calculate10xPriceJunkClicker,
   onBack, bulkBuy, setBulkBuy, calculate10xPriceJPS, calculate10xPriceBillBoard,
-  onBuyModularScrapper, onBuyScratzMiner, onBuyAutoRecycler,
+  onBuyModularScrapper, onBuyScratzMiner, onBuyAutoRecycler, onBuyTwitchweaveGauntlets,
 }) {
   const [selectedTab, setSelectedTab] = useState("prePres");
   const [currentTab, setCurrentTab] = useState('Main');
@@ -60,6 +60,15 @@ export default function Store({
       action: onBuyClampjawRig,
       purchasedCount: ownedItems.clampjawRig || 0,
       hidden: !((ownedItems.trashPicker || 0) >= 5),
+    },
+    {
+      name: "Twitchweave Gauntlets",
+      cost: bulkBuy ? calculate10xPriceJunkClicker(itemCosts.twitchweaveGauntlets).totalCost : itemCosts.twitchweaveGauntlets,
+      description: "+20 Junk/Click, +10% Cost",
+      info: "Rewired VR haptics, now tuned to jolt your fingers every time you touch metal.",
+      action: onBuyTwitchweaveGauntlets,
+      purchasedCount: ownedItems.twitchweaveGauntlets || 0,
+      hidden: !(passiveIncome >= 1000),
     },
   ];
 

@@ -154,7 +154,8 @@ export const useGameState = () => {
     tronicsBoostII: 0,
     flowRegulator: 0,
     quantumTap: 0,
-    electroSurgeNode: 0
+    electroSurgeNode: 0,
+    twitchweaveGauntlets: 0
   });
 
   //Skill Levels
