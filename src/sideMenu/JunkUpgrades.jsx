@@ -2,10 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/JunkUpgrades.css';
 
-export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrade, onBuyScrapBagUpgrade, onBuyTrashPickerUpgrade, onBuyCartUpgrade, onBuyUrbanRecyclerUpgrade, onBuyClickEnhancerUpgrade, onBuyJunkMagnetUpgrade, onBuyClampjawUpgrade1, onBuyScrapDroneUpgrade1, onBuyTrashPickerUpgrade2, onBuyStreetratUpgrade2, onBuyTrashBagUpgrade2, onBuyCartUpgrade2, onBuyUrbanRecyclerUpgrade2, onNewUpgradesChange }) {
+export default function JunkUpgrades({ onClose, ownedItems, junk, setJunk, onBuyStreetratUpgrade, onBuyScrapBagUpgrade, onBuyTrashPickerUpgrade, onBuyCartUpgrade, onBuyUrbanRecyclerUpgrade, onBuyClickEnhancerUpgrade, onBuyJunkMagnetUpgrade, onBuyClampjawUpgrade1, onBuyScrapDroneUpgrade1, onBuyTrashPickerUpgrade2, onBuyStreetratUpgrade2, onBuyTrashBagUpgrade2, onBuyCartUpgrade2, onBuyUrbanRecyclerUpgrade2, onNewUpgradesChange }) {
   const [mobileInfoModal, setMobileInfoModal] = useState(null);
   const [hasNewUpgrades, setHasNewUpgrades] = useState(false);
-  const junk = parseInt(localStorage.getItem('junk') || '0');
 
   const upgradeItems = [
     {
@@ -212,7 +211,7 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
     if (junk >= item.cost && item.unlockCondition()) {
       const newJunk = junk - item.cost;
 
-      localStorage.setItem('junk', newJunk.toString());
+      setJunk(newJunk);
       localStorage.setItem(item.storageKey, 'true');
       localStorage.setItem(`upgrade_seen_${item.storageKey}`, 'true');
 

@@ -741,7 +741,7 @@ export default function App() {
 
   useEffect(() => {
     const totalPassiveIncome = passiveIncome * globalJpsMultiplier + ((autoClicks + permanentAutoClicks) * clickMultiplier);
-    if ((totalPassiveIncome >= 100 || junk >= 1000000)) {
+    if ((totalPassiveIncome >= 100 || junk >= 1000000)) {```python
       localStorage.setItem('prestigeUnlocked', 'true');
     }
     if ((totalPassiveIncome >= 100 || junk >= 4000000) && !localStorage.getItem('cogfatherEvent')) {
@@ -1410,6 +1410,8 @@ export default function App() {
             localStorage.setItem('activeStore', null);
           }}
           ownedItems={ownedItems}
+          junk={junk}
+          setJunk={setJunk}
           onBuyStreetratUpgrade={handleBuyStreetratUpgrade}
           onBuyScrapBagUpgrade={handleBuyScrapBagUpgrade}
           onBuyTrashPickerUpgrade={handleBuyTrashPickerUpgrade}
@@ -1417,6 +1419,14 @@ export default function App() {
           onBuyUrbanRecyclerUpgrade={handleBuyUrbanRecyclerUpgrade}
           onBuyClickEnhancerUpgrade={handleBuyClickEnhancerUpgrade}
           onBuyJunkMagnetUpgrade={handleBuyJunkMagnetUpgrade}
+          onBuyClampjawUpgrade1={handleBuyClampjawRig}
+          onBuyScrapDroneUpgrade1={handleBuyScrapDrone}
+          onBuyTrashPickerUpgrade2={() => {}}
+          onBuyStreetratUpgrade2={() => {}}
+          onBuyTrashBagUpgrade2={() => {}}
+          onBuyCartUpgrade2={() => {}}
+          onBuyUrbanRecyclerUpgrade2={() => {}}
+          onNewUpgradesChange={() => {}}
         />
       )}
       {activeStore === 'store' && (
