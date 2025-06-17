@@ -1,6 +1,7 @@
 
 import React from 'react';
 import './CrewRecruitmentTooltip.css';
+import { useRecruitmentZustand } from '../stores/crewRecruitment/recruitmentZustand';
 
 const CrewRecruitmentTooltip = ({ 
   showCrewIntroTooltip, 
@@ -62,7 +63,6 @@ const CrewRecruitmentTooltip = ({
                 setShowCrewIntroTooltip(false);
 
                 // Import and close any active recruitment games
-                const { useRecruitmentZustand } = require('../stores/crewRecruitment/recruitmentZustand');
                 const store = useRecruitmentZustand.getState();
 
                 // Close any open mini-game windows
