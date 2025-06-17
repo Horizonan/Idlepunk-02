@@ -1,0 +1,231 @@
+
+.intro-tooltip-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5000;
+}
+
+.intro-tooltip {
+  background: #1a1a1a;
+  border: 2px solid #9400D3;
+  border-radius: 12px;
+  padding: 30px;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 0 30px rgba(148, 0, 211, 0.5);
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+}
+
+.intro-tooltip h3 {
+  color: #9400D3;
+  text-align: center;
+  margin: 0 0 20px 0;
+  font-size: 1.5em;
+  text-shadow: 0 0 10px rgba(148, 0, 211, 0.5);
+}
+
+.intro-tooltip h4 {
+  color: #9400D3;
+  margin: 20px 0 10px 0;
+  font-size: 1.1em;
+  border-bottom: 1px solid rgba(148, 0, 211, 0.3);
+  padding-bottom: 5px;
+}
+
+.tooltip-section {
+  margin-bottom: 20px;
+}
+
+.tooltip-section p {
+  margin: 10px 0;
+  line-height: 1.6;
+  color: #ccc;
+}
+
+.tooltip-section ul {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.tooltip-section li {
+  margin: 8px 0;
+  line-height: 1.5;
+  color: #ddd;
+}
+
+.tooltip-tip {
+  background: rgba(0, 255, 0, 0.1);
+  border: 1px solid rgba(0, 255, 0, 0.3);
+  padding: 10px;
+  border-radius: 6px;
+  font-style: italic;
+  color: #00FF00 !important;
+}
+
+.detection-examples {
+  background: rgba(148, 0, 211, 0.1);
+  border: 1px solid rgba(148, 0, 211, 0.3);
+  padding: 15px;
+  border-radius: 6px;
+  margin: 15px 0;
+}
+
+.detection-examples p {
+  margin: 8px 0;
+}
+
+.refresher-note {
+  font-size: 0.9em;
+  color: #bbb;
+  text-align: center;
+  margin: 20px 0;
+  font-style: italic;
+  border-top: 1px solid rgba(148, 0, 211, 0.2);
+  padding-top: 15px;
+}
+
+.mini-game-choice-section {
+  margin: 20px 0;
+  padding: 20px;
+  background: rgba(148, 0, 211, 0.1);
+  border: 1px solid #9400D3;
+  border-radius: 8px;
+}
+
+.mini-game-choice-section h4 {
+  color: #9400D3;
+  margin: 0 0 15px 0;
+  text-align: center;
+  border: none;
+  padding: 0;
+}
+
+.mini-game-choice-section p {
+  text-align: center;
+  margin: 10px 0 15px 0;
+  color: #ddd;
+}
+
+.choice-buttons {
+  display: flex;
+  gap: 15px;
+  margin: 15px 0;
+}
+
+.choice-buttons button {
+  flex: 1;
+  padding: 12px 20px;
+  border: 2px solid;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.play-button {
+  background: #00FF00 !important;
+  color: #222 !important;
+  border-color: #00FF00 !important;
+}
+
+.play-button:hover {
+  background: #00CC00 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 255, 0, 0.3);
+}
+
+.skip-button {
+  background: #9400D3 !important;
+  color: white !important;
+  border-color: #9400D3 !important;
+}
+
+.skip-button:hover {
+  background: #7A00B3 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(148, 0, 211, 0.3);
+}
+
+.choice-note {
+  font-size: 0.9em;
+  color: #ccc;
+  text-align: center;
+  margin: 10px 0 0 0;
+  font-style: italic;
+}
+
+.intro-tooltip-button {
+  background: #222;
+  color: #00FF00;
+  border: 2px solid #9400D3;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: block;
+  margin: 20px auto 0;
+  transition: all 0.3s ease;
+}
+
+.intro-tooltip-button:hover {
+  background: rgba(148, 0, 211, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(148, 0, 211, 0.3);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .intro-tooltip {
+    margin: 20px;
+    padding: 20px;
+    max-width: calc(100% - 40px);
+    max-height: calc(100vh - 40px);
+  }
+
+  .choice-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .intro-tooltip h3 {
+    font-size: 1.3em;
+  }
+
+  .intro-tooltip h4 {
+    font-size: 1em;
+  }
+
+  .tooltip-section ul {
+    padding-left: 15px;
+  }
+}
+
+/* Custom scrollbar for tooltip */
+.intro-tooltip::-webkit-scrollbar {
+  width: 8px;
+}
+
+.intro-tooltip::-webkit-scrollbar-track {
+  background: rgba(148, 0, 211, 0.1);
+  border-radius: 4px;
+}
+
+.intro-tooltip::-webkit-scrollbar-thumb {
+  background: #9400D3;
+  border-radius: 4px;
+}
+
+.intro-tooltip::-webkit-scrollbar-thumb:hover {
+  background: #7A00B3;
+}
