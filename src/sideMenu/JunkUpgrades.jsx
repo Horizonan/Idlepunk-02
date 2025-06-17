@@ -200,15 +200,13 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
     return () => clearInterval(interval);
   }, [ownedItems, upgradeItems, onNewUpgradesChange]);
 
-  // Mark all visible upgrades as seen when the menu opens
+  // Mark visible upgrades as seen when the menu opens
   useEffect(() => {
-    const availableUpgrades = upgradeItems.filter(item => item.unlockCondition());
+    const availableUpgrades = upgradeItems.filter(item => item.unlockCondition() && !localStorage.getItem(item.storageKey));
     availableUpgrades.forEach(item => {
-      if (!localStorage.getItem(item.storageKey)) {
-        localStorage.setItem(`upgrade_seen_${item.storageKey}`, 'true');
-      }
+      localStorage.setItem(`upgrade_seen_${item.storageKey}`, 'true');
     });
-  }, []);
+  }, [upgradeItems]);
 
   const handlePurchase = (item) => {
     if (junk >= item.cost && item.unlockCondition()) {
@@ -354,7 +352,6 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
                   key={index}
                   onClick={() => {
                     handlePurchase(item);
-                    markUpgradeAsSeen(item);
                   }}
                   disabled={junk < item.cost}
                   className={`junk-upgrade-item ${junk < item.cost ? 'junk-upgrade-disabled' : ''} ${isNewUpgrade(item) ? 'junk-upgrade-new' : ''}`}
