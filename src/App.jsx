@@ -167,8 +167,8 @@ export default function App() {
       setShowOfflineProgress, setOfflineProgressData, setForceCogfatherEye,
       setShowRelayCascade, setTotalTronicsClicks, setShowMiniGameWindow,
       setShowInventory, setPrestigeQuestCompleted, setClickEnhancerLevel,
-      setPrestigeCount, setCogfatherLore, setShowCheatMenu, setShowActiveCheats,
-      setShowCrewIntroTooltip
+      setPrestigeCount, setCogfatherLore, setShowCrewIntroTooltip,
+      setShowCheatMenu, setShowActiveCheats
     },
     { validateAchievements, checkElectroMilestones }
   );
