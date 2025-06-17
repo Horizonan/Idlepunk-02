@@ -347,7 +347,8 @@ export default function Store({
             {renderItems(automationItems)}
           </div>
         )}
-        {selectedTab === "premium" && (
+        {selectedTab === "premium" &&
+          localStorage.getItem("prestigeLevel") === "2" && (
           <div>
             <h3 style={{ color: "#9400D3", textAlign: "center" }}>
               Premium Items

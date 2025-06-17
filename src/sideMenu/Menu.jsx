@@ -18,8 +18,8 @@ export default function Menu({ onStoreSelect }) {
       header: 'Activities',
       buttons: [
         { id: 'marketplace', label: 'Junktown Nexus', prestige: 0 },
-        { id: 'slotMachine', label: 'Slot Machine', prestige: 2 },
-        { id: 'coinflip', label: 'Junk Flip', prestige: 2 },
+        { id: 'slotMachine', label: 'Slot Machine', prestige: 0 },
+        { id: 'coinflip', label: 'Junk Flip', prestige: 0 },
         { id: 'combat', label: 'Scraptagon Combat', prestige: 4 }
       ]
     },
