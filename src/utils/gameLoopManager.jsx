@@ -33,7 +33,7 @@ export const useGameLoopManager = (gameState, gameSetters, purchaseHandlers) => 
     setShowPrestigePopup, setShowSurgeExplanation, setQuantumTapNotifications,
     setShowOfflineProgress, setOfflineProgressData, setForceCogfatherEye,
     setShowRelayCascade, setTotalTronicsClicks, setShowMiniGameWindow,
-    setShowCheatMenu, setShowActiveCheats
+    setShowCheatMenu, setShowActiveCheats, setShowCrewIntroTooltip
   } = gameSetters;
 
   const { validateAchievements, checkElectroMilestones } = purchaseHandlers;
