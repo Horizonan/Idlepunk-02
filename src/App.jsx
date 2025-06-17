@@ -3,6 +3,7 @@ import './App.css';
 
 //import gamehandlers
 import { gameHandlers } from './utils/gameHandlers';
+import { useGameLoopManager } from './utils/gameLoopManager';
 import { useCrystalZustand } from './utils/crystalZustand';
 import { useFlavorEvents } from './utils/flavorEventsStore';
 import CrystalTimer from './components/CrystalTimer';
@@ -120,108 +121,39 @@ export default function App() {
         calculate10xPriceJunkClicker: calculate10xPrice01, handleBuyPicker, handleBuyClickEnhancer, handleBuyClampjawRig, calculate10xPriceJPS, handleBuyStreetrat, handleBuyCart, handleBuyJunkMagnet, handleBuyUrbanRecycler, handleBuyScrapDrone, handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator, handleBuyQuantumTap, handleBuyElectroSurgeNode, handleBuyElectroBeaconCore, handleBuyCircuitOptimization, handleBuyHighFreqTap, handleBuyReactiveFeedback, handleBuyPickupMagnetArray, handleBuyScratzMiner, onBuyAutoRecycler, handleBuyStreetratUpgrade, handleBuyScrapBagUpgrade, handleBuyTrashPickerUpgrade, handleBuyCartUpgrade, handleBuyUrbanRecyclerUpgrade, handleBuyClickEnhancerUpgrade,handleBuyJunkMagnetUpgrade
     } = purchaseHandlers;
 
+  // Initialize game loop manager
+  const { validateQuestsAndAchievements } = useGameLoopManager(
+    {
+      junk, credits, clickCount, tronics, autoClicks, clickMultiplier, passiveIncome,
+      globalJpsMultiplier, electronicsUnlock, autoClickerV1Count, craftingInventory,
+      ownedItems, permanentAutoClicks, electroMultiplier, isSurgeActive,
+      hasFoundCapacitorThisSurge, activeCheatsList, electroShards, beaconCount,
+      showSlotMachine, showAchievements, showSettings, showQuestLog, showTooltips,
+      showCoinFlip, showCombat, activeStore, isTronicsSurgeActive, bulkBuy,
+      tutorialStage, prestigeCount, mousePosition, quantumTapNotifications,
+      showOfflineProgress, offlineProgressData, forceCogfatherEye, showCrewIntroTooltip,
+      itemCosts, achievements, clickEnhancerLevel, cogfatherLore, surgeCount
+    },
+    {
+      setJunk, setCredits, setClickCount, setTronics, setAutoClicks, setClickMultiplier,
+      setPassiveIncome, setGlobalJpsMultiplier, setElectronicsUnlock, setAutoClickerV1Count,
+      setCraftingInventory, setOwnedItems, setNotifications, setPermanentAutoClicks,
+      setElectroMultiplier, setIsSurgeActive, setHasFoundCapacitorThisSurge,
+      setActiveCheatsList, setElectroShards, setMousePosition, setActiveStore,
+      setShowUpgradeStats, setShowSlotMachine, setShowAchievements, setShowSettings,
+      setShowQuestLog, setShowTooltips, setShowCoinFlip, setShowCombat,
+      setTronicsSurgeActive, setSurgeCount, setShowCrystal, setShowTrashBonus,
+      setShowPrestigePopup, setShowSurgeExplanation, setQuantumTapNotifications,
+      setShowOfflineProgress, setOfflineProgressData, setForceCogfatherEye,
+      setShowRelayCascade, setTotalTronicsClicks, setShowMiniGameWindow,
+      setShowInventory, setPrestigeQuestCompleted, setClickEnhancerLevel,
+      setPrestigeCount, setCogfatherLore, setShowCheatMenu, setShowActiveCheats,
+      setShowCrewIntroTooltip
+    },
+    { validateAchievements, checkElectroMilestones }
+  );
+
   
-
-  useEffect(() => {
-    const handleUpdateSurgeCount = () => {
-      setSurgeCount(3);
-    };
-
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    window.addEventListener('updateSurgeCount', handleUpdateSurgeCount);
-    window.addEventListener('mousemove', handleMouseMove);
-
-    const handleAddMaterial = (e) => {
-      const { material, amount } = e.detail;
-      setCraftingInventory(prev => ({
-        ...prev,
-        [material]: (prev[material] || 0) + amount
-      }));
-    };
-
-    const handleValidateAchievements = () => {
-      validateQuestsAndAchievements();
-      setNotifications(prev => [...prev, "Achievements validated!"]);
-    };
-
-    window.addEventListener('addMaterial', handleAddMaterial);
-    window.addEventListener('validateAchievements', handleValidateAchievements);
-
-    if (activeCheatsList['Force Triple Win']) {
-      window.dispatchEvent(new CustomEvent('slotForceTriple'));
-    }
-    if (activeCheatsList['Force Double Win']) {
-      window.dispatchEvent(new CustomEvent('slotForceDouble'));
-    }
-
-    const handleKeyPress = (e) => {
-      if (e.shiftKey && e.key === 'H') {
-        setShowCheatMenu(prev => !prev);
-        setShowActiveCheats(prev => !prev);
-      }
-    };
-
-    const handleSlotForceTriple = () => {
-      if (window.spinSlotMachine) window.spinSlotMachine(true, false);
-    };
-
-    const handleSlotForceDouble = () => {
-      if (window.spinSlotMachine) window.spinSlotMachine(false, true);
-    };
-
-    const handleShowCrystal = () => {
-      setShowCrystal(true);
-    };
-
-    const handleLaunchRelayCascade = () => {
-      setShowRelayCascade(true);
-    };
-
-    const handleForcePrestige = () => {
-      setShowPrestigePopup(true);
-    };
-
-    const handleShowCrewIntroTooltip = () => {
-      setShowCrewIntroTooltip(true);
-    };
-
-    const handleHideCrewIntroTooltip = () => {
-      setShowCrewIntroTooltip(false);
-    };
-
-    const handleForceCogfatherEye = () => {
-      console.log('Force Cogfather Eye triggered'); // Debug log
-      setForceCogfatherEye(true);
-    };
-
-    window.addEventListener('keydown', handleKeyPress);
-    window.addEventListener('showCrystal', handleShowCrystal);
-    window.addEventListener('slotForceTriple', handleSlotForceTriple);
-    window.addEventListener('slotForceDouble', handleSlotForceDouble);
-    window.addEventListener('launchRelayCascade', handleLaunchRelayCascade);
-    window.addEventListener('forcePrestige', handleForcePrestige);
-    window.addEventListener('showCrewIntroTooltip', handleShowCrewIntroTooltip);
-    window.addEventListener('hideCrewIntroTooltip', handleHideCrewIntroTooltip);
-    window.addEventListener('forceCogfatherEye', handleForceCogfatherEye);
-
-    return () => {
-      window.removeEventListener('addMaterial', handleAddMaterial);
-      window.removeEventListener('validateAchievements', handleValidateAchievements);
-      window.removeEventListener('keydown', handleKeyPress);
-      window.removeEventListener('showCrystal', handleShowCrystal);
-      window.removeEventListener('slotForceTriple', handleSlotForceTriple);
-      window.removeEventListener('slotForceDouble', handleSlotForceDouble);
-      window.removeEventListener('launchRelayCascade', handleLaunchRelayCascade);
-      window.removeEventListener('forcePrestige', handleForcePrestige);
-      window.removeEventListener('showCrewIntroTooltip', handleShowCrewIntroTooltip);
-      window.removeEventListener('hideCrewIntroTooltip', handleHideCrewIntroTooltip);
-      window.removeEventListener('forceCogfatherEye', handleForceCogfatherEye);
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
 
   const { achievements, validateAchievements, checkElectroMilestones } = useAchievements(
     { 
@@ -245,8 +177,6 @@ export default function App() {
   const checkAchievements = validateAchievements;
 
   const checkShardMilestones = (shardCount) => {
-
-
     if (shardCount === 3) {
       window.dispatchEvent(new CustomEvent('nextNews', { 
         detail: { message: "Cogfather: The circuit is almost loud enough to listen to." }
@@ -254,314 +184,9 @@ export default function App() {
     }
   };
 
+  
 
-
-  useEffect(() => {
-    const handleUpgradeStats = () => {
-      setShowUpgradeStats(prev => {
-        if (!prev) {
-          setActiveStore(null);
-          setShowSlotMachine(false);
-          setShowAchievements(false);
-          setShowSettings(false);
-          setShowQuestLog(false);
-          setShowTooltips(false); 
-          setShowCoinFlip(false);
-          setShowCombat(false);
-        }
-        return !prev;
-      });
-    };
-
-    const handleValidateAchievements = () => {
-      console.log('Manual achievement validation triggered');
-      validateAchievements();
-    };
-
-    window.addEventListener('toggleUpgradeStats', handleUpgradeStats);
-    window.addEventListener('validateAchievements', handleValidateAchievements);
-
-    if (showSlotMachine || showAchievements || showSettings || showQuestLog || showTooltips || showCoinFlip || showCombat) {
-      setActiveStore(null);
-      setShowUpgradeStats(false);
-    }
-
-    return () => {
-      window.removeEventListener('toggleUpgradeStats', handleUpgradeStats);
-      window.removeEventListener('validateAchievements', handleValidateAchievements);
-    };
-
-    return () => {
-      window.removeEventListener('toggleUpgradeStats', handleUpgradeStats);
-    };
-  }, [showSlotMachine, showAchievements, showSettings, showQuestLog, showTooltips, showCoinFlip, showCombat]);
-
-
-  useEffect(() => {
-    if (activeStore) {
-      setShowUpgradeStats(false);
-    }
-  }, [activeStore]);
-
-  useEffect(() => {
-    const cleanup = useCrystalZustand.getState().initializeCrystalTimer();
-    useFlavorEvents.getState().initializeFlavorEvents();
-    useEmailStore.getState().initializeEmailSystem();
-
-    const handleShowCrystal = () => {
-      setShowCrystal(true);
-    };
-
-    window.addEventListener('showCrystal', handleShowCrystal);
-
-    const spawnTrashBonus = () => {
-      setShowTrashBonus(true);
-      const nextSpawnTime = 120000 + Math.random() * 360000; 
-      setTimeout(spawnTrashBonus, nextSpawnTime);
-    };
-
-    const initialSpawnTime = 120000 + Math.random() * 360000;
-    const trashBonusTimer = setTimeout(spawnTrashBonus, initialSpawnTime);
-
-    return () => {
-      clearTimeout(trashBonusTimer);
-      cleanup();
-    };
-  }, []);
-
-  useEffect(() => {
-    const startSurge = () => {
-      window.surgeStartTime = Date.now();
-      const isTronicsSurgeUnlocked = localStorage.getItem('electro_surge_node_purchased') === 'true';
-
-      const isTronicsSurge = isTronicsSurgeUnlocked; 
-
-      if (isTronicsSurge) {
-        setTronicsSurgeActive(true);
-        setTimeout(() => {
-          setTronicsSurgeActive(false);
-          setSurgeCount(prev => {
-            const newCount = prev + 1;
-            localStorage.setItem('surgeCount', newCount);
-            return newCount;
-          });
-        }, parseInt(localStorage.getItem('surge_duration_bonus') || '5') * 1000);
-      } else {
-        setIsSurgeActive(true);
-        setHasFoundCapacitorThisSurge(false);
-
-        // Check if this is the first surge
-        const hadFirstSurge = localStorage.getItem('hadFirstSurge') === 'true';
-        if (!hadFirstSurge) {
-          localStorage.setItem('hadFirstSurge', 'true');
-          // Show explanation popup after a short delay so the surge effects are visible
-          setTimeout(() => {
-            setShowSurgeExplanation(true);
-          }, 500);
-        }
-
-        const surgeDurationBonus = isTronicsSurgeUnlocked ? parseInt(localStorage.getItem('surge_duration_bonus') || '5') : 0;
-        const surgeDuration = craftingInventory['Surge Capacitor Module'] ? 10000 : 5000 + (surgeDurationBonus * 1000);
-
-        setTimeout(() => {
-          setIsSurgeActive(false);
-          setHasFoundCapacitorThisSurge(false);
-          setSurgeCount(prev => {
-            const newCount = prev + 1;
-            localStorage.setItem('surgeCount', newCount);
-            return newCount;
-          });
-        }, surgeDuration);
-      }
-    };
-
-    const handleTriggerSurge = () => startSurge();
-    window.addEventListener('triggerSurge', handleTriggerSurge);
-
-    const interval = setInterval(() => {
-      if (!isSurgeActive && Math.random() < 0.5) startSurge();
-    }, 240000 + Math.random() * 240000);
-
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener('triggerSurge', handleTriggerSurge);
-    };
-  }, []);
-
-  // Global auto-spin functionality for slot machine
-  useEffect(() => {
-    const globalAutoSpin = () => {
-      if (localStorage.getItem('autoSlotter') === 'true' && localStorage.getItem('autoSlotterActive') === 'true') {
-        const isBigSlots = localStorage.getItem('bigSlots') === 'true';
-        const isUltimateSlots = localStorage.getItem('ultimateSlots') === 'true';
-        const useShardCost = localStorage.getItem('slotMachineShardCost') === 'true';
-
-        const spinCost = isUltimateSlots ? (useShardCost ? 1 : 10000000) : (isBigSlots ? 1000000 : 1000);
-        const canAfford = useShardCost ? electroShards >= 1 : junk >= spinCost;
-
-        if (canAfford) {
-          // Create a custom spin function that handles notifications for global auto-spin
-          const globalSpin = () => {
-            // Deduct cost
-            if (useShardCost) {
-              setElectroShards(prev => prev - 1);
-            } else {
-              setJunk(prev => prev - spinCost);
-            }
-
-            // Generate random slots
-            const symbols = ['💰', '🗑️', '⚡', '🎲','🔧', '🔋'];
-            const newSlots = Array(3).fill(0).map(() => 
-              symbols[Math.floor(Math.random() * symbols.length)]
-            );
-
-            // Check for wins and handle rewards
-            let winnings = 0;
-            let winMessage = '';
-
-            if (newSlots[0] === newSlots[1] && newSlots[1] === newSlots[2]) {
-              // Triple match
-              if (isUltimateSlots) {
-                const symbolType = newSlots[0];
-                if (useShardCost) {
-                  // Enhanced jackpot rewards for Shard cost
-                  switch(symbolType) {
-                    case '💰':
-                      setJunk(prev => prev + 300000000);
-                      winMessage = `💰 JACKPOT! Auto-Slotter won 300M Junk!`;
-                      break;
-                    case '🗑️':
-                      setJunk(prev => prev + 250000000);
-                      winMessage = `🗑️ JACKPOT! Auto-Slotter won 250M Junk!`;
-                      break;
-                    case '⚡':
-                      setElectroShards(prev => prev + 8);
-                      winMessage = `⚡ JACKPOT! Auto-Slotter won 8 Electro Shards!`;
-                      break;
-                    case '🎲':
-                      localStorage.setItem('globalJpsMultiplier', 
-                        (parseFloat(localStorage.getItem('globalJpsMultiplier') || '1.0') + 0.1).toString()
-                      );
-                      winMessage = `🎲 JACKPOT! Auto-Slotter gained +10% Global JPS Boost!`;
-                      break;
-                    case '🔧':
-                      setCraftingInventory(prev => ({
-                        ...prev,
-                        'Stabilized Capacitor': (prev['Stabilized Capacitor'] || 0) + 2,
-                        'Voltage Node': (prev['Voltage Node'] || 0) + 2,
-                        'Encrypted Coil': (prev['Encrypted Coil'] || 0) + 2
-                      }));
-                      winMessage = `🔧 JACKPOT! Auto-Slotter won 2 of each premium material!`;
-                      break;
-                    case '🔋':
-                      setCraftingInventory(prev => ({
-                        ...prev,
-                        'Glitched Scrap Core': (prev['Glitched Scrap Core'] || 0) + 3
-                      }));
-                      winMessage = `🔋 JACKPOT! Auto-Slotter won 3 Glitched Scrap Cores!`;
-                      break;
-                  }
-                } else {
-                  // Enhanced jackpot rewards for Junk cost
-                  switch(symbolType) {
-                    case '💰':
-                      setJunk(prev => prev + 150000000);
-                      winMessage = `💰 JACKPOT! Auto-Slotter won 150M Junk!`;
-                      break;
-                    case '🗑️':
-                      setJunk(prev => prev + 120000000);
-                      winMessage = `🗑️ JACKPOT! Auto-Slotter won 120M Junk!`;
-                      break;
-                    case '⚡':
-                      setElectroShards(prev => prev + 3);
-                      winMessage = `⚡ JACKPOT! Auto-Slotter won 3 Electro Shards!`;
-                      break;
-                    case '🎲':
-                      localStorage.setItem('globalJpsMultiplier', 
-                        (parseFloat(localStorage.getItem('globalJpsMultiplier') || '1.0') + 0.1).toString()
-                      );
-                      winMessage = `🎲 JACKPOT! Auto-Slotter gained +10% Global JPS Boost!`;
-                      break;
-                    case '🔧':
-                      setCraftingInventory(prev => ({
-                        ...prev,
-                        'Voltage Node': (prev['Voltage Node'] || 0) + 1
-                      }));
-                      winMessage = `🔧 Auto-Slotter won 1 Voltage Node!`;
-                      break;
-                    case '🔋':
-                      setCraftingInventory(prev => ({
-                        ...prev,
-                        'Glitched Scrap Core': (prev['Glitched Scrap Core'] || 0) + 1
-                      }));
-                      winMessage = `🔋 JACKPOT! Auto-Slotter won 1 Glitched Scrap Core!`;
-                      break;
-                  }
-                }
-              } else {
-                // Basic slots jackpot
-                winnings = isBigSlots ? 10000000 : 10000;
-                setJunk(prev => prev + winnings);
-                winMessage = `🎰 JACKPOT! Auto-Slotter won ${winnings.toLocaleString()} Junk!`;
-              }
-            } else if (newSlots[0] === newSlots[1] || newSlots[1] === newSlots[2]) {
-              // Double match
-              if (isUltimateSlots) {
-                const symbolType = newSlots[0] === newSlots[1] ? newSlots[0] : newSlots[1];
-                switch(symbolType) {
-                  case '💰':
-                    setJunk(prev => prev + 25000000);
-                    winMessage = `💰 Auto-Slotter won 25M Junk!`;
-                    break;
-                  case '🗑️':
-                    setJunk(prev => prev + 30000000);
-                    winMessage = `🗑️ Auto-Slotter won 30M Junk!`;
-                    break;
-                  case '⚡':
-                    setElectroShards(prev => prev + 1);
-                    winMessage = `⚡ Auto-Slotter won 1 Electro Shard!`;
-                    break;
-                  case '🔧':
-                    setCraftingInventory(prev => ({
-                      ...prev,
-                      'Gear Bits': (prev['Gear Bits'] || 0) + 25
-                    }));
-                    winMessage = `🔧 Auto-Slotter won 25 Gear Bits!`;
-                    break;
-                  case '🔋':
-                    setCraftingInventory(prev => ({
-                      ...prev,
-                      'Capacitor': (prev['Capacitor'] || 0) + 2
-                    }));
-                    winMessage = `🔋 Auto-Slotter won 2 Capacitors!`;
-                    break;
-                  default:
-                    setJunk(prev => prev + 20000000);
-                    winMessage = `🎰 Auto-Slotter won 20M Junk!`;
-                }
-              } else {
-                // Basic slots double
-                winnings = isBigSlots ? 2000000 : 2000;
-                setJunk(prev => prev + winnings);
-                winMessage = `🎰 Auto-Slotter won ${winnings.toLocaleString()} Junk!`;
-              }
-            }
-
-            // Show notification if there was a win
-            if (winMessage) {
-              setNotifications(prev => [...prev, winMessage]);
-            }
-          };
-
-          globalSpin();
-        }
-      }
-    };
-
-    const autoSpinInterval = setInterval(globalAutoSpin, 15000); // 15 seconds
-
-    return () => clearInterval(autoSpinInterval);
-  }, [junk, electroShards]);
+  
 
 
   const [creditStoreItems, setCreditStoreItems] = useState(() => JSON.parse(localStorage.getItem('creditStoreItems')) || {
@@ -570,185 +195,11 @@ export default function App() {
     'Ascension Reclaimer': 0
   });
 
-
-  useEffect(() => {
-    const updateInterval = setInterval(() => {
-      const skillLevels = JSON.parse(localStorage.getItem('skillLevels')) || { greaseDiscipline: 0 };
-      const greaseDisciplineBonus = skillLevels.greaseDiscipline * 0.5 / 100;
-      const circuitOptCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
-      const circuitOptBonus = circuitOptCount * 0.25;
-      const holoBillboardBonus = (ownedItems.holoBillboard || 0) * 0.1;
-      const totalMultiplier = 1 + circuitOptBonus + (craftingInventory['Compression Pack'] ? 0.25 : 0) + greaseDisciplineBonus + holoBillboardBonus;
-      setGlobalJpsMultiplier(totalMultiplier);
-
-      // Calculate effective junk per second using centralized system
-      const effectiveJunkPerSecond = getEffectiveJunkPerSecond(
-        passiveIncome, 
-        globalJpsMultiplier, 
-        autoClicks + permanentAutoClicks, 
-        clickMultiplier
-      );
-
-      if (effectiveJunkPerSecond > 0) {
-        setJunk(prev => prev + effectiveJunkPerSecond);
-
-        // Track total junk collected
-        const currentTotal = parseInt(localStorage.getItem('totalJunkCollected') || '0');
-        localStorage.setItem('totalJunkCollected', (currentTotal + effectiveJunkPerSecond).toString());
-      } else if (effectiveJunkPerSecond < 0) {
-        // Remove junk when consumption exceeds production
-        setJunk(prev => Math.max(0, prev + effectiveJunkPerSecond));
-      }
-
-      if (autoClicks > 0) {
-        setClickCount(prev => prev + (autoClicks + permanentAutoClicks));
-
-        if (electronicsUnlock) {
-          const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
-          const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
-          const tronicsPerClick = 1 + boostICount + (boostIICount * 2);
-          setTronics(prev => prev + ((autoClicks + permanentAutoClicks) * tronicsPerClick));
-          setTotalTronicsClicks(prev => prev + (autoClicks + permanentAutoClicks));
-        }
-      }
-    }, 1000);
-
-    return () => clearInterval(updateInterval);
-  }, [passiveIncome, autoClicks, clickMultiplier, globalJpsMultiplier, craftingInventory]);
-
-  // Global Skills XP calculation - runs every 10 seconds regardless of Skills Center being open
-  useEffect(() => {
-    const skillsXpInterval = setInterval(() => {
-      const { activeSkill, skillLevels, skillXp, setSkillLevels, setSkillXp } = useSkillsStore.getState();
-
-      if (activeSkill && skillLevels[activeSkill] < 10) {
-        const baseXp = 10;
-        const requiredXp = Math.floor(baseXp * Math.pow(1.25, skillLevels[activeSkill]));
-        const newXp = (skillXp[activeSkill] || 0) + 1;
-
-        if (newXp >= requiredXp) {
-          // Level up
-          const newSkillLevels = {
-            ...skillLevels,
-            [activeSkill]: skillLevels[activeSkill] + 1
-          };
-          const newSkillXp = {
-            ...skillXp,
-            [activeSkill]: 0
-          };
-
-          setSkillLevels(newSkillLevels);
-          setSkillXp(newSkillXp);
-
-          // Also update localStorage for compatibility
-          localStorage.setItem('skillLevels', JSON.stringify(newSkillLevels));
-          localStorage.setItem('skillXp', JSON.stringify(newSkillXp));
-
-          setNotifications(prev => [...prev, `${activeSkill} leveled up to ${newSkillLevels[activeSkill]}!`]);
-        } else {
-          // Just add XP
-          const newSkillXp = {
-            ...skillXp,
-            [activeSkill]: newXp
-          };
-
-          setSkillXp(newSkillXp);
-          // Also update localStorage for compatibility
-          localStorage.setItem('skillXp', JSON.stringify(newSkillXp));
-        }
-      }
-    }, 10000); // Every 10 seconds
-
-    return () => clearInterval(skillsXpInterval);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('craftingInventory', JSON.stringify(craftingInventory));
-  }, [craftingInventory]);
-
   useEffect(() => {
     localStorage.setItem('creditStoreItems', JSON.stringify(creditStoreItems));
   }, [creditStoreItems]);
 
-  useEffect(() => {
-    const totalPassiveIncome = passiveIncome * globalJpsMultiplier + ((autoClicks + permanentAutoClicks) * clickMultiplier);
-    if ((totalPassiveIncome >= 100 || junk >= 1000000)) {
-      localStorage.setItem('prestigeUnlocked', 'true');
-    }
-    if ((totalPassiveIncome >= 100 || junk >= 4000000) && !localStorage.getItem('cogfatherEvent')) {
-      setNotifications(prev => [...prev, "The Cogfather wants to speak with you about your progress..."]);
-      localStorage.setItem('cogfatherEvent', 'true');
-    }
-
-    localStorage.setItem('credits', credits);
-    localStorage.setItem('junk', junk);
-    localStorage.setItem('electronicsUnlock', electronicsUnlock);
-    localStorage.setItem('clickMultiplier', clickMultiplier);
-    localStorage.setItem('passiveIncome', passiveIncome);
-    localStorage.setItem('itemCosts', JSON.stringify(itemCosts));
-    localStorage.setItem('autoClicks', autoClicks);
-    localStorage.setItem('clickCount', clickCount);
-    localStorage.setItem('achievements', JSON.stringify(achievements));
-    localStorage.setItem('clickEnhancerLevel', clickEnhancerLevel);
-    localStorage.setItem('ownedItems', JSON.stringify(ownedItems));
-    localStorage.setItem('craftingInventory', JSON.stringify(craftingInventory));
-    localStorage.setItem('globalJpsMultiplier', globalJpsMultiplier);
-    localStorage.setItem('autoClickerV1Count', autoClickerV1Count); 
-  }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, itemCosts, autoClicks, clickCount, achievements, ownedItems, clickEnhancerLevel, globalJpsMultiplier, autoClickerV1Count]);
-
-  // Electronics unlock logic - Auto-unlock at Prestige 1
-  useEffect(() => {
-    const checkElectronicsUnlock = () => {
-      const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
-
-      if (hasPrestiged) {
-        setElectronicsUnlock(true);
-        localStorage.setItem('electronicsUnlock', 'true');
-      }
-    };
-
-    checkElectronicsUnlock();
-
-    // Listen for prestige completion events
-    const handlePrestigeUpdate = () => {
-      checkElectronicsUnlock();
-    };
-
-    window.addEventListener('prestigeComplete', handlePrestigeUpdate);
-
-    return () => {
-      window.removeEventListener('prestigeComplete', handlePrestigeUpdate);
-    };
-  }, []);
-
-  const validateQuestsAndAchievements = () => {
-    validateQuests({
-      junk,
-      clickCount,
-      clickMultiplier,
-      passiveIncome,
-      autoClicks,
-      globalJpsMultiplier,
-      surgeCount,
-      electroShards,
-      cogfatherLore,
-      craftingInventory,
-      ownedItems,
-      credits
-    }, {
-      setElectroShards,
-      setNotifications,
-      setCraftingInventory,
-      setAutoClicks,
-      setPermanentAutoClicks,
-      setCredits,
-      setPassiveIncome,
-      setJunk,
-      setClickMultiplier,
-      setGlobalJpsMultiplier,
-      setOwnedItems
-    });
-  };
+  
 
   const collectJunk = () => {
     const surgeMultiplier = isSurgeActive ? 2 : 1;
@@ -795,13 +246,8 @@ export default function App() {
     checkAchievements();
   };
 
-
   const collectTronics = (amount) => {
     if (electronicsUnlock) {  
-
-      if (amount === 1) {
-      }
-
       const hasQuantumTap = localStorage.getItem('quantum_tap_purchased') === 'true';
       const quantumProc = hasQuantumTap && Math.random() < 0.03;
 
@@ -826,246 +272,7 @@ export default function App() {
     return junk >= itemCosts.autoClickerV2;
   }
 
-
-
-
-  useEffect(() => {
-    localStorage.setItem('tutorialStage', tutorialStage);
-    validateQuestsAndAchievements();
-
-
-    if (junk >= 1000000) {
-      if (!localStorage.getItem('shown_questlog_hint')) {
-        localStorage.setItem('shown_questlog_hint', 'true');
-
-        const questLogBtn = document.querySelector('.quest-log-toggle');
-        const mainQuestLog = document.querySelector('.quest-log');
-        if (questLogBtn) questLogBtn.classList.add('quest-log-attention');
-        if (mainQuestLog) mainQuestLog.classList.add('quest-log-attention');
-
-        const cogfatherMessage = (
-          <div className="cogfather-message-popup">
-            <img src="Icons/NPCs/Cogfather.jfif" alt="Cogfather" />
-            <p>A million pieces of junk? Now that's what I call a beautiful mess. Keep collecting - there's more to discover.</p>
-            <button onClick={() => {
-              setShowQuestLog(true);
-              setNotifications(prev => prev.filter(n => typeof n !== 'object'));
-                        }}>Open Quest Log</button>
-          </div>
-        );
-        setNotifications(prev => [...prev, cogfatherMessage]);
-      }
-    }
-  }, [tutorialStage, junk]);
-
-
-  useEffect(() => {
-    validateQuestsAndAchievements();
-  }, [passiveIncome, ownedItems.streetrat, clickMultiplier, globalJpsMultiplier]);
-
-  useEffect(() => {
-    const onetimeItems = ['Click Rig Mk I', 'Auto Toolkit', 'Compression Pack', 'Reinforced Backpack', 'Surge Capacitor Module'];
-    const hasCraftedOneTime = onetimeItems.some(item => (craftingInventory[item] || 0) > 0);
-    setShowInventory(hasCraftedOneTime);
-  }, [craftingInventory]);
-
-  useEffect(() => {
-    if (localStorage.getItem('quest_sync_Forge the Future') === 'true' || 
-        (craftingInventory && craftingInventory['Prestige Crystal'] >= 1)) {
-      setPrestigeQuestCompleted(true);
-    }
-  }, [craftingInventory]);
-
-
-
-  useEffect(() => {
-    const handleCreditsUpdate = (event) => {
-      setCredits(event.detail.credits);
-      if (event.detail.message) {
-        setNotifications(prev => [...prev, event.detail.message]);
-      }
-    };
-
-    window.addEventListener('creditsUpdated', handleCreditsUpdate);
-    return () => window.removeEventListener('creditsUpdated', handleCreditsUpdate);
-  }, []);
-
-  useEffect(() => {
-    // Check for offline progress immediately on app load
-    const checkInitialOfflineProgress = () => {
-      const offlineResults = processOfflineProgress(
-        {
-          junk,
-          credits,
-          clickCount,
-          tronics,
-          autoClicks,
-          clickMultiplier,
-          passiveIncome,
-          globalJpsMultiplier,
-          electronicsUnlock,
-          clickEnhancerLevel,
-          prestigeCount,
-          electroShards,
-          isSurgeActive,
-          cogfatherLore,
-          autoClickerV1Count,
-          craftingInventory,
-          ownedItems,
-          permanentAutoClicks,
-          electroMultiplier
-        },
-        {
-          setJunk,
-          setCredits,
-          setClickCount,
-          setTronics,
-          setAutoClicks,
-          setClickMultiplier,
-          setPassiveIncome,
-          setGlobalJpsMultiplier,
-          setElectronicsUnlock,
-          setClickEnhancerLevel,
-          setPrestigeCount,
-          setElectroShards,
-          setIsSurgeActive,
-          setCogfatherLore,
-          setAutoClickerV1Count,
-          setCraftingInventory,
-          setOwnedItems,
-          setNotifications,
-          setPermanentAutoClicks,
-          setElectroMultiplier,
-          setTotalTronicsClicks
-        }
-      );
-
-      // Show offline progress popup if there were results and user was offline for more than 30 seconds
-      if (offlineResults && offlineResults.duration >= 30) {
-        setOfflineProgressData(offlineResults);
-        setShowOfflineProgress(true);
-      }
-    };
-
-    // Check for offline progress after a short delay to ensure all state is loaded
-    const initialCheckTimeout = setTimeout(checkInitialOfflineProgress, 1000);
-
-    const interval = setInterval(() => {
-    }, 100);
-
-    // Listen for mini-game requests from crew menu
-    const handleMiniGameRequest = () => {
-      setShowMiniGameWindow(true);
-    };
-
-    const processOfflineProgressHandler = () => {
-      const offlineResults = processOfflineProgress(
-        {
-          junk, credits, clickCount, tronics, autoClicks, clickMultiplier,
-          passiveIncome, globalJpsMultiplier,
-          electronicsUnlock,
-          clickEnhancerLevel,
-          prestigeCount,
-          electroShards,
-          isSurgeActive,
-          cogfatherLore,
-          autoClickerV1Count,
-          craftingInventory,
-          ownedItems,
-          permanentAutoClicks,
-          electroMultiplier
-        },
-        {
-          setJunk,
-          setCredits,
-          setClickCount,
-          setTronics,
-          setAutoClicks,
-          setClickMultiplier,
-          setPassiveIncome,
-          setGlobalJpsMultiplier,
-          setElectronicsUnlock,
-          setClickEnhancerLevel,
-          setPrestigeCount,
-          setElectroShards,
-          setIsSurgeActive,
-          setCogfatherLore,
-          setAutoClickerV1Count,
-          setCraftingInventory,
-          setOwnedItems,
-          setNotifications,
-          setPermanentAutoClicks,
-          setElectroMultiplier,
-          setTotalTronicsClicks
-        }
-      );
-
-      // Show offline progress popup if there were results and user was offline for more than 30 seconds
-      if (offlineResults && offlineResults.duration >= 30) {
-        setOfflineProgressData(offlineResults);
-        setShowOfflineProgress(true);
-      }
-    };
-
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        // Only process offline progress when page becomes visible after being hidden
-        // Add a small delay to avoid triggering during quick tab switches
-        setTimeout(() => {
-          if (document.visibilityState === 'visible') {
-            processOfflineProgressHandler();
-          }
-        }, 1000);
-      } else {
-        // Update last active time when page becomes hidden
-        updateLastActiveTime();
-      }
-    };
-
-    const handleWindowFocus = () => {
-      // Only process offline progress when window gains focus after being blurred
-      // Add delay to avoid triggering during menu navigation
-      setTimeout(() => {
-        if (document.hasFocus()) {
-          processOfflineProgressHandler();
-        }
-      }, 1000);
-    };
-
-    const handleWindowBlur = () => {
-      // Update last active time when window loses focus
-      updateLastActiveTime();
-    };
-
-    const handlePageShow = (event) => {
-      // Process offline progress when page is shown (including from cache)
-      if (event.persisted || performance.navigation.type === 2) {
-        processOfflineProgressHandler();
-      }
-    };
-
-    const handlePageHide = () => {
-      // Update last active time when page is hidden
-      updateLastActiveTime();
-    };
-
-    window.addEventListener('showMiniGame', handleMiniGameRequest);
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    window.addEventListener('focus', handleWindowFocus);
-    window.addEventListener('blur', handleWindowBlur);
-    window.addEventListener('pageshow', handlePageShow);
-    window.addEventListener('pagehide', handlePageHide);
-
-    return () => {
-      clearTimeout(initialCheckTimeout);
-      clearInterval(interval);
-      window.removeEventListener('showMiniGame', handleMiniGameRequest);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-      window.removeEventListener('focus', handleWindowFocus);
-      window.removeEventListener('blur', handleWindowBlur);
-      window.removeEventListener('pageshow', handlePageShow);
-      window.removeEventListener('pagehide', handlePageHide);
-    };  }, [junk]);
+  
 
     const handleTechUnlock = (techName) => {
     const currentPrestige = parseInt(localStorage.getItem('prestigeCount') || '0');
