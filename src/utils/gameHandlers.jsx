@@ -571,6 +571,22 @@ export const gameHandlers = (gameState, setGameState) => {
     }
   };
 
+  const handleBuyShardMiner = () => {
+    const cost = 10000000;
+    if (gameState.junk >= cost && gameState.craftingInventory['Scrap Core'] >= 5 && !gameState.ownedItems.shardMiner) {
+      setGameState.setJunk(prev => prev - cost);
+      setGameState.setCraftingInventory(prev => ({
+        ...prev,
+        'Scrap Core': prev['Scrap Core'] - 5
+      }));
+      setGameState.setOwnedItems(prev => ({...prev, shardMiner: 1}));
+      setGameState.setNotifications(prev => [...prev, "Shard Miner purchased!"]);
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: "A new frequency resonates through your junkyard..." }
+      }));
+    }
+  };
+
 //Upgrades
 
     const handleBuyStreetratUpgrade = () => {
@@ -629,7 +645,8 @@ export const gameHandlers = (gameState, setGameState) => {
     handleBuyReactiveFeedback,
     handleBuyPickupMagnetArray,
     handleBuyScratzMiner,
-    handleBuyAutoRecycler, handleBuyStreetratUpgrade, handleBuyScrapBagUpgrade, handleBuyTrashPickerUpgrade, handleBuyCartUpgrade, handleBuyUrbanRecyclerUpgrade, handleBuyClickEnhancerUpgrade,handleBuyJunkMagnetUpgrade
+    handleBuyAutoRecycler,
+    handleBuyShardMiner, handleBuyStreetratUpgrade, handleBuyScrapBagUpgrade, handleBuyTrashPickerUpgrade, handleBuyCartUpgrade, handleBuyUrbanRecyclerUpgrade, handleBuyClickEnhancerUpgrade,handleBuyJunkMagnetUpgrade
   };
 }
 }

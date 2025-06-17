@@ -119,7 +119,7 @@ export default function App() {
 
     const {
         handleBuyTrashBag,
-        calculate10xPriceJunkClicker: calculate10xPrice01, handleBuyPicker, handleBuyClickEnhancer, handleBuyClampjawRig, calculate10xPriceJPS, handleBuyStreetrat, handleBuyCart, handleBuyJunkMagnet, handleBuyUrbanRecycler, handleBuyScrapDrone, handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator, handleBuyQuantumTap, handleBuyElectroSurgeNode, handleBuyElectroBeaconCore, handleBuyCircuitOptimization, handleBuyHighFreqTap, handleBuyReactiveFeedback, handleBuyPickupMagnetArray, handleBuyScratzMiner, onBuyAutoRecycler, handleBuyStreetratUpgrade, handleBuyScrapBagUpgrade, handleBuyTrashPickerUpgrade, handleBuyCartUpgrade, handleBuyUrbanRecyclerUpgrade, handleBuyClickEnhancerUpgrade,handleBuyJunkMagnetUpgrade
+        calculate10xPriceJunkClicker: calculate10xPrice01, handleBuyPicker, handleBuyClickEnhancer, handleBuyClampjawRig, calculate10xPriceJPS, handleBuyStreetrat, handleBuyCart, handleBuyJunkMagnet, handleBuyUrbanRecycler, handleBuyScrapDrone, handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator, handleBuyQuantumTap, handleBuyElectroSurgeNode, handleBuyElectroBeaconCore, handleBuyCircuitOptimization, handleBuyHighFreqTap, handleBuyReactiveFeedback, handleBuyPickupMagnetArray, handleBuyScratzMiner, handleBuyShardMiner, onBuyAutoRecycler, handleBuyStreetratUpgrade, handleBuyScrapBagUpgrade, handleBuyTrashPickerUpgrade, handleBuyCartUpgrade, handleBuyUrbanRecyclerUpgrade, handleBuyClickEnhancerUpgrade,handleBuyJunkMagnetUpgrade
     } = purchaseHandlers;
 
   const { achievements, validateAchievements, checkElectroMilestones } = useAchievements(
@@ -584,21 +584,7 @@ export default function App() {
           onBuyAutoClickerV2= {handleBuyAutoClickerV2}
           onGetAutoClickersV2={autoClickerV2Count}
           onBuyScratzMiner={handleBuyScratzMiner}
-          onBuyShardMiner={() => {
-            const cost = 10000000;
-            if (junk >= cost && craftingInventory['Scrap Core'] >= 5 && !ownedItems.shardMiner) {
-              setJunk(prev => prev - cost);
-              setCraftingInventory(prev => ({
-                ...prev,
-                'Scrap Core': prev['Scrap Core'] - 5
-              }));
-              setOwnedItems(prev => ({...prev, shardMiner: 1}));
-              setNotifications(prev => [...prev, "Shard Miner purchased!"]);
-              window.dispatchEvent(new CustomEvent('nextNews', { 
-                detail: { message: "A new frequency resonates through your junkyard..." }
-              }));
-            }
-          }}
+          onBuyShardMiner={handleBuyShardMiner}
           onBuyCart={handleBuyCart}
           onBuyJunkMagnet={handleBuyJunkMagnet}
           onBuyUrbanRecycler={handleBuyUrbanRecycler}
