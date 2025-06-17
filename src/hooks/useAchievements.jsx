@@ -499,8 +499,10 @@ export const useAchievements = (gameState, setJunk, setClickMultiplier, setAutoC
             if (clickedAutoClicker && !achievement.unlocked) {
               achievement.unlocked = true;
               achievement.checked = true;
-              setAutoClicks(prev => prev + 1);
-              setNotifications(prev => [...prev, "Achievement Unlocked: Who Clicks the Clickers!"]);
+              // Add permanent auto clicker instead of temporary
+              const currentPermanent = parseInt(localStorage.getItem('permanentAutoClicks') || '0');
+              localStorage.setItem('permanentAutoClicks', (currentPermanent + 1).toString());
+              setNotifications(prev => [...prev, "Achievement Unlocked: Who Clicks the Clickers! +1 Permanent Auto Clicker"]);
               changed = true;
             }
             break;
