@@ -312,17 +312,15 @@ export default function Store({
         </div>
       </div>
       <div className="crafting-tabs">
-        {tabs.map((tab) => (
+        {tabs
+          .filter(tab => !tab.unlockCondition || tab.unlockCondition())
+          .map((tab) => (
           <button
             key={tab.id}
-            className={`tab-button ${selectedTab === tab.id ? "active" : ""} ${tab.unlockCondition && !tab.unlockCondition() ? "locked" : ""}`}
-            onClick={() =>
-              (!tab.unlockCondition || tab.unlockCondition()) &&
-              setSelectedTab(tab.id)
-            }
-            disabled={tab.unlockCondition && !tab.unlockCondition()}
+            className={`tab-button ${selectedTab === tab.id ? "active" : ""}`}
+            onClick={() => setSelectedTab(tab.id)}
           >
-            {tab.label} {tab.unlockCondition && !tab.unlockCondition() && "🔒"}
+            {tab.label}
           </button>
         ))}
       </div>
