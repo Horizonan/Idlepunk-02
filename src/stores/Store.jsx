@@ -17,25 +17,35 @@ export default function Store({
   const [mobileInfoModal, setMobileInfoModal] = useState(null); // For mobile item info modals
 
 
+  const getItemName = (baseKey, baseName) => {
+    return localStorage.getItem(`${baseKey}Name`) || baseName;
+  };
+
   const clickItems = [
     {
-      name: localStorage.getItem('scrapBagUpgrade') ? "Reinforced Trash Bag" : "Scrap Bag",
+      name: getItemName('trashBag', localStorage.getItem('trashBagUpgrade2') ? "Max-Patched Trash Bag" : 
+                                    localStorage.getItem('scrapBagUpgrade') ? "Reinforced Trash Bag" : "Scrap Bag"),
       cost: bulkBuy ? calculate10xPriceJunkClicker(itemCosts.trashBag).totalCost :  itemCosts.trashBag,
-      description: localStorage.getItem('scrapBagUpgrade') ? "+2 Junk/Click, +10% Cost per purchase" : "+1 Junk/Click, +10% Cost per purchase",
-      info: localStorage.getItem('scrapBagUpgrade') ? "Reinforced with duct tape and ambition that helps you collect more junk" : "A sturdy bag that helps you collect more junk with each click",
+      description: localStorage.getItem('trashBagUpgrade2') ? "+3 Junk/Click, +10% Cost per purchase" :
+                   localStorage.getItem('scrapBagUpgrade') ? "+2 Junk/Click, +10% Cost per purchase" : "+1 Junk/Click, +10% Cost per purchase",
+      info: localStorage.getItem('trashBagUpgrade2') ? "You can't see the bag under the duct tape anymore" :
+            localStorage.getItem('scrapBagUpgrade') ? "Reinforced with duct tape and ambition that helps you collect more junk" : "A sturdy bag that helps you collect more junk with each click",
       action: onBuyTrashBag,
       purchasedCount: ownedItems.trashBag || 0,
     },
     {
-      name: localStorage.getItem('trashPickerUpgrade') ? "Braced Trash Picker" : "Trash Picker",
+      name: getItemName('trashPicker', localStorage.getItem('trashPickerUpgrade2') ? "Holstered Trash Picker" :
+                                       localStorage.getItem('trashPickerUpgrade') ? "Braced Trash Picker" : "Trash Picker"),
       cost: bulkBuy ?calculate10xPriceJunkClicker(itemCosts.trashPicker).totalCost :  itemCosts.trashPicker,
-      description: localStorage.getItem('trashPickerUpgrade') ? "+4 Junk/Click, +10% Cost" : "+3 Junk/Click, +10% Cost",
-      info: localStorage.getItem('trashPickerUpgrade') ? "Professional tool with ergonomic wrist braces - trashcore style" : "Professional tool that triples your junk collection efficiency",
+      description: localStorage.getItem('trashPickerUpgrade2') ? "+6 Junk/Click, +10% Cost" :
+                   localStorage.getItem('trashPickerUpgrade') ? "+4 Junk/Click, +10% Cost" : "+3 Junk/Click, +10% Cost",
+      info: localStorage.getItem('trashPickerUpgrade2') ? "You'll never drop your fork again" :
+            localStorage.getItem('trashPickerUpgrade') ? "Professional tool with ergonomic wrist braces - trashcore style" : "Professional tool that triples your junk collection efficiency",
       action: onBuyPicker,
       purchasedCount: ownedItems.trashPicker || 0,
     },
     {
-      name: localStorage.getItem('clickEnhancerUpgrade') ? "Overclocked Click Enhancer" : "Click Enhancer",
+      name: getItemName('clickEnhancer', localStorage.getItem('clickEnhancerUpgrade') ? "Overclocked Click Enhancer" : "Click Enhancer"),
       cost: bulkBuy ?calculate10xPriceJunkClicker(itemCosts.clickEnhancer).totalCost :  itemCosts.clickEnhancer,
       description: localStorage.getItem('clickEnhancerUpgrade') ? "+8 Junk/Click, +10% Cost" : "+5 Junk/Click, +10% Cost",
       info: localStorage.getItem('clickEnhancerUpgrade') ? '"We added more wires and crossed our fingers. Built from a broken microwave and spite."' : '"Built from a broken microwave and spite."',
@@ -43,10 +53,10 @@ export default function Store({
       purchasedCount: ownedItems.clickEnhancer || 0,
     },
     {
-      name: "Clampjaw Rig",
+      name: getItemName('clampjawRig', localStorage.getItem('clampjawUpgrade1') ? "Lubricated Clampjaw Rig" : "Clampjaw Rig"),
       cost: bulkBuy ? calculate10xPriceJunkClicker(itemCosts.clampjawRig).totalCost : itemCosts.clampjawRig,
-      description: "+12 Junk/Click, +10% Cost",
-      info: "Ripped from an old loader bot. Bolted to a scaffold. Controlled with a wire and hope.",
+      description: localStorage.getItem('clampjawUpgrade1') ? "+22 Junk/Click, +10% Cost" : "+12 Junk/Click, +10% Cost",
+      info: localStorage.getItem('clampjawUpgrade1') ? "Less screech, more grab" : "Ripped from an old loader bot. Bolted to a scaffold. Controlled with a wire and hope.",
       action: onBuyClampjawRig,
       purchasedCount: ownedItems.clampjawRig || 0,
       hidden: !((ownedItems.trashPicker || 0) >= 5),
@@ -67,23 +77,29 @@ export default function Store({
   //Junk store
   const passiveItems = [
     {
-      name: localStorage.getItem('streetratUpgrade') ? "Whistling Streetrat" : "Streetrat",
+      name: getItemName('streetrat', localStorage.getItem('streetratUpgrade2') ? "Unionized Streetrat" :
+                                    localStorage.getItem('streetratUpgrade') ? "Whistling Streetrat" : "Streetrat"),
       cost: bulkBuy ? calculate10xPriceJPS(itemCosts.streetrat).totalCost : itemCosts.streetrat,
-      description: localStorage.getItem('streetratUpgrade') ? `+${Math.floor(2 * globalJpsMultiplier)} Junk/sec, +15% Cost` : `+${Math.floor(1 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
-      info: localStorage.getItem('streetratUpgrade') ? "They now wear matching vests and whistle while they work" : "Hire a local to automatically collect junk for you",
+      description: localStorage.getItem('streetratUpgrade2') ? `+${Math.floor(3 * globalJpsMultiplier)} Junk/sec, +15% Cost` :
+                   localStorage.getItem('streetratUpgrade') ? `+${Math.floor(2 * globalJpsMultiplier)} Junk/sec, +15% Cost` : `+${Math.floor(1 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
+      info: localStorage.getItem('streetratUpgrade2') ? "Turns out fair treatment is motivating" :
+            localStorage.getItem('streetratUpgrade') ? "They now wear matching vests and whistle while they work" : "Hire a local to automatically collect junk for you",
       action: onBuyStreetrat,
       purchasedCount: ownedItems.streetrat || 0,
     },
     {
-      name: localStorage.getItem('cartUpgrade') ? "Suspended Cart" : "Shopping Cart",
+      name: getItemName('cart', localStorage.getItem('cartUpgrade2') ? "Sponsored Cart" :
+                              localStorage.getItem('cartUpgrade') ? "Suspended Cart" : "Shopping Cart"),
       cost: bulkBuy ? calculate10xPriceJPS(itemCosts.cart).totalCost  : itemCosts.cart,
-      description: localStorage.getItem('cartUpgrade') ? `+${Math.floor(10 * globalJpsMultiplier)} Junk/sec, +15% Cost` : `+${Math.floor(5 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
-      info: localStorage.getItem('cartUpgrade') ? "Rides smoother. Holds more junk. Scares more pigeons" : "Large capacity cart that greatly increases automatic collection",
+      description: localStorage.getItem('cartUpgrade2') ? `+${Math.floor(12.5 * globalJpsMultiplier)} Junk/sec, +15% Cost` :
+                   localStorage.getItem('cartUpgrade') ? `+${Math.floor(10 * globalJpsMultiplier)} Junk/sec, +15% Cost` : `+${Math.floor(5 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
+      info: localStorage.getItem('cartUpgrade2') ? "Sponsored by Sludge-Cola and Civic Regret™" :
+            localStorage.getItem('cartUpgrade') ? "Rides smoother. Holds more junk. Scares more pigeons" : "Large capacity cart that greatly increases automatic collection",
       action: onBuyCart,
       purchasedCount: ownedItems.cart || 0,
     },
     {
-      name: localStorage.getItem('junkMagnetUpgrade') ? "Overcharged Junk Magnet" : "Junk Magnet",
+      name: getItemName('junkMagnet', localStorage.getItem('junkMagnetUpgrade') ? "Overcharged Junk Magnet" : "Junk Magnet"),
       cost: bulkBuy ? calculate10xPriceJPS(itemCosts.junkMagnet).totalCost  : itemCosts.junkMagnet,
       description: localStorage.getItem('junkMagnetUpgrade') ? `+${Math.floor(20 * globalJpsMultiplier)} Junk/sec, +15% Cost` : `+${Math.floor(10 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
       info: localStorage.getItem('junkMagnetUpgrade') ? "Now hums aggressively at small animals" : "Electromagnetic device that attracts valuable junk automatically",
@@ -91,18 +107,21 @@ export default function Store({
       purchasedCount: ownedItems.junkMagnet || 0,
     },
     {
-      name: localStorage.getItem('urbanRecyclerUpgrade') ? "Flame-Boosted Recycler" : "Urban Recycler",
+      name: getItemName('urbanRecycler', localStorage.getItem('urbanRecyclerUpgrade2') ? "Flame-Jet Recycler" :
+                                         localStorage.getItem('urbanRecyclerUpgrade') ? "Flame-Boosted Recycler" : "Urban Recycler"),
       cost: bulkBuy ? calculate10xPriceJPS(itemCosts.urbanRecycler).totalCost  : itemCosts.urbanRecycler,
-      description: localStorage.getItem('urbanRecyclerUpgrade') ? `+${Math.floor(30 * globalJpsMultiplier)} Junk/sec, +15% Cost` : `+${Math.floor(20 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
-      info: localStorage.getItem('urbanRecyclerUpgrade') ? "Powered by fumes and blind optimism" : "Automated system that processes urban waste into valuable junk",
+      description: localStorage.getItem('urbanRecyclerUpgrade2') ? `+${Math.floor(35 * globalJpsMultiplier)} Junk/sec, +15% Cost` :
+                   localStorage.getItem('urbanRecyclerUpgrade') ? `+${Math.floor(30 * globalJpsMultiplier)} Junk/sec, +15% Cost` : `+${Math.floor(20 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
+      info: localStorage.getItem('urbanRecyclerUpgrade2') ? "Because fire = faster. Usually" :
+            localStorage.getItem('urbanRecyclerUpgrade') ? "Powered by fumes and blind optimism" : "Automated system that processes urban waste into valuable junk",
       action: onBuyUrbanRecycler,
       purchasedCount: ownedItems.urbanRecycler || 0,
     },
     {
-      name: "Scrap Drone",
+      name: getItemName('scrapDrone', localStorage.getItem('scrapDroneUpgrade1') ? "Snarky Scrap Drone" : "Scrap Drone"),
       cost: bulkBuy ? calculate10xPriceJPS(itemCosts.scrapDrone).totalCost  : itemCosts.scrapDrone,
-      description: `+${Math.floor(25 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
-      info: "Autonomous drone that scans the area for valuable junk",
+      description: localStorage.getItem('scrapDroneUpgrade1') ? `+${Math.floor(40 * globalJpsMultiplier)} Junk/sec, +15% Cost` : `+${Math.floor(25 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
+      info: localStorage.getItem('scrapDroneUpgrade1') ? "Now supports sarcasm and mild violence" : "Autonomous drone that scans the area for valuable junk",
       action: onBuyScrapDrone,
       purchasedCount: ownedItems.scrapDrone || 0,
     },

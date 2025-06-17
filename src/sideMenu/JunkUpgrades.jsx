@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/JunkUpgrades.css';
 
-export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrade, onBuyScrapBagUpgrade, onBuyTrashPickerUpgrade, onBuyCartUpgrade, onBuyUrbanRecyclerUpgrade, onBuyClickEnhancerUpgrade, onBuyJunkMagnetUpgrade, onNewUpgradesChange }) {
+export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrade, onBuyScrapBagUpgrade, onBuyTrashPickerUpgrade, onBuyCartUpgrade, onBuyUrbanRecyclerUpgrade, onBuyClickEnhancerUpgrade, onBuyJunkMagnetUpgrade, onBuyClampjawUpgrade1, onBuyScrapDroneUpgrade1, onBuyTrashPickerUpgrade2, onBuyStreetratUpgrade2, onBuyTrashBagUpgrade2, onBuyCartUpgrade2, onBuyUrbanRecyclerUpgrade2, onNewUpgradesChange }) {
   const [mobileInfoModal, setMobileInfoModal] = useState(null);
   const [hasNewUpgrades, setHasNewUpgrades] = useState(false);
   const junk = parseInt(localStorage.getItem('junk') || '0');
@@ -91,6 +91,90 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
       tier: "advanced",
       storageKey: "junkMagnetUpgrade",
       action: onBuyJunkMagnetUpgrade
+    },
+    {
+      name: "Clampjaw Rig WD-40 Baptism",
+      cost: 520000,
+      description: "+10 Junk/Click from Clampjaw Rigs",
+      info: "Less screech, more grab.",
+      unlockCondition: () => (ownedItems?.clampjawRig || 0) >= 5 && !localStorage.getItem('clampjawUpgrade1'),
+      owned: localStorage.getItem('clampjawUpgrade1') ? 1 : 0,
+      category: "clicking",
+      tier: "advanced",
+      storageKey: "clampjawUpgrade1",
+      action: onBuyClampjawUpgrade1
+    },
+    {
+      name: "Scrap Drone Firmware v13.37",
+      cost: 670000,
+      description: "+15 Junk/sec from Scrap Drones",
+      info: "Now supports sarcasm and mild violence.",
+      unlockCondition: () => (ownedItems?.scrapDrone || 0) >= 5 && !localStorage.getItem('scrapDroneUpgrade1'),
+      owned: localStorage.getItem('scrapDroneUpgrade1') ? 1 : 0,
+      category: "passive",
+      tier: "advanced",
+      storageKey: "scrapDroneUpgrade1",
+      action: onBuyScrapDroneUpgrade1
+    },
+    {
+      name: "Trash Picker Holster Belt",
+      cost: 870000,
+      description: "+2 Junk/Click from Trash Pickers",
+      info: "You'll never drop your fork again.",
+      unlockCondition: () => (ownedItems?.trashPicker || 0) >= 20 && !localStorage.getItem('trashPickerUpgrade2'),
+      owned: localStorage.getItem('trashPickerUpgrade2') ? 1 : 0,
+      category: "clicking",
+      tier: "quantum",
+      storageKey: "trashPickerUpgrade2",
+      action: onBuyTrashPickerUpgrade2
+    },
+    {
+      name: "Streetrat Unionization",
+      cost: 1130000,
+      description: "Streetrats work 50% faster. And angrier.",
+      info: "Turns out fair treatment is motivating.",
+      unlockCondition: () => (ownedItems?.streetrat || 0) >= 20 && !localStorage.getItem('streetratUpgrade2'),
+      owned: localStorage.getItem('streetratUpgrade2') ? 1 : 0,
+      category: "passive",
+      tier: "quantum",
+      storageKey: "streetratUpgrade2",
+      action: onBuyStreetratUpgrade2
+    },
+    {
+      name: "Trash Bag Max-Patch",
+      cost: 1460000,
+      description: "+2 Junk/Click from Trash Bags",
+      info: "You can't see the bag under the duct tape anymore.",
+      unlockCondition: () => (ownedItems?.trashBag || 0) >= 20 && !localStorage.getItem('trashBagUpgrade2'),
+      owned: localStorage.getItem('trashBagUpgrade2') ? 1 : 0,
+      category: "clicking",
+      tier: "quantum",
+      storageKey: "trashBagUpgrade2",
+      action: onBuyTrashBagUpgrade2
+    },
+    {
+      name: "Cart Racing League Sponsorship",
+      cost: 1890000,
+      description: "Carts generate +25% Junk/sec",
+      info: "Sponsored by Sludge-Cola and Civic Regret™.",
+      unlockCondition: () => (ownedItems?.cart || 0) >= 15 && !localStorage.getItem('cartUpgrade2'),
+      owned: localStorage.getItem('cartUpgrade2') ? 1 : 0,
+      category: "passive",
+      tier: "quantum",
+      storageKey: "cartUpgrade2",
+      action: onBuyCartUpgrade2
+    },
+    {
+      name: "Urban Recycler Flame Jets",
+      cost: 2450000,
+      description: "+15 Junk/sec from Urban Recyclers",
+      info: "Because fire = faster. Usually.",
+      unlockCondition: () => (ownedItems?.urbanRecycler || 0) >= 10 && !localStorage.getItem('urbanRecyclerUpgrade2'),
+      owned: localStorage.getItem('urbanRecyclerUpgrade2') ? 1 : 0,
+      category: "passive",
+      tier: "quantum",
+      storageKey: "urbanRecyclerUpgrade2",
+      action: onBuyUrbanRecyclerUpgrade2
     }
   ];
 
@@ -146,6 +230,27 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
           break;
         case 'junkMagnetUpgrade':
           localStorage.setItem('junkMagnetName', 'Overcharged Junk Magnet');
+          break;
+        case 'clampjawUpgrade1':
+          localStorage.setItem('clampjawRigName', 'Lubricated Clampjaw Rig');
+          break;
+        case 'scrapDroneUpgrade1':
+          localStorage.setItem('scrapDroneName', 'Snarky Scrap Drone');
+          break;
+        case 'trashPickerUpgrade2':
+          localStorage.setItem('trashPickerName', 'Holstered Trash Picker');
+          break;
+        case 'streetratUpgrade2':
+          localStorage.setItem('streetratName', 'Unionized Streetrat');
+          break;
+        case 'trashBagUpgrade2':
+          localStorage.setItem('trashBagName', 'Max-Patched Trash Bag');
+          break;
+        case 'cartUpgrade2':
+          localStorage.setItem('cartName', 'Sponsored Cart');
+          break;
+        case 'urbanRecyclerUpgrade2':
+          localStorage.setItem('urbanRecyclerName', 'Flame-Jet Recycler');
           break;
       }
 
