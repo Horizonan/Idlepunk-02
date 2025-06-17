@@ -1,0 +1,86 @@
+[
+  {
+    name: "Trash Picker Wrist Braces",
+    cost: { junk: 50000 },
+    description: "+1 Junk/Click from Trash Pickers",
+    info: "Ergonomics, but make it trashcore.",
+    unlockCondition: () => ownedItems.trashPicker >= 10,
+    purchasedCount: ownedItems.trashPickerUpgrade1 || 0,
+    action: () => {
+      onBuyTrashPickerUpgrade1();
+      updateItemName("trashPicker", "Braced Trash Picker");
+    }
+  },
+  {
+    name: "Cart Suspension Mods",
+    cost: { junk: 75000 },
+    description: "Carts produce +5 Junk/sec",
+    info: "Rides smoother. Holds more junk. Scares more pigeons.",
+    unlockCondition: () => ownedItems.cart >= 10,
+    purchasedCount: ownedItems.cartUpgrade1 || 0,
+    action: () => {
+      onBuyCartUpgrade1();
+      updateItemName("cart", "Suspended Cart");
+    }
+  },
+  {
+    name: "Trash Bag Reinforcement",
+    cost: { junk: 120000 },
+    description: "+1 Junk/Click from Trash Bags",
+    info: "Reinforced with duct tape and ambition.",
+    unlockCondition: () => ownedItems.trashBag >= 12,
+    purchasedCount: ownedItems.trashBagUpgrade1 || 0,
+    action: () => {
+      onBuyTrashBagUpgrade1();
+      updateItemName("trashBag", "Reinforced Trash Bag");
+    }
+  },
+  {
+    name: "Streetrat Efficiency Training",
+    cost: { junk: 180000 },
+    description: "Doubles output of all Streetrats",
+    info: "They now wear matching vests and whistle while they work.",
+    unlockCondition: () => ownedItems.streetrat >= 10,
+    purchasedCount: ownedItems.streetratUpgrade1 || 0,
+    action: () => {
+      onBuyStreetratUpgrade1();
+      updateItemName("streetrat", "Whistling Streetrat");
+    }
+  },
+  {
+    name: "Recycler Flame Boost",
+    cost: { junk: 250000 },
+    description: "+10 Junk/sec from Urban Recyclers",
+    info: "Powered by fumes and blind optimism.",
+    unlockCondition: () => ownedItems.urbanRecycler >= 5,
+    purchasedCount: ownedItems.urbanRecyclerUpgrade1 || 0,
+    action: () => {
+      onBuyUrbanRecyclerUpgrade1();
+      updateItemName("urbanRecycler", "Flame-Boosted Recycler");
+    }
+  },
+  {
+    name: "Click Enhancer Overclock",
+    cost: { junk: 320000 },
+    description: "+3 Junk/Click from Click Enhancers",
+    info: "We added more wires and crossed our fingers.",
+    unlockCondition: () => ownedItems.clickEnhancer >= 10,
+    purchasedCount: ownedItems.clickEnhancerUpgrade1 || 0,
+    action: () => {
+      onBuyClickEnhancerUpgrade1();
+      updateItemName("clickEnhancer", "Overclocked Click Enhancer");
+    }
+  },
+  {
+    name: "Junk Magnet Overcharge",
+    cost: { junk: 400000 },
+    description: "+10 Junk/sec from Junk Magnets",
+    info: "Now hums aggressively at small animals.",
+    unlockCondition: () => ownedItems.junkMagnet >= 5,
+    purchasedCount: ownedItems.junkMagnetUpgrade1 || 0,
+    action: () => {
+      onBuyJunkMagnetUpgrade1();
+      updateItemName("junkMagnet", "Overcharged Junk Magnet");
+    }
+  }
+]
