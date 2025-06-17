@@ -5,28 +5,7 @@ import '../styles/JunkUpgrades.css';
 export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrade, onBuyScrapBagUpgrade, onBuyTrashPickerUpgrade, onBuyCartUpgrade, onBuyUrbanRecyclerUpgrade, onBuyClickEnhancerUpgrade, onBuyJunkMagnetUpgrade, onBuyClampjawUpgrade1, onBuyScrapDroneUpgrade1, onBuyTrashPickerUpgrade2, onBuyStreetratUpgrade2, onBuyTrashBagUpgrade2, onBuyCartUpgrade2, onBuyUrbanRecyclerUpgrade2, onNewUpgradesChange }) {
   const [mobileInfoModal, setMobileInfoModal] = useState(null);
   const [hasNewUpgrades, setHasNewUpgrades] = useState(false);
-  const [junk, setJunk] = useState(() => parseInt(localStorage.getItem('junk') || '0'));
-
-  // Listen for junk changes from localStorage
-  useEffect(() => {
-    const handleStorageChange = () => {
-      setJunk(parseInt(localStorage.getItem('junk') || '0'));
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    
-    // Also listen for custom storage events (for same-tab updates)
-    const handleCustomStorageChange = () => {
-      setJunk(parseInt(localStorage.getItem('junk') || '0'));
-    };
-    
-    window.addEventListener('localStorageUpdated', handleCustomStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('localStorageUpdated', handleCustomStorageChange);
-    };
-  }, []);
+  const junk = parseInt(localStorage.getItem('junk') || '0');
 
   const upgradeItems = [
     {
@@ -290,7 +269,6 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
 
       // Trigger UI update
       window.dispatchEvent(new Event('storage'));
-      window.dispatchEvent(new Event('localStorageUpdated'));
     }
   };
 
