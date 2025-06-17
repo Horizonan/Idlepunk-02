@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/JunkUpgrades.css';
 
-export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrade, onBuyScrapBagUpgrade, onBuyTrashPickerUpgrade, onBuyCartUpgrade, onBuyUrbanRecyclerUpgrade, onBuyClickEnhancerUpgrade, onBuyJunkMagnetUpgrade }) {
+export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrade, onBuyScrapBagUpgrade, onBuyTrashPickerUpgrade, onBuyCartUpgrade, onBuyUrbanRecyclerUpgrade, onBuyClickEnhancerUpgrade, onBuyJunkMagnetUpgrade, onNewUpgradesChange }) {
   const [mobileInfoModal, setMobileInfoModal] = useState(null);
   const [hasNewUpgrades, setHasNewUpgrades] = useState(false);
   const junk = parseInt(localStorage.getItem('junk') || '0');
@@ -97,18 +97,24 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
   // Check for new unlocked upgrades
   useEffect(() => {
     const checkNewUpgrades = () => {
-      const newUpgradesAvailable = upgradeItems.some(item => 
-        item.unlockCondition() && 
-        !localStorage.getItem(item.storageKey) && 
-        !localStorage.getItem(`upgrade_seen_${item.storageKey}`)
-      );
+      const newUpgradesAvailable = upgradeItems.some(item => {
+        const isUnlocked = item.unlockCondition();
+        const isNotPurchased = !localStorage.getItem(item.storageKey);
+        const isNotSeen = !localStorage.getItem(`upgrade_seen_${item.storageKey}`);
+        return isUnlocked && isNotPurchased && isNotSeen;
+      });
       setHasNewUpgrades(newUpgradesAvailable);
+      
+      // Notify parent component if callback exists
+      if (onNewUpgradesChange) {
+        onNewUpgradesChange(newUpgradesAvailable);
+      }
     };
 
     checkNewUpgrades();
     const interval = setInterval(checkNewUpgrades, 1000);
     return () => clearInterval(interval);
-  }, [ownedItems]);
+  }, [ownedItems, upgradeItems, onNewUpgradesChange]);
 
   const handlePurchase = (item) => {
     if (junk >= item.cost && item.unlockCondition()) {
@@ -199,9 +205,10 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
   };
 
   const isNewUpgrade = (item) => {
-    return item.unlockCondition() && 
-           !localStorage.getItem(item.storageKey) && 
-           !localStorage.getItem(`upgrade_seen_${item.storageKey}`);
+    const isUnlocked = item.unlockCondition();
+    const isNotPurchased = !localStorage.getItem(item.storageKey);
+    const isNotSeen = !localStorage.getItem(`upgrade_seen_${item.storageKey}`);
+    return isUnlocked && isNotPurchased && isNotSeen;
   };
 
   // Filter items based on unlock conditions
@@ -212,7 +219,7 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
       <div className="junk-upgrades-header">
         <h2>
           Junk Upgrades
-          
+          {hasNewUpgrades && <span className="junk-upgrades-new-indicator"> (!)</span>}
         </h2>
         <div className="junk-upgrades-controls">
           <button onClick={onClose} className="junk-upgrades-close-button">Close</button>
