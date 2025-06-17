@@ -59,7 +59,7 @@ export default function TrashSurge({ isActive, isTronicsActive, activeClicker })
   if (isActive) {
     return (
       <div className="surge-banner">
-        ⚡ TRASH SURGE ACTIVE! ({timeLeft}s remaining)
+        ⚡ TRASH SURGE ACTIVE! 2x Junk/Click & Junk/Sec ({timeLeft}s remaining)
       </div>
     );
   }

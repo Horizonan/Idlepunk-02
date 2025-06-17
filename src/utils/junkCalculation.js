@@ -27,7 +27,7 @@ export class JunkCalculationManager {
   }
 
   // Calculate effective junk per second after consumption
-  calculateEffectiveJunkPerSecond(basePassiveIncome, globalJpsMultiplier, autoClicks, clickMultiplier) {
+  calculateEffectiveJunkPerSecond(basePassiveIncome, globalJpsMultiplier, autoClicks, clickMultiplier, isSurgeActive = false) {
     let multiplier = globalJpsMultiplier;
 
     // Circuit Optimization boost
@@ -40,6 +40,11 @@ export class JunkCalculationManager {
     // Graffitied Tribute Bin boost
     if (localStorage.getItem('graffitiedTributeBin') === 'true') {
       multiplier += 0.20; // +20% junk/sec
+    }
+
+    // Surge multiplier for passive income
+    if (isSurgeActive) {
+      multiplier *= 2; // Double passive income during surges
     }
 
     const totalPassiveJunk = basePassiveIncome * multiplier;
@@ -68,7 +73,7 @@ export class JunkCalculationManager {
   }
 
   // Get breakdown of junk calculations
-  getJunkBreakdown(basePassiveIncome, globalJpsMultiplier, autoClicks, clickMultiplier) {
+  getJunkBreakdown(basePassiveIncome, globalJpsMultiplier, autoClicks, clickMultiplier, isSurgeActive = false) {
     let multiplier = globalJpsMultiplier;
 
     // Circuit Optimization boost
@@ -81,6 +86,11 @@ export class JunkCalculationManager {
     // Graffitied Tribute Bin boost
     if (localStorage.getItem('graffitiedTributeBin') === 'true') {
       multiplier += 0.20; // +20% junk/sec
+    }
+
+    // Surge multiplier for passive income
+    if (isSurgeActive) {
+      multiplier *= 2; // Double passive income during surges
     }
 
     const passiveJunk = basePassiveIncome * multiplier;
@@ -107,21 +117,23 @@ export class JunkCalculationManager {
 export const junkCalculationManager = new JunkCalculationManager();
 
 // Helper function to get effective junk per second
-export const getEffectiveJunkPerSecond = (basePassiveIncome, globalJpsMultiplier, autoClicks, clickMultiplier) => {
+export const getEffectiveJunkPerSecond = (basePassiveIncome, globalJpsMultiplier, autoClicks, clickMultiplier, isSurgeActive = false) => {
   return junkCalculationManager.calculateEffectiveJunkPerSecond(
     basePassiveIncome, 
     globalJpsMultiplier, 
     autoClicks, 
-    clickMultiplier
+    clickMultiplier,
+    isSurgeActive
   );
 };
 
 // Helper function to get junk breakdown
-export const getJunkBreakdown = (basePassiveIncome, globalJpsMultiplier, autoClicks, clickMultiplier) => {
+export const getJunkBreakdown = (basePassiveIncome, globalJpsMultiplier, autoClicks, clickMultiplier, isSurgeActive = false) => {
   return junkCalculationManager.getJunkBreakdown(
     basePassiveIncome, 
     globalJpsMultiplier, 
     autoClicks, 
-    clickMultiplier
+    clickMultiplier,
+    isSurgeActive
   );
 };
