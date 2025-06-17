@@ -741,7 +741,7 @@ export default function App() {
 
   useEffect(() => {
     const totalPassiveIncome = passiveIncome * globalJpsMultiplier + ((autoClicks + permanentAutoClicks) * clickMultiplier);
-    if ((totalPassiveIncome >= 100 || junk >= 1000000)) {```python
+    if ((totalPassiveIncome >= 100 || junk >= 1000000)) {
       localStorage.setItem('prestigeUnlocked', 'true');
     }
     if ((totalPassiveIncome >= 100 || junk >= 4000000) && !localStorage.getItem('cogfatherEvent')) {
