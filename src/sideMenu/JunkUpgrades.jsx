@@ -200,6 +200,16 @@ export default function JunkUpgrades({ onClose, ownedItems, onBuyStreetratUpgrad
     return () => clearInterval(interval);
   }, [ownedItems, upgradeItems, onNewUpgradesChange]);
 
+  // Mark all visible upgrades as seen when the menu opens
+  useEffect(() => {
+    const availableUpgrades = upgradeItems.filter(item => item.unlockCondition());
+    availableUpgrades.forEach(item => {
+      if (!localStorage.getItem(item.storageKey)) {
+        localStorage.setItem(`upgrade_seen_${item.storageKey}`, 'true');
+      }
+    });
+  }, []);
+
   const handlePurchase = (item) => {
     if (junk >= item.cost && item.unlockCondition()) {
       const newJunk = junk - item.cost;
