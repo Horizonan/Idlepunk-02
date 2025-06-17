@@ -121,6 +121,25 @@ export default function App() {
         calculate10xPriceJunkClicker: calculate10xPrice01, handleBuyPicker, handleBuyClickEnhancer, handleBuyClampjawRig, calculate10xPriceJPS, handleBuyStreetrat, handleBuyCart, handleBuyJunkMagnet, handleBuyUrbanRecycler, handleBuyScrapDrone, handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator, handleBuyQuantumTap, handleBuyElectroSurgeNode, handleBuyElectroBeaconCore, handleBuyCircuitOptimization, handleBuyHighFreqTap, handleBuyReactiveFeedback, handleBuyPickupMagnetArray, handleBuyScratzMiner, onBuyAutoRecycler, handleBuyStreetratUpgrade, handleBuyScrapBagUpgrade, handleBuyTrashPickerUpgrade, handleBuyCartUpgrade, handleBuyUrbanRecyclerUpgrade, handleBuyClickEnhancerUpgrade,handleBuyJunkMagnetUpgrade
     } = purchaseHandlers;
 
+  const { achievements, validateAchievements, checkElectroMilestones } = useAchievements(
+    { 
+      junk, 
+      clickCount, 
+      passiveIncome, 
+      globalJpsMultiplier, 
+      autoClicks, 
+      clickMultiplier,
+      isSurgeActive,
+      cogfatherLore 
+    },
+    setJunk,
+    setClickMultiplier,
+    setAutoClicks,
+    setPassiveIncome,
+    setNotifications,
+    setCogfatherLore
+  );
+
   // Initialize game loop manager
   const { validateQuestsAndAchievements } = useGameLoopManager(
     {
@@ -151,27 +170,6 @@ export default function App() {
       setShowCrewIntroTooltip
     },
     { validateAchievements, checkElectroMilestones }
-  );
-
-  
-
-  const { achievements, validateAchievements, checkElectroMilestones } = useAchievements(
-    { 
-      junk, 
-      clickCount, 
-      passiveIncome, 
-      globalJpsMultiplier, 
-      autoClicks, 
-      clickMultiplier,
-      isSurgeActive,
-      cogfatherLore 
-    },
-    setJunk,
-    setClickMultiplier,
-    setAutoClicks,
-    setPassiveIncome,
-    setNotifications,
-    setCogfatherLore
   );
 
   const checkAchievements = validateAchievements;
