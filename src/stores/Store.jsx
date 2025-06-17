@@ -227,12 +227,16 @@ export default function Store({
 
   const tabs = [
     { id: "prePres", label: "Scrap Collectors" },
-    { id: "premium", label: "Premium" },
+    { 
+      id: "premium", 
+      label: "Premium",
+      unlockCondition: () => parseInt(localStorage.getItem('prestigeCount') || '0') >= 2
+    },
     { id: "automation", label: "Automation" },
     {
       id: "firstAsc",
       label: "First Ascension",
-      unlockCondition: () => localStorage.getItem("hasPrestiged") === "true",
+      unlockCondition: () => parseInt(localStorage.getItem('prestigeCount') || '0') >= 1,
     },
   ];
 
@@ -348,7 +352,7 @@ export default function Store({
           </div>
         )}
         {selectedTab === "premium" &&
-          localStorage.getItem("prestigeLevel") === "2" && (
+          parseInt(localStorage.getItem('prestigeCount') || '0') >= 2 && (
           <div>
             <h3 style={{ color: "#9400D3", textAlign: "center" }}>
               Premium Items
@@ -357,7 +361,7 @@ export default function Store({
           </div>
         )}
         {selectedTab === "firstAsc" &&
-          localStorage.getItem("hasPrestiged") === "true" && (
+          parseInt(localStorage.getItem('prestigeCount') || '0') >= 1 && (
             <div>
               <h3 style={{ color: "#9400D3", textAlign: "center" }}>
                 First Ascension
