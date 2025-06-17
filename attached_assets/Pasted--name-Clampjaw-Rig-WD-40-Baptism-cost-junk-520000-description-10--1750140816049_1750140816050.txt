@@ -1,0 +1,86 @@
+[
+  {
+    name: "Clampjaw Rig WD-40 Baptism",
+    cost: { junk: 520000 },
+    description: "+10 Junk/Click from Clampjaw Rigs",
+    info: "Less screech, more grab.",
+    unlockCondition: () => ownedItems.clampjawRig >= 5,
+    purchasedCount: ownedItems.clampjawUpgrade1 || 0,
+    action: () => {
+      onBuyClampjawUpgrade1();
+      updateItemName("clampjawRig", "Lubricated Clampjaw Rig");
+    }
+  },
+  {
+    name: "Scrap Drone Firmware v13.37",
+    cost: { junk: 670000 },
+    description: "+15 Junk/sec from Scrap Drones",
+    info: "Now supports sarcasm and mild violence.",
+    unlockCondition: () => ownedItems.scrapDrone >= 5,
+    purchasedCount: ownedItems.scrapDroneUpgrade1 || 0,
+    action: () => {
+      onBuyScrapDroneUpgrade1();
+      updateItemName("scrapDrone", "Snarky Scrap Drone");
+    }
+  },
+  {
+    name: "Trash Picker Holster Belt",
+    cost: { junk: 870000 },
+    description: "+2 Junk/Click from Trash Pickers",
+    info: "You’ll never drop your fork again.",
+    unlockCondition: () => ownedItems.trashPicker >= 20,
+    purchasedCount: ownedItems.trashPickerUpgrade2 || 0,
+    action: () => {
+      onBuyTrashPickerUpgrade2();
+      updateItemName("trashPicker", "Holstered Trash Picker");
+    }
+  },
+  {
+    name: "Streetrat Unionization",
+    cost: { junk: 1130000 },
+    description: "Streetrats work 50% faster. And angrier.",
+    info: "Turns out fair treatment is motivating.",
+    unlockCondition: () => ownedItems.streetrat >= 20,
+    purchasedCount: ownedItems.streetratUpgrade2 || 0,
+    action: () => {
+      onBuyStreetratUpgrade2();
+      updateItemName("streetrat", "Unionized Streetrat");
+    }
+  },
+  {
+    name: "Trash Bag Max-Patch",
+    cost: { junk: 1460000 },
+    description: "+2 Junk/Click from Trash Bags",
+    info: "You can’t see the bag under the duct tape anymore.",
+    unlockCondition: () => ownedItems.trashBag >= 20,
+    purchasedCount: ownedItems.trashBagUpgrade2 || 0,
+    action: () => {
+      onBuyTrashBagUpgrade2();
+      updateItemName("trashBag", "Max-Patched Trash Bag");
+    }
+  },
+  {
+    name: "Cart Racing League Sponsorship",
+    cost: { junk: 1890000 },
+    description: "Carts generate +25% Junk/sec",
+    info: "Sponsored by Sludge-Cola and Civic Regret™.",
+    unlockCondition: () => ownedItems.cart >= 15,
+    purchasedCount: ownedItems.cartUpgrade2 || 0,
+    action: () => {
+      onBuyCartUpgrade2();
+      updateItemName("cart", "Sponsored Cart");
+    }
+  },
+  {
+    name: "Urban Recycler Flame Jets",
+    cost: { junk: 2450000 },
+    description: "+15 Junk/sec from Urban Recyclers",
+    info: "Because fire = faster. Usually.",
+    unlockCondition: () => ownedItems.urbanRecycler >= 10,
+    purchasedCount: ownedItems.urbanRecyclerUpgrade2 || 0,
+    action: () => {
+      onBuyUrbanRecyclerUpgrade2();
+      updateItemName("urbanRecycler", "Flame-Jet Recycler");
+    }
+  }
+]
