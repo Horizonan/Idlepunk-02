@@ -126,53 +126,43 @@ export default function App() {
     setClickEnhancerLevel,clickEnhancerLevel, setPassiveIncome, setAutoClickerV1Count, autoClickerV1Count, setAutoClickerV2Count, setElectroShards, setElectroMultiplier, setHasUpgrade
   });
 
-  // Upgrade handlers for JunkUpgrades component
   const handleBuyStreetratUpgrade = () => {
-    // This upgrade doubles the output of all streetrats
-    // Since each streetrat gives 1 JPS, this effectively adds 1 JPS per streetrat
     const streetratCount = ownedItems.streetrat || 0;
     setPassiveIncome(prev => prev + streetratCount);
     setNotifications(prev => [...prev, `Streetrat Efficiency Training purchased! All Streetrats now produce double output (+${streetratCount} JPS).`]);
   };
 
   const handleBuyScrapBagUpgrade = () => {
-    // This upgrade adds +1 junk per click from scrap bags
-    // Since each scrap bag gives 1 click multiplier, this effectively adds 1 more per scrap bag
     const scrapBagCount = ownedItems.trashBag || 0;
     setClickMultiplier(prev => prev + scrapBagCount);
     setNotifications(prev => [...prev, `Scrap Bag Reinforcement purchased! Each Scrap Bag now provides +1 additional Junk/Click (+${scrapBagCount} click power).`]);
   };
 
   const handleBuyTrashPickerUpgrade = () => {
-    // This upgrade adds +1 junk per click from trash pickers
     const trashPickerCount = ownedItems.trashPicker || 0;
     setClickMultiplier(prev => prev + trashPickerCount);
     setNotifications(prev => [...prev, `Trash Picker Wrist Braces purchased! Each Trash Picker now provides +1 additional Junk/Click (+${trashPickerCount} click power).`]);
   };
 
   const handleBuyCartUpgrade = () => {
-    // This upgrade adds +5 junk per second from carts
     const cartCount = ownedItems.cart || 0;
     setPassiveIncome(prev => prev + (cartCount * 5));
     setNotifications(prev => [...prev, `Cart Suspension Mods purchased! Each Cart now produces +5 additional Junk/sec (+${cartCount * 5} JPS).`]);
   };
 
-  const handleBuyUrbanRecyclerUpgrade = () => {
-    // This upgrade adds +10 junk per second from urban recyclers
+  const handleBuyUrbanRecyclerUpgrade = () => {s
     const recyclerCount = ownedItems.urbanRecycler || 0;
     setPassiveIncome(prev => prev + (recyclerCount * 10));
     setNotifications(prev => [...prev, `Recycler Flame Boost purchased! Each Urban Recycler now produces +10 additional Junk/sec (+${recyclerCount * 10} JPS).`]);
   };
 
   const handleBuyClickEnhancerUpgrade = () => {
-    // This upgrade adds +3 junk per click from click enhancers
     const enhancerCount = ownedItems.clickEnhancer || 0;
     setClickMultiplier(prev => prev + (enhancerCount * 3));
     setNotifications(prev => [...prev, `Click Enhancer Overclock purchased! Each Click Enhancer now provides +3 additional Junk/Click (+${enhancerCount * 3} click power).`]);
   };
 
   const handleBuyJunkMagnetUpgrade = () => {
-    // This upgrade adds +10 junk per second from junk magnets
     const magnetCount = ownedItems.junkMagnet || 0;
     setPassiveIncome(prev => prev + (magnetCount * 10));
     setNotifications(prev => [...prev, `Junk Magnet Overcharge purchased! Each Junk Magnet now produces +10 additional Junk/sec (+${magnetCount * 10} JPS).`]);
