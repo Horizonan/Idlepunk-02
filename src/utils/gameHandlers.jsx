@@ -571,29 +571,57 @@ export const gameHandlers = (gameState, setGameState) => {
     }
   };
 
+//Upgrades
+
+    const handleBuyStreetratUpgrade = () => {
+      const streetratCount = ownedItems.streetrat || 0;
+      setGameState.setPassiveIncome(prev => prev + streetratCount);
+      setGameState.setNotifications(prev => [...prev, `Streetrat Efficiency Training purchased! All Streetrats now produce double output (+${streetratCount} JPS).`]);
+    };
+
+    const handleBuyScrapBagUpgrade = () => {
+      const scrapBagCount = ownedItems.trashBag || 0;
+      setGameState.setClickMultiplier(prev => prev + scrapBagCount);
+      setGameState.setNotifications(prev => [...prev, `Scrap Bag Reinforcement purchased! Each Scrap Bag now provides +1 additional Junk/Click (+${scrapBagCount} click power).`]);
+    };
+
+    const handleBuyTrashPickerUpgrade = () => {
+      const trashPickerCount = ownedItems.trashPicker || 0;
+      setGameState.setClickMultiplier(prev => prev + trashPickerCount);
+      setGameState.setNotifications(prev => [...prev, `Trash Picker Wrist Braces purchased! Each Trash Picker now provides +1 additional Junk/Click (+${trashPickerCount} click power).`]);
+    };
+
+    const handleBuyCartUpgrade = () => {
+      const cartCount = ownedItems.cart || 0;
+      setGameState.setPassiveIncome(prev => prev + (cartCount * 5));
+      setGameState.setNotifications(prev => [...prev, `Cart Suspension Mods purchased! Each Cart now produces +5 additional Junk/sec (+${cartCount * 5} JPS).`]);
+    };
+
+    const handleBuyUrbanRecyclerUpgrade = () => {s
+      const recyclerCount = ownedItems.urbanRecycler || 0;
+      setGameState.setPassiveIncome(prev => prev + (recyclerCount * 10));
+      setGameState.setNotifications(prev => [...prev, `Recycler Flame Boost purchased! Each Urban Recycler now produces +10 additional Junk/sec (+${recyclerCount * 10} JPS).`]);
+    };
+
+    const handleBuyClickEnhancerUpgrade = () => {
+      const enhancerCount = ownedItems.clickEnhancer || 0;
+      setGameState.setClickMultiplier(prev => prev + (enhancerCount * 3));
+      setGameState.setNotifications(prev => [...prev, `Click Enhancer Overclock purchased! Each Click Enhancer now provides +3 additional Junk/Click (+${enhancerCount * 3} click power).`]);
+    };
+
+    const handleBuyJunkMagnetUpgrade = () => {
+      const magnetCount = ownedItems.junkMagnet || 0;
+      setGameState.setPassiveIncome(prev => prev + (magnetCount * 10));
+      setGameState.setNotifications(prev => [...prev, `Junk Magnet Overcharge purchased! Each Junk Magnet now produces +10 additional Junk/sec (+${magnetCount * 10} JPS).`]);
+    };
+
+    
   return {
-    collectJunk,
-    handleBuyTrashBag,
-    handleBuyPicker,
-    calculate10xPriceJunkClicker: calculate10xPrice01,
-    calculate10xPriceJPS,
-    calculate10xPriceBillBoard: calculate10x02,
-    handleBuyClickEnhancer,
-    handleBuyClampjawRig,
-    handleBuyStreetrat,
-    handleBuyCart,
-    handleBuyJunkMagnet,
-    handleBuyUrbanRecycler,
-    handleBuyScrapDrone,
-    handleBuyHoloBillboard,
-    handleBuyAutoClicker,
-    handleBuyAutoClickerV2,
-    handleBuyJunkRefinery,  
-    handleBuyModularScrapper,
-    handleBuyTronicsBoost,
-    handleBuyTronicsBoostII,
-    handleBuyFlowRegulator,
-    handleBuyQuantumTap,
+    collectJunk,handleBuyTrashBag,handleBuyPicker,
+    calculate10xPriceJunkClicker: calculate10xPrice01, calculate10xPriceJPS,
+    calculate10xPriceBillBoard: calculate10x02,handleBuyClickEnhancer,handleBuyClampjawRig,handleBuyStreetrat,
+    handleBuyCart,handleBuyJunkMagnet,handleBuyUrbanRecycler,handleBuyScrapDrone,handleBuyHoloBillboard,
+    handleBuyAutoClicker,handleBuyAutoClickerV2,handleBuyJunkRefinery,     handleBuyModularScrapper,handleBuyTronicsBoost,handleBuyTronicsBoostII,handleBuyFlowRegulator,handleBuyQuantumTap,
     handleBuyElectroSurgeNode,
     handleBuyElectroBeaconCore,
     handleBuyCircuitOptimization,
@@ -601,7 +629,7 @@ export const gameHandlers = (gameState, setGameState) => {
     handleBuyReactiveFeedback,
     handleBuyPickupMagnetArray,
     handleBuyScratzMiner,
-    handleBuyAutoRecycler
+    handleBuyAutoRecycler, handleBuyStreetratUpgrade, handleBuyScrapBagUpgrade, handleBuyTrashPickerUpgrade, handleBuyCartUpgrade, handleBuyUrbanRecyclerUpgrade, handleBuyClickEnhancerUpgrade,handleBuyJunkMagnetUpgrade
   };
 }
 }

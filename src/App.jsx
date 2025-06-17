@@ -87,99 +87,40 @@ import RelayCascade from './components/MiniGames/RelayCascade';
 
 
 export default function App() {
-  const { 
-    junk, setJunk, credits, setCredits, clickCount, setClickCount, tronics, setTronics, autoClicks, setAutoClicks, clickMultiplier, setClickMultiplier, passiveIncome, 
-    setPassiveIncome, globalJpsMultiplier, setGlobalJpsMultiplier, notifications, setNotifications,
-    electronicsUnlock, setElectronicsUnlock,  activeStore, setActiveStore, menuOpen, setMenuOpen, clickEnhancerLevel, setClickEnhancerLevel,
-    tutorialStage, setTutorialStage, hasUpgrade, setHasUpgrade, showPrestigePopup, setShowPrestigePopup, prestigeCount, setPrestigeCount,
-    electroShards, setElectroShards, beaconCount, setBeaconCount, setShowBeacon, showBeaconVisual, setShowBeaconVisual,isSurgeActive, setIsSurgeActive,
-    hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge, surgeCount, setSurgeCount, cogfatherLore, setCogfatherLore,
-    preservedHelper, setPreservedHelper, setTronicsSurgeActive, isTronicsSurgeActive, setTotalTronicsClicks,
-    autoClickerV1Count, setAutoClickerV1Count, autoClickerV2Count, setAutoClickerV2Count, showChangelog, setShowChangelog, showTechTree, setShowTechTree, showSlotMachine,
-    setShowSlotMachine, showCheatMenu, setShowCheatMenu, showActiveCheats, setShowActiveCheats, showAchievements, setShowAchievements,
-    showSettings, setShowSettings, showUpgradeStats, setShowUpgradeStats, enableHoloBillboard, setEnableHoloBillboard,
-    showCrystal, setShowCrystal, showTrashBonus, setShowTrashBonus, showQuestLog, setShowQuestLog, showNewsTicker, setShowNewsTicker,
-    prestigeQuestCompleted, setPrestigeQuestCompleted, showClickEnhancerUI, setShowClickEnhancerUI, craftingInventory, setCraftingInventory,
-    showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory, activeCheatsList, setActiveCheatsList,
-    itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, showJunkDrone, setShowJunkDrone,
-    bulkBuy, setBulkBuy, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup, permanentAutoClicks, setPermanentAutoClicks, showCombat, setShowCombat, enableHoldToClick, setEnableHoldToClick, setElectroMultiplier, electroMultiplier
-  } = useGameState();
+    const {
+        junk, setJunk, credits, setCredits, clickCount, setClickCount, tronics, setTronics, autoClicks, setAutoClicks, clickMultiplier, setClickMultiplier, passiveIncome, setPassiveIncome, globalJpsMultiplier, setGlobalJpsMultiplier, notifications, setNotifications,
+        electronicsUnlock, setElectronicsUnlock, activeStore, setActiveStore, menuOpen, setMenuOpen, clickEnhancerLevel, setClickEnhancerLevel,
+        tutorialStage, setTutorialStage, hasUpgrade, setHasUpgrade, showPrestigePopup, setShowPrestigePopup, prestigeCount, setPrestigeCount,
+        electroShards, setElectroShards, beaconCount, setBeaconCount, setShowBeacon, showBeaconVisual, setShowBeaconVisual, isSurgeActive, setIsSurgeActive,
+        hasFoundCapacitorThisSurge, setHasFoundCapacitorThisSurge, surgeCount, setSurgeCount, cogfatherLore, setCogfatherLore,
+        preservedHelper, setPreservedHelper, setTronicsSurgeActive, isTronicsSurgeActive, setTotalTronicsClicks,
+        autoClickerV1Count, setAutoClickerV1Count, autoClickerV2Count, setAutoClickerV2Count, showChangelog, setShowChangelog, showTechTree, setShowTechTree, showSlotMachine,
+        setShowSlotMachine, showCheatMenu, setShowCheatMenu, showActiveCheats, setShowActiveCheats, showAchievements, setShowAchievements,
+        showSettings, setShowSettings, showUpgradeStats, setShowUpgradeStats, enableHoloBillboard, setEnableHoloBillboard,
+        showCrystal, setShowCrystal, showTrashBonus, setShowTrashBonus, showQuestLog, setShowQuestLog, showNewsTicker, setShowNewsTicker,
+        prestigeQuestCompleted, setPrestigeQuestCompleted, showClickEnhancerUI, setShowClickEnhancerUI, craftingInventory, setCraftingInventory,
+        showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory, activeCheatsList, setActiveCheatsList,
+        itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, showJunkDrone, setShowJunkDrone,
+        bulkBuy, setBulkBuy, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup, permanentAutoClicks,   
+        setPermanentAutoClicks, showCombat, setShowCombat, enableHoldToClick, setEnableHoldToClick, setElectroMultiplier, electroMultiplier, showCoinFlip, setShowCoinFlip,
+        showMiniGameWindow, setShowMiniGameWindow, mousePosition, setMousePosition, quantumTapNotifications, setQuantumTapNotifications, showEndOfRoad, setShowEndOfRoad, 
+        setShowSurgeExplanation, showSurgeExplanation, showCrewIntroTooltip, setShowCrewIntroTooltip, showOfflineProgress, setShowOfflineProgress, offlineProgressData, 
+        setOfflineProgressData, forceCogfatherEye, setForceCogfatherEye, showRelayCascade, setShowRelayCascade
+    } = useGameState();
 
-  const {
-    handleBuyTrashBag, calculate10xPriceJunkClicker: calculate10xPrice01,
-    handleBuyPicker, handleBuyClickEnhancer, handleBuyClampjawRig, calculate10xPriceJPS, handleBuyStreetrat,
-    handleBuyCart, handleBuyJunkMagnet, handleBuyUrbanRecycler, handleBuyScrapDrone,
-    handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator, handleBuyQuantumTap, handleBuyElectroSurgeNode, handleBuyElectroBeaconCore, handleBuyCircuitOptimization, handleBuyHighFreqTap, handleBuyReactiveFeedback, handleBuyPickupMagnetArray, handleBuyScratzMiner, onBuyAutoRecycler
-  } = gameHandlers({
-    junk,
-    tronics,
-    electroShards,
-    bulkBuy,
-    itemCosts,
-    setClickEnhancerLevel,
-    clickEnhancerLevel,
-    autoClickerV1Count,
-    ownedItems
+    const purchaseHandlers = gameHandlers({
+        junk,tronics,electroShards,bulkBuy,itemCosts,setClickEnhancerLevel,clickEnhancerLevel,autoClickerV1Count,ownedItems
+    }, {
+        setJunk, tronics, setTronics, setNotifications, setClickMultiplier, setItemCosts, setOwnedItems, setHasHelper, setGlobalJpsMultiplier, setAutoClicks,
+        setClickEnhancerLevel, clickEnhancerLevel, setPassiveIncome, setAutoClickerV1Count, autoClickerV1Count, setAutoClickerV2Count, setElectroShards, setElectroMultiplier, setHasUpgrade
+    });
 
-  }, {
-    setJunk, tronics, setTronics, setNotifications, setClickMultiplier, setItemCosts, setOwnedItems, setHasHelper, setGlobalJpsMultiplier, setAutoClicks,
-    setClickEnhancerLevel,clickEnhancerLevel, setPassiveIncome, setAutoClickerV1Count, autoClickerV1Count, setAutoClickerV2Count, setElectroShards, setElectroMultiplier, setHasUpgrade
-  });
+    const {
+        handleBuyTrashBag,
+        calculate10xPriceJunkClicker: calculate10xPrice01, handleBuyPicker, handleBuyClickEnhancer, handleBuyClampjawRig, calculate10xPriceJPS, handleBuyStreetrat, handleBuyCart, handleBuyJunkMagnet, handleBuyUrbanRecycler, handleBuyScrapDrone, handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator, handleBuyQuantumTap, handleBuyElectroSurgeNode, handleBuyElectroBeaconCore, handleBuyCircuitOptimization, handleBuyHighFreqTap, handleBuyReactiveFeedback, handleBuyPickupMagnetArray, handleBuyScratzMiner, onBuyAutoRecycler, handleBuyStreetratUpgrade, handleBuyScrapBagUpgrade, handleBuyTrashPickerUpgrade, handleBuyCartUpgrade, handleBuyUrbanRecyclerUpgrade, handleBuyClickEnhancerUpgrade,handleBuyJunkMagnetUpgrade
+    } = purchaseHandlers;
 
-  const handleBuyStreetratUpgrade = () => {
-    const streetratCount = ownedItems.streetrat || 0;
-    setPassiveIncome(prev => prev + streetratCount);
-    setNotifications(prev => [...prev, `Streetrat Efficiency Training purchased! All Streetrats now produce double output (+${streetratCount} JPS).`]);
-  };
-
-  const handleBuyScrapBagUpgrade = () => {
-    const scrapBagCount = ownedItems.trashBag || 0;
-    setClickMultiplier(prev => prev + scrapBagCount);
-    setNotifications(prev => [...prev, `Scrap Bag Reinforcement purchased! Each Scrap Bag now provides +1 additional Junk/Click (+${scrapBagCount} click power).`]);
-  };
-
-  const handleBuyTrashPickerUpgrade = () => {
-    const trashPickerCount = ownedItems.trashPicker || 0;
-    setClickMultiplier(prev => prev + trashPickerCount);
-    setNotifications(prev => [...prev, `Trash Picker Wrist Braces purchased! Each Trash Picker now provides +1 additional Junk/Click (+${trashPickerCount} click power).`]);
-  };
-
-  const handleBuyCartUpgrade = () => {
-    const cartCount = ownedItems.cart || 0;
-    setPassiveIncome(prev => prev + (cartCount * 5));
-    setNotifications(prev => [...prev, `Cart Suspension Mods purchased! Each Cart now produces +5 additional Junk/sec (+${cartCount * 5} JPS).`]);
-  };
-
-  const handleBuyUrbanRecyclerUpgrade = () => {s
-    const recyclerCount = ownedItems.urbanRecycler || 0;
-    setPassiveIncome(prev => prev + (recyclerCount * 10));
-    setNotifications(prev => [...prev, `Recycler Flame Boost purchased! Each Urban Recycler now produces +10 additional Junk/sec (+${recyclerCount * 10} JPS).`]);
-  };
-
-  const handleBuyClickEnhancerUpgrade = () => {
-    const enhancerCount = ownedItems.clickEnhancer || 0;
-    setClickMultiplier(prev => prev + (enhancerCount * 3));
-    setNotifications(prev => [...prev, `Click Enhancer Overclock purchased! Each Click Enhancer now provides +3 additional Junk/Click (+${enhancerCount * 3} click power).`]);
-  };
-
-  const handleBuyJunkMagnetUpgrade = () => {
-    const magnetCount = ownedItems.junkMagnet || 0;
-    setPassiveIncome(prev => prev + (magnetCount * 10));
-    setNotifications(prev => [...prev, `Junk Magnet Overcharge purchased! Each Junk Magnet now produces +10 additional Junk/sec (+${magnetCount * 10} JPS).`]);
-  };
-
-  const [showCoinFlip, setShowCoinFlip] = useState(false);
-  const [showRelayCascade, setShowRelayCascade] = useState(false);
-  const [showMiniGameWindow, setShowMiniGameWindow] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [quantumTapNotifications, setQuantumTapNotifications] = useState([]);
-  const [showEndOfRoad, setShowEndOfRoad] = useState(true);
-  const [showSurgeExplanation, setShowSurgeExplanation] = useState(false);
-  const [showCrewIntroTooltip, setShowCrewIntroTooltip] = useState(false);
-  const [showOfflineProgress, setShowOfflineProgress] = useState(false);
-  const [offlineProgressData, setOfflineProgressData] = useState(null);
-  const [forceCogfatherEye, setForceCogfatherEye] = useState(false);
-
+  
 
   useEffect(() => {
     const handleUpdateSurgeCount = () => {
@@ -1020,14 +961,8 @@ export default function App() {
     const processOfflineProgressHandler = () => {
       const offlineResults = processOfflineProgress(
         {
-          junk,
-          credits,
-          clickCount,
-          tronics,
-          autoClicks,
-          clickMultiplier,
-          passiveIncome,
-          globalJpsMultiplier,
+          junk, credits, clickCount, tronics, autoClicks, clickMultiplier,
+          passiveIncome, globalJpsMultiplier,
           electronicsUnlock,
           clickEnhancerLevel,
           prestigeCount,

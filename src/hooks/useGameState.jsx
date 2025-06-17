@@ -17,8 +17,17 @@ export const useGameState = () => {
   const [electroShards, setElectroShards] = useState(() => Number(localStorage.getItem('electroShards')) || 0);
   const [cogfatherLore, setCogfatherLore] = useState(() => JSON.parse(localStorage.getItem('cogfatherLore')) || []);
   const [preservedHelper, setPreservedHelper] = useState(() => localStorage.getItem('preservedHelper') || null);
-  const [showCoinFlip, setShowCoinFlip] = useState(false); 
   const [showCombat, setShowCombat] = useState(false);
+  const [showCoinFlip, setShowCoinFlip] = useState(false);
+  const [showMiniGameWindow, setShowMiniGameWindow] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [quantumTapNotifications, setQuantumTapNotifications] = useState([]);
+  const [showEndOfRoad, setShowEndOfRoad] = useState(true);
+  const [showSurgeExplanation, setShowSurgeExplanation] = useState(false);
+  const [showCrewIntroTooltip, setShowCrewIntroTooltip] = useState(false);
+  const [showOfflineProgress, setShowOfflineProgress] = useState(false);
+  const [offlineProgressData, setOfflineProgressData] = useState(null);
+  const [forceCogfatherEye, setForceCogfatherEye] = useState(false);
 
 
 
@@ -225,6 +234,6 @@ return {
     itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, setSkillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, bulkBuy, setBulkBuy, showJunkDrone, setShowJunkDrone, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup,
     enableHoldToClick,
     setEnableHoldToClick, permanentAutoClicks, setPermanentAutoClicks,
-  showCombat, setShowCombat, setElectroMultiplier, electroMultiplier
+  showCombat, setShowCombat, setElectroMultiplier, electroMultiplier, showCoinFlip, setShowCoinFlip, showMiniGameWindow, setShowMiniGameWindow, mousePosition, setMousePosition, quantumTapNotifications, setQuantumTapNotifications, showEndOfRoad, setShowEndOfRoad, setShowSurgeExplanation, showSurgeExplanation, showCrewIntroTooltip, setShowCrewIntroTooltip, showOfflineProgress, setShowOfflineProgress, offlineProgressData, setOfflineProgressData, forceCogfatherEye, setForceCogfatherEye, showRelayCascade, setShowRelayCascade
   };
 };
