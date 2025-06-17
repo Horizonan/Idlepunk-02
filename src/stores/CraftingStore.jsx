@@ -22,8 +22,8 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
   const tabs = [
     { id: 'basic', label: 'Basic Materials' },
     { id: 'items', label: 'Craftable Items' },
-    { id: 'consumables', label: 'Consumables' },
-    { id: 'enhanced', label: 'Enhanced Crafting', unlockCondition: () => localStorage.getItem('hasPrestiged') === 'true' },
+    { id: 'consumables', label: 'Consumables', unlockCondition: () => parseInt(localStorage.getItem('prestigeCount') || '0') >= 2 },
+    { id: 'enhanced', label: 'Enhanced Crafting', unlockCondition: () => parseInt(localStorage.getItem('prestigeCount') || '0') >= 2 },
     { id: 'mysterious', label: 'Mysterious', unlockCondition: () => localStorage.getItem('mysteriousUnlocked') === 'true' || craftingInventory['Synthcore Fragment'] >= 1 }
   ];
 

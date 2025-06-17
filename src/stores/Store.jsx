@@ -205,7 +205,7 @@ export default function Store({
   //First Ascencion
   const firstAsc = [
     {
-      name: "🔹 Junk Refinery",
+      name: "Junk Refinery",
       cost: { junk: bulkBuy ? calculate10xPriceBillBoard(itemCosts.junkRefinery).totalCost : itemCosts.junkRefinery},
       description: "+50 Junk/sec",
       info: "A high-tech facility that processes junk more efficiently.",
@@ -215,7 +215,7 @@ export default function Store({
       action: onBuyJunkRefinery,
     },
     {
-      name: "🔹 Modular Scrapper",
+      name: "Modular Scrapper",
       cost: { junk: itemCosts.modularScrapper},
       description: "Doubles current Junk/sec",
       info: "One-time purchase per prestige.",
