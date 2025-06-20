@@ -117,7 +117,6 @@ export default function App() {
     } = useGameState();
 
     const [surgeActive, setSurgeActive] = useState(false);
-    const [tronicsSurgeActive, setTronicsSurgeActive] = useState(false);
     const [clickInjectorActive, setClickInjectorActive] = useState(false);
 
     const purchaseHandlers = gameHandlers({
