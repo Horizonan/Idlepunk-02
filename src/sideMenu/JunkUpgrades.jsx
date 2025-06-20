@@ -2,6 +2,76 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/JunkUpgrades.css';
 
+// Function to recalculate passive income after upgrades
+const recalculatePassiveIncomeAfterUpgrade = (upgradeKey) => {
+  const gameStateStr = localStorage.getItem('game-state-storage');
+  if (!gameStateStr) return;
+  
+  try {
+    const gameState = JSON.parse(gameStateStr);
+    const ownedItems = gameState.state?.ownedItems || {};
+    let currentPassiveIncome = gameState.state?.passiveIncome || 0;
+    
+    // Recalculate based on upgrade type
+    switch(upgradeKey) {
+      case 'streetratUpgrade':
+        // Streetrats: base 1 -> 2 (double output)
+        const streetrats = ownedItems.streetrat || 0;
+        currentPassiveIncome += streetrats * 1; // Add +1 per streetrat
+        break;
+        
+      case 'streetratUpgrade2':
+        // Streetrats: +50% more (1.5x total from base)
+        const streetratsV2 = ownedItems.streetrat || 0;
+        currentPassiveIncome += streetratsV2 * 0.5; // Add +0.5 per streetrat
+        break;
+        
+      case 'cartUpgrade':
+        // Carts: base 5 -> 10 (+5 per cart)
+        const carts = ownedItems.cart || 0;
+        currentPassiveIncome += carts * 5; // Add +5 per cart
+        break;
+        
+      case 'cartUpgrade2':
+        // Carts: +25% more (12.5 total from 10)
+        const cartsV2 = ownedItems.cart || 0;
+        currentPassiveIncome += cartsV2 * 2.5; // Add +2.5 per cart
+        break;
+        
+      case 'urbanRecyclerUpgrade':
+        // Urban Recyclers: +10 per recycler
+        const recyclers = ownedItems.urbanRecycler || 0;
+        currentPassiveIncome += recyclers * 10;
+        break;
+        
+      case 'urbanRecyclerUpgrade2':
+        // Urban Recyclers: +15 more per recycler
+        const recyclersV2 = ownedItems.urbanRecycler || 0;
+        currentPassiveIncome += recyclersV2 * 15;
+        break;
+        
+      case 'junkMagnetUpgrade':
+        // Junk Magnets: +10 per magnet
+        const magnets = ownedItems.junkMagnet || 0;
+        currentPassiveIncome += magnets * 10;
+        break;
+        
+      case 'scrapDroneUpgrade1':
+        // Scrap Drones: +15 per drone
+        const drones = ownedItems.scrapDrone || 0;
+        currentPassiveIncome += drones * 15;
+        break;
+    }
+    
+    // Update the passive income in localStorage
+    gameState.state.passiveIncome = currentPassiveIncome;
+    localStorage.setItem('game-state-storage', JSON.stringify(gameState));
+    
+  } catch (error) {
+    console.error('Error recalculating passive income:', error);
+  }
+};
+
 export default function JunkUpgrades({ onClose, ownedItems, junk, setJunk, onBuyStreetratUpgrade, onBuyScrapBagUpgrade, onBuyTrashPickerUpgrade, onBuyCartUpgrade, onBuyUrbanRecyclerUpgrade, onBuyClickEnhancerUpgrade, onBuyJunkMagnetUpgrade, onBuyClampjawUpgrade1, onBuyScrapDroneUpgrade1, onBuyTrashPickerUpgrade2, onBuyStreetratUpgrade2, onBuyTrashBagUpgrade2, onBuyCartUpgrade2, onBuyUrbanRecyclerUpgrade2, onNewUpgradesChange }) {
   const [mobileInfoModal, setMobileInfoModal] = useState(null);
   const [hasNewUpgrades, setHasNewUpgrades] = useState(false);
@@ -265,6 +335,9 @@ export default function JunkUpgrades({ onClose, ownedItems, junk, setJunk, onBuy
       if (item.action) {
         item.action();
       }
+
+      // Recalculate passive income for affected items after upgrade
+      recalculatePassiveIncomeAfterUpgrade(item.storageKey);
 
       // Trigger UI update
       window.dispatchEvent(new Event('storage'));
