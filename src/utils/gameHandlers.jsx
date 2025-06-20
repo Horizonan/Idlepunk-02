@@ -587,6 +587,19 @@ export const gameHandlers = (gameState, setGameState) => {
     }
   };
 
+  const handleBuyGutterlineExtractor = () => {
+    const cost = 15000000;
+    if (gameState.junk >= cost) {
+      setGameState.setJunk(prev => prev - cost);
+      setGameState.setPassiveIncome(prev => prev + 100);
+      setGameState.setOwnedItems(prev => ({...prev, gutterlineExtractor: (prev.gutterlineExtractor || 0) + 1}));
+      setGameState.setNotifications(prev => [...prev, "Gutterline Extractor purchased! +100 Junk/sec"]);
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: "The deep extraction begins..." }
+      }));
+    }
+  };
+
 //Upgrades
 const handleBuyStreetratUpgrade = () => {
       const streetratCount = ownedItems.streetrat || 0;
