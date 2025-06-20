@@ -412,7 +412,8 @@ export default function App() {
         tronics={tronics}
         electroShards={electroShards}
         autoClickerV1Count={autoClickerV1Count} 
-        permanentAutoClicks= {permanentAutoClicks}
+        permanentAutoClicks={permanentAutoClicks}
+        isSurgeActive={isSurgeActive}
       />
       <Menu onStoreSelect={(type) => {
         switch(type) {
