@@ -217,6 +217,17 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       description: 'Allows you to purchase Auto Slotter and Ultimate Slots',
       type: 'crafted',
       onetime: true
+    },
+    {
+      name: 'Junk Magnet',
+      requirements: {
+        'Wires': 3,
+        'Gear Bits': 1
+      },
+      cost: 175000,
+      description: 'Increases Junk/sec by 15%',
+      type: 'crafted',
+      onetime: true
     }
   ];
 
