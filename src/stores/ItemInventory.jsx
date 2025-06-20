@@ -102,6 +102,11 @@ export default function ItemInventory({ craftingInventory, onBack }) {
       effect: 'Reality chewed it up. You kept it anyway.',
       icon: '🔷'
     },
+    'Synth Thread': {
+      description: 'Advanced synthetic threading material',
+      effect: 'Created from processed wires, used for high-tech crafting',
+      icon: '🧵'
+    },
     'Luck Engine': {
       description: 'A humming mass of fused chance. Feels... oddly warm.',
       effect: 'Gives you the ability to buy Auto Slotter and Ultimate Slots',

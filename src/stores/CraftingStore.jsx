@@ -590,7 +590,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
             </div>
             <div className="mobile-info-content">
               <p className="mobile-info-description">{mobileInfoModal.description}</p>
-              
+
               {mobileInfoModal.requirements && (
                 <div className="mobile-info-requirements">
                   <h4>Requirements:</h4>
@@ -627,7 +627,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                 </div>
               )}
             </div>
-            
+
             <div className="mobile-info-actions">
               <button 
                 onClick={() => {
