@@ -147,15 +147,6 @@ export default function Store({
         (ownedItems.scrapDrone && ownedItems.scrapDrone > 0)
       ),
     },
-    {
-      name: "Gutterline Extractor",
-      cost: bulkBuy ? calculate10xPriceJPS(itemCosts.gutterlineExtractor).totalCost : itemCosts.gutterlineExtractor,
-      description: `+${Math.floor(75 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
-      info: "Scavenges micro-scrap sludge from the gutter runoff. Smells like credits.",
-      action: onBuyGutterlineExtractor,
-      purchasedCount: ownedItems.gutterlineExtractor || 0,
-      hidden: !(parseInt(localStorage.getItem('prestigeCount') || '0') >= 1),
-    },
   ];
 
 
@@ -232,6 +223,15 @@ export default function Store({
         credits >= bulkBuy ? calculate10xPriceBillBoard(itemCosts.junkRefinery) : itemCosts.junkRefinery,
       purchasedCount: ownedItems.junkRefinery,
       action: onBuyJunkRefinery,
+    },
+    {
+      name: "Gutterline Extractor",
+      cost: bulkBuy ? calculate10xPriceJPS(itemCosts.gutterlineExtractor).totalCost : itemCosts.gutterlineExtractor,
+      description: `+${Math.floor(75 * globalJpsMultiplier)} Junk/sec, +15% Cost`,
+      info: "Scavenges micro-scrap sludge from the gutter runoff. Smells like credits.",
+      action: onBuyGutterlineExtractor,
+      purchasedCount: ownedItems.gutterlineExtractor || 0,
+      hidden: !(parseInt(localStorage.getItem('prestigeCount') || '0') >= 1),
     },
     {
       name: "Modular Scrapper",

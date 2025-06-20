@@ -119,7 +119,7 @@ export default function App() {
 
     const {
         handleBuyTrashBag,
-        calculate10xPriceJunkClicker: calculate10xPrice01, handleBuyPicker, handleBuyClickEnhancer, handleBuyClampjawRig, calculate10xPriceJPS, handleBuyStreetrat, handleBuyCart, handleBuyJunkMagnet, handleBuyUrbanRecycler, handleBuyScrapDrone, handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator, handleBuyQuantumTap, handleBuyElectroSurgeNode, handleBuyElectroBeaconCore, handleBuyCircuitOptimization, handleBuyHighFreqTap, handleBuyReactiveFeedback, handleBuyPickupMagnetArray, handleBuyScratzMiner, handleBuyShardMiner, onBuyAutoRecycler, handleBuyStreetratUpgrade, handleBuyScrapBagUpgrade, handleBuyTrashPickerUpgrade, handleBuyCartUpgrade, handleBuyUrbanRecyclerUpgrade, handleBuyClickEnhancerUpgrade,handleBuyJunkMagnetUpgrade
+        calculate10xPriceJunkClicker: calculate10xPrice01, handleBuyPicker, handleBuyClickEnhancer, handleBuyClampjawRig, calculate10xPriceJPS, handleBuyStreetrat, handleBuyCart, handleBuyJunkMagnet, handleBuyUrbanRecycler, handleBuyScrapDrone, handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator, handleBuyQuantumTap, handleBuyElectroSurgeNode, handleBuyElectroBeaconCore, handleBuyCircuitOptimization, handleBuyHighFreqTap, handleBuyReactiveFeedback, handleBuyPickupMagnetArray, handleBuyScratzMiner, handleBuyShardMiner, onBuyAutoRecycler, handleBuyStreetratUpgrade, handleBuyScrapBagUpgrade, handleBuyTrashPickerUpgrade, handleBuyCartUpgrade, handleBuyUrbanRecyclerUpgrade, handleBuyClickEnhancerUpgrade,handleBuyJunkMagnetUpgrade, handleBuyGutterlineExtractor
     } = purchaseHandlers;
 
   const { achievements, validateAchievements, checkElectroMilestones } = useAchievements(
@@ -307,24 +307,6 @@ export default function App() {
       const message = milestoneMessages[techName] || `${techName} unlocked!`;
       setNotifications(prev => [...prev, message]);
       setShowTechTree(false);
-    }
-  };
-
-  // Purchase handler for Gutterline Extractor
-  const handleBuyGutterlineExtractor = () => {
-    const cost = 2500000;
-    const prestigeLevel = parseInt(localStorage.getItem('prestigeCount') || '0');
-
-    if (junk >= cost && prestigeLevel >= 1) {
-      setJunk(prev => prev - cost);
-      setOwnedItems(prev => ({ ...prev, gutterlineExtractor: (prev.gutterlineExtractor || 0) + 1 }));
-      setPassiveIncome(prev => prev + 75);
-      setNotifications(prev => [...prev, "Gutterline Extractor purchased! +75 Junk/sec"]);
-    } else if (prestigeLevel < 1) {
-        setNotifications(prev => [...prev, "Requires Prestige 1 to purchase Gutterline Extractor"]);
-    }
-     else {
-      setNotifications(prev => [...prev, "Not enough junk to purchase Gutterline Extractor!"]);
     }
   };
 

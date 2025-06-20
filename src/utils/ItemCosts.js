@@ -22,6 +22,7 @@ export const getInitialItemCosts = () => ({
   scratzMiner: 250000,
   clampjawRig: 75000,
   twitchweaveGauntlets: 250000,
+  gutterlineExtractor: 2500000,
 });
 
 // Helper function to reset all item costs to initial values
