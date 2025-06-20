@@ -125,19 +125,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
     }
   ];
 
-  const fusionCraftingItems = [
-    {
-      name: 'Synth Thread',
-      requirements: {
-        'Wires': 10
-      },
-      cost: 0,
-      description: 'Advanced synthetic threading material created from processed wires',
-      type: 'fusion',
-      onetime: false,
-      unlockCondition: () => parseInt(localStorage.getItem('prestigeCount') || '0') >= 1
-    }
-  ];
+  const fusionCraftingItems = [];
 
   const craftableItems = [
     {
