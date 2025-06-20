@@ -1104,6 +1104,10 @@ export default function App() {
               'Ascension Reclaimer': 0
             });
 
+            // Reset item names back to original
+            localStorage.removeItem('itemNames');
+            window.dispatchEvent(new CustomEvent('resetItemNames'));
+
             // Reset credits to 0
             setCredits(0);
 
