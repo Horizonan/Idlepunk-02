@@ -270,13 +270,13 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
         return junk >= cost;
       }
     } else {
-      // For consumables and craftable items, allow bulk crafting except for one-time items
+      // For consumables, craftable items, and fusion items, allow bulk crafting except for one-time items
       const multiplier = (bulkCraft && !item.onetime) ? 10 : 1;
       const hasRequiredMaterials = item.requirements ? 
         Object.entries(item.requirements).every(
           ([mat, count]) => (craftingInventory[mat] || 0) >= (count * multiplier)
         ) : true;
-      const hasRequiredJunk = junk >= ((item.cost || 0) * multiplier);
+      const hasRequiredJunk = item.cost ? junk >= (item.cost * multiplier) : true;
       return hasRequiredMaterials && hasRequiredJunk;
     }
   };
