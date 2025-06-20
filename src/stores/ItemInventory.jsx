@@ -107,6 +107,11 @@ export default function ItemInventory({ craftingInventory, onBack }) {
       effect: 'Created from processed wires, used for high-tech crafting',
       icon: '🧵'
     },
+    'Reactor Grease': {
+      description: 'Volatile lubricant that supercharges trash collection systems',
+      effect: 'Unlocks Trash Surge ability (30s duration, 900s cooldown)',
+      icon: '⚡'
+    },
     'Luck Engine': {
       description: 'A humming mass of fused chance. Feels... oddly warm.',
       effect: 'Gives you the ability to buy Auto Slotter and Ultimate Slots',

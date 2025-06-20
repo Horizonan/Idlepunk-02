@@ -135,6 +135,19 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       description: 'Advanced synthetic threading material',
       type: 'fusion',
       onetime: false
+    },
+    {
+      name: 'Reactor Grease',
+      requirements: {
+        'Scrap Core': 2,
+        'Gear Bits': 5,
+        'Wires': 8
+      },
+      cost: 0,
+      description: 'Volatile lubricant that supercharges trash collection systems',
+      type: 'fusion',
+      onetime: false,
+      unlockAbility: 'trash_surge_ability'
     }
   ];
 
