@@ -2,7 +2,7 @@
 .abilities-sidebar {
   position: fixed;
   left: 20px;
-  top: 50%;
+  top: 60%;
   transform: translateY(-50%);
   background: rgba(34, 34, 34, 0.95);
   border: 2px solid #9400D3;
