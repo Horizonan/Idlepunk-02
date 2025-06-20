@@ -142,7 +142,10 @@ export default function Store({
       info: localStorage.getItem('holoBillboardUpgrade1') ? "Now synced to the city's heartbeat (and local dance stations)" : "A towering holographic advertisement that motivates scrappers citywide. Your empire's first real statement.",
       action: onBuyHoloBillboard,
       purchasedCount: ownedItems.holoBillboard || 0,
-      hidden: !(passiveIncome >= 2000),
+      hidden: !(
+        passiveIncome >= 50 ||
+        (ownedItems.scrapDrone && ownedItems.scrapDrone > 0)
+      ),
     }
   ];
 
