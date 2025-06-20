@@ -125,7 +125,18 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
     }
   ];
 
-  const fusionCraftingItems = [];
+  const fusionCraftingItems = [
+    {
+      name: 'Synth Thread',
+      requirements: {
+        'Wires': 10
+      },
+      cost: 0,
+      description: 'Advanced synthetic threading material',
+      type: 'fusion',
+      onetime: false
+    }
+  ];
 
   const craftableItems = [
     {
