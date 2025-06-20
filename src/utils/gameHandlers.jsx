@@ -622,11 +622,16 @@ export const gameHandlers = (gameState, setGameState) => {
   };
 
   const handleBuyGutterlineExtractor = () => {
-    const cost = 15000000;
-    if (gameState.junk >= cost) {
-      setGameState.setJunk(prev => prev - cost);
-      setGameState.setPassiveIncome(prev => prev + 100);
-      setGameState.setOwnedItems(prev => ({...prev, gutterlineExtractor: (prev.gutterlineExtractor || 0) + 1}));
+    const costData = gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.gutterlineExtractor) : {
+      totalCost: gameState.itemCosts.gutterlineExtractor,
+      endCost: Math.floor(gameState.itemCosts.gutterlineExtractor * 1.15)
+    };
+
+    if (gameState.junk >= costData.totalCost) {
+      setGameState.setJunk(prev => prev - costData.totalCost);
+      setGameState.setPassiveIncome(prev => prev + (gameState.bulkBuy ? 1000 : 100));
+      setGameState.setItemCosts(prev => ({...prev, gutterlineExtractor: costData.endCost}));
+      setGameState.setOwnedItems(prev => ({...prev, gutterlineExtractor: (prev.gutterlineExtractor || 0) + (gameState.bulkBuy ? 10 : 1)}));
       setGameState.setNotifications(prev => [...prev, "Gutterline Extractor purchased! +100 Junk/sec"]);
       window.dispatchEvent(new CustomEvent('nextNews', { 
         detail: { message: "The deep extraction begins..." }
