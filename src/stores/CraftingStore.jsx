@@ -59,16 +59,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       description: 'A tangled net of conductive filaments and memory threads, often salvaged from obsolete broadcast towers',
       type: 'basic'
     },
-    {
-      name: 'Synth Thread',
-      requirements: {
-        'Wires': 10
-      },
-      cost: 0,
-      description: 'Advanced synthetic threading material',
-      type: 'basic',
-      unlockCondition: () => parseInt(localStorage.getItem('prestigeCount') || '0') >= 1
-    },
+    
     {
       name: 'Capacitor',
       description: 'Energy storage device',
@@ -134,6 +125,17 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
   ];
 
   const craftableItems = [
+    {
+      name: 'Synth Thread',
+      requirements: {
+        'Wires': 10
+      },
+      cost: 0,
+      description: 'Advanced synthetic threading material',
+      type: 'crafted',
+      onetime: false,
+      unlockCondition: () => parseInt(localStorage.getItem('prestigeCount') || '0') >= 1
+    },
     {
       name: 'Scrap Core',
       requirements: {
