@@ -144,7 +144,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
         'Wires': 8
       },
       cost: 0,
-      description: 'Volatile lubricant that supercharges trash collection systems',
+      description: 'Volatile lubricant that supercharges trash collection systems, Enables you to trigger Trash Surge when you need it',
       type: 'fusion',
       onetime: false,
       unlockAbility: 'trash_surge_ability'
