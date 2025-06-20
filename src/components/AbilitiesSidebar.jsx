@@ -9,6 +9,10 @@ export default function AbilitiesSidebar({ craftingInventory }) {
     return (craftingInventory['Reactor Grease'] || 0) > 0;
   };
 
+  const isClickInjectorUnlocked = () => {
+    return (craftingInventory['Click Injector'] || 0) > 0;
+  };
+
   const abilities = [
     {
       id: 'trash_surge',
@@ -18,6 +22,15 @@ export default function AbilitiesSidebar({ craftingInventory }) {
       available: isTrashSurgeUnlocked(),
       cooldown: 900000, // 900 seconds in milliseconds
       duration: 30000   // 30 seconds in milliseconds
+    },
+    {
+      id: 'click_injector',
+      name: 'Click Injector',
+      icon: '💉',
+      description: '+50% Click Power for 20 seconds (600s cooldown)',
+      available: isClickInjectorUnlocked(),
+      cooldown: 600000, // 600 seconds in milliseconds
+      duration: 20000   // 20 seconds in milliseconds
     }
   ];
 
@@ -55,6 +68,21 @@ export default function AbilitiesSidebar({ craftingInventory }) {
       }));
 
       console.log('Trash Surge activated!');
+    }
+
+    if (ability.id === 'click_injector') {
+      // Trigger click injector effect
+      window.dispatchEvent(new CustomEvent('triggerClickInjector', {
+        detail: { duration: ability.duration }
+      }));
+
+      // Set cooldown
+      setCooldowns(prev => ({
+        ...prev,
+        [ability.id]: ability.cooldown
+      }));
+
+      console.log('Click Injector activated!');
     }
   };
 

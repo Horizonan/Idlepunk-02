@@ -112,6 +112,11 @@ export default function ItemInventory({ craftingInventory, onBack }) {
       effect: 'Unlocks Trash Surge ability (30s duration, 900s cooldown)',
       icon: '⚡'
     },
+    'Click Injector': {
+      description: 'Temporary click enhancement serum',
+      effect: 'Unlocks Click Injector ability (+50% click power for 20s, 600s cooldown)',
+      icon: '💉'
+    },
     'Luck Engine': {
       description: 'A humming mass of fused chance. Feels... oddly warm.',
       effect: 'Gives you the ability to buy Auto Slotter and Ultimate Slots',

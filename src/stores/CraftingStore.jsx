@@ -148,6 +148,19 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       type: 'fusion',
       onetime: false,
       unlockAbility: 'trash_surge_ability'
+    },
+    {
+      name: 'Click Injector',
+      requirements: {
+        'Wires': 8,
+        'Scrap Core': 2,
+        'Synth Thread': 6
+      },
+      cost: 0,
+      description: 'Temporary click enhancement serum that boosts click power by 50% for 20 seconds',
+      type: 'fusion',
+      onetime: false,
+      unlockAbility: 'click_injector_ability'
     }
   ];
 
