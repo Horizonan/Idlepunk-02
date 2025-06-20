@@ -473,7 +473,6 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                     'Stabilized Capacitor': 1,
                     'Voltage Node': 1,
                     'Synthcore Fragment': 1,
-                    'Quantum Entangler': 1
                   },
                   cost: 10000000
                 })}
