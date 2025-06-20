@@ -637,11 +637,17 @@ const handleBuyStreetratUpgrade = () => {
     };
 
     const handleBuyScrapBagUpgrade = () => {
-      setGameState.setNotifications(prev => [...prev, "Trash Bag Reinforcement purchased! Trash Bags now give +1 additional Junk/click."]);
+      const bagCount = gameState.ownedItems.trashBag || 0;
+      const additionalClickPower = bagCount * 1; // +1 per existing bag
+      setGameState.setClickMultiplier(prev => prev + additionalClickPower);
+      setGameState.setNotifications(prev => [...prev, `Trash Bag Reinforcement purchased! Trash Bags now give +1 additional Junk/click (+${additionalClickPower} total from existing bags).`]);
     };
 
     const handleBuyTrashPickerUpgrade = () => {
-      setGameState.setNotifications(prev => [...prev, "Trash Picker Wrist Braces purchased! Trash Pickers now give +1 additional Junk/click."]);
+      const pickerCount = gameState.ownedItems.trashPicker || 0;
+      const additionalClickPower = pickerCount * 1; // +1 per existing picker
+      setGameState.setClickMultiplier(prev => prev + additionalClickPower);
+      setGameState.setNotifications(prev => [...prev, `Trash Picker Wrist Braces purchased! Trash Pickers now give +1 additional Junk/click (+${additionalClickPower} total from existing pickers).`]);
     };
 
     const handleBuyCartUpgrade = () => {
@@ -659,7 +665,10 @@ const handleBuyStreetratUpgrade = () => {
     };
 
     const handleBuyClickEnhancerUpgrade = () => {
-      setGameState.setNotifications(prev => [...prev, "Click Enhancer Overclock purchased! Click Enhancers now give +3 additional Junk/click."]);
+      const enhancerCount = gameState.ownedItems.clickEnhancer || 0;
+      const additionalClickPower = enhancerCount * 3; // +3 per existing enhancer
+      setGameState.setClickMultiplier(prev => prev + additionalClickPower);
+      setGameState.setNotifications(prev => [...prev, `Click Enhancer Overclock purchased! Click Enhancers now give +3 additional Junk/click (+${additionalClickPower} total from existing enhancers).`]);
     };
 
     const handleBuyJunkMagnetUpgrade = () => {
@@ -716,6 +725,13 @@ const handleBuyStreetratUpgrade = () => {
       setGameState.setNotifications(prev => [...prev, `Scrap Drone Sarcasm Chip purchased! Each Scrap Drone now produces +15 additional Junk/sec (+${additionalIncome} JPS).`]);
     };
 
+    const handleBuyClampjawUpgrade1 = () => {
+      const clampjawCount = gameState.ownedItems.clampjawRig || 0;
+      const additionalClickPower = clampjawCount * 10; // +10 per existing clampjaw
+      setGameState.setClickMultiplier(prev => prev + additionalClickPower);
+      setGameState.setNotifications(prev => [...prev, `Clampjaw Rig WD-40 Baptism purchased! Clampjaw Rigs now give +10 additional Junk/click (+${additionalClickPower} total from existing rigs).`]);
+    };
+
   return {
     collectJunk,handleBuyTrashBag,handleBuyPicker,
     calculate10xPriceJunkClicker: calculate10xPrice01, calculate10xPriceJPS,
@@ -731,7 +747,7 @@ const handleBuyStreetratUpgrade = () => {
     handleBuyScratzMiner,
     handleBuyAutoRecycler,
     handleBuyShardMiner, handleBuyStreetratUpgrade, handleBuyScrapBagUpgrade, handleBuyTrashPickerUpgrade, handleBuyCartUpgrade, handleBuyUrbanRecyclerUpgrade, handleBuyClickEnhancerUpgrade,handleBuyJunkMagnetUpgrade,
-    handleBuyGutterlineExtractor, handleBuyStreetratUpgrade2, handleBuyCartUpgrade2, handleBuyUrbanRecyclerUpgrade2, handleBuyTrashPickerUpgrade2, handleBuyTrashBagUpgrade2, handleBuyScrapDroneUpgrade1
+    handleBuyGutterlineExtractor, handleBuyStreetratUpgrade2, handleBuyCartUpgrade2, handleBuyUrbanRecyclerUpgrade2, handleBuyTrashPickerUpgrade2, handleBuyTrashBagUpgrade2, handleBuyScrapDroneUpgrade1, handleBuyClampjawUpgrade1
   };
 }
 }
