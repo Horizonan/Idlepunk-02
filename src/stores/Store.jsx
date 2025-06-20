@@ -136,17 +136,14 @@ export default function Store({
       purchasedCount: ownedItems.scrapDrone || 0,
     },
     {
-      name: "Holo Billboard",
+      name: getItemName('holoBillboard', localStorage.getItem('holoBillboardUpgrade1') ? "Synced Billboard" : "Holo Billboard"),
       cost: bulkBuy ? calculate10xPriceBillBoard(itemCosts.holoBillboard).totalCost : itemCosts.holoBillboard,
-      description: "+10% global Junk/sec boost",
-      info: "A massive holographic display that attracts more scrappers to your territory",
+      description: `+10% global Junk/sec, +20% Cost`,
+      info: localStorage.getItem('holoBillboardUpgrade1') ? "Now synced to the city's heartbeat (and local dance stations)" : "A towering holographic advertisement that motivates scrappers citywide. Your empire's first real statement.",
       action: onBuyHoloBillboard,
       purchasedCount: ownedItems.holoBillboard || 0,
-      hidden: !(
-        passiveIncome >= 50 ||
-        (ownedItems.scrapDrone && ownedItems.scrapDrone > 0)
-      ),
-    },
+      hidden: !(passiveIncome >= 2000),
+    }
   ];
 
 

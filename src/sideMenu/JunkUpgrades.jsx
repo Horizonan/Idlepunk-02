@@ -288,6 +288,9 @@ export default function JunkUpgrades({ onClose, ownedItems, junk, setJunk, onBuy
       if (item.action) {
         item.action();
       }
+      
+      // Force update the UI to reflect changes
+      window.dispatchEvent(new Event('storage'));
 
       // Trigger UI update
       window.dispatchEvent(new Event('storage'));
