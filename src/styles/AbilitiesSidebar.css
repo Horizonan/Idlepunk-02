@@ -1,7 +1,7 @@
 
 .abilities-sidebar {
   position: fixed;
-  right: 20px;
+  left: 20px;
   top: 50%;
   transform: translateY(-50%);
   background: rgba(34, 34, 34, 0.95);
@@ -111,7 +111,7 @@
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .abilities-sidebar {
-    right: 10px;
+    left: 10px;
     top: auto;
     bottom: 100px;
     transform: none;
