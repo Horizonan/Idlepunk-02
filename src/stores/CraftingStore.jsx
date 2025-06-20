@@ -257,26 +257,13 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
 
   const canCraft = (item) => {
     if (item.type === 'basic') {
-      // Check material requirements first
-      if (item.requirements) {
-        const multiplier = bulkCraft ? 10 : 1;
-        const hasRequiredMaterials = Object.entries(item.requirements).every(
-          ([mat, count]) => (craftingInventory[mat] || 0) >= (count * multiplier)
-        );
-        if (!hasRequiredMaterials) return false;
+      if (bulkCraft) {
+        const { totalCost } = calculate10xCraftingPrice(item.cost);
+        return junk >= totalCost;
+      } else {
+        const cost = craftingInventory['Crafting Booster Unit'] ? Math.floor(item.cost * 0.9) : item.cost;
+        return junk >= cost;
       }
-      
-      // Then check junk cost
-      if (item.cost) {
-        if (bulkCraft) {
-          const { totalCost } = calculate10xCraftingPrice(item.cost);
-          return junk >= totalCost;
-        } else {
-          const cost = craftingInventory['Crafting Booster Unit'] ? Math.floor(item.cost * 0.9) : item.cost;
-          return junk >= cost;
-        }
-      }
-      return true; // If no cost and requirements are met
     } else {
       // For consumables and craftable items, allow bulk crafting except for one-time items
       const multiplier = (bulkCraft && !item.onetime) ? 10 : 1;
@@ -358,14 +345,6 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   </div>
                   <div className="item-info">
                     <p>{item.description}</p>
-                    {item.requirements && (
-                      <div>
-                        <p>Requirements:</p>
-                        {Object.entries(item.requirements).map(([mat, count]) => (
-                          <p key={mat}>- {mat}: {count * (bulkCraft ? 10 : 1)} ({craftingInventory[mat] || 0} owned)</p>
-                        ))}
-                      </div>
-                    )}
                     <p className="owned">Owned: {craftingInventory[item.name] || 0}</p>
                   </div>
                   </button>
