@@ -84,11 +84,11 @@ export const gameHandlers = (gameState, setGameState) => {
       // Check upgrades to determine click power per bag
       const hasReinforcementUpgrade = localStorage.getItem('scrapBagUpgrade') === 'true';
       const hasMaxPatchUpgrade = localStorage.getItem('trashBagUpgrade2') === 'true';
-      
+
       let clickPowerPerBag = 1; // Base power
       if (hasReinforcementUpgrade) clickPowerPerBag += 1; // +1 from tier 1 upgrade
       if (hasMaxPatchUpgrade) clickPowerPerBag += 2; // +2 from tier 2 upgrade
-      
+
       const bagsToAdd = gameState.bulkBuy ? 10 : 1;
 
       setGameState.setClickMultiplier(prev => prev + (bagsToAdd * clickPowerPerBag));
@@ -111,11 +111,11 @@ export const gameHandlers = (gameState, setGameState) => {
       // Check upgrades to determine click power per picker
       const hasWristBracesUpgrade = localStorage.getItem('trashPickerUpgrade') === 'true';
       const hasHolsterUpgrade = localStorage.getItem('trashPickerUpgrade2') === 'true';
-      
+
       let clickPowerPerPicker = 5; // Base power
       if (hasWristBracesUpgrade) clickPowerPerPicker += 1; // +1 from tier 1 upgrade
       if (hasHolsterUpgrade) clickPowerPerPicker += 2; // +2 from tier 2 upgrade
-      
+
       const pickersToAdd = gameState.bulkBuy ? 10 : 1;
 
       setGameState.setClickMultiplier(prev => prev + (pickersToAdd * clickPowerPerPicker));
@@ -307,13 +307,13 @@ export const gameHandlers = (gameState, setGameState) => {
 
     if (gameState.junk >= costData.totalCost) {
       setGameState.setJunk(prev => prev - costData.totalCost);
-      
+
       // Check if upgrade is purchased to determine the bonus amount per billboard
       const hasUpgrade = localStorage.getItem('holoBillboardUpgrade1') === 'true';
-      const bonusPerBillboard = hasUpgrade ? 0.15 : 0.1; // 15% if upgraded, 10% if not
+      const bonusPerBillboard = hasUpgrade ? 0.15 : 0.10; // 15% if upgraded, 10% if not
       const billboardsToAdd = gameState.bulkBuy ? 10 : 1;
       const totalBonus = bonusPerBillboard * billboardsToAdd;
-      
+
       setGameState.setNotifications(prev => [...prev, `Holo Billboard Online – City scrappers stare in awe (+${Math.floor(bonusPerBillboard * 100)}% Junk/sec globally)!`]);
       setGameState.setGlobalJpsMultiplier(prev => {
         const newValue = prev + totalBonus;
@@ -617,7 +617,8 @@ export const gameHandlers = (gameState, setGameState) => {
       setGameState.setNotifications(prev => [...prev, "Shard Miner purchased!"]);
       window.dispatchEvent(new CustomEvent('nextNews', { 
         detail: { message: "A new frequency resonates through your junkyard..." }
-      }));
+      }));The code calculates the bonus amount for Holo Billboard purchases using precise decimal values.
+```javascript
     }
   };
 
@@ -745,13 +746,13 @@ const handleBuyStreetratUpgrade = () => {
         localStorage.setItem('globalJpsMultiplier', newValue);
         return newValue;
       });
-      
+
       // Update the billboard name in localStorage
       localStorage.setItem('holoBillboardUpgrade1', 'true');
       localStorage.setItem('holoBillboardName', 'Synced Billboard');
-      
+
       setGameState.setNotifications(prev => [...prev, "Billboard Neon Pulse Sync purchased! +5% global Junk/sec boost!"]);
-      
+
       // Force UI update
       window.dispatchEvent(new Event('storage'));
     };
