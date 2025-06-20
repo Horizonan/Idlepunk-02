@@ -22,7 +22,6 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
   const tabs = [
     { id: 'basic', label: 'Basic Materials' },
     { id: 'items', label: 'Craftable Items' },
-    { id: 'fusion', label: 'Fusion Crafting', unlockCondition: () => parseInt(localStorage.getItem('prestigeCount') || '0') >= 1 },
     { id: 'consumables', label: 'Consumables', unlockCondition: () => parseInt(localStorage.getItem('prestigeCount') || '0') >= 2 },
     { id: 'enhanced', label: 'Enhanced Crafting', unlockCondition: () => parseInt(localStorage.getItem('prestigeCount') || '0') >= 2 },
     { id: 'mysterious', label: 'Mysterious', unlockCondition: () => localStorage.getItem('mysteriousUnlocked') === 'true' || craftingInventory['Synthcore Fragment'] >= 1 }
@@ -125,19 +124,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
     }
   ];
 
-  const fusionCraftingItems = [
-    {
-      name: 'Synth Thread',
-      requirements: {
-        'Wires': 10
-      },
-      cost: 0,
-      description: 'Advanced synthetic threading material created from processed wires',
-      type: 'fusion',
-      onetime: false,
-      unlockCondition: () => parseInt(localStorage.getItem('prestigeCount') || '0') >= 1
-    }
-  ];
+  const fusionCraftingItems = [];
 
   const craftableItems = [
     {
@@ -245,6 +232,17 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       description: 'Increases Junk/sec by 15%',
       type: 'crafted',
       onetime: true
+    },
+    {
+      name: 'Synth Thread',
+      requirements: {
+        'Wires': 10
+      },
+      cost: 0,
+      description: 'Advanced synthetic threading material created from processed wires',
+      type: 'crafted',
+      onetime: false,
+      unlockCondition: () => parseInt(localStorage.getItem('prestigeCount') || '0') >= 1
     }
   ];
 
@@ -364,41 +362,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
           </div>
         )}
 
-        {selectedTab === 'fusion' && (
-          <div className="crafting-section">
-            <h3>Fusion Crafting</h3>
-            <div className="store-items">
-              {fusionCraftingItems.filter(item => !item.unlockCondition || item.unlockCondition()).map((item) => (
-                <button
-                  key={item.name}
-                  onClick={() => {
-                    const quantity = (bulkCraft && !item.onetime) ? 10 : 1;
-                    onCraft(item, quantity);
-                  }}
-                  disabled={!canCraft(item)}
-                  className="store-item"
-                >
-                  <div className="item-header">
-                    <strong>{item.name}</strong>
-                  </div>
-                  <div className="item-info">
-                    <p>{item.description}</p>
-                    {item.requirements && (
-                      <div>
-                        <p>Requirements:</p>
-                        {Object.entries(item.requirements).map(([mat, count]) => (
-                          <p key={mat}>- {mat}: {count * ((bulkCraft && !item.onetime) ? 10 : 1)} ({craftingInventory[mat] || 0} owned)</p>
-                        ))}
-                      </div>
-                    )}
-                    {item.cost > 0 && <p>Cost: {formatJunkCost(item.cost * ((bulkCraft && !item.onetime) ? 10 : 1), craftingInventory['Crafting Booster Unit'])} Junk</p>}
-                    <p className="owned">Owned: {craftingInventory[item.name] || 0}</p>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
+        
 
         {selectedTab === 'items' && (
           <div className="crafting-section">
