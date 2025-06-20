@@ -124,7 +124,7 @@ export default function ItemInventory({ craftingInventory, onBack }) {
     }
   };
 
-  const basicItems = ['Wires', 'Metal Plates', 'Gear Bits', 'Signal Mesh', 'Capacitor', 'Scrap Core', 'Glitched Scrap Core'];
+  const basicItems = ['Wires', 'Metal Plates', 'Gear Bits', 'Signal Mesh', 'Capacitor', 'Synth Thread', 'Scrap Core', 'Glitched Scrap Core'];
   const consumableItems = ['Junk Cells'];
   const specialItems = ['Stabilized Capacitor', 'Voltage Node', 'Synthcore Fragment', 'Encrypted Coil', 'Surge Capacitor Fragment'];
 
