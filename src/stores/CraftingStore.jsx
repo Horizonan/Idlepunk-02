@@ -132,9 +132,10 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
         'Wires': 10
       },
       cost: 0,
-      description: 'Advanced synthetic threading material',
+      description: 'Advanced synthetic threading material created from processed wires',
       type: 'fusion',
-      onetime: false
+      onetime: false,
+      unlockCondition: () => parseInt(localStorage.getItem('prestigeCount') || '0') >= 1
     }
   ];
 
@@ -261,6 +262,11 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
   };
 
   const canCraft = (item) => {
+    // Check unlock condition first
+    if (item.unlockCondition && !item.unlockCondition()) {
+      return false;
+    }
+
     if (item.type === 'basic') {
       if (bulkCraft) {
         const { totalCost } = calculate10xCraftingPrice(item.cost);
@@ -276,7 +282,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
         Object.entries(item.requirements).every(
           ([mat, count]) => (craftingInventory[mat] || 0) >= (count * multiplier)
         ) : true;
-      const hasRequiredJunk = item.cost ? junk >= (item.cost * multiplier) : true;
+      const hasRequiredJunk = item.cost && item.cost > 0 ? junk >= (item.cost * multiplier) : true;
       return hasRequiredMaterials && hasRequiredJunk;
     }
   };
@@ -362,7 +368,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
           <div className="crafting-section">
             <h3>Fusion Crafting</h3>
             <div className="store-items">
-              {fusionCraftingItems.map((item) => (
+              {fusionCraftingItems.filter(item => !item.unlockCondition || item.unlockCondition()).map((item) => (
                 <button
                   key={item.name}
                   onClick={() => handleItemClick(item, true)}
@@ -382,7 +388,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                         ))}
                       </div>
                     )}
-                    {item.cost && <p>Cost: {formatJunkCost(item.cost * ((bulkCraft && !item.onetime) ? 10 : 1), craftingInventory['Crafting Booster Unit'])} Junk</p>}
+                    {item.cost > 0 && <p>Cost: {formatJunkCost(item.cost * ((bulkCraft && !item.onetime) ? 10 : 1), craftingInventory['Crafting Booster Unit'])} Junk</p>}
                     <p className="owned">Owned: {craftingInventory[item.name] || 0}</p>
                   </div>
                 </button>
