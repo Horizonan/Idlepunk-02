@@ -727,7 +727,7 @@ export default function App() {
               const actualQuantity = item.onetime ? 1 : quantity;
               const canCraft = Object.entries(item.requirements).every(
                 ([mat, count]) => (craftingInventory[mat] || 0) >= (count * actualQuantity)
-              ) && (!item.onetime || !(craftingInventory[item.name] || 0)) && junk >= ((item.cost || 0) * actualquantity);
+              ) && (!item.onetime || !(craftingInventory[item.name] || 0)) && junk >= ((item.cost || 0) * actualQuantity);
 
               if (canCraft) {
                 setCraftingInventory(prev => {
