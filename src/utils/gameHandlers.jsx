@@ -693,6 +693,13 @@ const handleBuyStreetratUpgrade = () => {
       setGameState.setNotifications(prev => [...prev, "Trash Bag Max-Patch purchased! Trash Bags now give +2 additional Junk/click."]);
     };
 
+    const handleBuyScrapDroneUpgrade1 = () => {
+      const droneCount = gameState.ownedItems.scrapDrone || 0;
+      const additionalIncome = droneCount * 15; // +15 JPS per drone
+      setGameState.setPassiveIncome(prev => prev + additionalIncome);
+      setGameState.setNotifications(prev => [...prev, `Scrap Drone Sarcasm Chip purchased! Each Scrap Drone now produces +15 additional Junk/sec (+${additionalIncome} JPS).`]);
+    };
+
   return {
     collectJunk,handleBuyTrashBag,handleBuyPicker,
     calculate10xPriceJunkClicker: calculate10xPrice01, calculate10xPriceJPS,
@@ -708,7 +715,7 @@ const handleBuyStreetratUpgrade = () => {
     handleBuyScratzMiner,
     handleBuyAutoRecycler,
     handleBuyShardMiner, handleBuyStreetratUpgrade, handleBuyScrapBagUpgrade, handleBuyTrashPickerUpgrade, handleBuyCartUpgrade, handleBuyUrbanRecyclerUpgrade, handleBuyClickEnhancerUpgrade,handleBuyJunkMagnetUpgrade,
-    handleBuyGutterlineExtractor, handleBuyStreetratUpgrade2, handleBuyCartUpgrade2, handleBuyUrbanRecyclerUpgrade2, handleBuyTrashPickerUpgrade2, handleBuyTrashBagUpgrade2
+    handleBuyGutterlineExtractor, handleBuyStreetratUpgrade2, handleBuyCartUpgrade2, handleBuyUrbanRecyclerUpgrade2, handleBuyTrashPickerUpgrade2, handleBuyTrashBagUpgrade2, handleBuyScrapDroneUpgrade1
   };
 }
 }

@@ -124,7 +124,7 @@ export default function App() {
     handleBuyCartUpgrade2,
     handleBuyUrbanRecyclerUpgrade2,
     handleBuyTrashPickerUpgrade2,
-    handleBuyTrashBagUpgrade2, handleBuyGutterlineExtractor, handleBuyTwitchweaveGauntlets
+    handleBuyTrashBagUpgrade2, handleBuyGutterlineExtractor, handleBuyTwitchweaveGauntlets, handleBuyScrapDroneUpgrade1
     } = purchaseHandlers;
 
   const { achievements, validateAchievements, checkElectroMilestones } = useAchievements(
