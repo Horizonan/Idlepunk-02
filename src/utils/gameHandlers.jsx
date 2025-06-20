@@ -602,7 +602,7 @@ export const gameHandlers = (gameState, setGameState) => {
 
 //Upgrades
 const handleBuyStreetratUpgrade = () => {
-      const streetratCount = ownedItems.streetrat || 0;
+      const streetratCount = gameState.ownedItems.streetrat || 0;
       const additionalIncome = streetratCount * 1; // +1 JPS per streetrat
       setGameState.setPassiveIncome(prev => prev + additionalIncome);
       setGameState.setNotifications(prev => [...prev, `Streetrat Efficiency Training purchased! Each Streetrat now produces +1 additional Junk/sec (+${additionalIncome} JPS).`]);
@@ -617,14 +617,14 @@ const handleBuyStreetratUpgrade = () => {
     };
 
     const handleBuyCartUpgrade = () => {
-      const cartCount = ownedItems.cart || 0;
+      const cartCount = gameState.ownedItems.cart || 0;
       const additionalIncome = cartCount * 5; // +5 JPS per cart
       setGameState.setPassiveIncome(prev => prev + additionalIncome);
       setGameState.setNotifications(prev => [...prev, `Cart Suspension Mods purchased! Each Cart now produces +5 additional Junk/sec (+${additionalIncome} JPS).`]);
     };
 
     const handleBuyUrbanRecyclerUpgrade = () => {
-      const recyclerCount = ownedItems.urbanRecycler || 0;
+      const recyclerCount = gameState.ownedItems.urbanRecycler || 0;
       const additionalIncome = recyclerCount * 10; // +10 JPS per recycler
       setGameState.setPassiveIncome(prev => prev + additionalIncome);
       setGameState.setNotifications(prev => [...prev, `Recycler Flame Boost purchased! Each Urban Recycler now produces +10 additional Junk/sec (+${additionalIncome} JPS).`]);
@@ -635,7 +635,7 @@ const handleBuyStreetratUpgrade = () => {
     };
 
     const handleBuyJunkMagnetUpgrade = () => {
-      const magnetCount = ownedItems.junkMagnet || 0;
+      const magnetCount = gameState.ownedItems.junkMagnet || 0;
       const additionalIncome = magnetCount * 10; // +10 JPS per magnet
       setGameState.setPassiveIncome(prev => prev + additionalIncome);
       setGameState.setNotifications(prev => [...prev, `Junk Magnet Overcharge purchased! Each Junk Magnet now produces +10 additional Junk/sec (+${additionalIncome} JPS).`]);
@@ -643,7 +643,7 @@ const handleBuyStreetratUpgrade = () => {
 
     // Tier 2 upgrades
     const handleBuyStreetratUpgrade2 = () => {
-      const streetratCount = ownedItems.streetrat || 0;
+      const streetratCount = gameState.ownedItems.streetrat || 0;
       // For unionization, increase by 50% of current base production
       const baseProduction = localStorage.getItem('streetratUpgrade') ? 2 : 1; // 2 if already upgraded, 1 if not
       const additionalIncome = Math.floor(streetratCount * baseProduction * 0.5); // 50% increase
@@ -652,7 +652,7 @@ const handleBuyStreetratUpgrade = () => {
     };
 
     const handleBuyCartUpgrade2 = () => {
-      const cartCount = ownedItems.cart || 0;
+      const cartCount = gameState.ownedItems.cart || 0;
       // For racing league, add 25% more production
       const baseProduction = localStorage.getItem('cartUpgrade') ? 10 : 5; // 10 if already upgraded, 5 if not
       const additionalIncome = Math.floor(cartCount * baseProduction * 0.25); // 25% increase
@@ -661,7 +661,7 @@ const handleBuyStreetratUpgrade = () => {
     };
 
     const handleBuyUrbanRecyclerUpgrade2 = () => {
-      const recyclerCount = ownedItems.urbanRecycler || 0;
+      const recyclerCount = gameState.ownedItems.urbanRecycler || 0;
       const additionalIncome = recyclerCount * 15; // +15 JPS per recycler
       setGameState.setPassiveIncome(prev => prev + additionalIncome);
       setGameState.setNotifications(prev => [...prev, `Urban Recycler Flame Jets purchased! Each Urban Recycler now produces +15 additional Junk/sec (+${additionalIncome} JPS).`]);
