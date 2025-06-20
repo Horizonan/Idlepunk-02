@@ -42,14 +42,14 @@ export class JunkCalculationManager {
       multiplier += 0.20; // +20% junk/sec
     }
 
-    // Surge multiplier for passive income
-    if (isSurgeActive) {
-      multiplier *= 2; // Double passive income during surges
-    }
-
     const totalPassiveJunk = basePassiveIncome * multiplier;
     const totalAutoClickJunk = autoClicks * clickMultiplier;
-    const totalProduction = totalPassiveJunk + totalAutoClickJunk;
+    let totalProduction = totalPassiveJunk + totalAutoClickJunk;
+
+    // Surge multiplier for total production (both passive and auto-click)
+    if (isSurgeActive) {
+      totalProduction *= 2; // Double total junk production during surges
+    }
     const totalConsumption = this.getTotalConsumption();
 
     return totalProduction - totalConsumption;
@@ -88,14 +88,14 @@ export class JunkCalculationManager {
       multiplier += 0.20; // +20% junk/sec
     }
 
-    // Surge multiplier for passive income
-    if (isSurgeActive) {
-      multiplier *= 2; // Double passive income during surges
-    }
-
     const passiveJunk = basePassiveIncome * multiplier;
     const autoClickJunk = autoClicks * clickMultiplier;
-    const totalProduction = passiveJunk + autoClickJunk;
+    let totalProduction = passiveJunk + autoClickJunk;
+
+    // Surge multiplier for total production (both passive and auto-click)
+    if (isSurgeActive) {
+      totalProduction *= 2; // Double total junk production during surges
+    }
     const totalConsumption = this.getTotalConsumption();
     const effectiveJunk = totalProduction - totalConsumption;
 
