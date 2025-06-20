@@ -138,7 +138,7 @@ export default function Store({
     {
       name: localStorage.getItem('holoBillboardName') || "Holo Billboard",
       cost: bulkBuy ? calculate10xPriceBillBoard(itemCosts.holoBillboard).totalCost : itemCosts.holoBillboard,
-      description: localStorage.getItem('holoBillboardUpgrade1') ? `+15% global Junk/sec, +20% Cost` : `+10% global Junk/sec, +20% Cost`,
+      description: localStorage.getItem('holoBillboardUpgrade1') ? `+${Math.floor((0.15) * 100)}% global Junk/sec, +20% Cost` : `+10% global Junk/sec, +20% Cost`,
       info: localStorage.getItem('holoBillboardUpgrade1') ? "Now synced to the city's heartbeat (and local dance stations)" : "A towering holographic advertisement that motivates scrappers citywide. Your empire's first real statement.",
       action: onBuyHoloBillboard,
       purchasedCount: ownedItems.holoBillboard || 0,

@@ -307,14 +307,21 @@ export const gameHandlers = (gameState, setGameState) => {
 
     if (gameState.junk >= costData.totalCost) {
       setGameState.setJunk(prev => prev - costData.totalCost);
-      setGameState.setNotifications(prev => [...prev, "Holo Billboard Online – City scrappers stare in awe (+10% Junk/sec globally)!"]);
+      
+      // Check if upgrade is purchased to determine the bonus amount per billboard
+      const hasUpgrade = localStorage.getItem('holoBillboardUpgrade1') === 'true';
+      const bonusPerBillboard = hasUpgrade ? 0.15 : 0.1; // 15% if upgraded, 10% if not
+      const billboardsToAdd = gameState.bulkBuy ? 10 : 1;
+      const totalBonus = bonusPerBillboard * billboardsToAdd;
+      
+      setGameState.setNotifications(prev => [...prev, `Holo Billboard Online – City scrappers stare in awe (+${Math.floor(bonusPerBillboard * 100)}% Junk/sec globally)!`]);
       setGameState.setGlobalJpsMultiplier(prev => {
-        const newValue = prev + (gameState.bulkBuy ? 1 : 0.1);
+        const newValue = prev + totalBonus;
         localStorage.setItem('globalJpsMultiplier', newValue);
         return newValue;
       });
       setGameState.setItemCosts(prev => ({...prev, holoBillboard: costData.endCost}));
-      setGameState.setOwnedItems(prev => ({...prev, holoBillboard: (prev.holoBillboard || 0) + (gameState.bulkBuy ? 10 : 1)}));
+      setGameState.setOwnedItems(prev => ({...prev, holoBillboard: (prev.holoBillboard || 0) + billboardsToAdd}));
 
       if (!gameState.holoBillboard) {
         window.dispatchEvent(new CustomEvent('nextNews', { 
