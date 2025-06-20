@@ -161,6 +161,24 @@ export const gameHandlers = (gameState, setGameState) => {
     }
   }
 
+  const handleBuyTwitchweaveGauntlets = () => {
+    const costData = gameState.bulkBuy ? calculate10xPrice01(gameState.itemCosts.twitchweaveGauntlets) : {
+      totalCost: gameState.itemCosts.twitchweaveGauntlets,
+      endCost: Math.floor(gameState.itemCosts.twitchweaveGauntlets * 1.1)
+    };
+
+    if (gameState.junk >= costData.totalCost) {
+      setGameState.setJunk(prev => prev - costData.totalCost);
+      setGameState.setClickMultiplier(prev => prev + (gameState.bulkBuy ? 200 : 20));
+      setGameState.setItemCosts(prev => ({...prev, twitchweaveGauntlets: costData.endCost}));
+      setGameState.setOwnedItems(prev => ({...prev, twitchweaveGauntlets: (prev.twitchweaveGauntlets || 0) + (gameState.bulkBuy ? 10 : 1)}));
+      setGameState.setNotifications(prev => [...prev, "Twitchweave Gauntlets purchased!"]);
+      window.dispatchEvent(new CustomEvent('nextNews', { 
+        detail: { message: "Cogfather: 'VR haptics repurposed for junk collection? Innovative and disturbing.'" }
+      }));
+    }
+  }
+
 
   //JPS Upgrades
   const handleBuyStreetrat = () => {
@@ -678,7 +696,7 @@ const handleBuyStreetratUpgrade = () => {
   return {
     collectJunk,handleBuyTrashBag,handleBuyPicker,
     calculate10xPriceJunkClicker: calculate10xPrice01, calculate10xPriceJPS,
-    calculate10xPriceBillBoard: calculate10x02,handleBuyClickEnhancer,handleBuyClampjawRig,handleBuyStreetrat,
+    calculate10xPriceBillBoard: calculate10x02,handleBuyClickEnhancer,handleBuyClampjawRig,handleBuyTwitchweaveGauntlets,handleBuyStreetrat,
     handleBuyCart,handleBuyJunkMagnet,handleBuyUrbanRecycler,handleBuyScrapDrone,handleBuyHoloBillboard,
     handleBuyAutoClicker,handleBuyAutoClickerV2,handleBuyJunkRefinery,     handleBuyModularScrapper,handleBuyTronicsBoost,handleBuyTronicsBoostII,handleBuyFlowRegulator,handleBuyQuantumTap,
     handleBuyElectroSurgeNode,
