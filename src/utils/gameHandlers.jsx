@@ -731,6 +731,16 @@ const handleBuyStreetratUpgrade = () => {
       setGameState.setNotifications(prev => [...prev, `Clampjaw Rig WD-40 Baptism purchased! Clampjaw Rigs now give +10 additional Junk/click (+${additionalClickPower} total from existing rigs).`]);
     };
 
+    const handleBuyHoloBillboardUpgrade1 = () => {
+      // Add 5% (0.05) to global JPS multiplier
+      setGameState.setGlobalJpsMultiplier(prev => {
+        const newValue = prev + 0.05;
+        localStorage.setItem('globalJpsMultiplier', newValue);
+        return newValue;
+      });
+      setGameState.setNotifications(prev => [...prev, "Billboard Neon Pulse Sync purchased! +5% global Junk/sec boost!"]);
+    };
+
   return {
     collectJunk,handleBuyTrashBag,handleBuyPicker,
     calculate10xPriceJunkClicker: calculate10xPrice01, calculate10xPriceJPS,
@@ -746,7 +756,7 @@ const handleBuyStreetratUpgrade = () => {
     handleBuyScratzMiner,
     handleBuyAutoRecycler,
     handleBuyShardMiner, handleBuyStreetratUpgrade, handleBuyScrapBagUpgrade, handleBuyTrashPickerUpgrade, handleBuyCartUpgrade, handleBuyUrbanRecyclerUpgrade, handleBuyClickEnhancerUpgrade,handleBuyJunkMagnetUpgrade,
-    handleBuyGutterlineExtractor, handleBuyStreetratUpgrade2, handleBuyCartUpgrade2, handleBuyUrbanRecyclerUpgrade2, handleBuyTrashPickerUpgrade2, handleBuyTrashBagUpgrade2, handleBuyScrapDroneUpgrade1, handleBuyClampjawUpgrade1
+    handleBuyGutterlineExtractor, handleBuyStreetratUpgrade2, handleBuyCartUpgrade2, handleBuyUrbanRecyclerUpgrade2, handleBuyTrashPickerUpgrade2, handleBuyTrashBagUpgrade2, handleBuyScrapDroneUpgrade1, handleBuyClampjawUpgrade1, handleBuyHoloBillboardUpgrade1
   };
 }
 }

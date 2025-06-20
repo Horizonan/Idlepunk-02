@@ -125,7 +125,7 @@ export default function App() {
     handleBuyCartUpgrade2,
     handleBuyUrbanRecyclerUpgrade2,
     handleBuyTrashPickerUpgrade2,
-    handleBuyTrashBagUpgrade2, handleBuyGutterlineExtractor, handleBuyTwitchweaveGauntlets, handleBuyScrapDroneUpgrade1
+    handleBuyTrashBagUpgrade2, handleBuyGutterlineExtractor, handleBuyTwitchweaveGauntlets, handleBuyScrapDroneUpgrade1, handleBuyClampjawUpgrade1, handleBuyHoloBillboardUpgrade1
     } = purchaseHandlers;
 
   const { achievements, validateAchievements, checkElectroMilestones } = useAchievements(
@@ -564,6 +564,7 @@ export default function App() {
           onBuyTrashBagUpgrade2={() => {}}
           onBuyCartUpgrade2={() => {}}
           onBuyUrbanRecyclerUpgrade2={() => {}}
+          onBuyHoloBillboardUpgrade1={handleBuyHoloBillboardUpgrade1}
           onNewUpgradesChange={() => {}}
         />
       )}

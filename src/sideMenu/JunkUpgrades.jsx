@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/JunkUpgrades.css';
 
-export default function JunkUpgrades({ onClose, ownedItems, junk, setJunk, onBuyStreetratUpgrade, onBuyScrapBagUpgrade, onBuyTrashPickerUpgrade, onBuyCartUpgrade, onBuyUrbanRecyclerUpgrade, onBuyClickEnhancerUpgrade, onBuyJunkMagnetUpgrade, onBuyClampjawUpgrade1, onBuyScrapDroneUpgrade1, onBuyTrashPickerUpgrade2, onBuyStreetratUpgrade2, onBuyTrashBagUpgrade2, onBuyCartUpgrade2, onBuyUrbanRecyclerUpgrade2, onNewUpgradesChange }) {
+export default function JunkUpgrades({ onClose, ownedItems, junk, setJunk, onBuyStreetratUpgrade, onBuyScrapBagUpgrade, onBuyTrashPickerUpgrade, onBuyCartUpgrade, onBuyUrbanRecyclerUpgrade, onBuyClickEnhancerUpgrade, onBuyJunkMagnetUpgrade, onBuyClampjawUpgrade1, onBuyScrapDroneUpgrade1, onBuyTrashPickerUpgrade2, onBuyStreetratUpgrade2, onBuyTrashBagUpgrade2, onBuyCartUpgrade2, onBuyUrbanRecyclerUpgrade2, onBuyHoloBillboardUpgrade1, onNewUpgradesChange }) {
   const [mobileInfoModal, setMobileInfoModal] = useState(null);
   const [hasNewUpgrades, setHasNewUpgrades] = useState(false);
 
@@ -173,6 +173,18 @@ export default function JunkUpgrades({ onClose, ownedItems, junk, setJunk, onBuy
       tier: "quantum",
       storageKey: "urbanRecyclerUpgrade2",
       action: onBuyUrbanRecyclerUpgrade2
+    },
+    {
+      name: "Billboard Neon Pulse Sync",
+      cost: 3200000,
+      description: "+5% global Junk/sec boost",
+      info: "Now synced to the city's heartbeat (and local dance stations).",
+      unlockCondition: () => (ownedItems?.holoBillboard || 0) >= 1 && !localStorage.getItem('holoBillboardUpgrade1'),
+      owned: localStorage.getItem('holoBillboardUpgrade1') ? 1 : 0,
+      category: "passive",
+      tier: "quantum",
+      storageKey: "holoBillboardUpgrade1",
+      action: onBuyHoloBillboardUpgrade1
     }
   ];
 
@@ -266,6 +278,9 @@ export default function JunkUpgrades({ onClose, ownedItems, junk, setJunk, onBuy
           break;
         case 'urbanRecyclerUpgrade2':
           localStorage.setItem('urbanRecyclerName', 'Flame-Jet Recycler');
+          break;
+        case 'holoBillboardUpgrade1':
+          localStorage.setItem('holoBillboardName', 'Synced Billboard');
           break;
       }
 
