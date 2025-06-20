@@ -82,9 +82,14 @@ export const gameHandlers = (gameState, setGameState) => {
       setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setNotifications(prev => [...prev, "Scrap Bag purchased!"]);
 
-      // Check if reinforcement upgrade is purchased to determine click power per bag
+      // Check upgrades to determine click power per bag
       const hasReinforcementUpgrade = localStorage.getItem('scrapBagUpgrade') === 'true';
-      const clickPowerPerBag = hasReinforcementUpgrade ? 2 : 1;
+      const hasMaxPatchUpgrade = localStorage.getItem('trashBagUpgrade2') === 'true';
+      
+      let clickPowerPerBag = 1; // Base power
+      if (hasReinforcementUpgrade) clickPowerPerBag += 1; // +1 from tier 1 upgrade
+      if (hasMaxPatchUpgrade) clickPowerPerBag += 2; // +2 from tier 2 upgrade
+      
       const bagsToAdd = gameState.bulkBuy ? 10 : 1;
 
       setGameState.setClickMultiplier(prev => prev + (bagsToAdd * clickPowerPerBag));
@@ -104,9 +109,14 @@ export const gameHandlers = (gameState, setGameState) => {
       setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setNotifications(prev => [...prev, "Trash Picker purchased!"]);
 
-      // Check if wrist braces upgrade is purchased to determine click power per picker
+      // Check upgrades to determine click power per picker
       const hasWristBracesUpgrade = localStorage.getItem('trashPickerUpgrade') === 'true';
-      const clickPowerPerPicker = hasWristBracesUpgrade ? 6 : 5; // +1 from upgrade
+      const hasHolsterUpgrade = localStorage.getItem('trashPickerUpgrade2') === 'true';
+      
+      let clickPowerPerPicker = 5; // Base power
+      if (hasWristBracesUpgrade) clickPowerPerPicker += 1; // +1 from tier 1 upgrade
+      if (hasHolsterUpgrade) clickPowerPerPicker += 2; // +2 from tier 2 upgrade
+      
       const pickersToAdd = gameState.bulkBuy ? 10 : 1;
 
       setGameState.setClickMultiplier(prev => prev + (pickersToAdd * clickPowerPerPicker));
@@ -686,11 +696,17 @@ const handleBuyStreetratUpgrade = () => {
     };
 
     const handleBuyTrashPickerUpgrade2 = () => {
-      setGameState.setNotifications(prev => [...prev, "Trash Picker Holster Belt purchased! Trash Pickers now give +2 additional Junk/click."]);
+      const pickerCount = gameState.ownedItems.trashPicker || 0;
+      const additionalClickPower = pickerCount * 2; // +2 per picker
+      setGameState.setClickMultiplier(prev => prev + additionalClickPower);
+      setGameState.setNotifications(prev => [...prev, `Trash Picker Holster Belt purchased! Trash Pickers now give +2 additional Junk/click (+${additionalClickPower} total).`]);
     };
 
     const handleBuyTrashBagUpgrade2 = () => {
-      setGameState.setNotifications(prev => [...prev, "Trash Bag Max-Patch purchased! Trash Bags now give +2 additional Junk/click."]);
+      const bagCount = gameState.ownedItems.trashBag || 0;
+      const additionalClickPower = bagCount * 2; // +2 per bag
+      setGameState.setClickMultiplier(prev => prev + additionalClickPower);
+      setGameState.setNotifications(prev => [...prev, `Trash Bag Max-Patch purchased! Trash Bags now give +2 additional Junk/click (+${additionalClickPower} total).`]);
     };
 
     const handleBuyScrapDroneUpgrade1 = () => {
