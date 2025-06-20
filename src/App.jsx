@@ -90,6 +90,9 @@ import CrewRecruitmentTooltip from './components/CrewRecruitmentTooltip';
 //Mini game Component
 import RelayCascade from './components/MiniGames/RelayCascade';
 
+//Click Injector
+import ClickInjectorEffect from './components/Effects/ClickInjectorEffect';
+
 
 export default function App() {
     const {
@@ -112,6 +115,10 @@ export default function App() {
         setShowSurgeExplanation, showSurgeExplanation, showCrewIntroTooltip, setShowCrewIntroTooltip, showOfflineProgress, setShowOfflineProgress, offlineProgressData, 
         setOfflineProgressData, forceCogfatherEye, setForceCogfatherEye, showRelayCascade, setShowRelayCascade
     } = useGameState();
+
+    const [surgeActive, setSurgeActive] = useState(false);
+    const [tronicsSurgeActive, setTronicsSurgeActive] = useState(false);
+    const [clickInjectorActive, setClickInjectorActive] = useState(false);
 
     const purchaseHandlers = gameHandlers({
         junk,tronics,electroShards,bulkBuy,itemCosts,setClickEnhancerLevel,clickEnhancerLevel,autoClickerV1Count,ownedItems
@@ -191,9 +198,45 @@ export default function App() {
     }
   };
 
+    useEffect(() => {
+    const handleTriggerSurge = () => {
+      setSurgeActive(true);
+      setTimeout(() => setSurgeActive(false), parseInt(localStorage.getItem('surgeDuration') || '5000'));
+    };
 
+    const handleTronicsSurge = () => {
+      setTronicsSurgeActive(true);
+    };
 
+    const handleEndTronicsSurge = () => {
+      setTronicsSurgeActive(false);
+    };
 
+    const handleClickInjector = (event) => {
+      setClickInjectorActive(true);
+      const duration = event.detail.duration;
+
+      // Add visual effect to the page
+      document.body.classList.add('click-injector-active');
+
+      setTimeout(() => {
+        setClickInjectorActive(false);
+        document.body.classList.remove('click-injector-active');
+      }, duration);
+    };
+
+    window.addEventListener('triggerSurge', handleTriggerSurge);
+    window.addEventListener('triggerTronicsSurge', handleTronicsSurge);
+    window.addEventListener('endTronicsSurge', handleEndTronicsSurge);
+    window.addEventListener('triggerClickInjector', handleClickInjector);
+
+    return () => {
+      window.removeEventListener('triggerSurge', handleTriggerSurge);
+      window.removeEventListener('triggerTronicsSurge', handleTronicsSurge);
+      window.removeEventListener('endTronicsSurge', handleEndTronicsSurge);
+      window.removeEventListener('triggerClickInjector', handleClickInjector);
+    };
+  }, []);
 
 
   const [creditStoreItems, setCreditStoreItems] = useState(() => JSON.parse(localStorage.getItem('creditStoreItems')) || {
@@ -271,6 +314,29 @@ export default function App() {
     }
   };
 
+    const handleMainButtonClick = () => {
+    let clickPower = calculateJunkPerClick();
+
+    if (surgeActive) {
+      clickPower *= 2;
+    }
+
+    // Apply Click Injector boost
+    if (clickInjectorActive) {
+      clickPower *= 1.5; // +50% boost
+    }
+
+    // Apply click enhancer upgrades
+    if (localStorage.getItem('clickEnhancerUpgrade')) {
+      clickPower += ownedItems.clickEnhancer * 3;
+    } else {
+      clickPower += ownedItems.clickEnhancer;
+    }
+
+    setJunk(prevJunk => prevJunk + clickPower);
+    setClickCount(prevCount => prevCount + 1);
+  };
+
   const canAffordV1 = () => {
     return junk >= itemCosts.autoClicker;
   }
@@ -333,8 +399,9 @@ export default function App() {
         onTutorialProgress={(stage) => setTutorialStage(stage)}
       />
       {showNewsTicker && <NewsContainer isSurgeActive={isSurgeActive} />}
-      <TrashSurge isActive={isSurgeActive} isTronicsActive={isTronicsSurgeActive} activeClicker={document.querySelector('.clicker-select.active')?.textContent.includes('Trash') ? 'trash' : 'electronics'} />
-
+      <TrashSurge isActive={surgeActive} isTronicsActive={tronicsSurgeActive} activeClicker={document.querySelector('.clicker-select.active')?.textContent.includes('Trash') ? 'trash' : 'electronics'} />
+      <TronicsSurge isActive={tronicsSurgeActive} activeClicker={document.querySelector('.clicker-select.active')?.textContent.includes('Trash') ? 'trash' : 'electronics'} setCraftingInventory={setCraftingInventory} />
+      <ClickInjectorEffect />
 
        <TronicsSurge 
         isActive={isTronicsSurgeActive}

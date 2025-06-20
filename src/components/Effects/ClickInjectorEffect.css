@@ -1,0 +1,54 @@
+
+.click-injector-effect {
+  position: fixed;
+  top: 220px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+.click-injector-banner {
+  background: rgba(148, 0, 211, 0.2);
+  border: 2px solid #9400D3;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #9400D3;
+  font-weight: bold;
+  animation: pulse-purple 2s infinite;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(148, 0, 211, 0.5);
+}
+
+@keyframes pulse-purple {
+  0% {
+    box-shadow: 0 0 15px rgba(148, 0, 211, 0.5);
+    border-color: #9400D3;
+    background: rgba(148, 0, 211, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(148, 0, 211, 0.8);
+    border-color: #BB33FF;
+    background: rgba(148, 0, 211, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 15px rgba(148, 0, 211, 0.5);
+    border-color: #9400D3;
+    background: rgba(148, 0, 211, 0.2);
+  }
+}
+
+/* Apply visual effect to buttons when click injector is active */
+.click-injector-active .main-button,
+.click-injector-active .trash-button {
+  animation: click-boost-glow 1.5s infinite alternate;
+  filter: brightness(1.3) hue-rotate(270deg);
+}
+
+@keyframes click-boost-glow {
+  0% {
+    box-shadow: 0 0 10px rgba(148, 0, 211, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(148, 0, 211, 0.8);
+  }
+}
