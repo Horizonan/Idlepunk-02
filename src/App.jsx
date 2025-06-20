@@ -220,7 +220,7 @@ export default function App() {
     const random = Math.random();
     if (random < 0.0001) { 
       const materials = ['Wires', 'Metal Plates', 'Gear Bits'];
-      const randomMaterial = materials[Math.floor(Math.random() * materials.length)];
+      const randomMaterial = materials[Math.floor(Math.random() * materials.length)]);
       setCraftingInventory(prev => ({
         ...prev,
         [randomMaterial]: (prev[randomMaterial] || 0) + 1
@@ -727,7 +727,7 @@ export default function App() {
               const actualQuantity = item.onetime ? 1 : quantity;
               const canCraft = Object.entries(item.requirements).every(
                 ([mat, count]) => (craftingInventory[mat] || 0) >= (count * actualQuantity)
-              ) && (!item.onetime || !(craftingInventory[item.name] || 0)) && junk >= ((item.cost || 0) * actualQuantity);
+              ) && (!item.onetime || !(craftingInventory[item.name] || 0)) && junk >= ((item.cost || 0) * actualquantity);
 
               if (canCraft) {
                 setCraftingInventory(prev => {
@@ -1106,6 +1106,32 @@ export default function App() {
 
             // Reset item names back to original
             localStorage.removeItem('itemNames');
+
+            // Reset all individual upgrade item names
+            const upgradeNames = [
+              'trashPickerName', 'cartName', 'trashBagName', 'streetratName',
+              'urbanRecyclerName', 'clickEnhancerName', 'junkMagnetName',
+              'clampjawRigName', 'scrapDroneName', 'holoBillboardName'
+            ];
+
+            upgradeNames.forEach(name => {
+              localStorage.removeItem(name);
+            });
+
+            // Reset all upgrade purchases
+            const upgradeKeys = [
+              'trashPickerUpgrade', 'cartUpgrade', 'scrapBagUpgrade', 'streetratUpgrade',
+              'urbanRecyclerUpgrade', 'clickEnhancerUpgrade', 'junkMagnetUpgrade',
+              'clampjawUpgrade1', 'scrapDroneUpgrade1', 'trashPickerUpgrade2',
+              'streetratUpgrade2', 'trashBagUpgrade2', 'cartUpgrade2', 
+              'urbanRecyclerUpgrade2', 'holoBillboardUpgrade1'
+            ];
+
+            upgradeKeys.forEach(key => {
+              localStorage.removeItem(key);
+              localStorage.removeItem(`upgrade_seen_${key}`); // Also reset "seen" status
+            });
+
             window.dispatchEvent(new CustomEvent('resetItemNames'));
 
             // Reset credits to 0
