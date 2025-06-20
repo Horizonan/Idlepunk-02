@@ -220,7 +220,7 @@ export default function App() {
     const random = Math.random();
     if (random < 0.0001) { 
       const materials = ['Wires', 'Metal Plates', 'Gear Bits'];
-      const randomMaterial = materials[Math.floor(Math.random() * materials.length];
+      const randomMaterial = materials[Math.floor(Math.random() * materials.length)];
       setCraftingInventory(prev => ({
         ...prev,
         [randomMaterial]: (prev[randomMaterial] || 0) + 1
