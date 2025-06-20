@@ -103,8 +103,8 @@ export default function ItemInventory({ craftingInventory, onBack }) {
       icon: '🔷'
     },
     'Synth Thread': {
-      description: 'Advanced synthetic threading material created from processed wires',
-      effect: 'Used for high-tech crafting and advanced manufacturing',
+      description: 'Advanced synthetic threading material',
+      effect: 'Created from processed wires, used for high-tech crafting',
       icon: '🧵'
     },
     'Luck Engine': {
