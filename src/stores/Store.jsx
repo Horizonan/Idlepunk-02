@@ -136,7 +136,7 @@ export default function Store({
       purchasedCount: ownedItems.scrapDrone || 0,
     },
     {
-      name: getItemName('holoBillboard', localStorage.getItem('holoBillboardUpgrade1') ? "Synced Billboard" : "Holo Billboard"),
+      name: localStorage.getItem('holoBillboardName') || "Holo Billboard",
       cost: bulkBuy ? calculate10xPriceBillBoard(itemCosts.holoBillboard).totalCost : itemCosts.holoBillboard,
       description: `+10% global Junk/sec, +20% Cost`,
       info: localStorage.getItem('holoBillboardUpgrade1') ? "Now synced to the city's heartbeat (and local dance stations)" : "A towering holographic advertisement that motivates scrappers citywide. Your empire's first real statement.",

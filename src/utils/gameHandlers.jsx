@@ -738,7 +738,15 @@ const handleBuyStreetratUpgrade = () => {
         localStorage.setItem('globalJpsMultiplier', newValue);
         return newValue;
       });
+      
+      // Update the billboard name in localStorage
+      localStorage.setItem('holoBillboardUpgrade1', 'true');
+      localStorage.setItem('holoBillboardName', 'Synced Billboard');
+      
       setGameState.setNotifications(prev => [...prev, "Billboard Neon Pulse Sync purchased! +5% global Junk/sec boost!"]);
+      
+      // Force UI update
+      window.dispatchEvent(new Event('storage'));
     };
 
   return {

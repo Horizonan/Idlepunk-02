@@ -193,13 +193,13 @@ export default function JunkUpgrades({ onClose, ownedItems, junk, setJunk, onBuy
     const checkNewUpgrades = () => {
       // First check if there are any available upgrades at all
       const availableUpgrades = upgradeItems.filter(item => item.unlockCondition() && !localStorage.getItem(item.storageKey));
-      
+
       // Only check for new upgrades if there are available upgrades
       const newUpgradesAvailable = availableUpgrades.length > 0 && availableUpgrades.some(item => {
         const isNotSeen = !localStorage.getItem(`upgrade_seen_${item.storageKey}`);
         return isNotSeen;
       });
-      
+
       setHasNewUpgrades(newUpgradesAvailable);
 
       // Notify parent component if callback exists
@@ -288,7 +288,7 @@ export default function JunkUpgrades({ onClose, ownedItems, junk, setJunk, onBuy
       if (item.action) {
         item.action();
       }
-      
+
       // Force update the UI to reflect changes
       window.dispatchEvent(new Event('storage'));
 
