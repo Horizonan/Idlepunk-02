@@ -299,7 +299,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
     if (isMobile && window.innerWidth <= 768) {
       openMobileInfo(item);
     } else {
-      const quantity = bulkCraft ? 10 : 1;
+      const quantity = (bulkCraft && !item.onetime) ? 10 : 1;
       onCraft(item, quantity);
     }
   };
@@ -371,7 +371,10 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
               {fusionCraftingItems.filter(item => !item.unlockCondition || item.unlockCondition()).map((item) => (
                 <button
                   key={item.name}
-                  onClick={() => handleItemClick(item, true)}
+                  onClick={() => {
+                    const quantity = (bulkCraft && !item.onetime) ? 10 : 1;
+                    onCraft(item, quantity);
+                  }}
                   disabled={!canCraft(item)}
                   className="store-item"
                 >
@@ -689,7 +692,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   if (mobileInfoModal.type === 'enhanced') {
                     onCraft(mobileInfoModal, 1);
                   } else {
-                    const quantity = bulkCraft && !mobileInfoModal.onetime ? 10 : 1;
+                    const quantity = (bulkCraft && !mobileInfoModal.onetime) ? 10 : 1;
                     onCraft(mobileInfoModal, quantity);
                   }
                   closeMobileInfo();
