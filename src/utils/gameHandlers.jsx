@@ -23,7 +23,6 @@ export const gameHandlers = (gameState, setGameState) => {
         endCost = currentCost;
       }
     }
-    console.log("Total Cost: " + totalCost + " End Cost: " + endCost);
     return {
       totalCost: adjustForBulk ? Math.floor(totalCost * 1.1) : totalCost,
       endCost: endCost

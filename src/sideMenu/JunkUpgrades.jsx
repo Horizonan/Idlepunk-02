@@ -129,7 +129,7 @@ export default function JunkUpgrades({ onClose, ownedItems, junk, setJunk, onBuy
     {
       name: "Streetrat Unionization",
       cost: 1130000,
-      description: `Streetrats work +${Math.floor((ownedItems.streetrat || 0) * (localStorage.getItem('streetratUpgrade') ? 2 : 1) * 0.5)} additional Junk/sec (50% of current production)`,
+      description: `Streetrats work +50% additional Junk/sec (50% of current production)`,
       info: "Turns out fair treatment is motivating.",
       unlockCondition: () => (ownedItems?.streetrat || 0) >= 20 && !localStorage.getItem('streetratUpgrade2'),
       owned: localStorage.getItem('streetratUpgrade2') ? 1 : 0,
@@ -153,7 +153,7 @@ export default function JunkUpgrades({ onClose, ownedItems, junk, setJunk, onBuy
     {
       name: "Cart Racing League Sponsorship",
       cost: 1890000,
-      description: `Carts generate +${Math.floor((ownedItems.cart || 0) * (localStorage.getItem('cartUpgrade') ? 10 : 5) * 0.25)} additional Junk/sec (25% of current production)`,
+      description: `Carts generate +25% additional Junk/sec (25% of current production)`,
       info: "Sponsored by Sludge-Cola and Civic Regret™.",
       unlockCondition: () => (ownedItems?.cart || 0) >= 15 && !localStorage.getItem('cartUpgrade2'),
       owned: localStorage.getItem('cartUpgrade2') ? 1 : 0,
