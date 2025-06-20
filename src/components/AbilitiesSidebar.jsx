@@ -64,6 +64,12 @@ export default function AbilitiesSidebar({ craftingInventory }) {
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
+  // Only show sidebar if at least one ability is available
+  const availableAbilities = abilities.filter(ability => ability.available);
+  if (availableAbilities.length === 0) {
+    return null;
+  }
+
   return (
     <div className="abilities-sidebar">
       <div className="abilities-header">
@@ -71,26 +77,23 @@ export default function AbilitiesSidebar({ craftingInventory }) {
       </div>
 
       <div className="abilities-list">
-        {abilities.map((ability) => {
+        {availableAbilities.map((ability) => {
           const onCooldown = cooldowns[ability.id] > 0;
           return (
-            <button
+            <div
               key={ability.id}
-              className={`ability-button ${!ability.available ? 'disabled' : ''} ${onCooldown ? 'on-cooldown' : ''}`}
+              className={`ability-item ${onCooldown ? 'on-cooldown' : ''}`}
               onClick={() => handleAbilityClick(ability)}
-              disabled={!ability.available || onCooldown}
-              title={ability.available ? 
-                (onCooldown ? `Cooldown: ${formatCooldown(cooldowns[ability.id])}` : ability.description) 
-                : 'Craft Reactor Grease to unlock'
-              }
+              title={onCooldown ? `Cooldown: ${formatCooldown(cooldowns[ability.id])}` : ability.description}
             >
-              <span className="ability-icon">{ability.icon}</span>
+              <div className="ability-icon">{ability.icon}</div>
+              <div className="ability-name">{ability.name}</div>
               {onCooldown && (
-                <span className="cooldown-timer">
+                <div className="cooldown-timer">
                   {formatCooldown(cooldowns[ability.id])}
-                </span>
+                </div>
               )}
-            </button>
+            </div>
           );
         })}
       </div>

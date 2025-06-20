@@ -33,7 +33,7 @@
   gap: 12px;
 }
 
-.ability-icon {
+.ability-item {
   position: relative;
   background: rgba(148, 0, 211, 0.2);
   border: 2px solid #9400D3;
@@ -42,69 +42,62 @@
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: center;
-  min-height: 80px;
+  min-height: 90px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 8px;
 }
 
-.ability-icon:hover:not(.on-cooldown) {
+.ability-item:hover:not(.on-cooldown) {
   background: rgba(148, 0, 211, 0.4);
   border-color: #00FF00;
   box-shadow: 0 0 15px rgba(148, 0, 211, 0.6);
   transform: scale(1.05);
 }
 
-.ability-icon.on-cooldown {
+.ability-item.on-cooldown {
   background: rgba(100, 100, 100, 0.3);
   border-color: #666;
   cursor: not-allowed;
   opacity: 0.6;
 }
 
-.ability-icon-symbol {
+.ability-icon {
   font-size: 2em;
   color: #9400D3;
   text-shadow: 0 0 10px rgba(148, 0, 211, 0.7);
 }
 
-.ability-icon.on-cooldown .ability-icon-symbol {
+.ability-item.on-cooldown .ability-icon {
   color: #666;
   text-shadow: none;
 }
 
 .ability-name {
-  font-size: 0.8em;
+  font-size: 0.75em;
   color: white;
   font-weight: bold;
   text-align: center;
   line-height: 1.2;
+  margin-top: 4px;
 }
 
-.ability-icon.on-cooldown .ability-name {
+.ability-item.on-cooldown .ability-name {
   color: #999;
 }
 
-.ability-cooldown-overlay {
+.cooldown-timer {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ability-cooldown-timer {
-  color: #FF0000;
+  bottom: 4px;
+  right: 4px;
+  font-size: 0.65em;
+  color: #ff6b6b;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 2px 4px;
+  border-radius: 3px;
   font-weight: bold;
-  font-size: 1.2em;
-  text-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
 }
 
 /* Mobile responsiveness */
@@ -122,17 +115,18 @@
     gap: 8px;
   }
 
-  .ability-icon {
+  .ability-item {
     padding: 8px;
-    min-height: 60px;
+    min-height: 70px;
+    gap: 4px;
   }
 
-  .ability-icon-symbol {
+  .ability-icon {
     font-size: 1.5em;
   }
 
   .ability-name {
-    font-size: 0.7em;
+    font-size: 0.65em;
   }
 
   .abilities-header h3 {
@@ -145,25 +139,4 @@
   .sidebar.open ~ .abilities-sidebar {
     display: none;
   }
-}
-.ability-button.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.ability-button.on-cooldown {
-  opacity: 0.7;
-  background: rgba(255, 0, 0, 0.2);
-  cursor: not-allowed;
-}
-
-.cooldown-timer {
-  position: absolute;
-  bottom: 2px;
-  right: 2px;
-  font-size: 0.6em;
-  color: #ff6b6b;
-  background: rgba(0, 0, 0, 0.7);
-  padding: 1px 3px;
-  border-radius: 2px;
 }
