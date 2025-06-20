@@ -443,7 +443,8 @@ export const useGameLoopManager = (gameState, gameSetters, purchaseHandlers) => 
       const circuitOptCount = parseInt(localStorage.getItem('circuit_optimization_count') || '0');
       const circuitOptBonus = circuitOptCount * 0.25;
       const holoBillboardBonus = (ownedItems.holoBillboard || 0) * 0.1;
-      const totalMultiplier = 1 + circuitOptBonus + (craftingInventory['Compression Pack'] ? 0.25 : 0) + greaseDisciplineBonus + holoBillboardBonus;
+      const junkMagnetBonus = craftingInventory['Junk Magnet'] ? 0.15 : 0;
+      const totalMultiplier = 1 + circuitOptBonus + (craftingInventory['Compression Pack'] ? 0.25 : 0) + greaseDisciplineBonus + holoBillboardBonus + junkMagnetBonus;
       setGlobalJpsMultiplier(totalMultiplier);
 
       const effectiveJunkPerSecond = getEffectiveJunkPerSecond(
