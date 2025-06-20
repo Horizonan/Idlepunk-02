@@ -617,8 +617,7 @@ export const gameHandlers = (gameState, setGameState) => {
       setGameState.setNotifications(prev => [...prev, "Shard Miner purchased!"]);
       window.dispatchEvent(new CustomEvent('nextNews', { 
         detail: { message: "A new frequency resonates through your junkyard..." }
-      }));The code calculates the bonus amount for Holo Billboard purchases using precise decimal values.
-```javascript
+      }));
     }
   };
 
