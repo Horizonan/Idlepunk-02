@@ -3,7 +3,7 @@ import { useFlavorEvents } from '../utils/flavorEventsStore';
 import NextQuest from './NextQuest';
 import { getJunkBreakdown } from '../utils/junkCalculation';
 
-export default function StatsDisplay({ credits, junk, passiveIncome, globalJpsMultiplier, autoClicks, clickMultiplier, tronics, electroShards, permanentAutoClicks }) {
+export default function StatsDisplay({ credits, junk, passiveIncome, globalJpsMultiplier, autoClicks, clickMultiplier, tronics, electroShards, permanentAutoClicks, isSurgeActive }) {
   const hasPrestiged = localStorage.getItem('hasPrestiged') === 'true';
   const showJunkError = useFlavorEvents(state => state.showJunkError);
   const showQuestRewards = localStorage.getItem('showQuestRewards') !== 'false';
@@ -27,7 +27,8 @@ export default function StatsDisplay({ credits, junk, passiveIncome, globalJpsMu
     passiveIncome, 
     globalJpsMultiplier, 
     autoClicks + permanentAutoClicks, 
-    clickMultiplier
+    clickMultiplier,
+    isSurgeActive
   );
 
   return (
