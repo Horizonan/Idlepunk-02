@@ -36,6 +36,7 @@ import SlotMachine from './sideMenu/SlotMachine';
 import CoinFlip from './sideMenu/CoinFlip';
 import Tooltips from './sideMenu/GameTips';
 import EffectsMenu from './components/EffectsMenu';
+import AbilitiesSidebar from './components/AbilitiesSidebar';
 
 //Settings Menu
 import Settings from './components/SideMenu/settingsMenu/Settings';
@@ -832,15 +833,7 @@ export default function App() {
           }}
         />
       )}
-      {activeStore === 'effects' && (
-        <EffectsMenu
-          onClose={() => {
-            setActiveStore(null);
-            localStorage.setItem('activeStore', null);
-          }}
-          setNotifications={setNotifications}
-        />
-      )}
+      
       <Clicker 
         collectJunk={collectJunk} 
         collectTronics={collectTronics}
@@ -1255,6 +1248,12 @@ export default function App() {
         showCrewIntroTooltip={showCrewIntroTooltip}
         setShowCrewIntroTooltip={setShowCrewIntroTooltip}
         setCredits={setCredits}
+        setNotifications={setNotifications}
+      />
+
+      {/* Abilities Sidebar */}
+      <AbilitiesSidebar 
+        craftingInventory={craftingInventory}
         setNotifications={setNotifications}
       />
 
