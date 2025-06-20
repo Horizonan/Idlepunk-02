@@ -81,12 +81,12 @@ export const gameHandlers = (gameState, setGameState) => {
 
       setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setNotifications(prev => [...prev, "Scrap Bag purchased!"]);
-      
+
       // Check if reinforcement upgrade is purchased to determine click power per bag
       const hasReinforcementUpgrade = localStorage.getItem('scrapBagUpgrade') === 'true';
       const clickPowerPerBag = hasReinforcementUpgrade ? 2 : 1;
       const bagsToAdd = gameState.bulkBuy ? 10 : 1;
-      
+
       setGameState.setClickMultiplier(prev => prev + (bagsToAdd * clickPowerPerBag));
       setGameState.setItemCosts(prev => ({...prev, trashBag: costData.endCost}));
       setGameState.setOwnedItems(prev => ({...prev, trashBag: (prev.trashBag || 0) + bagsToAdd}));
@@ -103,12 +103,12 @@ export const gameHandlers = (gameState, setGameState) => {
     if (gameState.junk >= costData.totalCost) {
       setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setNotifications(prev => [...prev, "Trash Picker purchased!"]);
-      
+
       // Check if wrist braces upgrade is purchased to determine click power per picker
       const hasWristBracesUpgrade = localStorage.getItem('trashPickerUpgrade') === 'true';
       const clickPowerPerPicker = hasWristBracesUpgrade ? 6 : 5; // +1 from upgrade
       const pickersToAdd = gameState.bulkBuy ? 10 : 1;
-      
+
       setGameState.setClickMultiplier(prev => prev + (pickersToAdd * clickPowerPerPicker));
       setGameState.setItemCosts(prev => ({...prev, trashPicker: costData.endCost}));
       setGameState.setOwnedItems(prev => ({...prev, trashPicker: (prev.trashPicker || 0) + pickersToAdd}));
@@ -123,12 +123,12 @@ export const gameHandlers = (gameState, setGameState) => {
 
     if (gameState.junk >= costData.totalCost) {
       setGameState.setJunk(prev => prev - costData.totalCost);
-      
+
       // Check if overclock upgrade is purchased to determine click power per enhancer
       const hasOverclockUpgrade = localStorage.getItem('clickEnhancerUpgrade') === 'true';
       const clickPowerPerEnhancer = hasOverclockUpgrade ? 13 : 10; // +3 from upgrade
       const enhancersToAdd = gameState.bulkBuy ? 10 : 1;
-      
+
       setGameState.setClickMultiplier(prev => prev + (enhancersToAdd * clickPowerPerEnhancer));
       setGameState.setClickEnhancerLevel(prev => prev + 1);
       setGameState.setItemCosts(prev => ({...prev, clickEnhancer: costData.endCost}));
@@ -172,12 +172,12 @@ export const gameHandlers = (gameState, setGameState) => {
     if (gameState.junk >= costData.totalCost) {
       setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setNotifications(prev => [...prev, "Streetrat hired!"]);
-      
+
       // Check if efficiency upgrade is purchased to determine income per streetrat
       const hasEfficiencyUpgrade = localStorage.getItem('streetratUpgrade') === 'true';
       const incomePerStreetrat = hasEfficiencyUpgrade ? 2 : 1;
       const streetratsToAdd = gameState.bulkBuy ? 10 : 1;
-      
+
       setGameState.setPassiveIncome(prev => prev + (streetratsToAdd * incomePerStreetrat));
       setGameState.setItemCosts(prev => ({...prev, streetrat: costData.endCost}));
       setGameState.setOwnedItems(prev => ({...prev, streetrat: (prev.streetrat || 0) + streetratsToAdd}));
@@ -194,12 +194,12 @@ export const gameHandlers = (gameState, setGameState) => {
     if (gameState.junk >= costData.totalCost) {
       setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setNotifications(prev => [...prev, "Shopping Cart purchased!"]);
-      
+
       // Check if suspension mods upgrade is purchased to determine income per cart
       const hasSuspensionUpgrade = localStorage.getItem('cartUpgrade') === 'true';
       const incomePerCart = hasSuspensionUpgrade ? 10 : 5; // +5 from upgrade
       const cartsToAdd = gameState.bulkBuy ? 10 : 1;
-      
+
       setGameState.setPassiveIncome(prev => prev + (cartsToAdd * incomePerCart));
       setGameState.setItemCosts(prev => ({...prev, cart: costData.endCost}));
       setGameState.setOwnedItems(prev => ({...prev, cart: (prev.cart || 0) + cartsToAdd}));
@@ -215,12 +215,12 @@ export const gameHandlers = (gameState, setGameState) => {
     if (gameState.junk >= costData.totalCost) {
       setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setNotifications(prev => [...prev, "Junk Magnet purchased!"]);
-      
+
       // Check if overcharge upgrade is purchased to determine income per magnet
       const hasOverchargeUpgrade = localStorage.getItem('junkMagnetUpgrade') === 'true';
       const incomePerMagnet = hasOverchargeUpgrade ? 20 : 10; // +10 from upgrade
       const magnetsToAdd = gameState.bulkBuy ? 10 : 1;
-      
+
       setGameState.setPassiveIncome(prev => prev + (magnetsToAdd * incomePerMagnet));
       setGameState.setItemCosts(prev => ({...prev, junkMagnet: costData.endCost}));
       setGameState.setOwnedItems(prev => ({...prev, junkMagnet: (prev.junkMagnet || 0) + magnetsToAdd}));
@@ -236,12 +236,12 @@ export const gameHandlers = (gameState, setGameState) => {
     if (gameState.junk >= costData.totalCost) {
       setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setNotifications(prev => [...prev, "Urban Recycler purchased!"]);
-      
+
       // Check if flame boost upgrade is purchased to determine income per recycler
       const hasFlameBoostUpgrade = localStorage.getItem('urbanRecyclerUpgrade') === 'true';
       const incomePerRecycler = hasFlameBoostUpgrade ? 30 : 20; // +10 from upgrade
       const recyclersToAdd = gameState.bulkBuy ? 10 : 1;
-      
+
       setGameState.setPassiveIncome(prev => prev + (recyclersToAdd * incomePerRecycler));
       setGameState.setItemCosts(prev => ({...prev, urbanRecycler: costData.endCost}));
       setGameState.setOwnedItems(prev => ({...prev, urbanRecycler: (prev.urbanRecycler || 0) + recyclersToAdd}));
@@ -588,68 +588,80 @@ export const gameHandlers = (gameState, setGameState) => {
   };
 
 //Upgrades
-
-    const handleBuyStreetratUpgrade = () => {
+const handleBuyStreetratUpgrade = () => {
       const streetratCount = ownedItems.streetrat || 0;
-      setGameState.setPassiveIncome(prev => prev + streetratCount);
-      setGameState.setNotifications(prev => [...prev, `Streetrat Efficiency Training purchased! All Streetrats now produce double output (+${streetratCount} JPS).`]);
+      const additionalIncome = streetratCount * 1; // +1 JPS per streetrat
+      setGameState.setPassiveIncome(prev => prev + additionalIncome);
+      setGameState.setNotifications(prev => [...prev, `Streetrat Efficiency Training purchased! Each Streetrat now produces +1 additional Junk/sec (+${additionalIncome} JPS).`]);
     };
 
     const handleBuyScrapBagUpgrade = () => {
-      const scrapBagCount = ownedItems.trashBag || 0;
-      setGameState.setClickMultiplier(prev => prev + scrapBagCount);
-      setGameState.setNotifications(prev => [...prev, `Scrap Bag Reinforcement purchased! Each Scrap Bag now provides +1 additional Junk/Click (+${scrapBagCount} click power).`]);
+      setGameState.setNotifications(prev => [...prev, "Trash Bag Reinforcement purchased! Trash Bags now give +1 additional Junk/click."]);
     };
 
     const handleBuyTrashPickerUpgrade = () => {
-      const trashPickerCount = ownedItems.trashPicker || 0;
-      setGameState.setClickMultiplier(prev => prev + trashPickerCount);
-      setGameState.setNotifications(prev => [...prev, `Trash Picker Wrist Braces purchased! Each Trash Picker now provides +1 additional Junk/Click (+${trashPickerCount} click power).`]);
+      setGameState.setNotifications(prev => [...prev, "Trash Picker Wrist Braces purchased! Trash Pickers now give +1 additional Junk/click."]);
     };
 
     const handleBuyCartUpgrade = () => {
       const cartCount = ownedItems.cart || 0;
-      setGameState.setPassiveIncome(prev => prev + (cartCount * 5));
-      setGameState.setNotifications(prev => [...prev, `Cart Suspension Mods purchased! Each Cart now produces +5 additional Junk/sec (+${cartCount * 5} JPS).`]);
+      const additionalIncome = cartCount * 5; // +5 JPS per cart
+      setGameState.setPassiveIncome(prev => prev + additionalIncome);
+      setGameState.setNotifications(prev => [...prev, `Cart Suspension Mods purchased! Each Cart now produces +5 additional Junk/sec (+${additionalIncome} JPS).`]);
     };
 
-    const handleBuyUrbanRecyclerUpgrade = () => {s
+    const handleBuyUrbanRecyclerUpgrade = () => {
       const recyclerCount = ownedItems.urbanRecycler || 0;
-      setGameState.setPassiveIncome(prev => prev + (recyclerCount * 10));
-      setGameState.setNotifications(prev => [...prev, `Recycler Flame Boost purchased! Each Urban Recycler now produces +10 additional Junk/sec (+${recyclerCount * 10} JPS).`]);
+      const additionalIncome = recyclerCount * 10; // +10 JPS per recycler
+      setGameState.setPassiveIncome(prev => prev + additionalIncome);
+      setGameState.setNotifications(prev => [...prev, `Recycler Flame Boost purchased! Each Urban Recycler now produces +10 additional Junk/sec (+${additionalIncome} JPS).`]);
     };
 
     const handleBuyClickEnhancerUpgrade = () => {
-      const enhancerCount = ownedItems.clickEnhancer || 0;
-      setGameState.setClickMultiplier(prev => prev + (enhancerCount * 3));
-      setGameState.setNotifications(prev => [...prev, `Click Enhancer Overclock purchased! Each Click Enhancer now provides +3 additional Junk/Click (+${enhancerCount * 3} click power).`]);
+      setGameState.setNotifications(prev => [...prev, "Click Enhancer Overclock purchased! Click Enhancers now give +3 additional Junk/click."]);
     };
 
     const handleBuyJunkMagnetUpgrade = () => {
       const magnetCount = ownedItems.junkMagnet || 0;
-      setGameState.setPassiveIncome(prev => prev + (magnetCount * 10));
-      setGameState.setNotifications(prev => [...prev, `Junk Magnet Overcharge purchased! Each Junk Magnet now produces +10 additional Junk/sec (+${magnetCount * 10} JPS).`]);
+      const additionalIncome = magnetCount * 10; // +10 JPS per magnet
+      setGameState.setPassiveIncome(prev => prev + additionalIncome);
+      setGameState.setNotifications(prev => [...prev, `Junk Magnet Overcharge purchased! Each Junk Magnet now produces +10 additional Junk/sec (+${additionalIncome} JPS).`]);
     };
 
-  const handleBuyGutterlineExtractor = () => {
-    const costData = gameState.bulkBuy ? calculate10xPriceJPS(gameState.itemCosts.gutterlineExtractor) : {
-      totalCost: gameState.itemCosts.gutterlineExtractor,
-      endCost: Math.floor(gameState.itemCosts.gutterlineExtractor * 1.15)
+    // Tier 2 upgrades
+    const handleBuyStreetratUpgrade2 = () => {
+      const streetratCount = ownedItems.streetrat || 0;
+      // For unionization, increase by 50% of current base production
+      const baseProduction = localStorage.getItem('streetratUpgrade') ? 2 : 1; // 2 if already upgraded, 1 if not
+      const additionalIncome = Math.floor(streetratCount * baseProduction * 0.5); // 50% increase
+      setGameState.setPassiveIncome(prev => prev + additionalIncome);
+      setGameState.setNotifications(prev => [...prev, `Streetrat Unionization purchased! Streetrats work 50% faster (+${additionalIncome} JPS).`]);
     };
 
-    if (gameState.junk >= costData.totalCost) {
-      setGameState.setJunk(prev => prev - costData.totalCost);
-      setGameState.setNotifications(prev => [...prev, "Gutterline Extractor purchased!"]);
-      
-      const extractorsToAdd = gameState.bulkBuy ? 10 : 1;
-      
-      setGameState.setPassiveIncome(prev => prev + (extractorsToAdd * 75));
-      setGameState.setItemCosts(prev => ({...prev, gutterlineExtractor: costData.endCost}));
-      setGameState.setOwnedItems(prev => ({...prev, gutterlineExtractor: (prev.gutterlineExtractor || 0) + extractorsToAdd}));
-    }
-  };
+    const handleBuyCartUpgrade2 = () => {
+      const cartCount = ownedItems.cart || 0;
+      // For racing league, add 25% more production
+      const baseProduction = localStorage.getItem('cartUpgrade') ? 10 : 5; // 10 if already upgraded, 5 if not
+      const additionalIncome = Math.floor(cartCount * baseProduction * 0.25); // 25% increase
+      setGameState.setPassiveIncome(prev => prev + additionalIncome);
+      setGameState.setNotifications(prev => [...prev, `Cart Racing League Sponsorship purchased! Carts generate +25% more Junk/sec (+${additionalIncome} JPS).`]);
+    };
 
-    
+    const handleBuyUrbanRecyclerUpgrade2 = () => {
+      const recyclerCount = ownedItems.urbanRecycler || 0;
+      const additionalIncome = recyclerCount * 15; // +15 JPS per recycler
+      setGameState.setPassiveIncome(prev => prev + additionalIncome);
+      setGameState.setNotifications(prev => [...prev, `Urban Recycler Flame Jets purchased! Each Urban Recycler now produces +15 additional Junk/sec (+${additionalIncome} JPS).`]);
+    };
+
+    const handleBuyTrashPickerUpgrade2 = () => {
+      setGameState.setNotifications(prev => [...prev, "Trash Picker Holster Belt purchased! Trash Pickers now give +2 additional Junk/click."]);
+    };
+
+    const handleBuyTrashBagUpgrade2 = () => {
+      setGameState.setNotifications(prev => [...prev, "Trash Bag Max-Patch purchased! Trash Bags now give +2 additional Junk/click."]);
+    };
+
   return {
     collectJunk,handleBuyTrashBag,handleBuyPicker,
     calculate10xPriceJunkClicker: calculate10xPrice01, calculate10xPriceJPS,
@@ -665,7 +677,7 @@ export const gameHandlers = (gameState, setGameState) => {
     handleBuyScratzMiner,
     handleBuyAutoRecycler,
     handleBuyShardMiner, handleBuyStreetratUpgrade, handleBuyScrapBagUpgrade, handleBuyTrashPickerUpgrade, handleBuyCartUpgrade, handleBuyUrbanRecyclerUpgrade, handleBuyClickEnhancerUpgrade,handleBuyJunkMagnetUpgrade,
-    handleBuyGutterlineExtractor
+    handleBuyGutterlineExtractor, handleBuyStreetratUpgrade2, handleBuyCartUpgrade2, handleBuyUrbanRecyclerUpgrade2, handleBuyTrashPickerUpgrade2, handleBuyTrashBagUpgrade2
   };
 }
 }

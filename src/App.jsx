@@ -119,7 +119,12 @@ export default function App() {
 
     const {
         handleBuyTrashBag,
-        calculate10xPriceJunkClicker: calculate10xPrice01, handleBuyPicker, handleBuyClickEnhancer, handleBuyClampjawRig, calculate10xPriceJPS, handleBuyStreetrat, handleBuyCart, handleBuyJunkMagnet, handleBuyUrbanRecycler, handleBuyScrapDrone, handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator, handleBuyQuantumTap, handleBuyElectroSurgeNode, handleBuyElectroBeaconCore, handleBuyCircuitOptimization, handleBuyHighFreqTap, handleBuyReactiveFeedback, handleBuyPickupMagnetArray, handleBuyScratzMiner, handleBuyShardMiner, onBuyAutoRecycler, handleBuyStreetratUpgrade, handleBuyScrapBagUpgrade, handleBuyTrashPickerUpgrade, handleBuyCartUpgrade, handleBuyUrbanRecyclerUpgrade, handleBuyClickEnhancerUpgrade,handleBuyJunkMagnetUpgrade, handleBuyGutterlineExtractor
+        calculate10xPriceJunkClicker: calculate10xPrice01, handleBuyPicker, handleBuyClickEnhancer, handleBuyClampjawRig, calculate10xPriceJPS, handleBuyStreetrat, handleBuyCart, handleBuyJunkMagnet, handleBuyUrbanRecycler, handleBuyScrapDrone, handleBuyHoloBillboard, calculate10xPriceBillBoard: calculate10x02, handleBuyAutoClicker, handleBuyAutoClickerV2, handleBuyJunkRefinery, handleBuyModularScrapper, handleBuyTronicsBoost, handleBuyTronicsBoostII, handleBuyFlowRegulator, handleBuyQuantumTap, handleBuyElectroSurgeNode, handleBuyElectroBeaconCore, handleBuyCircuitOptimization, handleBuyHighFreqTap, handleBuyReactiveFeedback, handleBuyPickupMagnetArray, handleBuyScratzMiner, handleBuyShardMiner, onBuyAutoRecycler, handleBuyStreetratUpgrade, handleBuyScrapBagUpgrade, handleBuyTrashPickerUpgrade, handleBuyCartUpgrade, handleBuyUrbanRecyclerUpgrade, handleBuyClickEnhancerUpgrade,handleBuyJunkMagnetUpgrade,
+    handleBuyStreetratUpgrade2,
+    handleBuyCartUpgrade2,
+    handleBuyUrbanRecyclerUpgrade2,
+    handleBuyTrashPickerUpgrade2,
+    handleBuyTrashBagUpgrade2, handleBuyGutterlineExtractor
     } = purchaseHandlers;
 
   const { achievements, validateAchievements, checkElectroMilestones } = useAchievements(
