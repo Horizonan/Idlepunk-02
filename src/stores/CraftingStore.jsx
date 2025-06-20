@@ -495,7 +495,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                 <div className="item-info">
                   <p>A mysterious crystal pulsing with otherworldly power</p>
                   <p>Requirements:</p>
-                  <p>- Junk: {formatJunkCost(5000000, craftingInventory['Crafting Booster Unit'])}</p>
+                  <p>- Junk: {formatJunkCost(10000000, craftingInventory['Crafting Booster Unit'])}</p>
                   <p>- Stabilized Capacitor: 1 ({craftingInventory['Stabilized Capacitor'] || 0} owned)</p>
                   <p>- Voltage Node: 1 ({craftingInventory['Voltage Node'] || 0} owned)</p>
                   <p>- Synthcore Fragment: 1 ({craftingInventory['Synthcore Fragment'] || 0} owned)</p>
