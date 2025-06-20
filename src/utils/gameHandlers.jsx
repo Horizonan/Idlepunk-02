@@ -1,5 +1,3 @@
-import { updateOwnedItem, incrementOwnedItem, saveOwnedItemsToStorage } from './OwnedItems';
-
 export const gameHandlers = (gameState, setGameState) => {
 
 
@@ -95,10 +93,7 @@ export const gameHandlers = (gameState, setGameState) => {
 
       setGameState.setClickMultiplier(prev => prev + (bagsToAdd * clickPowerPerBag));
       setGameState.setItemCosts(prev => ({...prev, trashBag: costData.endCost}));
-      setGameState.setOwnedItems(prev => {
-        const updated = incrementOwnedItem(prev, 'trashBag', bagsToAdd);
-        return updated;
-      });
+      setGameState.setOwnedItems(prev => ({...prev, trashBag: (prev.trashBag || 0) + bagsToAdd}));
       setGameState.setHasUpgrade(true);
     }
   };
@@ -125,10 +120,7 @@ export const gameHandlers = (gameState, setGameState) => {
 
       setGameState.setClickMultiplier(prev => prev + (pickersToAdd * clickPowerPerPicker));
       setGameState.setItemCosts(prev => ({...prev, trashPicker: costData.endCost}));
-      setGameState.setOwnedItems(prev => {
-        const updated = incrementOwnedItem(prev, 'trashPicker', pickersToAdd);
-        return updated;
-      });
+      setGameState.setOwnedItems(prev => ({...prev, trashPicker: (prev.trashPicker || 0) + pickersToAdd}));
     }
   };
 
@@ -149,10 +141,7 @@ export const gameHandlers = (gameState, setGameState) => {
       setGameState.setClickMultiplier(prev => prev + (enhancersToAdd * clickPowerPerEnhancer));
       setGameState.setClickEnhancerLevel(prev => prev + 1);
       setGameState.setItemCosts(prev => ({...prev, clickEnhancer: costData.endCost}));
-      setGameState.setOwnedItems(prev => {
-        const updated = incrementOwnedItem(prev, 'clickEnhancer', enhancersToAdd);
-        return updated;
-      });
+      setGameState.setOwnedItems(prev => ({...prev, clickEnhancer: (prev.clickEnhancer || 0) + enhancersToAdd}));
       setGameState.setNotifications(prev => [...prev, "Click Enhancer purchased!"]);
       if (setGameState.clickEnhancerLevel === 0) {
         setGameState.setNotifications(prev => [...prev, "Finger strength increasing! Bet you never thought clicking would become your day job."]);
@@ -173,10 +162,7 @@ export const gameHandlers = (gameState, setGameState) => {
       setGameState.setJunk(prev => prev - costData.totalCost);
       setGameState.setClickMultiplier(prev => prev + (gameState.bulkBuy ? 120 : 12));
       setGameState.setItemCosts(prev => ({...prev, clampjawRig: costData.endCost}));
-      setGameState.setOwnedItems(prev => {
-        const updated = incrementOwnedItem(prev, 'clampjawRig', gameState.bulkBuy ? 10 : 1);
-        return updated;
-      });
+      setGameState.setOwnedItems(prev => ({...prev, clampjawRig: (prev.clampjawRig || 0) + (gameState.bulkBuy ? 10 : 1)}));
       setGameState.setNotifications(prev => [...prev, "Clampjaw Rig purchased!"]);
       window.dispatchEvent(new CustomEvent('nextNews', { 
         detail: { message: "Cogfather: 'Loader bot parts? That's some serious salvage work, kid.'" }
@@ -221,10 +207,7 @@ export const gameHandlers = (gameState, setGameState) => {
 
       setGameState.setPassiveIncome(prev => prev + (streetratsToAdd * incomePerStreetrat));
       setGameState.setItemCosts(prev => ({...prev, streetrat: costData.endCost}));
-      setGameState.setOwnedItems(prev => {
-        const updated = incrementOwnedItem(prev, 'streetrat', streetratsToAdd);
-        return updated;
-      });
+      setGameState.setOwnedItems(prev => ({...prev, streetrat: (prev.streetrat || 0) + streetratsToAdd}));
       setGameState.setHasHelper(true);
     }
   };

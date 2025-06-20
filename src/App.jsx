@@ -46,13 +46,6 @@ import { validateQuests } from './utils/questValidation';
 import { useGameState } from './hooks/useGameState';
 import { getInitialItemCosts } from './utils/ItemCosts';
 import { processOfflineProgress, updateLastActiveTime } from './utils/offlineSimulation';
-import { 
-  loadOwnedItemsFromStorage, 
-  saveOwnedItemsToStorage, 
-  updateOwnedItem, 
-  incrementOwnedItem,
-  resetOwnedItems 
-} from './utils/OwnedItems';
 import { junkCalculationManager, getEffectiveJunkPerSecond } from './utils/junkCalculation';
 import { useSkillsStore } from './utils/skillsStore';
 
@@ -1115,9 +1108,28 @@ export default function App() {
             setItemCosts(getInitialItemCosts());
 
 
-            const resetItems = resetOwnedItems();
-            setOwnedItems(resetItems);
-            saveOwnedItemsToStorage(resetItems);
+            const resetOwnedItems = {
+              trashBag: 0,
+              trashPicker: 0,
+              streetrat: 0,
+              cart: 0,
+              junkMagnet: 0,
+              urbanRecycler: 0,
+              clickEnhancer: 0,
+              clampjawRig: 0,
+              scrapDrone: 0,
+              holoBillboard: 0,
+              junkRefinery: 0,
+              modularScrapper: 0,
+              tronicsBoost: 0,
+              tronicsBoostII: 0,
+              flowRegulator: 0,
+              quantumTap: 0,
+              electroSurgeNode: 0,
+              scratzMiner: 0,
+              autoRecycler: 0,
+            };
+            setOwnedItems(resetOwnedItems);
 
 
             setNotifications(prev => [...prev, "Prestige complete! Gained 1 Prestige Token"]);

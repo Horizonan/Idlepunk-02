@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { loadOwnedItemsFromStorage, getInitialOwnedItems } from '../utils/OwnedItems';
 import { getInitialItemCosts } from '../utils/ItemCosts';
 
 export const useGameState = () => {
@@ -137,7 +136,27 @@ export const useGameState = () => {
 
 
   //Owned Items
-  const [ownedItems, setOwnedItems] = useState(() => loadOwnedItemsFromStorage());
+  const [ownedItems, setOwnedItems] = useState(() => JSON.parse(localStorage.getItem('ownedItems')) || {
+    trashBag: 0,
+    trashPicker: 0,
+    streetrat: 0,
+    cart: 0,
+    junkMagnet: 0,
+    urbanRecycler: 0,
+    clickEnhancer: 0,
+    scrapDrone: 0,
+    holoBillboard: 0,
+    junkRefinery: 0,
+    autoClickerV2: 0,
+    autoClickerV1: 0,
+    modularScrapper: 0,
+    tronicsBoost: 0,
+    tronicsBoostII: 0,
+    flowRegulator: 0,
+    quantumTap: 0,
+    electroSurgeNode: 0,
+    twitchweaveGauntlets: 0
+  });
 
   //Skill Levels
   const [skillLevels, setSkillLevels] = useState(() => {
