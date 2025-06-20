@@ -48,6 +48,7 @@ import { getInitialItemCosts } from './utils/ItemCosts';
 import { processOfflineProgress, updateLastActiveTime } from './utils/offlineSimulation';
 import { junkCalculationManager, getEffectiveJunkPerSecond } from './utils/junkCalculation';
 import { useSkillsStore } from './utils/skillsStore';
+import { getInitialOwnedItems, loadOwnedItemsFromStorage, saveOwnedItemsToStorage, updateOwnedItem, incrementOwnedItem } from './utils/OwnedItems';
 
 //Effects/Animations
 import ClickEnhancerEffect from './components/Effects/ClickEnhancerEffect';
@@ -1108,28 +1109,9 @@ export default function App() {
             setItemCosts(getInitialItemCosts());
 
 
-            const resetOwnedItems = {
-              trashBag: 0,
-              trashPicker: 0,
-              streetrat: 0,
-              cart: 0,
-              junkMagnet: 0,
-              urbanRecycler: 0,
-              clickEnhancer: 0,
-              clampjawRig: 0,
-              scrapDrone: 0,
-              holoBillboard: 0,
-              junkRefinery: 0,
-              modularScrapper: 0,
-              tronicsBoost: 0,
-              tronicsBoostII: 0,
-              flowRegulator: 0,
-              quantumTap: 0,
-              electroSurgeNode: 0,
-              scratzMiner: 0,
-              autoRecycler: 0,
-            };
+            const resetOwnedItems = getInitialOwnedItems();
             setOwnedItems(resetOwnedItems);
+            saveOwnedItemsToStorage(resetOwnedItems);
 
 
             setNotifications(prev => [...prev, "Prestige complete! Gained 1 Prestige Token"]);
