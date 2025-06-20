@@ -35,6 +35,7 @@ import './styles/Stats.css';
 import SlotMachine from './sideMenu/SlotMachine';
 import CoinFlip from './sideMenu/CoinFlip';
 import Tooltips from './sideMenu/GameTips';
+import EffectsMenu from './components/EffectsMenu';
 
 //Settings Menu
 import Settings from './components/SideMenu/settingsMenu/Settings';
@@ -829,6 +830,15 @@ export default function App() {
             setActiveStore(null);
             localStorage.setItem('activeStore', null);
           }}
+        />
+      )}
+      {activeStore === 'effects' && (
+        <EffectsMenu
+          onClose={() => {
+            setActiveStore(null);
+            localStorage.setItem('activeStore', null);
+          }}
+          setNotifications={setNotifications}
         />
       )}
       <Clicker 

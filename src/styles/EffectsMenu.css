@@ -1,0 +1,230 @@
+
+.effects-menu-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  max-width: 90vw;
+  max-height: 80vh;
+  background: rgba(26, 26, 26, 0.98);
+  border: 3px solid #9400D3;
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(148, 0, 211, 0.6);
+  backdrop-filter: blur(10px);
+  z-index: 1500;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.effects-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: linear-gradient(90deg, #9400D3, #7B00AD);
+  border-bottom: 2px solid rgba(0, 255, 0, 0.3);
+}
+
+.effects-menu-header h2 {
+  color: #00FF00;
+  margin: 0;
+  font-size: 1.4em;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.effects-menu-close {
+  background: rgba(255, 0, 0, 0.2);
+  border: 2px solid #FF0000;
+  color: #FF0000;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+}
+
+.effects-menu-close:hover {
+  background: #FF0000;
+  color: #000;
+}
+
+.effects-menu-tabs {
+  display: flex;
+  background: rgba(42, 42, 42, 0.9);
+  border-bottom: 2px solid #9400D3;
+}
+
+.effects-tab {
+  flex: 1;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  color: #CCCCCC;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  border-right: 1px solid rgba(148, 0, 211, 0.3);
+}
+
+.effects-tab:last-child {
+  border-right: none;
+}
+
+.effects-tab:hover {
+  background: rgba(148, 0, 211, 0.2);
+  color: #00FF00;
+}
+
+.effects-tab.active {
+  background: rgba(148, 0, 211, 0.4);
+  color: #00FF00;
+  border-bottom: 3px solid #00FF00;
+}
+
+.tab-icon {
+  font-size: 1.2em;
+}
+
+.tab-name {
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+.effects-menu-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.effects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.effect-item {
+  background: rgba(42, 42, 42, 0.8);
+  border: 2px solid #9400D3;
+  border-radius: 10px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.effect-item:hover:not(.on-cooldown) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(148, 0, 211, 0.4);
+  border-color: #00FF00;
+}
+
+.effect-item.on-cooldown {
+  opacity: 0.6;
+  cursor: not-allowed;
+  border-color: #666;
+}
+
+.effect-image {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 12px auto;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid #9400D3;
+}
+
+.effect-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cooldown-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+
+.cooldown-timer {
+  color: #FF4444;
+  font-weight: bold;
+  font-size: 1.1em;
+  text-shadow: 0 0 5px rgba(255, 68, 68, 0.5);
+}
+
+.effect-info {
+  text-align: center;
+}
+
+.effect-name {
+  color: #00FF00;
+  margin: 0 0 8px 0;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+.effect-description {
+  color: #CCCCCC;
+  margin: 0 0 8px 0;
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+.effect-cooldown {
+  color: #9400D3;
+  font-size: 0.8em;
+  font-style: italic;
+}
+
+.effects-menu-footer {
+  padding: 12px 20px;
+  background: rgba(42, 42, 42, 0.9);
+  border-top: 1px solid rgba(148, 0, 211, 0.3);
+}
+
+.effects-hint {
+  color: #CCCCCC;
+  margin: 0;
+  font-size: 0.9em;
+  text-align: center;
+  opacity: 0.8;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .effects-menu-container {
+    width: 95vw;
+    max-height: 90vh;
+  }
+  
+  .effects-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .effects-menu-tabs {
+    flex-wrap: wrap;
+  }
+  
+  .effects-tab {
+    flex: 1;
+    min-width: 100px;
+  }
+  
+  .tab-name {
+    display: none;
+  }
+}

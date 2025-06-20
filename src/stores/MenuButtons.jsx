@@ -80,6 +80,18 @@ export default function MenuButtons({ onStoreSelect, showInventory, craftingInve
         }
       ]
     },
+    effects: {
+      header: 'EFFECTS',
+      buttons: [
+        {
+          label: 'Effects Panel',
+          onClick: () => {
+            const activeStore = localStorage.getItem('activeStore');
+            onStoreSelect(activeStore === 'effects' ? null : 'effects');
+          }
+        }
+      ]
+    },
     skills: {
       header: 'SKILLS',
       buttons: [
