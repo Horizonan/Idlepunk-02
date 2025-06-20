@@ -450,7 +450,8 @@ export const useGameLoopManager = (gameState, gameSetters, purchaseHandlers) => 
         passiveIncome, 
         globalJpsMultiplier, 
         autoClicks + permanentAutoClicks, 
-        clickMultiplier
+        clickMultiplier,
+        isSurgeActive
       );
 
       if (effectiveJunkPerSecond > 0) {
