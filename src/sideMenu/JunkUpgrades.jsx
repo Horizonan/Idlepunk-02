@@ -196,15 +196,21 @@ export default function JunkUpgrades({ onClose, ownedItems, junk, setJunk, onBuy
     checkNewUpgrades();
     const interval = setInterval(checkNewUpgrades, 1000);
     return () => clearInterval(interval);
-  }, [ownedItems, upgradeItems, onNewUpgradesChange]);
+  }, [ownedItems, onNewUpgradesChange]);
 
-  // Mark visible upgrades as seen when the menu opens
+  // Mark visible upgrades as seen when the menu opens (only once per mount)
   useEffect(() => {
-    const availableUpgrades = upgradeItems.filter(item => item.unlockCondition() && !localStorage.getItem(item.storageKey));
-    availableUpgrades.forEach(item => {
-      localStorage.setItem(`upgrade_seen_${item.storageKey}`, 'true');
-    });
-  }, [upgradeItems]);
+    const markUpgradesAsSeen = () => {
+      const availableUpgrades = upgradeItems.filter(item => item.unlockCondition() && !localStorage.getItem(item.storageKey));
+      availableUpgrades.forEach(item => {
+        localStorage.setItem(`upgrade_seen_${item.storageKey}`, 'true');
+      });
+    };
+
+    // Small delay to ensure the component is fully mounted
+    const timer = setTimeout(markUpgradesAsSeen, 100);
+    return () => clearTimeout(timer);
+  }, []); // Only run once when component mounts
 
   const handlePurchase = (item) => {
     if (junk >= item.cost && item.unlockCondition()) {
@@ -309,10 +315,6 @@ export default function JunkUpgrades({ onClose, ownedItems, junk, setJunk, onBuy
 
   const closeMobileInfo = () => {
     setMobileInfoModal(null);
-  };
-
-  const markUpgradeAsSeen = (item) => {
-    localStorage.setItem(`upgrade_seen_${item.storageKey}`, 'true');
   };
 
   const isNewUpgrade = (item) => {
