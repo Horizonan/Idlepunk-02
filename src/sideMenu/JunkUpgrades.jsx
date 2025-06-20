@@ -325,13 +325,6 @@ export default function JunkUpgrades({ onClose, ownedItems, junk, setJunk, onBuy
   // Filter items based on unlock conditions
   const availableUpgrades = upgradeItems.filter(item => item.unlockCondition());
 
-  // Dummy functions, replace with the actual handlers
-  const handleBuyTrashPickerUpgrade2 = () => {};
-  const handleBuyStreetratUpgrade2 = () => {};
-  const handleBuyTrashBagUpgrade2 = () => {};
-  const handleBuyCartUpgrade2 = () => {};
-  const handleBuyUrbanRecyclerUpgrade2 = () => {};
-
   return (
     <div className="junk-upgrades-container">
       <div className="junk-upgrades-header">
