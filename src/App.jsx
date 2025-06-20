@@ -124,7 +124,7 @@ export default function App() {
     handleBuyCartUpgrade2,
     handleBuyUrbanRecyclerUpgrade2,
     handleBuyTrashPickerUpgrade2,
-    handleBuyTrashBagUpgrade2, handleBuyGutterlineExtractor
+    handleBuyTrashBagUpgrade2, handleBuyGutterlineExtractor, handleBuyTwitchweaveGauntlets
     } = purchaseHandlers;
 
   const { achievements, validateAchievements, checkElectroMilestones } = useAchievements(
@@ -583,14 +583,6 @@ export default function App() {
           onBuyTrashBag={handleBuyTrashBag}
           onBuyPicker={handleBuyPicker}
           onBuyStreetrat={handleBuyStreetrat}
-          onGetAutoClickersV1={autoClickerV1Count}
-          onBuyAutoClicker = {handleBuyAutoClicker}
-          canAffordV1={canAffordV1}
-          canAffordV2={canAffordV2}
-          onBuyAutoClickerV2= {handleBuyAutoClickerV2}
-          onGetAutoClickersV2={autoClickerV2Count}
-          onBuyScratzMiner={handleBuyScratzMiner}
-          onBuyShardMiner={handleBuyShardMiner}
           onBuyCart={handleBuyCart}
           onBuyJunkMagnet={handleBuyJunkMagnet}
           onBuyUrbanRecycler={handleBuyUrbanRecycler}
@@ -598,6 +590,22 @@ export default function App() {
           onBuyHoloBillboard={handleBuyHoloBillboard} 
           globalJpsMultiplier={globalJpsMultiplier}
           passiveIncome={passiveIncome}
+          onBuyClickEnhancer={handleBuyClickEnhancer}
+          onBuyClampjawRig={handleBuyClampjawRig}
+          onBuyTwitchweaveGauntlets={handleBuyTwitchweaveGauntlets}
+          onBuyAutoClicker = {handleBuyAutoClicker}
+          canAffordV1={canAffordV1}
+          canAffordV2={canAffordV2}
+          onBuyAutoClickerV2= {handleBuyAutoClickerV2}
+          onGetAutoClickersV2={autoClickerV2Count}
+          onGetAutoClickersV1={autoClickerV1Count}
+          onBuyScratzMiner={handleBuyScratzMiner}
+          onBuyShardMiner={handleBuyShardMiner}
+          onBuyCart={handleBuyCart}
+          onBuyJunkMagnet={handleBuyJunkMagnet}
+          onBuyUrbanRecycler={handleBuyUrbanRecycler}
+          onBuyScrapDrone={handleBuyScrapDrone}
+          onBuyHoloBillboard={handleBuyHoloBillboard} 
           onBuyClickEnhancer={handleBuyClickEnhancer}
           onBuyClampjawRig={handleBuyClampjawRig}
           onBuyModularScrapper={handleBuyModularScrapper}
