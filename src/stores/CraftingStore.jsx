@@ -60,9 +60,20 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       type: 'basic'
     },
     {
+      name: 'Synth Thread',
+      requirements: {
+        'Wires': 10
+      },
+      cost: 0,
+      description: 'Advanced synthetic threading material',
+      type: 'basic',
+      unlockCondition: () => parseInt(localStorage.getItem('prestigeCount') || '0') >= 1
+    },
+    {
       name: 'Capacitor',
       description: 'Energy storage device',
       type: 'basic',
+      unlockCondition: () => parseInt(localStorage.getItem('prestigeCount') || '0') >= 1,
       uncraftable: true
     }
   ];
@@ -318,7 +329,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                 <button
                   key={item.name}
                   onClick={() => handleItemClick(item, true)}
-                  disabled={item.uncraftable || !canCraft(item)}
+                  disabled={item.uncraftable || !canCraft(item) || (item.unlockCondition && !item.unlockCondition())}
                   className={`store-item ${item.uncraftable ? 'uncraftable' : ''}`}
                 >
                   <div className="item-header">
@@ -639,7 +650,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   }
                   closeMobileInfo();
                 }}
-                disabled={mobileInfoModal.uncraftable || !canCraft(mobileInfoModal)}
+                disabled={mobileInfoModal.uncraftable || !canCraft(mobileInfoModal) || (mobileInfoModal.unlockCondition && !mobileInfoModal.unlockCondition())}
                 className="craft-button"
               >
                 {mobileInfoModal.uncraftable ? 'Cannot Craft' : 'Craft'}
