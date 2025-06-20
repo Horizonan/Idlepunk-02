@@ -111,6 +111,11 @@ export default function ItemInventory({ craftingInventory, onBack }) {
       description: 'Portable power source that lasts about 4 hours',
       effect: 'Used to power items temporarily',
       icon: <img src="../Icons/crafting/junkCell.png" alt="Mesh" style={{width: '80%', height: '100%'}} />
+    },
+    'Junk Magnet': {
+      description: 'Increases Junk/sec by 15%',
+      effect: 'Permanent boost to junk generation',
+      icon: '🧲'
     }
   };
 
