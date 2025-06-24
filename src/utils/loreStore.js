@@ -46,6 +46,19 @@ And if you're still here, that means something in you resonates with it. That ru
 ULDIR_9 doesn't care what direction you're coming from.
 
 It just wants to see what you'll leave behind.`
+        },
+        3: {
+          id: 3,
+          title: "Experimental Compound — Gremlin Oil",
+          content: `Invented during a caffeine-fueled slapfight between two rogue engineers, Gremlin Oil was never meant to exist. But once it did, it refused to stop existing. Just like its primary users.
+
+When applied to mechanical joints, it triples actuation speed, fries limiters, and gives your auto-clickers a brief taste of godhood. Also smells like ozone and boiled mischief.
+
+Side effects may include: spontaneous gear-hiccups, recursive clicking, phantom limbs, and the overwhelming urge to scream 'I AM THE WRENCH' at passing birds.
+
+Duration: short. Impact: hilarious. Legality: questionable.
+
+Do not ingest — unless you're cool with that.`
         }
       },
       unlockFragment: (fragmentId) => set((state) => {

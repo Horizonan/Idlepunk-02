@@ -187,6 +187,7 @@ export const QUEST_LINES = {
         reward: { 
           type: "lore", 
           message: "Quest Completed: Gremlin Wrangler - Lore fragment unlocked!",
+          loreId: 3,
           loreTitle: "Experimental Compound — Gremlin Oil",
           loreContent: "Invented during a caffeine-fueled slapfight between two rogue engineers, Gremlin Oil was never meant to exist. But once it did, it refused to stop existing. Just like its primary users.\n\nWhen applied to mechanical joints, it triples actuation speed, fries limiters, and gives your auto-clickers a brief taste of godhood. Also smells like ozone and boiled mischief.\n\nSide effects may include: spontaneous gear-hiccups, recursive clicking, phantom limbs, and the overwhelming urge to scream 'I AM THE WRENCH' at passing birds.\n\nDuration: short. Impact: hilarious. Legality: questionable.\n\nDo not ingest — unless you're cool with that.",
           news: "Congratulations, scavver. You survived application of a Class-9 uncertified lubricant."
@@ -528,7 +529,12 @@ const completeQuest = (quest, setters) => {
       break;
       
     case 'lore':
-      // Store lore fragment in localStorage
+      // Unlock the specific lore fragment in the lore store
+      if (reward.loreId) {
+        const { useLoreStore } = await import('../utils/loreStore');
+        useLoreStore.getState().unlockFragment(reward.loreId);
+      }
+      // Also store in localStorage for backwards compatibility
       const existingLore = JSON.parse(localStorage.getItem('loreFragments') || '[]');
       const newLoreFragment = {
         title: reward.loreTitle,
