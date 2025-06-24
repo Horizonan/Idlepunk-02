@@ -176,25 +176,7 @@ export const QUEST_LINES = {
         category: "ascension",
         difficulty: "hard"
       },
-      {
-        id: "gremlin_wrangler",
-        title: "Gremlin Wrangler",
-        description: "Use Auto Gremlin Oil once",
-        condition: (state) => {
-          const gremlinOilUsed = localStorage.getItem('autoGremlinOilUsed') === 'true';
-          return gremlinOilUsed;
-        },
-        reward: { 
-          type: "lore", 
-          message: "Quest Completed: Gremlin Wrangler - Lore fragment unlocked!",
-          loreId: 3,
-          loreTitle: "Experimental Compound — Gremlin Oil",
-          loreContent: "Invented during a caffeine-fueled slapfight between two rogue engineers, Gremlin Oil was never meant to exist. But once it did, it refused to stop existing. Just like its primary users.\n\nWhen applied to mechanical joints, it triples actuation speed, fries limiters, and gives your auto-clickers a brief taste of godhood. Also smells like ozone and boiled mischief.\n\nSide effects may include: spontaneous gear-hiccups, recursive clicking, phantom limbs, and the overwhelming urge to scream 'I AM THE WRENCH' at passing birds.\n\nDuration: short. Impact: hilarious. Legality: questionable.\n\nDo not ingest — unless you're cool with that.",
-          news: "Congratulations, scavver. You survived application of a Class-9 uncertified lubricant."
-        },
-        category: "progression",
-        difficulty: "easy"
-      },
+      
       {
         id: "forge_the_future",
         title: "Forge the Future",
@@ -319,6 +301,25 @@ export const QUEST_LINES = {
         },
         category: "progression",
         difficulty: "medium"
+      },
+      {
+        id: "gremlin_wrangler",
+        title: "Gremlin Wrangler",
+        description: "Use Auto Gremlin Oil once",
+        condition: (state) => {
+          const gremlinOilUsed = localStorage.getItem('autoGremlinOilUsed') === 'true';
+          return gremlinOilUsed;
+        },
+        reward: { 
+          type: "lore", 
+          message: "Quest Completed: Gremlin Wrangler - Lore fragment unlocked!",
+          loreId: 3,
+          loreTitle: "Experimental Compound — Gremlin Oil",
+          loreContent: "Invented during a caffeine-fueled slapfight between two rogue engineers, Gremlin Oil was never meant to exist. But once it did, it refused to stop existing. Just like its primary users.\n\nWhen applied to mechanical joints, it triples actuation speed, fries limiters, and gives your auto-clickers a brief taste of godhood. Also smells like ozone and boiled mischief.\n\nSide effects may include: spontaneous gear-hiccups, recursive clicking, phantom limbs, and the overwhelming urge to scream 'I AM THE WRENCH' at passing birds.\n\nDuration: short. Impact: hilarious. Legality: questionable.\n\nDo not ingest — unless you're cool with that.",
+          news: "Congratulations, scavver. You survived application of a Class-9 uncertified lubricant."
+        },
+        category: "progression",
+        difficulty: "easy"
       },
       {
         id: "forge_the_overcrystal",
