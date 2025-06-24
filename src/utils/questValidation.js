@@ -315,6 +315,41 @@ export const QUEST_LINES = {
         difficulty: "hard"
       },
       {
+        id: "optimizer",
+        title: "Optimizer",
+        description: "Craft 8 one-time items in the same prestige run",
+        condition: (state) => {
+          // Count all one-time items that have been crafted
+          const oneTimeItems = [
+            'Click Rig Mk I',
+            'Auto Toolkit', 
+            'Compression Pack',
+            'Reinforced Backpack',
+            'Surge Capacitor Module',
+            'Overclocked Click Rig',
+            'Luck Engine',
+            'Junk Magnet',
+            'Surge Delay Fuse',
+            'Chrono Regulator',
+            'Echo Helmets',
+            'Rusted Loyalty Pins'
+          ];
+          const craftedOneTimeItems = oneTimeItems.filter(item => 
+            (state.craftingInventory[item] || 0) > 0
+          ).length;
+          return craftedOneTimeItems >= 8;
+        },
+        reward: { 
+          type: "electroShards", 
+          amount: 3,
+          message: "Quest Complete: Optimizer",
+          extraMessage: "Obtained: 3x Electro Shards",
+          news: "Turns out putting all your effort into a single-use item isn't that dumb after all."
+        },
+        category: "progression",
+        difficulty: "hard"
+      },
+      {
         id: "forge_the_overcrystal",
         title: "Forge the Overcrystal",
         description: "Craft the Overcharged Prestige Crystal",
