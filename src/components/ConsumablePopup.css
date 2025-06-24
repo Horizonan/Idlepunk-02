@@ -1,0 +1,211 @@
+
+.consumable-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(5px);
+}
+
+.consumable-popup-container {
+  background: linear-gradient(135deg, rgba(26, 26, 26, 0.98), rgba(15, 15, 15, 0.98));
+  border: 3px solid #FFA500;
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 480px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 
+    0 0 40px rgba(255, 165, 0, 0.6),
+    inset 0 0 20px rgba(255, 165, 0, 0.1);
+  animation: popupAppear 0.3s ease-out;
+}
+
+@keyframes popupAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.consumable-popup-header {
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid rgba(255, 165, 0, 0.3);
+  padding-bottom: 12px;
+}
+
+.consumable-popup-header h3 {
+  color: #FFA500;
+  margin: 0;
+  font-size: 1.5rem;
+  text-shadow: 0 0 8px rgba(255, 165, 0, 0.5);
+  font-weight: bold;
+}
+
+.consumable-popup-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.consumable-display {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 18px;
+  background: rgba(255, 165, 0, 0.12);
+  border: 2px solid rgba(255, 165, 0, 0.3);
+  border-radius: 12px;
+}
+
+.consumable-icon {
+  font-size: 3.5rem;
+  min-width: 70px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.consumable-info {
+  flex: 1;
+}
+
+.consumable-info h4 {
+  color: #FFA500;
+  margin: 0 0 10px 0;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.consumable-description {
+  color: #00FF00;
+  font-size: 1rem;
+  margin: 8px 0;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+.consumable-effect {
+  color: #FFFF00;
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 12px 0 0 0;
+  padding: 8px 12px;
+  background: rgba(255, 255, 0, 0.1);
+  border-radius: 6px;
+  border-left: 3px solid #FFFF00;
+}
+
+.confirmation-message {
+  text-align: center;
+  padding: 15px;
+  background: rgba(255, 165, 0, 0.05);
+  border-radius: 8px;
+}
+
+.confirmation-message p {
+  color: #CCCCCC;
+  font-size: 1.1rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+.consumable-popup-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.use-button,
+.cancel-button {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 140px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.use-button {
+  background: linear-gradient(135deg, #00AA00, #00FF00);
+  color: #000;
+  box-shadow: 0 4px 15px rgba(0, 255, 0, 0.3);
+}
+
+.use-button:hover {
+  background: linear-gradient(135deg, #00FF00, #00AA00);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 255, 0, 0.4);
+}
+
+.cancel-button {
+  background: linear-gradient(135deg, #666, #888);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(136, 136, 136, 0.3);
+}
+
+.cancel-button:hover {
+  background: linear-gradient(135deg, #888, #666);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(136, 136, 136, 0.4);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .consumable-popup-container {
+    width: 95%;
+    margin: 20px;
+    padding: 20px;
+  }
+  
+  .consumable-display {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+  
+  .consumable-icon {
+    font-size: 3rem;
+  }
+  
+  .consumable-popup-actions {
+    flex-direction: column;
+  }
+  
+  .use-button,
+  .cancel-button {
+    width: 100%;
+  }
+}
+
+/* Animation for icon */
+.consumable-icon {
+  animation: consumableGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes consumableGlow {
+  from {
+    filter: drop-shadow(0 0 5px rgba(255, 165, 0, 0.5));
+  }
+  to {
+    filter: drop-shadow(0 0 15px rgba(255, 165, 0, 0.8));
+  }
+}

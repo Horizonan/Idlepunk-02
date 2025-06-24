@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ConsumablePopup from '../components/ConsumablePopup';
 
 export default function ItemInventory({ craftingInventory, onBack, setNotifications }) {
   const [confirmDialog, setConfirmDialog] = useState(null);
@@ -244,46 +245,13 @@ export default function ItemInventory({ craftingInventory, onBack, setNotificati
         {renderInventorySection(specialMaterials, 'Special Materials', 'Ascension Components', 'special-materials')}
       </div>
 
-      {/* Confirmation Dialog - Rendered outside of inventory container */}
-      {confirmDialog && (
-        <div className="consumable-confirmation-overlay">
-          <div className="consumable-confirmation-dialog">
-            <div className="dialog-header">
-              <h3>🛢️ Use Consumable?</h3>
-            </div>
-
-            <div className="dialog-content">
-              <div className="consumable-display">
-                <span className="consumable-icon">{confirmDialog.itemDetails?.icon}</span>
-                <div className="consumable-info">
-                  <h4>{confirmDialog.itemName}</h4>
-                  <p className="consumable-description">{confirmDialog.itemDetails?.description}</p>
-                  <p className="consumable-effect">{confirmDialog.itemDetails?.effect}</p>
-                </div>
-              </div>
-
-              <div className="confirmation-message">
-                <p>Are you sure you want to use this item?</p>
-              </div>
-
-              <div className="dialog-actions">
-                <button 
-                  className="use-button"
-                  onClick={handleConfirmUse}
-                >
-                  ✅ Use Item
-                </button>
-                <button 
-                  className="cancel-button"
-                  onClick={handleCancelUse}
-                >
-                  ❌ Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <ConsumablePopup 
+        isOpen={!!confirmDialog}
+        itemName={confirmDialog?.itemName}
+        itemDetails={confirmDialog?.itemDetails}
+        onConfirm={handleConfirmUse}
+        onCancel={handleCancelUse}
+      />
     </>
   );
 }
