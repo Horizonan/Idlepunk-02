@@ -286,6 +286,22 @@ export const QUEST_LINES = {
         difficulty: "legendary"
       },
       {
+        id: "core_collector",
+        title: "Core Collector",
+        description: "Own 5 Scrap Cores",
+        condition: (state) => (state.craftingInventory['Scrap Core'] || 0) >= 5,
+        reward: { 
+          type: "craftingMaterial", 
+          material: "Crafting Booster Unit",
+          amount: 1,
+          message: "Quest Complete: Core Collector",
+          extraMessage: "Obtained: Crafting Booster Unit - All junk crafting costs reduced by 10%!",
+          news: "Your understanding of core technology deepens. Crafting efficiency increased."
+        },
+        category: "progression",
+        difficulty: "medium"
+      },
+      {
         id: "forge_the_overcrystal",
         title: "Forge the Overcrystal",
         description: "Craft the Overcharged Prestige Crystal",

@@ -173,6 +173,12 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       description: 'Adds +10s to Surge duration regardless of activation window',
       type: 'fusion',
       onetime: true
+    },
+    {
+      name: 'Crafting Booster Unit',
+      description: 'Reduces all junk crafting costs by 10%',
+      type: 'fusion',
+      uncraftable: true
     }
   ];
 
