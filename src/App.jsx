@@ -211,7 +211,12 @@ export default function App() {
   const collectJunk = () => {
     const surgeMultiplier = isSurgeActive ? 2 : 1;
     const scavengingBonus = 1 + (skillLevels.scavengingFocus / 100);
-    const junkGained = clickMultiplier * surgeMultiplier * scavengingBonus;
+    
+    // Check if Click Injector ability is active
+    const clickInjectorActive = localStorage.getItem('clickInjectorActive') === 'true';
+    const clickInjectorMultiplier = clickInjectorActive ? 1.5 : 1; // +50% boost
+    
+    const junkGained = clickMultiplier * surgeMultiplier * scavengingBonus * clickInjectorMultiplier;
     setJunk(prev => prev + junkGained);
 
     // Track total junk collected
