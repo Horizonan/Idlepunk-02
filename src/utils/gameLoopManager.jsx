@@ -451,7 +451,7 @@ export const useGameLoopManager = (gameState, gameSetters, purchaseHandlers) => 
       const effectiveJunkPerSecond = getEffectiveJunkPerSecond(
         passiveIncome, 
         globalJpsMultiplier, 
-        autoClicks + permanentAutoClicks, 
+        0, // Remove auto-clicks from here since we handle them separately
         clickMultiplier,
         isSurgeActive
       );
@@ -466,6 +466,14 @@ export const useGameLoopManager = (gameState, gameSetters, purchaseHandlers) => 
       }
 
       if (autoClicks > 0) {
+        // Check if Click Injector ability is active for auto-clicks
+        const clickInjectorActive = localStorage.getItem('clickInjectorActive') === 'true';
+        const clickInjectorMultiplier = clickInjectorActive ? 1.5 : 1; // +50% boost
+        
+        // Apply Click Injector effect to auto-click junk generation
+        const autoClickJunk = (autoClicks + permanentAutoClicks) * clickMultiplier * clickInjectorMultiplier;
+        setJunk(prev => prev + autoClickJunk);
+        
         setClickCount(prev => prev + (autoClicks + permanentAutoClicks));
 
         if (electronicsUnlock) {

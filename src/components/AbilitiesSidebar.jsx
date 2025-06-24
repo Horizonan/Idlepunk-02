@@ -35,13 +35,14 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
     }
   ];
 
-  // Handle ability cooldowns
+  // Handle ability cooldowns and active effects
   useEffect(() => {
     const intervals = {};
 
+    // Handle cooldowns
     Object.keys(cooldowns).forEach(abilityId => {
       if (cooldowns[abilityId] > 0) {
-        intervals[abilityId] = setInterval(() => {
+        intervals[`cooldown_${abilityId}`] = setInterval(() => {
           setCooldowns(prev => ({
             ...prev,
             [abilityId]: Math.max(0, prev[abilityId] - 1000)
@@ -50,10 +51,31 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
       }
     });
 
+    // Handle active effects
+    Object.keys(activeEffects).forEach(abilityId => {
+      if (activeEffects[abilityId] > 0) {
+        intervals[`effect_${abilityId}`] = setInterval(() => {
+          setActiveEffects(prev => {
+            const newEffects = {
+              ...prev,
+              [abilityId]: Math.max(0, prev[abilityId] - 1000)
+            };
+
+            // Remove localStorage flag when Click Injector effect expires
+            if (abilityId === 'click_injector' && newEffects[abilityId] <= 0) {
+              localStorage.removeItem('clickInjectorActive');
+            }
+
+            return newEffects;
+          });
+        }, 1000);
+      }
+    });
+
     return () => {
-      Object.values(intervals).forEach(interval => clearInterval(interval));
+      Object.values(intervals).forEach(clearInterval);
     };
-  }, [cooldowns]);
+  }, [cooldowns, activeEffects]);
 
   // Handle reset ability cooldowns cheat
   useEffect(() => {
@@ -66,25 +88,7 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
     return () => window.removeEventListener('resetAbilityCooldowns', handleResetCooldowns);
   }, [setNotifications]);
 
-  // Handle active effects countdown
-  useEffect(() => {
-    const intervals = {};
-
-    Object.keys(activeEffects).forEach(abilityId => {
-      if (activeEffects[abilityId] > 0) {
-        intervals[abilityId] = setInterval(() => {
-          setActiveEffects(prev => ({
-            ...prev,
-            [abilityId]: Math.max(0, prev[abilityId] - 1000)
-          }));
-        }, 1000);
-      }
-    });
-
-    return () => {
-      Object.values(intervals).forEach(interval => clearInterval(interval));
-    };
-  }, [activeEffects]);
+  
 
   const handleAbilityClick = (ability) => {
     if (!ability.available || cooldowns[ability.id] > 0) return;
@@ -104,9 +108,7 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
 
     if (ability.id === 'click_injector') {
       // Trigger click injector effect
-      window.dispatchEvent(new CustomEvent('triggerClickInjector', {
-        detail: { duration: ability.duration }
-      }));
+      localStorage.setItem('clickInjectorActive', 'true'); // set local storage
 
       // Set cooldown
       setCooldowns(prev => ({
