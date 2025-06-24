@@ -243,7 +243,8 @@ export const useGameLoopManager = (gameState, gameSetters, purchaseHandlers) => 
         }
 
         const surgeDurationBonus = isTronicsSurgeUnlocked ? parseInt(localStorage.getItem('surge_duration_bonus') || '5') : 0;
-        const surgeDuration = craftingInventory['Surge Capacitor Module'] ? 10000 : 5000 + (surgeDurationBonus * 1000);
+        const surgeDelayFuseBonus = craftingInventory['Surge Delay Fuse'] ? 10000 : 0;
+        const surgeDuration = craftingInventory['Surge Capacitor Module'] ? 10000 : 5000 + (surgeDurationBonus * 1000) + surgeDelayFuseBonus;
 
         setTimeout(() => {
           setIsSurgeActive(false);

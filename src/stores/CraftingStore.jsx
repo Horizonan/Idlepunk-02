@@ -161,6 +161,18 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       type: 'fusion',
       onetime: false,
       unlockAbility: 'click_injector_ability'
+    },
+    {
+      name: 'Surge Delay Fuse',
+      requirements: {
+        'Capacitor': 2,
+        'Signal Mesh': 4,
+        'Synth Thread': 8
+      },
+      cost: 0,
+      description: 'Adds +10s to Surge duration regardless of activation window',
+      type: 'fusion',
+      onetime: true
     }
   ];
 

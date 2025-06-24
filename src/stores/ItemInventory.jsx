@@ -102,6 +102,11 @@ export default function ItemInventory({ craftingInventory, onBack }) {
       effect: 'Reality chewed it up. You kept it anyway.',
       icon: '🔷'
     },
+    'Surge Delay Fuse': {
+      description: 'Advanced surge extension device',
+      effect: 'Adds +10s to Surge duration regardless of activation window',
+      icon: '⏱️'
+    },
     'Synth Thread': {
       description: 'Advanced synthetic threading material',
       effect: 'Created from processed wires, used for high-tech crafting',
