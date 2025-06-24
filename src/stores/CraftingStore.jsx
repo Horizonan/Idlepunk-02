@@ -191,6 +191,12 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       description: 'Increases Auto Click Rate by 50% for 60 seconds.',
       type: 'fusion',
       onetime: false
+    },
+    {
+      name: 'Instability Core',
+      description: 'A volatile power source that breaks the rules of conventional tech.',
+      type: 'fusion',
+      uncraftable: true
     }
   ];
 

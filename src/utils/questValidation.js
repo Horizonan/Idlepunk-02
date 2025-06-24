@@ -1,4 +1,3 @@
-
 // Quest System - Uniform and Prestige-based
 export const QUEST_LINES = {
   progression: {
@@ -176,7 +175,7 @@ export const QUEST_LINES = {
         category: "ascension",
         difficulty: "hard"
       },
-      
+
       {
         id: "forge_the_future",
         title: "Forge the Future",
@@ -392,6 +391,34 @@ export const QUEST_LINES = {
         },
         category: "milestone",
         difficulty: "legendary"
+      },
+      {
+        id: "overengineered_fusion5",
+        title: "Overengineered",
+        description: "You've gone all-in on unstable tech. Here's something to break the rules even further.",
+        condition: (state) => {
+          // Count total fusion items crafted from the actual fusion crafting section
+          const fusionItems = [
+            'Synth Thread',
+            'Reactor Grease',
+            'Click Injector',
+            'Surge Delay Fuse',
+            'Auto Gremlin Oil'
+          ];
+          const totalFusionItems = fusionItems.reduce((total, item) => {
+            return total + (state.craftingInventory[item] || 0);
+          }, 0);
+          return totalFusionItems >= 5;
+        },
+        reward: { 
+          type: "craftingMaterial", 
+          material: "Instability Core",
+          amount: 1,
+          message: "Quest Complete: Overengineered",
+          extraMessage: "Obtained: Instability Core"
+        },
+        category: "collection",
+        difficulty: "hard"
       }
     ]
   }
@@ -400,7 +427,7 @@ export const QUEST_LINES = {
 export const getCurrentQuestLine = () => {
   const prestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
   const prestige2Active = localStorage.getItem('prestige2Active') === 'true';
-  
+
   if (prestige2Active) {
     return 'prestige2';
   } else if (prestigeCount >= 1) {
@@ -414,7 +441,7 @@ export const getAvailableQuestLines = () => {
   const prestigeCount = parseInt(localStorage.getItem('prestigeCount') || '0');
   const prestige2Active = localStorage.getItem('prestige2Active') === 'true';
   const available = [];
-  
+
   Object.entries(QUEST_LINES).forEach(([key, questLine]) => {
     // Special handling for prestige2 questline
     if (key === 'prestige2') {
@@ -423,7 +450,7 @@ export const getAvailableQuestLines = () => {
       }
       return;
     }
-    
+
     // Regular prestige requirement check for other questlines
     if (prestigeCount >= questLine.prestigeRequirement) {
       if (questLine.unlockCondition) {
@@ -435,20 +462,20 @@ export const getAvailableQuestLines = () => {
       }
     }
   });
-  
+
   return available;
 };
 
 export const validateQuests = (gameState, setters) => {
   const currentQuestLineKey = getCurrentQuestLine();
   const currentQuestLine = QUEST_LINES[currentQuestLineKey];
-  
+
   if (!currentQuestLine) return;
-  
+
   currentQuestLine.quests.forEach(quest => {
     const questKey = `quest_sync_${quest.title}`;
     const isCompleted = localStorage.getItem(questKey) === 'true';
-    
+
     if (!isCompleted && quest.condition(gameState)) {
       completeQuest(quest, setters);
       localStorage.setItem(questKey, 'true');
@@ -458,10 +485,10 @@ export const validateQuests = (gameState, setters) => {
 
 const completeQuest = (quest, setters) => {
   const reward = quest.reward;
-  
+
   // Add completion notification
   setters.setNotifications(prev => [...prev, reward.message]);
-  
+
   // Handle different reward types
   switch (reward.type) {
     case 'electroShards':
@@ -471,19 +498,19 @@ const completeQuest = (quest, setters) => {
         return newValue;
       });
       break;
-      
+
     case 'credits':
       setters.setCredits(prev => prev + reward.amount);
       break;
-      
+
     case 'autoClicks':
       setters.setAutoClicks(prev => prev + reward.amount);
       break;
-      
+
     case 'permanentAutoClicks':
       setters.setPermanentAutoClicks(prev => prev + reward.amount);
       break;
-      
+
     case 'craftingMaterial':
       setters.setCraftingInventory(prev => ({
         ...prev,
@@ -493,7 +520,7 @@ const completeQuest = (quest, setters) => {
         setters.setNotifications(prev => [...prev, reward.extraMessage]);
       }
       break;
-      
+
     case 'lore':
       // Unlock the specific lore fragment in the lore store
       if (reward.loreId) {
@@ -512,19 +539,19 @@ const completeQuest = (quest, setters) => {
       existingLore.push(newLoreFragment);
       localStorage.setItem('loreFragments', JSON.stringify(existingLore));
       break;
-      
+
     case 'special':
       handleSpecialReward(reward, setters);
       break;
   }
-  
+
   // Handle news messages
   if (reward.news) {
     window.dispatchEvent(new CustomEvent('nextNews', { 
       detail: { message: reward.news }
     }));
   }
-  
+
   // Trigger quest update event
   window.dispatchEvent(new CustomEvent('questUpdate'));
 };
@@ -534,21 +561,21 @@ const handleSpecialReward = (reward, setters) => {
     case 'unlockPrestige':
       localStorage.setItem('prestigeUnlocked', 'true');
       break;
-      
+
     case 'unlockPrestige1':
       localStorage.setItem('prestige1Unlocked', 'true');
       break;
-      
+
     case 'unlockAdvancedMissions':
       localStorage.setItem('advancedMissionsUnlocked', 'true');
       localStorage.setItem('eliteGearUnlocked', 'true');
       break;
-      
+
     case 'unlockSuperOvercharged':
       localStorage.setItem('superOverchargedUnlocked', 'true');
       break;
   }
-  
+
   if (reward.extraMessage) {
     setters.setNotifications(prev => [...prev, reward.extraMessage]);
   }
@@ -557,18 +584,18 @@ const handleSpecialReward = (reward, setters) => {
 export const getQuestProgress = (questLineKey) => {
   const questLine = QUEST_LINES[questLineKey];
   if (!questLine) return { completed: 0, total: 0 };
-  
+
   const completed = questLine.quests.filter(quest => 
     localStorage.getItem(`quest_sync_${quest.title}`) === 'true'
   ).length;
-  
+
   return { completed, total: questLine.quests.length };
 };
 
 export const getNextIncompleteQuest = (questLineKey) => {
   const questLine = QUEST_LINES[questLineKey];
   if (!questLine) return null;
-  
+
   return questLine.quests.find(quest => 
     localStorage.getItem(`quest_sync_${quest.title}`) !== 'true'
   );
