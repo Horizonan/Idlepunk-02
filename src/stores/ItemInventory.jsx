@@ -175,13 +175,24 @@ export default function ItemInventory({ craftingInventory, onBack, setNotificati
     const { itemName } = confirmDialog;
 
     if (itemName === 'Auto Gremlin Oil') {
-      // Apply the auto click rate boost
-      localStorage.setItem('autoGremlinOilActive', Date.now() + 60000); // 60 seconds from now
-      setNotifications(prev => [...prev, 'Auto Gremlin Oil activated! +50% Auto Click Rate for 60 seconds']);
+      // Check if player has the item
+      if ((craftingInventory[itemName] || 0) > 0) {
+        // Apply the auto click rate boost
+        localStorage.setItem('autoGremlinOilActive', Date.now() + 60000); // 60 seconds from now
+        setNotifications(prev => [...prev, 'Auto Gremlin Oil activated! +50% Auto Click Rate for 60 seconds']);
+        
+        // Consume 1 item from inventory
+        // Note: This would need proper state management connection in the real implementation
+        window.dispatchEvent(new CustomEvent('consumeItem', { 
+          detail: { itemName, quantity: 1 } 
+        }));
+        
+        setNotifications(prev => [...prev, `Used ${itemName}!`]);
+      } else {
+        setNotifications(prev => [...prev, `You don't have any ${itemName} to use!`]);
+      }
     }
 
-    // Reduce item count (this would need to be connected to your state management)
-    setNotifications(prev => [...prev, `Used ${itemName}!`]);
     setConfirmDialog(null);
   };
 

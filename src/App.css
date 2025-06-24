@@ -800,103 +800,151 @@ button.locked {
   color: #00FF00;
   opacity: 0.8;
   font-size: 0.9em;
-  margin-top: 5px;
 }
 
-.inventory-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+/* Consumable Confirmation Dialog Styles */
+.consumable-confirmation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.consumable-confirmation-dialog {
+  background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+  border: 2px solid #9400D3;
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 400px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 0 30px rgba(148, 0, 211, 0.5);
+}
+
+.dialog-header h3 {
+  color: #9400D3;
+  text-align: center;
+  margin: 0 0 20px 0;
+  text-shadow: 0 0 10px rgba(148, 0, 211, 0.7);
+}
+
+.consumable-display {
+  display: flex;
+  align-items: center;
   gap: 15px;
   margin-bottom: 20px;
-  width: 100%;
-}
-
-.inventory-item {
-  background: rgba(34, 34, 34, 0.95);
-  border: 2px solid #9400D3;
-  border-radius: 8px;
-  padding: 20px;
-  display: flex;
-  align-items: flex-start;
-  gap: 15px;
-  transition: all 0.3s ease;
-}
-
-.inventory-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 15px rgba(148, 0, 211, 0.3);
-}
-
-.basic-materials .inventory-item {
-  border-color: #00FFFF;
-}
-
-.crafted-items .inventory-item {
-  border-color: #FF00FF;
-}
-
-.special-materials .inventory-item {
-  border-color: #FFD700;
-  background: rgba(34,34, 34, 0.98);
-}
-
-.consumable-materials .inventory-item {
-  border-color: #FFA500;
-}
-
-.basic-materials .inventory-header h2 {
-  color: #00FFFF;
-}
-
-.crafted-items .inventory-header h2 {
-  color: #FF00FF;
-}
-
-.special-materials .inventory-header h2 {
-  color: #FFD700;
-}
-
-.consumable-materials .inventory-header h2 {
-  color: #FFA500;
-}
-
-.item-icon {
-  font-size: 2em;
   padding: 15px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.3);
-  width: 60px;
-  height: 60px;
+  background: rgba(148, 0, 211, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(148, 0, 211, 0.3);
+}
+
+.consumable-icon {
+  font-size: 3em;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: rgba(148, 0, 211, 0.2);
+  border-radius: 50%;
+  border: 2px solid #9400D3;
 }
 
-.basic-materials .item-icon {
-  box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
-}
-
-.crafted-items .item-icon {
-  box-shadow: 0 0 10px rgba(255, 0, 255, 0.2);
-}
-
-.special-materials .item-icon {
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
-}
-
-.consumable-materials .item-icon {
-  box-shadow: 0 0 10px rgba(255, 165, 0, 0.2);
-}
-
-.inventory-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.inventory-subtitle {
+.consumable-info h4 {
   color: #00FF00;
-  opacity: 0.8;
+  margin: 0 0 8px 0;
+  font-size: 1.2em;
+}
+
+.consumable-description {
+  color: #CCCCCC;
+  margin: 5px 0;
   font-size: 0.9em;
+}
+
+.consumable-effect {
+  color: #FFFF00;
+  margin: 5px 0;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+.confirmation-message {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.confirmation-message p {
+  color: #FFFFFF;
+  font-size: 1.1em;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.use-button, .cancel-button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+}
+
+.use-button {
+  background: linear-gradient(135deg, #00FF00, #00AA00);
+  color: #000000;
+}
+
+.use-button:hover {
+  background: linear-gradient(135deg, #00AA00, #007700);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 255, 0, 0.3);
+}
+
+.cancel-button {
+  background: linear-gradient(135deg, #FF4444, #AA0000);
+  color: #FFFFFF;
+}
+
+.cancel-button:hover {
+  background: linear-gradient(135deg, #AA0000, #770000);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+}
+
+.clickable-consumable {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.clickable-consumable:hover {
+  background: rgba(255, 165, 0, 0.2);
+  border-color: #FFA500;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
+}
+
+.consumable-hint {
+  color: #FFA500;
+  font-size: 0.8em;
+  font-style: italic;
+  margin-top: 5px;
+  text-align: center;
+}
 
 .tooltips-menu {
   max-width: 800px;
@@ -1128,16 +1176,16 @@ button.locked {
     width: 95%;
     margin: 10px;
   }
-  
+
   .consumable-display {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .consumable-confirmation-dialog .dialog-actions {
     flex-direction: column;
   }
-  
+
   .use-button,
   .cancel-button {
     width: 100%;
