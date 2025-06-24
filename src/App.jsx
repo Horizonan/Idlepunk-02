@@ -732,9 +732,14 @@ export default function App() {
             } else {
               // For non-basic items, handle quantity properly
               const actualQuantity = item.onetime ? 1 : quantity;
+              const hasBooster = craftingInventory['Crafting Booster Unit'];
+              const baseCost = item.cost || 0;
+              const adjustedCost = hasBooster ? Math.floor(baseCost * 0.9) : baseCost;
+              const totalJunkCost = adjustedCost * actualQuantity;
+
               const canCraft = Object.entries(item.requirements).every(
                 ([mat, count]) => (craftingInventory[mat] || 0) >= (count * actualQuantity)
-              ) && (!item.onetime || !(craftingInventory[item.name] || 0)) && junk>= ((item.cost || 0) * actualQuantity);
+              ) && (!item.onetime || !(craftingInventory[item.name] || 0)) && junk >= totalJunkCost;
 
               if (canCraft) {
                 setCraftingInventory(prev => {
@@ -745,7 +750,7 @@ export default function App() {
                   newInventory[item.name] = (newInventory[item.name] || 0) + actualQuantity;
                   return newInventory;
                 });
-                if (item.cost) setJunk(prev => prev - (item.cost * actualQuantity));
+                if (item.cost) setJunk(prev => prev - totalJunkCost);
                 // Handle crafting bonuses
                 if (item.name === 'Click Rig Mk I') {
                   setClickMultiplier(prev => prev * 1.25);
