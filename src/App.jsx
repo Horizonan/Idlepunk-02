@@ -191,6 +191,20 @@ export default function App() {
     }
   };
 
+  // Handle item consumption from inventory
+  useEffect(() => {
+    const handleConsumeItem = (event) => {
+      const { itemName, quantity } = event.detail;
+      setCraftingInventory(prev => ({
+        ...prev,
+        [itemName]: Math.max(0, (prev[itemName] || 0) - quantity)
+      }));
+    };
+
+    window.addEventListener('consumeItem', handleConsumeItem);
+    return () => window.removeEventListener('consumeItem', handleConsumeItem);
+  }, [setCraftingInventory]);
+
 
 
 

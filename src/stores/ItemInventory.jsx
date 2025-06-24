@@ -175,13 +175,23 @@ export default function ItemInventory({ craftingInventory, onBack, setNotificati
     const { itemName } = confirmDialog;
 
     if (itemName === 'Auto Gremlin Oil') {
-      // Apply the auto click rate boost
-      localStorage.setItem('autoGremlinOilActive', Date.now() + 60000); // 60 seconds from now
-      setNotifications(prev => [...prev, 'Auto Gremlin Oil activated! +50% Auto Click Rate for 60 seconds']);
+      // Check if player has the item
+      if ((craftingInventory[itemName] || 0) > 0) {
+        // Apply the auto click rate boost
+        localStorage.setItem('autoGremlinOilActive', Date.now() + 60000); // 60 seconds from now
+        setNotifications(prev => [...prev, 'Auto Gremlin Oil activated! +50% Auto Click Rate for 60 seconds']);
+        
+        // Consume 1 item from inventory
+        window.dispatchEvent(new CustomEvent('consumeItem', { 
+          detail: { itemName, quantity: 1 } 
+        }));
+        
+        setNotifications(prev => [...prev, `Used ${itemName}!`]);
+      } else {
+        setNotifications(prev => [...prev, `You don't have any ${itemName} to use!`]);
+      }
     }
 
-    // Reduce item count (this would need to be connected to your state management)
-    setNotifications(prev => [...prev, `Used ${itemName}!`]);
     setConfirmDialog(null);
   };
 
@@ -222,17 +232,19 @@ export default function ItemInventory({ craftingInventory, onBack, setNotificati
   };
 
   return (
-    <div className="store-container inventory-container">
-      <div className="store-header">
-        <h2>Item Inventory</h2>
-        <button onClick={onBack}>Close</button>
+    <>
+      <div className="store-container inventory-container">
+        <div className="store-header">
+          <h2>Item Inventory</h2>
+          <button onClick={onBack}>Close</button>
+        </div>
+        {renderInventorySection(basicMaterials, 'Basic Materials', 'Components & Resources', 'basic-materials')}
+        {renderInventorySection(craftedItems, 'Crafted Equipment', 'Enhanced Gear', 'crafted-items')}
+        {renderInventorySection(consumableMaterials, 'Consumables', 'Temporary Power Sources', 'consumable-materials')}
+        {renderInventorySection(specialMaterials, 'Special Materials', 'Ascension Components', 'special-materials')}
       </div>
-      {renderInventorySection(basicMaterials, 'Basic Materials', 'Components & Resources', 'basic-materials')}
-      {renderInventorySection(craftedItems, 'Crafted Equipment', 'Enhanced Gear', 'crafted-items')}
-      {renderInventorySection(consumableMaterials, 'Consumables', 'Temporary Power Sources', 'consumable-materials')}
-      {renderInventorySection(specialMaterials, 'Special Materials', 'Ascension Components', 'special-materials')}
 
-      {/* Confirmation Dialog */}
+      {/* Confirmation Dialog - Rendered outside of inventory container */}
       {confirmDialog && (
         <div className="consumable-confirmation-overlay">
           <div className="consumable-confirmation-dialog">
@@ -272,6 +284,6 @@ export default function ItemInventory({ craftingInventory, onBack, setNotificati
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
