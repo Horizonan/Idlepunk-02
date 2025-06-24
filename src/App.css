@@ -972,6 +972,178 @@ button.locked {
   background: #ff0000;
 }
 
+/* Consumable Confirmation Dialog */
+.consumable-confirmation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.consumable-confirmation-dialog {
+  background: linear-gradient(135deg, rgba(34, 34, 34, 0.95), rgba(20, 20, 20, 0.98));
+  border: 2px solid #FFA500;
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 450px;
+  width: 90%;
+  box-shadow: 0 0 30px rgba(255, 165, 0, 0.4);
+}
+
+.consumable-confirmation-dialog .dialog-header {
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #FFA500;
+  padding-bottom: 10px;
+}
+
+.consumable-confirmation-dialog .dialog-header h3 {
+  color: #FFA500;
+  margin: 0;
+  font-size: 1.4rem;
+  text-shadow: 0 0 5px rgba(255, 165, 0, 0.5);
+}
+
+.consumable-display {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: rgba(255, 165, 0, 0.1);
+  border: 1px solid rgba(255, 165, 0, 0.3);
+  border-radius: 8px;
+}
+
+.consumable-icon {
+  font-size: 3rem;
+  min-width: 60px;
+  text-align: center;
+}
+
+.consumable-info {
+  flex: 1;
+}
+
+.consumable-info h4 {
+  color: #FFA500;
+  margin: 0 0 8px 0;
+  font-size: 1.2rem;
+}
+
+.consumable-description {
+  color: #00FF00;
+  font-size: 0.9rem;
+  margin: 5px 0;
+  line-height: 1.4;
+}
+
+.consumable-effect {
+  color: #FFFF00;
+  font-size: 0.95rem;
+  font-weight: bold;
+  margin: 8px 0 0 0;
+}
+
+.confirmation-message {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.confirmation-message p {
+  color: #ccc;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.consumable-confirmation-dialog .dialog-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.use-button,
+.cancel-button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+.use-button {
+  background: linear-gradient(135deg, #00AA00, #00FF00);
+  color: #000;
+}
+
+.use-button:hover {
+  background: linear-gradient(135deg, #00FF00, #00AA00);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 255, 0, 0.3);
+}
+
+.cancel-button {
+  background: linear-gradient(135deg, #666, #888);
+  color: #fff;
+}
+
+.cancel-button:hover {
+  background: linear-gradient(135deg, #888, #666);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(136, 136, 136, 0.3);
+}
+
+/* Clickable Consumable Styling */
+.clickable-consumable {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.clickable-consumable:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 20px rgba(255, 165, 0, 0.4);
+  border-color: #FFFF00 !important;
+}
+
+.consumable-hint {
+  color: #FFFF00;
+  font-size: 0.8em;
+  font-style: italic;
+  margin-top: 8px;
+  text-align: center;
+  opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  .consumable-confirmation-dialog {
+    width: 95%;
+    margin: 10px;
+  }
+  
+  .consumable-display {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .consumable-confirmation-dialog .dialog-actions {
+    flex-direction: column;
+  }
+  
+  .use-button,
+  .cancel-button {
+    width: 100%;
+  }
+}
+
   margin-top: 5px;
 }
 

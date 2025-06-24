@@ -211,11 +211,11 @@ export default function App() {
   const collectJunk = () => {
     const surgeMultiplier = isSurgeActive ? 2 : 1;
     const scavengingBonus = 1 + (skillLevels.scavengingFocus / 100);
-    
+
     // Check if Click Injector ability is active
     const clickInjectorActive = localStorage.getItem('clickInjectorActive') === 'true';
     const clickInjectorMultiplier = clickInjectorActive ? 1.5 : 1; // +50% boost
-    
+
     const junkGained = clickMultiplier * surgeMultiplier * scavengingBonus * clickInjectorMultiplier;
     setJunk(prev => prev + junkGained);
 
@@ -732,7 +732,7 @@ export default function App() {
             } else {
               // For non-basic items, handle quantity properly
               const actualQuantity = item.onetime ? 1 : quantity;
-              const hasBooster = craftingInventory['Crafting Booster Unit'];
+              const hasBooster was craftingInventory['Crafting Booster Unit'];
               const baseCost = item.cost || 0;
               const adjustedCost = hasBooster ? Math.floor(baseCost * 0.9) : baseCost;
               const totalJunkCost = adjustedCost * actualQuantity;
@@ -841,6 +841,7 @@ export default function App() {
             setActiveStore(null);
             localStorage.setItem('activeStore', null);
           }}
+          setNotifications={setNotifications}
         />
       )}
 

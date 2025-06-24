@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-export default function ItemInventory({ craftingInventory, onBack }) {
+export default function ItemInventory({ craftingInventory, onBack, setNotifications }) {
+  const [confirmDialog, setConfirmDialog] = useState(null);
+
   const itemDetails = {
     'Wires': {
       description: 'Basic conductive material',
@@ -160,6 +162,33 @@ export default function ItemInventory({ craftingInventory, onBack }) {
   const specialMaterials = Object.entries(craftingInventory)
     .filter(([name]) => specialItems.includes(name));
 
+  const handleConsumableClick = (itemName) => {
+    if (consumableItems.includes(itemName)) {
+      setConfirmDialog({
+        itemName,
+        itemDetails: itemDetails[itemName]
+      });
+    }
+  };
+
+  const handleConfirmUse = () => {
+    const { itemName } = confirmDialog;
+    
+    if (itemName === 'Auto Gremlin Oil') {
+      // Apply the auto click rate boost
+      localStorage.setItem('autoGremlinOilActive', Date.now() + 60000); // 60 seconds from now
+      setNotifications(prev => [...prev, 'Auto Gremlin Oil activated! +50% Auto Click Rate for 60 seconds']);
+    }
+    
+    // Reduce item count (this would need to be connected to your state management)
+    setNotifications(prev => [...prev, `Used ${itemName}!`]);
+    setConfirmDialog(null);
+  };
+
+  const handleCancelUse = () => {
+    setConfirmDialog(null);
+  };
+
   const renderInventorySection = (items, title, subtitle, specialClass = '') => {
     if (items.length === 0) return null;
 
@@ -171,12 +200,19 @@ export default function ItemInventory({ craftingInventory, onBack }) {
         </div>
         <div className="inventory-grid">
           {items.map(([name, count]) => (
-            <div key={name} className={`inventory-item ${specialClass}`}>
+            <div 
+              key={name} 
+              className={`inventory-item ${specialClass} ${consumableItems.includes(name) ? 'clickable-consumable' : ''}`}
+              onClick={() => handleConsumableClick(name)}
+            >
               <div className="item-icon">{itemDetails[name]?.icon || '❓'}</div>
               <div className="item-content">
                 <div className="item-name">{name} x{count}</div>
                 <div className="item-description">{itemDetails[name]?.description || 'Unknown item'}</div>
                 <div className="item-effect">{itemDetails[name]?.effect || 'No effect'}</div>
+                {consumableItems.includes(name) && (
+                  <div className="consumable-hint">Click to use</div>
+                )}
               </div>
             </div>
           ))}
@@ -195,6 +231,47 @@ export default function ItemInventory({ craftingInventory, onBack }) {
       {renderInventorySection(craftedItems, 'Crafted Equipment', 'Enhanced Gear', 'crafted-items')}
       {renderInventorySection(consumableMaterials, 'Consumables', 'Temporary Power Sources', 'consumable-materials')}
       {renderInventorySection(specialMaterials, 'Special Materials', 'Ascension Components', 'special-materials')}
+      
+      {/* Confirmation Dialog */}
+      {confirmDialog && (
+        <div className="consumable-confirmation-overlay">
+          <div className="consumable-confirmation-dialog">
+            <div className="dialog-header">
+              <h3>🛢️ Use Consumable?</h3>
+            </div>
+            
+            <div className="dialog-content">
+              <div className="consumable-display">
+                <span className="consumable-icon">{confirmDialog.itemDetails?.icon}</span>
+                <div className="consumable-info">
+                  <h4>{confirmDialog.itemName}</h4>
+                  <p className="consumable-description">{confirmDialog.itemDetails?.description}</p>
+                  <p className="consumable-effect">{confirmDialog.itemDetails?.effect}</p>
+                </div>
+              </div>
+
+              <div className="confirmation-message">
+                <p>Are you sure you want to use this item?</p>
+              </div>
+
+              <div className="dialog-actions">
+                <button 
+                  className="use-button"
+                  onClick={handleConfirmUse}
+                >
+                  ✅ Use Item
+                </button>
+                <button 
+                  className="cancel-button"
+                  onClick={handleCancelUse}
+                >
+                  ❌ Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
