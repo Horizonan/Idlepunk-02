@@ -136,6 +136,13 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
             }
             return newCount;
           });
+          
+          // Track click for Click Ritual quest
+          const now = Date.now();
+          const clickRitualData = JSON.parse(localStorage.getItem('clickRitualData') || '{"clicks": [], "lastReset": 0}');
+          clickRitualData.clicks.push(now);
+          localStorage.setItem('clickRitualData', JSON.stringify(clickRitualData));
+          
           collectJunk();
         }
       }, holdClickDelay);
@@ -343,6 +350,12 @@ export default function Clickers({ collectJunk, collectTronics, electronicsUnloc
                   }
                   return newCount;
                 });
+
+                // Track click for Click Ritual quest
+                const now = Date.now();
+                const clickRitualData = JSON.parse(localStorage.getItem('clickRitualData') || '{"clicks": [], "lastReset": 0}');
+                clickRitualData.clicks.push(now);
+                localStorage.setItem('clickRitualData', JSON.stringify(clickRitualData));
 
                 // Create flying junk pieces animation at mouse cursor
                 createFlyingJunkPieces(e);

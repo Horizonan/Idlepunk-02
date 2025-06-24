@@ -350,6 +350,44 @@ export const QUEST_LINES = {
         difficulty: "hard"
       },
       {
+        id: "click_ritual",
+        title: "Click Ritual",
+        description: "Click 5,000 times within 30 minutes",
+        condition: (state) => {
+          const now = Date.now();
+          const thirtyMinutes = 30 * 60 * 1000; // 30 minutes in milliseconds
+          
+          // Get stored click data
+          const clickRitualData = JSON.parse(localStorage.getItem('clickRitualData') || '{"clicks": [], "lastReset": 0}');
+          
+          // Reset every 30 minutes
+          if (now - clickRitualData.lastReset >= thirtyMinutes) {
+            clickRitualData.clicks = [];
+            clickRitualData.lastReset = now;
+            localStorage.setItem('clickRitualData', JSON.stringify(clickRitualData));
+          }
+          
+          // Filter clicks within the last 30 minutes
+          const recentClicks = clickRitualData.clicks.filter(clickTime => now - clickTime <= thirtyMinutes);
+          
+          // Update stored data with filtered clicks
+          clickRitualData.clicks = recentClicks;
+          localStorage.setItem('clickRitualData', JSON.stringify(clickRitualData));
+          
+          return recentClicks.length >= 5000;
+        },
+        reward: { 
+          type: "craftingMaterial", 
+          material: "Click Injector",
+          amount: 1,
+          message: "Quest Complete: Click Ritual",
+          extraMessage: "Obtained: Click Injector - Your dedication to clicking has been rewarded!",
+          news: "Who needs fingers anyway? Enjoy the pain, enjoy the gains."
+        },
+        category: "challenge",
+        difficulty: "hard"
+      },
+      {
         id: "forge_the_overcrystal",
         title: "Forge the Overcrystal",
         description: "Craft the Overcharged Prestige Crystal",
