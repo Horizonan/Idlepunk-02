@@ -286,6 +286,35 @@ export const QUEST_LINES = {
         difficulty: "easy"
       },
       {
+        id: "overengineered_fusion5",
+        title: "Overengineered",
+        description: "Craft 5 total fusion items",
+        condition: (state) => {
+          // Count total fusion items crafted from the actual fusion crafting section
+          const fusionItems = [
+            'Synth Thread',
+            'Reactor Grease',
+            'Click Injector',
+            'Surge Delay Fuse',
+            'Auto Gremlin Oil'
+          ];
+          const totalFusionItems = fusionItems.reduce((total, item) => {
+            return total + (state.craftingInventory[item] || 0);
+          }, 0);
+          return totalFusionItems >= 5;
+        },
+        reward: { 
+          type: "craftingMaterial", 
+          material: "Instability Core",
+          amount: 1,
+          message: "Quest Complete: Overengineered",
+          extraMessage: "Obtained: Instability Core",
+          news: "You've gone all-in on unstable tech. Here's something to break the rules even further."
+        },
+        category: "collection",
+        difficulty: "hard"
+      },
+      {
         id: "forge_the_overcrystal",
         title: "Forge the Overcrystal",
         description: "Craft the Overcharged Prestige Crystal",
@@ -392,34 +421,7 @@ export const QUEST_LINES = {
         category: "milestone",
         difficulty: "legendary"
       },
-      {
-        id: "overengineered_fusion5",
-        title: "Overengineered",
-        description: "You've gone all-in on unstable tech. Here's something to break the rules even further.",
-        condition: (state) => {
-          // Count total fusion items crafted from the actual fusion crafting section
-          const fusionItems = [
-            'Synth Thread',
-            'Reactor Grease',
-            'Click Injector',
-            'Surge Delay Fuse',
-            'Auto Gremlin Oil'
-          ];
-          const totalFusionItems = fusionItems.reduce((total, item) => {
-            return total + (state.craftingInventory[item] || 0);
-          }, 0);
-          return totalFusionItems >= 5;
-        },
-        reward: { 
-          type: "craftingMaterial", 
-          material: "Instability Core",
-          amount: 1,
-          message: "Quest Complete: Overengineered",
-          extraMessage: "Obtained: Instability Core"
-        },
-        category: "collection",
-        difficulty: "hard"
-      }
+      
     ]
   }
 };
