@@ -732,7 +732,7 @@ export default function App() {
             } else {
               // For non-basic items, handle quantity properly
               const actualQuantity = item.onetime ? 1 : quantity;
-              const hasBooster was craftingInventory['Crafting Booster Unit'];
+              const hasBooster = craftingInventory['Crafting Booster Unit'];
               const baseCost = item.cost || 0;
               const adjustedCost = hasBooster ? Math.floor(baseCost * 0.9) : baseCost;
               const totalJunkCost = adjustedCost * actualQuantity;

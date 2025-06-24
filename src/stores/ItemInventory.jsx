@@ -173,13 +173,13 @@ export default function ItemInventory({ craftingInventory, onBack, setNotificati
 
   const handleConfirmUse = () => {
     const { itemName } = confirmDialog;
-    
+
     if (itemName === 'Auto Gremlin Oil') {
       // Apply the auto click rate boost
       localStorage.setItem('autoGremlinOilActive', Date.now() + 60000); // 60 seconds from now
       setNotifications(prev => [...prev, 'Auto Gremlin Oil activated! +50% Auto Click Rate for 60 seconds']);
     }
-    
+
     // Reduce item count (this would need to be connected to your state management)
     setNotifications(prev => [...prev, `Used ${itemName}!`]);
     setConfirmDialog(null);
@@ -231,7 +231,7 @@ export default function ItemInventory({ craftingInventory, onBack, setNotificati
       {renderInventorySection(craftedItems, 'Crafted Equipment', 'Enhanced Gear', 'crafted-items')}
       {renderInventorySection(consumableMaterials, 'Consumables', 'Temporary Power Sources', 'consumable-materials')}
       {renderInventorySection(specialMaterials, 'Special Materials', 'Ascension Components', 'special-materials')}
-      
+
       {/* Confirmation Dialog */}
       {confirmDialog && (
         <div className="consumable-confirmation-overlay">
@@ -239,7 +239,7 @@ export default function ItemInventory({ craftingInventory, onBack, setNotificati
             <div className="dialog-header">
               <h3>🛢️ Use Consumable?</h3>
             </div>
-            
+
             <div className="dialog-content">
               <div className="consumable-display">
                 <span className="consumable-icon">{confirmDialog.itemDetails?.icon}</span>
