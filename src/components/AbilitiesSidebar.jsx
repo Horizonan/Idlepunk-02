@@ -55,6 +55,17 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
     };
   }, [cooldowns]);
 
+  // Handle reset ability cooldowns cheat
+  useEffect(() => {
+    const handleResetCooldowns = () => {
+      setCooldowns({});
+      setNotifications(prev => [...prev, 'All ability cooldowns reset!']);
+    };
+
+    window.addEventListener('resetAbilityCooldowns', handleResetCooldowns);
+    return () => window.removeEventListener('resetAbilityCooldowns', handleResetCooldowns);
+  }, [setNotifications]);
+
   // Handle active effects countdown
   useEffect(() => {
     const intervals = {};
