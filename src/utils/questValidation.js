@@ -236,7 +236,7 @@ export const QUEST_LINES = {
         title: "Upgrade Cascade",
         description: "Purchase 10 ElectroShop Upgrades",
         condition: (state) => {
-          const electroStoreUpgrades = parseInt(localStorage.getItem('upgradeCount') || '0');
+          const electroStoreUpgrades = parseInt(localStorage.getItem('totalUpgradesPurchased') || '0');
           return electroStoreUpgrades >= 10;
         },
         reward: { 
