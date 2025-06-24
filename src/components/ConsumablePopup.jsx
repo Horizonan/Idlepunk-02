@@ -15,7 +15,7 @@ export default function ConsumablePopup({
     <div className="consumable-popup-overlay">
       <div className="consumable-popup-container">
         <div className="consumable-popup-header">
-          <h3>🛢️ Use Consumable?</h3>
+          <h3>⚡ Use Consumable?</h3>
         </div>
 
         <div className="consumable-popup-content">

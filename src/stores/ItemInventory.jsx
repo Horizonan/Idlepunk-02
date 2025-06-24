@@ -165,6 +165,12 @@ export default function ItemInventory({ craftingInventory, onBack, setNotificati
 
   const handleConsumableClick = (itemName) => {
     if (consumableItems.includes(itemName)) {
+      // Check if user has at least 1 of the item
+      if ((craftingInventory[itemName] || 0) < 1) {
+        setNotifications(prev => [...prev, `You don't have any ${itemName} to use!`]);
+        return;
+      }
+      
       setConfirmDialog({
         itemName,
         itemDetails: itemDetails[itemName]
