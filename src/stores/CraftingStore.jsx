@@ -81,18 +81,6 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       cost: 0,
       description: 'Portable power source that lasts about 4 hours',
       type: 'consumable'
-    },
-    {
-      name: 'Auto Gremlin Oil',
-      requirements: {
-        'Gear Bits': 10,
-        'Metal Plates': 8,
-        'Synth Thread': 2
-      },
-      cost: 750000,
-      description: 'Increases Auto Click Rate by 50% for 60 seconds.',
-      type: 'fusion',
-      onetime: false
     }
   ];
 
@@ -191,6 +179,18 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       description: 'Reduces all junk crafting costs by 10%',
       type: 'fusion',
       uncraftable: true
+    },
+    {
+      name: 'Auto Gremlin Oil',
+      requirements: {
+        'Gear Bits': 10,
+        'Metal Plates': 8,
+        'Synth Thread': 2
+      },
+      cost: 750000,
+      description: 'Increases Auto Click Rate by 50% for 60 seconds.',
+      type: 'fusion',
+      onetime: false
     }
   ];
 
