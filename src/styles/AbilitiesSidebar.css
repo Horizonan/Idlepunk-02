@@ -1,3 +1,84 @@
+/* Click Injector Active Display */
+.click-injector-active-display {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, rgba(0, 255, 0, 0.2), rgba(0, 200, 0, 0.3));
+  border: 2px solid #00FF00;
+  border-radius: 12px;
+  padding: 15px;
+  min-width: 250px;
+  z-index: 2000;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: clickInjectorPulse 2s infinite ease-in-out;
+}
+
+.click-injector-icon {
+  font-size: 24px;
+  animation: clickInjectorIconSpin 3s infinite linear;
+}
+
+.click-injector-info {
+  flex: 1;
+}
+
+.click-injector-title {
+  font-weight: bold;
+  color: #00FF00;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.click-injector-effect {
+  color: #FFFF00;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.click-injector-timer {
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.click-injector-progress {
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  overflow: hidden;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.click-injector-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #00FF00, #FFFF00);
+  transition: width 1s linear;
+  border-radius: 3px;
+}
+
+@keyframes clickInjectorPulse {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+    border-color: #00FF00;
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.8);
+    border-color: #FFFF00;
+  }
+}
+
+@keyframes clickInjectorIconSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 .abilities-sidebar {
   position: fixed;
   left: 20px;

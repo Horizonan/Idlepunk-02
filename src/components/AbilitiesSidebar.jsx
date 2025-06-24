@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/AbilitiesSidebar.css';
 
-export default function AbilitiesSidebar({ craftingInventory }) {
+export default function AbilitiesSidebar({ craftingInventory, setNotifications }) {
   const [cooldowns, setCooldowns] = useState({});
+  const [activeEffects, setActiveEffects] = useState({});
 
   // Check if abilities are unlocked based on crafted items
   const isTrashSurgeUnlocked = () => {
@@ -54,6 +55,26 @@ export default function AbilitiesSidebar({ craftingInventory }) {
     };
   }, [cooldowns]);
 
+  // Handle active effects countdown
+  useEffect(() => {
+    const intervals = {};
+
+    Object.keys(activeEffects).forEach(abilityId => {
+      if (activeEffects[abilityId] > 0) {
+        intervals[abilityId] = setInterval(() => {
+          setActiveEffects(prev => ({
+            ...prev,
+            [abilityId]: Math.max(0, prev[abilityId] - 1000)
+          }));
+        }, 1000);
+      }
+    });
+
+    return () => {
+      Object.values(intervals).forEach(interval => clearInterval(interval));
+    };
+  }, [activeEffects]);
+
   const handleAbilityClick = (ability) => {
     if (!ability.available || cooldowns[ability.id] > 0) return;
 
@@ -82,6 +103,13 @@ export default function AbilitiesSidebar({ craftingInventory }) {
         [ability.id]: ability.cooldown
       }));
 
+      // Set active effect with duration
+      setActiveEffects(prev => ({
+        ...prev,
+        [ability.id]: ability.duration
+      }));
+
+      setNotifications(prev => [...prev, 'Click Injector activated! +50% click power for 20 seconds']);
       console.log('Click Injector activated!');
     }
   };
@@ -92,6 +120,11 @@ export default function AbilitiesSidebar({ craftingInventory }) {
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
+  const formatDuration = (ms) => {
+    const seconds = Math.floor(ms / 1000);
+    return `${seconds}s`;
+  };
+
   // Only show sidebar if at least one ability is available
   const availableAbilities = abilities.filter(ability => ability.available);
   if (availableAbilities.length === 0) {
@@ -99,10 +132,31 @@ export default function AbilitiesSidebar({ craftingInventory }) {
   }
 
   return (
-    <div className="abilities-sidebar">
-      <div className="abilities-header">
-        <h3>Abilities</h3>
-      </div>
+    <>
+      {/* Active Click Injector Effect Display */}
+      {activeEffects['click_injector'] > 0 && (
+        <div className="click-injector-active-display">
+          <div className="click-injector-icon">💉</div>
+          <div className="click-injector-info">
+            <div className="click-injector-title">Click Injector Active</div>
+            <div className="click-injector-effect">+50% Click Power</div>
+            <div className="click-injector-timer">{formatDuration(activeEffects['click_injector'])}</div>
+          </div>
+          <div className="click-injector-progress">
+            <div 
+              className="click-injector-progress-bar"
+              style={{
+                width: `${(activeEffects['click_injector'] / 20000) * 100}%`
+              }}
+            ></div>
+          </div>
+        </div>
+      )}
+
+      <div className="abilities-sidebar">
+        <div className="abilities-header">
+          <h3>Abilities</h3>
+        </div>
 
       <div className="abilities-list">
         {availableAbilities.map((ability) => {
@@ -126,5 +180,6 @@ export default function AbilitiesSidebar({ craftingInventory }) {
         })}
       </div>
     </div>
+    </>
   );
 }
