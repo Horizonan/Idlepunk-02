@@ -319,7 +319,7 @@ export const QUEST_LINES = {
         title: "Optimizer",
         description: "Craft 8 one-time items in the same prestige run",
         condition: (state) => {
-          // Count all one-time items that have been crafted
+          // Count all one-time items that have been crafted (including fusion crafting)
           const oneTimeItems = [
             'Click Rig Mk I',
             'Auto Toolkit', 
@@ -329,7 +329,7 @@ export const QUEST_LINES = {
             'Overclocked Click Rig',
             'Luck Engine',
             'Junk Magnet',
-            'Surge Delay Fuse',
+            'Surge Delay Fuse', // Fusion crafting one-time item
             'Chrono Regulator',
             'Echo Helmets',
             'Rusted Loyalty Pins'
