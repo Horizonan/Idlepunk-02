@@ -201,8 +201,8 @@ export const QUEST_LINES = {
       {
         id: "system_memory_detected",
         title: "System Memory Detected",
-        description: "Reach 50M Junk (post-prestige)",
-        condition: (state) => state.junk >= 50000000,
+        description: "Reach 20M Junk (post-prestige)",
+        condition: (state) => state.junk >= 20000000,
         reward: { 
           type: "craftingMaterial", 
           material: "Encrypted Coil",
@@ -250,41 +250,6 @@ export const QUEST_LINES = {
         },
         category: "progression",
         difficulty: "hard"
-      },
-      {
-        id: "beacon_protocol",
-        title: "Beacon Protocol",
-        description: "Own 10 Electro Shard Beacons",
-        condition: (state) => parseInt(localStorage.getItem('beaconCount') || '0') >= 10,
-        reward: { 
-          type: "craftingMaterial", 
-          material: "Surge Capacitor Fragment",
-          amount: 1,
-          message: "Quest Complete: Beacon Protocol",
-          extraMessage: "Obtained: ...",
-          news: "The grid is lit. The path ahead is clear."
-        },
-        category: "collection",
-        difficulty: "epic"
-      },
-      {
-        id: "mission_obsessed",
-        title: "Mission Obsessed",
-        description: "Complete 20 Missions and gather 2000 Scratz",
-        condition: (state) => {
-          const crewStorage = JSON.parse(localStorage.getItem('crew-storage') || '{}');
-          const successfulMissions = crewStorage.state?.successfulMissions || 0;
-          return successfulMissions >= 20 && state.credits >= 2000;
-        },
-        reward: { 
-          type: "special", 
-          action: "unlockAdvancedMissions",
-          message: "Quest Complete: Mission Obsessed",
-          extraMessage: "Unlocked: New missions and gear available!",
-          news: "Your dedication to missions has caught the attention of underground networks. New opportunities await."
-        },
-        category: "collection",
-        difficulty: "legendary"
       },
       {
         id: "core_collector",
