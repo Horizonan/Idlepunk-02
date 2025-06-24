@@ -4,6 +4,7 @@ import '../styles/AbilitiesSidebar.css';
 export default function AbilitiesSidebar({ craftingInventory, setNotifications }) {
   const [cooldowns, setCooldowns] = useState({});
   const [activeEffects, setActiveEffects] = useState({});
+  const [autoGremlinOilActive, setAutoGremlinOilActive] = useState(0);
 
   // Check if abilities are unlocked based on crafted items
   const isTrashSurgeUnlocked = () => {
@@ -72,10 +73,34 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
       }
     });
 
+    // Check Auto Gremlin Oil status
+    const checkAutoGremlinOil = () => {
+      const endTime = localStorage.getItem('autoGremlinOilActive');
+      if (endTime) {
+        const remaining = parseInt(endTime) - Date.now();
+        if (remaining > 0) {
+          setAutoGremlinOilActive(remaining);
+        } else {
+          setAutoGremlinOilActive(0);
+          localStorage.removeItem('autoGremlinOilActive');
+        }
+      } else {
+        setAutoGremlinOilActive(0);
+      }
+    };
+
+    // Initial check
+    checkAutoGremlinOil();
+    
+    // Update Auto Gremlin Oil timer every second
+    if (autoGremlinOilActive > 0) {
+      intervals['auto_gremlin_oil'] = setInterval(checkAutoGremlinOil, 1000);
+    }
+
     return () => {
       Object.values(intervals).forEach(clearInterval);
     };
-  }, [cooldowns, activeEffects]);
+  }, [cooldowns, activeEffects, autoGremlinOilActive]);
 
   // Handle reset ability cooldowns cheat
   useEffect(() => {
@@ -160,6 +185,26 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
               className="click-injector-progress-bar"
               style={{
                 width: `${(activeEffects['click_injector'] / 20000) * 100}%`
+              }}
+            ></div>
+          </div>
+        </div>
+      )}
+
+      {/* Active Auto Gremlin Oil Effect Display */}
+      {autoGremlinOilActive > 0 && (
+        <div className="auto-gremlin-oil-active-display">
+          <div className="auto-gremlin-oil-icon">🛢️</div>
+          <div className="auto-gremlin-oil-info">
+            <div className="auto-gremlin-oil-title">Auto Gremlin Oil Active</div>
+            <div className="auto-gremlin-oil-effect">+50% Auto Click Rate</div>
+            <div className="auto-gremlin-oil-timer">{formatDuration(autoGremlinOilActive)}</div>
+          </div>
+          <div className="auto-gremlin-oil-progress">
+            <div 
+              className="auto-gremlin-oil-progress-bar"
+              style={{
+                width: `${(autoGremlinOilActive / 60000) * 100}%`
               }}
             ></div>
           </div>
