@@ -165,9 +165,6 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
 
   // Only show sidebar if at least one ability is available
   const availableAbilities = abilities.filter(ability => ability.available);
-  if (availableAbilities.length === 0) {
-    return null;
-  }
 
   return (
     <>
@@ -211,7 +208,8 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
         </div>
       )}
 
-      <div className="abilities-sidebar">
+      {availableAbilities.length > 0 && (
+        <div className="abilities-sidebar">
         <div className="abilities-header">
           <h3>Abilities</h3>
         </div>
@@ -237,7 +235,8 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
           );
         })}
       </div>
-    </div>
+        </div>
+      )}
     </>
   );
 }
