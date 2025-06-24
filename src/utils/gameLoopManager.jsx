@@ -471,17 +471,23 @@ export const useGameLoopManager = (gameState, gameSetters, purchaseHandlers) => 
         const clickInjectorActive = localStorage.getItem('clickInjectorActive') === 'true';
         const clickInjectorMultiplier = clickInjectorActive ? 1.5 : 1; // +50% boost
         
-        // Apply Click Injector effect to auto-click junk generation
-        const autoClickJunk = (autoClicks + permanentAutoClicks) * clickMultiplier * clickInjectorMultiplier;
+        // Check if Auto Gremlin Oil is active for auto-click rate boost
+        const autoGremlinOilEndTime = localStorage.getItem('autoGremlinOilActive');
+        const autoGremlinOilActive = autoGremlinOilEndTime && parseInt(autoGremlinOilEndTime) > Date.now();
+        const autoGremlinOilMultiplier = autoGremlinOilActive ? 1.5 : 1; // +50% auto-click rate boost
+        
+        // Apply both Click Injector and Auto Gremlin Oil effects to auto-click junk generation
+        const totalAutoClickRate = (autoClicks + permanentAutoClicks) * autoGremlinOilMultiplier;
+        const autoClickJunk = totalAutoClickRate * clickMultiplier * clickInjectorMultiplier;
         setJunk(prev => prev + autoClickJunk);
         
-        setClickCount(prev => prev + (autoClicks + permanentAutoClicks));
+        setClickCount(prev => prev + totalAutoClickRate);
 
         if (electronicsUnlock) {
           const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
           const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
           const tronicsPerClick = 1 + boostICount + (boostIICount * 2);
-          setTronics(prev => prev + ((autoClicks + permanentAutoClicks) * tronicsPerClick));
+          setTronics(prev => prev + (totalAutoClickRate * tronicsPerClick));
           setTotalTronicsClicks(prev => prev + (autoClicks + permanentAutoClicks));
         }
       }
