@@ -497,8 +497,10 @@ const completeQuest = (quest, setters) => {
     case 'lore':
       // Unlock the specific lore fragment in the lore store
       if (reward.loreId) {
-        const { useLoreStore } = await import('../utils/loreStore');
-        useLoreStore.getState().unlockFragment(reward.loreId);
+        // Import loreStore dynamically to avoid circular imports
+        import('../utils/loreStore').then(({ useLoreStore }) => {
+          useLoreStore.getState().unlockFragment(reward.loreId);
+        });
       }
       // Also store in localStorage for backwards compatibility
       const existingLore = JSON.parse(localStorage.getItem('loreFragments') || '[]');
