@@ -483,6 +483,17 @@ export const useGameLoopManager = (gameState, gameSetters, purchaseHandlers) => 
         
         setClickCount(prev => prev + totalAutoClickRate);
 
+        // Track auto-clicks for Click Ritual quest
+        const now = Date.now();
+        const clickRitualData = JSON.parse(localStorage.getItem('clickRitualData') || '{"clicks": [], "lastReset": 0}');
+        
+        // Add each auto-click to the ritual data
+        for (let i = 0; i < totalAutoClickRate; i++) {
+          clickRitualData.clicks.push(now);
+        }
+        
+        localStorage.setItem('clickRitualData', JSON.stringify(clickRitualData));
+
         if (electronicsUnlock) {
           const boostICount = parseInt(localStorage.getItem('tronics_boost_count') || '0');
           const boostIICount = parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
