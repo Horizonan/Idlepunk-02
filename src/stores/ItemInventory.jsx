@@ -186,6 +186,10 @@ export default function ItemInventory({ craftingInventory, onBack, setNotificati
       if ((craftingInventory[itemName] || 0) > 0) {
         // Apply the auto click rate boost
         localStorage.setItem('autoGremlinOilActive', Date.now() + 60000); // 60 seconds from now
+        
+        // Mark that Auto Gremlin Oil has been used for quest tracking
+        localStorage.setItem('autoGremlinOilUsed', 'true');
+        
         setNotifications(prev => [...prev, 'Auto Gremlin Oil activated! +50% Auto Click Rate for 60 seconds']);
         
         // Consume 1 item from inventory
