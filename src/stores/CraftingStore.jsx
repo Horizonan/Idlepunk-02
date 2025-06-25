@@ -619,7 +619,8 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                     'Voltage Node': 1,
                     'Synthcore Fragment': 1,
                   },
-                  cost: 10000000
+                  cost: 10000000,
+                  type: 'mysterious'
                 })}
                 className="store-item mysterious"
               >
@@ -654,7 +655,8 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                     'Encrypted Coil': 1,
                     'Surge Capacitor Fragment': 1
                   },
-                  cost: 25000000
+                  cost: 25000000,
+                  type: 'mysterious'
                 })}
                 className="store-item mysterious"
               >
