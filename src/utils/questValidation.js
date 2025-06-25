@@ -430,6 +430,29 @@ export const QUEST_LINES = {
         difficulty: "medium"
       },
       {
+        id: "synthetic_soup",
+        title: "Synthetic Soup",
+        description: "Use all 4 fusion types",
+        condition: (state) => {
+          const clickInjectorUsed = localStorage.getItem('clickInjectorUsed') === 'true';
+          const autoGremlinOilUsed = localStorage.getItem('autoGremlinOilUsed') === 'true';
+          const temporalSurgeCapsuleUsed = localStorage.getItem('temporalSurgeCapsuleUsed') === 'true';
+          const reactorGreaseUsed = localStorage.getItem('reactorGreaseUsed') === 'true';
+          
+          return clickInjectorUsed && autoGremlinOilUsed && temporalSurgeCapsuleUsed && reactorGreaseUsed;
+        },
+        reward: { 
+          type: "craftingMaterial", 
+          material: "Fusion Material",
+          amount: 1,
+          message: "Quest Complete: Synthetic Soup",
+          extraMessage: "Obtained: 1x Fusion Material",
+          news: "The fusion compounds merge in perfect harmony. You've mastered the art of synthetic enhancement."
+        },
+        category: "progression",
+        difficulty: "hard"
+      },
+      {
         id: "forge_the_overcrystal",
         title: "Forge the Overcrystal",
         description: "Craft the Overcharged Prestige Crystal",

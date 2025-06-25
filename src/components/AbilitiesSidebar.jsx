@@ -141,6 +141,10 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
         [ability.id]: ability.cooldown
       }));
 
+      // Mark as used for quest tracking
+      localStorage.setItem('reactorGreaseUsed', 'true');
+
+      setNotifications(prev => [...prev, 'Trash Surge activated! Click to collect bonus junk!']);
       console.log('Trash Surge activated!');
     }
 
@@ -159,6 +163,9 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
         ...prev,
         [ability.id]: ability.duration
       }));
+
+       // Mark as used for quest tracking
+       localStorage.setItem('clickInjectorUsed', 'true');
 
       setNotifications(prev => [...prev, 'Click Injector activated! +50% click power for 20 seconds']);
       console.log('Click Injector activated!');
