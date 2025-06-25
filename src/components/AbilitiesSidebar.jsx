@@ -1,7 +1,97 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/AbilitiesSidebar.css';
 
-export default function AbilitiesSidebar({ craftingInventory, setNotifications }) {
+// Temporal Surge Capsule Active Display Component
+function TemporalSurgeActiveDisplay() {
+  const [timeLeft, setTimeLeft] = useState(30);
+  const [startTime] = useState(Date.now());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, Math.ceil((30000 - elapsed) / 1000));
+      setTimeLeft(remaining);
+
+      if (remaining === 0) {
+        clearInterval(timer);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [startTime]);
+
+  const progressPercentage = (timeLeft / 30) * 100;
+
+  return (
+    <div className="temporal-surge-active-display">
+      <div className="temporal-surge-icon">⏰</div>
+      <div className="temporal-surge-info">
+        <div className="temporal-surge-title">Temporal Surge Active</div>
+        <div className="temporal-surge-effect">+100% Click Power & Junk/sec</div>
+        <div className="temporal-surge-timer">{timeLeft}s</div>
+      </div>
+      <div className="temporal-surge-progress">
+        <div 
+          className="temporal-surge-progress-bar" 
+          style={{ width: `${progressPercentage}%` }}
+        />
+      </div>
+    </div>
+  );
+}
+
+// Auto Gremlin Oil Active Display Component
+function AutoGremlinOilActiveDisplay() {
+  const [timeLeft, setTimeLeft] = useState(60);
+  const [startTime] = useState(Date.now());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, Math.ceil((60000 - elapsed) / 1000));
+      setTimeLeft(remaining);
+
+      if (remaining === 0) {
+        clearInterval(timer);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [startTime]);
+
+  const progressPercentage = (timeLeft / 60) * 100;
+
+  return (
+    <div className="auto-gremlin-oil-active-display">
+      <div className="auto-gremlin-oil-icon">🛢️</div>
+      <div className="auto-gremlin-oil-info">
+        <div className="auto-gremlin-oil-title">Auto Gremlin Oil Active</div>
+        <div className="auto-gremlin-oil-effect">+50% Auto Click Rate</div>
+        <div className="auto-gremlin-oil-timer">{timeLeft}s</div>
+      </div>
+      <div className="auto-gremlin-oil-progress">
+        <div 
+          className="auto-gremlin-oil-progress-bar"
+          style={{
+            width: `${progressPercentage}%`
+          }}
+        ></div>
+      </div>
+    </div>
+  );
+}
+
+export default function AbilitiesSidebar({ 
+  craftingInventory, 
+  setClickMultiplier, 
+  setAutoClicks,
+  setIsClickInjectorActive,
+  setIsAutoGremlinOilActive,
+  setIsTemporalSurgeActive,
+  isClickInjectorActive,
+  isAutoGremlinOilActive,
+  isTemporalSurgeActive
+}) {
   const [cooldowns, setCooldowns] = useState({});
   const [activeEffects, setActiveEffects] = useState({});
   const [autoGremlinOilActive, setAutoGremlinOilActive] = useState(0);
@@ -13,6 +103,14 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
 
   const isClickInjectorUnlocked = () => {
     return (craftingInventory['Click Injector'] || 0) > 0;
+  };
+
+  const isAutoGremlinOilUnlocked = () => {
+    return (craftingInventory['Auto Gremlin Oil'] || 0) > 0;
+  };
+
+    const isTemporalSurgeCapsuleUnlocked = () => {
+    return (craftingInventory['Temporal Surge Capsule'] || 0) > 0;
   };
 
   const abilities = [
@@ -33,6 +131,26 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
       available: isClickInjectorUnlocked(),
       cooldown: 600000, // 600 seconds in milliseconds
       duration: 20000   // 20 seconds in milliseconds
+    },
+    {
+      id: 'auto_gremlin_oil',
+      name: 'Auto Gremlin Oil',
+      icon: '🛢️',
+      description: '+50% Auto Click Rate for 60 seconds (600s cooldown)',
+      available: isAutoGremlinOilUnlocked(),
+      cooldown: 600000, // 10 minutes
+      duration: 60000,  // 60 seconds
+      unlockItem: 'Auto Gremlin Oil'
+    },
+    {
+      id: 'temporal_surge_capsule',
+      name: 'Temporal Surge Capsule',
+      icon: '⏰',
+      description: '+100% Click Power and +100% Junk/sec for 30 seconds (600s cooldown)',
+      available: isTemporalSurgeCapsuleUnlocked(),
+      cooldown: 600000, // 10 minutes
+      duration: 30000,  // 30 seconds
+      unlockItem: 'Temporal Surge Capsule'
     }
   ];
 
@@ -91,7 +209,7 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
 
     // Initial check
     checkAutoGremlinOil();
-    
+
     // Update Auto Gremlin Oil timer every second
     if (autoGremlinOilActive > 0) {
       intervals['auto_gremlin_oil'] = setInterval(checkAutoGremlinOil, 1000);
@@ -113,7 +231,7 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
     return () => window.removeEventListener('resetAbilityCooldowns', handleResetCooldowns);
   }, [setNotifications]);
 
-  
+
 
   const handleAbilityClick = (ability) => {
     if (!ability.available || cooldowns[ability.id] > 0) return;
@@ -149,6 +267,37 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
 
       setNotifications(prev => [...prev, 'Click Injector activated! +50% click power for 20 seconds']);
       console.log('Click Injector activated!');
+    }
+
+    if (ability.id === 'auto_gremlin_oil') {
+      // Trigger auto gremlin oil effect
+      localStorage.setItem('autoGremlinOilActive', Date.now() + ability.duration);
+
+      // Set cooldown
+      setCooldowns(prev => ({
+        ...prev,
+        [ability.id]: ability.cooldown
+      }));
+      setNotifications(prev => [...prev, 'Auto Gremlin Oil activated! +50% auto click rate for 60 seconds']);
+
+      console.log('Auto Gremlin Oil activated!');
+    }
+
+        if (ability.id === 'temporal_surge_capsule') {
+      // Set cooldown
+      setCooldowns(prev => ({
+        ...prev,
+        [ability.id]: ability.cooldown
+      }));
+
+      // Set active effect with duration
+      setActiveEffects(prev => ({
+        ...prev,
+        [ability.id]: ability.duration
+      }));
+
+      setNotifications(prev => [...prev, 'Temporal Surge Capsule activated! +100% click power and junk/sec for 30 seconds']);
+      console.log('Temporal Surge Capsule activated!');
     }
   };
 
@@ -206,6 +355,11 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
             ></div>
           </div>
         </div>
+      )}
+
+            {/* Temporal Surge Capsule Active Display */}
+      {isTemporalSurgeActive && (
+        <TemporalSurgeActiveDisplay />
       )}
 
       {availableAbilities.length > 0 && (
