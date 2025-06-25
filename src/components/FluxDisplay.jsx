@@ -52,7 +52,7 @@ export default function FluxDisplay({ fluxShards, fluxMeter }) {
       </div>
       <div className="flux-info">
         <p>Generate Flux by clicking during Temporal Surge. Every 1000 Flux Shards grants Electro Shards!</p>
-        <p>Instability Meter fills every 100 clicks and grants Instability Cores!</p>
+        <p>Full meter (100 clicks) grants Instability Cores!</p>
       </div>
     </div>
   );

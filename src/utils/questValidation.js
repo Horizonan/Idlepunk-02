@@ -278,6 +278,22 @@ export const QUEST_LINES = {
         id: "flux_overflow",
         title: "Flux Overflow",
         description: "Accumulate 1,000 Flux Shards",
+        condition: (state) => {
+          const fluxShards = parseInt(localStorage.getItem('fluxShards') || '0');
+          return fluxShards >= 1000;
+        },
+        reward: { 
+          type: "craftingMaterial", 
+          material: "Fusion Material",
+          amount: 1,
+          message: "Quest Complete: Flux Overflow",
+          extraMessage: "Reality strained. Time wept. And in the overflow, something… woke up.",
+          news: "The Flux overflow cascades through dimensions, awakening something ancient."
+        },
+        category: "progression",
+        difficulty: "hard"
+      }",
+        description: "Accumulate 1,000 Flux Shards",
         condition: (gameState) => {
           return parseInt(localStorage.getItem('fluxShards') || '0') >= 1000;
         },
