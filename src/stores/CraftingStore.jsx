@@ -126,25 +126,16 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
   ];
 
   const fusionCraftingItems = [
-    // Basic Fusion Materials
     {
       name: 'Synth Thread',
       requirements: {
         'Wires': 10
       },
       cost: 0,
-      description: 'Silky-smooth synthetic threading that feels almost alive to the touch. Perfect for weaving dreams into reality.',
+      description: 'Advanced synthetic threading material',
       type: 'fusion',
       onetime: false
     },
-    {
-      name: 'Crafting Booster Unit',
-      description: 'A helpful little module that makes crafting more efficient. Reduces all junk crafting costs by 10%.',
-      type: 'fusion',
-      uncraftable: true
-    },
-    
-    // Basic Abilities
     {
       name: 'Reactor Grease',
       requirements: {
@@ -153,7 +144,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
         'Wires': 8
       },
       cost: 0,
-      description: 'A friendly lubricant that makes your systems hum with contentment. Unlocks the comforting Trash Surge ability for whenever you need it.',
+      description: 'Volatile lubricant that supercharges trash collection systems, Enables you to trigger Trash Surge when you need it',
       type: 'fusion',
       onetime: false,
       unlockAbility: 'trash_surge_ability'
@@ -166,10 +157,28 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
         'Synth Thread': 6
       },
       cost: 0,
-      description: 'A gentle enhancement serum that makes clicking feel effortless. Boosts your click power by 50% for a relaxing 20 seconds.',
+      description: 'Temporary click enhancement serum that boosts click power by 50% for 20 seconds',
       type: 'fusion',
       onetime: false,
       unlockAbility: 'click_injector_ability'
+    },
+    {
+      name: 'Surge Delay Fuse',
+      requirements: {
+        'Capacitor': 2,
+        'Signal Mesh': 4,
+        'Synth Thread': 8
+      },
+      cost: 0,
+      description: 'Adds +10s to Surge duration regardless of activation window',
+      type: 'fusion',
+      onetime: true
+    },
+    {
+      name: 'Crafting Booster Unit',
+      description: 'Reduces all junk crafting costs by 10%',
+      type: 'fusion',
+      uncraftable: true
     },
     {
       name: 'Auto Gremlin Oil',
@@ -179,34 +188,16 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
         'Synth Thread': 2
       },
       cost: 750000,
-      description: 'Soothing mechanical oil that makes your auto-systems work 50% faster for a full minute. Your machines will thank you.',
+      description: 'Increases Auto Click Rate by 50% for 60 seconds.',
       type: 'fusion',
       onetime: false
     },
-    
-    // Enhancement Items
-    {
-      name: 'Surge Delay Fuse',
-      requirements: {
-        'Capacitor': 2,
-        'Signal Mesh': 4,
-        'Synth Thread': 8
-      },
-      cost: 0,
-      description: 'A thoughtful device that extends your Surge duration by 10 seconds. More time to enjoy the good moments.',
-      type: 'fusion',
-      onetime: true
-    },
-    
-    // Advanced Materials
     {
       name: 'Instability Core',
-      description: 'A mysterious but oddly comforting power source that hums with potential. Sometimes the most beautiful things are a little unpredictable.',
+      description: 'A volatile power source that breaks the rules of conventional tech.',
       type: 'fusion',
       uncraftable: true
     },
-    
-    // Ultimate Ability
     {
       name: 'Temporal Surge Capsule',
       requirements: {
@@ -217,7 +208,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
         'Capacitor': 6
       },
       cost: 9000000,
-      description: 'The ultimate fusion creation - doubles your click power and junk generation for 30 blissful seconds. A true masterpiece that replaces your Click Injector with something extraordinary.',
+      description: '+100% Click Power and +100% Junk/sec for 30 seconds. Cooldown: 10 minutes. Replaces the Click Injector ability permanently.',
       type: 'fusion',
       onetime: false,
       unlockAbility: 'temporal_surge_capsule_ability'
@@ -451,10 +442,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
 
         {selectedTab === 'fusion' && (
           <div className="crafting-section">
-            <h3>✨ Fusion Crafting ✨</h3>
-            <p style={{textAlign: 'center', color: '#9400D3', marginBottom: '15px', fontStyle: 'italic'}}>
-              Where science meets serenity. Create wonderful things that make your journey more enjoyable.
-            </p>
+            <h3>Fusion Crafting</h3>
             <div className="store-items">
               {fusionCraftingItems.filter(item => !item.unlockCondition || item.unlockCondition()).map((item) => (
                 <button
