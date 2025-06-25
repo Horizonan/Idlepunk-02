@@ -600,7 +600,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
             <h3>Mysterious Items</h3>
 
             <div className="store-items">
-              {(craftingInventory['Synthcore Fragment'] >= 1 || localStorage.getItem('prestigeCrystalRecipeUnlocked') === 'true') && (<button
+              {craftingInventory['Synthcore Fragment'] >= 1 && (<button
                 onClick={() => onCraft({
                   name: 'Prestige Crystal',
                   requirements: {
