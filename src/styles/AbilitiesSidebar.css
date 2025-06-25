@@ -160,6 +160,93 @@
   50% { transform: translateY(-3px); }
 }
 
+/* Temporal Surge Capsule Active Display */
+.temporal-surge-capsule-active-display {
+  position: fixed;
+  top: 140px;
+  right: 20px;
+  background: linear-gradient(135deg, rgba(255, 20, 147, 0.2), rgba(138, 43, 226, 0.3));
+  border: 2px solid #FF1493;
+  border-radius: 12px;
+  padding: 15px;
+  min-width: 250px;
+  z-index: 999;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(255, 20, 147, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: temporalSurgeCapsulePulse 1.5s infinite ease-in-out;
+}
+
+.temporal-surge-capsule-icon {
+  font-size: 24px;
+  animation: temporalSurgeCapsuleIconGlow 2s infinite ease-in-out;
+}
+
+.temporal-surge-capsule-info {
+  flex: 1;
+}
+
+.temporal-surge-capsule-title {
+  font-weight: bold;
+  color: #FF1493;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.temporal-surge-capsule-effect {
+  color: #00FFFF;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.temporal-surge-capsule-timer {
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.temporal-surge-capsule-progress {
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  overflow: hidden;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.temporal-surge-capsule-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #FF1493, #8A2BE2);
+  transition: width 1s linear;
+  border-radius: 3px;
+}
+
+@keyframes temporalSurgeCapsulePulse {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.5);
+    border-color: #FF1493;
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(255, 20, 147, 0.8);
+    border-color: #8A2BE2;
+  }
+}
+
+@keyframes temporalSurgeCapsuleIconGlow {
+  0%, 100% { 
+    text-shadow: 0 0 5px rgba(255, 20, 147, 0.5);
+    transform: scale(1);
+  }
+  50% { 
+    text-shadow: 0 0 15px rgba(255, 20, 147, 1);
+    transform: scale(1.1);
+  }
+}
+
 .abilities-sidebar {
   position: fixed;
   left: 20px;
@@ -282,6 +369,13 @@
 
   .auto-gremlin-oil-active-display {
     top: 80px;
+    right: 10px;
+    min-width: 200px;
+    padding: 12px;
+  }
+
+  .temporal-surge-capsule-active-display {
+    top: 140px;
     right: 10px;
     min-width: 200px;
     padding: 12px;

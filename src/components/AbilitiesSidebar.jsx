@@ -33,6 +33,14 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
       available: isClickInjectorUnlocked(),
       cooldown: 600000, // 600 seconds in milliseconds
       duration: 20000   // 20 seconds in milliseconds
+    },
+    {
+      name: 'Temporal Surge Capsule',
+      icon: '⏰',
+      abilityKey: 'temporal_surge_capsule_ability',
+      condition: () => (craftingInventory['Temporal Surge Capsule'] || 0) > 0,
+      cooldownKey: 'temporalSurgeCapsuleLastUsed',
+      cooldownDuration: 10 * 60 * 1000 // 10 minutes
     }
   ];
 
@@ -91,7 +99,7 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
 
     // Initial check
     checkAutoGremlinOil();
-    
+
     // Update Auto Gremlin Oil timer every second
     if (autoGremlinOilActive > 0) {
       intervals['auto_gremlin_oil'] = setInterval(checkAutoGremlinOil, 1000);
@@ -113,7 +121,7 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
     return () => window.removeEventListener('resetAbilityCooldowns', handleResetCooldowns);
   }, [setNotifications]);
 
-  
+
 
   const handleAbilityClick = (ability) => {
     if (!ability.available || cooldowns[ability.id] > 0) return;
@@ -166,77 +174,92 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
   // Only show sidebar if at least one ability is available
   const availableAbilities = abilities.filter(ability => ability.available);
 
+  // Active Click Injector Effect Display
+  const clickInjectorActive = localStorage.getItem('clickInjectorActive') === 'true';
+  const clickInjectorDisplay = clickInjectorActive && (
+    <div className="click-injector-active-display">
+      <div className="click-injector-icon">💉</div>
+      <div className="click-injector-info">
+        <div className="click-injector-title">Click Injector Active</div>
+        <div className="click-injector-effect">+50% Click Power</div>
+      </div>
+    </div>
+  );
+
+  // Auto Gremlin Oil active display
+  const autoGremlinOilDisplay = autoGremlinOilActive > 0 && (
+    <div className="auto-gremlin-oil-active-display">
+      <div className="auto-gremlin-oil-icon">🛢️</div>
+      <div className="auto-gremlin-oil-info">
+        <div className="auto-gremlin-oil-title">Auto Gremlin Oil Active</div>
+        <div className="auto-gremlin-oil-effect">+50% Auto Click Rate</div>
+        <div className="auto-gremlin-oil-timer">{formatDuration(autoGremlinOilActive)}</div>
+      </div>
+      <div className="auto-gremlin-oil-progress">
+        <div 
+          className="auto-gremlin-oil-progress-bar"
+          style={{
+            width: `${(autoGremlinOilActive / 60000) * 100}%`
+          }}
+        ></div>
+      </div>
+    </div>
+  );
+
+  // Temporal Surge Capsule active display
+  const temporalSurgeCapsuleEndTime = parseInt(localStorage.getItem('temporalSurgeCapsuleActive') || '0');
+  const isTemporalSurgeCapsuleActive = temporalSurgeCapsuleEndTime > Date.now();
+  const temporalSurgeCapsuleTimeLeft = Math.max(0, Math.ceil((temporalSurgeCapsuleEndTime - Date.now()) / 1000));
+
+  const temporalSurgeCapsuleDisplay = isTemporalSurgeCapsuleActive && (
+    <div className="temporal-surge-capsule-active-display">
+      <div className="temporal-surge-capsule-icon">⏰</div>
+      <div className="temporal-surge-capsule-info">
+        <div className="temporal-surge-capsule-title">Temporal Surge Active</div>
+        <div className="temporal-surge-capsule-effect">+100% Click Power & Junk/sec</div>
+        <div className="temporal-surge-capsule-timer">{temporalSurgeCapsuleTimeLeft}s</div>
+      </div>
+      <div className="temporal-surge-capsule-progress">
+        <div 
+          className="temporal-surge-capsule-progress-bar"
+          style={{ width: `${(temporalSurgeCapsuleTimeLeft / 30) * 100}%` }}
+        />
+      </div>
+    </div>
+  );
+
   return (
     <>
-      {/* Active Click Injector Effect Display */}
-      {activeEffects['click_injector'] > 0 && (
-        <div className="click-injector-active-display">
-          <div className="click-injector-icon">💉</div>
-          <div className="click-injector-info">
-            <div className="click-injector-title">Click Injector Active</div>
-            <div className="click-injector-effect">+50% Click Power</div>
-            <div className="click-injector-timer">{formatDuration(activeEffects['click_injector'])}</div>
-          </div>
-          <div className="click-injector-progress">
-            <div 
-              className="click-injector-progress-bar"
-              style={{
-                width: `${(activeEffects['click_injector'] / 20000) * 100}%`
-              }}
-            ></div>
-          </div>
-        </div>
-      )}
-
-      {/* Active Auto Gremlin Oil Effect Display */}
-      {autoGremlinOilActive > 0 && (
-        <div className="auto-gremlin-oil-active-display">
-          <div className="auto-gremlin-oil-icon">🛢️</div>
-          <div className="auto-gremlin-oil-info">
-            <div className="auto-gremlin-oil-title">Auto Gremlin Oil Active</div>
-            <div className="auto-gremlin-oil-effect">+50% Auto Click Rate</div>
-            <div className="auto-gremlin-oil-timer">{formatDuration(autoGremlinOilActive)}</div>
-          </div>
-          <div className="auto-gremlin-oil-progress">
-            <div 
-              className="auto-gremlin-oil-progress-bar"
-              style={{
-                width: `${(autoGremlinOilActive / 60000) * 100}%`
-              }}
-            ></div>
-          </div>
-        </div>
-      )}
-
-      {availableAbilities.length > 0 && (
-        <div className="abilities-sidebar">
+      {clickInjectorDisplay}
+      {autoGremlinOilDisplay}
+      {temporalSurgeCapsuleDisplay}
+      <div className="abilities-sidebar">
         <div className="abilities-header">
           <h3>Abilities</h3>
         </div>
 
-      <div className="abilities-list">
-        {availableAbilities.map((ability) => {
-          const onCooldown = cooldowns[ability.id] > 0;
-          return (
-            <div
-              key={ability.id}
-              className={`ability-item ${onCooldown ? 'on-cooldown' : ''}`}
-              onClick={() => handleAbilityClick(ability)}
-              title={onCooldown ? `Cooldown: ${formatCooldown(cooldowns[ability.id])}` : ability.description}
-            >
-              <div className="ability-icon">{ability.icon}</div>
-              <div className="ability-name">{ability.name}</div>
-              {onCooldown && (
-                <div className="cooldown-timer">
-                  {formatCooldown(cooldowns[ability.id])}
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
+        <div className="abilities-list">
+          {availableAbilities.map((ability) => {
+            const onCooldown = cooldowns[ability.id] > 0;
+            return (
+              <div
+                key={ability.id}
+                className={`ability-item ${onCooldown ? 'on-cooldown' : ''}`}
+                onClick={() => handleAbilityClick(ability)}
+                title={onCooldown ? `Cooldown: ${formatCooldown(cooldowns[ability.id])}` : ability.description}
+              >
+                <div className="ability-icon">{ability.icon}</div>
+                <div className="ability-name">{ability.name}</div>
+                {onCooldown && (
+                  <div className="cooldown-timer">
+                    {formatCooldown(cooldowns[ability.id])}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
-      )}
+      </div>
     </>
   );
 }
