@@ -146,14 +146,9 @@ export default function ItemInventory({ craftingInventory, onBack, setNotificati
       icon: '🛢️'
     },
     'Instability Core': {
-      description: 'A volatile power source that breaks the rules of conventional tech.',
-      effect: 'Used for advanced fusion crafting recipes',
-      icon: '🧩'
-    },
-    'Temporal Surge Capsule': {
-      description: 'An advanced enhancement that warps time and space around your operations',
-      effect: 'Unlocks Temporal Surge ability (+100% Click Power & Junk/sec for 30s, 10min cooldown)',
-      icon: '⏰'
+      description: 'A volatile power source that breaks the rules of conventional tech',
+      effect: 'Used for advanced unstable crafting',
+      icon: '⚡'
     }
   };
 
@@ -180,7 +175,7 @@ export default function ItemInventory({ craftingInventory, onBack, setNotificati
         setNotifications(prev => [...prev, `You don't have any ${itemName} to use!`]);
         return;
       }
-
+      
       setConfirmDialog({
         itemName,
         itemDetails: itemDetails[itemName]
@@ -196,17 +191,17 @@ export default function ItemInventory({ craftingInventory, onBack, setNotificati
       if ((craftingInventory[itemName] || 0) > 0) {
         // Apply the auto click rate boost
         localStorage.setItem('autoGremlinOilActive', Date.now() + 60000); // 60 seconds from now
-
+        
         // Mark that Auto Gremlin Oil has been used for quest tracking
         localStorage.setItem('autoGremlinOilUsed', 'true');
-
+        
         setNotifications(prev => [...prev, 'Auto Gremlin Oil activated! +50% Auto Click Rate for 60 seconds']);
-
+        
         // Consume 1 item from inventory
         window.dispatchEvent(new CustomEvent('consumeItem', { 
           detail: { itemName, quantity: 1 } 
         }));
-
+        
         setNotifications(prev => [...prev, `Used ${itemName}!`]);
       } else {
         setNotifications(prev => [...prev, `You don't have any ${itemName} to use!`]);

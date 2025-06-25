@@ -160,87 +160,6 @@
   50% { transform: translateY(-3px); }
 }
 
-/* Temporal Surge Capsule Active Display */
-.temporal-surge-active-display {
-  position: fixed;
-  top: 140px;
-  right: 20px;
-  background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(75, 0, 130, 0.3));
-  border: 2px solid #8A2BE2;
-  border-radius: 12px;
-  padding: 15px;
-  min-width: 250px;
-  z-index: 999;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  animation: temporalSurgePulse 2s infinite ease-in-out;
-}
-
-.temporal-surge-icon {
-  font-size: 24px;
-  animation: temporalSurgeIconSpin 4s infinite linear;
-}
-
-.temporal-surge-info {
-  flex: 1;
-}
-
-.temporal-surge-title {
-  font-weight: bold;
-  color: #8A2BE2;
-  font-size: 14px;
-  margin-bottom: 2px;
-}
-
-.temporal-surge-effect {
-  color: #FFFF00;
-  font-size: 12px;
-  margin-bottom: 4px;
-}
-
-.temporal-surge-timer {
-  color: #FFFFFF;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.temporal-surge-progress {
-  width: 100%;
-  height: 6px;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 3px;
-  overflow: hidden;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
-
-.temporal-surge-progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, #8A2BE2, #9370DB);
-  transition: width 1s linear;
-  border-radius: 3px;
-}
-
-@keyframes temporalSurgePulse {
-  0%, 100% { 
-    box-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
-    border-color: #8A2BE2;
-  }
-  50% { 
-    box-shadow: 0 0 30px rgba(138, 43, 226, 0.8);
-    border-color: #9370DB;
-  }
-}
-
-@keyframes temporalSurgeIconSpin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 .abilities-sidebar {
   position: fixed;
   left: 20px;
@@ -363,13 +282,6 @@
 
   .auto-gremlin-oil-active-display {
     top: 80px;
-    right: 10px;
-    min-width: 200px;
-    padding: 12px;
-  }
-
-  .temporal-surge-active-display {
-    top: 150px;
     right: 10px;
     min-width: 200px;
     padding: 12px;

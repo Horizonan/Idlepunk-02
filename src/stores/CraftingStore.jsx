@@ -197,21 +197,6 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       description: 'A volatile power source that breaks the rules of conventional tech.',
       type: 'fusion',
       uncraftable: true
-    },
-    {
-      name: 'Temporal Surge Capsule',
-      requirements: {
-        'Click Injector': 1,
-        'Instability Core': 1,
-        'Signal Mesh': 12,
-        'Synth Thread': 8,
-        'Capacitor': 6
-      },
-      cost: 9000000,
-      description: '+100% Click Power and +100% Junk/sec for 30 seconds. Cooldown: 10 minutes. Replaces the Click Injector ability permanently.',
-      type: 'fusion',
-      onetime: false,
-      unlockAbility: 'temporal_surge_capsule_ability'
     }
   ];
 
