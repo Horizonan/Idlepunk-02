@@ -441,7 +441,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
             <p style={{textAlign: 'center', color: '#9400D3', marginBottom: '15px', fontStyle: 'italic'}}>
               Where science meets serenity. Create wonderful things that make your journey more enjoyable.
             </p>
-            <div className="store-items"></div>
+            <div className="store-items">
               {fusionCraftingItems.filter(item => !item.unlockCondition || item.unlockCondition()).map((item) => (
                 <button
                   key={item.name}
