@@ -589,6 +589,8 @@ export const useGameLoopManager = (gameState, gameSetters, purchaseHandlers) => 
     localStorage.setItem('craftingInventory', JSON.stringify(craftingInventory));
     localStorage.setItem('globalJpsMultiplier', globalJpsMultiplier);
     localStorage.setItem('autoClickerV1Count', autoClickerV1Count);
+    localStorage.setItem('fluxShards', gameState.fluxShards || 0);
+    localStorage.setItem('fluxMeter', gameState.fluxMeter || 0);
   }, [credits, junk, electronicsUnlock, clickMultiplier, passiveIncome, gameState.itemCosts, autoClicks, clickCount, gameState.achievements, ownedItems, gameState.clickEnhancerLevel, globalJpsMultiplier, autoClickerV1Count]);
 
   // Electronics unlock logic

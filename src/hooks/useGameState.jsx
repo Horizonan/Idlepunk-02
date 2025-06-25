@@ -28,6 +28,9 @@ export const useGameState = () => {
   const [showOfflineProgress, setShowOfflineProgress] = useState(false);
   const [offlineProgressData, setOfflineProgressData] = useState(null);
   const [forceCogfatherEye, setForceCogfatherEye] = useState(false);
+  const [showRelayCascade, setShowRelayCascade] = useState(false);
+  const [fluxShards, setFluxShards] = useState(() => parseInt(localStorage.getItem('fluxShards') || '0'));
+  const [fluxMeter, setFluxMeter] = useState(() => parseInt(localStorage.getItem('fluxMeter') || '0'));
 
 
 
@@ -76,7 +79,7 @@ export const useGameState = () => {
   const [showQuestLog, setShowQuestLog] = useState(false);
   const [showTooltips, setShowTooltips] = useState(false);
   const [showInventory, setShowInventory] = useState(false);
-  const [showRelayCascade, setShowRelayCascade] = useState(false);
+  const [setShowRelayCascade, setSetShowRelayCascade] = useState(() => () => {});
 
   //Enable Settings Gamestates
   const [enableHoloBillboard, setEnableHoloBillboard] = useState(() => localStorage.getItem('enableHoloBillboard') !== 'false');
@@ -190,11 +193,13 @@ export const useGameState = () => {
     localStorage.setItem('uiSettingsCollapsed', uiSettingsCollapsed);
     localStorage.setItem('showAutoclickers', showAutoclickers);
     localStorage.setItem('itemCosts', JSON.stringify(itemCosts));
+    localStorage.setItem('fluxShards', fluxShards);
+    localStorage.setItem('fluxMeter', fluxMeter);
 
 
   }, [junk, credits, clickCount, tronics, autoClicks, clickMultiplier, passiveIncome, globalJpsMultiplier, 
       electronicsUnlock, clickEnhancerLevel, tutorialStage, prestigeCount, electroShards, beaconCount, 
-      surgeCount, cogfatherLore, uiSettingsCollapsed, showAutoclickers, itemCosts]);
+      surgeCount, cogfatherLore, uiSettingsCollapsed, showAutoclickers, itemCosts, fluxShards, fluxMeter]);
 
   const [manualTronicsClicks, setManualTronicsClicks] = useState(() => 
   parseInt(localStorage.getItem('manualTronicsClicks') || '0')
@@ -235,6 +240,6 @@ return {
     itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, setSkillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, bulkBuy, setBulkBuy, showJunkDrone, setShowJunkDrone, showHoverDrone, setShowHoverDrone, showAutoclickers, setShowAutoclickers, enableTrashPickup, setEnableTrashPickup,
     enableHoldToClick,
     setEnableHoldToClick, permanentAutoClicks, setPermanentAutoClicks,
-  showCombat, setShowCombat, setElectroMultiplier, electroMultiplier, showCoinFlip, setShowCoinFlip, showMiniGameWindow, setShowMiniGameWindow, mousePosition, setMousePosition, quantumTapNotifications, setQuantumTapNotifications, showEndOfRoad, setShowEndOfRoad, setShowSurgeExplanation, showSurgeExplanation, showCrewIntroTooltip, setShowCrewIntroTooltip, showOfflineProgress, setShowOfflineProgress, offlineProgressData, setOfflineProgressData, forceCogfatherEye, setForceCogfatherEye, showRelayCascade, setShowRelayCascade
+  showCombat, setShowCombat, setElectroMultiplier, electroMultiplier, showCoinFlip, setShowCoinFlip, showMiniGameWindow, setShowMiniGameWindow, mousePosition, setMousePosition, quantumTapNotifications, setQuantumTapNotifications, showEndOfRoad, setShowEndOfRoad, setShowSurgeExplanation, showSurgeExplanation, showCrewIntroTooltip, setShowCrewIntroTooltip, showOfflineProgress, setShowOfflineProgress, offlineProgressData, setOfflineProgressData, forceCogfatherEye, setForceCogfatherEye, showRelayCascade, setShowRelayCascade, fluxShards, setFluxShards, fluxMeter, setFluxMeter
   };
 };

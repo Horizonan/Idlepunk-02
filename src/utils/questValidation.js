@@ -275,9 +275,27 @@ export const QUEST_LINES = {
         difficulty: "hard"
       },
       {
+        id: "flux_overflow",
+        title: "Flux Overflow",
+        description: "Accumulate 1,000 Flux Shards",
+        condition: (gameState) => {
+          return parseInt(localStorage.getItem('fluxShards') || '0') >= 1000;
+        },
+        reward: { 
+          type: "craftingMaterial", 
+          material: "Fusion Material",
+          amount: 1,
+          message: "Quest Complete: Flux Overflow",
+          extraMessage: "Obtained: Fusion Material",
+          news: "Reality strained. Time wept. And in the overflow, something… woke up."
+        },
+        category: "advanced",
+        difficulty: "epic"
+      },
+      {
         id: "core_collector",
         title: "Core Collector",
-        description: "Own 5 Scrap Cores",
+        description: "Own 5 Scrap Cores"",
         condition: (state) => (state.craftingInventory['Scrap Core'] || 0) >= 5,
         reward: { 
           type: "craftingMaterial", 

@@ -137,6 +137,13 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       type: 'fusion',
       onetime: false
     },
+    {
+      name: 'Fusion Material',
+      cost: 0,
+      description: 'A mysterious crystalline substance that pulses with temporal energy. Born from the overflow of reality itself.',
+      type: 'fusion',
+      uncraftable: true
+    },
     
     // Ability Enhancers
     {

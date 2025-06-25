@@ -86,6 +86,7 @@ import SurgeExplanationPopup from './components/SurgeExplanationPopup';
 import OfflineProgressPopup from './components/OfflineProgressPopup';
 import { useEmailStore } from './utils/emailStore';
 import CrewRecruitmentTooltip from './components/CrewRecruitmentTooltip';
+import FluxDisplay from './components/FluxDisplay';
 
 //Mini game Component
 import RelayCascade from './components/MiniGames/RelayCascade';
@@ -112,6 +113,9 @@ export default function App() {
         setShowSurgeExplanation, showSurgeExplanation, showCrewIntroTooltip, setShowCrewIntroTooltip, showOfflineProgress, setShowOfflineProgress, offlineProgressData, 
         setOfflineProgressData, forceCogfatherEye, setForceCogfatherEye, showRelayCascade, setShowRelayCascade
     } = useGameState();
+
+    const [fluxShards, setFluxShards] = useState(0);
+    const [fluxMeter, setFluxMeter] = useState(0);
 
     const purchaseHandlers = gameHandlers({
         junk,tronics,electroShards,bulkBuy,itemCosts,setClickEnhancerLevel,clickEnhancerLevel,autoClickerV1Count,ownedItems
@@ -275,6 +279,35 @@ export default function App() {
       return newCount;
     });
     checkAchievements();
+
+        //Flux mechanic
+        if (isSurgeActive) {
+            const fluxPerClick = 1;
+            const fluxThreshold = 1000 + (fluxShards * 0.01);
+            setFluxShards(prev => prev + fluxPerClick);
+
+            if (fluxShards >= fluxThreshold) {
+                setFluxShards(0);
+                setCraftingInventory(prev => ({
+                    ...prev,
+                    'Electro Shard': (prev['Electro Shard'] || 0) + 1
+                }));
+                setNotifications(prev => [...prev, `Flux threshold reached! Obtained Electro Shard!`]);
+            }
+
+            setFluxMeter(prev => {
+                const newMeterValue = prev + (fluxPerClick / fluxThreshold) * 100;
+                if (newMeterValue >= 100) {
+                    setCraftingInventory(prev => ({
+                        ...prev,
+                        'Instability Core': (prev['Instability Core'] || 0) + 1
+                    }));
+                    setNotifications(prev => [...prev, `Flux Meter full! Obtained Instability Core!`]);
+                    return 0;
+                }
+                return newMeterValue;
+            });
+        }
   };
 
   const collectTronics = (amount) => {
