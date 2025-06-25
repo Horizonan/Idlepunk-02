@@ -154,12 +154,17 @@ export default function ItemInventory({ craftingInventory, onBack, setNotificati
       description: 'Advanced temporal enhancement device that bends time and power',
       effect: 'Unlocks Temporal Surge ability (+100% Click Power and +100% Junk/sec for 30s, 10min cooldown)',
       icon: '⏰'
+    },
+    'Fusion Material': {
+      description: 'Synthesized compound created from mastering all fusion types',
+      effect: 'Required for crafting Overcharged Prestige Crystal',
+      icon: '🧪'
     }
   };
 
   const basicItems = ['Wires', 'Metal Plates', 'Gear Bits', 'Signal Mesh', 'Capacitor', 'Synth Thread', 'Scrap Core', 'Glitched Scrap Core'];
   const consumableItems = ['Junk Cells', 'Auto Gremlin Oil', 'Temporal Surge Capsule'];
-  const specialItems = ['Stabilized Capacitor', 'Voltage Node', 'Synthcore Fragment', 'Encrypted Coil', 'Surge Capacitor Fragment', 'Instability Core'];
+  const specialItems = ['Stabilized Capacitor', 'Voltage Node', 'Synthcore Fragment', 'Encrypted Coil', 'Surge Capacitor Fragment', 'Instability Core', 'Fusion Material'];
 
   const basicMaterials = Object.entries(craftingInventory)
     .filter(([name]) => basicItems.includes(name));
