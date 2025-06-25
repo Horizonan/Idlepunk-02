@@ -637,7 +637,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                 </div>
               </button>)}
 
-            {localStorage.getItem('quest_sync_Beacon Protocol') === 'true' && (
+            {(localStorage.getItem('quest_sync_Temporal Gambit') === 'true' || localStorage.getItem('prestigeCrystalRecipeUnlocked') === 'true') && (
               <button
                 onClick={() => onCraft({
                   name: 'Overcharged Prestige Crystal',
