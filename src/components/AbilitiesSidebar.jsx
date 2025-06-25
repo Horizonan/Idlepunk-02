@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/AbilitiesSidebar.css';
 
-export default function AbilitiesSidebar({ gameState, gameState, craftingInventory, setNotifications }) {
+export default function AbilitiesSidebar({ craftingInventory, setNotifications }) {
   const [cooldowns, setCooldowns] = useState({});
   const [activeEffects, setActiveEffects] = useState({});
   const [autoGremlinOilActive, setAutoGremlinOilActive] = useState(0);
@@ -253,7 +253,6 @@ export default function AbilitiesSidebar({ gameState, gameState, craftingInvento
       <div className="temporal-surge-capsule-info">
         <div className="temporal-surge-capsule-title">Temporal Surge Active</div>
         <div className="temporal-surge-capsule-effect">+100% Click Power & Junk/sec</div>
-        <div className="temporal-surge-capsule-effect">🌌 Flux: {gameState.fluxShards || 0} | Meter: {gameState.fluxMeter || 0}</div>
         <div className="temporal-surge-capsule-timer">{temporalSurgeCapsuleTimeLeft}s</div>
       </div>
       <div className="temporal-surge-capsule-progress">

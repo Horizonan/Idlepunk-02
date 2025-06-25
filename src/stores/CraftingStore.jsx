@@ -36,17 +36,10 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
   }, [craftingInventory]);
 
   const basicMaterials = [
-    // Basic Materials
     {
       name: 'Wires',
       cost: 25000,
       description: 'Basic conductive material',
-      type: 'basic'
-    },
-    {
-      name: 'Blueprint Fragment',
-      cost: 5000,
-      description: 'Fragments of ancient designs. Collect enough and you might unlock something extraordinary.',
       type: 'basic'
     },
     {
@@ -67,7 +60,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       description: 'A tangled net of conductive filaments and memory threads, often salvaged from obsolete broadcast towers',
       type: 'basic'
     },
-
+    
     {
       name: 'Capacitor',
       description: 'Energy storage device',
@@ -144,14 +137,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       type: 'fusion',
       onetime: false
     },
-    {
-      name: 'Fusion Material',
-      cost: 0,
-      description: 'A mysterious crystalline substance that pulses with temporal energy. Born from the overflow of reality itself.',
-      type: 'fusion',
-      uncraftable: true
-    },
-
+    
     // Ability Enhancers
     {
       name: 'Reactor Grease',
@@ -191,7 +177,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       type: 'fusion',
       onetime: false
     },
-
+    
     // Enhancement Items
     {
       name: 'Surge Delay Fuse',
@@ -205,7 +191,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
       type: 'fusion',
       onetime: true
     },
-
+    
     // Ultimate Creations
     {
       name: 'Temporal Surge Capsule',

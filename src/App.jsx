@@ -86,7 +86,6 @@ import SurgeExplanationPopup from './components/SurgeExplanationPopup';
 import OfflineProgressPopup from './components/OfflineProgressPopup';
 import { useEmailStore } from './utils/emailStore';
 import CrewRecruitmentTooltip from './components/CrewRecruitmentTooltip';
-import FluxDisplay from './components/FluxDisplay';
 
 //Mini game Component
 import RelayCascade from './components/MiniGames/RelayCascade';
@@ -113,9 +112,6 @@ export default function App() {
         setShowSurgeExplanation, showSurgeExplanation, showCrewIntroTooltip, setShowCrewIntroTooltip, showOfflineProgress, setShowOfflineProgress, offlineProgressData, 
         setOfflineProgressData, forceCogfatherEye, setForceCogfatherEye, showRelayCascade, setShowRelayCascade
     } = useGameState();
-
-    const [fluxShards, setFluxShards] = useState(() => parseInt(localStorage.getItem('fluxShards') || '0'));
-    const [fluxMeter, setFluxMeter] = useState(() => parseInt(localStorage.getItem('fluxMeter') || '0'));
 
     const purchaseHandlers = gameHandlers({
         junk,tronics,electroShards,bulkBuy,itemCosts,setClickEnhancerLevel,clickEnhancerLevel,autoClickerV1Count,ownedItems
@@ -279,50 +275,6 @@ export default function App() {
       return newCount;
     });
     checkAchievements();
-
-        //Flux mechanic - only during Temporal Surge (not regular surge)
-        const temporalSurgeCapsuleEndTime = localStorage.getItem('temporalSurgeCapsuleActive');
-        const isTemporalSurgeCapsuleActive = temporalSurgeCapsuleEndTime && parseInt(temporalSurgeCapsuleEndTime) > Date.now();
-        
-        if (isTemporalSurgeCapsuleActive) {
-            const fluxPerClick = 1;
-            
-            setFluxShards(prev => {
-                const newShards = prev + fluxPerClick;
-                
-                // Check if we've reached a milestone (every 1000 shards)
-                if (newShards > 0 && newShards % 1000 === 0) {
-                    const rewards = ['Electro Shard', 'Blueprint Fragment', 'Instability Core'];
-                    const randomReward = rewards[Math.floor(Math.random() * rewards.length)];
-                    
-                    setCraftingInventory(prev => ({
-                        ...prev,
-                        [randomReward]: (prev[randomReward] || 0) + 1
-                    }));
-                    setNotifications(prev => [...prev, `1000 Flux Shards milestone! Obtained ${randomReward}!`]);
-                }
-                
-                localStorage.setItem('fluxShards', newShards);
-                return newShards;
-            });
-
-            // Flux meter fills every 100 clicks during temporal surge
-            setFluxMeter(prev => {
-                const newMeterValue = (prev + 1) % 100;
-                if (newMeterValue === 0 && prev > 0) {
-                    const rewards = ['Instability Core', 'Blueprint Fragment', 'Electro Shard'];
-                    const randomReward = rewards[Math.floor(Math.random() * rewards.length)];
-                    
-                    setCraftingInventory(prev => ({
-                        ...prev,
-                        [randomReward]: (prev[randomReward] || 0) + 1
-                    }));
-                    setNotifications(prev => [...prev, `Flux Meter complete! Obtained ${randomReward}!`]);
-                }
-                localStorage.setItem('fluxMeter', newMeterValue);
-                return newMeterValue;
-            });
-        }
   };
 
   const collectTronics = (amount) => {
@@ -677,6 +629,13 @@ export default function App() {
           onGetAutoClickersV1={autoClickerV1Count}
           onBuyScratzMiner={handleBuyScratzMiner}
           onBuyShardMiner={handleBuyShardMiner}
+          onBuyCart={handleBuyCart}
+          onBuyJunkMagnet={handleBuyJunkMagnet}
+          onBuyUrbanRecycler={handleBuyUrbanRecycler}
+          onBuyScrapDrone={handleBuyScrapDrone}
+          onBuyHoloBillboard={handleBuyHoloBillboard} 
+          onBuyClickEnhancer={handleBuyClickEnhancer}
+          onBuyClampjawRig={handleBuyClampjawRig}
           onBuyModularScrapper={handleBuyModularScrapper}
           clickCount={clickCount}
           purchasedUpgrades={Object.values(itemCosts).filter(cost => cost > 0).length}
@@ -1322,17 +1281,8 @@ export default function App() {
         setNotifications={setNotifications}
       />
 
-      {/* Flux Display - only show during Temporal Surge */}
-      {(fluxShards > 0 || fluxMeter > 0 || localStorage.getItem('temporalSurgeCapsuleActive')) && (
-        <FluxDisplay 
-          fluxShards={fluxShards}
-          fluxMeter={fluxMeter}
-        />
-      )}
-
       {/* Abilities Sidebar */}
       <AbilitiesSidebar 
-        gameState={{ fluxShards, fluxMeter }}
         craftingInventory={craftingInventory}
         setNotifications={setNotifications}
       />

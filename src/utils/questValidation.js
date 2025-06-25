@@ -275,25 +275,6 @@ export const QUEST_LINES = {
         difficulty: "hard"
       },
       {
-        id: "flux_overflow",
-        title: "Flux Overflow",
-        description: "Accumulate 1,000 Flux Shards",
-        condition: (state) => {
-          const fluxShards = parseInt(localStorage.getItem('fluxShards') || '0');
-          return fluxShards >= 1000;
-        },
-        reward: { 
-          type: "craftingMaterial", 
-          material: "Fusion Material",
-          amount: 1,
-          message: "Quest Complete: Flux Overflow",
-          extraMessage: "Reality strained. Time wept. And in the overflow, something… woke up.",
-          news: "The Flux overflow cascades through dimensions, awakening something ancient."
-        },
-        category: "progression",
-        difficulty: "hard"
-      },
-      {
         id: "core_collector",
         title: "Core Collector",
         description: "Own 5 Scrap Cores",
