@@ -25,7 +25,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
     { id: 'fusion', label: 'Fusion Crafting', unlockCondition: () => parseInt(localStorage.getItem('prestigeCount') || '0') >= 1 },
     { id: 'consumables', label: 'Consumables', unlockCondition: () => parseInt(localStorage.getItem('prestigeCount') || '0') >= 2 },
     { id: 'enhanced', label: 'Enhanced Crafting', unlockCondition: () => parseInt(localStorage.getItem('prestigeCount') || '0') >= 2 },
-    { id: 'mysterious', label: 'Mysterious', unlockCondition: () => localStorage.getItem('mysteriousUnlocked') === 'true' || craftingInventory['Synthcore Fragment'] >= 1 }
+    { id: 'mysterious', label: 'Mysterious Crafting', unlockCondition: () => parseInt(localStorage.getItem('prestigeCount') || '0') >= 1 }
   ];
 
   // Set mysterious tab as unlocked if condition met
