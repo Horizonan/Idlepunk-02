@@ -644,6 +644,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
                   requirements: {
                     'Encrypted Coil': 1,
                     'Surge Capacitor Fragment': 1,
+                    'Fusion Material': 1,
                   },
                   cost: 25000000,
                   description: 'A mysterious crystal pulsing with otherworldly power',
