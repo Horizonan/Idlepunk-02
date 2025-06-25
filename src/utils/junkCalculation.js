@@ -42,10 +42,6 @@ export class JunkCalculationManager {
       multiplier += 0.20; // +20% junk/sec
     }
 
-    // Permanent JPS Boost from quest rewards
-    const permanentJPSBoost = parseFloat(localStorage.getItem('permanentJPSBoost') || '0');
-    multiplier += permanentJPSBoost;
-
     const totalPassiveJunk = basePassiveIncome * multiplier;
     const totalAutoClickJunk = autoClicks * clickMultiplier;
     let totalProduction = totalPassiveJunk + totalAutoClickJunk;
@@ -91,10 +87,6 @@ export class JunkCalculationManager {
     if (localStorage.getItem('graffitiedTributeBin') === 'true') {
       multiplier += 0.20; // +20% junk/sec
     }
-
-    // Permanent JPS Boost from quest rewards
-    const permanentJPSBoost = parseFloat(localStorage.getItem('permanentJPSBoost') || '0');
-    multiplier += permanentJPSBoost;
 
     const passiveJunk = basePassiveIncome * multiplier;
     const autoClickJunk = autoClicks * clickMultiplier;
