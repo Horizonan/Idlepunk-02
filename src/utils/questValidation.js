@@ -464,7 +464,9 @@ export const QUEST_LINES = {
           if (localStorage.getItem('clickInjectorActive') === 'true') activeBuffs++;
           if (localStorage.getItem('autoGremlinOilActive') === 'true') activeBuffs++;
           if (localStorage.getItem('temporalSurgeCapsuleActive') === 'true') activeBuffs++;
-          if (localStorage.getItem('reactorGreaseActive') === 'true') activeBuffs++;
+          
+          // For Reactor Grease, check if player owns it (since it enables Trash Surge ability)
+          if ((state.craftingInventory['Reactor Grease'] || 0) > 0) activeBuffs++;
           
           return activeBuffs >= 3;
         },
