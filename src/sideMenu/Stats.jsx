@@ -60,6 +60,10 @@ export default function Stats({
               <span className="stats-label">Global Electro Multiplier:</span>
               <span className="stats-value">{(electroMultiplier.toFixed(2))}x</span>
             </div>
+            <div className="stats-item">
+              <span className="stats-label">Permanent JPS Boost:</span>
+              <span className="stats-value">+{((parseFloat(localStorage.getItem('permanentJPSBoost') || '0')) * 100).toFixed(1)}%</span>
+            </div>
           </div>
         </div>
 

@@ -453,6 +453,33 @@ export const QUEST_LINES = {
         difficulty: "hard"
       },
       {
+        id: "the_burnout",
+        title: "The Burnout",
+        description: "Have 3 Fusion Buffs active at once",
+        condition: (state) => {
+          // Check how many fusion buffs are currently active
+          let activeBuffs = 0;
+          
+          // Check each fusion buff active state
+          if (localStorage.getItem('clickInjectorActive') === 'true') activeBuffs++;
+          if (localStorage.getItem('autoGremlinOilActive') === 'true') activeBuffs++;
+          if (localStorage.getItem('temporalSurgeCapsuleActive') === 'true') activeBuffs++;
+          if (localStorage.getItem('reactorGreaseActive') === 'true') activeBuffs++;
+          
+          return activeBuffs >= 3;
+        },
+        reward: { 
+          type: "special", 
+          action: "addPermanentJPSBoost",
+          amount: 0.05,
+          message: "Quest Complete: The Burnout",
+          extraMessage: "Obtained: +5% Permanent Junk/sec boost!",
+          news: "It smells like ozone and overclocked ambition. You've officially gone too far — and you're stronger for it."
+        },
+        category: "challenge",
+        difficulty: "hard"
+      },
+      {
         id: "forge_the_overcrystal",
         title: "Forge the Overcrystal",
         description: "Craft the Overcharged Prestige Crystal",
@@ -717,6 +744,12 @@ const handleSpecialReward = (reward, setters) => {
 
     case 'unlockSuperOvercharged':
       localStorage.setItem('superOverchargedUnlocked', 'true');
+      break;
+
+    case 'addPermanentJPSBoost':
+      const currentBoost = parseFloat(localStorage.getItem('permanentJPSBoost') || '0');
+      const newBoost = currentBoost + reward.amount;
+      localStorage.setItem('permanentJPSBoost', newBoost.toString());
       break;
   }
 
