@@ -201,7 +201,7 @@ export default function CraftingStore({ junk, onCraft, craftingInventory, onBack
     {
       name: 'Temporal Surge Capsule',
       requirements: {
-        'Click Injector': 1,
+        'Click Injector': 2,
         'Instability Core': 1,
         'Signal Mesh': 12,
         'Synth Thread': 8,
