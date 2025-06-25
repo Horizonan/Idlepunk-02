@@ -181,6 +181,9 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
         [ability.id]: ability.duration
       }));
 
+      // Mark as used for quest tracking
+      localStorage.setItem('temporalSurgeCapsuleUsed', 'true');
+
       setNotifications(prev => [...prev, 'Temporal Surge Capsule activated! +100% click power and +100% junk/sec for 30 seconds']);
       console.log('Temporal Surge Capsule activated!');
     }

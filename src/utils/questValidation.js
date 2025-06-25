@@ -412,6 +412,24 @@ export const QUEST_LINES = {
         difficulty: "hard"
       },
       {
+        id: "temporal_gambit",
+        title: "Temporal Gambit",
+        description: "Use Temporal Surge Capsule once",
+        condition: (state) => {
+          const temporalSurgeCapsuleUsed = localStorage.getItem('temporalSurgeCapsuleUsed') === 'true';
+          return temporalSurgeCapsuleUsed;
+        },
+        reward: { 
+          type: "special", 
+          action: "unlockPrestigeCrystalRecipe",
+          message: "Quest Complete: Temporal Gambit",
+          extraMessage: "Unlocked: Prestige Crystal crafting recipe!",
+          news: "Time's just another tool in the junker's kit. The crystal recipe is yours."
+        },
+        category: "progression",
+        difficulty: "medium"
+      },
+      {
         id: "forge_the_overcrystal",
         title: "Forge the Overcrystal",
         description: "Craft the Overcharged Prestige Crystal",
@@ -668,6 +686,10 @@ const handleSpecialReward = (reward, setters) => {
     case 'unlockAdvancedMissions':
       localStorage.setItem('advancedMissionsUnlocked', 'true');
       localStorage.setItem('eliteGearUnlocked', 'true');
+      break;
+
+    case 'unlockPrestigeCrystalRecipe':
+      localStorage.setItem('prestigeCrystalRecipeUnlocked', 'true');
       break;
 
     case 'unlockSuperOvercharged':
