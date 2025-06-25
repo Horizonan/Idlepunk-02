@@ -1316,6 +1316,7 @@ export default function App() {
 
       {/* Abilities Sidebar */}
       <AbilitiesSidebar 
+        gameState={{ fluxShards, fluxMeter }}
         craftingInventory={craftingInventory}
         setNotifications={setNotifications}
       />
