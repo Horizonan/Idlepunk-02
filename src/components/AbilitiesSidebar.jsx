@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/AbilitiesSidebar.css';
 
-export default function AbilitiesSidebar({ gameState, craftingInventory, setNotifications }) {
+export default function AbilitiesSidebar({ gameState, gameState, craftingInventory, setNotifications }) {
   const [cooldowns, setCooldowns] = useState({});
   const [activeEffects, setActiveEffects] = useState({});
   const [autoGremlinOilActive, setAutoGremlinOilActive] = useState(0);

@@ -1,97 +1,78 @@
 .flux-display {
-  position: fixed;
-  top: 120px;
-  right: 20px;
-  background: rgba(30, 30, 30, 0.95);
+  background: rgba(34, 34, 34, 0.9);
   border: 2px solid #9400D3;
   border-radius: 8px;
   padding: 15px;
-  min-width: 280px;
-  z-index: 1500;
-  box-shadow: 0 0 20px rgba(148, 0, 211, 0.3);
+  margin: 10px 0;
+  font-family: 'Courier New', monospace;
 }
 
-.flux-header {
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.flux-header h4 {
-  color: #9400D3;
-  margin: 0;
-  font-size: 1.2em;
-}
-
-.flux-stats {
-  margin-bottom: 10px;
-}
-
-.flux-stat {
+.flux-shards {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px;
-  padding: 5px;
-  background: rgba(148, 0, 211, 0.1);
-  border-radius: 4px;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .flux-label {
-  color: #ccc;
+  color: #00FF00;
   font-weight: bold;
+  font-size: 1.1em;
 }
 
 .flux-value {
-  color: #9400D3;
+  color: #FFD700;
   font-weight: bold;
+  font-size: 1.2em;
+  text-shadow: 0 0 5px #FFD700;
 }
 
-.flux-progress-container {
-  margin-bottom: 10px;
+.flux-meter-container {
+  margin-top: 10px;
 }
 
-.flux-progress-label {
-  color: #ccc;
+.flux-meter-label {
+  color: #00FF00;
   font-size: 0.9em;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
+  text-align: center;
 }
 
-.flux-progress-bar {
+.flux-meter-background {
   width: 100%;
   height: 20px;
   background: rgba(0, 0, 0, 0.5);
-  border: 1px solid #9400D3;
+  border: 1px solid #666;
   border-radius: 10px;
   overflow: hidden;
   position: relative;
 }
 
-.flux-progress-fill {
+.flux-meter-fill {
   height: 100%;
-  background: linear-gradient(90deg, #9400D3, #FF1493);
+  background: linear-gradient(90deg, #9400D3, #00FF00, #FFD700);
   transition: width 0.3s ease;
   border-radius: 10px;
+  box-shadow: 0 0 10px rgba(148, 0, 211, 0.5);
 }
 
-.flux-progress-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
+.flux-meter-text {
+  color: #CCCCCC;
   font-size: 0.8em;
-  font-weight: bold;
-  text-shadow: 1px 1px 2px black;
+  text-align: center;
+  margin-top: 5px;
 }
 
-.flux-info {
-  border-top: 1px solid #9400D3;
-  padding-top: 10px;
-  margin-top: 10px;
+/* Animation for active flux generation */
+.flux-display.active .flux-meter-fill {
+  animation: fluxPulse 1s ease-in-out infinite alternate;
 }
 
-.flux-info p {
-  margin: 5px 0;
-  color: #ccc;
-  font-size: 0.9em;
-  line-height: 1.4;
+@keyframes fluxPulse {
+  from {
+    box-shadow: 0 0 10px rgba(148, 0, 211, 0.5);
+  }
+  to {
+    box-shadow: 0 0 20px rgba(148, 0, 211, 0.8);
+  }
 }
