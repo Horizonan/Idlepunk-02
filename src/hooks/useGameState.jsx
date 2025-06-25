@@ -79,7 +79,6 @@ export const useGameState = () => {
   const [showQuestLog, setShowQuestLog] = useState(false);
   const [showTooltips, setShowTooltips] = useState(false);
   const [showInventory, setShowInventory] = useState(false);
-  const [showRelayCascade, setShowRelayCascade] = useState(() => () => {});
 
   //Enable Settings Gamestates
   const [enableHoloBillboard, setEnableHoloBillboard] = useState(() => localStorage.getItem('enableHoloBillboard') !== 'false');
