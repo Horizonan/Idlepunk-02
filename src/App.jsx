@@ -114,8 +114,8 @@ export default function App() {
         setOfflineProgressData, forceCogfatherEye, setForceCogfatherEye, showRelayCascade, setShowRelayCascade
     } = useGameState();
 
-    const [fluxShards, setFluxShards] = useState(0);
-    const [fluxMeter, setFluxMeter] = useState(0);
+    const [fluxShards, setFluxShards] = useState(() => parseInt(localStorage.getItem('fluxShards') || '0'));
+    const [fluxMeter, setFluxMeter] = useState(() => parseInt(localStorage.getItem('fluxMeter') || '0'));
 
     const purchaseHandlers = gameHandlers({
         junk,tronics,electroShards,bulkBuy,itemCosts,setClickEnhancerLevel,clickEnhancerLevel,autoClickerV1Count,ownedItems
@@ -283,28 +283,36 @@ export default function App() {
         //Flux mechanic
         if (isSurgeActive) {
             const fluxPerClick = 1;
-            const fluxThreshold = 1000 + (fluxShards * 0.01);
-            setFluxShards(prev => prev + fluxPerClick);
+            const baseThreshold = 1000;
+            
+            setFluxShards(prev => {
+                const newShards = prev + fluxPerClick;
+                const currentThreshold = baseThreshold + Math.floor(newShards / 1000) * 100;
+                
+                // Check if we've reached a meter milestone (every 1000 shards)
+                if (newShards > 0 && newShards % 1000 === 0) {
+                    setCraftingInventory(prev => ({
+                        ...prev,
+                        'Electro Shard': (prev['Electro Shard'] || 0) + 1
+                    }));
+                    setNotifications(prev => [...prev, `1000 Flux Shards reached! Obtained Electro Shard!`]);
+                }
+                
+                localStorage.setItem('fluxShards', newShards);
+                return newShards;
+            });
 
-            if (fluxShards >= fluxThreshold) {
-                setFluxShards(0);
-                setCraftingInventory(prev => ({
-                    ...prev,
-                    'Electro Shard': (prev['Electro Shard'] || 0) + 1
-                }));
-                setNotifications(prev => [...prev, `Flux threshold reached! Obtained Electro Shard!`]);
-            }
-
+            // Simplified flux meter that fills every 100 clicks during surge
             setFluxMeter(prev => {
-                const newMeterValue = prev + (fluxPerClick / fluxThreshold) * 100;
-                if (newMeterValue >= 100) {
+                const newMeterValue = (prev + 1) % 100;
+                if (newMeterValue === 0 && prev > 0) {
                     setCraftingInventory(prev => ({
                         ...prev,
                         'Instability Core': (prev['Instability Core'] || 0) + 1
                     }));
                     setNotifications(prev => [...prev, `Flux Meter full! Obtained Instability Core!`]);
-                    return 0;
                 }
+                localStorage.setItem('fluxMeter', newMeterValue);
                 return newMeterValue;
             });
         }

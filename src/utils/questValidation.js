@@ -295,7 +295,7 @@ export const QUEST_LINES = {
       {
         id: "core_collector",
         title: "Core Collector",
-        description: "Own 5 Scrap Cores"",
+        description: "Own 5 Scrap Cores",
         condition: (state) => (state.craftingInventory['Scrap Core'] || 0) >= 5,
         reward: { 
           type: "craftingMaterial", 
