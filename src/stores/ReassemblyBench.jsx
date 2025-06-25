@@ -11,7 +11,7 @@ const formatJunkCost = (cost) => {
   return cost;
 };
 
-export default function ReassemblyBench({ junk, onReassemble, craftingInventory, onBack }) {
+export default function ReassemblyBench({ junk, onReassemble, craftingInventory, onBack, setJunk, setCraftingInventory, setNotifications }) {
   const [selectedTab, setSelectedTab] = useState('breakdown');
   const [mobileInfoModal, setMobileInfoModal] = useState(null);
 
@@ -125,11 +125,57 @@ export default function ReassemblyBench({ junk, onReassemble, craftingInventory,
     setMobileInfoModal(null);
   };
 
+  const handleReassemble = (item) => {
+    if (item.type === 'breakdown') {
+      // Break down item for materials
+      if ((craftingInventory[item.name] || 0) > 0) {
+        setCraftingInventory(prev => {
+          const newInventory = { ...prev };
+          newInventory[item.name] = (newInventory[item.name] || 0) - 1;
+          
+          // Add returned materials
+          Object.entries(item.returns).forEach(([material, count]) => {
+            newInventory[material] = (newInventory[material] || 0) + count;
+          });
+          
+          return newInventory;
+        });
+        setNotifications(prev => [...prev, `Broke down ${item.name}!`]);
+      }
+    } else if (item.type === 'upgrade') {
+      // Upgrade item using requirements
+      const hasRequiredItems = Object.entries(item.requirements).every(
+        ([mat, count]) => (craftingInventory[mat] || 0) >= count
+      );
+      const hasRequiredJunk = junk >= item.cost;
+      
+      if (hasRequiredItems && hasRequiredJunk) {
+        setCraftingInventory(prev => {
+          const newInventory = { ...prev };
+          
+          // Remove required materials
+          Object.entries(item.requirements).forEach(([material, count]) => {
+            newInventory[material] = (newInventory[material] || 0) - count;
+          });
+          
+          // Add the upgraded item
+          newInventory[item.name] = (newInventory[item.name] || 0) + 1;
+          
+          return newInventory;
+        });
+        
+        // Remove junk cost
+        setJunk(prev => prev - item.cost);
+        setNotifications(prev => [...prev, `Created ${item.name}!`]);
+      }
+    }
+  };
+
   const handleItemClick = (item, isMobile) => {
     if (isMobile && window.innerWidth <= 768) {
       openMobileInfo(item);
     } else {
-      onReassemble(item);
+      handleReassemble(item);
     }
   };
 
@@ -280,7 +326,7 @@ export default function ReassemblyBench({ junk, onReassemble, craftingInventory,
             <div className="mobile-info-actions">
               <button 
                 onClick={() => {
-                  onReassemble(mobileInfoModal);
+                  handleReassemble(mobileInfoModal);
                   closeMobileInfo();
                 }}
                 disabled={!canProcess(mobileInfoModal)}
