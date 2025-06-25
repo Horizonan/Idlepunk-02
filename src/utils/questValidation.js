@@ -236,15 +236,39 @@ export const QUEST_LINES = {
         title: "Upgrade Cascade",
         description: "Purchase 10 ElectroShop Upgrades",
         condition: (state) => {
-          const electroStoreUpgrades = parseInt(localStorage.getItem('totalUpgradesPurchased') || '0');
-          return electroStoreUpgrades >= 10;
+          // Count all ElectroStore upgrade purchases
+          let totalUpgrades = 0;
+          
+          // Count repeatable upgrades
+          totalUpgrades += parseInt(localStorage.getItem('tronics_boost_count') || '0');
+          totalUpgrades += parseInt(localStorage.getItem('tronics_boost_II_count') || '0');
+          totalUpgrades += parseInt(localStorage.getItem('circuit_optimization_count') || '0');
+          
+          // Count one-time upgrades
+          const oneTimeUpgrades = [
+            'flow_regulator_purchased',
+            'quantum_tap_purchased',
+            'electro_surge_node_purchased',
+            'beacon_core_purchased',
+            'high_freq_tap_purchased',
+            'reactive_feedback_purchased',
+            'pickup_magnet_array_purchased'
+          ];
+          
+          oneTimeUpgrades.forEach(upgrade => {
+            if (localStorage.getItem(upgrade) === 'true') {
+              totalUpgrades += 1;
+            }
+          });
+          
+          return totalUpgrades >= 10;
         },
         reward: { 
           type: "craftingMaterial", 
           material: "Surge Capacitor Fragment",
           amount: 1,
           message: "Quest Complete: Upgrade Cascade",
-          extraMessage: "Obtained: ...",
+          extraMessage: "Obtained: Surge Capacitor Fragment",
           news: "With each spark, the system grows stronger."
         },
         category: "progression",

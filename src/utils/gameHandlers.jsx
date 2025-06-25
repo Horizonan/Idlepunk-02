@@ -761,6 +761,11 @@ const handleBuyStreetratUpgrade = () => {
       window.dispatchEvent(new Event('storage'));
     };
 
+  const incrementUpgradeCount = () => {
+    const currentCount = parseInt(localStorage.getItem('totalUpgradesPurchased') || '0');
+    localStorage.setItem('totalUpgradesPurchased', (currentCount + 1).toString());
+  };
+
   return {
     collectJunk,handleBuyTrashBag,handleBuyPicker,
     calculate10xPriceJunkClicker: calculate10xPrice01, calculate10xPriceJPS,
