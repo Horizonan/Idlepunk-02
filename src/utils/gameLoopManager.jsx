@@ -449,8 +449,13 @@ export const useGameLoopManager = (gameState, gameSetters, purchaseHandlers) => 
       const totalMultiplier = 1 + circuitOptBonus + (craftingInventory['Compression Pack'] ? 0.25 : 0) + greaseDisciplineBonus + holoBillboardBonus + junkMagnetBonus;
       setGlobalJpsMultiplier(totalMultiplier);
 
+      // Check if Temporal Surge Capsule is active
+      const temporalSurgeCapsuleEndTime = localStorage.getItem('temporalSurgeCapsuleActive');
+      const isTemporalSurgeCapsuleActive = temporalSurgeCapsuleEndTime && parseInt(temporalSurgeCapsuleEndTime) > Date.now();
+      const temporalSurgeCapsuleMultiplier = isTemporalSurgeCapsuleActive ? 2 : 1; // +100% boost
+
       const effectiveJunkPerSecond = getEffectiveJunkPerSecond(
-        passiveIncome, 
+        passiveIncome * temporalSurgeCapsuleMultiplier, 
         globalJpsMultiplier, 
         0, // Remove auto-clicks from here since we handle them separately
         clickMultiplier,
@@ -471,14 +476,19 @@ export const useGameLoopManager = (gameState, gameSetters, purchaseHandlers) => 
         const clickInjectorActive = localStorage.getItem('clickInjectorActive') === 'true';
         const clickInjectorMultiplier = clickInjectorActive ? 1.5 : 1; // +50% boost
         
+        // Check if Temporal Surge Capsule is active for auto-clicks
+        const temporalSurgeCapsuleEndTime = localStorage.getItem('temporalSurgeCapsuleActive');
+        const isTemporalSurgeCapsuleActive = temporalSurgeCapsuleEndTime && parseInt(temporalSurgeCapsuleEndTime) > Date.now();
+        const temporalSurgeCapsuleClickMultiplier = isTemporalSurgeCapsuleActive ? 2 : 1; // +100% boost
+        
         // Check if Auto Gremlin Oil is active for auto-click rate boost
         const autoGremlinOilEndTime = localStorage.getItem('autoGremlinOilActive');
         const autoGremlinOilActive = autoGremlinOilEndTime && parseInt(autoGremlinOilEndTime) > Date.now();
         const autoGremlinOilMultiplier = autoGremlinOilActive ? 1.5 : 1; // +50% auto-click rate boost
         
-        // Apply both Click Injector and Auto Gremlin Oil effects to auto-click junk generation
+        // Apply all effects to auto-click junk generation
         const totalAutoClickRate = (autoClicks + permanentAutoClicks) * autoGremlinOilMultiplier;
-        const autoClickJunk = totalAutoClickRate * clickMultiplier * clickInjectorMultiplier;
+        const autoClickJunk = totalAutoClickRate * clickMultiplier * clickInjectorMultiplier * temporalSurgeCapsuleClickMultiplier;
         setJunk(prev => prev + autoClickJunk);
         
         setClickCount(prev => prev + totalAutoClickRate);

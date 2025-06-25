@@ -15,6 +15,10 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
     return (craftingInventory['Click Injector'] || 0) > 0;
   };
 
+  const isTemporalSurgeCapsuleUnlocked = () => {
+    return (craftingInventory['Temporal Surge Capsule'] || 0) > 0;
+  };
+
   const abilities = [
     {
       id: 'trash_surge',
@@ -35,12 +39,13 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
       duration: 20000   // 20 seconds in milliseconds
     },
     {
+      id: 'temporal_surge_capsule',
       name: 'Temporal Surge Capsule',
       icon: '⏰',
-      abilityKey: 'temporal_surge_capsule_ability',
-      condition: () => (craftingInventory['Temporal Surge Capsule'] || 0) > 0,
-      cooldownKey: 'temporalSurgeCapsuleLastUsed',
-      cooldownDuration: 10 * 60 * 1000 // 10 minutes
+      description: '+100% Click Power and +100% Junk/sec for 30 seconds (600s cooldown)',
+      available: isTemporalSurgeCapsuleUnlocked(),
+      cooldown: 600000, // 10 minutes in milliseconds
+      duration: 30000   // 30 seconds in milliseconds
     }
   ];
 
@@ -157,6 +162,27 @@ export default function AbilitiesSidebar({ craftingInventory, setNotifications }
 
       setNotifications(prev => [...prev, 'Click Injector activated! +50% click power for 20 seconds']);
       console.log('Click Injector activated!');
+    }
+
+    if (ability.id === 'temporal_surge_capsule') {
+      // Trigger temporal surge capsule effect
+      const endTime = Date.now() + 30000; // 30 seconds from now
+      localStorage.setItem('temporalSurgeCapsuleActive', endTime.toString());
+
+      // Set cooldown
+      setCooldowns(prev => ({
+        ...prev,
+        [ability.id]: ability.cooldown
+      }));
+
+      // Set active effect with duration
+      setActiveEffects(prev => ({
+        ...prev,
+        [ability.id]: ability.duration
+      }));
+
+      setNotifications(prev => [...prev, 'Temporal Surge Capsule activated! +100% click power and +100% junk/sec for 30 seconds']);
+      console.log('Temporal Surge Capsule activated!');
     }
   };
 

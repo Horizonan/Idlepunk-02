@@ -230,7 +230,12 @@ export default function App() {
     const clickInjectorActive = localStorage.getItem('clickInjectorActive') === 'true';
     const clickInjectorMultiplier = clickInjectorActive ? 1.5 : 1; // +50% boost
 
-    const junkGained = clickMultiplier * surgeMultiplier * scavengingBonus * clickInjectorMultiplier;
+    // Check if Temporal Surge Capsule is active
+    const temporalSurgeCapsuleEndTime = localStorage.getItem('temporalSurgeCapsuleActive');
+    const isTemporalSurgeCapsuleActive = temporalSurgeCapsuleEndTime && parseInt(temporalSurgeCapsuleEndTime) > Date.now();
+    const temporalSurgeCapsuleMultiplier = isTemporalSurgeCapsuleActive ? 2 : 1; // +100% boost
+
+    const junkGained = clickMultiplier * surgeMultiplier * scavengingBonus * clickInjectorMultiplier * temporalSurgeCapsuleMultiplier;
     setJunk(prev => prev + junkGained);
 
     // Track total junk collected
