@@ -236,8 +236,25 @@ export const QUEST_LINES = {
         title: "Upgrade Cascade",
         description: "Purchase 10 ElectroShop Upgrades",
         condition: (state) => {
-          const electroStoreUpgrades = parseInt(localStorage.getItem('totalUpgradesPurchased') || '0');
-          return electroStoreUpgrades >= 10;
+          // Count all ElectroStore upgrades purchased
+          const upgrades = [
+            'tronics_boost_purchased',
+            'tronics_boost_ii_purchased', 
+            'flow_regulator_purchased',
+            'quantum_tap_purchased',
+            'electro_surge_node_purchased',
+            'beacon_core_purchased',
+            'circuit_optimization_purchased',
+            'high_freq_tap_purchased',
+            'reactive_feedback_purchased',
+            'pickup_magnet_array_purchased'
+          ];
+          
+          const purchasedCount = upgrades.filter(upgrade => 
+            localStorage.getItem(upgrade) === 'true'
+          ).length;
+          
+          return purchasedCount >= 10;
         },
         reward: { 
           type: "craftingMaterial", 
