@@ -90,9 +90,6 @@ import CrewRecruitmentTooltip from './components/CrewRecruitmentTooltip';
 //Mini game Component
 import RelayCascade from './components/MiniGames/RelayCascade';
 
-//Reassembly Bench
-import ReassemblyBench from './components/ReassemblyBench';
-
 
 export default function App() {
     const {
@@ -105,7 +102,7 @@ export default function App() {
         autoClickerV1Count, setAutoClickerV1Count, autoClickerV2Count, setAutoClickerV2Count, showChangelog, setShowChangelog, showTechTree, setShowTechTree, showSlotMachine,
         setShowSlotMachine, showCheatMenu, setShowCheatMenu, showActiveCheats, setShowActiveCheats, showAchievements, setShowAchievements,
         showSettings, setShowSettings, showUpgradeStats, setShowUpgradeStats, enableHoloBillboard, setEnableHoloBillboard,
-        showCrystal, setShowCrystal, setShowTrashBonus, showQuestLog, setShowQuestLog, showNewsTicker, setShowNewsTicker,
+        showCrystal, setShowCrystal, showTrashBonus, setShowTrashBonus, showQuestLog, setShowQuestLog, showNewsTicker, setShowNewsTicker,
         prestigeQuestCompleted, setPrestigeQuestCompleted, showClickEnhancerUI, setShowClickEnhancerUI, craftingInventory, setCraftingInventory,
         showTooltips, setShowTooltips, hasHelper, setHasHelper, showInventory, setShowInventory, activeCheatsList, setActiveCheatsList,
         itemCosts, setItemCosts, ownedItems, setOwnedItems, skillLevels, uiSettingsCollapsed, setUiSettingsCollapsed, showJunkDrone, setShowJunkDrone,
@@ -249,7 +246,7 @@ export default function App() {
     const random = Math.random();
     if (random < 0.0001) { 
       const materials = ['Wires', 'Metal Plates', 'Gear Bits'];
-      const randomMaterial = materials[Math.floor(Math.random() * materials.length)]);
+      const randomMaterial = materials[Math.floor(Math.random() * materials.length)];
       setCraftingInventory(prev => ({
         ...prev,
         [randomMaterial]: (prev[randomMaterial] || 0) + 1
@@ -502,9 +499,6 @@ export default function App() {
               console.log("help");
             break;
             }
-          case 'reassembly':
-            setActiveStore(prev => prev === 'reassembly' ? null : 'reassembly');
-            break;
         }
       }} />
       {showTooltips && <Tooltips onClose={() => setShowTooltips(false)} />}

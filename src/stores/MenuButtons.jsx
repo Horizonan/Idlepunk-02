@@ -177,20 +177,6 @@ export default function MenuButtons({ onStoreSelect, showInventory, craftingInve
             onStoreSelect(activeStore === 'craft' ? null : 'craft');
           }
         },
-        // Reassembly Bench - unlocked after crafting 5 items and owning Overclocked Click Rig
-        ...((() => {
-          const craftedItemsCount = Object.values(craftingInventory).filter(count => count > 0).length;
-          const hasOverclockedClickRig = craftingInventory['Overclocked Click Rig'] > 0;
-          const isUnlocked = craftedItemsCount >= 5 && hasOverclockedClickRig;
-          
-          return isUnlocked ? [{
-            label: 'Reassembly Bench',
-            onClick: () => {
-              const activeStore = localStorage.getItem('activeStore');
-              onStoreSelect(activeStore === 'reassembly' ? null : 'reassembly');
-            }
-          }] : [];
-        })()),
         ...(showInventory ? [{
           label: 'Item Inventory',
           onClick: () => {
